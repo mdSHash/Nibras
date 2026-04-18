@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Amiri+Quran&family=Tajawal:wght@400;500;700;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-parchment: var(--sys-parchment);
+  --color-ink: var(--sys-ink);
+  --color-accent: var(--sys-accent);
+  --color-islamic-green: var(--sys-islamic-green);
+  --color-battle-red: var(--sys-battle-red);
+  --color-border-dark: var(--sys-border-dark);
+  --color-panel-bg: var(--sys-panel-bg);
+  --color-card-bg: var(--sys-card-bg);
+  --color-map-center: var(--sys-map-center);
+  --color-map-edge: var(--sys-map-edge);
+}
+
+:root {
+  --sys-parchment: #f4ece1;
+  --sys-ink: #2c241e;
+  --sys-accent: #8b6b4a;
+  --sys-islamic-green: #2d5a27;
+  --sys-battle-red: #a33b20;
+  --sys-border-dark: #3d2b1f;
+  --sys-panel-bg: rgba(232, 225, 211, 0.95);
+  --sys-card-bg: rgba(255, 255, 255, 0.6);
+  --sys-map-center: #e8dfd0;
+  --sys-map-edge: #dccfb8;
+  --sys-map-filter: sepia(0.3) grayscale(0.5) contrast(1.1) brightness(1.1) opacity(0.4);
+}
+
+.dark {
+  --sys-parchment: #221a15; /* Warmer, less harsh dark background */
+  --sys-ink: #e0d0b8; /* Softer parchment text, not too white */
+  --sys-accent: #d4a373; /* Richer golden accent */
+  --sys-islamic-green: #6da561; /* Legible but soft green */
+  --sys-battle-red: #e57256; /* Legible warm red */
+  --sys-border-dark: #4a382b; /* Subtle organic border */
+  --sys-panel-bg: rgba(34, 26, 21, 0.95); /* Deep rich warm dark */
+  --sys-card-bg: rgba(255, 255, 255, 0.03); /* Extremely subtle overlay */
+  --sys-map-center: #2b211a;
+  --sys-map-edge: #18120e;
+  /* Instead of invert (which causes the 'burned photo' effect on geography), we darken it while retaining native features */
+  --sys-map-filter: sepia(0.4) grayscale(0.6) brightness(0.4) contrast(1.3) opacity(0.4);
+}
+
+body {
+  font-family: 'Times New Roman', Times, serif;
+  direction: rtl;
+  background-color: var(--color-parchment);
+  color: var(--color-ink);
+  overflow: hidden;
+}
+
+/* Custom styles for leaflet map to make it look ancient */
+.leaflet-container {
+  background: radial-gradient(circle at center, var(--color-map-center) 0%, var(--color-map-edge) 100%) !important;
+  font-family: 'Times New Roman', Times, serif;
+}
+.historical-map-tiles {
+  filter: var(--sys-map-filter) !important;
+  transition: filter 0.5s ease;
+}
+.custom-marker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
