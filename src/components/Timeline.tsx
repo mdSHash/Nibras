@@ -1,13 +1,21 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { EventItem } from '../data';
 import { motion, AnimatePresence } from 'motion/react';
-import { RotateCw, CornerUpRight } from 'lucide-react';
+import { PlayCircle, Square, Play, Pause, RotateCw, CornerUpRight } from 'lucide-react';
 
 interface TimelineProps {
   events: EventItem[];
   selectedEvent: EventItem | null;
   onSelectEvent: (event: EventItem) => void;
-  isTourMode?: boolean;
+  tourState?: {
+    isTourMode: boolean;
+    isPlaying: boolean;
+    playbackSpeed: number;
+    startTour: () => void;
+    stopTour: () => void;
+    togglePlay: () => void;
+    cycleSpeed: () => void;
+  };
 }
 
 const getEraTheme = (era?: string) => {
@@ -21,7 +29,8 @@ const getEraTheme = (era?: string) => {
   return { color: '#8b7355', title: '' }; // Default accent
 };
 
-export default function Timeline({ events, selectedEvent, onSelectEvent, isTourMode = false }: TimelineProps) {
+export default function Timeline({ events, selectedEvent, onSelectEvent, tourState }: TimelineProps) {
+  const isTourMode = tourState?.isTourMode ?? false;
   const containerRef = useRef<HTMLDivElement>(null);
   const [showScrollBack, setShowScrollBack] = useState(false);
   
@@ -87,15 +96,55 @@ export default function Timeline({ events, selectedEvent, onSelectEvent, isTourM
 
   return (
     <>
-      {/* Era Rapid Navigation Dock */}
-      <div className="absolute bottom-[130px] left-1/2 -translate-x-1/2 flex items-center justify-start sm:justify-center gap-1 sm:gap-2 bg-ink/70 backdrop-blur-md px-3 py-2 border border-border-dark/30 rounded-full z-[600] pointer-events-auto shadow-lg overflow-x-auto w-[90%] sm:w-auto max-w-[95%] no-scrollbar" dir="rtl">
+      {/* Era Rapid Navigation Dock and Tour Controls */}
+      <div className="absolute bottom-[130px] left-1/2 -translate-x-1/2 flex items-center justify-start sm:justify-center gap-1 sm:gap-2 bg-ink/70 backdrop-blur-md p-1.5 sm:px-3 sm:py-2 border border-border-dark/30 rounded-full z-[600] pointer-events-auto shadow-lg overflow-x-auto w-[95%] sm:w-auto max-w-full no-scrollbar" dir="rtl">
+        
+        {/* Tour Controls (Integrated) */}
+        {tourState && (
+          <div className="flex items-center ml-1 sm:ml-2 border-l border-parchment/20 pl-2 sm:pl-3 shrink-0">
+            {!tourState.isTourMode ? (
+              <button 
+                onClick={tourState.startTour}
+                className="px-3 py-1.5 rounded-full bg-accent text-parchment flex items-center gap-1.5 hover:bg-[#a68058] transition-all font-bold text-[11px] sm:text-xs whitespace-nowrap"
+              >
+                <PlayCircle size={14} className="sm:w-[16px] sm:h-[16px]" />
+                بدء الرحلة 
+              </button>
+            ) : (
+              <div className="flex items-center gap-1">
+                <button 
+                  onClick={tourState.stopTour}
+                  title="إنهاء الرحلة"
+                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-battle-red/20 text-battle-red flex justify-center items-center hover:bg-battle-red hover:text-white transition-colors"
+                >
+                  <Square fill="currentColor" size={12} />
+                </button>
+                <button 
+                  onClick={tourState.togglePlay}
+                  title={tourState.isPlaying ? "إيقاف السرد" : "استئناف السرد"}
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-accent text-parchment flex justify-center items-center hover:scale-105 transition-transform"
+                >
+                  {tourState.isPlaying ? <Pause fill="currentColor" size={14} /> : <Play fill="currentColor" size={14} className="ml-0.5" />}
+                </button>
+                <button 
+                  onClick={tourState.cycleSpeed}
+                  title="تسريع الأحداث"
+                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-ink/50 text-parchment flex justify-center items-center hover:bg-parchment hover:text-ink transition-colors font-bold text-[11px] sm:text-[12px]"
+                >
+                  {tourState.playbackSpeed}x
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
         {showScrollBack && (
           <button 
             onClick={jumpToStart}
-            className="flex items-center gap-1 bg-parchment/10 hover:bg-parchment/20 text-parchment text-[11px] sm:text-xs font-bold px-3 py-1.5 rounded-full transition-all border border-transparent hover:border-parchment/30 ml-2 shadow-[0_0_8px_rgba(0,0,0,0.3)] animate-pulse-slow"
+            className="flex items-center gap-1 bg-parchment/10 hover:bg-parchment/20 text-parchment text-[11px] sm:text-xs font-bold px-3 py-1.5 rounded-full transition-all border border-transparent hover:border-parchment/30 shrink-0"
           >
             <RotateCw size={14} />
-            العودة للبداية
+            البداية
           </button>
         )}
         

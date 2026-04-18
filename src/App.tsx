@@ -188,51 +188,19 @@ export default function App() {
         setFilters={setFilters}
       />
 
-      {/* Play/Pause Control Overlay */}
-      <div className="absolute bottom-[170px] sm:bottom-[150px] left-1/2 -translate-x-1/2 z-[500] pointer-events-auto flex items-center gap-2">
-        {tourIndex === -1 ? (
-          <button 
-            onClick={startTour}
-            className="px-4 sm:px-6 py-2 sm:py-3 rounded-full bg-accent text-parchment flex justify-center items-center gap-2 shadow-[0_0_20px_rgba(0,0,0,0.4)] hover:bg-[#a68058] transition-all border border-border-dark font-bold hover:scale-105 text-sm sm:text-base whitespace-nowrap"
-          >
-            <PlayCircle size={18} className="ml-1 sm:w-5 sm:h-5" />
-            بدء الرحلة 
-          </button>
-        ) : (
-          <div className="flex bg-panel-bg rounded-full p-2 border border-border-dark/50 shadow-[0_0_20px_rgba(0,0,0,0.4)] gap-2">
-            <button 
-              onClick={stopTour}
-              title="إنهاء الرحلة"
-              className="w-10 h-10 rounded-full bg-battle-red/20 text-battle-red flex justify-center items-center hover:bg-battle-red hover:text-white transition-colors"
-            >
-              <Square fill="currentColor" size={16} />
-            </button>
-
-            <button 
-              onClick={() => setIsPlaying(!isPlaying)}
-              title={isPlaying ? "إيقاف السرد" : "استئناف السرد"}
-              className="w-12 h-12 rounded-full bg-accent text-parchment flex justify-center items-center hover:scale-105 transition-transform"
-            >
-              {isPlaying ? <Pause fill="currentColor" size={20} /> : <Play fill="currentColor" size={20} className="ml-1" />}
-            </button>
-
-            <button 
-              onClick={cycleSpeed}
-              title="تسريع الأحداث"
-              className="w-10 h-10 rounded-full bg-ink/5 text-ink flex justify-center items-center hover:bg-ink hover:text-parchment transition-colors font-bold text-[14px]"
-            >
-              {playbackSpeed}x
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* Bottom Timeline */}
       <Timeline 
         events={displayedEvents}
         selectedEvent={selectedEvent}
         onSelectEvent={setSelectedEvent}
-        isTourMode={tourIndex !== -1}
+        tourState={{
+          isTourMode: tourIndex !== -1,
+          isPlaying,
+          playbackSpeed,
+          startTour,
+          stopTour,
+          togglePlay: () => setIsPlaying(!isPlaying),
+          cycleSpeed
+        }}
       />
     </div>
   );
