@@ -48,7 +48,7 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 bottom-0 w-[90%] sm:w-[400px] bg-parchment z-[1000] border-l-2 border-border-dark flex flex-col shadow-2xl pointer-events-auto"
+            className="fixed top-0 right-0 bottom-0 w-full sm:w-[400px] bg-parchment z-[1000] border-l-2 border-border-dark flex flex-col shadow-2xl pointer-events-auto"
             dir="rtl"
           >
             {/* Header */}
