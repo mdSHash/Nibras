@@ -46,25 +46,37 @@ export default function EventPanel({ event, onClose, onCompanionClick, onQuranCl
   return (
     <AnimatePresence>
       {event && (
-        <motion.div
-          initial={{ y: "100%", opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: "100%", opacity: 0 }}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className={`absolute sm:top-[80px] sm:right-0 bottom-[120px] top-auto transition-all duration-300 ease-in-out w-full sm:w-[380px] bg-panel-bg sm:border-l-2 border-t-2 sm:border-t-0 border-border-dark shadow-[0_-5px_15px_rgba(0,0,0,0.1)] sm:shadow-[-5px_0_15px_rgba(0,0,0,0.1)] z-[600] overflow-y-auto ${isExpanded ? 'h-[60vh] sm:h-auto sm:w-[600px] lg:w-[800px]' : 'h-[40vh] sm:h-auto'}`}
-          dir="rtl"
-        >
+        <div style={{ zIndex: 600 }} className="absolute inset-0 pointer-events-none sm:z-[600] flex justify-center items-end sm:items-start sm:justify-end">
+          {/* Mobile Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm pointer-events-auto sm:hidden z-[900]"
+          />
+
+          <motion.div
+            initial={{ y: "100%", opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: "100%", opacity: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className={`pointer-events-auto z-[1000] sm:z-[600] fixed top-16 bottom-4 left-4 right-4 rounded-2xl overflow-hidden sm:rounded-none sm:absolute sm:inset-auto sm:top-[80px] sm:right-0 sm:bottom-[120px] transition-all duration-300 ease-in-out w-auto sm:w-[380px] bg-panel-bg sm:border-l-2 border-border-dark shadow-2xl sm:shadow-[-5px_0_15px_rgba(0,0,0,0.1)] flex flex-col ${isExpanded ? 'sm:w-[600px] lg:w-[800px]' : ''}`}
+            dir="rtl"
+          >
           {/* Islamic Top Decoration border colored by Era Theme */}
-          <div className="w-full h-3 opacity-90 transition-colors" style={{ backgroundColor: eraTheme.color, backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 20px)' }}></div>
+          <div className="w-full h-3 shrink-0 opacity-90 transition-colors" style={{ backgroundColor: eraTheme.color, backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 20px)' }}></div>
           
-          <div className="p-3 sticky top-0 bg-panel-bg/95 backdrop-blur-sm z-20 border-b border-border-dark/10 flex items-center justify-between shadow-sm">
+          {/* Scrollable Container */}
+          <div className="flex-1 overflow-y-auto">
+            <div className="p-3 sticky top-0 bg-panel-bg/95 backdrop-blur-md z-20 border-b border-border-dark/10 flex items-center justify-between shadow-sm">
              <div className="flex items-center gap-2">
                 <button 
                   onClick={onClose}
-                  className="p-1.5 text-ink/60 hover:text-ink hover:bg-ink/10 rounded-full transition"
+                  className="p-2 sm:p-1.5 text-ink/60 hover:text-ink hover:bg-ink/10 rounded-full transition"
                   title="إغلاق"
                 >
-                  <X size={20} />
+                  <X size={24} className="sm:w-5 sm:h-5" />
                 </button>
              </div>
              <div className="flex items-center gap-1.5 bg-ink/5 p-1 rounded-lg">
@@ -99,7 +111,7 @@ export default function EventPanel({ event, onClose, onCompanionClick, onQuranCl
           </div>
 
           {/* Header */}
-          <div className="px-6 pt-4 pb-2 relative">
+          <div className="px-4 sm:px-6 pt-4 pb-2 relative">
             <div>
               <div className="flex items-center gap-1 opacity-90 font-bold" style={{ ...fs(13), color: eraTheme.color }}>
                 <span>{event.category} &rsaquo;</span>
@@ -117,7 +129,7 @@ export default function EventPanel({ event, onClose, onCompanionClick, onQuranCl
             </div>
           </div>
 
-          <div className="px-6 pb-6 space-y-6 mt-2">
+          <div className="px-4 sm:px-6 pb-6 space-y-6 mt-2">
             {/* Description */}
             <section>
               <p className="text-ink leading-[1.85] text-justify font-medium" style={fs(15)}>
@@ -287,7 +299,9 @@ export default function EventPanel({ event, onClose, onCompanionClick, onQuranCl
             {/* Padding at bottom for scroll */}
             <div className="h-6"></div>
           </div>
+          </div>
         </motion.div>
+        </div>
       )}
     </AnimatePresence>
   );
