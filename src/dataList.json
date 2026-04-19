@@ -1,7 +1,7 @@
 [
   {
     "category": "أحداث",
-    "era": "العهد المدني",
+    "era": "العهد المكي",
     "title": "ميلاد النبي ﷺ (عام الفيل)",
     "is_major_event": true,
     "date": {
@@ -45,7 +45,7 @@
   },
   {
     "category": "أحداث",
-    "era": "العهد المدني",
+    "era": "العهد المكي",
     "title": "حادثة شق الصدر",
     "date": {
       "hijri": -49,
@@ -87,7 +87,7 @@
   },
   {
     "id": "fijar-war",
-    "era": "العهد المدني",
+    "era": "العهد المكي",
     "category": "battle",
     "title": "حرب الفجار",
     "date": {
@@ -138,7 +138,7 @@
   },
   {
     "id": "hilf-al-fudul",
-    "era": "العهد المدني",
+    "era": "العهد المكي",
     "category": "treaty",
     "title": "حلف الفضول",
     "date": {
@@ -191,7 +191,7 @@
   },
   {
     "id": "marriage-khadija",
-    "era": "العهد المدني",
+    "era": "العهد المكي",
     "category": "landmark",
     "title": "زواج النبي ﷺ من خديجة",
     "date": {
@@ -244,7 +244,7 @@
   },
   {
     "id": "rebuilding-kaaba",
-    "era": "العهد المدني",
+    "era": "العهد المكي",
     "category": "landmark",
     "title": "بناء الكعبة ووضع الحجر الأسود",
     "date": {
@@ -293,7 +293,7 @@
   },
   {
     "id": "revelation-hira",
-    "era": "العهد المدني",
+    "era": "العهد المكي",
     "category": "revelation",
     "title": "نزول الوحي في غار حراء",
     "date": {
@@ -351,7 +351,7 @@
   },
   {
     "id": "public-dawah",
-    "era": "العهد المدني",
+    "era": "العهد المكي",
     "category": "revelation",
     "title": "الجهر بالدعوة",
     "date": {
@@ -404,7 +404,7 @@
   },
   {
     "id": "migration-abyssinia",
-    "era": "العهد المدني",
+    "era": "العهد المكي",
     "category": "migration",
     "title": "الهجرة الأولى إلى الحبشة",
     "date": {
@@ -463,7 +463,7 @@
   },
   {
     "id": "boycott-hashim",
-    "era": "العهد المدني",
+    "era": "العهد المكي",
     "category": "landmark",
     "title": "حصار الشعب (المقاطعة)",
     "date": {
@@ -519,7 +519,7 @@
   },
   {
     "id": "year-of-sorrow",
-    "era": "العهد المدني",
+    "era": "العهد المكي",
     "category": "landmark",
     "title": "عام الحزن",
     "date": {
@@ -573,7 +573,7 @@
   },
   {
     "id": "journey-taif",
-    "era": "العهد المدني",
+    "era": "العهد المكي",
     "category": "landmark",
     "title": "رحلة الطائف",
     "date": {
@@ -635,7 +635,7 @@
   },
   {
     "id": "isra-miraj",
-    "era": "العهد المدني",
+    "era": "العهد المكي",
     "category": "revelation",
     "title": "الإسراء والمعراج",
     "date": {
@@ -700,7 +700,7 @@
   },
   {
     "id": "first-aqaba",
-    "era": "العهد المدني",
+    "era": "العهد المكي",
     "category": "treaty",
     "title": "بيعة العقبة الأولى",
     "date": {
@@ -751,7 +751,7 @@
   },
   {
     "id": "second-aqaba",
-    "era": "العهد المدني",
+    "era": "العهد المكي",
     "category": "treaty",
     "title": "بيعة العقبة الثانية",
     "date": {
