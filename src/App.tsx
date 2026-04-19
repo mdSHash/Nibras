@@ -8,6 +8,7 @@ import QuranModal from './components/QuranModal';
 import { eventsData, EventItem } from './data';
 import { Moon, Sun, Play, Pause, Square, PlayCircle, Menu, Search } from 'lucide-react';
 import { FilterOptions } from './types';
+import { Analytics } from '@vercel/analytics/react';
 
 export default function App() {
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
@@ -202,6 +203,7 @@ export default function App() {
           cycleSpeed
         }}
       />
+      <Analytics />
     </div>
   );
 }
