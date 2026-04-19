@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline, Circle, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, Polygon, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { EventItem, citiesData } from '../data';
@@ -25,8 +25,13 @@ const MapUpdater = ({ selectedEvent }: { selectedEvent: EventItem | null }) => {
   
   useEffect(() => {
     if (selectedEvent) {
+      const [lat, lng] = selectedEvent.location.coordinates;
+      // On mobile, shift the center down slightly because the event panel covers the bottom
+      const isMobile = window.innerWidth < 640;
+      const latOffset = isMobile ? -1.5 : 0; 
+      
       // Very smooth, immersive zoom transition for the journey effect
-      map.flyTo(selectedEvent.location.coordinates, 6, { 
+      map.flyTo([lat + latOffset, lng], 6, { 
         animate: true, 
         duration: 2.5,
         easeLinearity: 0.1
@@ -288,17 +293,19 @@ const TerritoryRenderer = ({ selectedEvent }: { selectedEvent: EventItem | null 
             const isRidda = group.id === 'ridda';
             
             return (
-              <Polyline 
+              <Polygon 
                 key={`${group.id}-${idx}`}
                 positions={poly.coordinates}
                 pathOptions={{
                   color: isRidda ? '#f87171' : poly.color,
                   fillColor: poly.color,
-                  fillOpacity: isRidda ? 0.45 : 0.3,
-                  weight: isRidda ? 2 : 1,
+                  fillOpacity: isRidda ? 0.35 : 0.25,
+                  weight: isRidda ? 2 : 1.5,
                   dashArray: isRidda ? '8, 8' : '0',
                   opacity: isRidda ? 1 : 0.5,
-                  fill: true 
+                  fill: true,
+                  lineCap: "round",
+                  lineJoin: "round"
                 }}
               >
                 <Popup className="historical-popup" closeButton={false}>
@@ -306,7 +313,7 @@ const TerritoryRenderer = ({ selectedEvent }: { selectedEvent: EventItem | null 
                     {poly.name}
                   </div>
                 </Popup>
-              </Polyline>
+              </Polygon>
             );
           })}
         </React.Fragment>
