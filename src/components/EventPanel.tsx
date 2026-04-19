@@ -35,7 +35,7 @@ const getEraTheme = (era?: string) => {
     era.includes("البعثة")
   )
     return { color: "#10b981", title: "عهد النبوة" }; // Emerald / Prophet ﷺ
-  if (era.includes("أبي بكر"))
+  if (era.includes("أبي بكر") || era.includes("أبو بكر"))
     return { color: "#fbbf24", title: "خلافة الصديق" }; // Amber / Abu Bakr
   if (era.includes("عمر")) return { color: "#ef4444", title: "خلافة الفاروق" }; // Red / Umar
   if (era.includes("عثمان"))
@@ -54,7 +54,7 @@ const getRuler = (era?: string) => {
     era.includes("البعثة")
   )
     return "النبي محمد ﷺ";
-  if (era.includes("أبي بكر")) return "أبو بكر الصديق";
+  if (era.includes("أبي بكر") || era.includes("أبو بكر")) return "أبو بكر الصديق";
   if (era.includes("عمر")) return "عمر بن الخطاب";
   if (era.includes("عثمان")) return "عثمان بن عفان";
   if (era.includes("علي")) return "علي بن أبي طالب";

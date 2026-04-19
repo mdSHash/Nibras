@@ -78,12 +78,13 @@ const createIcon = (color: string, label: string, category: string, title: strin
 
 const iconConfig: Record<string, { color: string }> = {
   'battle': { color: '#ef4444' },        
+  'غزوات ومعارك': { color: '#ef4444' },
   'migration': { color: '#10b981' },  
   'revelation': { color: '#f59e0b' },     
   'landmark': { color: '#3b82f6' },       
   'treaty': { color: '#8b5cf6' },
   'politics': { color: '#6366f1' },
-  'أحداث': { color: '#8b7355' },
+  'أحداث': { color: '#06b6d4' },
 };
 
 const cityIcon = L.divIcon({
@@ -231,7 +232,7 @@ const CustomMapControls = ({ onOpenFilter }: { onOpenFilter?: () => void }) => {
   };
   
   return (
-    <div className="leaflet-top leaflet-left !top-[70px] sm:!top-[90px] !left-2 sm:!left-4">
+    <div className="leaflet-top leaflet-left !top-[350px] sm:!top-[360px] !left-2 sm:!left-4">
       <div className="leaflet-control flex flex-col gap-1 sm:gap-2 pointer-events-auto">
         <button 
           onClick={(e) => { e.preventDefault(); e.stopPropagation(); map.zoomIn(); }}
@@ -322,9 +323,33 @@ const TerritoryRenderer = ({ selectedEvent }: { selectedEvent: EventItem | null 
   );
 };
 
+const LegendOverlay = ({ selectedEvent }: { selectedEvent: EventItem | null }) => {
+  const currentYear = selectedEvent ? selectedEvent.date.gregorian : 610;
+  const groups = getTerritoriesForYear(currentYear);
+
+  return (
+    <div className="absolute top-[120px] sm:top-[120px] left-4 sm:left-6 right-auto z-[400] bg-ink/80 backdrop-blur-md border border-border-dark/30 rounded-xl p-3 shadow-xl pointer-events-auto transition-all duration-300 w-[110px] sm:w-[150px]" dir="rtl">
+      <h4 className="text-parchment font-bold text-[11px] sm:text-[13px] mb-2 border-b border-border-dark/30 pb-1.5 flex items-center gap-1.5">
+        <MapPin size={14} className="text-accent" />
+        مفتاح الخريطة
+      </h4>
+      <div className="flex flex-col gap-2 max-h-[250px] overflow-y-auto no-scrollbar">
+        {groups.map(g => (
+          <div key={g.id} className="flex items-center gap-2 group">
+            <div className="w-3 h-3 rounded border border-white/30 shadow-sm shrink-0 transition-transform group-hover:scale-110" style={{ backgroundColor: g.color }}></div>
+            <span className="text-parchment/90 text-[10px] sm:text-xs leading-tight font-medium font-sans">{g.name}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export default function HistoricalMap({ events, selectedEvent, onSelectEvent, showCities = true, onOpenFilter }: MapViewProps) {
   return (
     <div className="relative w-full h-full z-0">
+      <LegendOverlay selectedEvent={selectedEvent} />
+      
       <MapContainer 
         center={[24.4672, 39.6112]} 
         zoom={6} 
