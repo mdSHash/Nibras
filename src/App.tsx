@@ -7,7 +7,7 @@ import CompanionModal from './components/CompanionModal';
 import QuranModal from './components/QuranModal';
 import IntroScreen from './components/IntroScreen';
 import { eventsData, EventItem } from './data';
-import { Moon, Sun, Play, Pause, Square, PlayCircle, Menu, Search } from 'lucide-react';
+import { Moon, Sun, Search } from 'lucide-react';
 import { FilterOptions } from './types';
 
 export default function App() {
@@ -77,6 +77,9 @@ export default function App() {
   }, [isPlaying, playbackSpeed, filteredSortedEvents]);
 
   const startTour = () => {
+    // Guard against empty events array
+    if (filteredSortedEvents.length === 0) return;
+    
     setTourIndex(0);
     setSelectedEvent(filteredSortedEvents[0]);
     setIsPlaying(true);

@@ -1,8 +1,3 @@
-import { extendedCompanions } from './companionsDataExtend';
-import { moreCompanions } from './companionsDataExtend2';
-import { moreCompanions3 } from './companionsDataExtend3';
-import { moreCompanions4 } from './companionsDataExtend4';
-
 export interface CompanionData {
   id: string;
   name: string;
@@ -134,7 +129,7 @@ const coreCompanionsData: CompanionData[] = [
   }
 ];
 
-export const companionsData: CompanionData[] = [...coreCompanionsData, ...extendedCompanions, ...moreCompanions, ...moreCompanions3, ...moreCompanions4];
+export const companionsData: CompanionData[] = [...coreCompanionsData];
 
 export const findCompanion = (figureName: string): CompanionData | undefined => {
   // Clean up the figure name from titles like "رضي الله عنه" or "ﷺ"
