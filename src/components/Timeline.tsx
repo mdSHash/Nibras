@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useMemo } from "react";
 import { EventItem } from "../data";
 import { motion, AnimatePresence } from "motion/react";
 import {
@@ -55,11 +55,14 @@ export default function Timeline({
 }: TimelineProps) {
   const isTourMode = tourState?.isTourMode ?? false;
   const containerRef = useRef<HTMLDivElement>(null);
+  const wheelAnimationFrameRef = useRef<number | null>(null);
+  const wheelVelocityRef = useRef(0);
   const [showScrollBack, setShowScrollBack] = useState(false);
 
-  // Sort events chronologically just in case
-  const sortedEvents = [...events].sort(
-    (a, b) => a.date.gregorian - b.date.gregorian,
+  // Memoize sorting to avoid re-sorting on every render
+  const sortedEvents = useMemo(
+    () => [...events].sort((a, b) => a.date.gregorian - b.date.gregorian),
+    [events]
   );
 
   const eraTheme = getEraTheme(selectedEvent?.era);
@@ -113,13 +116,44 @@ export default function Timeline({
     const el = containerRef.current;
     if (!el) return;
 
+    const stopWheelAnimation = () => {
+      if (wheelAnimationFrameRef.current !== null) {
+        cancelAnimationFrame(wheelAnimationFrameRef.current);
+        wheelAnimationFrameRef.current = null;
+      }
+    };
+
+    const animateWheelScroll = () => {
+      const velocity = wheelVelocityRef.current;
+
+      if (Math.abs(velocity) < 0.1) {
+        wheelVelocityRef.current = 0;
+        stopWheelAnimation();
+        return;
+      }
+
+      el.scrollLeft += velocity;
+      wheelVelocityRef.current *= 0.86;
+      wheelAnimationFrameRef.current = requestAnimationFrame(animateWheelScroll);
+    };
+
     const handleWheel = (e: WheelEvent) => {
-      if (e.deltaY !== 0) {
-        e.preventDefault();
-        el.scrollBy({
-          left: e.deltaY > 0 ? -100 : 100,
-          behavior: "auto",
-        });
+      if (e.deltaY === 0) return;
+
+      e.preventDefault();
+
+      const delta =
+        e.deltaMode === WheelEvent.DOM_DELTA_LINE
+          ? e.deltaY * 8
+          : e.deltaMode === WheelEvent.DOM_DELTA_PAGE
+            ? e.deltaY * 24
+            : e.deltaY;
+
+      const dampenedDelta = Math.max(-40, Math.min(40, delta * 0.25));
+      wheelVelocityRef.current += -dampenedDelta;
+
+      if (wheelAnimationFrameRef.current === null) {
+        wheelAnimationFrameRef.current = requestAnimationFrame(animateWheelScroll);
       }
     };
 
@@ -137,6 +171,7 @@ export default function Timeline({
     handleScroll();
 
     return () => {
+      stopWheelAnimation();
       el.removeEventListener("wheel", handleWheel);
       el.removeEventListener("scroll", handleScroll);
     };
@@ -169,7 +204,8 @@ export default function Timeline({
             {!tourState.isTourMode ? (
               <button
                 onClick={tourState.startTour}
-                className="px-3 py-1.5 rounded-full bg-accent text-parchment flex items-center gap-1.5 hover:bg-[#a68058] transition-all font-bold text-[11px] sm:text-xs whitespace-nowrap"
+                disabled={events.length === 0}
+                className="px-3 py-1.5 rounded-full bg-accent text-parchment flex items-center gap-1.5 hover:bg-[#a68058] transition-all font-bold text-[11px] sm:text-xs whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-accent"
               >
                 <PlayCircle size={14} className="sm:w-[16px] sm:h-[16px]" />
                 بدء الرحلة
@@ -280,8 +316,16 @@ export default function Timeline({
                   <div
                     key={evt.id}
                     id={`timeline-item-${evt.id}`}
+                    role="button"
+                    tabIndex={0}
                     className="relative flex flex-col items-center cursor-pointer group whitespace-nowrap shrink-0"
                     onClick={() => onSelectEvent(evt)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        onSelectEvent(evt);
+                      }
+                    }}
                   >
                     <div
                       className={`absolute -top-[30px] text-[12px] ${isMajor ? "opacity-100 font-bold text-accent" : "opacity-70"} transition-opacity`}
@@ -339,14 +383,6 @@ export default function Timeline({
                     <div
                       className={`mt-3 text-sm transition-all ${isSelected ? "text-parchment font-bold scale-110 drop-shadow-md" : isMajor ? "text-parchment font-extrabold group-hover:scale-105" : "text-parchment/80 group-hover:text-parchment"}`}
                     >
-                      {isMajor && (
-                        <span
-                          className="mr-1"
-                          style={{ color: eventTheme.color }}
-                        >
-                          ✦
-                        </span>
-                      )}
                       {evt.title}
                     </div>
                   </div>

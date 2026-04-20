@@ -54,8 +54,9 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-border-dark bg-panel-bg">
               <h2 className="text-xl font-bold text-ink">استكشاف الأحداث</h2>
-              <button 
+              <button
                 onClick={onClose}
+                aria-label="إغلاق القائمة"
                 className="w-8 h-8 flex justify-center items-center rounded-full hover:bg-ink/10 text-ink transition-colors"
               >
                 <X size={20} />
@@ -156,7 +157,7 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
                         <span className="truncate">{evt.location.name}</span>
                       </div>
                       <div className="text-xs text-ink/50 line-clamp-1 mt-1 leading-relaxed">
-                        {evt.description}
+                        {evt.details.summary}
                       </div>
                     </button>
                   ))}
