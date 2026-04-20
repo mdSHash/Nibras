@@ -5,11 +5,16 @@ import EventPanel from './components/EventPanel';
 import SearchMenu from './components/SearchMenu';
 import CompanionModal from './components/CompanionModal';
 import QuranModal from './components/QuranModal';
+import IntroScreen from './components/IntroScreen';
 import { eventsData, EventItem } from './data';
 import { Moon, Sun, Play, Pause, Square, PlayCircle, Menu, Search } from 'lucide-react';
 import { FilterOptions } from './types';
 
 export default function App() {
+  const [showIntro, setShowIntro] = useState(() => {
+    return localStorage.getItem('nibras-intro-seen') !== 'true';
+  });
+  
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [tourIndex, setTourIndex] = useState<number>(-1);
@@ -149,6 +154,7 @@ export default function App() {
           onSelectEvent={setSelectedEvent} 
           showCities={filters.type === 'all' || filters.type === 'cities'}
           onOpenFilter={() => setIsMenuOpen(true)}
+          isTourMode={tourIndex !== -1}
         />
       </main>
 
@@ -202,6 +208,15 @@ export default function App() {
           cycleSpeed
         }}
       />
+
+      {showIntro && (
+        <IntroScreen 
+          onComplete={() => {
+            localStorage.setItem('nibras-intro-seen', 'true');
+            setShowIntro(false);
+          }} 
+        />
+      )}
     </div>
   );
 }
