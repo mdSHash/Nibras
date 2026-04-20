@@ -5,12 +5,17 @@ import EventPanel from './components/EventPanel';
 import SearchMenu from './components/SearchMenu';
 import CompanionModal from './components/CompanionModal';
 import QuranModal from './components/QuranModal';
+import IntroScreen from './components/IntroScreen';
 import { eventsData, EventItem } from './data';
-import { Moon, Sun, Play, Pause, Square, PlayCircle, Menu, Search } from 'lucide-react';
+import { Moon, Sun, Search } from 'lucide-react';
 import { FilterOptions } from './types';
 import { Analytics } from '@vercel/analytics/react';
 
 export default function App() {
+  const [showIntro, setShowIntro] = useState(() => {
+    return localStorage.getItem('nibras-intro-seen') !== 'true';
+  });
+  
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [tourIndex, setTourIndex] = useState<number>(-1);
@@ -73,6 +78,9 @@ export default function App() {
   }, [isPlaying, playbackSpeed, filteredSortedEvents]);
 
   const startTour = () => {
+    // Guard against empty events array
+    if (filteredSortedEvents.length === 0) return;
+    
     setTourIndex(0);
     setSelectedEvent(filteredSortedEvents[0]);
     setIsPlaying(true);
@@ -150,6 +158,7 @@ export default function App() {
           onSelectEvent={setSelectedEvent} 
           showCities={filters.type === 'all' || filters.type === 'cities'}
           onOpenFilter={() => setIsMenuOpen(true)}
+          isTourMode={tourIndex !== -1}
         />
       </main>
 
@@ -204,6 +213,15 @@ export default function App() {
         }}
       />
       <Analytics />
+
+      {showIntro && (
+        <IntroScreen 
+          onComplete={() => {
+            localStorage.setItem('nibras-intro-seen', 'true');
+            setShowIntro(false);
+          }} 
+        />
+      )}
     </div>
   );
 }

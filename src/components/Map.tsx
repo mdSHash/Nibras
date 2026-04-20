@@ -17,10 +17,11 @@ interface MapViewProps {
   onSelectEvent: (event: EventItem) => void;
   showCities?: boolean;
   onOpenFilter?: () => void;
+  isTourMode?: boolean;
 }
 
 // Map Updater Component to center map on selected event
-const MapUpdater = ({ selectedEvent }: { selectedEvent: EventItem | null }) => {
+const MapUpdater = ({ selectedEvent, isTourMode }: { selectedEvent: EventItem | null, isTourMode?: boolean }) => {
   const map = useMap();
   
   useEffect(() => {
@@ -28,16 +29,19 @@ const MapUpdater = ({ selectedEvent }: { selectedEvent: EventItem | null }) => {
       const [lat, lng] = selectedEvent.location.coordinates;
       // On mobile, shift the center down slightly because the event panel covers the bottom
       const isMobile = window.innerWidth < 640;
-      const latOffset = isMobile ? -1.5 : 0; 
+      // Use dynamic offsets so the event is nicely centered in the remaining visible area
+      const latOffset = isMobile ? -1.8 : 0; 
+      
+      const zoomLevel = isMobile ? 7 : 8; // Zoom closer so the event is clearly located
       
       // Very smooth, immersive zoom transition for the journey effect
-      map.flyTo([lat + latOffset, lng], 6, { 
+      map.flyTo([lat + latOffset, lng], zoomLevel, { 
         animate: true, 
-        duration: 2.5,
+        duration: isTourMode ? 1.5 : 2.5,
         easeLinearity: 0.1
       });
     }
-  }, [selectedEvent, map]);
+  }, [selectedEvent, map, isTourMode]);
 
   return null;
 };
@@ -56,23 +60,34 @@ const getCategoryIcon = (category: string, title: string) => {
 };
 
 // Helper to create custom marker icons
-const createIcon = (color: string, label: string, category: string, title: string) => {
+const createIcon = (color: string, label: string, category: string, title: string, isSelected?: boolean, isDimmed?: boolean) => {
+  const pulseMarkup = isSelected 
+    ? `<div class="absolute inset-0 rounded-full bg-current opacity-75 animate-ping mx-auto" style="width: 100%; height: 100%; background-color: ${color}"></div>` 
+    : '';
+
+  const scaleClass = isSelected ? 'scale-125 z-[1000]' : 'hover:scale-110 hover:z-[500]';
+  const sizeClass = isSelected ? 'w-9 h-9' : 'w-7 h-7';
+  const dimClass = isDimmed ? 'opacity-40 grayscale-[0.8] hover:opacity-100 hover:grayscale-0' : 'opacity-100';
+
   const iconMarkup = renderToStaticMarkup(
-    <div className="relative flex justify-center">
-      <div className="w-7 h-7 rounded-full border-[2px] border-parchment shadow-[0_0_10px_rgba(0,0,0,0.6)] flex items-center justify-center transition-transform hover:scale-125" style={{ backgroundColor: color }}>
+    <div className={`relative flex justify-center transition-all duration-700 ${dimClass}`}>
+      {isSelected && <div dangerouslySetInnerHTML={{__html: pulseMarkup}} />}
+      <div className={`relative ${sizeClass} rounded-full border-[2.5px] border-parchment shadow-lg flex items-center justify-center transition-transform duration-300 ${scaleClass}`} style={{ backgroundColor: color }}>
         {getCategoryIcon(category, title)}
       </div>
-      <div className="absolute top-8 bg-ink text-parchment px-2 py-0.5 rounded-[4px] text-[11px] whitespace-nowrap opacity-90 pointer-events-none z-10 font-sans border border-border-dark/50 shadow-sm">
-        {label}
-      </div>
+      {(!isDimmed) && (
+        <div className="absolute top-10 bg-ink text-parchment px-2.5 py-1 rounded-[4px] text-[11px] font-bold whitespace-nowrap opacity-90 pointer-events-none z-10 font-sans border border-border-dark/60 shadow-md">
+          {label}
+        </div>
+      )}
     </div>
   );
   return L.divIcon({
     html: iconMarkup,
     className: 'custom-marker',
-    iconSize: [28, 28],
-    iconAnchor: [14, 14],
-    popupAnchor: [0, -14]
+    iconSize: [36, 36],
+    iconAnchor: [18, 18],
+    popupAnchor: [0, -18]
   });
 };
 
@@ -95,22 +110,7 @@ const cityIcon = L.divIcon({
   popupAnchor: [0, -8]
 });
 
-const createClusterIcon = (count: number) => {
-  const iconMarkup = renderToStaticMarkup(
-    <div className="relative flex justify-center items-center w-9 h-9 rounded-full border-2 border-parchment shadow-[0_0_15px_rgba(0,0,0,0.5)] bg-accent transition-transform hover:scale-110">
-      <span className="text-parchment font-bold font-sans text-sm drop-shadow-md">{count}</span>
-    </div>
-  );
-  return L.divIcon({
-    html: iconMarkup,
-    className: 'custom-marker',
-    iconSize: [36, 36],
-    iconAnchor: [18, 18],
-    popupAnchor: [0, -18]
-  });
-};
-
-const EventClusters = ({ events, selectedEvent, onSelectEvent }: MapViewProps) => {
+const EventClusters = ({ events, selectedEvent, onSelectEvent, isTourMode }: MapViewProps) => {
   const map = useMap();
   const [bounds, setBounds] = useState<any>(null);
   const [zoom, setZoom] = useState(map.getZoom());
@@ -132,23 +132,28 @@ const EventClusters = ({ events, selectedEvent, onSelectEvent }: MapViewProps) =
     return () => { map.off('moveend', updateBounds); }
   }, [map, updateBounds]);
 
-  const points = events.map(evt => ({
-    type: 'Feature' as const,
-    properties: { cluster: false, eventId: evt.id, event: evt, category: evt.category },
-    geometry: {
-      type: 'Point' as const,
-      coordinates: [
-        evt.location.coordinates[1], // lng
-        evt.location.coordinates[0]  // lat
-      ]
-    }
-  }));
+  // Important: Disable clustering for the currently selected event so it always shows individually
+  const unclusteredSelectedEvent = selectedEvent;
+
+  const points = events
+    .filter(evt => evt.id !== unclusteredSelectedEvent?.id)
+    .map(evt => ({
+      type: 'Feature' as const,
+      properties: { cluster: false, eventId: evt.id, event: evt, category: evt.category },
+      geometry: {
+        type: 'Point' as const,
+        coordinates: [
+          evt.location.coordinates[1], // lng
+          evt.location.coordinates[0]  // lat
+        ]
+      }
+    }));
 
   const { clusters, supercluster } = useSupercluster({
     points,
     bounds,
     zoom,
-    options: { radius: 55, maxZoom: 14 }
+    options: { radius: 50, maxZoom: 14 }
   });
 
   return (
@@ -159,11 +164,27 @@ const EventClusters = ({ events, selectedEvent, onSelectEvent }: MapViewProps) =
         const pointCount = (cluster.properties as any).point_count;
 
         if (isCluster) {
+          const hasSelectedEvent = selectedEvent !== null;
+          // Cluster icon dimming
+          const dimClass = hasSelectedEvent ? 'opacity-40 grayscale-[0.8]' : 'opacity-100';
+          const iconMarkup = renderToStaticMarkup(
+            <div className={`relative flex justify-center items-center w-9 h-9 rounded-full border-2 border-parchment shadow-lg bg-accent transition-transform hover:scale-110 ${dimClass}`}>
+              <span className="text-parchment font-bold font-sans text-sm drop-shadow-md">{pointCount}</span>
+            </div>
+          );
+          const cIcon = L.divIcon({
+            html: iconMarkup,
+            className: 'custom-marker',
+            iconSize: [36, 36],
+            iconAnchor: [18, 18],
+            popupAnchor: [0, -18]
+          });
+
           return (
             <Marker
               key={`cluster-${cluster.id}`}
               position={[lat, lng]}
-              icon={createClusterIcon(pointCount)}
+              icon={cIcon}
             >
               <Popup className="historical-popup" closeButton={false}>
                 <div className="font-sans text-right p-1" dir="rtl">
@@ -191,19 +212,39 @@ const EventClusters = ({ events, selectedEvent, onSelectEvent }: MapViewProps) =
 
         const evt = cluster.properties.event;
         const mappedColor = iconConfig[evt.category]?.color || iconConfig['أحداث'].color;
-        const icon = createIcon(mappedColor, evt.location?.name || evt.title, evt.category, evt.title);
+        const hasSelectedEvent = selectedEvent !== null;
+        const isDimmed = hasSelectedEvent; // because unclustered SelectedEvent handles the selected one
+        const icon = createIcon(mappedColor, evt.location?.name || evt.title, evt.category, evt.title, false, isDimmed);
 
         return (
           <Marker 
             key={evt.id}
             position={[lat, lng]} 
             icon={icon}
+            zIndexOffset={0}
             eventHandlers={{
               click: () => onSelectEvent(evt),
             }}
           />
         );
       })}
+
+      {/* Explicitly render the selected event on top unclustered */}
+      {unclusteredSelectedEvent && (
+        <Marker 
+          key={unclusteredSelectedEvent.id}
+          position={[unclusteredSelectedEvent.location.coordinates[0], unclusteredSelectedEvent.location.coordinates[1]]} 
+          icon={createIcon(
+            iconConfig[unclusteredSelectedEvent.category]?.color || iconConfig['أحداث'].color, 
+            unclusteredSelectedEvent.location?.name || unclusteredSelectedEvent.title, 
+            unclusteredSelectedEvent.category, 
+            unclusteredSelectedEvent.title, 
+            true, 
+            false
+          )}
+          zIndexOffset={2000}
+        />
+      )}
     </>
   );
 };
@@ -345,7 +386,7 @@ const LegendOverlay = ({ selectedEvent }: { selectedEvent: EventItem | null }) =
   );
 };
 
-export default function HistoricalMap({ events, selectedEvent, onSelectEvent, showCities = true, onOpenFilter }: MapViewProps) {
+export default function HistoricalMap({ events, selectedEvent, onSelectEvent, showCities = true, onOpenFilter, isTourMode }: MapViewProps) {
   return (
     <div className="relative w-full h-full z-0">
       <LegendOverlay selectedEvent={selectedEvent} />
@@ -361,7 +402,7 @@ export default function HistoricalMap({ events, selectedEvent, onSelectEvent, sh
           attribution='&copy; <a href="https://www.esri.com/">Esri</a>'
           className="historical-map-tiles"
         />
-        <MapUpdater selectedEvent={selectedEvent} />
+        <MapUpdater selectedEvent={selectedEvent} isTourMode={isTourMode} />
         <CustomMapControls onOpenFilter={onOpenFilter} />
 
         <TerritoryRenderer selectedEvent={selectedEvent} />
@@ -397,7 +438,7 @@ export default function HistoricalMap({ events, selectedEvent, onSelectEvent, sh
         ))}
 
         {/* Render Events */}
-        <EventClusters events={events} selectedEvent={selectedEvent} onSelectEvent={onSelectEvent} />
+        <EventClusters events={events} selectedEvent={selectedEvent} onSelectEvent={onSelectEvent} isTourMode={isTourMode} />
         
         {/* Route line if available and event is selected */}
         {selectedEvent?.route && (

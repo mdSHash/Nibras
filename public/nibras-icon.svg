@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&display=swap');
+      .text {
+        font-family: 'Amiri Quran', 'Traditional Arabic', 'Sakkal Majalla', serif;
+        fill: url(#goldGradient);
+        font-size: 135px;
+        font-weight: bold;
+        text-anchor: middle;
+        dominant-baseline: central;
+        filter: drop-shadow(0px 8px 12px rgba(0,0,0,0.8));
+      }
+      .bg {
+        fill: #1C1512;
+      }
+      .star-border {
+        fill: none;
+        stroke: url(#goldGradient);
+        stroke-width: 16;
+        stroke-linejoin: round;
+        filter: drop-shadow(0px 6px 12px rgba(0,0,0,0.6));
+      }
+      .star-inner {
+        fill: none;
+        stroke: url(#goldGradient);
+        stroke-width: 3;
+        stroke-dasharray: 8, 8;
+        opacity: 0.6;
+      }
+      .star-filled {
+        fill: #2A201A;
+      }
+    </style>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C59E47" />
+      <stop offset="25%" stop-color="#FCF6BA" />
+      <stop offset="50%" stop-color="#B38728" />
+      <stop offset="75%" stop-color="#FBF5B7" />
+      <stop offset="100%" stop-color="#8A5A19" />
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="100" class="bg" />
+
+  <!-- The 8-pointed star base (Rub el Hizb) -->
+  <g transform="translate(256, 256)">
+    <!-- Filled backgrounds -->
+    <rect x="-160" y="-160" width="320" height="320" rx="30" class="star-filled" />
+    <rect x="-160" y="-160" width="320" height="320" rx="30" class="star-filled" transform="rotate(45)" />
+
+    <!-- Borders -->
+    <rect x="-160" y="-160" width="320" height="320" rx="30" class="star-border" />
+    <rect x="-160" y="-160" width="320" height="320" rx="30" class="star-border" transform="rotate(45)" />
+    
+    <!-- Inner dashed decorative borders -->
+    <rect x="-130" y="-130" width="260" height="260" rx="20" class="star-inner" />
+    <rect x="-130" y="-130" width="260" height="260" rx="20" class="star-inner" transform="rotate(45)" />
+
+    <!-- Core Text -->
+    <text x="0" y="5" class="text">نِبْرَاس</text>
+  </g>
+</svg>
