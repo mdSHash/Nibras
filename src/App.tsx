@@ -9,6 +9,7 @@ import IntroScreen from './components/IntroScreen';
 import { eventsData, EventItem } from './data';
 import { Moon, Sun, Search } from 'lucide-react';
 import { FilterOptions } from './types';
+import { Analytics } from '@vercel/analytics/react';
 
 export default function App() {
   const [showIntro, setShowIntro] = useState(() => {
@@ -211,6 +212,7 @@ export default function App() {
           cycleSpeed
         }}
       />
+      <Analytics />
 
       {showIntro && (
         <IntroScreen 
