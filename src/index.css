@@ -894,7 +894,7 @@ header {
   [data-tour-id="event-panel"],
   .event-panel {
     z-index: 800 !important;
-    max-height: calc(100vh - 200px) !important;
+    max-height: 85vh !important;
   }
   
   /* Prevent timeline controls from overlapping with event panel */
@@ -921,14 +921,14 @@ header {
   /* Map container mobile adjustments */
   [data-tour-id="map"],
   .map-container {
-    height: calc(100vh - 180px) !important;
-    padding-bottom: 100px !important;
+    height: calc(100vh - 56px - 110px) !important;
+    padding-bottom: 0 !important;
   }
   
   /* Prevent bottom sheet overlap */
   .bottom-sheet {
     z-index: 850 !important;
-    max-height: 70vh !important;
+    max-height: 85vh !important;
   }
   
   /* Safe area for mobile notches */
@@ -936,9 +936,21 @@ header {
     padding-bottom: env(safe-area-inset-bottom, 0) !important;
   }
   
-  /* Optimize map markers for mobile */
+  /* Optimize map markers for mobile - Better visibility */
   .custom-marker {
-    transform: scale(0.9);
+    transform: scale(1);
+  }
+  
+  /* Mobile-specific improvements */
+  .leaflet-popup-content-wrapper {
+    max-width: calc(100vw - 40px) !important;
+  }
+  
+  /* Better mobile scrolling */
+  .overflow-y-auto,
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
 }
 
@@ -1150,7 +1162,68 @@ header {
 }
 }
 
-/* Made with Bob */
+/* Event Panel Toggle Button Styles */
+.panel-toggle-button {
+transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.panel-toggle-button:hover {
+transform: translateX(-4px);
+}
+
+.dark .panel-toggle-button {
+background-color: rgba(34, 26, 21, 0.95);
+border-color: rgba(212, 163, 115, 0.3);
+}
+
+/* Era Navigation Dock Enhancements */
+@media (max-width: 640px) {
+/* Mobile optimizations for era dock */
+[dir="rtl"] .flex-wrap {
+  gap: 0.5rem !important;
+}
+
+/* Ensure buttons don't wrap unnecessarily */
+.whitespace-nowrap {
+  font-size: 10px;
+}
+}
+
+/* Extra small screens */
+@media (max-width: 380px) {
+/* Further compress on very small screens */
+.rounded-2xl {
+  padding: 0.5rem !important;
+}
+
+.gap-2 {
+  gap: 0.375rem !important;
+}
+}
+
+/* Tablet landscape optimizations */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+/* Adjust era dock positioning for tablet landscape */
+.sm\:bottom-\[120px\] {
+  bottom: 100px !important;
+}
+}
+
+/* Smooth animations for era buttons */
+@keyframes era-pulse {
+0%, 100% {
+  box-shadow: 0 0 0 0 currentColor;
+}
+50% {
+  box-shadow: 0 0 0 4px transparent;
+}
+}
+
+/* Dark mode enhancements for era dock */
+.dark .bg-gradient-to-r {
+background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0.9), rgba(34, 26, 21, 0.95));
+}
+
 
 
 /* Timeline Component Specific Fixes */
@@ -1318,4 +1391,538 @@ header {
 .dark .timeline-container + div button,
 .dark [class*="bottom-"][class*="left-1/2"] button {
   text-shadow: none;
+}
+
+/* ============================================
+   MOBILE-SPECIFIC ENHANCEMENTS
+   ============================================ */
+
+/* Mobile Bottom Sheet Styles */
+@media (max-width: 768px) {
+  /* Bottom sheet drag handle */
+  .bottom-sheet-handle {
+    width: 48px;
+    height: 5px;
+    background: var(--color-ink);
+    opacity: 0.3;
+    border-radius: 999px;
+    margin: 0 auto;
+  }
+  
+  /* Mobile event panel optimizations */
+  [data-tour-id="event-panel"] {
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Mobile timeline improvements */
+  [data-tour-id="timeline"] {
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+  
+  /* Mobile search menu */
+  .search-menu {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  /* Mobile map popups */
+  .leaflet-popup {
+    margin-bottom: 20px;
+  }
+  
+  .leaflet-popup-content {
+    max-width: calc(100vw - 60px) !important;
+    font-size: 14px !important;
+  }
+  
+  /* Mobile button improvements */
+  button {
+    -webkit-tap-highlight-color: rgba(139, 107, 74, 0.2);
+    tap-highlight-color: rgba(139, 107, 74, 0.2);
+  }
+  
+  .dark button {
+    -webkit-tap-highlight-color: rgba(212, 163, 115, 0.2);
+    tap-highlight-color: rgba(212, 163, 115, 0.2);
+  }
+}
+
+/* Mobile Landscape Specific */
+@media (max-width: 896px) and (orientation: landscape) {
+  [data-tour-id="event-panel"] {
+    max-height: calc(100vh - 56px) !important;
+  }
+  
+  [data-tour-id="timeline"] {
+    max-height: 80px !important;
+  }
+  
+  /* Compact header in landscape */
+  header {
+    height: 56px !important;
+  }
+}
+
+/* Tablet Portrait Optimizations */
+@media (min-width: 641px) and (max-width: 1024px) and (orientation: portrait) {
+  [data-tour-id="event-panel"] {
+    width: 450px !important;
+    max-width: 450px !important;
+  }
+  
+  /* Better spacing for tablet */
+  .timeline-container {
+    padding: 16px 20px !important;
+  }
+}
+
+/* Safe Area Padding */
+@supports (padding: max(0px)) {
+  @media (max-width: 768px) {
+    [data-tour-id="timeline"] {
+      padding-bottom: max(16px, env(safe-area-inset-bottom));
+    }
+    
+    [data-tour-id="event-panel"] {
+      padding-bottom: max(20px, env(safe-area-inset-bottom));
+    }
+  }
+}
+
+/* Improved Touch Feedback */
+@media (hover: none) and (pointer: coarse) {
+  button:active,
+  [role="button"]:active {
+    transform: scale(0.96);
+    opacity: 0.8;
+    transition: transform 0.1s ease, opacity 0.1s ease;
+  }
+  
+  /* Remove hover effects on touch devices */
+  button:hover,
+  [role="button"]:hover {
+    transform: none;
+  }
+}
+
+/* Mobile Typography Adjustments */
+@media (max-width: 640px) {
+  h1 {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+  }
+  
+  h2 {
+    font-size: clamp(1.25rem, 4vw, 1.5rem);
+  }
+  
+  h3 {
+    font-size: clamp(1.125rem, 3.5vw, 1.25rem);
+  }
+  
+  p, li, span {
+    font-size: clamp(0.875rem, 3vw, 1rem);
+    line-height: 1.6;
+  }
+}
+
+/* Mobile-Optimized Animations */
+@media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
+  /* Faster animations for mobile */
+  * {
+    transition-duration: 200ms !important;
+  }
+  
+  /* Smooth scroll for mobile */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Prevent Text Size Adjustment on iOS */
+@media (max-width: 768px) {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+}
+
+/* Mobile-Friendly Focus States */
+@media (max-width: 768px) {
+  *:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+}
+
+/* ============================================
+   ADVANCED MOBILE ANIMATIONS
+   ============================================ */
+
+/* Shimmer Loading Animation */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer {
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 1000px 100%;
+}
+
+/* Pulse Animation for Interactive Elements */
+@keyframes pulse-scale {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+.pulse-interactive {
+  animation: pulse-scale 2s ease-in-out infinite;
+}
+
+/* Bounce Animation for Markers */
+@keyframes bounce-in {
+  0% {
+    transform: translateY(-100px) scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(0) scale(1.1);
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(-10px) scale(0.95);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.bounce-in {
+  animation: bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Slide and Fade Animations */
+@keyframes slide-up-fade {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-down-fade {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-up-fade {
+  animation: slide-up-fade 0.4s ease-out;
+}
+
+.slide-down-fade {
+  animation: slide-down-fade 0.4s ease-out;
+}
+
+/* Staggered List Animation */
+@keyframes stagger-fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.stagger-item {
+  animation: stagger-fade-in 0.3s ease-out backwards;
+}
+
+.stagger-item:nth-child(1) { animation-delay: 0.05s; }
+.stagger-item:nth-child(2) { animation-delay: 0.1s; }
+.stagger-item:nth-child(3) { animation-delay: 0.15s; }
+.stagger-item:nth-child(4) { animation-delay: 0.2s; }
+.stagger-item:nth-child(5) { animation-delay: 0.25s; }
+.stagger-item:nth-child(n+6) { animation-delay: 0.3s; }
+
+/* Ripple Effect for Buttons */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.ripple-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-effect::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+}
+
+.ripple-effect:active::after {
+  animation: ripple 0.6s ease-out;
+}
+
+/* Heart Pop Animation for Bookmarks */
+@keyframes heart-pop {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.3);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  75% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.heart-pop {
+  animation: heart-pop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Skeleton Loading */
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-card-bg) 0%,
+    var(--color-parchment-200) 50%,
+    var(--color-card-bg) 100%
+  );
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+/* Floating Action Button Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Scale on Tap */
+.tap-scale:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
+}
+
+/* Rubber Band Effect */
+@keyframes rubber-band {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scaleX(1.25) scaleY(0.75);
+  }
+  40% {
+    transform: scaleX(0.75) scaleY(1.25);
+  }
+  50% {
+    transform: scaleX(1.15) scaleY(0.85);
+  }
+  65% {
+    transform: scaleX(0.95) scaleY(1.05);
+  }
+  75% {
+    transform: scaleX(1.05) scaleY(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.rubber-band {
+  animation: rubber-band 0.8s ease;
+}
+
+/* GPU Acceleration Utilities */
+.gpu-accelerate {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+  will-change: transform;
+}
+
+/* Smooth Transitions */
+.smooth-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.smooth-transition-fast {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Mobile-Optimized Shadows */
+@media (max-width: 768px) {
+  .mobile-shadow-sm {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  }
+  
+  .mobile-shadow-md {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mobile-shadow-lg {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mobile-shadow-xl {
+    box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* Parallax Effect */
+.parallax-slow {
+  transform: translateY(calc(var(--scroll-y, 0) * 0.5px));
+}
+
+.parallax-medium {
+  transform: translateY(calc(var(--scroll-y, 0) * 0.3px));
+}
+
+.parallax-fast {
+  transform: translateY(calc(var(--scroll-y, 0) * 0.1px));
+}
+
+/* Toast Notification Animations */
+@keyframes toast-slide-in {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toast-slide-out {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+.toast-enter {
+  animation: toast-slide-in 0.3s ease-out;
+}
+
+.toast-exit {
+  animation: toast-slide-out 0.3s ease-in;
+}
+
+/* Scroll Snap for Mobile */
+@media (max-width: 768px) {
+  .scroll-snap-container {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+  }
+  
+  .scroll-snap-item {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+}
+
+/* Performance Optimizations */
+@media (max-width: 768px) {
+  /* Reduce motion for better performance on low-end devices */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  
+  /* Optimize animations for mobile */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Hardware acceleration for frequently animated elements */
+  [class*="motion-"],
+  [class*="animate-"],
+  .modal,
+  .drawer,
+  .bottom-sheet {
+    transform: translateZ(0);
+    will-change: transform, opacity;
+  }
 }

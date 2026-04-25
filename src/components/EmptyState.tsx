@@ -69,4 +69,3 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   );
 };
 
-// Made with Bob

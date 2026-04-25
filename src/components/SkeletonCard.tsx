@@ -76,4 +76,3 @@ export const SkeletonTimeline: React.FC = () => {
   );
 };
 
-// Made with Bob

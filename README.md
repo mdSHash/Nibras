@@ -17,6 +17,8 @@
 - تصفية الأحداث حسب الحقبة (الفترة المكية، الفترة المدنية، الخلافة الراشدة)
 - عرض الأحداث الكبرى والغزوات مع معلومات تفصيلية
 - انتقالات سلسة بين الفترات التاريخية
+- وضع التشغيل التلقائي للأحداث
+- اختصارات لوحة المفاتيح للتنقل السريع
 
 ### تصور خريطة ديناميكية
 - حدود إقليمية عضوية باستخدام خوارزميات خلايا فورونوي
@@ -24,6 +26,8 @@
 - علامات المدن ذات الأهمية التاريخية
 - حركات كاميرا سلسة إلى مواقع الأحداث
 - خريطة تاريخية مخصصة بدون حدود سياسية حديثة
+- تجميع ذكي للعلامات في المناطق الكثيفة
+- أيقونات مخصصة حسب فئة الحدث
 
 ### محتوى تاريخي غني
 - أوصاف تفصيلية للأحداث مع مجريات الأحداث
@@ -31,17 +35,29 @@
 - مراجع قرآنية متعلقة بالأحداث التاريخية
 - استشهادات حديثية من مصادر موثوقة
 - توثيق المصادر التاريخية
+- معلومات تفصيلية عن الجيوش والمدة الزمنية
 
 ### وظيفة البحث
 - البحث عن الصحابة والشخصيات التاريخية
 - وصول سريع إلى المعلومات السيرية
 - التصفية حسب الاسم أو اللقب أو الكنية
+- نتائج بحث فورية
 
 ### ملفات الصحابة
 - سير شاملة للصحابة رضوان الله عليهم
 - تواريخ الميلاد والوفاة
 - الأدوار في الأحداث التاريخية
 - تنوعات متعددة للأسماء للبحث الدقيق
+
+### تجربة مستخدم محسنة
+- جولة تعريفية تفاعلية للمستخدمين الجدد
+- شاشة ترحيب جذابة
+- وضع مظلم وفاتح
+- تصميم متجاوب لجميع الأجهزة
+- إشعارات منبثقة للتفاعلات
+- حركات سلسة ومؤثرات بصرية
+- دعم إيماءات اللمس للأجهزة المحمولة
+- اختصارات لوحة المفاتيح للمستخدمين المتقدمين
 
 ## التقنيات المستخدمة
 
@@ -102,20 +118,54 @@ nibras/
 │   │   ├── QuranModal.tsx   # نافذة المرجع القرآني
 │   │   ├── QuranRef.tsx     # مكون مرجع القرآن
 │   │   ├── SearchMenu.tsx   # وظيفة البحث
-│   │   └── IntroScreen.tsx  # شاشة الترحيب
+│   │   ├── IntroScreen.tsx  # شاشة الترحيب
+│   │   ├── AppTour.tsx      # جولة تعريفية بالتطبيق
+│   │   ├── Button.tsx       # مكون الأزرار
+│   │   ├── EmptyState.tsx   # حالة فارغة
+│   │   ├── LoadingSpinner.tsx  # مؤشر التحميل
+│   │   ├── SkeletonCard.tsx # بطاقة هيكلية للتحميل
+│   │   ├── Toast.tsx        # إشعارات منبثقة
+│   │   ├── TouchFeedback.tsx  # ردود فعل اللمس
+│   │   ├── TourProgress.tsx # تقدم الجولة
+│   │   ├── TourPrompt.tsx   # مطالبة الجولة
+│   │   ├── TourSpotlight.tsx  # تسليط الضوء في الجولة
+│   │   └── TourTooltip.tsx  # تلميحات الجولة
+│   ├── contexts/
+│   │   └── TourContext.tsx  # سياق الجولة التعريفية
+│   ├── hooks/               # React Hooks مخصصة
+│   │   ├── useDebouncedValue.ts  # قيمة متأخرة
+│   │   ├── useFocusTrap.ts  # فخ التركيز
+│   │   ├── useKeyboardShortcuts.ts  # اختصارات لوحة المفاتيح
+│   │   ├── useSwipeGesture.ts  # إيماءات السحب
+│   │   └── useTour.ts       # منطق الجولة التعريفية
+│   ├── utils/               # وظائف مساعدة
+│   │   ├── animations.ts    # وظائف الحركة
+│   │   ├── eventHelpers.ts  # مساعدات الأحداث
+│   │   ├── formatters.ts    # تنسيق البيانات
+│   │   ├── performance.ts   # تحسينات الأداء
+│   │   └── scrollLock.ts    # قفل التمرير
 │   ├── data/
-│   │   ├── dataList.json    # بيانات الأحداث التاريخية
-│   │   ├── quranData.json   # المراجع القرآنية
-│   │   ├── companionsList.ts   # بيانات الصحابة الأساسية
-│   │   ├── citiesList.ts    # المدن والمواقع
-│   │   └── territoriesData.ts  # حدود الأقاليم
+│   │   └── tourSteps.ts     # خطوات الجولة التعريفية
+│   ├── types/
+│   │   └── tour.ts          # أنواع الجولة التعريفية
+│   ├── constants/
+│   │   └── index.ts         # ثوابت التطبيق
+│   ├── dataList.json        # بيانات الأحداث التاريخية
+│   ├── quranData.json       # المراجع القرآنية
+│   ├── companionsList.ts    # بيانات الصحابة الأساسية
+│   ├── citiesList.ts        # المدن والمواقع
+│   ├── territoriesData.ts   # حدود الأقاليم
+│   ├── data.ts              # تصدير البيانات الموحد
 │   ├── App.tsx              # مكون التطبيق الرئيسي
 │   ├── main.tsx             # نقطة دخول التطبيق
 │   ├── types.ts             # تعريفات أنواع TypeScript
 │   └── index.css            # أنماط عامة
 ├── public/
-│   └── nibras-icon.svg      # أيقونة التطبيق
+│   ├── nibras-icon.svg      # أيقونة التطبيق
+│   ├── favicon.svg          # أيقونة المتصفح
+│   └── favicon.png          # أيقونة المتصفح PNG
 ├── ADDING_NEW_CONTENT_GUIDE.md  # دليل إضافة المحتوى
+├── PRD.md                   # وثيقة متطلبات المنتج
 ├── metadata.json            # بيانات وصفية للمشروع
 ├── package.json             # التبعيات والنصوص البرمجية
 ├── tsconfig.json            # تكوين TypeScript
@@ -152,23 +202,34 @@ nibras/
 #### الأحداث
 يتم تخزين الأحداث في [`src/dataList.json`](./src/dataList.json) بالهيكل التالي:
 - بيانات وصفية للحدث (المعرف، الفئة، الحقبة، العنوان)
-- معلومات التاريخ (هجري وميلادي)
-- الموقع مع الإحداثيات
+- معلومات التاريخ (هجري نسبي وميلادي)
+- الموقع مع الإحداثيات الجغرافية
 - أوصاف تفصيلية ومجريات الأحداث
-- أدوار الصحابة
+- أدوار الصحابة في الأحداث
 - مراجع قرآنية وحديثية
-- مصادر تاريخية
+- مصادر تاريخية موثقة
+- مسارات الأحداث (للمعارك والهجرات)
 
 #### الصحابة
-يتم توزيع بيانات الصحابة عبر ملفات متعددة في [`src/`](./src/):
-- `companionsList.ts` - الصحابة الأساسيون (الخلفاء الراشدون، العشرة المبشرون بالجنة)
-- ملفات صحابة إضافية للسير الموسعة
+يتم تخزين بيانات الصحابة في [`src/companionsList.ts`](./src/companionsList.ts) مع:
+- الاسم الكامل والألقاب
+- الأدوار التاريخية
+- السيرة الذاتية المفصلة
+- تواريخ الميلاد والوفاة
+- أسماء بديلة للبحث الدقيق
 
 #### المدن
 يتم تخزين بيانات المدن في [`src/citiesList.ts`](./src/citiesList.ts) مع:
-- اسم المدينة والإحداثيات
-- وصف تاريخي
+- اسم المدينة والإحداثيات الدقيقة
+- وصف تاريخي شامل
 - الأهمية الدينية والتاريخية
+- الأحداث المرتبطة بالمدينة
+
+#### الأقاليم
+يتم تخزين بيانات الأقاليم في [`src/territoriesData.ts`](./src/territoriesData.ts) مع:
+- حدود الأقاليم التاريخية
+- التغييرات الإقليمية عبر الزمن
+- مراكز السيطرة والنفوذ
 
 ## البناء للإنتاج
 
@@ -250,6 +311,8 @@ Nibras provides an immersive journey through Islamic history from the birth of P
 - Filter events by era (Meccan period, Medinan period, Rashidun Caliphate)
 - View major events and battles with detailed information
 - Smooth transitions between historical periods
+- Auto-play mode for sequential event viewing
+- Keyboard shortcuts for quick navigation
 
 ### Dynamic Map Visualization
 - Organic territorial boundaries using Voronoi cell algorithms
@@ -257,6 +320,8 @@ Nibras provides an immersive journey through Islamic history from the birth of P
 - City markers with historical significance
 - Smooth camera movements to event locations
 - Custom historical map without modern political borders
+- Smart marker clustering for dense areas
+- Custom icons based on event category
 
 ### Rich Historical Content
 - Detailed event descriptions with course of events
@@ -264,17 +329,29 @@ Nibras provides an immersive journey through Islamic history from the birth of P
 - Quranic references related to historical events
 - Hadith citations from authentic sources
 - Historical source documentation
+- Detailed information about armies and duration
 
 ### Search Functionality
 - Search for companions and historical figures
 - Quick access to biographical information
 - Filter by name, title, or aliases
+- Instant search results
 
 ### Companion Profiles
 - Comprehensive biographies of Sahaba (companions)
 - Birth and death dates
 - Roles in historical events
 - Multiple name variations for accurate search
+
+### Enhanced User Experience
+- Interactive tour for new users
+- Attractive welcome screen
+- Dark and light modes
+- Responsive design for all devices
+- Toast notifications for interactions
+- Smooth animations and visual effects
+- Touch gesture support for mobile devices
+- Keyboard shortcuts for advanced users
 
 ## Technology Stack
 
@@ -335,20 +412,54 @@ nibras/
 │   │   ├── QuranModal.tsx   # Quranic reference modal
 │   │   ├── QuranRef.tsx     # Quran reference component
 │   │   ├── SearchMenu.tsx   # Search functionality
-│   │   └── IntroScreen.tsx  # Welcome screen
+│   │   ├── IntroScreen.tsx  # Welcome screen
+│   │   ├── AppTour.tsx      # Application tour component
+│   │   ├── Button.tsx       # Button component
+│   │   ├── EmptyState.tsx   # Empty state component
+│   │   ├── LoadingSpinner.tsx  # Loading spinner
+│   │   ├── SkeletonCard.tsx # Skeleton loading card
+│   │   ├── Toast.tsx        # Toast notifications
+│   │   ├── TouchFeedback.tsx  # Touch feedback
+│   │   ├── TourProgress.tsx # Tour progress indicator
+│   │   ├── TourPrompt.tsx   # Tour prompt component
+│   │   ├── TourSpotlight.tsx  # Tour spotlight effect
+│   │   └── TourTooltip.tsx  # Tour tooltip component
+│   ├── contexts/
+│   │   └── TourContext.tsx  # Tour context provider
+│   ├── hooks/               # Custom React hooks
+│   │   ├── useDebouncedValue.ts  # Debounced value hook
+│   │   ├── useFocusTrap.ts  # Focus trap hook
+│   │   ├── useKeyboardShortcuts.ts  # Keyboard shortcuts
+│   │   ├── useSwipeGesture.ts  # Swipe gesture detection
+│   │   └── useTour.ts       # Tour logic hook
+│   ├── utils/               # Utility functions
+│   │   ├── animations.ts    # Animation utilities
+│   │   ├── eventHelpers.ts  # Event helper functions
+│   │   ├── formatters.ts    # Data formatting utilities
+│   │   ├── performance.ts   # Performance optimizations
+│   │   └── scrollLock.ts    # Scroll lock utility
 │   ├── data/
-│   │   ├── dataList.json    # Historical events data
-│   │   ├── quranData.json   # Quranic references
-│   │   ├── companionsList.ts   # Core companions data
-│   │   ├── citiesList.ts    # Cities and locations
-│   │   └── territoriesData.ts  # Territory boundaries
+│   │   └── tourSteps.ts     # Tour step definitions
+│   ├── types/
+│   │   └── tour.ts          # Tour type definitions
+│   ├── constants/
+│   │   └── index.ts         # Application constants
+│   ├── dataList.json        # Historical events data
+│   ├── quranData.json       # Quranic references
+│   ├── companionsList.ts    # Core companions data
+│   ├── citiesList.ts        # Cities and locations
+│   ├── territoriesData.ts   # Territory boundaries
+│   ├── data.ts              # Unified data exports
 │   ├── App.tsx              # Main application component
 │   ├── main.tsx             # Application entry point
 │   ├── types.ts             # TypeScript type definitions
 │   └── index.css            # Global styles
 ├── public/
-│   └── nibras-icon.svg      # Application icon
+│   ├── nibras-icon.svg      # Application icon
+│   ├── favicon.svg          # Browser favicon
+│   └── favicon.png          # Browser favicon PNG
 ├── ADDING_NEW_CONTENT_GUIDE.md  # Content addition guide
+├── PRD.md                   # Product Requirements Document
 ├── metadata.json            # Project metadata
 ├── package.json             # Dependencies and scripts
 ├── tsconfig.json            # TypeScript configuration

@@ -82,4 +82,3 @@ export const TourProgress: React.FC<TourProgressProps> = ({ currentStep, totalSt
   );
 };
 
-// Made with Bob

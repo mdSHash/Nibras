@@ -54,4 +54,3 @@ export interface TooltipPosition {
   transform?: string;
 }
 
-// Made with Bob

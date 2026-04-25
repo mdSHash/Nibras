@@ -290,4 +290,3 @@ export const calculateTooltipPosition = (
   return tooltipPos;
 };
 
-// Made with Bob

@@ -100,4 +100,3 @@ export const Button: React.FC<ButtonProps> = ({
   );
 };
 
-// Made with Bob

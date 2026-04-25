@@ -130,7 +130,7 @@ export default function IntroScreen({ onComplete }: IntroScreenProps) {
               transition={{ duration: 0.4 }}
               className="z-20 w-full max-w-xl p-8 bg-parchment/10 backdrop-blur-md rounded-2xl border border-parchment/20 relative mx-4 text-center shadow-2xl"
             >
-              <button onClick={handleFinish} className="absolute top-4 left-4 text-parchment/50 hover:text-parchment transition">
+              <button onClick={handleFinish} className="absolute top-2 left-2 w-11 h-11 flex justify-center items-center text-parchment/50 hover:text-parchment transition shrink-0 rounded-full hover:bg-parchment/10">
                 <X size={24} />
               </button>
               
@@ -157,7 +157,7 @@ export default function IntroScreen({ onComplete }: IntroScreenProps) {
                 </div>
                 <div className="flex gap-3">
                   {slide > 0 && (
-                    <button onClick={() => setSlide(s => s - 1)} className="p-2 text-parchment/70 hover:text-parchment transition">
+                    <button onClick={() => setSlide(s => s - 1)} className="w-11 h-11 flex justify-center items-center text-parchment/70 hover:text-parchment transition rounded-full hover:bg-parchment/10">
                       <ChevronRight size={24} />
                     </button>
                   )}

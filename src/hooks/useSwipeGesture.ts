@@ -91,4 +91,3 @@ export const useSwipeGesture = (options: SwipeGestureOptions) => {
   };
 };
 
-// Made with Bob

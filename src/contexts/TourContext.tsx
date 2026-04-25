@@ -39,4 +39,3 @@ export const useTourContext = () => {
   return context;
 };
 
-// Made with Bob

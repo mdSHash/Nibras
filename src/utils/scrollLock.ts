@@ -221,4 +221,3 @@ export const withScrollLock = <T extends object>(
 
 export default scrollLockManager;
 
-// Made with Bob
