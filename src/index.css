@@ -1,10 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Amiri+Quran&family=Tajawal:wght@400;500;700;900&display=swap');
 @import "tailwindcss";
 
 @theme {
   --color-parchment: var(--sys-parchment);
   --color-ink: var(--sys-ink);
   --color-accent: var(--sys-accent);
+  --color-primary: var(--sys-accent);
+  --color-primary-light: var(--sys-accent-light);
+  --color-primary-dark: var(--sys-accent-dark);
   --color-islamic-green: var(--sys-islamic-green);
   --color-battle-red: var(--sys-battle-red);
   --color-border-dark: var(--sys-border-dark);
@@ -12,35 +14,279 @@
   --color-card-bg: var(--sys-card-bg);
   --color-map-center: var(--sys-map-center);
   --color-map-edge: var(--sys-map-edge);
+  --color-ink-light: var(--sys-ink-300);
+  --color-parchment-dark: var(--sys-parchment-200);
+  --color-ink-dark: var(--sys-ink-900);
 }
 
 :root {
+  /* Base Colors - Enhanced warmth and depth */
+  --sys-parchment-50: #faf7f2;
   --sys-parchment: #f4ece1;
+  --sys-parchment-200: #e8dfd0;
+  --sys-parchment-300: #dccfb8;
+  
+  --sys-ink-900: #2c241e;
+  --sys-ink-700: #4a3d32;
+  --sys-ink-500: #6b5a47;
+  --sys-ink-300: #8b7a67;
   --sys-ink: #2c241e;
+  
+  /* Accent Colors - Richer golden tones */
+  --sys-accent-light: #c4a57b;
   --sys-accent: #8b6b4a;
+  --sys-accent-dark: #6d5438;
+  --sys-accent-glow: rgba(139, 107, 74, 0.3);
+  
+  /* Islamic Green - More vibrant */
+  --sys-islamic-green-light: #4a8040;
   --sys-islamic-green: #2d5a27;
+  --sys-islamic-green-dark: #1f3d1b;
+  --sys-islamic-green-glow: rgba(45, 90, 39, 0.25);
+  
+  /* Battle Red - Enhanced contrast */
+  --sys-battle-red-light: #c74d2e;
   --sys-battle-red: #a33b20;
+  --sys-battle-red-dark: #7d2d18;
+  --sys-battle-red-glow: rgba(163, 59, 32, 0.25);
+  
+  /* Era-Specific Colors */
+  --sys-prophet-era: #10b981;
+  --sys-abu-bakr: #fbbf24;
+  --sys-umar: #ef4444;
+  --sys-uthman: #06b6d4;
+  --sys-ali: #818cf8;
+  
+  /* Semantic Colors */
+  --sys-success: #059669;
+  --sys-warning: #d97706;
+  --sys-error: #dc2626;
+  --sys-info: #0284c7;
+  
+  /* Legacy support */
   --sys-border-dark: #3d2b1f;
   --sys-panel-bg: rgba(232, 225, 211, 0.95);
   --sys-card-bg: rgba(255, 255, 255, 0.6);
   --sys-map-center: #e8dfd0;
   --sys-map-edge: #dccfb8;
   --sys-map-filter: sepia(0.3) grayscale(0.5) contrast(1.1) brightness(1.1) opacity(0.4);
+  
+  /* Standardized Design System */
+  
+  /* Shadow System - Consistent depth hierarchy */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-modal: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.25);
+  --shadow-focus: 0 0 0 3px rgba(139, 107, 74, 0.3);
+  
+  /* Border Radius System - Consistent rounding */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-full: 9999px;
+  
+  /* Spacing System - 4px baseline (0.25rem) */
+  --space-0: 0;
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-5: 1.25rem;  /* 20px */
+  --space-6: 1.5rem;   /* 24px */
+  --space-8: 2rem;     /* 32px */
+  --space-10: 2.5rem;  /* 40px */
+  --space-12: 3rem;    /* 48px */
+  --space-16: 4rem;    /* 64px */
+  
+  /* Typography System - Fluid responsive scaling */
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);      /* 12-14px */
+  --text-sm: clamp(0.875rem, 0.825rem + 0.25vw, 1rem);       /* 14-16px */
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);      /* 16-18px */
+  --text-lg: clamp(1.125rem, 1.075rem + 0.25vw, 1.25rem);    /* 18-20px */
+  --text-xl: clamp(1.25rem, 1.175rem + 0.375vw, 1.5rem);     /* 20-24px */
+  --text-2xl: clamp(1.5rem, 1.4rem + 0.5vw, 1.875rem);       /* 24-30px */
+  
+  /* Timeline-Specific Variables - Light Mode */
+  --timeline-bg: #2c241e;                  /* Dark background for timeline */
+  --timeline-text-primary: #1a1410;        /* Dark text for light backgrounds */
+  --timeline-text-secondary: #2c241e;      /* Darker secondary text */
+  --timeline-text-date: #1a1410;           /* Dark text for dates */
+  --timeline-date-bg: rgba(252, 211, 77, 0.95); /* Light yellow background for dates */
+  --timeline-event-bg: rgba(244, 236, 225, 0.95); /* Light parchment background for event labels */
+  --timeline-event-bg-major: rgba(255, 248, 240, 0.98); /* Nearly white for major events */
+  --timeline-event-bg-selected: rgba(255, 255, 255, 1); /* Pure white for selected events */
+  --timeline-spacing-item: 1.5rem;         /* 24px between items */
+  --timeline-spacing-category: 2rem;       /* 32px between categories */
+  --timeline-marker-size: 0.5rem;          /* 8px default marker */
+  --timeline-marker-size-major: 0.75rem;   /* 12px major event marker */
+  
+  /* Era-Specific Timeline Backgrounds - Light Mode */
+  --timeline-bg-meccan: #d4f1e8;           /* Light green for Meccan period */
+  --timeline-bg-medinan: #e8f5f0;          /* Very light green for Medinan period */
+  --timeline-bg-rashidun: #fef3e2;         /* Light warm beige for Rashidun Caliphate */
+  --timeline-bg-default: #f4ece1;          /* Default light background */
+  
+  /* Era-Specific Text Colors for Contrast - Light Mode */
+  --timeline-text-meccan: #1a1410;         /* Dark text for light backgrounds */
+  --timeline-text-medinan: #1a1410;        /* Dark text for light backgrounds */
+  --timeline-text-rashidun: #1a1410;       /* Dark text for light backgrounds */
+  --timeline-text-default: #1a1410;        /* Dark text for light backgrounds */
+  
+  /* Gradients */
+  --sys-gradient-parchment: radial-gradient(circle at center, #faf7f2 0%, #f4ece1 50%, #e8dfd0 100%);
+  --sys-gradient-header: linear-gradient(180deg, rgba(44, 36, 30, 0.95) 0%, rgba(44, 36, 30, 0.6) 60%, transparent 100%);
+  --sys-gradient-panel: linear-gradient(135deg, #f4ece1 0%, #e8dfd0 100%);
+  --sys-gradient-accent-glow: radial-gradient(circle at center, rgba(139, 107, 74, 0.3) 0%, transparent 70%);
+  --sys-gradient-prophet: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --sys-gradient-abu-bakr: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  --sys-gradient-umar: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  --sys-gradient-uthman: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+  --sys-gradient-ali: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
+  
+  /* Animation Timing */
+  --duration-instant: 100ms;
+  --duration-fast: 200ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --duration-slower: 800ms;
+  --duration-slowest: 1200ms;
+  
+  /* Easing Functions */
+  --ease-smooth: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-in-expo: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+  
+  /* Tour System Variables */
+  --tour-backdrop: rgba(44, 36, 30, 0.85);
+  --tour-backdrop-blur: 12px;
+  --tour-tooltip-bg: linear-gradient(135deg, #f4ece1 0%, #e8dfd0 100%);
+  --tour-tooltip-border: rgba(139, 107, 74, 0.3);
+  --tour-tooltip-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  
+  /* Cursor styles */
+  --cursor-pointer: pointer;
+  --cursor-default: default;
+  --cursor-not-allowed: not-allowed;
+  --tour-spotlight-border: #8b6b4a;
+  --tour-spotlight-glow: rgba(139, 107, 74, 0.4);
+  --tour-text-primary: #2c241e;
+  --tour-text-secondary: #6b5a47;
+  --tour-text-tertiary: #8b7a67;
+  
+  /* Tour Typography */
+  --tour-text-xs: clamp(11px, 2vw, 12px);
+  --tour-text-sm: clamp(13px, 2.5vw, 14px);
+  --tour-text-base: clamp(15px, 3vw, 16px);
+  --tour-text-lg: clamp(17px, 3.5vw, 18px);
+  --tour-text-xl: clamp(20px, 4vw, 22px);
+  --tour-text-2xl: clamp(24px, 5vw, 28px);
+  --tour-text-3xl: clamp(30px, 6vw, 36px);
+  
+  /* Tour Spacing */
+  --tour-space-1: 4px;
+  --tour-space-2: 8px;
+  --tour-space-3: 12px;
+  --tour-space-4: 16px;
+  --tour-space-6: 24px;
+  --tour-space-8: 32px;
+  --tour-space-12: 48px;
+  --tour-space-16: 64px;
 }
 
 .dark {
-  --sys-parchment: #221a15; /* Warmer, less harsh dark background */
-  --sys-ink: #e0d0b8; /* Softer parchment text, not too white */
-  --sys-accent: #d4a373; /* Richer golden accent */
-  --sys-islamic-green: #6da561; /* Legible but soft green */
-  --sys-battle-red: #e57256; /* Legible warm red */
-  --sys-border-dark: #4a382b; /* Subtle organic border */
-  --sys-panel-bg: rgba(34, 26, 21, 0.95); /* Deep rich warm dark */
-  --sys-card-bg: rgba(255, 255, 255, 0.03); /* Extremely subtle overlay */
+  /* Base Colors - Warmer, less harsh */
+  --sys-parchment-50: #2d231c;
+  --sys-parchment: #221a15;
+  --sys-parchment-200: #1a140f;
+  --sys-parchment-300: #120d09;
+  
+  --sys-ink-900: #f0e6d8;
+  --sys-ink-700: #e0d0b8;
+  --sys-ink-500: #c4b39a;
+  --sys-ink-300: #a89a82;
+  --sys-ink: #e0d0b8;
+  
+  /* Accent Colors - Richer in dark mode */
+  --sys-accent-light: #e8c89a;
+  --sys-accent: #d4a373;
+  --sys-accent-dark: #b8895f;
+  --sys-accent-glow: rgba(212, 163, 115, 0.4);
+  
+  /* Islamic Green - Softer but visible */
+  --sys-islamic-green-light: #8bc77f;
+  --sys-islamic-green: #6da561;
+  
+  /* Tour System Variables - Dark Mode */
+  --tour-backdrop: rgba(18, 13, 9, 0.9);
+  --tour-backdrop-blur: 16px;
+  --tour-tooltip-bg: linear-gradient(135deg, #2d231c 0%, #221a15 100%);
+  --tour-tooltip-border: rgba(212, 163, 115, 0.3);
+  --tour-tooltip-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --tour-spotlight-border: #d4a373;
+  --tour-spotlight-glow: rgba(212, 163, 115, 0.5);
+  --tour-text-primary: #f0e6d8;
+  --tour-text-secondary: #c4b39a;
+  --tour-text-tertiary: #a89a82;
+  --sys-islamic-green-dark: #558a4a;
+  --sys-islamic-green-glow: rgba(109, 165, 97, 0.3);
+  
+  /* Battle Red - Warm and legible */
+  --sys-battle-red-light: #f28d6f;
+  --sys-battle-red: #e57256;
+  --sys-battle-red-dark: #c85a3f;
+  --sys-battle-red-glow: rgba(229, 114, 86, 0.3);
+  
+  /* Era Colors - Adjusted for dark mode */
+  --sys-prophet-era: #34d399;
+  --sys-abu-bakr: #fcd34d;
+  --sys-umar: #f87171;
+  --sys-uthman: #22d3ee;
+  --sys-ali: #a5b4fc;
+  
+  /* Legacy support */
+  --sys-border-dark: #4a382b;
+  --sys-panel-bg: rgba(34, 26, 21, 0.95);
+  --sys-card-bg: rgba(255, 255, 255, 0.03);
   --sys-map-center: #2b211a;
   --sys-map-edge: #18120e;
-  /* Instead of invert (which causes the 'burned photo' effect on geography), we darken it while retaining native features */
   --sys-map-filter: sepia(0.4) grayscale(0.6) brightness(0.4) contrast(1.3) opacity(0.4);
+  
+  /* Era-Specific Timeline Backgrounds - Dark Mode */
+  --timeline-bg-meccan: #1a3a2e;           /* Deep forest green for Meccan period */
+  --timeline-bg-medinan: #2d4a3e;          /* Medium green for Medinan period */
+  --timeline-bg-rashidun: #3d2e1a;         /* Warm brown for Rashidun Caliphate */
+  --timeline-bg-default: #2c241e;          /* Default dark background */
+  
+  /* Era-Specific Text Colors for Contrast - Dark Mode */
+  --timeline-text-meccan: #e8f5e9;         /* Light text for dark backgrounds */
+  --timeline-text-medinan: #f1f8f4;        /* Light text for dark backgrounds */
+  --timeline-text-rashidun: #fef3e2;       /* Light text for dark backgrounds */
+  --timeline-text-default: #f4ece1;        /* Light text for dark backgrounds */
+  
+  /* Gradients for dark mode */
+  --sys-gradient-parchment: radial-gradient(circle at center, #2d231c 0%, #221a15 50%, #1a140f 100%);
+  --sys-gradient-header: linear-gradient(180deg, rgba(34, 26, 21, 0.95) 0%, rgba(34, 26, 21, 0.6) 60%, transparent 100%);
+  --sys-gradient-panel: linear-gradient(135deg, #221a15 0%, #1a140f 100%);
+  
+  /* Dark Mode Shadow System - Enhanced for visibility */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-modal: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-focus: 0 0 0 3px rgba(212, 163, 115, 0.4);
+  
+  /* Timeline-Specific Variables - Dark Mode with WCAG AA compliance */
+  --timeline-bg: #221a15;                  /* Dark mode background */
+  --timeline-text-primary: #f4ece1;        /* Light text for dark backgrounds */
+  --timeline-text-secondary: #e0d0b8;      /* Lighter secondary text */
+  --timeline-text-date: #fde68a;           /* Bright yellow for dates in dark mode */
+  --timeline-date-bg: rgba(44, 36, 30, 0.95); /* Dark background for dates */
+  --timeline-event-bg: rgba(44, 36, 30, 0.95); /* Dark background for event labels */
+  --timeline-event-bg-major: rgba(34, 26, 21, 0.98); /* Darker for major events */
+  --timeline-event-bg-selected: rgba(26, 20, 15, 1); /* Darkest for selected events */
 }
 
 body {
@@ -49,6 +295,356 @@ body {
   background-color: var(--color-parchment);
   color: var(--color-ink);
   overflow: hidden;
+  transition: background-color var(--duration-normal) var(--ease-smooth),
+              color var(--duration-normal) var(--ease-smooth);
+  
+  /* Mobile optimizations */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ============================================
+   MOBILE OPTIMIZATIONS
+   ============================================ */
+
+/* iOS Safe Area Support */
+@supports (padding: max(0px)) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+  }
+}
+
+/* Touch Target Sizing - WCAG 2.1 AA Compliance */
+button,
+a,
+[role="button"],
+[role="link"],
+input[type="checkbox"],
+input[type="radio"],
+select,
+.interactive-element {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Exception for inline text links */
+a:not([role="button"]):not(.btn):not(.button) {
+  min-width: auto;
+  min-height: auto;
+  display: inline;
+}
+
+/* Touch Feedback - Remove 300ms tap delay */
+a,
+button,
+input,
+select,
+textarea,
+[role="button"],
+[tabindex]:not([tabindex="-1"]) {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(139, 107, 74, 0.2);
+}
+
+.dark a,
+.dark button,
+.dark input,
+.dark select,
+.dark textarea,
+.dark [role="button"],
+.dark [tabindex]:not([tabindex="-1"]) {
+  -webkit-tap-highlight-color: rgba(212, 163, 115, 0.2);
+}
+
+/* Momentum Scrolling for iOS */
+.scrollable,
+[class*="overflow-"],
+.modal-content,
+.panel-content,
+.search-results,
+.event-list {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Prevent Overscroll Bounce on Body */
+body {
+  overscroll-behavior-y: none;
+}
+
+/* Smooth Scrolling with Performance */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Disable Smooth Scrolling for Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Mobile-Specific Typography Adjustments */
+@media (max-width: 768px) {
+  body {
+    font-size: 16px; /* Prevent iOS zoom on input focus */
+  }
+  
+  input,
+  select,
+  textarea {
+    font-size: 16px; /* Prevent iOS zoom */
+  }
+}
+
+/* Prevent Text Selection on Interactive Elements */
+button,
+[role="button"],
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Allow Text Selection in Content Areas */
+p,
+article,
+.content,
+.description {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* GPU Acceleration for Smooth Animations */
+.gpu-accelerated,
+.modal,
+.tooltip,
+.dropdown,
+[class*="animate-"] {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+}
+
+/* Optimize Touch Scrolling Performance */
+.touch-scroll-optimized {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  will-change: scroll-position;
+}
+
+/* Prevent Horizontal Scroll */
+body,
+html {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Mobile Viewport Height Fix for iOS */
+.full-height {
+  height: 100vh;
+  height: -webkit-fill-available;
+}
+
+/* Landscape Mode Optimizations */
+@media (max-width: 768px) and (orientation: landscape) {
+  .mobile-landscape-adjust {
+    padding-top: env(safe-area-inset-top, 0);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+}
+
+/* Animation Performance Optimizations (Issue #14) */
+/* Use GPU-accelerated properties only */
+@media (prefers-reduced-motion: no-preference) {
+  * {
+    /* Force GPU acceleration for transforms and opacity */
+    will-change: auto;
+  }
+  
+  /* Optimize frequently animated elements */
+  [class*="motion-"],
+  [class*="animate-"],
+  .tour-spotlight,
+  .tour-tooltip {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+}
+
+/* Limit animations to transform and opacity for best performance */
+.performance-optimized {
+  transition-property: transform, opacity;
+  transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* ============================================
+   MOBILE INTERACTION FIXES
+   ============================================ */
+
+/* Replace hover states with active states for touch devices */
+@media (hover: none) and (pointer: coarse) {
+  /* Remove all hover effects on touch devices */
+  *:hover {
+    /* Prevent hover styles from sticking on touch */
+  }
+  
+  /* Use active states instead for touch feedback */
+  button:active,
+  [role="button"]:active,
+  a:active {
+    opacity: 0.7;
+    transform: scale(0.98);
+  }
+}
+
+/* Ensure buttons work on both mouse and touch */
+@media (hover: hover) and (pointer: fine) {
+  /* Desktop: Keep hover effects */
+  button:hover,
+  [role="button"]:hover {
+    cursor: pointer;
+  }
+}
+
+/* Mobile-specific button sizing */
+@media (max-width: 768px) {
+  button,
+  [role="button"],
+  a[role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.75rem;
+  }
+  
+  /* Ensure text inputs don't cause zoom on iOS */
+  input[type="text"],
+  input[type="search"],
+  input[type="email"],
+  input[type="tel"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* Fix for overlapping elements on mobile */
+@media (max-width: 640px) {
+  /* Ensure panels don't overlap with fixed elements */
+  .fixed,
+  .absolute {
+    max-width: 100vw;
+  }
+  
+  /* Stack flex items vertically on mobile */
+  .flex-row-mobile-col {
+    flex-direction: column;
+  }
+  
+  /* Ensure proper spacing for mobile panels */
+  [class*="panel"],
+  [class*="modal"],
+  [class*="drawer"] {
+    max-height: calc(100vh - 120px);
+    max-height: calc(100dvh - 120px); /* Dynamic viewport height for mobile browsers */
+  }
+}
+
+/* Prevent layout shift from scrollbars */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth scrolling with momentum on iOS */
+.smooth-scroll {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Fix for iOS Safari bottom bar */
+@supports (-webkit-touch-callout: none) {
+  .ios-safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .ios-full-height {
+    height: -webkit-fill-available;
+  }
+}
+
+/* Global Focus Styles for Accessibility */
+*:focus {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 6px rgba(139, 107, 74, 0.2);
+}
+
+.dark button:focus-visible,
+.dark a:focus-visible,
+.dark [role="button"]:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 6px rgba(212, 163, 115, 0.3);
+}
+
+/* Button Cursor Styles - High specificity to override all other styles */
+button,
+button[type="button"],
+button[type="submit"],
+button[type="reset"],
+a,
+[role="button"],
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+button:disabled,
+button[disabled],
+[aria-disabled="true"] {
+  cursor: not-allowed !important;
 }
 
 /* Custom styles for leaflet map to make it look ancient */
@@ -58,12 +654,352 @@ body {
 }
 .historical-map-tiles {
   filter: var(--sys-map-filter) !important;
-  transition: filter 0.5s ease;
+  transition: filter var(--duration-slow) ease;
 }
 .custom-marker {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+}
+
+/* Enhanced marker label styling for better readability */
+.custom-marker > div {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Leaflet popup improvements - Using standardized system */
+.leaflet-popup-content-wrapper {
+  background: rgba(44, 36, 30, 0.95) !important;
+  backdrop-filter: blur(8px);
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-modal) !important;
+}
+
+.dark .leaflet-popup-content-wrapper {
+  background: rgba(34, 26, 21, 0.95) !important;
+  border: 2px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  color: var(--color-parchment) !important;
+  font-family: system-ui, -apple-system, sans-serif !important;
+  font-size: var(--text-sm) !important;
+  direction: rtl;
+  text-align: right;
+}
+
+.historical-popup,
+.historical-popup * {
+  color: var(--color-parchment);
+}
+
+.historical-popup .popup-title {
+  color: #ffffff;
+}
+
+.historical-popup .popup-text {
+  color: rgba(244, 236, 225, 0.92);
+}
+
+.historical-popup .popup-muted {
+  color: rgba(244, 236, 225, 0.78);
+}
+
+.historical-popup .popup-accent {
+  color: #fde68a;
+}
+
+.historical-popup .popup-surface {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.dark .historical-popup,
+.dark .historical-popup * {
+  color: #f4ece1;
+}
+
+.dark .historical-popup .popup-title {
+  color: #ffffff;
+}
+
+.dark .historical-popup .popup-text {
+  color: rgba(244, 236, 225, 0.92);
+}
+
+.dark .historical-popup .popup-muted {
+  color: rgba(244, 236, 225, 0.78);
+}
+
+.dark .historical-popup .popup-accent {
+  color: #fde68a;
+}
+
+.dark .historical-popup .popup-surface {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.leaflet-popup-tip {
+  background: rgba(44, 36, 30, 0.95) !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+  border-top: none !important;
+  border-right: none !important;
+}
+
+.dark .leaflet-popup-tip {
+  background: rgba(34, 26, 21, 0.95) !important;
+}
+
+/* Improve cluster marker visibility - Using standardized system */
+.custom-marker .relative {
+  transition: transform var(--duration-fast) var(--ease-smooth),
+              box-shadow var(--duration-fast) var(--ease-smooth);
+}
+
+.custom-marker:hover .relative {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-elevated);
+}
+
+/* Responsive Layout Fixes - Comprehensive Z-Index and Positioning */
+
+/* Global Z-Index Hierarchy - Apply to all viewports */
+header {
+  z-index: 1000 !important;
+  position: relative;
+}
+
+[data-tour-id="timeline"],
+.timeline-container {
+  z-index: 900 !important;
+  position: relative;
+}
+
+[data-tour-id="event-panel"],
+.event-panel {
+  z-index: 800 !important;
+}
+
+[data-tour-id="map"],
+.map-container {
+  z-index: 700 !important;
+  position: relative;
+}
+
+.search-menu {
+  z-index: 950 !important;
+  position: relative;
+}
+
+/* Mobile Landscape Optimization (Issue #4) */
+@media (max-width: 896px) and (orientation: landscape) {
+  /* Reduce header height in landscape */
+  header {
+    height: 50px !important;
+    min-height: 50px !important;
+  }
+  
+  /* Adjust timeline position to prevent overlap */
+  [data-tour-id="timeline"],
+  .timeline-container {
+    bottom: 80px !important;
+    max-height: 60px !important;
+  }
+  
+  /* Optimize event panel for landscape */
+  [data-tour-id="event-panel"],
+  .event-panel {
+    max-height: calc(100vh - 140px) !important;
+  }
+  
+  /* Ensure controls don't overlap */
+  .timeline-controls {
+    bottom: 85px !important;
+    z-index: 910 !important;
+  }
+  
+  /* Map container adjustments */
+  [data-tour-id="map"],
+  .map-container {
+    height: calc(100vh - 130px) !important;
+    padding-bottom: 0 !important;
+  }
+  
+  /* Prevent content overflow */
+  body {
+    overflow: hidden !important;
+  }
+}
+
+/* Tablet Portrait Optimization (Issue #5) */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  /* Optimize event panel width for tablet */
+  [data-tour-id="event-panel"] > div,
+  [data-tour-id="event-panel"] > div > div,
+  .event-panel > div {
+    width: 450px !important;
+    max-width: 450px !important;
+  }
+  
+  /* Adjust map container for better tablet layout */
+  [data-tour-id="map"],
+  .map-container {
+    padding-bottom: 140px !important;
+    height: calc(100vh - 140px) !important;
+  }
+  
+  /* Better spacing for tablet controls */
+  .timeline-controls {
+    padding: 12px 16px !important;
+    bottom: 100px !important;
+  }
+  
+  /* Timeline positioning */
+  [data-tour-id="timeline"],
+  .timeline-container {
+    bottom: 20px !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+  
+  /* Event panel positioning */
+  [data-tour-id="event-panel"],
+  .event-panel {
+    max-height: calc(100vh - 180px) !important;
+  }
+}
+
+/* Mobile Portrait Overlapping Elements Fix (Issue #6) */
+@media (max-width: 640px) {
+  /* Ensure proper z-index layering */
+  header {
+    z-index: 1000 !important;
+    position: sticky !important;
+    top: 0 !important;
+  }
+  
+  [data-tour-id="timeline"],
+  .timeline-container {
+    z-index: 900 !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+  
+  [data-tour-id="event-panel"],
+  .event-panel {
+    z-index: 800 !important;
+    max-height: calc(100vh - 200px) !important;
+  }
+  
+  /* Prevent timeline controls from overlapping with event panel */
+  .timeline-controls {
+    bottom: 120px !important;
+    margin-bottom: 0 !important;
+    z-index: 910 !important;
+  }
+  
+  /* Add safe spacing for mobile interactions */
+  button,
+  a,
+  [role="button"] {
+    min-height: 44px !important;
+    min-width: 44px !important;
+    cursor: pointer !important;
+  }
+  
+  /* Ensure touch targets don't overlap */
+  .touch-target {
+    padding: 8px !important;
+  }
+  
+  /* Map container mobile adjustments */
+  [data-tour-id="map"],
+  .map-container {
+    height: calc(100vh - 180px) !important;
+    padding-bottom: 100px !important;
+  }
+  
+  /* Prevent bottom sheet overlap */
+  .bottom-sheet {
+    z-index: 850 !important;
+    max-height: 70vh !important;
+  }
+  
+  /* Safe area for mobile notches */
+  body {
+    padding-bottom: env(safe-area-inset-bottom, 0) !important;
+  }
+  
+  /* Optimize map markers for mobile */
+  .custom-marker {
+    transform: scale(0.9);
+  }
+}
+
+/* Additional Mobile Landscape Fixes for Small Screens */
+@media (max-width: 640px) and (orientation: landscape) {
+  header {
+    height: 48px !important;
+    min-height: 48px !important;
+  }
+  
+  [data-tour-id="timeline"],
+  .timeline-container {
+    bottom: 70px !important;
+    max-height: 50px !important;
+  }
+  
+  [data-tour-id="event-panel"],
+  .event-panel {
+    max-height: calc(100vh - 120px) !important;
+    top: 50px !important;
+  }
+  
+  [data-tour-id="map"],
+  .map-container {
+    height: calc(100vh - 120px) !important;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  /* Keep essential feedback */
+  button:hover,
+  button:focus,
+  a:hover,
+  a:focus {
+    transition-duration: 150ms !important;
+  }
+  
+  /* Tour components - disable complex animations */
+  .tour-spotlight,
+  .tour-tooltip,
+  .tour-progress,
+  .tour-prompt {
+    animation: none !important;
+  }
+  
+  /* Disable motion animations but keep opacity transitions */
+  [class*="motion-"],
+  [data-motion] {
+    transform: none !important;
+    animation: none !important;
+  }
 }
 
 @layer utilities {
@@ -74,5 +1010,312 @@ body {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* Legend scroll container - prevent map zoom on scroll */
+  .legend-scroll {
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(139, 107, 74, 0.5) transparent;
+  }
+
+  .legend-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .legend-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .legend-scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(139, 107, 74, 0.5);
+    border-radius: 3px;
+  }
+
+  .legend-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(139, 107, 74, 0.7);
+  }
+
+  .dark .legend-scroll {
+    scrollbar-color: rgba(212, 163, 115, 0.5) transparent;
+  }
+
+  .dark .legend-scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(212, 163, 115, 0.5);
+  }
+
+  .dark .legend-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(212, 163, 115, 0.7);
+  }
+
+/* Guided Tour Styles */
+.tour-spotlight {
+  pointer-events: none;
+  transition: all var(--duration-normal) var(--ease-smooth);
+  will-change: opacity, transform;
 }
 
+.tour-tooltip {
+  pointer-events: auto;
+  will-change: opacity, transform;
+}
+
+@keyframes tour-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 var(--color-accent);
+  }
+  50% {
+    box-shadow: 0 0 0 8px transparent;
+  }
+}
+
+@keyframes tour-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 4px rgba(139, 92, 46, 0.3), 0 0 20px rgba(139, 92, 46, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(139, 92, 46, 0.4), 0 0 30px rgba(139, 92, 46, 0.6);
+  }
+}
+
+@keyframes tour-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+@keyframes tour-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tour-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.tour-highlight {
+  animation: tour-pulse 2s infinite;
+}
+
+.tour-glow {
+  animation: tour-glow 2s ease-in-out infinite;
+}
+
+/* Ensure tour elements are above everything */
+.tour-overlay {
+  z-index: 9998;
+}
+
+.tour-content {
+  z-index: 10000;
+}
+
+/* Performance optimizations for tour animations */
+@media (prefers-reduced-motion: no-preference) {
+  .tour-spotlight,
+  .tour-tooltip,
+  .tour-progress {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+}
+}
+
+/* Made with Bob */
+
+
+/* Timeline Component Specific Fixes */
+
+/* Timeline Container - Enhanced visibility and spacing */
+.timeline-container {
+  box-shadow: var(--shadow-card);
+}
+
+/* Timeline Event Items - Improved contrast and spacing */
+.timeline-container [role="button"] {
+  gap: var(--timeline-spacing-item);
+}
+
+/* Timeline Event Text - WCAG AA Compliant Contrast with Backgrounds */
+.timeline-container .text-parchment {
+  color: var(--timeline-text-primary) !important;
+  text-shadow: none;
+  font-weight: 700;
+}
+
+.timeline-container .text-parchment\/80 {
+  color: var(--timeline-text-secondary) !important;
+  text-shadow: none;
+  font-weight: 600;
+}
+
+/* Timeline Date Labels - Enhanced readability with background and stronger contrast */
+.timeline-container [class*="-top-"] {
+  color: var(--timeline-text-date) !important;
+  font-weight: 800;
+  text-shadow: none;
+  letter-spacing: 0.05em;
+  backdrop-filter: blur(6px);
+}
+
+/* Timeline Markers - Perfect alignment */
+.timeline-container .rounded-full {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Timeline Item Spacing - Standardized gaps */
+.timeline-container .flex.items-center.w-max {
+  gap: var(--space-16);
+}
+
+@media (min-width: 1024px) {
+  .timeline-container .flex.items-center.w-max {
+    gap: var(--space-16);
+  }
+}
+
+/* Timeline Navigation Controls - Enhanced visibility */
+.timeline-container + div[class*="absolute"] button,
+[class*="bottom-"][class*="left-1/2"] button {
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-card);
+  transition: all var(--duration-fast) var(--ease-smooth);
+}
+
+.timeline-container + div[class*="absolute"] button:hover,
+[class*="bottom-"][class*="left-1/2"] button:hover {
+  box-shadow: var(--shadow-elevated);
+  transform: scale(1.05);
+}
+
+/* Timeline Era Navigation Dock - Improved spacing */
+[class*="bottom-"][class*="left-1/2"][class*="flex"] {
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-elevated);
+}
+
+@media (min-width: 640px) {
+  [class*="bottom-"][class*="left-1/2"][class*="flex"] {
+    padding: var(--space-2) var(--space-3);
+  }
+}
+
+/* Timeline Event Hierarchy - Visual distinction */
+.timeline-container [class*="font-bold"] {
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.timeline-container [class*="font-extrabold"] {
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+/* Timeline Responsive Typography */
+.timeline-container .text-sm {
+  font-size: var(--text-sm);
+}
+
+.timeline-container .text-xs {
+  font-size: var(--text-xs);
+}
+
+/* Timeline Background Glow - Smooth transitions */
+.timeline-container > div[class*="absolute"][class*="inset-0"] {
+  transition: opacity var(--duration-slow) var(--ease-smooth);
+}
+
+/* Timeline Scroll Behavior - Smooth momentum */
+.timeline-container > div[class*="overflow-x-auto"] {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Timeline Item Focus States - Accessibility */
+.timeline-container [role="button"]:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: var(--space-2);
+  box-shadow: var(--shadow-focus);
+  border-radius: var(--radius-sm);
+}
+
+/* Timeline Major Events - Enhanced prominence */
+.timeline-container [class*="is-major"] {
+  font-weight: 700;
+}
+
+/* Timeline Category Spacing - Distinct grouping */
+.timeline-container [data-category-change="true"] {
+  margin-right: var(--timeline-spacing-category);
+}
+
+/* Dark Mode Timeline Adjustments - Enhanced contrast with backgrounds */
+.dark .timeline-container .text-parchment {
+  color: var(--timeline-text-primary) !important;
+  text-shadow: none;
+  font-weight: 700;
+}
+
+.dark .timeline-container .text-parchment\/80 {
+  color: var(--timeline-text-secondary) !important;
+  text-shadow: none;
+  font-weight: 600;
+}
+
+.dark .timeline-container [class*="-top-"] {
+  color: var(--timeline-text-date) !important;
+  text-shadow: none;
+  backdrop-filter: blur(8px);
+  font-weight: 800;
+}
+
+/* Timeline Background - Ensure proper contrast in both modes */
+.timeline-container {
+  background-color: var(--timeline-bg);
+}
+
+/* Timeline Navigation Buttons - Enhanced visibility */
+.timeline-container + div button,
+[class*="bottom-"][class*="left-1/2"] button {
+  text-shadow: none;
+  font-weight: 600;
+}
+
+.dark .timeline-container + div button,
+.dark [class*="bottom-"][class*="left-1/2"] button {
+  text-shadow: none;
+}

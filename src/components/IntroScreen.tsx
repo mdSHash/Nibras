@@ -35,9 +35,16 @@ export default function IntroScreen({ onComplete }: IntroScreenProps) {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    // Phase 1: Logo majestic
-    const t = setTimeout(() => setPhase('choice'), 2500);
-    return () => clearTimeout(t);
+    let isMounted = true;
+    const t = setTimeout(() => {
+      if (isMounted) {
+        setPhase('choice');
+      }
+    }, 2500);
+    return () => {
+      isMounted = false;
+      clearTimeout(t);
+    };
   }, []);
 
   const handleFinish = () => {
@@ -123,7 +130,7 @@ export default function IntroScreen({ onComplete }: IntroScreenProps) {
               transition={{ duration: 0.4 }}
               className="z-20 w-full max-w-xl p-8 bg-parchment/10 backdrop-blur-md rounded-2xl border border-parchment/20 relative mx-4 text-center shadow-2xl"
             >
-              <button onClick={handleFinish} aria-label="إغلاق المقدمة" className="absolute top-4 left-4 text-parchment/50 hover:text-parchment transition">
+              <button onClick={handleFinish} className="absolute top-4 left-4 text-parchment/50 hover:text-parchment transition">
                 <X size={24} />
               </button>
               
@@ -150,7 +157,7 @@ export default function IntroScreen({ onComplete }: IntroScreenProps) {
                 </div>
                 <div className="flex gap-3">
                   {slide > 0 && (
-                    <button onClick={() => setSlide(s => s - 1)} aria-label="الشريحة السابقة" className="p-2 text-parchment/70 hover:text-parchment transition">
+                    <button onClick={() => setSlide(s => s - 1)} className="p-2 text-parchment/70 hover:text-parchment transition">
                       <ChevronRight size={24} />
                     </button>
                   )}
