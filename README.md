@@ -58,7 +58,7 @@
 
 ### التنسيق والحركة
 - **TailwindCSS** - إطار عمل CSS قائم على الأدوات المساعدة
-- **Framer Motion** - حركات وانتقالات سلسة
+- **Motion** - حركات وانتقالات سلسة
 
 ### مكتبات إضافية
 - **lucide-react** - مكتبة أيقونات
@@ -291,7 +291,7 @@ Nibras provides an immersive journey through Islamic history from the birth of P
 
 ### Styling and Animation
 - **TailwindCSS** - Utility-first CSS framework
-- **Framer Motion** - Smooth animations and transitions
+- **Motion** - Smooth animations and transitions
 
 ### Additional Libraries
 - **lucide-react** - Icon library

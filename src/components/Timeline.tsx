@@ -1,59 +1,72 @@
 import React, { useRef, useEffect, useState, useMemo } from "react";
 import { EventItem } from "../data";
 import { motion, AnimatePresence } from "motion/react";
-import {
-  PlayCircle,
-  Square,
-  Play,
-  Pause,
-  RotateCw,
-  CornerUpRight,
-} from "lucide-react";
+import { RotateCw } from "lucide-react";
 
 interface TimelineProps {
   events: EventItem[];
   selectedEvent: EventItem | null;
   onSelectEvent: (event: EventItem) => void;
-  tourState?: {
-    isTourMode: boolean;
-    isPlaying: boolean;
-    playbackSpeed: number;
-    startTour: () => void;
-    stopTour: () => void;
-    togglePlay: () => void;
-    cycleSpeed: () => void;
-  };
 }
 
 const getEraTheme = (era?: string) => {
-  if (!era) return { color: "#8b7355", title: "" }; // Default accent
+  if (!era) return {
+    color: "#8b7355",
+    title: "",
+    bgColor: "var(--timeline-bg-default)",
+    textColor: "var(--timeline-text-default)"
+  };
+  
+  if (era.includes("المكي") || era.includes("قبل البعثة") || era.includes("البعثة"))
+    return {
+      color: "#10b981",
+      title: "العهد المكي",
+      bgColor: "var(--timeline-bg-meccan)",
+      textColor: "var(--timeline-text-meccan)"
+    };
+  
+  if (era.includes("المدني") || era.includes("الوحي"))
+    return {
+      color: "#10b981",
+      title: "العهد المدني",
+      bgColor: "var(--timeline-bg-medinan)",
+      textColor: "var(--timeline-text-medinan)"
+    };
+  
   if (
-    era.includes("المكي") ||
-    era.includes("المدني") ||
-    era.includes("الوحي") ||
-    era.includes("البعثة") ||
-    era.includes("قبل البعثة")
+    era.includes("أبي بكر") ||
+    era.includes("أبو بكر") ||
+    era.includes("عمر") ||
+    era.includes("عثمان") ||
+    era.includes("علي") ||
+    era.includes("الراشدة")
   )
-    return { color: "#10b981", title: "عهد النبوة" }; // Emerald / Prophet ﷺ
-  if (era.includes("أبي بكر") || era.includes("أبو بكر"))
-    return { color: "#fbbf24", title: "خلافة الصديق" }; // Amber / Abu Bakr
-  if (era.includes("عمر")) return { color: "#ef4444", title: "خلافة الفاروق" }; // Red / Umar
-  if (era.includes("عثمان"))
-    return { color: "#06b6d4", title: "خلافة ذو النورين" }; // Cyan / Uthman
-  if (era.includes("علي"))
-    return { color: "#818cf8", title: "خلافة الإمام علي" }; // Indigo / Ali
-  if (era.includes("الراشدة"))
-    return { color: "#eab308", title: "الخلافة الراشدة" }; // Yellow fallback
-  return { color: "#8b7355", title: "" }; // Default accent
+    return {
+      color: era.includes("أبي بكر") || era.includes("أبو بكر") ? "#fbbf24" :
+             era.includes("عمر") ? "#ef4444" :
+             era.includes("عثمان") ? "#06b6d4" :
+             era.includes("علي") ? "#818cf8" : "#eab308",
+      title: era.includes("أبي بكر") || era.includes("أبو بكر") ? "خلافة الصديق" :
+             era.includes("عمر") ? "خلافة الفاروق" :
+             era.includes("عثمان") ? "خلافة ذو النورين" :
+             era.includes("علي") ? "خلافة الإمام علي" : "الخلافة الراشدة",
+      bgColor: "var(--timeline-bg-rashidun)",
+      textColor: "var(--timeline-text-rashidun)"
+    };
+  
+  return {
+    color: "#8b7355",
+    title: "",
+    bgColor: "var(--timeline-bg-default)",
+    textColor: "var(--timeline-text-default)"
+  };
 };
 
 export default function Timeline({
   events,
   selectedEvent,
   onSelectEvent,
-  tourState,
 }: TimelineProps) {
-  const isTourMode = tourState?.isTourMode ?? false;
   const containerRef = useRef<HTMLDivElement>(null);
   const wheelAnimationFrameRef = useRef<number | null>(null);
   const wheelVelocityRef = useRef(0);
@@ -116,6 +129,9 @@ export default function Timeline({
     const el = containerRef.current;
     if (!el) return;
 
+    // Detect if device supports touch
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
     const stopWheelAnimation = () => {
       if (wheelAnimationFrameRef.current !== null) {
         cancelAnimationFrame(wheelAnimationFrameRef.current);
@@ -140,7 +156,10 @@ export default function Timeline({
     const handleWheel = (e: WheelEvent) => {
       if (e.deltaY === 0) return;
 
-      e.preventDefault();
+      // Don't prevent default on touch devices to allow native scroll
+      if (!isTouchDevice) {
+        e.preventDefault();
+      }
 
       const delta =
         e.deltaMode === WheelEvent.DOM_DELTA_LINE
@@ -164,7 +183,9 @@ export default function Timeline({
       setShowScrollBack(isScrolled);
     };
 
-    el.addEventListener("wheel", handleWheel, { passive: false });
+    // Use passive listener on touch devices for better performance
+    const wheelOptions = isTouchDevice ? { passive: true } : { passive: false };
+    el.addEventListener("wheel", handleWheel, wheelOptions);
     el.addEventListener("scroll", handleScroll, { passive: true });
 
     // Check initial state
@@ -193,93 +214,89 @@ export default function Timeline({
 
   return (
     <>
-      {/* Era Rapid Navigation Dock and Tour Controls */}
+      {/* Era Rapid Navigation Dock */}
       <div
-        className={`absolute bottom-[115px] sm:bottom-[120px] left-1/2 -translate-x-1/2 flex flex-wrap items-center justify-center gap-2 bg-ink/80 backdrop-blur-md p-2 sm:px-3 sm:py-2 border border-border-dark/30 rounded-2xl sm:rounded-full z-[600] pointer-events-auto shadow-lg w-[95%] sm:w-auto max-w-full transition-opacity duration-300 ${selectedEvent && window.innerWidth < 640 ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+        className={`absolute left-1/2 -translate-x-1/2 flex flex-wrap items-center justify-center gap-2 bg-ink/80 backdrop-blur-md p-2 sm:px-3 sm:py-2 border border-border-dark/30 rounded-2xl sm:rounded-full z-[900] pointer-events-auto shadow-lg w-[95%] sm:w-auto max-w-full transition-all duration-300 ${selectedEvent && window.innerWidth < 640 ? "bottom-[190px]" : "bottom-[115px] sm:bottom-[120px]"}`}
         dir="rtl"
       >
-        {/* Tour Controls (Integrated) */}
-        {tourState && (
-          <div className="flex items-center sm:ml-2 sm:border-l border-parchment/20 sm:pl-3 shrink-0">
-            {!tourState.isTourMode ? (
-              <button
-                onClick={tourState.startTour}
-                disabled={events.length === 0}
-                className="px-3 py-1.5 rounded-full bg-accent text-parchment flex items-center gap-1.5 hover:bg-[#a68058] transition-all font-bold text-[11px] sm:text-xs whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-accent"
+        <AnimatePresence>
+          {showScrollBack && (
+            <motion.button
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: [0.68, -0.55, 0.265, 1.55] }}
+              onClick={jumpToStart}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-1 bg-parchment/10 text-parchment text-[11px] sm:text-xs font-bold px-3 py-1.5 rounded-full transition-all border border-transparent active:border-parchment/30 shrink-0 min-h-[44px]"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+                e.currentTarget.style.backgroundColor = 'rgba(244, 236, 225, 0.2)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.backgroundColor = 'rgba(244, 236, 225, 0.1)';
+              }}
+            >
+              <motion.div
+                animate={{ rotate: [0, -360] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
               >
-                <PlayCircle size={14} className="sm:w-[16px] sm:h-[16px]" />
-                بدء الرحلة
-              </button>
-            ) : (
-              <div className="flex items-center gap-1">
-                <button
-                  onClick={tourState.stopTour}
-                  title="إنهاء الرحلة"
-                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-battle-red/20 text-battle-red flex justify-center items-center hover:bg-battle-red hover:text-white transition-colors"
-                >
-                  <Square fill="currentColor" size={12} />
-                </button>
-                <button
-                  onClick={tourState.togglePlay}
-                  title={tourState.isPlaying ? "إيقاف السرد" : "استئناف السرد"}
-                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-accent text-parchment flex justify-center items-center hover:scale-105 transition-transform"
-                >
-                  {tourState.isPlaying ? (
-                    <Pause fill="currentColor" size={14} />
-                  ) : (
-                    <Play fill="currentColor" size={14} className="ml-0.5" />
-                  )}
-                </button>
-                <button
-                  onClick={tourState.cycleSpeed}
-                  title="تسريع الأحداث"
-                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-ink/50 text-parchment flex justify-center items-center hover:bg-parchment hover:text-ink transition-colors font-bold text-[11px] sm:text-[12px]"
-                >
-                  {tourState.playbackSpeed}x
-                </button>
-              </div>
-            )}
-          </div>
-        )}
-
-        {showScrollBack && (
-          <button
-            onClick={jumpToStart}
-            className="flex items-center gap-1 bg-parchment/10 hover:bg-parchment/20 text-parchment text-[11px] sm:text-xs font-bold px-3 py-1.5 rounded-full transition-all border border-transparent hover:border-parchment/30 shrink-0"
-          >
-            <RotateCw size={14} />
-            البداية
-          </button>
-        )}
+                <RotateCw size={14} />
+              </motion.div>
+              البداية
+            </motion.button>
+          )}
+        </AnimatePresence>
 
         {quickJumps.map((jump, i) =>
           jump.target ? (
-            <button
+            <motion.button
               key={`jump-${i}`}
               onClick={() => onSelectEvent(jump.target!)}
-              className="px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold text-parchment opacity-80 hover:opacity-100 transition-all border border-transparent flex items-center gap-1.5 whitespace-nowrap"
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className="px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold text-parchment opacity-80 active:opacity-100 transition-all border border-transparent flex items-center gap-1.5 whitespace-nowrap min-h-[44px]"
               style={{
                 borderBottomWidth: "2px",
                 borderBottomColor: jump.color,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+                e.currentTarget.style.opacity = '1';
+                e.currentTarget.style.boxShadow = `0 4px 12px ${jump.color}40`;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.opacity = '0.8';
+                e.currentTarget.style.boxShadow = 'none';
               }}
             >
               <div
                 className="w-2 h-2 rounded-full"
                 style={{ backgroundColor: jump.color }}
-              ></div>
+              />
               {jump.label}
-            </button>
+            </motion.button>
           ) : null,
         )}
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-[110px] bg-ink text-parchment z-[500] border-t-2 border-border-dark select-none overflow-hidden pointer-events-auto">
+      <motion.div
+        data-tour-id="timeline"
+        className="absolute bottom-0 left-0 right-0 h-[110px] z-[500] border-t-2 border-border-dark select-none overflow-hidden pointer-events-auto"
+        animate={{
+          backgroundColor: eraTheme.bgColor,
+          color: eraTheme.textColor
+        }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
+      >
         {/* Dynamic Era Glow Background */}
         <AnimatePresence>
           <motion.div
             key={eraTheme.color}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.15 }}
+            animate={{ opacity: 0.2 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1 }}
             className="absolute inset-0 pointer-events-none"
@@ -327,71 +344,75 @@ export default function Timeline({
                       }
                     }}
                   >
-                    <div
-                      className={`absolute -top-[30px] text-[12px] ${isMajor ? "opacity-100 font-bold text-accent" : "opacity-70"} transition-opacity`}
+                    <motion.div
+                      className={`absolute -top-[30px] text-xs ${isMajor ? "opacity-100 font-bold" : "opacity-100 font-semibold"} transition-opacity px-2 py-0.5 rounded`}
+                      animate={{
+                        color: eraTheme.textColor,
+                        backgroundColor: 'var(--timeline-date-bg)'
+                      }}
+                      transition={{ duration: 0.8 }}
+                      style={{
+                        textShadow: 'none'
+                      }}
                     >
                       {Math.floor(evt.date.gregorian)} م
-                    </div>
+                    </motion.div>
 
                     <motion.div
                       initial={false}
-                      animate={
-                        isSelected && isTourMode
-                          ? {
-                              scale: [
-                                isMajor ? 1.5 : 1,
-                                isMajor ? 2.3 : 1.8,
-                                isMajor ? 1.5 : 1,
-                              ],
-                              opacity: [1, 0.7, 1],
-                              backgroundColor: [
-                                eventTheme.color,
-                                "var(--color-parchment)",
-                                eventTheme.color,
-                              ],
-                            }
-                          : {
-                              scale: isSelected
-                                ? isMajor
-                                  ? 2
-                                  : 1.5
-                                : isMajor
-                                  ? 1.4
-                                  : 1,
-                              backgroundColor: isSelected
-                                ? "var(--color-parchment)"
-                                : eventTheme.color,
-                              boxShadow: isSelected
-                                ? `0 0 12px var(--color-parchment), 0 0 20px ${eventTheme.color}`
-                                : isMajor
-                                  ? `0 0 6px ${eventTheme.color}`
-                                  : "none",
-                            }
-                      }
-                      transition={
-                        isSelected && isTourMode
-                          ? {
-                              repeat: Infinity,
-                              duration: 1.5,
-                              ease: "easeInOut",
-                            }
-                          : { duration: 0.3 }
-                      }
-                      className={`rounded-full absolute ${isMajor ? "-top-1.5 w-3 h-3" : "-top-1 w-2 h-2"} transition-colors`}
+                      animate={{
+                        scale: isSelected
+                          ? isMajor
+                            ? 2
+                            : 1.5
+                          : isMajor
+                            ? 1.4
+                            : 1,
+                        backgroundColor: eventTheme.color,
+                        boxShadow: isSelected
+                          ? `0 0 12px ${eventTheme.color}, 0 0 20px ${eventTheme.color}`
+                          : isMajor
+                            ? `0 0 8px ${eventTheme.color}`
+                            : "none",
+                      }}
+                      transition={{ duration: 0.3 }}
+                      className={`rounded-full ${isMajor ? "w-3 h-3" : "w-2 h-2"} transition-colors`}
+                      style={{
+                        position: 'absolute',
+                        top: '0',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                      }}
                     />
 
-                    <div
-                      className={`mt-3 text-sm transition-all ${isSelected ? "text-parchment font-bold scale-110 drop-shadow-md" : isMajor ? "text-parchment font-extrabold group-hover:scale-105" : "text-parchment/80 group-hover:text-parchment"}`}
+                    <motion.div
+                      className={`mt-3 text-sm transition-all px-3 py-1.5 rounded-lg ${isSelected ? "font-bold scale-110" : isMajor ? "font-extrabold group-hover:scale-105" : "font-semibold group-hover:scale-102"}`}
+                      animate={{
+                        color: eraTheme.textColor
+                      }}
+                      transition={{ duration: 0.8 }}
+                      style={{
+                        backgroundColor: isSelected
+                          ? 'var(--timeline-event-bg-selected)'
+                          : isMajor
+                            ? 'var(--timeline-event-bg-major)'
+                            : 'var(--timeline-event-bg)',
+                        textShadow: 'none',
+                        border: isSelected ? `2px solid ${eventTheme.color}` : 'none',
+                        boxShadow: isSelected
+                          ? `0 4px 12px ${eventTheme.color}40`
+                          : '0 2px 8px rgba(0, 0, 0, 0.15)'
+                      }}
                     >
                       {evt.title}
-                    </div>
+                    </motion.div>
                   </div>
                 );
               })}
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }
