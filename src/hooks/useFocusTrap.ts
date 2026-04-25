@@ -54,4 +54,3 @@ export const useFocusTrap = (isActive: boolean) => {
   return ref;
 };
 
-// Made with Bob

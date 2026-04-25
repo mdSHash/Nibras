@@ -24,6 +24,23 @@ const MapUpdater = ({ selectedEvent }: { selectedEvent: EventItem | null }) => {
   const map = useMap();
   
   useEffect(() => {
+    // Force recalculation of map size to fix grey unrendered areas
+    const timer = setTimeout(() => {
+      map.invalidateSize();
+    }, 250);
+    
+    const onResize = () => {
+      map.invalidateSize();
+    };
+    
+    window.addEventListener('resize', onResize);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', onResize);
+    }
+  }, [map]);
+
+  useEffect(() => {
     if (selectedEvent) {
       const [lat, lng] = selectedEvent.location.coordinates;
       // On mobile, shift the center down slightly because the event panel covers the bottom
@@ -60,6 +77,9 @@ const getCategoryIcon = (category: string, title: string) => {
 
 // Helper to create custom marker icons
 const createIcon = (color: string, label: string, category: string, title: string, isSelected?: boolean, isDimmed?: boolean) => {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const iconSize = isMobile ? (isSelected ? '48px' : '40px') : (isSelected ? '44px' : '36px');
+  
   const iconMarkup = renderToStaticMarkup(
     <div
       style={{
@@ -68,8 +88,8 @@ const createIcon = (color: string, label: string, category: string, title: strin
         justifyContent: 'center',
         alignItems: 'center',
         transition: 'all 700ms',
-        width: '40px',
-        height: '40px',
+        width: iconSize,
+        height: iconSize,
         opacity: isDimmed ? 0.4 : 1,
         filter: isDimmed ? 'grayscale(0.8)' : 'none'
       }}
@@ -92,11 +112,11 @@ const createIcon = (color: string, label: string, category: string, title: strin
       <div
         style={{
           position: 'relative',
-          width: isSelected ? '40px' : '32px',
-          height: isSelected ? '40px' : '32px',
+          width: isMobile ? (isSelected ? '44px' : '36px') : (isSelected ? '40px' : '32px'),
+          height: isMobile ? (isSelected ? '44px' : '36px') : (isSelected ? '40px' : '32px'),
           borderRadius: '9999px',
-          border: '3px solid white',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
+          border: isMobile ? '3px solid white' : '3px solid white',
+          boxShadow: isSelected ? '0 4px 16px rgba(0,0,0,0.5)' : '0 2px 8px rgba(0,0,0,0.4)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -112,14 +132,14 @@ const createIcon = (color: string, label: string, category: string, title: strin
         <div
           style={{
             position: 'absolute',
-            top: '42px',
+            top: isMobile ? '48px' : '42px',
             left: '50%',
             transform: 'translateX(-50%)',
             backgroundColor: 'rgba(44, 36, 30, 0.95)',
             color: '#f4ece1',
-            padding: '6px 12px',
-            borderRadius: '6px',
-            fontSize: '12px',
+            padding: isMobile ? '8px 14px' : '6px 12px',
+            borderRadius: '8px',
+            fontSize: isMobile ? '13px' : '12px',
             fontWeight: 700,
             whiteSpace: 'nowrap',
             pointerEvents: 'none',
@@ -128,7 +148,10 @@ const createIcon = (color: string, label: string, category: string, title: strin
             border: '2px solid rgba(255,255,255,0.2)',
             backdropFilter: 'blur(4px)',
             fontFamily: 'system-ui, -apple-system, sans-serif',
-            minWidth: 'max-content'
+            minWidth: 'max-content',
+            maxWidth: isMobile ? '200px' : 'none',
+            overflow: isMobile ? 'hidden' : 'visible',
+            textOverflow: isMobile ? 'ellipsis' : 'clip'
           }}
         >
           {label}
@@ -137,12 +160,13 @@ const createIcon = (color: string, label: string, category: string, title: strin
     </div>
   );
 
+  const size = isMobile ? (isSelected ? 48 : 40) : (isSelected ? 44 : 36);
   return L.divIcon({
     html: iconMarkup,
     className: 'custom-marker',
-    iconSize: [40, 40],
-    iconAnchor: [20, 20],
-    popupAnchor: [0, -20]
+    iconSize: [size, size],
+    iconAnchor: [size / 2, size / 2],
+    popupAnchor: [0, -(size / 2)]
   });
 };
 
@@ -260,18 +284,18 @@ const EventClusters = ({ events, selectedEvent, onSelectEvent }: Pick<MapViewPro
               position={[lat, lng]}
               icon={cIcon}
             >
-              <Popup className="historical-popup" closeButton={false}>
-                <div className="font-sans text-right p-1" dir="rtl">
-                  <h3 className="popup-title font-bold mb-2 text-[14px]">أحداث متعددة هنا</h3>
-                  <ul className="flex flex-col gap-1.5 min-w-[200px] max-h-[200px] overflow-y-auto">
+              <Popup className="historical-popup" closeButton={false} maxWidth={300}>
+                <div className="font-sans text-right p-2 sm:p-1" dir="rtl">
+                  <h3 className="popup-title font-bold mb-2 sm:mb-2 text-[15px] sm:text-[14px]">أحداث متعددة هنا</h3>
+                  <ul className="flex flex-col gap-2 sm:gap-1.5 min-w-[220px] sm:min-w-[200px] max-h-[250px] sm:max-h-[200px] overflow-y-auto">
                     {supercluster && typeof cluster.id === 'number' && supercluster.getLeaves(cluster.id, Infinity).map((leaf: any) => (
                       <li key={leaf.properties.eventId}>
-                        <button 
+                        <button
                           onClick={() => {
                             onSelectEvent(leaf.properties.event);
                             map.closePopup();
                           }}
-                          className="popup-text popup-surface w-full text-right px-3 py-2 hover:bg-accent/20 rounded-[4px] transition font-bold text-[13px] hover:border-accent/40"
+                          className="popup-text popup-surface w-full text-right px-3 sm:px-3 py-2.5 sm:py-2 hover:bg-accent/20 rounded-lg sm:rounded-[4px] transition font-bold text-[14px] sm:text-[13px] hover:border-accent/40 min-h-[44px] sm:min-h-0 flex items-center"
                         >
                           {leaf.properties.event.title}
                         </button>
@@ -329,7 +353,7 @@ const MapControls = ({
 }) => {
   return (
     <div
-      className="absolute top-[16px] sm:top-[24px] left-2 sm:left-4 z-[1000] flex flex-col gap-2 pointer-events-auto"
+      className="absolute top-[16px] sm:top-[24px] left-2 sm:left-4 z-[900] flex flex-col gap-2 pointer-events-auto"
       dir="ltr"
     >
       {/* Control 1: Recenter Map - Returns to default Arabian Peninsula view */}
@@ -339,11 +363,11 @@ const MapControls = ({
           e.stopPropagation();
           onResetView();
         }}
-        className="w-10 h-10 sm:w-11 sm:h-11 bg-card-bg/95 backdrop-blur-sm shadow-lg rounded-lg text-ink hover:bg-accent hover:text-parchment border border-border-dark/40 flex justify-center items-center transition-all duration-200 hover:scale-105 active:scale-95"
+        className="w-11 h-11 bg-card-bg/95 backdrop-blur-sm shadow-[0_4px_12px_rgba(0,0,0,0.3)] rounded-xl text-ink hover:bg-accent hover:text-parchment border border-border-dark/40 flex justify-center items-center transition-all duration-200 hover:scale-105 active:scale-95"
         title="إعادة توسيط الخريطة"
         aria-label="إعادة توسيط الخريطة إلى الموقع الافتراضي"
       >
-        <LocateFixed size={18} className="sm:w-5 sm:h-5" strokeWidth={2.5} aria-hidden="true" />
+        <LocateFixed size={20} strokeWidth={2.5} aria-hidden="true" />
       </button>
 
       {/* Control 2: Filter Events - Opens filter menu for event categories */}
@@ -354,11 +378,11 @@ const MapControls = ({
             e.stopPropagation();
             onOpenFilter();
           }}
-          className="w-10 h-10 sm:w-11 sm:h-11 bg-accent/95 backdrop-blur-sm text-parchment shadow-lg rounded-lg hover:bg-accent hover:brightness-110 border border-border-dark/40 flex justify-center items-center transition-all duration-200 hover:scale-105 active:scale-95"
+          className="w-11 h-11 bg-accent/95 backdrop-blur-sm text-parchment shadow-lg rounded-xl hover:bg-accent hover:brightness-110 border border-border-dark/40 flex justify-center items-center transition-all duration-200 hover:scale-105 active:scale-95"
           title="تصفية الأحداث"
           aria-label="فتح قائمة تصفية الأحداث حسب الفئة"
         >
-          <SlidersHorizontal size={18} className="sm:w-5 sm:h-5" strokeWidth={2.5} aria-hidden="true" />
+          <SlidersHorizontal size={20} strokeWidth={2.5} aria-hidden="true" />
         </button>
       )}
 
@@ -369,14 +393,14 @@ const MapControls = ({
           e.stopPropagation();
           onToggleFullscreen();
         }}
-        className="w-10 h-10 sm:w-11 sm:h-11 bg-card-bg/95 backdrop-blur-sm shadow-lg rounded-lg text-ink hover:bg-accent hover:text-parchment border border-border-dark/40 flex justify-center items-center transition-all duration-200 hover:scale-105 active:scale-95"
+        className="w-11 h-11 bg-card-bg/95 backdrop-blur-sm shadow-[0_4px_12px_rgba(0,0,0,0.3)] rounded-xl text-ink hover:bg-accent hover:text-parchment border border-border-dark/40 flex justify-center items-center transition-all duration-200 hover:scale-105 active:scale-95"
         title={isFullscreen ? "الخروج من وضع ملء الشاشة" : "وضع ملء الشاشة"}
         aria-label={isFullscreen ? "الخروج من وضع ملء الشاشة" : "تفعيل وضع ملء الشاشة"}
       >
         {isFullscreen ? (
-          <Minimize2 size={18} className="sm:w-5 sm:h-5" strokeWidth={2.5} aria-hidden="true" />
+          <Minimize2 size={20} strokeWidth={2.5} aria-hidden="true" />
         ) : (
-          <Maximize2 size={18} className="sm:w-5 sm:h-5" strokeWidth={2.5} aria-hidden="true" />
+          <Maximize2 size={20} strokeWidth={2.5} aria-hidden="true" />
         )}
       </button>
     </div>
@@ -426,58 +450,6 @@ const TerritoryRenderer = ({ selectedEvent }: { selectedEvent: EventItem | null 
   );
 };
 
-const LegendOverlay = ({ selectedEvent }: { selectedEvent: EventItem | null }) => {
-  const groups = useMemo(() => {
-    const currentYear = selectedEvent ? selectedEvent.date.gregorian : 610;
-    return getTerritoriesForYear(currentYear);
-  }, [selectedEvent]);
-  const [isCollapsed, setIsCollapsed] = useState(false);
-
-  return (
-    <div
-      className="absolute top-[80px] sm:top-[90px] left-2 sm:left-4 right-auto z-[400] bg-[#2c241e] dark:bg-[#f4ece1] backdrop-blur-lg border-2 border-white/30 dark:border-[#8b6b4a]/40 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.8)] pointer-events-auto transition-all duration-300"
-      dir="rtl"
-      onWheel={(e) => {
-        e.stopPropagation();
-      }}
-      onTouchMove={(e) => {
-        e.stopPropagation();
-      }}
-    >
-      <button
-        onClick={() => setIsCollapsed(!isCollapsed)}
-        className="w-full p-3 sm:p-4 flex items-center justify-between hover:bg-white/15 dark:hover:bg-[#8b6b4a]/15 transition-colors rounded-t-xl"
-        aria-label={isCollapsed ? "فتح مفتاح الخريطة" : "إغلاق مفتاح الخريطة"}
-        aria-expanded={!isCollapsed}
-      >
-        <h4 className="text-[#f4ece1] dark:text-[#2c241e] font-bold text-sm sm:text-base flex items-center gap-2" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
-          <MapPin size={16} className="text-[#d4a373] dark:text-[#8b6b4a] sm:w-5 sm:h-5" aria-hidden="true" />
-          مفتاح الخريطة
-        </h4>
-        <span className="text-[#f4ece1] dark:text-[#2c241e] text-base font-bold" aria-hidden="true">{isCollapsed ? '▼' : '▲'}</span>
-      </button>
-      {!isCollapsed && (
-        <div
-          className="px-3 pb-3 sm:px-4 sm:pb-4 flex flex-col gap-2.5 sm:gap-3 max-h-[200px] sm:max-h-[240px] overflow-y-auto legend-scroll"
-          onWheel={(e) => {
-            e.stopPropagation();
-          }}
-          onTouchMove={(e) => {
-            e.stopPropagation();
-          }}
-        >
-          {groups.map(g => (
-            <div key={g.id} className="flex items-center gap-2.5 sm:gap-3 group py-1">
-              <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-sm border-2 border-white/50 dark:border-[#2c241e]/50 shadow-lg shrink-0 transition-transform group-hover:scale-110" style={{ backgroundColor: g.color }} aria-hidden="true"></div>
-              <span className="text-[#f4ece1] dark:text-[#2c241e] text-xs sm:text-sm leading-snug font-bold" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>{g.name}</span>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
 export default function HistoricalMap({ events, selectedEvent, onSelectEvent, showCities = true, onOpenFilter }: MapViewProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [map, setMap] = useState<L.Map | null>(null);
@@ -506,7 +478,6 @@ export default function HistoricalMap({ events, selectedEvent, onSelectEvent, sh
 
   return (
     <div className="relative w-full h-full z-0" data-tour-id="map-container">
-      <LegendOverlay selectedEvent={selectedEvent} />
       <MapControls
         onOpenFilter={onOpenFilter}
         onResetView={resetView}
@@ -519,12 +490,13 @@ export default function HistoricalMap({ events, selectedEvent, onSelectEvent, sh
         zoom={6}
         style={{ width: '100%', height: '100%' }}
         zoomControl={false}
+        attributionControl={false}
         ref={setMap}
       >
         <TileLayer
           url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-          attribution='&copy; <a href="https://www.esri.com/">Esri</a>'
           className="historical-map-tiles"
+          keepBuffer={8}
         />
         <MapUpdater selectedEvent={selectedEvent} />
 

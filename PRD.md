@@ -102,48 +102,70 @@ To employ cutting-edge interactive mapping technologies to document events of th
 
 ### 4.1 Interactive Map System
 
-**FR-MAP-001:** Display custom historical map without modern political borders  
-**FR-MAP-002:** Render organic territorial boundaries using Voronoi algorithms  
-**FR-MAP-003:** Display event markers at precise geographic coordinates  
-**FR-MAP-004:** Show major cities with historical significance  
+**FR-MAP-001:** Display custom historical map without modern political borders
+**FR-MAP-002:** Render organic territorial boundaries using Voronoi algorithms
+**FR-MAP-003:** Display event markers at precise geographic coordinates
+**FR-MAP-004:** Show major cities with historical significance
 **FR-MAP-005:** Smooth camera movement to event locations
+**FR-MAP-006:** Smart marker clustering for dense geographical areas
+**FR-MAP-007:** Custom category-based icons for different event types
+**FR-MAP-008:** Real-time territory visualization based on selected year
 
 ### 4.2 Timeline Navigation
 
-**FR-TIME-001:** Display horizontal timeline spanning 571 CE - 661 CE  
-**FR-TIME-002:** Filter events by era (Meccan, Medinan, Rashidun)  
-**FR-TIME-003:** Support click, drag, and keyboard navigation  
+**FR-TIME-001:** Display horizontal timeline spanning 571 CE - 661 CE
+**FR-TIME-002:** Filter events by era (Meccan, Medinan, Rashidun)
+**FR-TIME-003:** Support click, drag, and keyboard navigation
 **FR-TIME-004:** Navigate between events sequentially
+**FR-TIME-005:** Auto-play mode for sequential event viewing
+**FR-TIME-006:** Era-specific color themes and visual indicators
+**FR-TIME-007:** Player controls (play, pause, skip)
 
 ### 4.3 Event Detail System
 
-**FR-EVENT-001:** Display comprehensive event information  
-**FR-EVENT-002:** Show course of events, companion roles, and references  
+**FR-EVENT-001:** Display comprehensive event information
+**FR-EVENT-002:** Show course of events, companion roles, and references
 **FR-EVENT-003:** Enable interaction with companion names and Quranic references
+**FR-EVENT-004:** Swipe gestures for mobile navigation
+**FR-EVENT-005:** Expandable/collapsible event details
+**FR-EVENT-006:** Army size and battle duration information
+**FR-EVENT-007:** Event route visualization on map
 
 ### 4.4 Search and Filter System
 
-**FR-SEARCH-001:** Search companions by name, title, or alias  
-**FR-SEARCH-002:** Filter events by category, era, and date range  
+**FR-SEARCH-001:** Search companions by name, title, or alias
+**FR-SEARCH-002:** Filter events by category, era, and date range
 **FR-SEARCH-003:** Display relevant search results
+**FR-SEARCH-004:** Instant search with debounced input
+**FR-SEARCH-005:** Keyboard shortcuts for search activation
 
 ### 4.5 Companion Biography System
 
-**FR-COMP-001:** Display comprehensive companion biographies  
-**FR-COMP-002:** Support multiple name variations  
+**FR-COMP-001:** Display comprehensive companion biographies
+**FR-COMP-002:** Support multiple name variations
 **FR-COMP-003:** Link to related events
+**FR-COMP-004:** Modal-based biography display
+**FR-COMP-005:** Proper honorifics display
 
 ### 4.6 Quranic Reference System
 
-**FR-QURAN-001:** Display Quranic verses in proper Arabic font  
+**FR-QURAN-001:** Display Quranic verses in proper Arabic font
 **FR-QURAN-002:** Link verses to related historical events
+**FR-QURAN-003:** Modal-based Quran reference display
+**FR-QURAN-004:** Surah and Ayah information
 
 ### 4.7 User Interface Controls
 
-**FR-UI-001:** Toggle between light and dark themes  
-**FR-UI-002:** Responsive design for mobile, tablet, and desktop  
-**FR-UI-003:** Full accessibility support (WCAG 2.1 AA)  
+**FR-UI-001:** Toggle between light and dark themes
+**FR-UI-002:** Responsive design for mobile, tablet, and desktop
+**FR-UI-003:** Full accessibility support (WCAG 2.1 AA)
 **FR-UI-004:** Introduction screen for first-time users
+**FR-UI-005:** Interactive application tour for new users
+**FR-UI-006:** Toast notifications for user feedback
+**FR-UI-007:** Loading states and skeleton screens
+**FR-UI-008:** Touch feedback for mobile interactions
+**FR-UI-009:** Keyboard shortcuts for power users
+**FR-UI-010:** RTL (Right-to-Left) layout support
 
 ---
 
@@ -298,13 +320,38 @@ To employ cutting-edge interactive mapping technologies to document events of th
 **EventItem Interface:**
 ```typescript
 interface EventItem {
-  id?: string;
-  category: 'أحداث' | 'battle';
-  era: 'العهد المكي' | 'العهد المدني' | 'عهد الخلفاء الراشدين';
+  id: string;
+  era: string;
+  category: string;
   title: string;
-  date: { hijri: number; gregorian: number; };
-  location: { name: string; coordinates: [number, number]; };
-  details: { summary: string; full_description: string; };
+  is_major_event?: boolean;
+  date: {
+    gregorian: number;
+    hijri_relative: string;
+  };
+  location: {
+    name: string;
+    coordinates: [number, number];
+  };
+  details: {
+    summary: string;
+    full_description: string;
+    army_size?: string;
+    enemy_army_size?: string;
+    duration_days?: string;
+    course_of_events?: string[];
+    companion_roles?: {
+      name: string;
+      role_in_event: string;
+    }[];
+  };
+  entities: {
+    key_figures?: string[];
+    quran_refs?: string[];
+    hadith_refs?: string[];
+    sources?: string[];
+  };
+  route?: [number, number][];
 }
 ```
 
@@ -318,6 +365,16 @@ interface CompanionData {
   description: string;
   birth_death: string;
   aliases: string[];
+}
+```
+
+**CityData Interface:**
+```typescript
+interface CityData {
+  name: string;
+  coordinates: [number, number];
+  description: string;
+  significance: string;
 }
 ```
 
@@ -406,20 +463,29 @@ interface CompanionData {
 ### 11.1 Current State: Production Ready v1.0
 
 **Completed Features:**
-- Interactive map with Leaflet
-- Timeline navigation
-- Event filtering
-- Companion biographies
-- Quranic references
-- Search functionality
-- Dark mode
-- Responsive design
-- Arabic RTL
+- Interactive map with Leaflet and Voronoi territories
+- Timeline navigation with auto-play mode
+- Event filtering by era and category
+- Companion biographies with modal display
+- Quranic references with modal display
+- Search functionality with instant results
+- Dark and light mode toggle
+- Responsive design for all devices
+- Arabic RTL layout
+- Interactive application tour
+- Toast notifications
+- Keyboard shortcuts
+- Touch gesture support
+- Loading states and skeleton screens
+- Smooth animations and transitions
+- Smart marker clustering
+- Custom event category icons
 
 **Current Content:**
-- 50+ major events
+- 50+ major historical events
 - 100+ companion biographies
-- 30+ cities
+- 30+ cities with historical significance
+- Territory data for historical expansion visualization
 
 ### 11.2 Future Enhancements
 
@@ -642,7 +708,7 @@ interface CompanionData {
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
 | 1.0 | April 23, 2026 | Initial PRD creation | Product Team |
-| 1.1 | April 25, 2026 | Updated dependencies and documentation cleanup | Product Team |
+| 1.1 | April 25, 2026 | Updated to reflect actual implementation, added new features, corrected data structures, enhanced functional requirements | Product Team |
 
 ---
 

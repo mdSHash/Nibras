@@ -45,28 +45,28 @@ export default function QuranModal({ reference, onClose }: QuranModalProps) {
   return (
     <AnimatePresence>
       {reference && data && (
-        <div className="fixed inset-0 flex items-center justify-center p-4 sm:p-6 pointer-events-auto" style={{ zIndex: Z_INDEX.modal }} dir="rtl">
+        <>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-ink/70 backdrop-blur-sm pointer-events-auto"
+            className="fixed inset-0 bg-ink/70 backdrop-blur-sm pointer-events-auto"
             style={{ zIndex: Z_INDEX.modalBackdrop }}
             aria-hidden="true"
           />
 
-          <motion.div
-            ref={modalRef}
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-4xl max-h-[85vh] bg-parchment rounded-xl shadow-2xl overflow-hidden flex flex-col border border-accent/30 scrollable"
-            style={{ zIndex: Z_INDEX.modalContent }}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="quran-modal-title"
-          >
+          <div className="fixed inset-0 flex items-center justify-center p-4 sm:p-6 pointer-events-none" style={{ zIndex: Z_INDEX.modal }} dir="rtl">
+            <motion.div
+              ref={modalRef}
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-4xl max-h-[85vh] bg-parchment rounded-xl shadow-2xl overflow-hidden flex flex-col border border-accent/30 scrollable pointer-events-auto"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="quran-modal-title"
+            >
             {/* Decorative Header */}
           <div className="bg-[#f0ecd6] border-b border-accent/20 p-5 shrink-0 relative overflow-hidden">
              {/* Decorative corners */}
@@ -109,8 +109,9 @@ export default function QuranModal({ reference, onClose }: QuranModalProps) {
                 المزيد على Quran.com <ExternalLink size={16} />
               </a>
           </div>
-        </motion.div>
-      </div>
+          </motion.div>
+        </div>
+      </>
       )}
     </AnimatePresence>
   );

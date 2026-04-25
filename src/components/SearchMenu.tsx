@@ -51,52 +51,55 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 bottom-0 w-full sm:w-[400px] bg-parchment z-[1000] border-l-2 border-border-dark flex flex-col pointer-events-auto"
+            className="fixed top-0 right-0 bottom-0 w-full sm:w-[420px] md:w-[450px] bg-parchment z-[1000] border-l-2 border-border-dark flex flex-col pointer-events-auto safe-area-inset"
             style={{ boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}
             dir="rtl"
           >
-            {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-border-dark bg-panel-bg">
-              <h2 className="text-xl font-bold text-ink">استكشاف الأحداث</h2>
+            {/* Header - Mobile Optimized */}
+            <div className="flex items-center justify-between p-3 sm:p-4 border-b border-border-dark bg-panel-bg shrink-0">
+              <h2 className="text-lg sm:text-xl font-bold text-ink">استكشاف الأحداث</h2>
               <button
                 onClick={onClose}
                 aria-label="إغلاق القائمة"
-                className="w-8 h-8 flex justify-center items-center rounded-full hover:bg-ink/10 text-ink transition-colors"
+                className="w-12 h-12 sm:w-11 sm:h-11 flex justify-center items-center rounded-full hover:bg-ink/10 active:bg-ink/20 text-ink transition-colors shrink-0"
               >
-                <X size={20} />
+                <X size={24} className="sm:w-6 sm:h-6" />
               </button>
             </div>
 
-            {/* Event Count and Info */}
-            <div className="px-4 py-2 bg-ink/5 border-b border-border-dark flex justify-between items-center text-sm shadow-inner">
+            {/* Event Count and Info - Mobile Optimized */}
+            <div className="px-3 sm:px-4 py-2.5 sm:py-2 bg-ink/5 border-b border-border-dark flex justify-between items-center text-sm shadow-inner shrink-0">
               <div className="flex items-center gap-2">
-                <span className="font-bold text-ink">
-                  {filters.type === 'cities' ? 'إجمالي المدن المعروضة:' : 'إجمالي الأحداث المعروضة:'}
+                <span className="font-bold text-ink text-xs sm:text-sm">
+                  {filters.type === 'cities' ? 'إجمالي المدن:' : 'إجمالي الأحداث:'}
                 </span>
               </div>
-              <div className="font-bold text-accent bg-accent/10 px-3 py-1 rounded-full border border-accent/20">
+              <div className="font-bold text-accent bg-accent/10 px-2.5 sm:px-3 py-1 rounded-full border border-accent/20 text-xs sm:text-sm">
                 {filters.type === 'cities' ? `${citiesData.length} مدينة` : `${filteredEvents.length} حدث`}
               </div>
             </div>
 
-            {/* Search Input */}
-            <div className="p-4 border-b border-border-dark flex flex-col gap-4">
+            {/* Search Input - Mobile Optimized */}
+            <div className="p-3 sm:p-4 border-b border-border-dark flex flex-col gap-3 sm:gap-4 shrink-0">
               <div className="relative">
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="ابحث عن غزوة، حدث، سنة..."
-                  className="w-full bg-card-bg border border-border-dark/50 py-3 pr-12 pl-4 text-ink focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
-                  style={{ borderRadius: '8px', padding: '12px 16px 12px 48px' }}
+                  className="w-full bg-card-bg border-2 border-border-dark/50 py-3 sm:py-3 pr-12 pl-4 text-ink text-base focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/30 transition-all rounded-lg"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck="false"
                 />
-                <Search size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-ink/70" />
+                <Search size={20} className="absolute right-4 top-1/2 -translate-y-1/2 text-ink/70" />
               </div>
 
-              {/* Filters UI */}
+              {/* Filters UI - Mobile Optimized */}
               <div data-tour-id="filters-section" className="flex flex-col gap-3">
-                <div className="flex items-center gap-2 text-sm text-ink/80 font-bold mb-1">
-                  <Filter size={16} /> تصفية الخريطة
+                <div className="flex items-center gap-2 text-sm sm:text-sm text-ink/80 font-bold mb-1">
+                  <Filter size={18} className="sm:w-4 sm:h-4" /> تصفية الخريطة
                 </div>
                 
                 {/* Era Filter */}

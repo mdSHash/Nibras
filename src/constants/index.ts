@@ -95,4 +95,3 @@ export const DEBOUNCE_DELAY = {
   scroll: 100,
 } as const;
 
-// Made with Bob

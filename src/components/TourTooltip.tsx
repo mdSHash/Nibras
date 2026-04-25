@@ -197,4 +197,3 @@ const getArrowStyle = (position: TooltipPosition): React.CSSProperties => {
   return { display: 'none' };
 };
 
-// Made with Bob

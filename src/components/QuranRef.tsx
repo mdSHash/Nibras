@@ -38,7 +38,7 @@ export default function QuranRef({ reference, onClick }: QuranRefProps) {
 
   return (
     <button
-      onClick={() => onClick && onClick(mappedKey)}
+      onClick={() => onClick && mappedKey && onClick(mappedKey)}
       className="w-full text-right bg-ink/5 p-3 rounded-lg border border-accent/20 hover:bg-accent hover:text-parchment hover:border-accent group transition-all flex items-center justify-between mb-2 shadow-sm"
     >
       <span className="font-bold text-[13px] group-hover:text-parchment text-islamic-green flex items-center text-right leading-relaxed">

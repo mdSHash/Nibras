@@ -183,4 +183,3 @@ export const getAnimationDuration = (defaultDuration: number): number => {
   return prefersReducedMotion() ? 0 : defaultDuration;
 };
 
-// Made with Bob

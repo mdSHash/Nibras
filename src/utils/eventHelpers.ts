@@ -68,4 +68,3 @@ export const getRulerName = (era: string): string => {
   return '';
 };
 
-// Made with Bob

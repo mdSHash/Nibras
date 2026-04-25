@@ -47,33 +47,33 @@ export default function CompanionModal({ companionName, onClose }: CompanionModa
   return (
     <AnimatePresence>
       {companionName && (
-        <div style={{ zIndex: Z_INDEX.modal }} className="fixed inset-0 pointer-events-none">
+        <>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/40 backdrop-blur-sm pointer-events-auto"
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm pointer-events-auto"
             style={{ zIndex: Z_INDEX.modalBackdrop }}
             aria-hidden="true"
           />
-          <motion.div
-             ref={modalRef}
-             initial={{ scale: 0.9, opacity: 0, x: '-50%', y: '-50%' }}
-             animate={{ scale: 1, opacity: 1, x: '-50%', y: '-50%' }}
-             exit={{ scale: 0.9, opacity: 0, x: '-50%', y: '-50%' }}
-             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-             className="absolute top-1/2 left-1/2 w-[90%] max-w-[450px] bg-parchment rounded-xl border-2 border-border-dark pointer-events-auto overflow-y-auto max-h-[90vh] scrollable"
-             style={{
-               padding: '24px',
-               boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-               zIndex: Z_INDEX.modalContent
-             }}
-             dir="rtl"
-             role="dialog"
-             aria-modal="true"
-             aria-labelledby="companion-modal-title"
-          >
+          <div className="fixed inset-0 pointer-events-none" style={{ zIndex: Z_INDEX.modal }}>
+            <motion.div
+               ref={modalRef}
+               initial={{ scale: 0.9, opacity: 0, x: '-50%', y: '-50%' }}
+               animate={{ scale: 1, opacity: 1, x: '-50%', y: '-50%' }}
+               exit={{ scale: 0.9, opacity: 0, x: '-50%', y: '-50%' }}
+               transition={{ type: "spring", stiffness: 300, damping: 25 }}
+               className="absolute top-1/2 left-1/2 w-[90%] max-w-[450px] bg-parchment rounded-xl border-2 border-border-dark pointer-events-auto overflow-y-auto max-h-[90vh] scrollable"
+               style={{
+                 padding: '24px',
+                 boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+               }}
+               dir="rtl"
+               role="dialog"
+               aria-modal="true"
+               aria-labelledby="companion-modal-title"
+            >
              <button
                 ref={closeButtonRef}
                 onClick={onClose}
@@ -120,8 +120,9 @@ export default function CompanionModal({ companionName, onClose }: CompanionModa
                   </p>
                 </div>
             )}
-          </motion.div>
-        </div>
+            </motion.div>
+          </div>
+        </>
       )}
     </AnimatePresence>
   );

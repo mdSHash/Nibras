@@ -39,4 +39,3 @@ export const formatArabicNumber = (num: number): string => {
     .join('');
 };
 
-// Made with Bob

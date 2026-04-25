@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, lazy, Suspense } from 'react';
 import HistoricalMap from './components/Map';
 import Timeline from './components/Timeline';
 import EventPanel from './components/EventPanel';
+import IntroScreen from './components/IntroScreen';
 import { AppTour } from './components/AppTour';
 import { useTourContext } from './contexts/TourContext';
 import { eventsData, EventItem } from './data';
@@ -18,6 +19,8 @@ const SearchMenu = lazy(() => import('./components/SearchMenu'));
 const CompanionModal = lazy(() => import('./components/CompanionModal'));
 const QuranModal = lazy(() => import('./components/QuranModal'));
 
+const INTRO_SEEN_KEY = 'nibras_intro_seen';
+
 export default function App() {
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -25,6 +28,14 @@ export default function App() {
   const [selectedCompanion, setSelectedCompanion] = useState<string | null>(null);
   const [selectedQuranRef, setSelectedQuranRef] = useState<string | null>(null);
   const [toasts, setToasts] = useState<Array<{ id: string; message: string; type: ToastType }>>([]);
+  const [showIntro, setShowIntro] = useState(() => {
+    return !localStorage.getItem(INTRO_SEEN_KEY);
+  });
+  const [isPanelHidden, setIsPanelHidden] = useState(false);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
+  const [isPlayerMode, setIsPlayerMode] = useState(false);
+  const [selectedEra, setSelectedEra] = useState<string | null>(null);
+  const [visibleEventIds, setVisibleEventIds] = useState<Set<string>>(new Set());
   
   const [filters, setFilters] = useState<FilterOptions>({
     era: 'all',
@@ -32,6 +43,23 @@ export default function App() {
   });
 
   const { startTour, state } = useTourContext();
+
+  // Stop autoplay when panel is hidden or closed
+  const handlePanelToggle = () => {
+    setIsPanelHidden(!isPanelHidden);
+    if (!isPanelHidden) {
+      // Panel is being hidden, stop autoplay
+      setIsAutoPlaying(false);
+      setIsPlayerMode(false);
+    }
+  };
+
+  const handlePanelClose = () => {
+    setSelectedEvent(null);
+    setIsPanelHidden(false);
+    setIsAutoPlaying(false);
+    setIsPlayerMode(false);
+  };
 
   // Toast notification helper
   const showToast = (message: string, type: ToastType) => {
@@ -77,9 +105,9 @@ export default function App() {
     'arrowright': navigateToNextEvent,
   });
 
-  // Filter events based on filters state - now using helper functions
+  // Filter events based on filters state and selected era
   const filteredSortedEvents = useMemo(() => {
-    return [...eventsData]
+    const sorted = [...eventsData]
       .filter(evt => {
         // Type matching
         if (filters.type === 'cities') {
@@ -100,7 +128,43 @@ export default function App() {
         return true;
       })
       .sort((a, b) => a.date.gregorian - b.date.gregorian);
-  }, [filters]);
+
+    // Apply era filtering if an era is selected
+    if (selectedEra) {
+      const eraIndex = sorted.findIndex(evt => {
+        if (selectedEra === 'العهد النبوي') {
+          return evt.era?.includes('الوحي') || evt.era?.includes('المدني') || evt.title.includes('نزول');
+        } else if (selectedEra === 'أبو بكر الصديق') {
+          return evt.title.includes('تولي أبو بكر') || evt.era?.includes('أبي بكر');
+        } else if (selectedEra === 'عمر بن الخطاب') {
+          return evt.title.includes('تولي عمر') || evt.era?.includes('عمر');
+        } else if (selectedEra === 'عثمان بن عفان') {
+          return evt.title.includes('تولي عثمان') || evt.era?.includes('عثمان');
+        } else if (selectedEra === 'علي بن أبي طالب') {
+          return evt.title.includes('تولي علي') || evt.era?.includes('علي');
+        }
+        return false;
+      });
+
+      if (eraIndex !== -1) {
+        return sorted.slice(0, eraIndex + 1);
+      }
+    }
+
+    return sorted;
+  }, [filters, selectedEra]);
+
+  // Events to display on map and timeline (filtered by player mode progress)
+  const displayedEvents = useMemo(() => {
+    if (isPlayerMode && selectedEvent) {
+      // In player mode, show only events up to current event
+      const currentIndex = filteredSortedEvents.findIndex(e => e.id === selectedEvent.id);
+      if (currentIndex !== -1) {
+        return filteredSortedEvents.slice(0, currentIndex + 1);
+      }
+    }
+    return filteredSortedEvents;
+  }, [filteredSortedEvents, isPlayerMode, selectedEvent]);
 
   // Auto-select first event on initial load for better UX
   useEffect(() => {
@@ -112,6 +176,41 @@ export default function App() {
     }
   }, [filteredSortedEvents.length]);
 
+  // Handle player mode changes
+  useEffect(() => {
+    if (isPlayerMode) {
+      if (!selectedEvent && filteredSortedEvents.length > 0) {
+        // When entering player mode, start from first event
+        setSelectedEvent(filteredSortedEvents[0]);
+      }
+    }
+  }, [isPlayerMode]);
+
+  // Handle era selection
+  const handleEraSelect = (era: string | null) => {
+    setSelectedEra(era);
+    if (era && filteredSortedEvents.length > 0) {
+      // Jump to the first event of the selected era
+      const eraEvent = filteredSortedEvents.find(evt => {
+        if (era === 'العهد النبوي') {
+          return evt.era?.includes('الوحي') || evt.era?.includes('المدني') || evt.title.includes('نزول');
+        } else if (era === 'أبو بكر الصديق') {
+          return evt.title.includes('تولي أبو بكر') || evt.era?.includes('أبي بكر');
+        } else if (era === 'عمر بن الخطاب') {
+          return evt.title.includes('تولي عمر') || evt.era?.includes('عمر');
+        } else if (era === 'عثمان بن عفان') {
+          return evt.title.includes('تولي عثمان') || evt.era?.includes('عثمان');
+        } else if (era === 'علي بن أبي طالب') {
+          return evt.title.includes('تولي علي') || evt.era?.includes('علي');
+        }
+        return false;
+      });
+      if (eraEvent) {
+        setSelectedEvent(eraEvent);
+      }
+    }
+  };
+
   // Toggle body class for completely safe mapping outside of React root component boundry as well as React components
   useEffect(() => {
     if (isDarkMode) {
@@ -120,6 +219,15 @@ export default function App() {
       document.documentElement.classList.remove('dark');
     }
   }, [isDarkMode]);
+
+  const handleIntroComplete = () => {
+    localStorage.setItem(INTRO_SEEN_KEY, 'true');
+    setShowIntro(false);
+  };
+
+  if (showIntro) {
+    return <IntroScreen onComplete={handleIntroComplete} />;
+  }
 
   return (
     <div className={`w-full h-screen overflow-hidden flex flex-col bg-parchment relative font-serif text-ink transition-colors duration-500`} dir="rtl">
@@ -136,20 +244,20 @@ export default function App() {
       <h1 className="sr-only">نبراس - الخط الزمني التفاعلي للتاريخ الإسلامي</h1>
       
       {/* App Header */}
-      <header className="absolute top-0 left-0 right-0 h-[50px] sm:h-[80px] px-3 md:px-10 flex items-center justify-between border-b border-border-dark/30 bg-gradient-to-b from-ink/80 via-ink/40 to-transparent z-[500] pointer-events-none backdrop-blur-[2px]">
+      <header className="absolute top-0 left-0 right-0 h-[56px] sm:h-[70px] md:h-[80px] px-2 sm:px-4 md:px-10 flex items-center justify-between border-b border-border-dark/30 bg-gradient-to-b from-ink/90 via-ink/50 to-transparent z-[500] pointer-events-none backdrop-blur-sm">
         
         {/* Title */}
-        <div className="flex items-center gap-2 sm:gap-4 pointer-events-auto shrink-0 drop-shadow-md">
-          <div className="text-[20px] sm:text-[28px] md:text-[32px] font-bold tracking-[1px] sm:tracking-[2px] text-parchment">
+        <div className="flex items-center gap-1.5 sm:gap-3 md:gap-4 pointer-events-auto shrink-0 drop-shadow-md">
+          <div className="text-[18px] sm:text-[24px] md:text-[32px] font-bold tracking-[0.5px] sm:tracking-[1px] md:tracking-[2px] text-parchment">
             نِبْرَاس
           </div>
-          <div className="italic text-[11px] sm:text-[13px] md:text-[14px] text-parchment/80 hidden md:block">
+          <div className="italic text-[10px] sm:text-[12px] md:text-[14px] text-parchment/80 hidden sm:block">
             التاريخ الإسلامي كما لم تره من قبل
           </div>
         </div>
 
-        {/* Global Search Bar replacing the Burger UX */}
-        <div className="flex-1 max-w-[450px] mx-2 sm:mx-4 pointer-events-auto hidden md:block">
+        {/* Global Search Bar - Desktop Only */}
+        <div className="flex-1 max-w-[450px] mx-2 sm:mx-4 pointer-events-auto hidden lg:block">
           <motion.button
             data-tour-id="search-button"
             onClick={() => setIsMenuOpen(true)}
@@ -179,71 +287,49 @@ export default function App() {
         </div>
 
         {/* Right controls */}
-        <div className="flex items-center gap-2 sm:gap-3 pointer-events-auto shrink-0">
-          {/* Tour Restart Button - Now in header */}
+        <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 pointer-events-auto shrink-0">
+          {/* Tour Start Button - Fully accessible on all devices */}
           <AnimatePresence>
-            {state.hasSeenTour && !state.isActive && (
+            {!state.isActive && (
               <motion.button
                 onClick={startTour}
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0, opacity: 0 }}
-                whileTap={{ scale: 0.9 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 transition={{ duration: 0.2 }}
-                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-parchment/30 bg-ink/50 backdrop-blur flex justify-center items-center text-parchment active:text-ink transition-all shadow-sm active:bg-card-bg"
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'scale(1.1)';
-                  e.currentTarget.style.backgroundColor = 'var(--sys-card-bg)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'scale(1)';
-                  e.currentTarget.style.backgroundColor = 'rgba(44, 36, 30, 0.5)';
-                }}
-                aria-label="إعادة تشغيل الجولة التعريفية"
-                title="إعادة تشغيل الجولة التعريفية"
+                className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full border border-accent/30 bg-gradient-to-br from-accent to-accent-dark backdrop-blur text-parchment shadow-md hover:shadow-lg transition-all font-bold text-xs sm:text-sm min-w-[44px] min-h-[44px] justify-center"
+                aria-label="بدء الجولة التعريفية"
+                title="بدء الجولة التعريفية"
               >
-                <Compass size={16} className="sm:w-[18px] sm:h-[18px]" />
+                <Compass size={16} className="sm:w-4 sm:h-4 animate-pulse" />
+                <span className="whitespace-nowrap hidden md:inline">بدء الرحلة</span>
               </motion.button>
             )}
           </AnimatePresence>
 
-          {/* Mobile search button */}
+          {/* Mobile search button - Larger touch target */}
           <motion.button
             data-tour-id="search-button-mobile"
             onClick={() => setIsMenuOpen(true)}
-            whileTap={{ scale: 0.9 }}
-            transition={{ duration: 0.2 }}
-            className="w-9 h-9 sm:w-10 sm:h-10 md:hidden rounded-full border border-parchment/30 bg-ink/50 backdrop-blur flex justify-center items-center text-parchment active:text-ink transition-all shadow-sm active:bg-card-bg"
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.1)';
-              e.currentTarget.style.backgroundColor = 'var(--sys-card-bg)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)';
-              e.currentTarget.style.backgroundColor = 'rgba(44, 36, 30, 0.5)';
-            }}
+            whileTap={{ scale: 0.92 }}
+            transition={{ duration: 0.15 }}
+            className="w-11 h-11 sm:w-10 sm:h-10 lg:hidden rounded-full border border-parchment/40 bg-ink/60 backdrop-blur-sm flex justify-center items-center text-parchment shadow-md active:bg-accent/80 active:border-accent transition-all"
             aria-label="فتح قائمة البحث والتصفية"
             aria-haspopup="dialog"
             aria-expanded={isMenuOpen}
           >
-            <Search size={16} className="sm:w-[18px] sm:h-[18px]" />
+            <Search size={18} className="sm:w-[18px] sm:h-[18px]" />
           </motion.button>
 
-          {/* Theme Toggle */}
+          {/* Theme Toggle - Optimized for mobile */}
           <motion.button
             data-tour-id="dark-mode-toggle"
             onClick={() => setIsDarkMode(!isDarkMode)}
-            whileTap={{ scale: 0.9 }}
-            transition={{ duration: 0.2 }}
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-parchment/30 bg-ink/50 backdrop-blur flex justify-center items-center text-parchment active:text-ink transition-all shadow-sm active:bg-card-bg"
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.1)';
-              e.currentTarget.style.backgroundColor = 'var(--sys-card-bg)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)';
-              e.currentTarget.style.backgroundColor = 'rgba(44, 36, 30, 0.5)';
-            }}
+            whileTap={{ scale: 0.92 }}
+            transition={{ duration: 0.15 }}
+            className="w-11 h-11 sm:w-10 sm:h-10 rounded-full border border-parchment/40 bg-ink/60 backdrop-blur-sm flex justify-center items-center text-parchment shadow-md active:bg-accent/80 active:border-accent transition-all"
             aria-label={isDarkMode ? "تبديل إلى الوضع النهاري" : "تبديل إلى الوضع الليلي"}
             aria-pressed={isDarkMode}
           >
@@ -254,7 +340,7 @@ export default function App() {
               exit={{ rotate: 180, scale: 0 }}
               transition={{ duration: 0.3, ease: [0.68, -0.55, 0.265, 1.55] }}
             >
-              {isDarkMode ? <Sun size={16} className="sm:w-[18px] sm:h-[18px]" /> : <Moon size={16} className="sm:w-[18px] sm:h-[18px]" />}
+              {isDarkMode ? <Sun size={18} className="sm:w-[18px] sm:h-[18px]" /> : <Moon size={18} className="sm:w-[18px] sm:h-[18px]" />}
             </motion.div>
           </motion.button>
         </div>
@@ -263,7 +349,7 @@ export default function App() {
       {/* Main Map Layer */}
       <main id="main-content" className="flex-1 relative z-0">
         <HistoricalMap
-          events={filteredSortedEvents}
+          events={displayedEvents}
           selectedEvent={selectedEvent}
           onSelectEvent={setSelectedEvent}
           showCities={filters.type === 'all' || filters.type === 'cities'}
@@ -275,9 +361,11 @@ export default function App() {
       <div>
         <EventPanel
           event={selectedEvent}
-          onClose={() => setSelectedEvent(null)}
+          onClose={handlePanelClose}
           onCompanionClick={(name) => setSelectedCompanion(name)}
           onQuranClick={(ref) => setSelectedQuranRef(ref)}
+          isHidden={isPanelHidden}
+          onToggleHidden={handlePanelToggle}
         />
       </div>
 
@@ -313,9 +401,15 @@ export default function App() {
 
       <div>
         <Timeline
-          events={filteredSortedEvents}
+          events={displayedEvents}
           selectedEvent={selectedEvent}
           onSelectEvent={setSelectedEvent}
+          isAutoPlaying={isAutoPlaying}
+          onAutoPlayChange={setIsAutoPlaying}
+          isPlayerMode={isPlayerMode}
+          onPlayerModeChange={setIsPlayerMode}
+          selectedEra={selectedEra}
+          onEraSelect={handleEraSelect}
         />
       </div>
 

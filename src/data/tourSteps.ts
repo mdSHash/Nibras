@@ -205,4 +205,3 @@ export const tourSteps: TourStep[] = [
   }
 ];
 
-// Made with Bob

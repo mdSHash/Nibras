@@ -87,4 +87,3 @@ export const TourPrompt: React.FC<TourPromptProps> = ({ isOpen, onAccept, onDecl
   );
 };
 
-// Made with Bob
