@@ -98,7 +98,7 @@ export default function CompanionModal({ companionName, onClose }: CompanionModa
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                   <div>
-                    <p className="text-justify font-medium" style={{ color: 'var(--color-ink)', opacity: 0.9, fontSize: '15px', lineHeight: '1.6' }}>
+                    <p className="text-justify font-medium" style={{ color: 'var(--color-ink)', opacity: 0.9, fontSize: '22px', lineHeight: '1.6' }}>
                       {companion.description}
                     </p>
                   </div>

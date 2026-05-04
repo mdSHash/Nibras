@@ -220,39 +220,61 @@ export const calculateTooltipPosition = (
 ): TooltipPosition => {
   const targetRect = targetElement.getBoundingClientRect();
   const tooltipRect = tooltipElement.getBoundingClientRect();
-  const spacing = 20;
+  const isMobile = window.innerWidth < 640;
+  const spacing = isMobile ? 12 : 20;
   const viewportWidth = window.innerWidth;
   const viewportHeight = window.innerHeight;
+  const edgeMargin = isMobile ? 16 : spacing;
+  
+  // Account for tour progress bar at top (approximately 60px on mobile)
+  const topReservedSpace = isMobile ? 70 : 80;
 
   if (position === 'center') {
     return {
-      top: (viewportHeight - tooltipRect.height) / 2,
-      left: (viewportWidth - tooltipRect.width) / 2
+      top: Math.max(topReservedSpace, (viewportHeight - tooltipRect.height) / 2),
+      left: Math.max(edgeMargin, (viewportWidth - tooltipRect.width) / 2)
     };
   }
 
   let tooltipPos: TooltipPosition = {};
 
+  // On mobile, handle large targets specially
+  if (isMobile && (position === 'left' || position === 'right')) {
+    const spaceAbove = targetRect.top;
+    const spaceBelow = viewportHeight - targetRect.bottom;
+    
+    // If target is very large (like map), position tooltip in visible area
+    if (targetRect.height > viewportHeight * 0.6) {
+      // Position at top of viewport, below progress bar
+      return {
+        top: topReservedSpace,
+        left: edgeMargin
+      };
+    } else {
+      position = spaceBelow > spaceAbove ? 'bottom' : 'top';
+    }
+  }
+
   switch (position) {
     case 'top':
       tooltipPos = {
         bottom: viewportHeight - targetRect.top + spacing,
-        left: targetRect.left + targetRect.width / 2,
-        transform: 'translateX(-50%)'
+        left: isMobile ? edgeMargin : targetRect.left + targetRect.width / 2,
+        transform: isMobile ? undefined : 'translateX(-50%)'
       };
       break;
 
     case 'bottom':
       tooltipPos = {
-        top: targetRect.bottom + spacing,
-        left: targetRect.left + targetRect.width / 2,
-        transform: 'translateX(-50%)'
+        top: Math.min(targetRect.bottom + spacing, viewportHeight - tooltipRect.height - edgeMargin),
+        left: isMobile ? edgeMargin : targetRect.left + targetRect.width / 2,
+        transform: isMobile ? undefined : 'translateX(-50%)'
       };
       break;
 
     case 'left':
       tooltipPos = {
-        top: targetRect.top + targetRect.height / 2,
+        top: Math.max(topReservedSpace, targetRect.top + targetRect.height / 2),
         right: viewportWidth - targetRect.left + spacing,
         transform: 'translateY(-50%)'
       };
@@ -260,30 +282,55 @@ export const calculateTooltipPosition = (
 
     case 'right':
       tooltipPos = {
-        top: targetRect.top + targetRect.height / 2,
+        top: Math.max(topReservedSpace, targetRect.top + targetRect.height / 2),
         left: targetRect.right + spacing,
         transform: 'translateY(-50%)'
       };
       break;
   }
 
+  // Ensure tooltip stays within viewport bounds
   if (tooltipPos.left !== undefined) {
-    if (tooltipPos.left < spacing) {
-      tooltipPos.left = spacing;
+    if (tooltipPos.left < edgeMargin) {
+      tooltipPos.left = edgeMargin;
       tooltipPos.transform = undefined;
-    } else if (tooltipPos.left + tooltipRect.width > viewportWidth - spacing) {
-      tooltipPos.left = viewportWidth - tooltipRect.width - spacing;
+    } else if (tooltipPos.left + tooltipRect.width > viewportWidth - edgeMargin) {
+      tooltipPos.left = viewportWidth - tooltipRect.width - edgeMargin;
+      tooltipPos.transform = undefined;
+    }
+  }
+
+  if (tooltipPos.right !== undefined) {
+    // Check if right positioning would push tooltip off screen
+    const calculatedLeft = viewportWidth - tooltipPos.right - tooltipRect.width;
+    if (calculatedLeft < edgeMargin) {
+      // Switch to left positioning on mobile
+      tooltipPos.left = edgeMargin;
+      delete tooltipPos.right;
       tooltipPos.transform = undefined;
     }
   }
 
   if (tooltipPos.top !== undefined) {
-    if (tooltipPos.top < spacing) {
-      tooltipPos.top = spacing;
+    if (tooltipPos.top < topReservedSpace) {
+      tooltipPos.top = topReservedSpace;
       tooltipPos.transform = tooltipPos.transform?.includes('translateX') ? tooltipPos.transform : undefined;
-    } else if (tooltipPos.top + tooltipRect.height > viewportHeight - spacing) {
-      tooltipPos.top = viewportHeight - tooltipRect.height - spacing;
+    } else if (tooltipPos.top + tooltipRect.height > viewportHeight - edgeMargin) {
+      tooltipPos.top = Math.max(topReservedSpace, viewportHeight - tooltipRect.height - edgeMargin);
       tooltipPos.transform = tooltipPos.transform?.includes('translateX') ? tooltipPos.transform : undefined;
+    }
+  }
+
+  if (tooltipPos.bottom !== undefined) {
+    const calculatedTop = viewportHeight - tooltipPos.bottom;
+    if (calculatedTop < edgeMargin) {
+      tooltipPos.bottom = viewportHeight - edgeMargin;
+      tooltipPos.transform = tooltipPos.transform?.includes('translateX') ? tooltipPos.transform : undefined;
+    } else if (calculatedTop + tooltipRect.height > viewportHeight - edgeMargin) {
+      // Not enough space at bottom, switch to top
+      tooltipPos.top = edgeMargin;
+      delete tooltipPos.bottom;
+      tooltipPos.transform = undefined;
     }
   }
 

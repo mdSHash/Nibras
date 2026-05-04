@@ -351,7 +351,10 @@ export default function App() {
         <HistoricalMap
           events={displayedEvents}
           selectedEvent={selectedEvent}
-          onSelectEvent={setSelectedEvent}
+          onSelectEvent={(event) => {
+            setSelectedEvent(event);
+            setIsMenuOpen(false); // Close search menu when selecting event
+          }}
           showCities={filters.type === 'all' || filters.type === 'cities'}
           onOpenFilter={() => setIsMenuOpen(true)}
         />
@@ -393,7 +396,10 @@ export default function App() {
           isOpen={isMenuOpen}
           onClose={() => setIsMenuOpen(false)}
           events={filteredSortedEvents}
-          onSelectEvent={setSelectedEvent}
+          onSelectEvent={(event) => {
+            setSelectedEvent(event);
+            setIsMenuOpen(false); // Auto-close menu after selection
+          }}
           filters={filters}
           setFilters={setFilters}
         />
