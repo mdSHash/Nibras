@@ -38,25 +38,25 @@ export const TourTooltip: React.FC<TourTooltipProps> = ({
         duration: 0.25,
         ease: [0.4, 0.0, 0.2, 1]
       }}
-      className="fixed z-[10000] bg-parchment dark:bg-ink-dark border-2 border-primary rounded-lg shadow-2xl max-w-md will-change-transform"
+      className="fixed z-[10000] bg-parchment dark:bg-ink-dark border-2 border-primary rounded-lg shadow-2xl w-[calc(100vw-2rem)] sm:w-auto sm:max-w-md will-change-transform"
       style={{
         ...position,
         direction: 'rtl'
       }}
     >
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <motion.div
-          className="flex items-start justify-between mb-4"
+          className="flex items-start justify-between mb-3 sm:mb-4"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.2 }}
         >
-          <h3 className="text-xl font-bold text-primary dark:text-primary-light">
+          <h3 className="text-lg sm:text-xl font-bold text-primary dark:text-primary-light">
             {title}
           </h3>
           <motion.button
             onClick={onSkip}
-            className="text-ink-light dark:text-parchment-dark hover:text-primary dark:hover:text-primary-light transition-colors p-1 rounded-full hover:bg-primary/10"
+            className="text-ink-light dark:text-parchment-dark hover:text-primary dark:hover:text-primary-light transition-colors p-1 rounded-full hover:bg-primary/10 min-w-[32px] min-h-[32px] flex items-center justify-center"
             aria-label="إغلاق الجولة"
             whileHover={{ scale: 1.1, rotate: 90 }}
             whileTap={{ scale: 0.9 }}
@@ -67,7 +67,7 @@ export const TourTooltip: React.FC<TourTooltipProps> = ({
         </motion.div>
 
         <motion.p
-          className="text-ink dark:text-parchment leading-relaxed mb-6"
+          className="text-lg sm:text-base text-ink dark:text-parchment leading-relaxed mb-4 sm:mb-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.15, duration: 0.25 }}
@@ -87,7 +87,7 @@ export const TourTooltip: React.FC<TourTooltipProps> = ({
                 <motion.button
                   key="previous"
                   onClick={onPrevious}
-                  className="flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary dark:text-primary-light rounded-lg transition-colors"
+                  className="flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary dark:text-primary-light rounded-lg transition-colors text-sm sm:text-base min-h-[44px]"
                   aria-label="الخطوة السابقة"
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -107,7 +107,7 @@ export const TourTooltip: React.FC<TourTooltipProps> = ({
                 <motion.button
                   key="next"
                   onClick={onNext}
-                  className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-dark text-parchment rounded-lg transition-colors font-medium"
+                  className="flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 bg-primary hover:bg-primary-dark text-parchment rounded-lg transition-colors font-medium text-sm sm:text-base min-h-[44px]"
                   aria-label={currentStep === totalSteps - 1 ? 'إنهاء الجولة' : 'الخطوة التالية'}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}

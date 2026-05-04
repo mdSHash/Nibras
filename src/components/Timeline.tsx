@@ -345,7 +345,7 @@ export default function Timeline({
 
   return (
     <>
-      {/* Era Rapid Navigation Dock - Enhanced & Responsive */}
+      {/* Era Rapid Navigation Dock - Mobile Optimized with Horizontal Scroll */}
       <AnimatePresence>
         {isDockVisible && (
           <motion.div
@@ -353,19 +353,28 @@ export default function Timeline({
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
             transition={{ type: "spring", damping: 20, stiffness: 200 }}
-            className={`absolute left-1/2 -translate-x-1/2 flex flex-wrap items-center justify-center gap-2 bg-gradient-to-r from-panel-bg/95 via-panel-bg/90 to-panel-bg/95 backdrop-blur-xl p-2 sm:p-2.5 border-2 border-border-dark/40 rounded-2xl sm:rounded-full z-[900] pointer-events-auto shadow-[0_8px_32px_rgba(0,0,0,0.3)] w-[96%] sm:w-auto max-w-[98%] sm:max-w-none transition-all duration-300 ${selectedEvent ? "hidden sm:flex sm:bottom-[120px]" : "flex bottom-[115px] sm:bottom-[120px]"}`}
+            className={`absolute left-1/2 -translate-x-1/2 bg-gradient-to-r from-panel-bg/95 via-panel-bg/90 to-panel-bg/95 backdrop-blur-xl border-2 border-border-dark/40 z-[900] pointer-events-auto shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-300 ${
+              selectedEvent
+                ? "bottom-[120px] sm:bottom-[120px]"
+                : "bottom-[115px] sm:bottom-[120px]"
+            } ${
+              isPlayerMode
+                ? "rounded-2xl p-2 sm:p-2.5 w-[96%] sm:w-auto max-w-[98%] sm:max-w-none"
+                : "rounded-2xl sm:rounded-full p-2 sm:p-2.5 w-[96%] sm:w-auto max-w-[98%] sm:max-w-none"
+            }`}
             dir="rtl"
           >
-            {/* Player Mode Controls - Show when player mode is active */}
-            <AnimatePresence mode="wait">
-              {isPlayerMode ? (
-                <motion.div
-                  key="player-controls"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  className="flex items-center gap-2"
-                >
+            <div className={`flex items-center justify-center gap-2 ${!isPlayerMode ? 'overflow-x-auto no-scrollbar md:overflow-visible' : 'flex-wrap'}`}>
+              {/* Player Mode Controls - Show when player mode is active */}
+              <AnimatePresence mode="wait">
+                {isPlayerMode ? (
+                  <motion.div
+                    key="player-controls"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    className="flex items-center gap-2 flex-wrap justify-center w-full"
+                  >
                   {/* Play/Pause Button */}
                   <motion.button
                     onClick={toggleAutoPlay}
@@ -431,13 +440,13 @@ export default function Timeline({
                   </motion.button>
                 </motion.div>
               ) : (
-                <motion.div
-                  key="navigation-controls"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  className="flex items-center gap-2 flex-wrap justify-center"
-                >
+                  <motion.div
+                    key="navigation-controls"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    className="flex items-center gap-2 w-full justify-start md:justify-center"
+                  >
                   {/* Play Button */}
                   <motion.button
                     onClick={toggleAutoPlay}
@@ -487,19 +496,19 @@ export default function Timeline({
                     )}
                   </AnimatePresence>
 
-                  {/* Divider */}
-                  <div className="hidden sm:block w-px h-8 bg-parchment/20" />
+                    {/* Divider */}
+                    <div className="hidden md:block w-px h-8 bg-parchment/20 shrink-0" />
 
-                  {/* Era Navigation Buttons */}
-                  {quickJumps.map((jump, i) => {
-                    const isSelected = selectedEra === jump.label;
-                    return jump.target ? (
-                      <motion.button
-                        key={`jump-${i}`}
-                        onClick={() => handleEraClick(jump.label)}
-                        whileTap={{ scale: 0.95 }}
-                        transition={{ duration: 0.2 }}
-                        className="px-2 sm:px-3 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs font-bold text-ink opacity-90 hover:opacity-100 active:opacity-100 transition-all border-2 hover:border-parchment/20 flex items-center gap-1 sm:gap-1.5 whitespace-nowrap min-h-[40px] sm:min-h-[44px] hover:bg-parchment/5"
+                    {/* Era Navigation Buttons - Horizontal scroll on mobile */}
+                    {quickJumps.map((jump, i) => {
+                      const isSelected = selectedEra === jump.label;
+                      return jump.target ? (
+                        <motion.button
+                          key={`jump-${i}`}
+                          onClick={() => handleEraClick(jump.label)}
+                          whileTap={{ scale: 0.95 }}
+                          transition={{ duration: 0.2 }}
+                          className="px-2 sm:px-3 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs font-bold text-ink opacity-90 hover:opacity-100 active:opacity-100 transition-all border-2 hover:border-parchment/20 flex items-center gap-1 sm:gap-1.5 whitespace-nowrap min-h-[40px] sm:min-h-[44px] hover:bg-parchment/5 shrink-0"
                         style={{
                           borderBottomWidth: "3px",
                           borderBottomColor: jump.color,
@@ -534,9 +543,10 @@ export default function Timeline({
                       </motion.button>
                     ) : null;
                   })}
-                </motion.div>
-              )}
-            </AnimatePresence>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

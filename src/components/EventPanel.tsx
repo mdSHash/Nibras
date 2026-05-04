@@ -80,8 +80,8 @@ export default function EventPanel({
   const [isMinimized, setIsMinimized] = useState(false);
   const [fontSizeStep, setFontSizeStep] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const y = useMotionValue(0);
-  const opacity = useTransform(y, [0, 300], [1, 0]);
+  const [mobileHeight, setMobileHeight] = useState(50); // Mobile panel height percentage
+  const handleY = useMotionValue(0); // Separate motion value for drag handle only
 
   // Detect mobile viewport
   useEffect(() => {
@@ -96,16 +96,49 @@ export default function EventPanel({
     setFontSizeStep(0);
     setIsExpanded(false);
     setIsMinimized(false);
-    y.set(0);
-  }, [event?.id, y]);
+    handleY.set(0);
+  }, [event?.id, handleY]);
 
-  // Handle swipe to close on mobile
+  // Handle swipe to close or resize on mobile
   const handleDragEnd = (_: any, info: PanInfo) => {
-    if (isMobile && info.offset.y > 150) {
-      onClose();
-    } else {
-      y.set(0);
+    if (!isMobile) {
+      handleY.set(0);
+      return;
     }
+    
+    const velocity = info.velocity.y;
+    const offset = info.offset.y;
+    
+    // Fast swipe down - close panel
+    if (velocity > 500 && offset > 100) {
+      onClose();
+      return;
+    }
+    
+    // Fast swipe up - expand to large
+    if (velocity < -500 && offset < -50) {
+      setMobileHeight(75);
+      handleY.set(0);
+      return;
+    }
+    
+    // Slow drag - snap to nearest size based on offset
+    if (offset > 200) {
+      // Dragged down significantly - close
+      onClose();
+      return;
+    } else if (offset > 100) {
+      // Dragged down moderately - minimize
+      setMobileHeight(30);
+    } else if (offset < -100) {
+      // Dragged up significantly - maximize
+      setMobileHeight(75);
+    } else if (offset < -50) {
+      // Dragged up moderately - medium
+      setMobileHeight(50);
+    }
+    
+    handleY.set(0);
   };
 
   const increaseFont = () => setFontSizeStep((prev) => Math.min(prev + 1, 4));
@@ -118,30 +151,24 @@ export default function EventPanel({
 
   return (
     <>
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {event && !isHidden && (
           <motion.div
             ref={panelRef}
             data-tour-id="event-panel"
-            initial={isMobile ? { y: '100%', opacity: 0 } : { x: '100%', opacity: 0 }}
-            animate={isMobile ? { y: 0, opacity: 1 } : { x: 0, opacity: 1 }}
-            exit={isMobile ? { y: '100%', opacity: 0 } : { x: '100%', opacity: 0 }}
+            initial={isMobile ? { y: '100%' } : { x: '100%' }}
+            animate={isMobile ? { y: 0 } : { x: 0 }}
+            exit={isMobile ? { y: '100%' } : { x: '100%' }}
             transition={{
               type: 'spring',
-              damping: 28,
-              stiffness: 280,
-              mass: 0.8,
-              opacity: { duration: 0.2 }
+              damping: 25,
+              stiffness: 300,
+              mass: 0.6
             }}
-            drag={isMobile ? "y" : false}
-            dragConstraints={{ top: 0, bottom: 0 }}
-            dragElastic={{ top: 0, bottom: 0.6 }}
-            dragMomentum={false}
-            onDragEnd={handleDragEnd}
-            style={isMobile ? { y, opacity, zIndex: Z_INDEX.eventPanel } : { zIndex: Z_INDEX.eventPanel }}
+            style={isMobile ? { zIndex: Z_INDEX.eventPanel, height: `${mobileHeight}vh` } : { zIndex: Z_INDEX.eventPanel }}
             className={`fixed ${
               isMobile
-                ? 'bottom-0 left-0 right-0 top-auto max-h-[85vh] rounded-t-3xl'
+                ? 'bottom-0 left-0 right-0 top-auto rounded-t-3xl'
                 : `top-[56px] sm:top-[70px] md:top-[80px] right-0 ${isMinimized ? 'bottom-auto' : 'bottom-0'}`
             } ${
               isMinimized && !isMobile ? 'w-[90vw] sm:w-[450px]' :
@@ -155,16 +182,19 @@ export default function EventPanel({
             }`}
             dir="rtl"
           >
-          {/* Mobile Drag Handle with Pulse Animation */}
+          {/* Mobile Drag Handle with Pulse Animation and Height Indicators */}
           {isMobile && (
             <motion.div
-              className="flex justify-center pt-3 pb-2 cursor-grab active:cursor-grabbing"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
+              drag="y"
+              dragConstraints={{ top: 0, bottom: 0 }}
+              dragElastic={{ top: 0.2, bottom: 0.6 }}
+              dragMomentum={false}
+              onDragEnd={handleDragEnd}
+              className="flex flex-col items-center pt-3 pb-2 cursor-grab active:cursor-grabbing touch-none"
+              style={{ y: handleY }}
             >
               <motion.div
-                className="w-12 h-1.5 bg-ink/30 rounded-full relative overflow-hidden"
+                className="w-12 h-1.5 bg-ink/30 rounded-full relative overflow-hidden mb-1"
                 animate={{
                   scale: [1, 1.1, 1],
                   opacity: [0.3, 0.5, 0.3]
@@ -185,6 +215,35 @@ export default function EventPanel({
                   }}
                 />
               </motion.div>
+              <div className="flex gap-2 mt-1">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setMobileHeight(30);
+                  }}
+                  className="text-xs px-2 py-0.5 rounded bg-ink/10 text-ink/60 active:bg-ink/20"
+                >
+                  صغير
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setMobileHeight(50);
+                  }}
+                  className="text-xs px-2 py-0.5 rounded bg-ink/10 text-ink/60 active:bg-ink/20"
+                >
+                  متوسط
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setMobileHeight(75);
+                  }}
+                  className="text-xs px-2 py-0.5 rounded bg-ink/10 text-ink/60 active:bg-ink/20"
+                >
+                  كبير
+                </button>
+              </div>
             </motion.div>
           )}
           {/* Islamic Top Decoration border colored by Era Theme */}
@@ -284,7 +343,7 @@ export default function EventPanel({
             
             {/* Scrollable Content Container */}
             {!isMinimized && (
-            <div className="flex-1 min-h-0 overflow-y-auto w-full no-scrollbar smooth-scroll touch-scroll-optimized">
+            <div className="flex-1 min-h-0 overflow-y-auto w-full no-scrollbar smooth-scroll touch-scroll-optimized overscroll-contain">
               <motion.div
                 className={`${isMobile ? 'p-4 pb-20' : 'p-4 sm:p-6 pb-12 sm:pb-16'} flex flex-col gap-5 sm:gap-6`}
                 initial={{ opacity: 0, y: 10 }}
@@ -353,9 +412,9 @@ export default function EventPanel({
 
                 {/* Course of Events (Steps) */}
                 {event.details.course_of_events && event.details.course_of_events.length > 0 && (
-                  <div className="bg-ink/5 p-4 sm:p-5 rounded-lg border border-border-dark/10 relative overflow-hidden shadow-inner">
-                    <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-accent opacity-20" />
-                    <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-accent opacity-20" />
+                  <div className="bg-ink/5 p-4 sm:p-5 rounded-lg border border-border-dark/10 relative shadow-inner">
+                    <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-accent opacity-20 pointer-events-none" />
+                    <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-accent opacity-20 pointer-events-none" />
 
                     <h3 className="flex items-center gap-2 text-battle-red font-bold mb-4" style={fs(16)}>
                       <Flag size={18} className="shrink-0" /> تسلسل الأحداث
@@ -429,8 +488,7 @@ export default function EventPanel({
                 {(event.entities?.quran_refs?.length ||
                   event.entities?.hadith_refs?.length ||
                   event.entities?.sources?.length) && (
-                  <div data-tour-id="quran-section" className="bg-ink text-parchment p-5 sm:p-6 rounded-xl shadow-inner border border-border-dark/50 relative overflow-hidden">
-                    <div
+<div data-tour-id="quran-section" className="bg-ink text-parchment p-5 sm:p-6 rounded-xl shadow-inner border border-border-dark/50 relative">                    <div
                       className="absolute inset-0 opacity-5 pointer-events-none"
                       style={{ backgroundImage: "radial-gradient(#8b6b4a 1px, transparent 1px)", backgroundSize: "10px 10px" }}
                     />

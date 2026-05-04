@@ -11,17 +11,17 @@ export const TourProgress: React.FC<TourProgressProps> = ({ currentStep, totalSt
 
   return (
     <motion.div
-      className="fixed top-4 left-1/2 transform -translate-x-1/2 z-[10001] bg-parchment dark:bg-ink-dark border-2 border-primary rounded-full px-6 py-3 shadow-lg will-change-transform"
+      className="fixed top-2 sm:top-4 left-1/2 transform -translate-x-1/2 z-[10001] bg-parchment dark:bg-ink-dark border-2 border-primary rounded-full px-3 sm:px-6 py-2 sm:py-3 shadow-lg will-change-transform max-w-[calc(100vw-2rem)]"
       initial={{ opacity: 0, y: -20, scale: 0.9 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -20, scale: 0.9 }}
       transition={{ duration: 0.3, ease: [0.4, 0.0, 0.2, 1] }}
     >
-      <div className="flex items-center gap-4" dir="rtl">
+      <div className="flex items-center gap-2 sm:gap-4" dir="rtl">
         <AnimatePresence mode="wait">
           <motion.span
             key={currentStep}
-            className="text-sm font-medium text-primary dark:text-primary-light whitespace-nowrap"
+            className="text-xs sm:text-sm font-medium text-primary dark:text-primary-light whitespace-nowrap"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
@@ -31,7 +31,7 @@ export const TourProgress: React.FC<TourProgressProps> = ({ currentStep, totalSt
           </motion.span>
         </AnimatePresence>
         
-        <div className="w-32 h-2 bg-primary/20 rounded-full overflow-hidden relative">
+        <div className="w-20 sm:w-32 h-2 bg-primary/20 rounded-full overflow-hidden relative">
           <motion.div
             className="h-full bg-primary dark:bg-primary-light rounded-full will-change-transform"
             initial={{ width: 0 }}
@@ -55,7 +55,7 @@ export const TourProgress: React.FC<TourProgressProps> = ({ currentStep, totalSt
           />
         </div>
 
-        <div className="flex gap-1">
+        <div className="hidden sm:flex gap-1">
           {Array.from({ length: totalSteps }).map((_, index) => (
             <motion.div
               key={index}
