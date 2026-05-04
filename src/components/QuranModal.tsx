@@ -92,7 +92,7 @@ export default function QuranModal({ reference, onClose }: QuranModalProps) {
           {/* Modal Content */}
           <div className="p-6 md:p-10 overflow-y-auto" style={{ backgroundImage: 'radial-gradient(circle at center, rgba(139, 107, 74, 0.03) 0%, transparent 100%)' }}>
             <p
-              className="text-[36px] md:text-[34px] leading-[2.6] text-center text-islamic-green"
+              className="text-[42px] md:text-[34px] leading-[2.6] text-center text-islamic-green"
               style={{ fontFamily: "'Amiri Quran', serif" }}
             >
               {data.text}
