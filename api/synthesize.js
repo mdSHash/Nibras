@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { put, head } from '@vercel/blob';
+import { put, list } from '@vercel/blob';
 import crypto from 'crypto';
 
 function generateCacheKey(text, voice, rate) {
@@ -92,25 +92,42 @@ export default async function handler(req, res) {
     if (process.env.BLOB_READ_WRITE_TOKEN) {
       try {
         console.log(`[Cache] Checking for cached audio: ${cacheKey}`);
-        const blobMetadata = await head(blobPath, {
-          token: process.env.BLOB_READ_WRITE_TOKEN
+        
+        const cacheCheckTimeout = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('Cache check timeout')), 3000)
+        );
+        
+        const cacheCheckPromise = list({
+          prefix: `tts-cache/${cacheKey}`,
+          token: process.env.BLOB_READ_WRITE_TOKEN,
+          limit: 1
         });
 
-        if (blobMetadata) {
-          console.log(`[Cache Hit] Returning cached audio from: ${blobMetadata.url}`);
+        const { blobs } = await Promise.race([cacheCheckPromise, cacheCheckTimeout]);
+
+        if (blobs && blobs.length > 0) {
+          const cachedBlob = blobs[0];
+          console.log(`[Cache Hit] Returning cached audio from: ${cachedBlob.url}`);
           
-          const audioBufferForDuration = Buffer.from(await fetch(blobMetadata.url).then(r => r.arrayBuffer()));
+          const fetchTimeout = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Fetch timeout')), 3000)
+          );
+          
+          const fetchPromise = fetch(cachedBlob.url).then(r => r.arrayBuffer());
+          const audioBufferForDuration = Buffer.from(await Promise.race([fetchPromise, fetchTimeout]));
           const duration = calculateWavDuration(audioBufferForDuration);
 
           return res.status(200).json({
-            audio: blobMetadata.url,
+            audio: cachedBlob.url,
             duration: duration,
             cached: true
           });
+        } else {
+          console.log(`[Cache Miss] No cached audio found for: ${cacheKey}`);
         }
       } catch (error) {
-        if (error.message && error.message.includes('not found')) {
-          console.log(`[Cache Miss] No cached audio found for: ${cacheKey}`);
+        if (error.message === 'Cache check timeout' || error.message === 'Fetch timeout') {
+          console.warn(`[Cache Timeout] Cache operation timed out, proceeding with generation`);
         } else {
           console.warn(`[Cache Error] Failed to check cache: ${error.message}`);
         }
