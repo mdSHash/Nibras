@@ -4,6 +4,60 @@
 
 نِبْرَاس (بمعنى "المصباح" أو "النور" في اللغة العربية) هو تطبيق ويب تفاعلي يُصوّر التاريخ الإسلامي من خلال واجهة خط زمني ديناميكي وخريطة جغرافية. عِش السيرة النبوية والتاريخ الإسلامي المبكر كما لم تختبره من قبل، مع سياق مكاني وزماني يُحيي الأحداث التاريخية.
 
+## البدء السريع
+
+**مهم: يجب تشغيل كل من الخادم الخلفي والواجهة الأمامية للحصول على الوظائف الكاملة**
+
+### الخطوة 1: تشغيل الخادم الخلفي (مطلوب لـ Gemini TTS)
+
+**Unix/Mac:**
+```bash
+cd server
+chmod +x start.sh
+./start.sh
+```
+
+**Windows:**
+```bash
+cd server
+start.bat
+```
+
+**أو يدوياً:**
+```bash
+cd server
+npm install
+npm start
+```
+
+يجب أن يعمل الخادم الخلفي على `http://localhost:3001`
+
+### الخطوة 2: تشغيل الواجهة الأمامية
+
+في نافذة طرفية جديدة:
+```bash
+npm install
+npm run dev
+```
+
+سيكون التطبيق متاحاً على `http://localhost:3000`
+
+### استكشاف الأخطاء الشائعة
+
+**خطأ: "Failed to fetch" أو "Backend server not running"**
+- تأكد من تشغيل الخادم الخلفي أولاً (الخطوة 1)
+- تحقق من أن المنفذ 3001 غير مستخدم
+- تأكد من وجود `server/.env` مع `GEMINI_API_KEY`
+
+**خطأ: "GEMINI_API_KEY not configured"**
+- انسخ `server/.env.example` إلى `server/.env`
+- أضف مفتاح Gemini API من https://aistudio.google.com/app/apikey
+
+**TTS لا يعمل:**
+- تحقق من تشغيل كلا الخادمين
+- راجع وحدة تحكم الخادم الخلفي للأخطاء
+- سيعود التطبيق إلى TTS المتصفح إذا كان Gemini غير متاح
+
 ## نظرة عامة
 
 يوفر نِبْرَاس رحلة غامرة عبر التاريخ الإسلامي من ميلاد النبي محمد صلى الله عليه وسلم إلى نهاية الخلافة الراشدة. يجمع التطبيق بين رسم الخرائط التفاعلية، والتنقل عبر الخط الزمني، والمحتوى التاريخي الغني لإنشاء تجربة تعليمية شاملة.
@@ -98,12 +152,102 @@ cd nibras
 npm install
 ```
 
-3. بدء خادم التطوير:
+3. تكوين متغيرات البيئة:
+```bash
+cp .env.example .env
+```
+
+قم بتحرير `.env` وأضف مفتاح Google Cloud API للنسخ الاحتياطي TTS (اختياري):
+```
+VITE_GOOGLE_CLOUD_API_KEY=your_api_key_here
+```
+
+4. بدء خادم التطوير:
 ```bash
 npm run dev
 ```
 
 سيكون التطبيق متاحاً على `http://localhost:3000`
+
+### إعداد خادم الخلفية
+
+يستخدم نِبْرَاس خادم خلفية لوظيفة Gemini TTS (تحويل النص إلى كلام) الآمنة. يعمل الخادم الخلفي كوكيل لحماية مفاتيح API ومعالجة طلبات TTS.
+
+#### البنية المعمارية
+- الواجهة الأمامية (React/Vite) تعمل على المنفذ 3000
+- الخادم الخلفي (Express) يعمل على المنفذ 3001
+- الواجهة الأمامية تستدعي API الخلفية لـ Gemini TTS
+- الخادم الخلفي يتعامل بشكل آمن مع طلبات Gemini API
+
+#### تعليمات إعداد الخادم الخلفي
+
+1. انتقل إلى دليل الخادم وقم بتثبيت التبعيات:
+```bash
+cd server
+npm install
+```
+
+2. تكوين بيئة الخادم الخلفي:
+```bash
+cp .env.example .env
+```
+
+3. قم بتحرير `server/.env` وأضف مفتاح Gemini API الخاص بك:
+```
+GEMINI_API_KEY=your_gemini_api_key_here
+PORT=3001
+```
+
+احصل على مفتاح Gemini API من: https://aistudio.google.com/app/apikey
+
+4. بدء تشغيل الخادم الخلفي:
+```bash
+cd server
+npm start
+```
+
+سيكون الخادم الخلفي متاحاً على `http://localhost:3001`
+
+#### تشغيل كل من الواجهة الأمامية والخادم الخلفي
+
+للحصول على الوظائف الكاملة بما في ذلك Gemini TTS، تحتاج إلى تشغيل كلا الخادمين:
+
+**الخيار 1: يدوي (نافذتان طرفيتان)**
+```bash
+# النافذة الطرفية 1 - الخادم الخلفي
+cd server
+npm start
+
+# النافذة الطرفية 2 - الواجهة الأمامية
+npm run dev
+```
+
+**الخيار 2: استخدام نصوص npm**
+```bash
+# بدء الخادم الخلفي فقط
+npm run dev:server
+
+# بدء كليهما (إذا كان لديك concurrently مثبت)
+npm run dev:all
+```
+
+#### استكشاف الأخطاء وإصلاحها
+
+**الخادم الخلفي لا يعمل:**
+- تأكد من بدء تشغيل الخادم الخلفي قبل استخدام ميزات TTS
+- تحقق من أن المنفذ 3001 غير مستخدم من قبل تطبيق آخر
+- تحقق من وجود `server/.env` ويحتوي على تكوين صالح
+
+**مشاكل مفتاح API:**
+- تأكد من تعيين `GEMINI_API_KEY` في `server/.env`
+- تحقق من صحة مفتاح API ولديه الأذونات المناسبة
+- تحقق من وحدة تحكم الخادم الخلفي لرسائل الخطأ
+
+**TTS لا يعمل:**
+- تحقق من تشغيل كل من الواجهة الأمامية والخادم الخلفي
+- تحقق من وحدة تحكم المتصفح لأخطاء الاتصال
+- تأكد من أن `VITE_TTS_BACKEND_URL` في `.env` يشير إلى عنوان URL الصحيح للخادم الخلفي
+- سيعود التطبيق إلى Google Cloud TTS أو TTS المتصفح إذا كان Gemini غير متاح
 
 ## هيكل المشروع
 
@@ -392,12 +536,102 @@ cd nibras
 npm install
 ```
 
-3. Start the development server:
+3. Configure environment variables:
+```bash
+cp .env.example .env
+```
+
+Edit `.env` and add your Google Cloud API key for fallback TTS (optional):
+```
+VITE_GOOGLE_CLOUD_API_KEY=your_api_key_here
+```
+
+4. Start the development server:
 ```bash
 npm run dev
 ```
 
 The application will be available at `http://localhost:3000`
+
+### Backend Server Setup
+
+Nibras uses a backend server for secure Gemini TTS (Text-to-Speech) functionality. The backend acts as a proxy to protect API keys and handle TTS requests.
+
+#### Architecture
+- Frontend (React/Vite) runs on port 3000
+- Backend (Express) runs on port 3001
+- Frontend calls backend API for Gemini TTS
+- Backend securely handles Gemini API requests
+
+#### Backend Setup Instructions
+
+1. Navigate to the server directory and install dependencies:
+```bash
+cd server
+npm install
+```
+
+2. Configure the backend environment:
+```bash
+cp .env.example .env
+```
+
+3. Edit `server/.env` and add your Gemini API key:
+```
+GEMINI_API_KEY=your_gemini_api_key_here
+PORT=3001
+```
+
+Get your Gemini API key from: https://aistudio.google.com/app/apikey
+
+4. Start the backend server:
+```bash
+cd server
+npm start
+```
+
+The backend will be available at `http://localhost:3001`
+
+#### Running Both Frontend and Backend
+
+For full functionality including Gemini TTS, you need to run both servers:
+
+**Option 1: Manual (Two Terminals)**
+```bash
+# Terminal 1 - Backend
+cd server
+npm start
+
+# Terminal 2 - Frontend
+npm run dev
+```
+
+**Option 2: Using npm scripts**
+```bash
+# Start backend only
+npm run dev:server
+
+# Start both (if you have concurrently installed)
+npm run dev:all
+```
+
+#### Troubleshooting
+
+**Backend not running:**
+- Ensure the backend server is started before using TTS features
+- Check that port 3001 is not in use by another application
+- Verify `server/.env` exists and contains valid configuration
+
+**API Key Issues:**
+- Ensure `GEMINI_API_KEY` is set in `server/.env`
+- Verify the API key is valid and has proper permissions
+- Check the backend console for error messages
+
+**TTS Not Working:**
+- Verify both frontend and backend are running
+- Check browser console for connection errors
+- Ensure `VITE_TTS_BACKEND_URL` in `.env` points to correct backend URL
+- The app will fallback to Google Cloud TTS or browser TTS if Gemini is unavailable
 
 ## Project Structure
 

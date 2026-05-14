@@ -11,16 +11,18 @@ import {
   Maximize2,
   Minimize2,
   Type,
-  ChevronDown,
-  ChevronUp,
   ChevronRight,
   ChevronLeft,
-  GripHorizontal,
+  Play,
+  Pause,
+  RotateCcw,
+  Volume2,
+  LoaderCircle,
 } from "lucide-react";
 import QuranRef from "./QuranRef";
 import { getEraColor } from "../utils/eventHelpers";
 import { Z_INDEX } from "../constants";
-import { useSwipeGesture } from "../hooks/useSwipeGesture";
+import geminiTTS from "../services/ttsGemini";
 
 interface EventPanelProps {
   event: EventItem | null;
@@ -82,6 +84,12 @@ export default function EventPanel({
   const [isMobile, setIsMobile] = useState(false);
   const [mobileHeight, setMobileHeight] = useState(50); // Mobile panel height percentage
   const handleY = useMotionValue(0); // Separate motion value for drag handle only
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isAudioLoading, setIsAudioLoading] = useState(false);
+  const [audioError, setAudioError] = useState<string | null>(null);
+  const [audioState, setAudioState] = useState<"idle" | "playing" | "paused">("idle");
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
 
   // Detect mobile viewport
   useEffect(() => {
@@ -91,13 +99,41 @@ export default function EventPanel({
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  const cleanupAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      audioRef.current.onloadedmetadata = null;
+      audioRef.current.ontimeupdate = null;
+      audioRef.current.onpause = null;
+      audioRef.current.onplay = null;
+      audioRef.current.onended = null;
+      audioRef.current.onerror = null;
+      audioRef.current = null;
+    }
+
+    geminiTTS.stop();
+    setAudioState("idle");
+    setCurrentTime(0);
+    setDuration(0);
+    setIsAudioLoading(false);
+  };
+
   // Reset state when event changes
   useEffect(() => {
     setFontSizeStep(0);
     setIsExpanded(false);
     setIsMinimized(false);
     handleY.set(0);
+    setAudioError(null);
+    cleanupAudio();
   }, [event?.id, handleY]);
+
+  useEffect(() => {
+    return () => {
+      cleanupAudio();
+    };
+  }, []);
 
   // Handle swipe to close or resize on mobile
   const handleDragEnd = (_: any, info: PanInfo) => {
@@ -148,6 +184,101 @@ export default function EventPanel({
 
   const eraTheme = getEraTheme(event?.era);
   const ruler = getRuler(event?.era);
+
+  const formatAudioTime = (time: number) => {
+    const safeTime = Number.isFinite(time) ? Math.max(0, Math.floor(time)) : 0;
+    const minutes = Math.floor(safeTime / 60);
+    const seconds = safeTime % 60;
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  };
+
+  const setupAudioListeners = (audio: HTMLAudioElement, initialDuration = 0) => {
+    audio.onloadedmetadata = () => {
+      setDuration(audio.duration || initialDuration || 0);
+    };
+
+    audio.ontimeupdate = () => {
+      setCurrentTime(audio.currentTime);
+    };
+
+    audio.onplay = () => {
+      setAudioState("playing");
+      setAudioError(null);
+    };
+
+    audio.onpause = () => {
+      if (!audio.ended) {
+        setAudioState("paused");
+      }
+    };
+
+    audio.onended = () => {
+      setAudioState("paused");
+      setCurrentTime(0);
+      audio.currentTime = 0;
+    };
+
+    audio.onerror = () => {
+      setAudioError("تعذر تشغيل الصوت لهذا الحدث");
+      setAudioState("idle");
+      setIsAudioLoading(false);
+    };
+  };
+
+  const startAudio = async (restart = false) => {
+    if (!event?.details?.full_description || isAudioLoading) {
+      return;
+    }
+
+    try {
+      setAudioError(null);
+
+      if (!audioRef.current) {
+        setIsAudioLoading(true);
+        const { audio, duration: audioDuration } = await geminiTTS.createAudio(event.details.full_description, {
+          voice: "Charon",
+          rate: 1,
+          volume: 1,
+        });
+        audioRef.current = audio;
+        setupAudioListeners(audio, audioDuration);
+        setDuration(audioDuration || 0);
+        setCurrentTime(0);
+        setIsAudioLoading(false);
+      }
+
+      const audio = audioRef.current;
+
+      if (!audio) {
+        return;
+      }
+
+      if (restart) {
+        audio.currentTime = 0;
+        setCurrentTime(0);
+      }
+
+      await audio.play();
+    } catch (error) {
+      setIsAudioLoading(false);
+      setAudioState("idle");
+      setAudioError(error instanceof Error ? error.message : "تعذر تحميل الصوت");
+    }
+  };
+
+  const pauseAudio = () => {
+    if (!audioRef.current) {
+      return;
+    }
+
+    audioRef.current.pause();
+    setCurrentTime(audioRef.current.currentTime);
+    setAudioState("paused");
+  };
+
+  const restartAudio = async () => {
+    await startAudio(true);
+  };
 
   return (
     <>
@@ -262,9 +393,11 @@ export default function EventPanel({
             
             {/* Header - Not Scrollable */}
             <div className={`${isMobile ? 'p-3' : 'p-3 sm:p-4'} bg-panel-bg/95 backdrop-blur-md z-20 border-b border-border-dark/10 flex items-center justify-between shadow-sm shrink-0`}>
-              <h2 className={`${isMobile ? 'text-lg' : 'text-xl'} font-bold flex-1 min-w-0 ${isMobile ? 'px-1' : 'px-2'} ${isMinimized ? 'truncate' : 'line-clamp-2'}`} style={{ color: eraTheme.color }}>
-                {event.title}
-              </h2>
+              <div className="flex items-center gap-2 flex-1 min-w-0">
+                <h2 className={`${isMobile ? 'text-lg' : 'text-xl'} font-bold flex-1 min-w-0 ${isMobile ? 'px-1' : 'px-2'} ${isMinimized ? 'truncate' : 'line-clamp-2'}`} style={{ color: eraTheme.color }}>
+                  {event.title}
+                </h2>
+              </div>
               
               <div className={`flex items-center ${isMobile ? 'gap-1' : 'gap-1.5'} bg-ink/5 p-1 rounded-lg shrink-0`}>
                 {onToggleHidden && !isMobile && (
@@ -370,10 +503,94 @@ export default function EventPanel({
                   )}
                 </div>
 
-                {/* Description */}
-                <p className="text-ink leading-[1.85] text-justify font-medium" style={fs(15)}>
-                  {event.details.full_description}
-                </p>
+                <div className="bg-card-bg p-4 rounded-xl border border-border-dark/10 shadow-sm flex flex-col gap-4">
+                  <div className={`flex ${isMobile ? "flex-col" : "flex-row items-center justify-between"} gap-3`}>
+                    <div className="flex items-center gap-2" style={{ color: eraTheme.color }}>
+                      <Volume2 size={18} className="shrink-0" />
+                      <span className="font-bold" style={fs(14)}>
+                        الاستماع إلى وصف الحدث
+                      </span>
+                    </div>
+
+                    <div className={`flex items-center ${isMobile ? "justify-start" : "justify-end"} gap-2 flex-wrap`}>
+                      {audioState === "idle" ? (
+                        <motion.button
+                          onClick={() => void startAudio(false)}
+                          whileTap={{ scale: 0.96 }}
+                          disabled={isAudioLoading}
+                          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-bold border border-border-dark/10 bg-ink/5 text-ink hover:bg-ink/10 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+                          aria-label="تشغيل وصف الحدث"
+                          title="تشغيل وصف الحدث"
+                        >
+                          {isAudioLoading ? <LoaderCircle size={18} className="animate-spin" /> : <Play size={18} />}
+                          <span style={fs(13)}>{isAudioLoading ? "جار التحميل" : "تشغيل"}</span>
+                        </motion.button>
+                      ) : (
+                        <>
+                          <motion.button
+                            onClick={() => (audioState === "playing" ? pauseAudio() : void startAudio(false))}
+                            whileTap={{ scale: 0.96 }}
+                            disabled={isAudioLoading}
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-bold border border-border-dark/10 bg-ink/5 text-ink hover:bg-ink/10 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+                            aria-label={audioState === "playing" ? "إيقاف مؤقت" : "متابعة التشغيل"}
+                            title={audioState === "playing" ? "إيقاف مؤقت" : "متابعة التشغيل"}
+                          >
+                            {isAudioLoading ? (
+                              <LoaderCircle size={18} className="animate-spin" />
+                            ) : audioState === "playing" ? (
+                              <Pause size={18} />
+                            ) : (
+                              <Play size={18} />
+                            )}
+                            <span style={fs(13)}>{audioState === "playing" ? "إيقاف مؤقت" : "متابعة"}</span>
+                          </motion.button>
+
+                          <motion.button
+                            onClick={() => void restartAudio()}
+                            whileTap={{ scale: 0.96 }}
+                            disabled={isAudioLoading}
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-bold border border-border-dark/10 bg-transparent text-ink hover:bg-ink/5 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+                            aria-label="البدء من جديد"
+                            title="البدء من جديد"
+                          >
+                            <RotateCcw size={18} />
+                            <span style={fs(13)}>البدء من جديد</span>
+                          </motion.button>
+                        </>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <div className="h-2 rounded-full bg-ink/10 overflow-hidden">
+                      <div
+                        className="h-full rounded-full transition-all duration-300"
+                        style={{
+                          width: `${duration > 0 ? Math.min((currentTime / duration) * 100, 100) : 0}%`,
+                          backgroundColor: eraTheme.color,
+                        }}
+                      />
+                    </div>
+                    <div className="flex items-center justify-between text-ink/70" style={fs(12)}>
+                      <span>{formatAudioTime(currentTime)}</span>
+                      <span>{formatAudioTime(duration)}</span>
+                    </div>
+                    {isAudioLoading && (
+                      <span className="text-ink/70 font-medium" style={fs(12)}>
+                        يتم تجهيز الصوت الآن
+                      </span>
+                    )}
+                    {audioError && (
+                      <span className="text-battle-red font-medium" style={fs(12)}>
+                        {audioError}
+                      </span>
+                    )}
+                  </div>
+
+                  <p className="text-ink leading-[1.85] text-justify font-medium" style={fs(15)}>
+                    {event.details.full_description}
+                  </p>
+                </div>
 
                 {/* Meta Grid */}
                 <div className={`grid ${isExpanded ? "grid-cols-4" : "grid-cols-2"} gap-3`}>

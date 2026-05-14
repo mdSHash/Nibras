@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
+    "dev:server": "cd server && npm start",
+    "cache-audio": "node scripts/cache-event-audio.js",
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
@@ -15,8 +17,11 @@
     "test:ui:report": "playwright show-report"
   },
   "dependencies": {
+    "@google/genai": "^2.1.0",
+    "@google/generative-ai": "^0.21.0",
     "@turf/turf": "^7.3.4",
     "@vercel/analytics": "^2.0.1",
+    "@vercel/blob": "^2.3.3",
     "@vitejs/plugin-react": "^5.0.4",
     "dotenv": "^17.2.3",
     "express": "^4.21.2",

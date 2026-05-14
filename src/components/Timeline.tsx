@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState, useMemo } from "react";
 import { EventItem } from "../data";
 import { motion, AnimatePresence } from "motion/react";
-import { RotateCw, Play, Pause, ChevronUp, ChevronDown, SkipBack, X } from "lucide-react";
+import { RotateCw, Play, Pause, ChevronUp, ChevronDown, SkipBack, X, Volume2, VolumeX } from "lucide-react";
+import geminiTTS from "../services/ttsGemini";
 
 interface TimelineProps {
   events: EventItem[];
@@ -87,8 +88,11 @@ export default function Timeline({
   const [isPlayerMode, setIsPlayerMode] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState<1 | 2 | 3>(1);
   const [isDockVisible, setIsDockVisible] = useState(true);
+  const [isTTSEnabled, setIsTTSEnabled] = useState(true); // TTS enabled by default
   const autoPlayTimerRef = useRef<NodeJS.Timeout | null>(null);
   const fullEventsRef = useRef<EventItem[]>([]);
+  const pausedAtEventRef = useRef<string | null>(null);
+  const isPlayingTTSRef = useRef<boolean>(false);
 
   // Store full event list for autoplay navigation
   useEffect(() => {
@@ -96,6 +100,7 @@ export default function Timeline({
       fullEventsRef.current = events;
     }
   }, [events, isPlayerMode]);
+
 
   // Events are already sorted and filtered from parent
   const sortedEvents = events;
@@ -253,48 +258,114 @@ export default function Timeline({
     }
   }, [externalIsPlayerMode]);
 
-  // Autoplay functionality with speed control
+  // Autoplay functionality with TTS integration
   useEffect(() => {
     if (!isAutoPlaying) {
       if (autoPlayTimerRef.current) {
         clearTimeout(autoPlayTimerRef.current);
         autoPlayTimerRef.current = null;
       }
+      // Stop TTS when pausing
+      geminiTTS.stop();
+      isPlayingTTSRef.current = false;
+      
+      if (selectedEvent) {
+        pausedAtEventRef.current = selectedEvent.id;
+      }
       return;
     }
 
-    const baseDelay = 5000; // 5 seconds
-    const delay = baseDelay / playbackSpeed;
+    // Track if this effect instance should continue running
+    let isActive = true;
 
-    const playNextEvent = () => {
-      // Use full events list for navigation, not the filtered displayedEvents
+    const playCurrentAndAdvance = async () => {
       const fullEvents = fullEventsRef.current;
-      const currentIndex = fullEvents.findIndex(e => e.id === selectedEvent?.id);
-      const nextIndex = currentIndex + 1;
+      let currentIndex = fullEvents.findIndex(e => e.id === selectedEvent?.id);
       
-      if (nextIndex < fullEvents.length) {
-        onSelectEvent(fullEvents[nextIndex]);
-        autoPlayTimerRef.current = setTimeout(playNextEvent, delay);
-      } else {
-        // Reached the end, stop autoplay
-        const newState = false;
-        setIsAutoPlaying(newState);
-        onAutoPlayChange?.(newState);
+      while (isActive && isAutoPlaying) {
+        const currentEvent = fullEvents[currentIndex];
+        
+        // Ensure we have a valid current event
+        if (!currentEvent) {
+          console.error('[Timeline] No current event found at index:', currentIndex);
+          setIsAutoPlaying(false);
+          onAutoPlayChange?.(false);
+          break;
+        }
+        
+        console.log('[Timeline] Current event:', currentEvent.title, '(index:', currentIndex, ')');
+        
+        // Play TTS for current event if enabled
+        if (isTTSEnabled && currentEvent.title) {
+          try {
+            isPlayingTTSRef.current = true;
+            console.log('[Timeline] Starting TTS for:', currentEvent.title);
+            
+            // Wait for TTS to complete
+            await geminiTTS.speak(currentEvent.title, {
+              voice: 'Charon',
+              rate: playbackSpeed
+            });
+            
+            isPlayingTTSRef.current = false;
+            console.log('[Timeline] TTS completed for:', currentEvent.title);
+          } catch (error) {
+            console.error('[Timeline] TTS error for', currentEvent.title, ':', error);
+            isPlayingTTSRef.current = false;
+            // Continue even if TTS fails
+          }
+        } else if (!isTTSEnabled) {
+          // No TTS, wait base delay
+          const baseDelay = 5000 / playbackSpeed;
+          console.log('[Timeline] TTS disabled, waiting', baseDelay, 'ms');
+          await new Promise(resolve => setTimeout(resolve, baseDelay));
+        }
+        
+        // Check if still active and playing
+        if (!isActive || !isAutoPlaying) {
+          console.log('[Timeline] Autoplay stopped during playback');
+          break;
+        }
+        
+        // Move to next event
+        currentIndex++;
+        if (currentIndex < fullEvents.length) {
+          const nextEvent = fullEvents[currentIndex];
+          console.log('[Timeline] Moving to next event:', nextEvent.title, '(index:', currentIndex, ')');
+          
+          // Select next event
+          onSelectEvent(nextEvent);
+          
+          // Small delay before playing next event
+          await new Promise(resolve => setTimeout(resolve, 500));
+        } else {
+          // Reached the end
+          console.log('[Timeline] Reached end of events');
+          setIsAutoPlaying(false);
+          onAutoPlayChange?.(false);
+          geminiTTS.stop();
+          isPlayingTTSRef.current = false;
+          break;
+        }
       }
     };
 
     // Start the autoplay cycle
-    autoPlayTimerRef.current = setTimeout(playNextEvent, delay);
+    console.log('[Timeline] Starting autoplay from event:', selectedEvent?.title);
+    playCurrentAndAdvance();
 
     return () => {
+      isActive = false;
       if (autoPlayTimerRef.current) {
         clearTimeout(autoPlayTimerRef.current);
         autoPlayTimerRef.current = null;
       }
+      geminiTTS.stop();
+      isPlayingTTSRef.current = false;
     };
-  }, [isAutoPlaying, selectedEvent, onSelectEvent, playbackSpeed, onAutoPlayChange]);
+  }, [isAutoPlaying, playbackSpeed, onAutoPlayChange, isTTSEnabled]);
 
-  const toggleAutoPlay = () => {
+  const toggleAutoPlay = async () => {
     if (!isPlayerMode) {
       // Entering player mode for the first time - store full events list
       fullEventsRef.current = events;
@@ -303,15 +374,40 @@ export default function Timeline({
       if (!selectedEvent && events.length > 0) {
         onSelectEvent(events[0]);
       }
+      
+      // Wait for state update to complete
+      await new Promise(resolve => setTimeout(resolve, 100));
     }
     
     // Toggle play/pause
     const newState = !isAutoPlaying;
+    
+    if (!newState) {
+      // Pausing - clear timer
+      if (autoPlayTimerRef.current) {
+        clearTimeout(autoPlayTimerRef.current);
+        autoPlayTimerRef.current = null;
+      }
+    }
+    
     setIsAutoPlaying(newState);
     onAutoPlayChange?.(newState);
   };
 
   const startOver = () => {
+    // Stop autoplay and TTS
+    setIsAutoPlaying(false);
+    onAutoPlayChange?.(false);
+    pausedAtEventRef.current = null;
+    geminiTTS.stop();
+    isPlayingTTSRef.current = false;
+    
+    if (autoPlayTimerRef.current) {
+      clearTimeout(autoPlayTimerRef.current);
+      autoPlayTimerRef.current = null;
+    }
+    
+    // Jump to first event
     if (events.length > 0) {
       onSelectEvent(events[0]);
     }
@@ -322,6 +418,17 @@ export default function Timeline({
     setIsPlayerMode(false);
     onAutoPlayChange?.(false);
     onPlayerModeChange?.(false);
+    geminiTTS.stop();
+    isPlayingTTSRef.current = false;
+  };
+
+  const toggleTTS = () => {
+    setIsTTSEnabled(!isTTSEnabled);
+    if (isTTSEnabled) {
+      // Turning off - stop current TTS
+      geminiTTS.stop();
+      isPlayingTTSRef.current = false;
+    }
   };
 
   const handleEraClick = (eraLabel: string) => {
@@ -396,6 +503,19 @@ export default function Timeline({
                         <span className="hidden sm:inline">تشغيل</span>
                       </>
                     )}
+                  </motion.button>
+
+                  {/* TTS Toggle */}
+                  <motion.button
+                    onClick={toggleTTS}
+                    whileTap={{ scale: 0.95 }}
+                    className={`flex items-center gap-1.5 ${isTTSEnabled ? 'bg-islamic-green/20 border-islamic-green/40' : 'bg-gray-500/20 border-gray-500/40'} text-ink text-[11px] sm:text-xs font-bold px-2 sm:px-3 py-2 rounded-full transition-all border-2 shrink-0 min-h-[44px] hover:scale-105`}
+                    style={{
+                      boxShadow: isTTSEnabled ? '0 0 20px rgba(45, 90, 39, 0.4)' : '0 0 20px rgba(107, 114, 128, 0.4)'
+                    }}
+                    title={isTTSEnabled ? "إيقاف الصوت" : "تشغيل الصوت"}
+                  >
+                    {isTTSEnabled ? <Volume2 size={14} className="sm:w-4 sm:h-4" /> : <VolumeX size={14} className="sm:w-4 sm:h-4" />}
                   </motion.button>
 
                   {/* Speed Control */}
