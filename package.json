@@ -17,8 +17,6 @@
     "test:ui:report": "playwright show-report"
   },
   "dependencies": {
-    "@google/genai": "^2.1.0",
-    "@google/generative-ai": "^0.21.0",
     "@turf/turf": "^7.3.4",
     "@vercel/analytics": "^2.0.1",
     "@vercel/blob": "^2.3.3",
