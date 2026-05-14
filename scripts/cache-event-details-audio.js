@@ -10,7 +10,7 @@
  *   BATCH_SIZE=5 node scripts/cache-event-details-audio.js   (process 5 events at a time)
  *
  * Requirements:
- *   - GEMINI_API_KEY must be configured in .env
+ *   - GEMINI_API_KEY must be configured in server/.env or root .env
  *   - Internet connection for Gemini API
  */
 
@@ -19,9 +19,14 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import crypto from 'crypto';
+import dotenv from 'dotenv';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Load environment variables from both possible locations
+dotenv.config({ path: path.join(__dirname, '../.env') });
+dotenv.config({ path: path.join(__dirname, '../server/.env') });
 
 // Configuration
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
@@ -401,5 +406,3 @@ main().catch(error => {
   console.error('\n✗ Fatal error:', error);
   process.exit(1);
 });
-
-// Made with Bob
