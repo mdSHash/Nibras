@@ -121,7 +121,7 @@ class GeminiTTSService {
     };
   }
 
-  private async synthesize(text: string, options: GeminiTTSOptions = {}): Promise<{ base64Audio: string; duration: number; volume: number }> {
+  private async synthesize(text: string, options: GeminiTTSOptions = {}): Promise<{ audioUrl: string; duration: number; volume: number }> {
     const available = await this.isAvailable();
     if (!available) {
       throw new Error('Backend TTS service is not available');
@@ -176,7 +176,7 @@ class GeminiTTSService {
       }
 
       return {
-        base64Audio: data.audio.replace(/^data:audio\/wav;base64,/, ''),
+        audioUrl: data.audio,
         duration: data.duration || 0,
         volume: normalizedOptions.volume,
       };
@@ -209,16 +209,16 @@ class GeminiTTSService {
   async speak(text: string, options: GeminiTTSOptions = {}): Promise<number> {
     this.stop();
 
-    const { base64Audio, volume } = await this.synthesize(text, options);
-    const duration = await this.playAudio(base64Audio, volume);
+    const { audioUrl, volume } = await this.synthesize(text, options);
+    const duration = await this.playAudio(audioUrl, volume);
     return duration;
   }
 
   async createAudio(text: string, options: GeminiTTSOptions = {}): Promise<GeminiTTSAudioHandle> {
     this.stop();
 
-    const { base64Audio, duration, volume } = await this.synthesize(text, options);
-    const audio = new Audio(`data:audio/wav;base64,${base64Audio}`);
+    const { audioUrl, duration, volume } = await this.synthesize(text, options);
+    const audio = new Audio(audioUrl);
     audio.volume = volume;
 
     return {
@@ -228,14 +228,14 @@ class GeminiTTSService {
   }
 
   /**
-   * Play base64-encoded WAV audio data
+   * Play audio from URL (Blob URL or data URL)
    * Creates HTMLAudioElement and manages playback lifecycle
    * @returns Promise that resolves with audio duration when playback completes
    */
-  private playAudio(base64Audio: string, volume: number): Promise<number> {
+  private playAudio(audioUrl: string, volume: number): Promise<number> {
     return new Promise((resolve, reject) => {
       let audioDuration = 0;
-      const audio = new Audio(`data:audio/wav;base64,${base64Audio}`);
+      const audio = new Audio(audioUrl);
       audio.volume = volume;
       
       // Set up event handlers before playing
