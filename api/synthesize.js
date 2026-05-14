@@ -84,10 +84,6 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Text exceeds maximum length of 5000 characters' });
     }
 
-    if (!process.env.GEMINI_API_KEY) {
-      return res.status(500).json({ error: 'GEMINI_API_KEY not configured' });
-    }
-
     console.log(`[TTS Request] Voice: ${voice}, Text length: ${text.length} chars`);
 
     const cacheKey = generateCacheKey(text, voice, rate);
@@ -121,6 +117,11 @@ export default async function handler(req, res) {
       }
     } else {
       console.log('[Cache] BLOB_READ_WRITE_TOKEN not configured, skipping cache check');
+    }
+
+    if (!process.env.GEMINI_API_KEY) {
+      console.log(`[Cache Miss] GEMINI_API_KEY missing for uncached request: ${cacheKey}`);
+      return res.status(500).json({ error: 'GEMINI_API_KEY not configured' });
     }
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
