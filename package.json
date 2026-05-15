@@ -18,9 +18,10 @@
     "test:ui:report": "playwright show-report"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@turf/turf": "^7.3.4",
     "@vitejs/plugin-react": "^5.0.4",
-    "dotenv": "^17.2.3",
+    "dotenv": "^17.4.2",
     "express": "^4.21.2",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.546.0",
