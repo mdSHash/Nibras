@@ -6,6 +6,9 @@ import {defineConfig, loadEnv} from 'vite';
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
+    // Set base path for GitHub Pages deployment
+    // Change 'Nibras' to your repository name
+    base: mode === 'production' ? '/Nibras/' : '/',
     plugins: [react(), tailwindcss()],
     define: {
       // Only expose VITE_ prefixed environment variables to client
