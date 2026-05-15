@@ -510,5 +510,3 @@ class GeminiTTSService {
 const geminiTTS = new GeminiTTSService();
 
 export default geminiTTS;
-
-// Made with Bob
