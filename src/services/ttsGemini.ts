@@ -74,8 +74,8 @@ class GeminiTTSService {
   private audioBasePath: string;
 
   constructor() {
-    // Use relative path for audio files - Vite will handle the base path
-    this.audioBasePath = '/audio';
+    // Use import.meta.env.BASE_URL to get the correct base path for GitHub Pages
+    this.audioBasePath = `${import.meta.env.BASE_URL}audio`;
   }
 
   /**
