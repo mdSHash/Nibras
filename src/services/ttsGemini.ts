@@ -1,7 +1,9 @@
 /**
- * Gemini Flash Text-to-Speech Service
+ * Gemini Flash Text-to-Speech Service - Static Audio Version
  *
- * Backend proxy for Google Gemini TTS API with 30 available voices.
+ * Loads pre-generated audio files from /audio/ directory.
+ * Audio files are named by SHA-256 hash of "text|voice|rate".
+ *
  * Default voice: Charon (Informative) - authoritative tone for Islamic historical content.
  *
  * Recommended voices for Nibras:
@@ -10,11 +12,6 @@
  * - Sadaltager (Knowledgeable) - Scholarly tone
  * - Gacrux (Mature) - Dignified delivery
  * - Schedar (Even) - Balanced professional
- *
- * Architecture:
- * - Frontend calls backend at /api/synthesize
- * - Backend handles Gemini API and converts L16 PCM to WAV
- * - Frontend plays audio via HTMLAudioElement
  *
  * Usage:
  * ```typescript
@@ -70,42 +67,37 @@ export interface GeminiTTSAudioHandle {
 }
 
 class GeminiTTSService {
-  private backendUrl: string;
   private currentAudio: HTMLAudioElement | null = null;
   private speaking: boolean = false;
   private paused: boolean = false;
   private defaultVoice: GeminiVoice = 'Charon';
-  private backendAvailable: boolean | null = null;
+  private audioBasePath: string;
 
   constructor() {
-    this.backendUrl = '';
+    // Use relative path for audio files - Vite will handle the base path
+    this.audioBasePath = '/audio';
   }
 
   /**
-   * Check if backend TTS service is available
-   * Tests connectivity to backend API
+   * Check if static audio service is available
+   * Always returns true since we're using static files
    */
   async isAvailable(): Promise<boolean> {
-    if (this.backendAvailable !== null) {
-      return this.backendAvailable;
-    }
+    return true;
+  }
 
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000);
-
-      const response = await fetch('/api/synthesize', {
-        method: 'OPTIONS',
-        signal: controller.signal,
-      });
-
-      clearTimeout(timeoutId);
-      this.backendAvailable = response.ok;
-      return response.ok;
-    } catch (error) {
-      this.backendAvailable = false;
-      return false;
-    }
+  /**
+   * Generate SHA-256 hash for cache key
+   * Format: "text|voice|rate"
+   */
+  private async generateCacheKey(text: string, voice: string, rate: number): Promise<string> {
+    const cacheString = `${text}|${voice}|${rate}`;
+    const encoder = new TextEncoder();
+    const data = encoder.encode(cacheString);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashHex;
   }
 
   /**
@@ -122,11 +114,6 @@ class GeminiTTSService {
   }
 
   private async synthesize(text: string, options: GeminiTTSOptions = {}): Promise<{ audioUrl: string; duration: number; volume: number }> {
-    const available = await this.isAvailable();
-    if (!available) {
-      throw new Error('Backend TTS service is not available');
-    }
-
     if (!text || text.trim().length === 0) {
       throw new Error('No text provided for synthesis');
     }
@@ -138,46 +125,21 @@ class GeminiTTSService {
     const normalizedOptions = this.normalizeOptions(options);
 
     try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000);
+      // Generate cache key to find the audio file
+      const cacheKey = await this.generateCacheKey(text, normalizedOptions.voice, normalizedOptions.rate);
+      const audioUrl = `${this.audioBasePath}/${cacheKey}.wav`;
 
-      const response = await fetch('/api/synthesize', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          text,
-          voice: normalizedOptions.voice,
-          rate: normalizedOptions.rate,
-          pitch: normalizedOptions.pitch,
-          volume: normalizedOptions.volume,
-        }),
-        signal: controller.signal,
-      });
+      console.log('[TTS] Loading static audio file:', cacheKey);
 
-      clearTimeout(timeoutId);
-
+      // Test if file exists by attempting to fetch it
+      const response = await fetch(audioUrl, { method: 'HEAD' });
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
-        throw new Error(errorData.error || `API error: ${response.status} ${response.statusText}`);
-      }
-
-      const data = await response.json();
-
-      if (!data.audio) {
-        throw new Error('No audio data received from API');
-      }
-
-      if (data.cached) {
-        console.log('[TTS] Using cached audio, duration:', data.duration?.toFixed(2), 'seconds');
-      } else {
-        console.log('[TTS] Generated new audio, duration:', data.duration?.toFixed(2), 'seconds');
+        throw new Error(`Audio file not found: ${cacheKey}.wav`);
       }
 
       return {
-        audioUrl: data.audio,
-        duration: data.duration || 0,
+        audioUrl,
+        duration: 0, // Will be determined during playback
         volume: normalizedOptions.volume,
       };
     } catch (error) {
@@ -186,25 +148,19 @@ class GeminiTTSService {
       this.currentAudio = null;
 
       if (error instanceof Error) {
-        if (error.name === 'AbortError') {
-          throw new Error('Request timeout: API took too long to respond (30s limit)');
-        }
-        if (error.message.includes('fetch')) {
-          throw new Error('Network error: Unable to connect to API');
-        }
         throw error;
       }
-      throw new Error('Failed to synthesize speech');
+      throw new Error('Failed to load audio file');
     }
   }
 
   /**
-   * Synthesize speech from Arabic text using Gemini Flash TTS
+   * Synthesize speech from Arabic text using pre-generated audio files
    *
    * @param text - Arabic text to synthesize (max 5000 characters)
    * @param options - Voice and audio configuration options
    * @returns Promise that resolves with audio duration when playback completes
-   * @throws Error if API key is missing, text is invalid, or API request fails
+   * @throws Error if text is invalid or audio file not found
    */
   async speak(text: string, options: GeminiTTSOptions = {}): Promise<number> {
     this.stop();
@@ -228,7 +184,7 @@ class GeminiTTSService {
   }
 
   /**
-   * Play audio from URL (Blob URL or data URL)
+   * Play audio from URL
    * Creates HTMLAudioElement and manages playback lifecycle
    * @returns Promise that resolves with audio duration when playback completes
    */
@@ -554,3 +510,5 @@ class GeminiTTSService {
 const geminiTTS = new GeminiTTSService();
 
 export default geminiTTS;
+
+// Made with Bob
