@@ -87,11 +87,20 @@ class GeminiTTSService {
   }
 
   /**
+   * Normalize whitespace in text (matches server-side normalization)
+   */
+  private normalizeText(text: string): string {
+    return String(text || '').replace(/\s+/g, ' ').trim();
+  }
+
+  /**
    * Generate SHA-256 hash for cache key
    * Format: "text|voice|rate"
+   * IMPORTANT: Text must be normalized before hashing to match server-side cache keys
    */
   private async generateCacheKey(text: string, voice: string, rate: number): Promise<string> {
-    const cacheString = `${text}|${voice}|${rate}`;
+    const normalizedText = this.normalizeText(text);
+    const cacheString = `${normalizedText}|${voice}|${rate}`;
     const encoder = new TextEncoder();
     const data = encoder.encode(cacheString);
     const hashBuffer = await crypto.subtle.digest('SHA-256', data);
