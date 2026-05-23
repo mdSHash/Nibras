@@ -22,45 +22,30 @@ export const ANIMATION_DURATION = {
  * Z-Index System
  * Centralized z-index management to prevent stacking conflicts
  *
- * Layers (from bottom to top):
- * - Base: 0-99 (default content)
- * - Elevated: 100-999 (dropdowns, tooltips)
- * - Overlay: 1000-1999 (panels, sidebars)
- * - Modal: 2000-2999 (modals, dialogs)
- * - Notification: 3000-3999 (toasts, alerts)
- * - Tour: 4000-4999 (onboarding, tutorials)
+ * Single source of truth for all z-index values in the application.
+ * CSS custom properties mirror these values in src/index.css.
  */
 export const Z_INDEX = {
-  // Base Layer (0-99)
-  base: 0,
   map: 1,
-  
-  // Elevated Layer (100-999)
-  dropdown: 100,
-  tooltip: 200,
-  popover: 300,
-  
-  // Overlay Layer (1000-1999)
-  timeline: 1000,
-  eventPanel: 1100,
-  searchMenu: 1200,
-  sidebar: 1300,
-  header: 1400,
-  
-  // Modal Layer (2000-2999)
-  modalBackdrop: 2000,
-  modal: 2100,
-  modalContent: 2200,
-  
-  // Notification Layer (3000-3999)
-  toast: 3000,
-  alert: 3100,
-  
-  // Tour Layer (4000-4999)
-  tourBackdrop: 4000,
-  tourSpotlight: 4100,
-  tourTooltip: 4200,
-  tourControls: 4300,
+  mapControls: 400,
+  timeline: 500,
+  timelineDock: 550,
+  dockToggle: 560,
+  header: 600,
+  sidebar: 700,
+  searchMenu: 800,
+  searchBackdrop: 750,
+  eventPanel: 900,
+  modalBackdrop: 950,
+  modal: 1000,
+  tooltip: 1100,
+  toast: 1200,
+  intro: 1300,
+  tourBackdrop: 1400,
+  tourSpotlight: 1450,
+  tourTooltip: 1500,
+  tourControls: 1550,
+  skipLink: 1600,
 } as const;
 
 export const ERA_COLORS = {

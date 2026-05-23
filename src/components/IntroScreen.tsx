@@ -1,189 +1,269 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Compass, Clock, BookOpen, Play, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { motion } from 'motion/react';
+import { Z_INDEX } from '../constants';
+import { cn } from '../utils/cn';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 interface IntroScreenProps {
   onComplete: () => void;
 }
 
-const slides = [
-  {
-    title: "مرحباً بك في نِبْرَاس",
-    desc: "التاريخ الإسلامي ليس مجرد نصوص، بل زمان ومكان. هنا ستعيش السيرة النبوية والتاريخ كأنك تراه.",
-    icon: <Compass size={40} className="text-accent mb-4" />
-  },
-  {
-    title: "الخريطة التفاعلية",
-    desc: "شاهد اتساع رقعة الدولة الإسلامية وأماكن الغزوات والأحداث بانغماس كامل على الخريطة الجغرافية.",
-    icon: <Compass size={40} className="text-emerald-500 mb-4" />
-  },
-  {
-    title: "الخط الزمني (Timeline)",
-    desc: "تتبع تسلسل الأحداث، اسحب في أسفل الشاشة لتسافر عبر الزمن من العهد المكي حتى الخلافة الراشدة.",
-    icon: <Clock size={40} className="text-amber-500 mb-4" />
-  },
-  {
-    title: "تأمل التفاصيل",
-    desc: "اضغط على الحدث لتقرأ الآيات التي نزلت فيه، وتتعرف على الصحابة الذين شاركوا وصنعوا هذا التاريخ.",
-    icon: <BookOpen size={40} className="text-blue-500 mb-4" />
-  }
-];
+/**
+ * Arabic calligraphy intro screen for نِبْرَاس
+ * Uses the Amiri font (Naskh style, same as Quranic printing) loaded from Google Fonts.
+ * 
+ * Animation phases:
+ * 1. Draw — Text reveals right-to-left via clip-path, simulating calligraphic writing
+ * 2. Fill & Glow — Word glows with gold color
+ * 3. Hold — Complete word sits centered with subtle shimmer
+ * 4. Split — Two dark panels slide apart, word fades out
+ */
+
+/** Timing constants (ms) */
+const TIMING = {
+  revealDuration: 1800,     // Text reveals over 1800ms
+  glowStart: 1800,          // Glow begins after reveal
+  glowEnd: 2600,            // Glow complete
+  holdEnd: 3400,            // Hold phase ends
+  splitEnd: 4200,           // Split animation ends
+  total: 4200,              // Total animation time
+};
+
+type Phase = 'draw' | 'fill' | 'hold' | 'split' | 'done';
 
 export default function IntroScreen({ onComplete }: IntroScreenProps) {
-  const [phase, setPhase] = useState<'logo' | 'choice' | 'guide'>('logo');
-  const [slide, setSlide] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
+  const reducedMotion = useReducedMotion();
+  const [phase, setPhase] = useState<Phase>('draw');
+  const [fontLoaded, setFontLoaded] = useState(false);
+  const hasCompleted = useRef(false);
 
+  // Load Amiri font (Naskh style — used in Quran printing)
   useEffect(() => {
-    let isMounted = true;
-    const t = setTimeout(() => {
-      if (isMounted) {
-        setPhase('choice');
+    const link = document.createElement('link');
+    link.href = 'https://fonts.googleapis.com/css2?family=Amiri:wght@700&display=swap';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+
+    // Check if font is loaded
+    const checkFont = () => {
+      if (document.fonts) {
+        document.fonts.ready.then(() => {
+          setFontLoaded(true);
+        });
+      } else {
+        // Fallback: assume loaded after a short delay
+        setTimeout(() => setFontLoaded(true), 300);
       }
-    }, 2500);
+    };
+    checkFont();
+
     return () => {
-      isMounted = false;
-      clearTimeout(t);
+      document.head.removeChild(link);
     };
   }, []);
 
-  const handleFinish = () => {
-    setIsVisible(false);
-  };
+  // If user prefers reduced motion, skip immediately
+  useEffect(() => {
+    if (reducedMotion) {
+      onComplete();
+    }
+  }, [reducedMotion, onComplete]);
+
+  // Animation timeline state machine — starts only after font is loaded
+  useEffect(() => {
+    if (reducedMotion || !fontLoaded) return;
+
+    const timers = [
+      setTimeout(() => setPhase('fill'), TIMING.glowStart),
+      setTimeout(() => setPhase('hold'), TIMING.glowEnd),
+      setTimeout(() => setPhase('split'), TIMING.holdEnd),
+      setTimeout(() => {
+        setPhase('done');
+        if (!hasCompleted.current) {
+          hasCompleted.current = true;
+          onComplete();
+        }
+      }, TIMING.splitEnd),
+    ];
+
+    return () => timers.forEach(clearTimeout);
+  }, [onComplete, reducedMotion, fontLoaded]);
+
+  if (reducedMotion) return null;
+  if (phase === 'done') return null;
+
+  const isSplitting = phase === 'split';
+  const isFilled = phase === 'fill' || phase === 'hold' || phase === 'split';
+  const isGlowing = phase === 'hold';
 
   return (
-    <AnimatePresence onExitComplete={onComplete}>
-      {isVisible && (
-        <motion.div 
-          key="intro-container"
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-transparent overflow-hidden"
-          dir="rtl"
-        >
-          {/* Sliding Doors */}
-          <motion.div 
-            className="absolute top-0 bottom-0 left-0 w-1/2 bg-ink z-0 border-r border-accent/20"
-            exit={{ x: "-100%" }}
-            transition={{ duration: 1.2, ease: [0.77, 0, 0.17, 1], delay: 0.2 }}
-          />
-          <motion.div 
-            className="absolute top-0 bottom-0 right-0 w-1/2 bg-ink z-0 border-l border-accent/20"
-            exit={{ x: "100%" }}
-            transition={{ duration: 1.2, ease: [0.77, 0, 0.17, 1], delay: 0.2 }}
-          />
-          
-          <motion.div
-            exit={{ opacity: 0, scale: 1.2 }}
-            transition={{ duration: 0.6 }}
-            className="absolute inset-0 opacity-20 pointer-events-none z-10" 
-            style={{ backgroundImage: 'radial-gradient(circle at center, var(--color-accent) 0%, transparent 60%)' }} 
-          />
-
-          {phase === 'logo' && (
-            <motion.div
-              key="logo"
-              initial={{ scale: 0.8, opacity: 0, filter: 'blur(10px)' }}
-              animate={{ scale: 1, opacity: 1, filter: 'blur(0px)' }}
-              exit={{ scale: 1.5, opacity: 0, filter: 'blur(20px)' }}
-              transition={{ duration: 1.8, ease: "easeOut" }}
-              className="text-center z-20"
-            >
-              <h1 className="text-7xl md:text-9xl font-bold text-parchment drop-shadow-[0_0_30px_rgba(212,175,55,0.4)] tracking-widest uppercase mb-4" style={{ fontFamily: "'Amiri', serif" }}>
-                نِبْرَاس
-              </h1>
-            </motion.div>
-          )}
-
-          {phase === 'choice' && (
-            <motion.div
-              key="choice"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.4 }}
-              className="text-center z-20 p-6 max-w-lg"
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-parchment mb-6 drop-shadow-md">مرحباً بك في رحلة عبر الزمن</h2>
-              <p className="text-parchment/80 mb-10 text-lg leading-relaxed">هل تود التعرف على كيفية استخدام "نبراس" لاستكشاف التاريخ الإسلامي، أم تفضل البدء مباشرة؟</p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <button 
-                  onClick={() => setPhase('guide')}
-                  className="w-full sm:w-auto px-8 py-3 bg-accent text-parchment rounded-full font-bold text-lg hover:bg-accent/90 hover:scale-105 transition-all shadow-[0_0_20px_rgba(212,175,55,0.4)]"
-                >
-                  الدليل التعريفي
-                </button>
-                <button 
-                  onClick={handleFinish}
-                  className="w-full sm:w-auto px-8 py-3 bg-transparent border border-parchment/30 text-parchment rounded-full font-bold hover:bg-parchment/10 transition-colors"
-                >
-                  الدخول للموقع
-                </button>
-              </div>
-            </motion.div>
-          )}
-
-          {phase === 'guide' && (
-            <motion.div
-              key="guide"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.1 }}
-              transition={{ duration: 0.4 }}
-              className="z-20 w-full max-w-xl p-8 bg-parchment/10 backdrop-blur-md rounded-2xl border border-parchment/20 relative mx-4 text-center shadow-2xl"
-            >
-              <button onClick={handleFinish} className="absolute top-2 left-2 w-11 h-11 flex justify-center items-center text-parchment/50 hover:text-parchment transition shrink-0 rounded-full hover:bg-parchment/10">
-                <X size={24} />
-              </button>
-              
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={slide}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  transition={{ duration: 0.3 }}
-                  className="flex flex-col items-center py-6"
-                >
-                  {slides[slide].icon}
-                  <h3 className="text-2xl font-bold text-parchment mb-3">{slides[slide].title}</h3>
-                  <p className="text-parchment/80 text-lg leading-relaxed max-w-md">{slides[slide].desc}</p>
-                </motion.div>
-              </AnimatePresence>
-
-              <div className="flex items-center justify-between mt-8">
-                <div className="flex gap-2">
-                  {slides.map((_, i) => (
-                    <div key={i} className={`w-2.5 h-2.5 rounded-full ${i === slide ? 'bg-accent scale-125' : 'bg-parchment/30'} transition-all`} />
-                  ))}
-                </div>
-                <div className="flex gap-3">
-                  {slide > 0 && (
-                    <button onClick={() => setSlide(s => s - 1)} className="w-11 h-11 flex justify-center items-center text-parchment/70 hover:text-parchment transition rounded-full hover:bg-parchment/10">
-                      <ChevronRight size={24} />
-                    </button>
-                  )}
-                  {slide < slides.length - 1 ? (
-                    <button 
-                      onClick={() => setSlide(s => s + 1)}
-                      className="flex items-center gap-2 px-6 py-2 bg-accent/20 text-accent border border-accent/50 rounded-full hover:bg-accent hover:text-parchment transition-all font-bold"
-                    >
-                      التالي
-                      <ChevronLeft size={18} />
-                    </button>
-                  ) : (
-                    <button 
-                      onClick={handleFinish}
-                      className="flex items-center gap-2 px-6 py-2 bg-accent text-parchment rounded-full hover:scale-105 transition-all shadow-[0_0_15px_rgba(212,175,55,0.4)] font-bold"
-                    >
-                      ابدأ الرحلة
-                      <Play size={16} className="mr-1" />
-                    </button>
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </motion.div>
+    <div
+      className={cn(
+        'fixed inset-0 flex items-center justify-center overflow-hidden',
+        'pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]'
       )}
-    </AnimatePresence>
+      style={{ zIndex: Z_INDEX.intro, height: '100dvh' }}
+      aria-hidden="true"
+    >
+      {/* ===== LEFT PANEL (slides left on split) ===== */}
+      <motion.div
+        className="absolute top-0 bottom-0 left-0 w-1/2"
+        style={{ backgroundColor: '#1a1a2e' }}
+        animate={{
+          x: isSplitting ? '-100%' : '0%',
+        }}
+        transition={{
+          type: 'spring',
+          stiffness: 60,
+          damping: 16,
+          mass: 1.2,
+        }}
+      >
+        {/* Subtle geometric pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='%23D4AF37' stroke-width='0.5'/%3E%3C/svg%3E")`,
+            backgroundSize: '60px 60px',
+          }}
+        />
+        {/* Edge line */}
+        <div className="absolute top-0 right-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#D4AF37]/30 to-transparent" />
+      </motion.div>
+
+      {/* ===== RIGHT PANEL (slides right on split) ===== */}
+      <motion.div
+        className="absolute top-0 bottom-0 right-0 w-1/2"
+        style={{ backgroundColor: '#1a1a2e' }}
+        animate={{
+          x: isSplitting ? '100%' : '0%',
+        }}
+        transition={{
+          type: 'spring',
+          stiffness: 60,
+          damping: 16,
+          mass: 1.2,
+        }}
+      >
+        {/* Subtle geometric pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='%23D4AF37' stroke-width='0.5'/%3E%3C/svg%3E")`,
+            backgroundSize: '60px 60px',
+          }}
+        />
+        {/* Edge line */}
+        <div className="absolute top-0 left-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#D4AF37]/30 to-transparent" />
+      </motion.div>
+
+      {/* ===== CENTERED ARABIC TEXT ===== */}
+      <motion.div
+        className="relative z-10 flex items-center justify-center"
+        animate={{
+          opacity: isSplitting ? 0 : 1,
+          scale: isSplitting ? 0.8 : 1,
+        }}
+        transition={{
+          duration: 0.5,
+          ease: 'easeOut',
+        }}
+      >
+        {/* Glow effect behind the word */}
+        {isGlowing && (
+          <motion.div
+            className="absolute inset-0 rounded-full"
+            style={{
+              background: 'radial-gradient(ellipse at center, rgba(212,175,55,0.15) 0%, transparent 70%)',
+              width: '120%',
+              height: '200%',
+              left: '-10%',
+              top: '-50%',
+            }}
+            animate={{
+              opacity: [0.5, 1, 0.5],
+            }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          />
+        )}
+
+        {/* Arabic text rendered with Amiri (Naskh) font — Gooey morphing effect */}
+        <div className="relative overflow-hidden">
+          {/* Clip-path reveal animation — reveals right-to-left (Arabic writing direction) */}
+          <motion.div
+            initial={{ clipPath: 'inset(0 0 0 100%)' }}
+            animate={{ clipPath: fontLoaded ? 'inset(0 0 0 0%)' : 'inset(0 0 0 100%)' }}
+            transition={{
+              duration: TIMING.revealDuration / 1000,
+              ease: [0.25, 0.1, 0.25, 1], // cubic-bezier for smooth calligraphic feel
+            }}
+          >
+            <motion.h1
+              className="select-none leading-none"
+              style={{
+                fontFamily: "'Amiri', serif",
+                fontSize: 'clamp(4rem, 12vw, 8rem)',
+                fontWeight: 700,
+                color: '#D4AF37',
+                direction: 'rtl',
+                letterSpacing: '0.02em',
+                textShadow: isGlowing
+                  ? '0 0 20px rgba(212,175,55,0.4), 0 0 40px rgba(212,175,55,0.2)'
+                  : 'none',
+              }}
+              animate={{
+                opacity: isFilled ? 1 : 0.85,
+              }}
+              transition={{
+                duration: 0.8,
+                ease: 'easeOut',
+              }}
+            >
+              نِبْرَاس
+            </motion.h1>
+          </motion.div>
+
+          {/* Calligraphic pen cursor that follows the reveal */}
+          {phase === 'draw' && fontLoaded && (
+            <motion.div
+              className="absolute top-0 bottom-0 w-0.5"
+              style={{
+                background: 'linear-gradient(to bottom, transparent, #D4AF37, transparent)',
+                right: 0,
+              }}
+              initial={{ right: '0%' }}
+              animate={{ right: '100%' }}
+              transition={{
+                duration: TIMING.revealDuration / 1000,
+                ease: [0.25, 0.1, 0.25, 1],
+              }}
+            />
+          )}
+        </div>
+
+        {/* Shimmer effect during hold phase */}
+        {isGlowing && (
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: 'linear-gradient(90deg, transparent 0%, rgba(212,175,55,0.1) 50%, transparent 100%)',
+              backgroundSize: '200% 100%',
+            }}
+            animate={{
+              backgroundPosition: ['-100% 0%', '200% 0%'],
+            }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              ease: 'linear',
+            }}
+          />
+        )}
+      </motion.div>
+    </div>
   );
 }

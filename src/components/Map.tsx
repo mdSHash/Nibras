@@ -7,6 +7,8 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import useSupercluster from 'use-supercluster';
 import { Maximize2, Minimize2, LocateFixed, SlidersHorizontal, Swords, Flag, MapPin, ScrollText, Tent, Book, Crown, Skull } from 'lucide-react';
 import { getTerritoriesForYear, TerritoryGroup } from '../territoriesData';
+import { cn } from '../utils/cn';
+import { Z_INDEX } from '../constants';
 
 // Custom Map Controls, Updater etc... (Keep as is, but we'll update TerritoryRenderer)
 
@@ -339,7 +341,7 @@ const EventClusters = ({ events, selectedEvent, onSelectEvent }: Pick<MapViewPro
   );
 };
 
-// New Map Controls Component - positioned on the left side
+// Map Controls Component - positioned in bottom-right corner
 const MapControls = ({
   onOpenFilter,
   onResetView,
@@ -353,8 +355,16 @@ const MapControls = ({
 }) => {
   return (
     <div
-      className="absolute top-[16px] sm:top-[24px] left-2 sm:left-4 z-[900] flex flex-col gap-2 pointer-events-auto"
-      dir="ltr"
+      className={cn(
+        "absolute right-2 sm:right-4",
+        "bottom-[calc(64px+env(safe-area-inset-bottom)+16px)] md:bottom-4",
+        "flex flex-col gap-1 pointer-events-auto",
+        "bg-[var(--glass-bg)] backdrop-blur-[12px]",
+        "rounded-[var(--radius-md)]",
+        "shadow-[var(--glass-shadow)]",
+        "p-1"
+      )}
+      style={{ zIndex: Z_INDEX.mapControls }}
     >
       {/* Control 1: Recenter Map - Returns to default Arabian Peninsula view */}
       <button
@@ -363,9 +373,15 @@ const MapControls = ({
           e.stopPropagation();
           onResetView();
         }}
-        className="w-11 h-11 bg-card-bg/95 backdrop-blur-sm shadow-[0_4px_12px_rgba(0,0,0,0.3)] rounded-xl text-ink hover:bg-accent hover:text-parchment border border-border-dark/40 flex justify-center items-center transition-all duration-200 hover:scale-105 active:scale-95"
-        title="إعادة توسيط الخريطة"
-        aria-label="إعادة توسيط الخريطة إلى الموقع الافتراضي"
+        className={cn(
+          "w-[44px] h-[44px] md:w-[40px] md:h-[40px]",
+          "rounded-[var(--radius-md)]",
+          "text-ink hover:bg-accent hover:text-parchment",
+          "flex justify-center items-center",
+          "transition-all duration-200 hover:scale-105 active:scale-95"
+        )}
+        title="إعادة تعيين الخريطة"
+        aria-label="إعادة تعيين الخريطة"
       >
         <LocateFixed size={20} strokeWidth={2.5} aria-hidden="true" />
       </button>
@@ -378,9 +394,15 @@ const MapControls = ({
             e.stopPropagation();
             onOpenFilter();
           }}
-          className="w-11 h-11 bg-accent/95 backdrop-blur-sm text-parchment shadow-lg rounded-xl hover:bg-accent hover:brightness-110 border border-border-dark/40 flex justify-center items-center transition-all duration-200 hover:scale-105 active:scale-95"
+          className={cn(
+            "w-[44px] h-[44px] md:w-[40px] md:h-[40px]",
+            "rounded-[var(--radius-md)]",
+            "bg-accent/90 text-parchment hover:bg-accent hover:brightness-110",
+            "flex justify-center items-center",
+            "transition-all duration-200 hover:scale-105 active:scale-95"
+          )}
           title="تصفية الأحداث"
-          aria-label="فتح قائمة تصفية الأحداث حسب الفئة"
+          aria-label="تصفية الأحداث"
         >
           <SlidersHorizontal size={20} strokeWidth={2.5} aria-hidden="true" />
         </button>
@@ -393,9 +415,15 @@ const MapControls = ({
           e.stopPropagation();
           onToggleFullscreen();
         }}
-        className="w-11 h-11 bg-card-bg/95 backdrop-blur-sm shadow-[0_4px_12px_rgba(0,0,0,0.3)] rounded-xl text-ink hover:bg-accent hover:text-parchment border border-border-dark/40 flex justify-center items-center transition-all duration-200 hover:scale-105 active:scale-95"
-        title={isFullscreen ? "الخروج من وضع ملء الشاشة" : "وضع ملء الشاشة"}
-        aria-label={isFullscreen ? "الخروج من وضع ملء الشاشة" : "تفعيل وضع ملء الشاشة"}
+        className={cn(
+          "w-[44px] h-[44px] md:w-[40px] md:h-[40px]",
+          "rounded-[var(--radius-md)]",
+          "text-ink hover:bg-accent hover:text-parchment",
+          "flex justify-center items-center",
+          "transition-all duration-200 hover:scale-105 active:scale-95"
+        )}
+        title={isFullscreen ? "الخروج من وضع ملء الشاشة" : "ملء الشاشة"}
+        aria-label="ملء الشاشة"
       >
         {isFullscreen ? (
           <Minimize2 size={20} strokeWidth={2.5} aria-hidden="true" />
@@ -476,14 +504,16 @@ export default function HistoricalMap({ events, selectedEvent, onSelectEvent, sh
     }
   }, [map]);
 
+  // Listen for custom event from header to reset map view
+  useEffect(() => {
+    const handleResetView = () => resetView();
+    window.addEventListener('nibras:reset-map-view', handleResetView);
+    return () => window.removeEventListener('nibras:reset-map-view', handleResetView);
+  }, [resetView]);
+
   return (
     <div className="relative w-full h-full z-0" data-tour-id="map-container">
-      <MapControls
-        onOpenFilter={onOpenFilter}
-        onResetView={resetView}
-        onToggleFullscreen={toggleFullscreen}
-        isFullscreen={isFullscreen}
-      />
+      {/* Map controls moved to header - see App.tsx */}
       
       <MapContainer
         center={[24.4672, 39.6112]}

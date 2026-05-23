@@ -1,5 +1,21 @@
 import { TourStep } from '../types/tour';
 
+const closeAllPanels = async () => {
+  // Close search menu if open
+  const searchCloseBtn = document.querySelector('[aria-label="إغلاق القائمة"]') as HTMLElement;
+  if (searchCloseBtn) {
+    searchCloseBtn.click();
+    await new Promise(resolve => setTimeout(resolve, 300));
+  }
+
+  // Close event panel if open
+  const eventPanelClose = document.querySelector('[data-tour-id="event-panel"] button[title="إغلاق"]') as HTMLElement;
+  if (eventPanelClose) {
+    eventPanelClose.click();
+    await new Promise(resolve => setTimeout(resolve, 300));
+  }
+};
+
 export const tourSteps: TourStep[] = [
   {
     id: 'welcome',
@@ -8,7 +24,10 @@ export const tourSteps: TourStep[] = [
     content: 'نبراس هو تطبيق تفاعلي لاستكشاف التاريخ الإسلامي المبكر من خلال الخرائط والخطوط الزمنية. دعنا نأخذك في جولة سريعة للتعرف على مميزات التطبيق.',
     position: 'center',
     spotlightPadding: 0,
-    disableInteraction: true
+    disableInteraction: true,
+    beforeShow: async () => {
+      await closeAllPanels();
+    }
   },
   {
     id: 'timeline',
@@ -20,6 +39,9 @@ export const tourSteps: TourStep[] = [
     action: {
       type: 'click',
       description: 'انقر على أي حدث في الخط الزمني'
+    },
+    beforeShow: async () => {
+      await closeAllPanels();
     }
   },
   {
@@ -32,6 +54,9 @@ export const tourSteps: TourStep[] = [
     action: {
       type: 'click',
       description: 'انقر على علامة في الخريطة لعرض التفاصيل'
+    },
+    beforeShow: async () => {
+      await closeAllPanels();
     }
   },
   {
@@ -45,6 +70,9 @@ export const tourSteps: TourStep[] = [
       type: 'click',
       target: '[data-tour-id="search-button"]',
       description: 'انقر لفتح قائمة البحث'
+    },
+    beforeShow: async () => {
+      await closeAllPanels();
     }
   },
   {
@@ -55,6 +83,7 @@ export const tourSteps: TourStep[] = [
     position: 'left',
     spotlightPadding: 10,
     beforeShow: async () => {
+      await closeAllPanels();
       try {
         const searchButton = document.querySelector('[data-tour-id="search-button"]') as HTMLElement;
         if (searchButton && !document.querySelector('[data-tour-id="filters-section"]')) {
@@ -73,15 +102,11 @@ export const tourSteps: TourStep[] = [
     },
     afterShow: async () => {
       try {
-        // Close the search menu by clicking the backdrop or close button
-        const filtersSection = document.querySelector('[data-tour-id="filters-section"]');
-        if (filtersSection) {
-          // Try to find and click the X button in the search menu
-          const closeButton = document.querySelector('[aria-label="إغلاق القائمة"]') as HTMLElement;
-          if (closeButton) {
-            closeButton.click();
-            await new Promise(resolve => setTimeout(resolve, 400));
-          }
+        // Close the search menu by clicking the close button
+        const closeButton = document.querySelector('[aria-label="إغلاق القائمة"]') as HTMLElement;
+        if (closeButton) {
+          closeButton.click();
+          await new Promise(resolve => setTimeout(resolve, 400));
         }
       } catch (error) {
         console.error('Error in filters step afterShow:', error);
@@ -96,25 +121,7 @@ export const tourSteps: TourStep[] = [
     position: 'bottom',
     spotlightPadding: 8,
     beforeShow: async () => {
-      try {
-        // Ensure search menu is closed
-        const filtersSection = document.querySelector('[data-tour-id="filters-section"]');
-        if (filtersSection) {
-          const closeButton = document.querySelector('[aria-label="إغلاق القائمة"]') as HTMLElement;
-          if (closeButton) {
-            closeButton.click();
-            await new Promise(resolve => setTimeout(resolve, 400));
-            
-            // Verify the menu closed
-            const stillOpen = document.querySelector('[data-tour-id="filters-section"]');
-            if (stillOpen) {
-              console.warn('Search menu did not close as expected');
-            }
-          }
-        }
-      } catch (error) {
-        console.error('Error in dark-mode step beforeShow:', error);
-      }
+      await closeAllPanels();
     }
   },
   {
@@ -125,17 +132,14 @@ export const tourSteps: TourStep[] = [
     position: 'left',
     spotlightPadding: 10,
     beforeShow: async () => {
+      // Close search menu but NOT event panel (we need to open it)
+      const searchCloseBtn = document.querySelector('[aria-label="إغلاق القائمة"]') as HTMLElement;
+      if (searchCloseBtn) {
+        searchCloseBtn.click();
+        await new Promise(resolve => setTimeout(resolve, 300));
+      }
+
       try {
-        // First, ensure search menu is closed
-        const filtersSection = document.querySelector('[data-tour-id="filters-section"]');
-        if (filtersSection) {
-          const closeButton = document.querySelector('[aria-label="إغلاق القائمة"]') as HTMLElement;
-          if (closeButton) {
-            closeButton.click();
-            await new Promise(resolve => setTimeout(resolve, 400));
-          }
-        }
-        
         // Then select the first event from timeline (they are divs with role="button", not actual buttons)
         const timelineEvents = document.querySelectorAll('[data-tour-id="timeline"] [role="button"]');
         if (timelineEvents.length > 0) {
@@ -192,7 +196,10 @@ export const tourSteps: TourStep[] = [
     content: 'يمكنك التنقل بحرية بين الخريطة والخط الزمني. استخدم البحث للوصول السريع إلى أحداث محددة، أو تصفح الأحداث زمنياً. جرب النقر على الأحداث المختلفة لاستكشاف التاريخ!',
     position: 'center',
     spotlightPadding: 0,
-    disableInteraction: true
+    disableInteraction: true,
+    beforeShow: async () => {
+      await closeAllPanels();
+    }
   },
   {
     id: 'complete',
@@ -201,7 +208,9 @@ export const tourSteps: TourStep[] = [
     content: 'الآن أنت جاهز لاستكشاف التاريخ الإسلامي المبكر! يمكنك إعادة الجولة في أي وقت من الزر العائم في الزاوية السفلية اليسرى. نتمنى لك تجربة ممتعة ومفيدة.',
     position: 'center',
     spotlightPadding: 0,
-    disableInteraction: true
+    disableInteraction: true,
+    beforeShow: async () => {
+      await closeAllPanels();
+    }
   }
 ];
-

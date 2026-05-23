@@ -3,36 +3,7 @@ import { TourState, TourStep, SpotlightPosition, TooltipPosition } from '../type
 import { tourSteps } from '../data/tourSteps';
 
 const TOUR_STORAGE_KEY = 'nibras-tour-state';
-const TOUR_PREFERENCES_KEY = 'nibras-tour-preferences';
-
-interface TourPreferences {
-  autoStart: boolean;
-  hasPrompted: boolean;
-}
-
-const getTourPreferences = (): TourPreferences => {
-  try {
-    const stored = localStorage.getItem(TOUR_PREFERENCES_KEY);
-    if (stored) {
-      return JSON.parse(stored);
-    }
-  } catch (error) {
-    console.error('Error loading tour preferences:', error);
-  }
-  
-  return {
-    autoStart: false,
-    hasPrompted: false
-  };
-};
-
-const saveTourPreferences = (preferences: TourPreferences) => {
-  try {
-    localStorage.setItem(TOUR_PREFERENCES_KEY, JSON.stringify(preferences));
-  } catch (error) {
-    console.error('Error saving tour preferences:', error);
-  }
-};
+const TOUR_PROMPTED_KEY = 'nibras_tour_prompted';
 
 const getInitialState = (): TourState => {
   try {
@@ -60,33 +31,35 @@ const saveTourState = (state: TourState) => {
   }
 };
 
+/** Check if the tour prompt has ever been shown to this user */
+const hasBeenPrompted = (): boolean => {
+  try {
+    return localStorage.getItem(TOUR_PROMPTED_KEY) === 'true';
+  } catch {
+    return false;
+  }
+};
+
+/** Mark that the tour prompt has been shown */
+const markAsPrompted = () => {
+  try {
+    localStorage.setItem(TOUR_PROMPTED_KEY, 'true');
+  } catch (error) {
+    console.error('Error saving tour prompted state:', error);
+  }
+};
+
 export const useTour = () => {
   const [state, setState] = useState<TourState>(getInitialState);
   const [currentStepData, setCurrentStepData] = useState<TourStep | null>(null);
-  const [preferences, setPreferences] = useState<TourPreferences>(getTourPreferences);
   const [showPrompt, setShowPrompt] = useState(false);
 
+  // Persist tour state
   useEffect(() => {
     saveTourState(state);
   }, [state]);
 
-  useEffect(() => {
-    saveTourPreferences(preferences);
-  }, [preferences]);
-
-  useEffect(() => {
-    const prefs = getTourPreferences();
-    const tourState = getInitialState();
-    
-    if (!prefs.hasPrompted && !tourState.hasSeenTour) {
-      setShowPrompt(true);
-    } else if (prefs.autoStart && !tourState.hasSeenTour && !tourState.isCompleted) {
-      setTimeout(() => {
-        startTour();
-      }, 1000);
-    }
-  }, []);
-
+  // Update current step data when step changes
   useEffect(() => {
     if (state.isActive && state.currentStep < tourSteps.length) {
       setCurrentStepData(tourSteps[state.currentStep]);
@@ -94,6 +67,24 @@ export const useTour = () => {
       setCurrentStepData(null);
     }
   }, [state.isActive, state.currentStep]);
+
+  /**
+   * Trigger the tour prompt to show.
+   * Called by App.tsx after intro completes, ONLY if this is the first visit.
+   * Returns true if the prompt will be shown, false if already prompted before.
+   */
+  const triggerPrompt = useCallback((): boolean => {
+    if (hasBeenPrompted()) {
+      return false;
+    }
+    setShowPrompt(true);
+    return true;
+  }, []);
+
+  /** Check if this is the user's first visit (never been prompted) */
+  const isFirstVisit = useCallback((): boolean => {
+    return !hasBeenPrompted();
+  }, []);
 
   const startTour = useCallback(() => {
     setState({
@@ -106,18 +97,12 @@ export const useTour = () => {
   }, []);
 
   const acceptTourPrompt = useCallback(() => {
-    setPreferences({
-      autoStart: true,
-      hasPrompted: true
-    });
+    markAsPrompted();
     startTour();
   }, [startTour]);
 
   const declineTourPrompt = useCallback(() => {
-    setPreferences({
-      autoStart: false,
-      hasPrompted: true
-    });
+    markAsPrompted();
     setState(prev => ({
       ...prev,
       hasSeenTour: true
@@ -183,6 +168,7 @@ export const useTour = () => {
       hasSeenTour: false
     });
     localStorage.removeItem(TOUR_STORAGE_KEY);
+    localStorage.removeItem(TOUR_PROMPTED_KEY);
   }, []);
 
   return {
@@ -197,9 +183,11 @@ export const useTour = () => {
     skipTour,
     resetTour,
     showPrompt,
+    triggerPrompt,
+    isFirstVisit,
     acceptTourPrompt,
     declineTourPrompt,
-    preferences
+    preferences: { hasPrompted: hasBeenPrompted() }
   };
 };
 
@@ -336,4 +324,3 @@ export const calculateTooltipPosition = (
 
   return tooltipPos;
 };
-

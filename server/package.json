@@ -21,8 +21,5 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.2"
-  },
-  "notes": {
-    "sdk_package": "Currently using @google/generative-ai. Official Gemini TTS guide uses @google/genai (different package). The API structure differs between packages. To fully align with official guide, would need to: 1) npm uninstall @google/generative-ai, 2) npm install @google/genai, 3) Update all imports and API calls. Current implementation works but uses different SDK."
   }
 }

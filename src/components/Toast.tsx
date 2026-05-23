@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, CheckCircle, AlertCircle, Info } from 'lucide-react';
+import { Z_INDEX } from '../constants';
+import { cn } from '../utils/cn';
+import { fadeUp } from '../utils/motionVariants';
 
 export type ToastType = 'success' | 'error' | 'info';
 
@@ -26,27 +29,33 @@ export const Toast: React.FC<ToastProps> = ({
 
   const config = {
     success: {
-      bg: 'bg-islamic-green',
-      icon: <CheckCircle size={20} />,
+      icon: <CheckCircle size={20} className="text-[var(--color-islamic-green)]" />,
     },
     error: {
-      bg: 'bg-battle-red',
-      icon: <AlertCircle size={20} />,
+      icon: <AlertCircle size={20} className="text-battle-red" />,
     },
     info: {
-      bg: 'bg-accent',
-      icon: <Info size={20} />,
+      icon: <Info size={20} className="text-accent" />,
     },
   };
 
-  const { bg, icon } = config[type];
+  const { icon } = config[type];
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 50, scale: 0.3 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.2 } }}
-      className={`fixed bottom-24 left-1/2 -translate-x-1/2 px-6 py-4 rounded-lg shadow-lg z-[9999] ${bg} text-parchment font-bold flex items-center gap-3 max-w-md`}
+      variants={fadeUp}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      className={cn(
+        "px-6 py-4 flex items-center gap-3",
+        "bg-[var(--glass-bg)] backdrop-blur-[16px]",
+        "border border-[var(--glass-border)]",
+        "rounded-[var(--radius-md)]",
+        "shadow-[var(--glass-shadow)]",
+        "max-w-[90vw] md:max-w-[400px]",
+        "font-bold text-ink"
+      )}
       dir="rtl"
       role="alert"
       aria-live="polite"
@@ -55,7 +64,7 @@ export const Toast: React.FC<ToastProps> = ({
       <span className="flex-1">{message}</span>
       <button
         onClick={onClose}
-        className="hover:bg-white/20 rounded-full p-1 transition-colors"
+        className="hover:bg-ink/10 rounded-full p-1 transition-colors"
         aria-label="إغلاق"
       >
         <X size={18} />
@@ -75,21 +84,29 @@ export const ToastContainer: React.FC<ToastContainerProps> = ({
   onRemove
 }) => {
   return (
-    <AnimatePresence>
-      {toasts.map((toast, index) => (
-        <motion.div
-          key={toast.id}
-          style={{ bottom: `${6 + index * 5}rem` }}
-          className="fixed left-1/2 -translate-x-1/2 z-[9999]"
-        >
+    <div
+      className={cn(
+        "fixed left-1/2 -translate-x-1/2",
+        // Mobile: bottom-center (above timeline bar + safe area + gap)
+        "bottom-[calc(64px+env(safe-area-inset-bottom)+16px)]",
+        // Desktop: top (below header)
+        "md:bottom-auto md:top-[80px]",
+        "flex flex-col gap-2 items-center"
+      )}
+      style={{ zIndex: Z_INDEX.toast }}
+      role="alert"
+      aria-live="polite"
+    >
+      <AnimatePresence>
+        {toasts.map((toast) => (
           <Toast
+            key={toast.id}
             message={toast.message}
             type={toast.type}
             onClose={() => onRemove(toast.id)}
           />
-        </motion.div>
-      ))}
-    </AnimatePresence>
+        ))}
+      </AnimatePresence>
+    </div>
   );
 };
-

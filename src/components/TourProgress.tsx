@@ -1,84 +1,140 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
+import { cn } from '../utils/cn';
+import { Z_INDEX } from '../constants';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 interface TourProgressProps {
   currentStep: number;
   totalSteps: number;
 }
 
-export const TourProgress: React.FC<TourProgressProps> = ({ currentStep, totalSteps }) => {
-  const progress = ((currentStep + 1) / totalSteps) * 100;
-
+/** Diamond/star step marker */
+const StepMarker: React.FC<{
+  index: number;
+  status: 'completed' | 'current' | 'future';
+  reducedMotion: boolean;
+}> = ({ index, status, reducedMotion }) => {
   return (
     <motion.div
-      className="fixed top-2 sm:top-4 left-1/2 transform -translate-x-1/2 z-[10001] bg-parchment dark:bg-ink-dark border-2 border-primary rounded-full px-3 sm:px-6 py-2 sm:py-3 shadow-lg will-change-transform max-w-[calc(100vw-2rem)]"
-      initial={{ opacity: 0, y: -20, scale: 0.9 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: -20, scale: 0.9 }}
-      transition={{ duration: 0.3, ease: [0.4, 0.0, 0.2, 1] }}
+      className="relative flex items-center justify-center"
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      transition={{ delay: index * 0.05, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="flex items-center gap-2 sm:gap-4" dir="rtl">
-        <AnimatePresence mode="wait">
-          <motion.span
-            key={currentStep}
-            className="text-xs sm:text-sm font-medium text-primary dark:text-primary-light whitespace-nowrap"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.2 }}
-          >
-            الخطوة {currentStep + 1} من {totalSteps}
-          </motion.span>
-        </AnimatePresence>
-        
-        <div className="w-20 sm:w-32 h-2 bg-primary/20 rounded-full overflow-hidden relative">
-          <motion.div
-            className="h-full bg-primary dark:bg-primary-light rounded-full will-change-transform"
-            initial={{ width: 0 }}
-            animate={{ width: `${progress}%` }}
-            transition={{
-              duration: 0.4,
-              ease: [0.4, 0.0, 0.2, 1]
-            }}
-          />
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-            initial={{ x: '-100%' }}
-            animate={{ x: '200%' }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "linear",
-              repeatDelay: 0.5
-            }}
-            style={{ width: '50%' }}
-          />
-        </div>
+      {/* Pulsing glow for current step */}
+      {status === 'current' && !reducedMotion && (
+        <motion.div
+          className="absolute w-5 h-5 rounded-sm rotate-45"
+          style={{
+            background: 'rgba(212, 168, 83, 0.3)',
+          }}
+          animate={{
+            scale: [1, 1.6, 1],
+            opacity: [0.6, 0, 0.6],
+          }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+      )}
 
-        <div className="hidden sm:flex gap-1">
-          {Array.from({ length: totalSteps }).map((_, index) => (
-            <motion.div
-              key={index}
-              className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${
-                index <= currentStep
-                  ? 'bg-primary dark:bg-primary-light'
-                  : 'bg-primary/30 dark:bg-primary-light/30'
-              }`}
-              initial={{ scale: 0 }}
-              animate={{
-                scale: index === currentStep ? [1, 1.3, 1] : 1,
-              }}
-              transition={{
-                scale: {
-                  duration: 0.3,
-                  times: [0, 0.5, 1]
-                }
-              }}
-            />
-          ))}
-        </div>
-      </div>
+      {/* Diamond shape */}
+      <motion.div
+        className={cn(
+          "w-2.5 h-2.5 rotate-45 transition-colors duration-300",
+          status === 'completed' && "bg-accent shadow-[0_0_6px_rgba(212,168,83,0.4)]",
+          status === 'current' && "bg-accent shadow-[0_0_10px_rgba(212,168,83,0.6)]",
+          status === 'future' && "bg-transparent border border-accent/40"
+        )}
+        animate={status === 'current' && !reducedMotion ? {
+          scale: [1, 1.15, 1],
+        } : undefined}
+        transition={{
+          duration: 1.2,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      />
     </motion.div>
   );
 };
 
+/** Connecting line between markers */
+const ConnectingLine: React.FC<{
+  filled: boolean;
+  index: number;
+  reducedMotion: boolean;
+}> = ({ filled, index, reducedMotion }) => (
+  <div className="relative w-4 sm:w-6 h-[2px] mx-0.5">
+    {/* Background line */}
+    <div className="absolute inset-0 bg-accent/20 rounded-full" />
+    {/* Filled progress line */}
+    <motion.div
+      className="absolute inset-y-0 left-0 bg-accent rounded-full"
+      initial={{ width: '0%' }}
+      animate={{ width: filled ? '100%' : '0%' }}
+      transition={{
+        duration: reducedMotion ? 0.1 : 0.4,
+        delay: index * 0.05,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+    />
+  </div>
+);
+
+export const TourProgress: React.FC<TourProgressProps> = ({ currentStep, totalSteps }) => {
+  const reducedMotion = useReducedMotion();
+
+  return (
+    <motion.div
+      className={cn(
+        "fixed left-1/2 transform -translate-x-1/2",
+        "bottom-[calc(16px+env(safe-area-inset-bottom))]",
+        "bg-[var(--glass-bg)] backdrop-blur-xl",
+        "border border-accent/20",
+        "rounded-full",
+        "px-4 sm:px-5 py-2.5 sm:py-3",
+        "shadow-[0_8px_32px_rgba(0,0,0,0.3),0_0_20px_rgba(212,168,83,0.05)]",
+        "will-change-transform",
+        "max-w-[calc(100vw-2rem)]"
+      )}
+      style={{ zIndex: Z_INDEX.tourControls }}
+      initial={{ opacity: 0, y: 20, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: 20, scale: 0.9 }}
+      transition={{
+        duration: reducedMotion ? 0.1 : 0.4,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+    >
+      <div className="flex items-center gap-0" dir="rtl">
+        {Array.from({ length: totalSteps }).map((_, index) => {
+          const status: 'completed' | 'current' | 'future' =
+            index < currentStep ? 'completed' :
+            index === currentStep ? 'current' : 'future';
+
+          return (
+            <React.Fragment key={index}>
+              <StepMarker
+                index={index}
+                status={status}
+                reducedMotion={reducedMotion}
+              />
+              {/* Connecting line (not after last marker) */}
+              {index < totalSteps - 1 && (
+                <ConnectingLine
+                  filled={index < currentStep}
+                  index={index}
+                  reducedMotion={reducedMotion}
+                />
+              )}
+            </React.Fragment>
+          );
+        })}
+      </div>
+    </motion.div>
+  );
+};

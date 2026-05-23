@@ -138,7 +138,6 @@ class GeminiTTSService {
       const cacheKey = await this.generateCacheKey(text, normalizedOptions.voice, normalizedOptions.rate);
       const audioUrl = `${this.audioBasePath}/${cacheKey}.wav`;
 
-      console.log('[TTS] Loading static audio file:', cacheKey);
 
       // Test if file exists by attempting to fetch it
       const response = await fetch(audioUrl, { method: 'HEAD' });
@@ -205,7 +204,6 @@ class GeminiTTSService {
       
       // Set up event handlers before playing
       audio.onended = () => {
-        console.log('[TTS] Audio playback completed, duration was:', audioDuration.toFixed(2), 'seconds');
         this.speaking = false;
         this.paused = false;
         this.currentAudio = null;
@@ -224,7 +222,6 @@ class GeminiTTSService {
       audio.play()
         .then(() => {
           audioDuration = audio.duration || 5.0; // Fallback to 5 seconds if duration not available
-          console.log('[TTS] Audio playback started, duration:', audioDuration.toFixed(2), 'seconds');
           this.currentAudio = audio;
           this.speaking = true;
           this.paused = false;

@@ -1,4 +1,6 @@
 import { EventItem } from '../data';
+// Re-export era color utilities from the shared module
+export { getEraColor, getEraColorScheme, getEraKey } from './eraColors';
 
 /**
  * Check if an event is a battle/military event
@@ -29,18 +31,6 @@ export const isRashidunEra = (event: EventItem): boolean => {
     'عهد علي بن أبي طالب'
   ];
   return rashidunEras.includes(event.era);
-};
-
-/**
- * Get the theme color for a specific era
- */
-export const getEraColor = (era: string): string => {
-  if (era.includes('المكي') || era.includes('المدني')) return '#10b981';
-  if (era.includes('أبي بكر') || era.includes('أبو بكر')) return '#fbbf24';
-  if (era.includes('عمر')) return '#ef4444';
-  if (era.includes('عثمان')) return '#06b6d4';
-  if (era.includes('علي')) return '#818cf8';
-  return '#8b7355';
 };
 
 /**

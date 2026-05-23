@@ -1,8 +1,12 @@
-import React, { useRef, useEffect, useState, useMemo } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { EventItem } from "../data";
 import { motion, AnimatePresence } from "motion/react";
 import { RotateCw, Play, Pause, ChevronUp, ChevronDown, SkipBack, X, Volume2, VolumeX } from "lucide-react";
 import geminiTTS from "../services/ttsGemini";
+import { cn } from "../utils/cn";
+import { Z_INDEX } from "../constants";
+import { scaleIn } from "../utils/motionVariants";
+import { getEraColor } from "../utils/eraColors";
 
 interface TimelineProps {
   events: EventItem[];
@@ -89,6 +93,7 @@ export default function Timeline({
   const [playbackSpeed, setPlaybackSpeed] = useState<1 | 2 | 3>(1);
   const [isDockVisible, setIsDockVisible] = useState(true);
   const [isTTSEnabled, setIsTTSEnabled] = useState(true); // TTS enabled by default
+  const [isExpanded, setIsExpanded] = useState(false);
   const autoPlayTimerRef = useRef<NodeJS.Timeout | null>(null);
   const fullEventsRef = useRef<EventItem[]>([]);
   const pausedAtEventRef = useRef<string | null>(null);
@@ -230,17 +235,34 @@ export default function Timeline({
     };
   }, []);
 
-  // Auto-scroll to selected event
+  // Auto-scroll to selected event - centers the event in the visible timeline
   useEffect(() => {
-    if (selectedEvent && containerRef.current) {
-      const el = document.getElementById(`timeline-item-${selectedEvent.id}`);
-      if (el) {
-        el.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest",
-          inline: "center",
-        });
-      }
+    if (!selectedEvent) return;
+
+    const container = containerRef.current;
+    const el = document.getElementById(`timeline-item-${selectedEvent.id}`);
+    
+    if (container && el) {
+      // Programmatic scroll to center the element within the scrollable container
+      const containerRect = container.getBoundingClientRect();
+      const elRect = el.getBoundingClientRect();
+      
+      // Calculate the offset needed to center the element
+      const elCenterX = elRect.left + elRect.width / 2;
+      const containerCenterX = containerRect.left + containerRect.width / 2;
+      const scrollOffset = elCenterX - containerCenterX;
+      
+      container.scrollBy({
+        left: scrollOffset,
+        behavior: "smooth",
+      });
+    } else if (el) {
+      // Fallback for mobile expanded view or when container ref isn't available
+      el.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
     }
   }, [selectedEvent]);
 
@@ -292,14 +314,11 @@ export default function Timeline({
           onAutoPlayChange?.(false);
           break;
         }
-        
-        console.log('[Timeline] Current event:', currentEvent.title, '(index:', currentIndex, ')');
-        
+
         // Play TTS for current event if enabled
         if (isTTSEnabled && currentEvent.title) {
           try {
             isPlayingTTSRef.current = true;
-            console.log('[Timeline] Starting TTS for:', currentEvent.title);
             
             // Wait for TTS to complete
             await geminiTTS.speak(currentEvent.title, {
@@ -308,7 +327,6 @@ export default function Timeline({
             });
             
             isPlayingTTSRef.current = false;
-            console.log('[Timeline] TTS completed for:', currentEvent.title);
           } catch (error) {
             console.error('[Timeline] TTS error for', currentEvent.title, ':', error);
             isPlayingTTSRef.current = false;
@@ -317,13 +335,11 @@ export default function Timeline({
         } else if (!isTTSEnabled) {
           // No TTS, wait base delay
           const baseDelay = 5000 / playbackSpeed;
-          console.log('[Timeline] TTS disabled, waiting', baseDelay, 'ms');
           await new Promise(resolve => setTimeout(resolve, baseDelay));
         }
         
         // Check if still active and playing
         if (!isActive || !isAutoPlaying) {
-          console.log('[Timeline] Autoplay stopped during playback');
           break;
         }
         
@@ -331,7 +347,6 @@ export default function Timeline({
         currentIndex++;
         if (currentIndex < fullEvents.length) {
           const nextEvent = fullEvents[currentIndex];
-          console.log('[Timeline] Moving to next event:', nextEvent.title, '(index:', currentIndex, ')');
           
           // Select next event
           onSelectEvent(nextEvent);
@@ -340,7 +355,6 @@ export default function Timeline({
           await new Promise(resolve => setTimeout(resolve, 500));
         } else {
           // Reached the end
-          console.log('[Timeline] Reached end of events');
           setIsAutoPlaying(false);
           onAutoPlayChange?.(false);
           geminiTTS.stop();
@@ -351,7 +365,6 @@ export default function Timeline({
     };
 
     // Start the autoplay cycle
-    console.log('[Timeline] Starting autoplay from event:', selectedEvent?.title);
     playCurrentAndAdvance();
 
     return () => {
@@ -440,6 +453,29 @@ export default function Timeline({
         onEraSelect(eraLabel);
       }
     }
+
+    // Find the target event for this era and scroll to it
+    const jump = quickJumps.find((j) => j.label === eraLabel);
+    if (jump?.target) {
+      // Select the first event of the era (triggers auto-scroll via useEffect)
+      onSelectEvent(jump.target);
+
+      // Also manually scroll in case the event is already selected
+      // (useEffect won't re-trigger if selectedEvent doesn't change)
+      const container = containerRef.current;
+      const el = document.getElementById(`timeline-item-${jump.target.id}`);
+      if (container && el) {
+        const containerRect = container.getBoundingClientRect();
+        const elRect = el.getBoundingClientRect();
+        const elCenterX = elRect.left + elRect.width / 2;
+        const containerCenterX = containerRect.left + containerRect.width / 2;
+        const scrollOffset = elCenterX - containerCenterX;
+        container.scrollBy({
+          left: scrollOffset,
+          behavior: "smooth",
+        });
+      }
+    }
   };
 
   const cycleSpeed = () => {
@@ -452,285 +488,959 @@ export default function Timeline({
 
   return (
     <>
-      {/* Era Rapid Navigation Dock - Mobile Optimized with Horizontal Scroll */}
-      <AnimatePresence>
-        {isDockVisible && (
-          <motion.div
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 100, opacity: 0 }}
-            transition={{ type: "spring", damping: 20, stiffness: 200 }}
-            className={`absolute left-1/2 -translate-x-1/2 bg-gradient-to-r from-panel-bg/95 via-panel-bg/90 to-panel-bg/95 backdrop-blur-xl border-2 border-border-dark/40 z-[900] pointer-events-auto shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-300 ${
-              selectedEvent
-                ? "bottom-[120px] sm:bottom-[120px]"
-                : "bottom-[115px] sm:bottom-[120px]"
-            } ${
-              isPlayerMode
-                ? "rounded-2xl p-2 sm:p-2.5 w-[96%] sm:w-auto max-w-[98%] sm:max-w-none"
-                : "rounded-2xl sm:rounded-full p-2 sm:p-2.5 w-[96%] sm:w-auto max-w-[98%] sm:max-w-none"
-            }`}
-            dir="rtl"
-          >
-            <div className={`flex items-center justify-center gap-2 ${!isPlayerMode ? 'overflow-x-auto no-scrollbar md:overflow-visible' : 'flex-wrap'}`}>
-              {/* Player Mode Controls - Show when player mode is active */}
-              <AnimatePresence mode="wait">
-                {isPlayerMode ? (
-                  <motion.div
-                    key="player-controls"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    className="flex items-center gap-2 flex-wrap justify-center w-full"
-                  >
-                  {/* Play/Pause Button */}
-                  <motion.button
-                    onClick={toggleAutoPlay}
-                    whileTap={{ scale: 0.95 }}
-                    className={`flex items-center gap-1.5 ${isAutoPlaying ? 'bg-battle-red/20 border-battle-red/40' : 'bg-islamic-green/20 border-islamic-green/40'} text-ink text-[11px] sm:text-xs font-bold px-3 sm:px-4 py-2 rounded-full transition-all border-2 shrink-0 min-h-[44px] hover:scale-105`}
-                    style={{
-                      boxShadow: isAutoPlaying ? '0 0 20px rgba(163, 59, 32, 0.4)' : '0 0 20px rgba(45, 90, 39, 0.4)'
-                    }}
-                    title={isAutoPlaying ? "إيقاف التشغيل التلقائي" : "تشغيل تلقائي للأحداث"}
-                  >
-                    {isAutoPlaying ? (
-                      <>
-                        <Pause size={14} className="sm:w-4 sm:h-4" />
-                        <span className="hidden sm:inline">إيقاف</span>
-                      </>
-                    ) : (
-                      <>
-                        <Play size={14} className="sm:w-4 sm:h-4" />
-                        <span className="hidden sm:inline">تشغيل</span>
-                      </>
-                    )}
-                  </motion.button>
-
-                  {/* TTS Toggle */}
-                  <motion.button
-                    onClick={toggleTTS}
-                    whileTap={{ scale: 0.95 }}
-                    className={`flex items-center gap-1.5 ${isTTSEnabled ? 'bg-islamic-green/20 border-islamic-green/40' : 'bg-gray-500/20 border-gray-500/40'} text-ink text-[11px] sm:text-xs font-bold px-2 sm:px-3 py-2 rounded-full transition-all border-2 shrink-0 min-h-[44px] hover:scale-105`}
-                    style={{
-                      boxShadow: isTTSEnabled ? '0 0 20px rgba(45, 90, 39, 0.4)' : '0 0 20px rgba(107, 114, 128, 0.4)'
-                    }}
-                    title={isTTSEnabled ? "إيقاف الصوت" : "تشغيل الصوت"}
-                  >
-                    {isTTSEnabled ? <Volume2 size={14} className="sm:w-4 sm:h-4" /> : <VolumeX size={14} className="sm:w-4 sm:h-4" />}
-                  </motion.button>
-
-                  {/* Speed Control */}
-                  <motion.button
-                    onClick={cycleSpeed}
-                    whileTap={{ scale: 0.95 }}
-                    className="flex items-center gap-1 bg-accent/20 border-accent/40 text-ink text-[11px] sm:text-xs font-bold px-2 sm:px-3 py-2 rounded-full transition-all border-2 shrink-0 min-h-[44px] hover:scale-105"
-                    style={{
-                      boxShadow: '0 0 20px rgba(139, 107, 74, 0.4)'
-                    }}
-                    title="تغيير سرعة التشغيل"
-                  >
-                    <span className="font-mono">{playbackSpeed}x</span>
-                  </motion.button>
-
-                  {/* Start Over */}
-                  <motion.button
-                    onClick={startOver}
-                    whileTap={{ scale: 0.95 }}
-                    className="flex items-center gap-1.5 bg-islamic-green/20 border-islamic-green/40 text-ink text-[11px] sm:text-xs font-bold px-3 sm:px-4 py-2 rounded-full transition-all border-2 shrink-0 min-h-[44px] hover:scale-105"
-                    style={{
-                      boxShadow: '0 0 20px rgba(45, 90, 39, 0.4)'
-                    }}
-                    title="البدء من جديد"
-                  >
-                    <SkipBack size={14} className="sm:w-4 sm:h-4" />
-                    <span className="hidden sm:inline">البدء من جديد</span>
-                  </motion.button>
-
-                  {/* Exit Player Mode */}
-                  <motion.button
-                    onClick={exitPlayerMode}
-                    whileTap={{ scale: 0.95 }}
-                    className="flex items-center gap-1.5 bg-parchment/20 border-parchment/40 text-ink text-[11px] sm:text-xs font-bold px-3 sm:px-4 py-2 rounded-full transition-all border-2 shrink-0 min-h-[44px] hover:scale-105"
-                    style={{
-                      boxShadow: '0 0 20px rgba(244, 236, 225, 0.4)'
-                    }}
-                    title="الخروج من وضع التشغيل"
-                  >
-                    <X size={14} className="sm:w-4 sm:h-4" />
-                    <span className="hidden sm:inline">خروج</span>
-                  </motion.button>
-                </motion.div>
-              ) : (
-                  <motion.div
-                    key="navigation-controls"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    className="flex items-center gap-2 w-full justify-start md:justify-center"
-                  >
-                  {/* Play Button */}
-                  <motion.button
-                    onClick={toggleAutoPlay}
-                    whileTap={{ scale: 0.95 }}
-                    className="flex items-center gap-1.5 bg-islamic-green/20 border-islamic-green/40 text-ink text-[11px] sm:text-xs font-bold px-3 sm:px-4 py-2 rounded-full transition-all border-2 shrink-0 min-h-[44px] hover:scale-105"
-                    style={{
-                      boxShadow: '0 0 20px rgba(45, 90, 39, 0.4)'
-                    }}
-                    title="تشغيل تلقائي للأحداث"
-                  >
-                    <Play size={14} className="sm:w-4 sm:h-4" />
-                    <span className="hidden sm:inline">تشغيل</span>
-                  </motion.button>
-
-                  <AnimatePresence>
-                    {showScrollBack && (
+    <div
+      className={cn(
+        "fixed bottom-0 left-0 right-0",
+        "pointer-events-none"
+      )}
+      style={{ zIndex: Z_INDEX.timeline, isolation: 'isolate' }}
+    >
+      {/* ===== DESKTOP ERA DOCK ===== */}
+      {/* Positioned as a bar above the timeline with toggle integrated inline */}
+      <div className="hidden md:block">
+        <AnimatePresence>
+          {isDockVisible && (
+            <motion.div
+              variants={scaleIn}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              className={cn(
+                "mx-auto w-fit max-w-[90%]",
+                "bg-[var(--glass-bg)] backdrop-blur-[16px]",
+                "border-2 border-[var(--glass-border)] border-b-0",
+                "pointer-events-auto",
+                "shadow-[0_-4px_24px_rgba(0,0,0,0.2)]",
+                "rounded-t-2xl",
+                "px-3 py-2"
+              )}
+              style={{
+                zIndex: Z_INDEX.timelineDock,
+              }}
+              dir="rtl"
+            >
+              <div className="flex items-center gap-2">
+                {/* Player Mode Controls */}
+                <AnimatePresence mode="wait">
+                  {isPlayerMode ? (
+                    <motion.div
+                      key="player-controls"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      className="flex items-center gap-2 flex-wrap justify-center"
+                    >
+                      {/* Play/Pause Button */}
                       <motion.button
-                        initial={{ scale: 0, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: [0.68, -0.55, 0.265, 1.55] }}
-                        onClick={() => {
-                          jumpToStart();
-                          if (onEraSelect) {
-                            onEraSelect(null);
-                          }
-                        }}
+                        onClick={toggleAutoPlay}
                         whileTap={{ scale: 0.95 }}
-                        className="flex items-center gap-1 bg-parchment/10 text-ink text-[11px] sm:text-xs font-bold px-3 py-1.5 rounded-full transition-all border border-transparent active:border-parchment/30 shrink-0 min-h-[44px]"
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'scale(1.05)';
-                          e.currentTarget.style.backgroundColor = 'rgba(244, 236, 225, 0.2)';
+                        className={cn(
+                          "flex items-center gap-1.5",
+                          isAutoPlaying ? "bg-battle-red/20 border-battle-red/40" : "bg-islamic-green/20 border-islamic-green/40",
+                          "text-ink text-xs font-bold px-4 py-2",
+                          "rounded-full transition-all border-2 shrink-0",
+                          "min-h-[44px] min-w-[44px] hover:scale-105"
+                        )}
+                        style={{
+                          touchAction: 'manipulation',
+                          boxShadow: isAutoPlaying ? '0 0 20px rgba(163, 59, 32, 0.4)' : '0 0 20px rgba(45, 90, 39, 0.4)'
                         }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.transform = 'scale(1)';
-                          e.currentTarget.style.backgroundColor = 'rgba(244, 236, 225, 0.1)';
-                        }}
+                        title={isAutoPlaying ? "إيقاف التشغيل التلقائي" : "تشغيل تلقائي للأحداث"}
                       >
-                        <motion.div
-                          animate={{ rotate: [0, -360] }}
-                          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                        >
-                          <RotateCw size={14} />
-                        </motion.div>
-                        البداية
+                        {isAutoPlaying ? (
+                          <>
+                            <Pause size={16} />
+                            <span>إيقاف</span>
+                          </>
+                        ) : (
+                          <>
+                            <Play size={16} />
+                            <span>تشغيل</span>
+                          </>
+                        )}
                       </motion.button>
-                    )}
-                  </AnimatePresence>
 
-                    {/* Divider */}
-                    <div className="hidden md:block w-px h-8 bg-parchment/20 shrink-0" />
+                      {/* TTS Toggle */}
+                      <motion.button
+                        onClick={toggleTTS}
+                        whileTap={{ scale: 0.95 }}
+                        className={cn(
+                          "flex items-center gap-1.5",
+                          isTTSEnabled ? "bg-islamic-green/20 border-islamic-green/40" : "bg-gray-500/20 border-gray-500/40",
+                          "text-ink text-xs font-bold px-3 py-2",
+                          "rounded-full transition-all border-2 shrink-0",
+                          "min-h-[44px] min-w-[44px] hover:scale-105"
+                        )}
+                        style={{
+                          touchAction: 'manipulation',
+                          boxShadow: isTTSEnabled ? '0 0 20px rgba(45, 90, 39, 0.4)' : '0 0 20px rgba(107, 114, 128, 0.4)'
+                        }}
+                        title={isTTSEnabled ? "إيقاف الصوت" : "تشغيل الصوت"}
+                      >
+                        {isTTSEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
+                      </motion.button>
 
-                    {/* Era Navigation Buttons - Horizontal scroll on mobile */}
+                      {/* Speed Control */}
+                      <motion.button
+                        onClick={cycleSpeed}
+                        whileTap={{ scale: 0.95 }}
+                        className={cn(
+                          "flex items-center gap-1",
+                          "bg-accent/20 border-accent/40",
+                          "text-ink text-xs font-bold px-3 py-2",
+                          "rounded-full transition-all border-2 shrink-0",
+                          "min-h-[44px] min-w-[44px] hover:scale-105"
+                        )}
+                        style={{
+                          touchAction: 'manipulation',
+                          boxShadow: '0 0 20px rgba(139, 107, 74, 0.4)'
+                        }}
+                        title="تغيير سرعة التشغيل"
+                      >
+                        <span className="font-mono">{playbackSpeed}x</span>
+                      </motion.button>
+
+                      {/* Start Over */}
+                      <motion.button
+                        onClick={startOver}
+                        whileTap={{ scale: 0.95 }}
+                        className={cn(
+                          "flex items-center gap-1.5",
+                          "bg-islamic-green/20 border-islamic-green/40",
+                          "text-ink text-xs font-bold px-4 py-2",
+                          "rounded-full transition-all border-2 shrink-0",
+                          "min-h-[44px] min-w-[44px] hover:scale-105"
+                        )}
+                        style={{
+                          touchAction: 'manipulation',
+                          boxShadow: '0 0 20px rgba(45, 90, 39, 0.4)'
+                        }}
+                        title="البدء من جديد"
+                      >
+                        <SkipBack size={16} />
+                        <span>البدء من جديد</span>
+                      </motion.button>
+
+                      {/* Exit Player Mode */}
+                      <motion.button
+                        onClick={exitPlayerMode}
+                        whileTap={{ scale: 0.95 }}
+                        className={cn(
+                          "flex items-center gap-1.5",
+                          "bg-parchment/20 border-parchment/40",
+                          "text-ink text-xs font-bold px-4 py-2",
+                          "rounded-full transition-all border-2 shrink-0",
+                          "min-h-[44px] min-w-[44px] hover:scale-105"
+                        )}
+                        style={{
+                          touchAction: 'manipulation',
+                          boxShadow: '0 0 20px rgba(244, 236, 225, 0.4)'
+                        }}
+                        title="الخروج من وضع التشغيل"
+                      >
+                        <X size={16} />
+                        <span>خروج</span>
+                      </motion.button>
+
+                      {/* Dock Toggle - integrated at the end */}
+                      <div className="w-px h-8 bg-parchment/20 shrink-0 mx-1" />
+                      <motion.button
+                        onClick={() => setIsDockVisible(false)}
+                        whileTap={{ scale: 0.92 }}
+                        className={cn(
+                          "text-ink/60 hover:text-ink p-2 rounded-full",
+                          "hover:bg-parchment/10 transition-all shrink-0",
+                          "min-h-[44px] min-w-[44px] flex items-center justify-center"
+                        )}
+                        style={{ touchAction: 'manipulation' }}
+                        title="إخفاء شريط التنقل"
+                        aria-label="إخفاء شريط التنقل"
+                      >
+                        <ChevronDown size={18} />
+                      </motion.button>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="navigation-controls"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      className="flex items-center gap-2"
+                    >
+                      {/* Play Button */}
+                      <motion.button
+                        onClick={toggleAutoPlay}
+                        whileTap={{ scale: 0.95 }}
+                        className={cn(
+                          "flex items-center gap-1.5",
+                          "bg-islamic-green/20 border-islamic-green/40",
+                          "text-ink text-xs font-bold px-4 py-2",
+                          "rounded-full transition-all border-2 shrink-0",
+                          "min-h-[44px] min-w-[44px] hover:scale-105"
+                        )}
+                        style={{
+                          touchAction: 'manipulation',
+                          boxShadow: '0 0 20px rgba(45, 90, 39, 0.4)'
+                        }}
+                        title="تشغيل تلقائي للأحداث"
+                      >
+                        <Play size={16} />
+                        <span>تشغيل</span>
+                      </motion.button>
+
+                      <AnimatePresence>
+                        {showScrollBack && selectedEvent && selectedEvent !== events[0] && (
+                          <motion.button
+                            initial={{ opacity: 0, x: -20, scale: 0.8 }}
+                            animate={{
+                              opacity: 1,
+                              x: 0,
+                              scale: [1, 1.05, 1],
+                            }}
+                            exit={{ opacity: 0, x: -20, scale: 0.8 }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 300,
+                              damping: 20,
+                              scale: {
+                                repeat: Infinity,
+                                repeatType: "reverse",
+                                duration: 2,
+                                ease: "easeInOut",
+                              },
+                            }}
+                            onClick={() => {
+                              jumpToStart();
+                              if (onEraSelect) {
+                                onEraSelect(null);
+                              }
+                            }}
+                            whileTap={{ scale: 0.95 }}
+                            className={cn(
+                              "flex items-center gap-1",
+                              "bg-parchment/10 text-ink text-xs font-bold",
+                              "px-3 py-1.5 rounded-full transition-all",
+                              "border border-transparent active:border-parchment/30",
+                              "shrink-0 min-h-[44px] min-w-[44px]"
+                            )}
+                            style={{ touchAction: 'manipulation' }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.transform = 'scale(1.05)';
+                              e.currentTarget.style.backgroundColor = 'rgba(244, 236, 225, 0.2)';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.transform = 'scale(1)';
+                              e.currentTarget.style.backgroundColor = 'rgba(244, 236, 225, 0.1)';
+                            }}
+                          >
+                            <motion.div
+                              initial={{ rotate: 0 }}
+                              animate={{ rotate: -360 }}
+                              transition={{ duration: 0.6, ease: "easeOut" }}
+                            >
+                              <RotateCw size={14} />
+                            </motion.div>
+                            البداية
+                          </motion.button>
+                        )}
+                      </AnimatePresence>
+
+                      {/* Divider */}
+                      <div className="w-px h-8 bg-parchment/20 shrink-0" />
+
+                      {/* Era Navigation Buttons */}
+                      {quickJumps.map((jump, i) => {
+                        const isSelected = selectedEra === jump.label;
+                        return jump.target ? (
+                          <motion.button
+                            key={`jump-${i}`}
+                            onClick={() => handleEraClick(jump.label)}
+                            whileTap={{ scale: 0.95 }}
+                            transition={{ duration: 0.2 }}
+                            className={cn(
+                              "px-3 py-2 rounded-full",
+                              "text-xs font-bold text-ink",
+                              "opacity-90 hover:opacity-100 active:opacity-100",
+                              "transition-all border-2 hover:border-parchment/20",
+                              "flex items-center gap-1.5 whitespace-nowrap",
+                              "min-h-[44px] min-w-[44px] hover:bg-parchment/5 shrink-0"
+                            )}
+                            style={{
+                              touchAction: 'manipulation',
+                              borderBottomWidth: "3px",
+                              borderBottomColor: jump.color,
+                              boxShadow: `0 2px 8px ${jump.color}20`,
+                              borderColor: isSelected ? jump.color : 'transparent',
+                              backgroundColor: isSelected ? `${jump.color}15` : 'transparent'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.transform = 'scale(1.05) translateY(-2px)';
+                              e.currentTarget.style.opacity = '1';
+                              e.currentTarget.style.boxShadow = `0 6px 20px ${jump.color}50`;
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.transform = 'scale(1) translateY(0)';
+                              e.currentTarget.style.opacity = '0.9';
+                              e.currentTarget.style.boxShadow = `0 2px 8px ${jump.color}20`;
+                            }}
+                          >
+                            <motion.div
+                              className="w-2.5 h-2.5 rounded-full"
+                              style={{ backgroundColor: jump.color }}
+                              animate={{
+                                boxShadow: [`0 0 0 0 ${jump.color}`, `0 0 0 4px ${jump.color}00`]
+                              }}
+                              transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                              }}
+                            />
+                            <span>{jump.label}</span>
+                          </motion.button>
+                        ) : null;
+                      })}
+
+                      {/* Dock Toggle - integrated at the end */}
+                      <div className="w-px h-8 bg-parchment/20 shrink-0 mx-1" />
+                      <motion.button
+                        onClick={() => setIsDockVisible(false)}
+                        whileTap={{ scale: 0.92 }}
+                        className={cn(
+                          "text-ink/60 hover:text-ink p-2 rounded-full",
+                          "hover:bg-parchment/10 transition-all shrink-0",
+                          "min-h-[44px] min-w-[44px] flex items-center justify-center"
+                        )}
+                        style={{ touchAction: 'manipulation' }}
+                        title="إخفاء شريط التنقل"
+                        aria-label="إخفاء شريط التنقل"
+                      >
+                        <ChevronDown size={18} />
+                      </motion.button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Desktop Dock Show Button - only visible when dock is hidden */}
+        <AnimatePresence>
+          {!isDockVisible && (
+            <motion.button
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              onClick={() => setIsDockVisible(true)}
+              whileTap={{ scale: 0.92 }}
+              className={cn(
+                "mx-auto block",
+                "bg-[var(--glass-bg)] backdrop-blur-[16px]",
+                "text-ink p-2 rounded-t-xl",
+                "border-2 border-b-0 border-[var(--glass-border)]",
+                "pointer-events-auto shadow-lg transition-all",
+                "min-w-[44px] min-h-[36px]",
+                "flex items-center justify-center gap-1"
+              )}
+              style={{
+                zIndex: Z_INDEX.dockToggle,
+                touchAction: 'manipulation',
+              }}
+              title="إظهار شريط التنقل"
+              aria-label="إظهار شريط التنقل"
+            >
+              <ChevronUp size={18} />
+            </motion.button>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* ===== MOBILE ERA DOCK ===== */}
+      {/* Compact pill that shows era chips - always visible on mobile when dock is visible */}
+      <div className="md:hidden">
+        <AnimatePresence>
+          {isDockVisible && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 8 }}
+              transition={{ duration: 0.2 }}
+              className={cn(
+                "mx-2 mb-1",
+                "bg-[var(--glass-bg)] backdrop-blur-[16px]",
+                "border border-[var(--glass-border)]",
+                "pointer-events-auto",
+                "shadow-[0_-2px_16px_rgba(0,0,0,0.15)]",
+                "rounded-2xl",
+                "px-2 py-1.5"
+              )}
+              style={{ zIndex: Z_INDEX.timelineDock }}
+              dir="rtl"
+            >
+              {/* Era chips - horizontal scrollable */}
+              <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-hide min-h-[40px]">
+                {isPlayerMode ? (
+                  /* Player controls in mobile dock */
+                  <>
+                    <motion.button
+                      onClick={toggleAutoPlay}
+                      whileTap={{ scale: 0.95 }}
+                      className={cn(
+                        "flex items-center gap-1",
+                        isAutoPlaying ? "bg-battle-red/20 border-battle-red/40" : "bg-islamic-green/20 border-islamic-green/40",
+                        "text-ink text-[10px] font-bold px-2.5 py-1.5",
+                        "rounded-full transition-all border shrink-0",
+                        "min-h-[36px] min-w-[36px]"
+                      )}
+                      style={{ touchAction: 'manipulation' }}
+                    >
+                      {isAutoPlaying ? <Pause size={14} /> : <Play size={14} />}
+                      <span>{isAutoPlaying ? "إيقاف" : "تشغيل"}</span>
+                    </motion.button>
+                    <button
+                      onClick={toggleTTS}
+                      className={cn(
+                        "min-w-[36px] min-h-[36px] flex items-center justify-center rounded-full shrink-0",
+                        isTTSEnabled ? "text-islamic-green" : "text-ink/50"
+                      )}
+                      style={{ touchAction: 'manipulation' }}
+                    >
+                      {isTTSEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
+                    </button>
+                    <button
+                      onClick={cycleSpeed}
+                      className="min-w-[36px] min-h-[36px] flex items-center justify-center rounded-full text-ink text-xs font-mono font-bold shrink-0"
+                      style={{ touchAction: 'manipulation' }}
+                    >
+                      {playbackSpeed}x
+                    </button>
+                    <button
+                      onClick={startOver}
+                      className="min-w-[36px] min-h-[36px] flex items-center justify-center rounded-full text-ink shrink-0"
+                      style={{ touchAction: 'manipulation' }}
+                    >
+                      <SkipBack size={16} />
+                    </button>
+                    <button
+                      onClick={exitPlayerMode}
+                      className="min-w-[36px] min-h-[36px] flex items-center justify-center rounded-full text-ink shrink-0"
+                      style={{ touchAction: 'manipulation' }}
+                    >
+                      <X size={16} />
+                    </button>
+                  </>
+                ) : (
+                  /* Era navigation chips + play button */
+                  <>
+                    <motion.button
+                      onClick={toggleAutoPlay}
+                      whileTap={{ scale: 0.95 }}
+                      className={cn(
+                        "flex items-center gap-1",
+                        "bg-islamic-green/20 border-islamic-green/40",
+                        "text-ink text-[10px] font-bold px-2.5 py-1.5",
+                        "rounded-full transition-all border shrink-0",
+                        "min-h-[36px] min-w-[36px]"
+                      )}
+                      style={{ touchAction: 'manipulation' }}
+                      title="تشغيل تلقائي"
+                    >
+                      <Play size={14} />
+                    </motion.button>
                     {quickJumps.map((jump, i) => {
                       const isSelected = selectedEra === jump.label;
                       return jump.target ? (
                         <motion.button
-                          key={`jump-${i}`}
+                          key={`mobile-jump-${i}`}
                           onClick={() => handleEraClick(jump.label)}
                           whileTap={{ scale: 0.95 }}
-                          transition={{ duration: 0.2 }}
-                          className="px-2 sm:px-3 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs font-bold text-ink opacity-90 hover:opacity-100 active:opacity-100 transition-all border-2 hover:border-parchment/20 flex items-center gap-1 sm:gap-1.5 whitespace-nowrap min-h-[40px] sm:min-h-[44px] hover:bg-parchment/5 shrink-0"
-                        style={{
-                          borderBottomWidth: "3px",
-                          borderBottomColor: jump.color,
-                          boxShadow: `0 2px 8px ${jump.color}20`,
-                          borderColor: isSelected ? jump.color : 'transparent',
-                          backgroundColor: isSelected ? `${jump.color}15` : 'transparent'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'scale(1.05) translateY(-2px)';
-                          e.currentTarget.style.opacity = '1';
-                          e.currentTarget.style.boxShadow = `0 6px 20px ${jump.color}50`;
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.transform = 'scale(1) translateY(0)';
-                          e.currentTarget.style.opacity = '0.9';
-                          e.currentTarget.style.boxShadow = `0 2px 8px ${jump.color}20`;
-                        }}
-                      >
-                        <motion.div
-                          className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full"
-                          style={{ backgroundColor: jump.color }}
-                          animate={{
-                            boxShadow: [`0 0 0 0 ${jump.color}`, `0 0 0 4px ${jump.color}00`]
+                          className={cn(
+                            "flex items-center gap-1 px-2.5 py-1.5 rounded-full shrink-0",
+                            "text-[10px] font-bold text-ink whitespace-nowrap",
+                            "border transition-all",
+                            "min-h-[36px]",
+                            isSelected ? "border-current" : "border-transparent"
+                          )}
+                          style={{
+                            touchAction: 'manipulation',
+                            borderColor: isSelected ? jump.color : 'transparent',
+                            backgroundColor: isSelected ? `${jump.color}20` : `${jump.color}08`
                           }}
-                          transition={{
-                            duration: 2,
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                          }}
-                        />
-                        <span className="hidden xs:inline sm:inline">{jump.label}</span>
-                      </motion.button>
-                    ) : null;
-                  })}
-                  </motion.div>
+                        >
+                          <div
+                            className="w-2 h-2 rounded-full shrink-0"
+                            style={{ backgroundColor: jump.color }}
+                          />
+                          <span>{jump.label}</span>
+                        </motion.button>
+                      ) : null;
+                    })}
+                    {/* Hide dock button */}
+                    <button
+                      onClick={() => setIsDockVisible(false)}
+                      className="min-w-[36px] min-h-[36px] flex items-center justify-center rounded-full text-ink/50 shrink-0"
+                      style={{ touchAction: 'manipulation' }}
+                      aria-label="إخفاء شريط التنقل"
+                    >
+                      <ChevronDown size={16} />
+                    </button>
+                  </>
                 )}
-              </AnimatePresence>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-      {/* Dock Toggle Button - Mobile Optimized */}
-      <motion.button
-        onClick={() => setIsDockVisible(!isDockVisible)}
-        whileTap={{ scale: 0.92 }}
-        className={`absolute left-1/2 -translate-x-1/2 bg-panel-bg/90 backdrop-blur-md text-ink p-2.5 sm:p-2 rounded-t-xl border-2 border-b-0 border-border-dark/40 z-[899] pointer-events-auto shadow-lg transition-all min-w-[48px] min-h-[48px] sm:min-w-[44px] sm:min-h-[44px] flex items-center justify-center ${selectedEvent ? "hidden sm:block" : "block"}`}
-        style={{
-          bottom: isDockVisible ? '185px' : '110px'
-        }}
-        title={isDockVisible ? "إخفاء شريط التنقل" : "إظهار شريط التنقل"}
-        aria-label={isDockVisible ? "إخفاء شريط التنقل" : "إظهار شريط التنقل"}
-      >
-        {isDockVisible ? <ChevronDown size={22} className="sm:w-5 sm:h-5" /> : <ChevronUp size={22} className="sm:w-5 sm:h-5" />}
-      </motion.button>
+        {/* Mobile Dock Show Button - visible when dock is hidden */}
+        <AnimatePresence>
+          {!isDockVisible && (
+            <motion.button
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              onClick={() => setIsDockVisible(true)}
+              whileTap={{ scale: 0.92 }}
+              className={cn(
+                "mx-auto block mb-1",
+                "bg-[var(--glass-bg)] backdrop-blur-[16px]",
+                "text-ink p-2 rounded-full",
+                "border border-[var(--glass-border)]",
+                "pointer-events-auto shadow-lg transition-all",
+                "min-w-[44px] min-h-[36px]",
+                "flex items-center justify-center"
+              )}
+              style={{
+                zIndex: Z_INDEX.dockToggle,
+                touchAction: 'manipulation',
+              }}
+              aria-label="إظهار شريط التنقل"
+            >
+              <ChevronUp size={18} />
+            </motion.button>
+          )}
+        </AnimatePresence>
+      </div>
 
+      {/* ===== PREMIUM TIMELINE SCROLLING BAR ===== */}
       <motion.div
         data-tour-id="timeline"
-        className="absolute bottom-0 left-0 right-0 h-[110px] z-[500] border-t-2 border-border-dark select-none overflow-hidden pointer-events-auto"
+        layout
+        className={cn(
+          "relative w-full overflow-hidden",
+          "select-none pointer-events-auto",
+          "pb-[env(safe-area-inset-bottom)]",
+          // Mobile: 90px collapsed (to fit event name labels), expanded shows events (45dvh)
+          isExpanded ? "h-[45dvh]" : "h-[90px]",
+          // Desktop: 110px collapsed, 220px expanded
+          isExpanded ? "md:h-[220px]" : "md:h-[110px]"
+        )}
         animate={{
-          backgroundColor: eraTheme.bgColor,
-          color: eraTheme.textColor
+          height: undefined, // Let CSS handle via className
         }}
-        transition={{ duration: 0.8, ease: "easeInOut" }}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        style={{
+          background: 'linear-gradient(180deg, rgba(15, 10, 5, 0.75) 0%, rgba(10, 8, 4, 0.92) 100%)',
+          backdropFilter: 'blur(24px) saturate(1.8)',
+          WebkitBackdropFilter: 'blur(24px) saturate(1.8)',
+          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+        }}
       >
+        {/* Glassmorphism layered gradient overlay */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 40%, rgba(0,0,0,0.3) 100%)',
+          }}
+        />
+
+        {/* Animated shimmer sweep */}
+        <div
+          className="absolute inset-0 pointer-events-none overflow-hidden"
+          style={{ opacity: 0.4 }}
+        >
+          <div
+            className="absolute inset-0"
+            style={{
+              background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.06) 50%, transparent 60%)',
+              animation: 'timeline-shimmer 6s ease-in-out infinite',
+            }}
+          />
+        </div>
+
         {/* Dynamic Era Glow Background */}
         <AnimatePresence>
           <motion.div
             key={eraTheme.color}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.2 }}
+            animate={{ opacity: 0.15 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1 }}
+            transition={{ duration: 1.2 }}
             className="absolute inset-0 pointer-events-none"
             style={{
-              background: `radial-gradient(ellipse at bottom, ${eraTheme.color} 0%, transparent 60%)`,
+              background: `radial-gradient(ellipse 80% 60% at 50% 100%, ${getEraColor(selectedEvent?.era)}40 0%, transparent 70%)`,
             }}
           />
         </AnimatePresence>
 
-        <div
-          ref={containerRef}
-          className="h-full w-full overflow-x-auto flex items-center no-scrollbar relative z-10"
-          dir="rtl"
-        >
-          <div className="relative flex items-center h-full min-w-max px-10">
-            {/* Timeline Line (Glowing based on active era) */}
-            <motion.div
-              className="absolute top-1/2 right-0 left-0 h-[2px] -translate-y-1/2"
-              animate={{
-                backgroundColor: eraTheme.color,
-                boxShadow: `0 0 10px ${eraTheme.color}`,
+        {/* ===== MOBILE COLLAPSED VIEW (Premium) ===== */}
+        <div className={cn(
+          "md:hidden absolute inset-0 flex flex-col justify-center px-3",
+          isExpanded && "hidden"
+        )} dir="rtl">
+          {/* Top row: era label + expand */}
+          <div className="flex items-center justify-between mb-1.5">
+            <div className="flex items-center gap-2">
+              <motion.button
+                onClick={toggleAutoPlay}
+                whileTap={{ scale: 0.9 }}
+                className={cn(
+                  "shrink-0 flex items-center justify-center rounded-full",
+                  "min-w-[44px] min-h-[44px]",
+                  "transition-colors"
+                )}
+                style={{
+                  touchAction: 'manipulation',
+                  color: isAutoPlaying ? '#ef4444' : '#10B981',
+                }}
+                title={isAutoPlaying ? "إيقاف" : "تشغيل"}
+              >
+                {isAutoPlaying ? <Pause size={18} /> : <Play size={18} />}
+              </motion.button>
+              <span className="text-[11px] font-bold text-white/70 max-w-[100px] truncate">
+                {selectedEvent?.title || eraTheme.title || "الخط الزمني"}
+              </span>
+            </div>
+            <motion.button
+              onClick={() => setIsExpanded(true)}
+              whileTap={{ scale: 0.9 }}
+              className="shrink-0 flex items-center justify-center rounded-full min-w-[44px] min-h-[44px] text-white/50"
+              style={{ touchAction: 'manipulation' }}
+              aria-label="توسيع الخط الزمني"
+            >
+              <ChevronUp size={18} />
+            </motion.button>
+          </div>
+
+          {/* Diamond markers row - horizontal scrollable */}
+          <div className="flex-1 overflow-x-auto scrollbar-hide relative">
+            {/* Gradient connection line */}
+            <div className="absolute top-1/2 right-0 left-0 h-[2px] -translate-y-1/2 pointer-events-none"
+              style={{
+                background: `linear-gradient(to left, ${getEraColor(events[0]?.era)}80, ${getEraColor(events[Math.floor(events.length / 2)]?.era)}80, ${getEraColor(events[events.length - 1]?.era)}80)`,
+                boxShadow: `0 0 8px ${getEraColor(selectedEvent?.era)}40`,
               }}
-              transition={{ duration: 0.8 }}
+            />
+            {/* Progress fill */}
+            {selectedEvent && (
+              <motion.div
+                className="absolute top-1/2 right-0 h-[2px] -translate-y-1/2 pointer-events-none"
+                style={{
+                  background: `linear-gradient(to left, ${getEraColor(events[0]?.era)}, ${getEraColor(selectedEvent?.era)})`,
+                  boxShadow: `0 0 12px ${getEraColor(selectedEvent?.era)}60`,
+                }}
+                animate={{
+                  width: `${((events.findIndex(e => e.id === selectedEvent.id) + 1) / events.length) * 100}%`,
+                }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              />
+            )}
+            <div className="flex items-center gap-2 min-w-max px-2 h-full relative z-10">
+              {events.map((evt) => {
+                const isEvtSelected = selectedEvent?.id === evt.id;
+                const evtColor = getEraColor(evt.era);
+                return (
+                  <motion.button
+                    key={`dot-${evt.id}`}
+                    onClick={() => onSelectEvent(evt)}
+                    whileHover={{ scale: 1.3 }}
+                    whileTap={{ scale: 0.9 }}
+                    className={cn(
+                      "shrink-0 transition-all relative",
+                      "min-w-[44px] min-h-[44px] flex flex-col items-center justify-center gap-1"
+                    )}
+                    style={{ touchAction: 'manipulation' }}
+                    aria-label={evt.title}
+                  >
+                    {/* Diamond marker */}
+                    <motion.div
+                      className="relative"
+                      animate={{
+                        scale: isEvtSelected ? 1.4 : evt.is_major_event ? 1.1 : 1,
+                      }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <div
+                        className={cn(
+                          "rotate-45 rounded-[2px]",
+                          isEvtSelected ? "w-3.5 h-3.5" : evt.is_major_event ? "w-3 h-3" : "w-2.5 h-2.5"
+                        )}
+                        style={{
+                          background: `linear-gradient(135deg, ${evtColor}, ${evtColor}cc)`,
+                          boxShadow: isEvtSelected
+                            ? `0 0 12px ${evtColor}, 0 0 24px ${evtColor}60`
+                            : evt.is_major_event
+                              ? `0 0 6px ${evtColor}80`
+                              : 'none',
+                        }}
+                      />
+                      {/* Glow ring for selected */}
+                      {isEvtSelected && (
+                        <motion.div
+                          className="absolute inset-[-4px] rotate-45 rounded-[3px]"
+                          animate={{
+                            boxShadow: [
+                              `0 0 4px ${evtColor}80, inset 0 0 4px ${evtColor}40`,
+                              `0 0 12px ${evtColor}60, inset 0 0 8px ${evtColor}20`,
+                              `0 0 4px ${evtColor}80, inset 0 0 4px ${evtColor}40`,
+                            ],
+                          }}
+                          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                          style={{
+                            border: `1.5px solid ${evtColor}60`,
+                          }}
+                        />
+                      )}
+                    </motion.div>
+                    {/* Event name label */}
+                    <span
+                      className="text-[8px] leading-tight max-w-[48px] truncate text-center"
+                      style={{
+                        color: isEvtSelected ? evtColor : 'rgba(255,255,255,0.5)',
+                        fontWeight: isEvtSelected ? 700 : 500,
+                      }}
+                    >
+                      {evt.title}
+                    </span>
+                  </motion.button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* ===== MOBILE EXPANDED VIEW ===== */}
+        <div className={cn(
+          "md:hidden h-full flex flex-col",
+          !isExpanded && "hidden"
+        )} dir="rtl">
+          {/* Close button for expanded mobile view */}
+          <div className="flex items-center justify-between px-3 py-2 shrink-0 border-b border-white/10">
+            <span className="text-xs font-bold text-white/60">الخط الزمني</span>
+            <button
+              onClick={() => setIsExpanded(false)}
+              className={cn(
+                "flex items-center justify-center rounded-full",
+                "min-w-[44px] min-h-[44px]",
+                "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white transition-colors"
+              )}
+              style={{ touchAction: 'manipulation' }}
+              aria-label="طي الخط الزمني"
+            >
+              <X size={18} />
+            </button>
+          </div>
+
+          {/* Scrollable events list */}
+          <div className="flex-1 overflow-y-auto overflow-x-hidden px-3 pb-2 scrollbar-hide">
+            <div className="flex flex-col gap-1.5">
+              {events.map((evt) => {
+                const isEvtSelected = selectedEvent?.id === evt.id;
+                const isMajor = !!evt.is_major_event;
+                const evtColor = getEraColor(evt.era);
+
+                return (
+                  <motion.button
+                    key={evt.id}
+                    id={`timeline-item-${evt.id}`}
+                    onClick={() => onSelectEvent(evt)}
+                    whileTap={{ scale: 0.98 }}
+                    className={cn(
+                      "flex items-center gap-3 w-full text-right",
+                      "px-3 py-2.5 rounded-xl transition-all",
+                      "min-h-[48px]"
+                    )}
+                    style={{
+                      touchAction: 'manipulation',
+                      background: isEvtSelected
+                        ? `linear-gradient(135deg, ${evtColor}15, ${evtColor}08)`
+                        : 'transparent',
+                      border: isEvtSelected ? `1px solid ${evtColor}40` : '1px solid transparent',
+                      boxShadow: isEvtSelected ? `0 2px 12px ${evtColor}20` : 'none',
+                    }}
+                  >
+                    {/* Diamond marker */}
+                    <div className="shrink-0 flex items-center justify-center w-5 h-5">
+                      <div
+                        className={cn(
+                          "rotate-45 rounded-[2px]",
+                          isMajor ? "w-3 h-3" : "w-2 h-2"
+                        )}
+                        style={{
+                          background: `linear-gradient(135deg, ${evtColor}, ${evtColor}cc)`,
+                          boxShadow: isEvtSelected
+                            ? `0 0 10px ${evtColor}, 0 0 20px ${evtColor}40`
+                            : isMajor
+                              ? `0 0 6px ${evtColor}80`
+                              : 'none',
+                        }}
+                      />
+                    </div>
+                    {/* Title + Date */}
+                    <div className="flex-1 min-w-0">
+                      <div
+                        className={cn(
+                          "text-sm leading-tight",
+                          isEvtSelected ? "font-bold" : isMajor ? "font-extrabold" : "font-semibold"
+                        )}
+                        style={{
+                          color: isEvtSelected ? evtColor : 'rgba(255,255,255,0.85)',
+                        }}
+                      >
+                        {evt.title}
+                      </div>
+                      <div className="text-[10px] text-white/40 mt-0.5">
+                        {Math.floor(evt.date.gregorian)} م
+                      </div>
+                    </div>
+                    {/* Selected indicator bar */}
+                    {isEvtSelected && (
+                      <motion.div
+                        layoutId="mobile-selected-bar"
+                        className="w-1 h-8 rounded-full shrink-0"
+                        style={{ backgroundColor: evtColor }}
+                      />
+                    )}
+                  </motion.button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Mobile player controls bar at bottom when in player mode */}
+          <AnimatePresence>
+            {isPlayerMode && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                className={cn(
+                  "flex items-center justify-center gap-1 px-3 py-1",
+                  "border-t border-white/10",
+                  "bg-black/30 backdrop-blur-sm"
+                )}
+                style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+              >
+                <button
+                  onClick={toggleAutoPlay}
+                  className={cn(
+                    "min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full",
+                    isAutoPlaying ? "text-red-400" : "text-emerald-400"
+                  )}
+                  style={{ touchAction: 'manipulation' }}
+                >
+                  {isAutoPlaying ? <Pause size={20} /> : <Play size={20} />}
+                </button>
+                <button
+                  onClick={toggleTTS}
+                  className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full text-white/70"
+                  style={{ touchAction: 'manipulation' }}
+                >
+                  {isTTSEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
+                </button>
+                <button
+                  onClick={cycleSpeed}
+                  className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full text-white/70 text-xs font-mono font-bold"
+                  style={{ touchAction: 'manipulation' }}
+                >
+                  {playbackSpeed}x
+                </button>
+                <button
+                  onClick={startOver}
+                  className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full text-white/70"
+                  style={{ touchAction: 'manipulation' }}
+                >
+                  <SkipBack size={18} />
+                </button>
+                <button
+                  onClick={exitPlayerMode}
+                  className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full text-white/70"
+                  style={{ touchAction: 'manipulation' }}
+                >
+                  <X size={18} />
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* ===== DESKTOP PREMIUM TIMELINE VIEW ===== */}
+        <div className={cn(
+          "hidden md:flex h-full w-full items-center relative",
+          "overflow-x-auto overflow-y-visible scrollbar-hide",
+          isExpanded && "overflow-y-auto flex-col md:flex-row"
+        )}
+          ref={containerRef}
+          tabIndex={0}
+          dir="rtl"
+          onWheel={(e) => {
+            if (e.deltaY === 0) return;
+            e.preventDefault();
+            if (containerRef.current) {
+              containerRef.current.scrollLeft += e.deltaY;
+            }
+          }}
+        >
+          <div className={cn(
+            "relative flex items-center h-full px-12",
+            isExpanded ? "min-w-0 flex-col md:flex-row md:min-w-max" : "min-w-max"
+          )}>
+            {/* Flowing gradient connection line */}
+            <div
+              className={cn(
+                "absolute top-1/2 right-0 left-0 h-[3px] -translate-y-1/2 rounded-full",
+                isExpanded && "hidden md:block"
+              )}
+              style={{
+                background: events.length > 0
+                  ? `linear-gradient(to left, ${events.map((evt, i) => `${getEraColor(evt.era)} ${(i / (events.length - 1)) * 100}%`).join(', ')})`
+                  : `linear-gradient(to left, #D4A853, #10B981)`,
+                opacity: 0.3,
+                boxShadow: `0 0 12px ${getEraColor(selectedEvent?.era)}30`,
+              }}
             />
 
+            {/* Progress fill line */}
+            {selectedEvent && !isExpanded && (
+              <motion.div
+                className="absolute top-1/2 right-0 h-[3px] -translate-y-1/2 rounded-full pointer-events-none"
+                style={{
+                  background: (() => {
+                    const idx = events.findIndex(e => e.id === selectedEvent.id);
+                    const progressEvents = events.slice(0, idx + 1);
+                    if (progressEvents.length < 2) return getEraColor(selectedEvent.era);
+                    return `linear-gradient(to left, ${progressEvents.map((evt, i) => `${getEraColor(evt.era)} ${(i / (progressEvents.length - 1)) * 100}%`).join(', ')})`;
+                  })(),
+                  boxShadow: `0 0 16px ${getEraColor(selectedEvent.era)}50, 0 0 4px ${getEraColor(selectedEvent.era)}80`,
+                }}
+                animate={{
+                  width: `${((events.findIndex(e => e.id === selectedEvent.id) + 1) / events.length) * 100}%`,
+                }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              />
+            )}
+
             {/* Events */}
-            <div className="flex items-center w-max gap-16 lg:gap-32 relative z-10 pt-6">
-              {events.map((evt, idx) => {
+            <div className={cn(
+              "flex items-center relative z-10",
+              isExpanded
+                ? "flex-col md:flex-row w-full md:w-max gap-4 md:gap-10 lg:gap-14 pt-8 md:pt-0"
+                : "w-max gap-10 lg:gap-14"
+            )}>
+              {events.map((evt) => {
                 const isSelected = selectedEvent?.id === evt.id;
                 const isMajor = !!evt.is_major_event;
-                const eventTheme = getEraTheme(evt.era);
+                const evtColor = getEraColor(evt.era);
 
                 return (
                   <div
@@ -738,7 +1448,12 @@ export default function Timeline({
                     id={`timeline-item-${evt.id}`}
                     role="button"
                     tabIndex={0}
-                    className="relative flex flex-col items-center cursor-pointer group whitespace-nowrap shrink-0"
+                    className={cn(
+                      "relative flex items-center cursor-pointer group shrink-0",
+                      isExpanded
+                        ? "flex-row md:flex-col w-full md:w-auto gap-3 md:gap-0 px-4 md:px-0 py-2 md:py-0 whitespace-normal"
+                        : "flex-col whitespace-nowrap"
+                    )}
                     onClick={() => onSelectEvent(evt)}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
@@ -747,67 +1462,113 @@ export default function Timeline({
                       }
                     }}
                   >
+                    {/* Date label - above marker */}
                     <motion.div
-                      className={`absolute -top-[30px] text-xs ${isMajor ? "opacity-100 font-bold" : "opacity-100 font-semibold"} transition-opacity px-2 py-0.5 rounded`}
-                      animate={{
-                        color: eraTheme.textColor,
-                        backgroundColor: 'var(--timeline-date-bg)'
-                      }}
-                      transition={{ duration: 0.8 }}
+                      className={cn(
+                        "text-[10px] px-2 py-0.5 rounded-full font-semibold",
+                        isExpanded
+                          ? "hidden md:block md:absolute md:-top-[28px]"
+                          : "absolute -top-[28px]"
+                      )}
                       style={{
-                        textShadow: 'none'
+                        color: isSelected ? evtColor : 'rgba(255,255,255,0.5)',
+                        backgroundColor: isSelected ? `${evtColor}15` : 'transparent',
+                        border: isSelected ? `1px solid ${evtColor}30` : 'none',
+                        textShadow: 'none',
                       }}
                     >
                       {Math.floor(evt.date.gregorian)} م
                     </motion.div>
 
+                    {/* Premium Diamond Marker */}
                     <motion.div
                       initial={false}
                       animate={{
-                        scale: isSelected
-                          ? isMajor
-                            ? 2
-                            : 1.5
-                          : isMajor
-                            ? 1.4
-                            : 1,
-                        backgroundColor: eventTheme.color,
-                        boxShadow: isSelected
-                          ? `0 0 12px ${eventTheme.color}, 0 0 20px ${eventTheme.color}`
-                          : isMajor
-                            ? `0 0 8px ${eventTheme.color}`
-                            : "none",
+                        scale: isSelected ? 1 : 1,
                       }}
+                      whileHover={{ scale: 1.2 }}
                       transition={{ duration: 0.3 }}
-                      className={`rounded-full ${isMajor ? "w-3 h-3" : "w-2 h-2"} transition-colors`}
-                      style={{
-                        position: 'absolute',
-                        top: '0',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                      }}
-                    />
+                      className={cn(
+                        "relative flex items-center justify-center",
+                        isExpanded
+                          ? "relative md:absolute md:top-[calc(50%-2px)] md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2"
+                          : ""
+                      )}
+                    >
+                      {/* Diamond shape */}
+                      <motion.div
+                        animate={{
+                          scale: isSelected ? 1.3 : isMajor ? 1.1 : 1,
+                        }}
+                        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                        className={cn(
+                          "rotate-45 rounded-[3px] transition-all",
+                          isSelected ? "w-4 h-4" : isMajor ? "w-3.5 h-3.5" : "w-2.5 h-2.5"
+                        )}
+                        style={{
+                          background: `linear-gradient(135deg, ${evtColor}, ${evtColor}aa)`,
+                          boxShadow: isSelected
+                            ? `0 0 16px ${evtColor}, 0 0 32px ${evtColor}50, inset 0 0 8px rgba(255,255,255,0.3)`
+                            : isMajor
+                              ? `0 0 8px ${evtColor}80, inset 0 0 4px rgba(255,255,255,0.2)`
+                              : `0 0 4px ${evtColor}40`,
+                        }}
+                      />
 
+                      {/* Pulsing glow ring for selected */}
+                      {isSelected && (
+                        <motion.div
+                          className="absolute inset-[-6px] rotate-45 rounded-[4px]"
+                          animate={{
+                            opacity: [0.6, 0.2, 0.6],
+                            scale: [1, 1.15, 1],
+                          }}
+                          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                          style={{
+                            border: `2px solid ${evtColor}50`,
+                            boxShadow: `0 0 12px ${evtColor}30`,
+                          }}
+                        />
+                      )}
+
+                      {/* Outer subtle ring for major events */}
+                      {isMajor && !isSelected && (
+                        <div
+                          className="absolute inset-[-4px] rotate-45 rounded-[3px]"
+                          style={{
+                            border: `1px solid ${evtColor}30`,
+                          }}
+                        />
+                      )}
+                    </motion.div>
+
+                    {/* Event title - below marker */}
                     <motion.div
-                      className={`mt-3 text-xs sm:text-sm transition-all px-2 sm:px-3 py-1.5 rounded-lg max-w-[140px] sm:max-w-none ${isSelected ? "font-bold scale-110" : isMajor ? "font-extrabold group-hover:scale-105" : "font-semibold group-hover:scale-102"}`}
-                      animate={{
-                        color: eraTheme.textColor
-                      }}
-                      transition={{ duration: 0.8 }}
+                      className={cn(
+                        "text-xs transition-all px-2 py-1 rounded-lg text-center",
+                        isExpanded ? "max-w-none" : "max-w-[120px]",
+                        isSelected ? "font-bold" : isMajor ? "font-extrabold" : "font-semibold",
+                        !isExpanded && "mt-4"
+                      )}
                       style={{
-                        backgroundColor: isSelected
-                          ? 'var(--timeline-event-bg-selected)'
+                        color: isSelected
+                          ? evtColor
                           : isMajor
-                            ? 'var(--timeline-event-bg-major)'
-                            : 'var(--timeline-event-bg)',
-                        textShadow: 'none',
-                        border: isSelected ? `2px solid ${eventTheme.color}` : 'none',
-                        boxShadow: isSelected
-                          ? `0 4px 12px ${eventTheme.color}40`
-                          : '0 2px 8px rgba(0, 0, 0, 0.15)',
-                        whiteSpace: 'normal',
+                            ? 'rgba(255,255,255,0.9)'
+                            : 'rgba(255,255,255,0.65)',
+                        textShadow: isSelected ? `0 0 20px ${evtColor}40` : 'none',
+                        background: isSelected
+                          ? `linear-gradient(135deg, ${evtColor}12, ${evtColor}06)`
+                          : 'transparent',
+                        border: isSelected ? `1px solid ${evtColor}25` : 'none',
+                        whiteSpace: isExpanded ? 'normal' : undefined,
                         wordBreak: 'break-word',
-                        lineHeight: '1.3'
+                        lineHeight: '1.4',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        display: '-webkit-box',
+                        WebkitLineClamp: isExpanded ? undefined : 2,
+                        WebkitBoxOrient: 'vertical' as const,
                       }}
                     >
                       {evt.title}
@@ -818,7 +1579,36 @@ export default function Timeline({
             </div>
           </div>
         </div>
+
       </motion.div>
+
+      {/* Shimmer keyframe animation */}
+      <style>{`
+        @keyframes timeline-shimmer {
+          0% { transform: translateX(-100%); }
+          50% { transform: translateX(100%); }
+          100% { transform: translateX(100%); }
+        }
+      `}</style>
+    </div>
+
+    {/* Desktop expand/collapse toggle - fixed position button on left side, OUTSIDE isolation container */}
+    <button
+      onClick={() => setIsExpanded(!isExpanded)}
+      className={cn(
+        "hidden md:flex fixed bottom-[80px] left-4 z-[1000]",
+        "w-12 h-12 items-center justify-center flex-col",
+        "bg-amber-600 hover:bg-amber-700 rounded-full",
+        "text-white shadow-xl pointer-events-auto",
+        "hover:shadow-2xl hover:scale-110",
+        "transition-all duration-200 cursor-pointer"
+      )}
+      style={{ touchAction: 'manipulation' }}
+      aria-label={isExpanded ? "طي الخط الزمني" : "توسيع الخط الزمني"}
+      title={isExpanded ? "طي" : "توسيع"}
+    >
+      {isExpanded ? <ChevronDown size={24} /> : <ChevronUp size={24} />}
+    </button>
     </>
   );
 }

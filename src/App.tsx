@@ -3,23 +3,25 @@ import HistoricalMap from './components/Map';
 import Timeline from './components/Timeline';
 import EventPanel from './components/EventPanel';
 import IntroScreen from './components/IntroScreen';
+import CustomCursor from './components/CustomCursor';
 import { AppTour } from './components/AppTour';
 import { useTourContext } from './contexts/TourContext';
 import { eventsData, EventItem } from './data';
-import { Moon, Sun, Search, Compass } from 'lucide-react';
+import { Moon, Sun, Search, Compass, LocateFixed, Maximize2, Minimize2 } from 'lucide-react';
 import { FilterOptions } from './types';
 import { motion, AnimatePresence } from 'motion/react';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { ToastContainer, ToastType } from './components/Toast';
 import { LoadingSpinner } from './components/LoadingSpinner';
 import { isBattle, isProphetEra, isRashidunEra } from './utils/eventHelpers';
+import { Z_INDEX } from './constants';
+import { cn } from './utils/cn';
 
 // Lazy load heavy components for better performance
 const SearchMenu = lazy(() => import('./components/SearchMenu'));
 const CompanionModal = lazy(() => import('./components/CompanionModal'));
 const QuranModal = lazy(() => import('./components/QuranModal'));
-
-const INTRO_SEEN_KEY = 'nibras_intro_seen';
+const BattlePlayer = lazy(() => import('./battlefield/react/BattlePlayer').then(m => ({ default: m.BattlePlayer })));
 
 export default function App() {
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
@@ -28,21 +30,21 @@ export default function App() {
   const [selectedCompanion, setSelectedCompanion] = useState<string | null>(null);
   const [selectedQuranRef, setSelectedQuranRef] = useState<string | null>(null);
   const [toasts, setToasts] = useState<Array<{ id: string; message: string; type: ToastType }>>([]);
-  const [showIntro, setShowIntro] = useState(() => {
-    return !localStorage.getItem(INTRO_SEEN_KEY);
-  });
+  const [showIntro, setShowIntro] = useState(true);
   const [isPanelHidden, setIsPanelHidden] = useState(false);
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
   const [isPlayerMode, setIsPlayerMode] = useState(false);
   const [selectedEra, setSelectedEra] = useState<string | null>(null);
-  const [visibleEventIds, setVisibleEventIds] = useState<Set<string>>(new Set());
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showBattlePlayer, setShowBattlePlayer] = useState(false);
+  const [battleScenarioId, setBattleScenarioId] = useState<string | undefined>(undefined);
   
   const [filters, setFilters] = useState<FilterOptions>({
     era: 'all',
     type: 'all'
   });
 
-  const { startTour, state } = useTourContext();
+  const { startTour, state, triggerPrompt, isFirstVisit } = useTourContext();
 
   // Stop autoplay when panel is hidden or closed
   const handlePanelToggle = () => {
@@ -220,17 +222,35 @@ export default function App() {
     }
   }, [isDarkMode]);
 
+  // Track fullscreen state for header button
+  useEffect(() => {
+    const handleFs = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener('fullscreenchange', handleFs);
+    return () => document.removeEventListener('fullscreenchange', handleFs);
+  }, []);
+
   const handleIntroComplete = () => {
-    localStorage.setItem(INTRO_SEEN_KEY, 'true');
     setShowIntro(false);
+    // After intro completes, trigger tour prompt only on first visit
+    if (isFirstVisit()) {
+      // Small delay to let the main app render before showing the prompt
+      setTimeout(() => {
+        triggerPrompt();
+      }, 300);
+    }
   };
 
   if (showIntro) {
-    return <IntroScreen onComplete={handleIntroComplete} />;
+    return (
+      <>
+        <IntroScreen onComplete={handleIntroComplete} />
+        <CustomCursor />
+      </>
+    );
   }
 
   return (
-    <div className={`w-full h-screen overflow-hidden flex flex-col bg-parchment relative font-serif text-ink transition-colors duration-500`} dir="rtl">
+    <div className={`w-full h-[100dvh] overflow-hidden flex flex-col bg-parchment relative font-serif text-ink transition-colors duration-500`} dir="rtl">
       
       {/* Skip to main content link for accessibility */}
       <a
@@ -243,40 +263,78 @@ export default function App() {
       {/* Main heading for screen readers and SEO */}
       <h1 className="sr-only">نبراس - الخط الزمني التفاعلي للتاريخ الإسلامي</h1>
       
-      {/* App Header */}
-      <header className="absolute top-0 left-0 right-0 h-[56px] sm:h-[70px] md:h-[80px] px-2 sm:px-4 md:px-10 flex items-center justify-between border-b border-border-dark/30 bg-gradient-to-b from-ink/90 via-ink/50 to-transparent z-[500] pointer-events-none backdrop-blur-sm">
+      {/* App Header - Premium Animated */}
+      <motion.header
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: 'spring', damping: 24, stiffness: 260, delay: 0.1 }}
+        className={cn(
+          "absolute top-0 left-0 right-0 h-14 md:h-16",
+          "pt-[env(safe-area-inset-top)]",
+          "px-3 sm:px-4 flex items-center justify-between",
+          "bg-gradient-to-b from-ink/80 via-ink/60 to-ink/40",
+          "backdrop-blur-[20px] backdrop-saturate-150",
+          "border-b border-[var(--glass-border)]",
+          "pointer-events-none",
+          "shadow-[0_4px_30px_rgba(0,0,0,0.3)]"
+        )}
+        style={{ zIndex: Z_INDEX.header }}
+      >
+        {/* Subtle gradient overlay for premium feel */}
+        <div className="absolute inset-0 bg-gradient-to-r from-accent/5 via-transparent to-accent/5 pointer-events-none" />
         
-        {/* Title */}
-        <div className="flex items-center gap-1.5 sm:gap-3 md:gap-4 pointer-events-auto shrink-0 drop-shadow-md">
-          <div className="text-[18px] sm:text-[24px] md:text-[32px] font-bold tracking-[0.5px] sm:tracking-[1px] md:tracking-[2px] text-parchment">
-            نِبْرَاس
-          </div>
-          <div className="italic text-[10px] sm:text-[12px] md:text-[14px] text-parchment/80 hidden sm:block">
+        {/* Title with shimmer animation */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ type: 'spring', damping: 20, stiffness: 200, delay: 0.25 }}
+          className="flex items-center gap-1.5 sm:gap-3 md:gap-4 pointer-events-auto shrink-0 drop-shadow-md relative"
+        >
+          <motion.div
+            className="relative text-[18px] sm:text-[24px] md:text-[32px] font-bold tracking-[0.5px] sm:tracking-[1px] md:tracking-[2px] text-parchment"
+            whileHover={{ scale: 1.03 }}
+            transition={{ duration: 0.2 }}
+          >
+            <span className="relative z-10 bg-gradient-to-l from-parchment via-[#f5e6c8] to-parchment bg-clip-text text-transparent bg-[length:200%_100%] animate-[shimmer_6s_ease-in-out_infinite]">
+              نِبْرَاس
+            </span>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.5 }}
+            className="italic text-[10px] sm:text-[12px] md:text-[14px] text-parchment/70 hidden sm:block"
+          >
             التاريخ الإسلامي كما لم تره من قبل
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Global Search Bar - Desktop Only */}
-        <div className="flex-1 max-w-[450px] mx-2 sm:mx-4 pointer-events-auto hidden lg:block">
+        <motion.div
+          initial={{ opacity: 0, y: -10, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ type: 'spring', damping: 22, stiffness: 240, delay: 0.35 }}
+          className="flex-1 max-w-[450px] mx-2 sm:mx-4 pointer-events-auto hidden lg:block"
+        >
           <motion.button
             data-tour-id="search-button"
             onClick={() => setIsMenuOpen(true)}
-            whileTap={{ scale: 0.98 }}
+            whileTap={{ scale: 0.97 }}
+            whileHover={{ scale: 1.02, boxShadow: '0 6px 24px rgba(0,0,0,0.35)' }}
             transition={{ duration: 0.2 }}
-            className="w-full flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-2.5 bg-card-bg/95 backdrop-blur shadow-[0_4px_15px_rgba(0,0,0,0.2)] rounded-full border border-border-dark/40 text-ink/70 active:bg-parchment active:text-ink transition-all group relative overflow-hidden"
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.02)';
-              e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.3)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)';
-              e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
-            }}
+            className={cn(
+              "w-full flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-2.5",
+              "bg-card-bg/90 backdrop-blur-sm",
+              "shadow-[0_4px_15px_rgba(0,0,0,0.2)]",
+              "rounded-full border border-border-dark/30",
+              "text-ink/70 active:bg-parchment active:text-ink",
+              "transition-all group relative overflow-hidden"
+            )}
             aria-label="فتح قائمة البحث والتصفية"
             aria-haspopup="dialog"
             aria-expanded={isMenuOpen}
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/10 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/8 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <Search size={16} className="sm:w-[18px] sm:h-[18px] text-accent relative z-10" />
             <span className="font-bold text-[13px] sm:text-[14px] truncate relative z-10">
               {filters.type === 'cities'
@@ -284,11 +342,77 @@ export default function App() {
                 : `ابحث واستكشف ${filteredSortedEvents.length} حدث تاريخي...`}
             </span>
           </motion.button>
-        </div>
+        </motion.div>
 
-        {/* Right controls */}
-        <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 pointer-events-auto shrink-0">
-          {/* Tour Start Button - Fully accessible on all devices */}
+        {/* Right controls - Map controls + existing buttons */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ type: 'spring', damping: 20, stiffness: 200, delay: 0.3 }}
+          className="flex items-center gap-1.5 sm:gap-2 pointer-events-auto shrink-0"
+        >
+          {/* Map Control: Reset View / GPS */}
+          <motion.button
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ type: 'spring', damping: 18, stiffness: 300, delay: 0.45 }}
+            whileHover={{ scale: 1.1, boxShadow: '0 0 12px rgba(var(--color-accent-rgb, 34 139 34) / 0.4)' }}
+            whileTap={{ scale: 0.88 }}
+            onClick={() => window.dispatchEvent(new CustomEvent('nibras:reset-map-view'))}
+            className={cn(
+              "w-12 h-12 rounded-full",
+              "border border-parchment/30",
+              "bg-ink/50 backdrop-blur-sm",
+              "flex justify-center items-center",
+              "text-parchment shadow-md",
+              "hover:bg-accent/80 hover:border-accent/60 hover:text-parchment",
+              "active:bg-accent active:border-accent",
+              "transition-all duration-200"
+            )}
+            title="إعادة تعيين الخريطة"
+            aria-label="إعادة تعيين الخريطة"
+          >
+            <LocateFixed size={18} strokeWidth={2.5} aria-hidden="true" />
+          </motion.button>
+
+          {/* Map Control: Fullscreen Toggle */}
+          <motion.button
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ type: 'spring', damping: 18, stiffness: 300, delay: 0.5 }}
+            whileHover={{ scale: 1.1, boxShadow: '0 0 12px rgba(var(--color-accent-rgb, 34 139 34) / 0.4)' }}
+            whileTap={{ scale: 0.88 }}
+            onClick={() => {
+              if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(e => console.error(e));
+              } else if (document.exitFullscreen) {
+                document.exitFullscreen();
+              }
+            }}
+            className={cn(
+              "w-12 h-12 rounded-full",
+              "border border-parchment/30",
+              "bg-ink/50 backdrop-blur-sm",
+              "flex justify-center items-center",
+              "text-parchment shadow-md",
+              "hover:bg-accent/80 hover:border-accent/60 hover:text-parchment",
+              "active:bg-accent active:border-accent",
+              "transition-all duration-200"
+            )}
+            title={isFullscreen ? "الخروج من وضع ملء الشاشة" : "ملء الشاشة"}
+            aria-label="ملء الشاشة"
+          >
+            {isFullscreen ? (
+              <Minimize2 size={18} strokeWidth={2.5} aria-hidden="true" />
+            ) : (
+              <Maximize2 size={18} strokeWidth={2.5} aria-hidden="true" />
+            )}
+          </motion.button>
+
+          {/* Divider between map controls and app controls */}
+          <div className="w-px h-7 bg-parchment/20 mx-0.5 hidden sm:block" />
+
+          {/* Tour Start Button */}
           <AnimatePresence>
             {!state.isActive && (
               <motion.button
@@ -296,10 +420,20 @@ export default function App() {
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0, opacity: 0 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ duration: 0.2 }}
-                className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full border border-accent/30 bg-gradient-to-br from-accent to-accent-dark backdrop-blur text-parchment shadow-md hover:shadow-lg transition-all font-bold text-xs sm:text-sm min-w-[44px] min-h-[44px] justify-center"
+                whileHover={{ scale: 1.08, boxShadow: '0 0 16px rgba(var(--color-accent-rgb, 34 139 34) / 0.5)' }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: 'spring', damping: 18, stiffness: 300, delay: 0.55 }}
+                className={cn(
+                  "flex items-center gap-1.5 sm:gap-2",
+                  "px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2",
+                  "rounded-full border border-accent/40",
+                  "bg-gradient-to-br from-accent to-accent-dark",
+                  "backdrop-blur text-parchment",
+                  "shadow-[0_4px_16px_rgba(34,139,34,0.3)]",
+                  "hover:shadow-[0_6px_24px_rgba(34,139,34,0.5)]",
+                  "transition-all font-bold text-xs sm:text-sm",
+                  "min-w-[48px] min-h-[48px] justify-center"
+                )}
                 aria-label="بدء الجولة التعريفية"
                 title="بدء الجولة التعريفية"
               >
@@ -309,42 +443,68 @@ export default function App() {
             )}
           </AnimatePresence>
 
-          {/* Mobile search button - Larger touch target */}
+          {/* Mobile search button */}
           <motion.button
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ type: 'spring', damping: 18, stiffness: 300, delay: 0.6 }}
             data-tour-id="search-button-mobile"
             onClick={() => setIsMenuOpen(true)}
-            whileTap={{ scale: 0.92 }}
-            transition={{ duration: 0.15 }}
-            className="w-11 h-11 sm:w-10 sm:h-10 lg:hidden rounded-full border border-parchment/40 bg-ink/60 backdrop-blur-sm flex justify-center items-center text-parchment shadow-md active:bg-accent/80 active:border-accent transition-all"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.88 }}
+            className={cn(
+              "w-12 h-12 lg:hidden rounded-full",
+              "border border-parchment/30",
+              "bg-ink/50 backdrop-blur-sm",
+              "flex justify-center items-center",
+              "text-parchment shadow-md",
+              "hover:bg-accent/80 hover:border-accent/60",
+              "active:bg-accent active:border-accent",
+              "transition-all duration-200"
+            )}
             aria-label="فتح قائمة البحث والتصفية"
             aria-haspopup="dialog"
             aria-expanded={isMenuOpen}
           >
-            <Search size={18} className="sm:w-[18px] sm:h-[18px]" />
+            <Search size={18} />
           </motion.button>
 
-          {/* Theme Toggle - Optimized for mobile */}
+          {/* Theme Toggle */}
           <motion.button
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ type: 'spring', damping: 18, stiffness: 300, delay: 0.65 }}
             data-tour-id="dark-mode-toggle"
             onClick={() => setIsDarkMode(!isDarkMode)}
-            whileTap={{ scale: 0.92 }}
-            transition={{ duration: 0.15 }}
-            className="w-11 h-11 sm:w-10 sm:h-10 rounded-full border border-parchment/40 bg-ink/60 backdrop-blur-sm flex justify-center items-center text-parchment shadow-md active:bg-accent/80 active:border-accent transition-all"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.88 }}
+            className={cn(
+              "w-12 h-12 rounded-full",
+              "border border-parchment/30",
+              "bg-ink/50 backdrop-blur-sm",
+              "flex justify-center items-center",
+              "text-parchment shadow-md",
+              "hover:bg-accent/80 hover:border-accent/60",
+              "active:bg-accent active:border-accent",
+              "transition-all duration-200"
+            )}
             aria-label={isDarkMode ? "تبديل إلى الوضع النهاري" : "تبديل إلى الوضع الليلي"}
             aria-pressed={isDarkMode}
           >
-            <motion.div
-              key={isDarkMode ? "sun" : "moon"}
-              initial={{ rotate: -180, scale: 0 }}
-              animate={{ rotate: 0, scale: 1 }}
-              exit={{ rotate: 180, scale: 0 }}
-              transition={{ duration: 0.3, ease: [0.68, -0.55, 0.265, 1.55] }}
-            >
-              {isDarkMode ? <Sun size={18} className="sm:w-[18px] sm:h-[18px]" /> : <Moon size={18} className="sm:w-[18px] sm:h-[18px]" />}
-            </motion.div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={isDarkMode ? "sun" : "moon"}
+                initial={{ rotate: -180, scale: 0, opacity: 0 }}
+                animate={{ rotate: 0, scale: 1, opacity: 1 }}
+                exit={{ rotate: 180, scale: 0, opacity: 0 }}
+                transition={{ duration: 0.35, ease: [0.68, -0.55, 0.265, 1.55] }}
+              >
+                {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+              </motion.div>
+            </AnimatePresence>
           </motion.button>
-        </div>
-      </header>
+        </motion.div>
+      </motion.header>
 
       {/* Main Map Layer */}
       <main id="main-content" className="flex-1 relative z-0">
@@ -367,6 +527,12 @@ export default function App() {
           onClose={handlePanelClose}
           onCompanionClick={(name) => setSelectedCompanion(name)}
           onQuranClick={(ref) => setSelectedQuranRef(ref)}
+          onBattleOpen={(battleId) => {
+            const BATTLE_ID_TO_SCENARIO: Record<string, string> = { 'fath-makkah': 'conquest-of-mecca' };
+            const scenarioId = BATTLE_ID_TO_SCENARIO[battleId] || `battle-of-${battleId}`;
+            setBattleScenarioId(scenarioId);
+            setShowBattlePlayer(true);
+          }}
           isHidden={isPanelHidden}
           onToggleHidden={handlePanelToggle}
         />
@@ -419,11 +585,40 @@ export default function App() {
         />
       </div>
 
+      {/* Battle Player Overlay */}
+      <AnimatePresence>
+        {showBattlePlayer && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0"
+            style={{ zIndex: 9999 }}
+          >
+            <Suspense fallback={
+              <div className="w-full h-full flex items-center justify-center bg-ink">
+                <LoadingSpinner />
+              </div>
+            }>
+              <BattlePlayer
+                scenarioId={battleScenarioId}
+                onBack={() => setShowBattlePlayer(false)}
+              />
+            </Suspense>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Tour Component */}
       <AppTour />
 
       {/* Toast Notifications */}
       <ToastContainer toasts={toasts} onRemove={removeToast} />
+
+      {/* Custom Cursor - works everywhere including over Leaflet map */}
+      <CustomCursor />
+
 
     </div>
   );

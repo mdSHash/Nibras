@@ -39,7 +39,6 @@ class TTSService {
 
     try {
       this.currentProvider = 'gemini';
-      console.log('[TTS] Using Gemini Flash TTS');
       await geminiTTS.speak(text, {
         voice: 'Charon',
         rate: options.rate,
@@ -49,7 +48,6 @@ class TTSService {
       this.speaking = false;
       this.paused = false;
       this.currentProvider = 'none';
-      console.log('[TTS] Completed successfully');
     } catch (error) {
       this.speaking = false;
       this.paused = false;

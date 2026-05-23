@@ -14,6 +14,8 @@ interface TourContextValue {
   skipTour: () => void;
   resetTour: () => void;
   showPrompt: boolean;
+  triggerPrompt: () => boolean;
+  isFirstVisit: () => boolean;
   acceptTourPrompt: () => void;
   declineTourPrompt: () => void;
   preferences: any;
@@ -38,4 +40,3 @@ export const useTourContext = () => {
   }
   return context;
 };
-

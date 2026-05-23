@@ -8,6 +8,7 @@ export type EventItem = {
   category: string;
   title: string;
   is_major_event?: boolean;
+  battleId?: string;
   date: {
     gregorian: number;
     hijri_relative: string;
@@ -40,9 +41,24 @@ export type EventItem = {
 export type Companion = CompanionData;
 export type City = CityData;
 
+const BATTLE_ID_MAP: Record<string, string> = {
+  'غَزْوَةُ بَدْرٍ الْكُبْرَى': 'badr',
+  'غَزْوَةُ أُحُدٍ': 'uhud',
+  'غَزْوَةُ الْخَنْدَقِ (الْأَحْزَابُ)': 'khandaq',
+  'غَزْوَةُ خَيْبَرَ': 'khaybar',
+  'فَتْحُ مَكَّةَ الْمُكَرَّمَةِ': 'fath-makkah',
+  'غَزْوَةُ حُنَيْنٍ': 'hunayn',
+  'مَعْرَكَةُ الْيَرْمُوكِ': 'yarmouk',
+  'مَعْرَكَةُ الْقَادِسِيَّةِ': 'qadisiyyah',
+  'مَعْرَكَةُ مُؤْتَةَ': 'mutah',
+  'غَزْوَةُ تَبُوكَ (جَيْشُ الْعُسْرَةِ)': 'tabuk',
+  'معركة عين جالوت': 'ain-jalut',
+};
+
 export const eventsData: EventItem[] = (eventsDataJson as any[]).map((e, idx) => ({
   ...e,
-  id: e.id || `event-${idx}-${e.title.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-أ-ي]/g, '')}`
+  id: e.id || `event-${idx}-${e.title.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-أ-ي]/g, '')}`,
+  ...(BATTLE_ID_MAP[e.title] ? { battleId: BATTLE_ID_MAP[e.title] } : {}),
 })) as EventItem[];
 export const citiesData: City[] = importedCities;
 export const companionsData: Companion[] = importedCompanions;

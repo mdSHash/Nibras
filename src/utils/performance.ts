@@ -110,7 +110,9 @@ export const measurePerformance = async <T>(
     performance.measure(name, startMark, endMark);
     
     const measure = performance.getEntriesByName(name)[0];
-    console.log(`[Performance] ${name}: ${measure.duration.toFixed(2)}ms`);
+    if (import.meta.env.DEV) {
+      console.log(`[Performance] ${name}: ${measure.duration.toFixed(2)}ms`);
+    }
     
     return result;
   } finally {

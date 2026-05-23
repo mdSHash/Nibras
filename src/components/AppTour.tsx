@@ -7,6 +7,7 @@ import { TourTooltip } from './TourTooltip';
 import { TourProgress } from './TourProgress';
 import { TourPrompt } from './TourPrompt';
 import { SpotlightPosition, TooltipPosition } from '../types/tour';
+import { Z_INDEX } from '../constants';
 
 export const AppTour: React.FC = () => {
   const {
@@ -24,6 +25,7 @@ export const AppTour: React.FC = () => {
 
   const [spotlightPosition, setSpotlightPosition] = useState<SpotlightPosition | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState<TooltipPosition | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const resizeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const savedFocusRef = useRef<HTMLElement | null>(null);
@@ -35,9 +37,6 @@ export const AppTour: React.FC = () => {
       return;
     }
 
-    // Note: Ensure all data-tour-id values are unique across the app.
-    // Duplicate IDs will cause querySelector to match the first occurrence,
-    // potentially targeting hidden elements and misplacing the spotlight.
     const targetElement = document.querySelector(currentStepData.target) as HTMLElement;
     
     if (!targetElement) {
@@ -49,7 +48,6 @@ export const AppTour: React.FC = () => {
           height: window.innerHeight
         });
         
-        // For center position, set tooltip position immediately
         if (currentStepData.position === 'center') {
           setTooltipPosition({
             top: window.innerHeight / 2,
@@ -63,7 +61,6 @@ export const AppTour: React.FC = () => {
       return;
     }
 
-    // Check if element is visible
     const rect = targetElement.getBoundingClientRect();
     const isVisible = rect.width > 0 && rect.height > 0 &&
                      rect.top < window.innerHeight && rect.bottom > 0 &&
@@ -77,10 +74,8 @@ export const AppTour: React.FC = () => {
     const newSpotlightPosition = calculateSpotlightPosition(targetElement, padding);
     setSpotlightPosition(newSpotlightPosition);
 
-    // Calculate tooltip position with retry mechanism
     const calculateTooltip = () => {
       if (!tooltipRef.current) {
-        // Retry after a short delay if ref not ready
         setTimeout(calculateTooltip, 50);
         return;
       }
@@ -103,13 +98,20 @@ export const AppTour: React.FC = () => {
     let cancelled = false;
 
     const executeBeforeShow = async () => {
+      setIsTransitioning(true);
+
       if (currentStepData.beforeShow) {
         await currentStepData.beforeShow();
       }
       
       if (!cancelled) {
+        // Brief delay for spotlight morphing before showing tooltip
         setTimeout(() => {
           updatePositions();
+          // Allow tooltip to appear after spotlight settles
+          setTimeout(() => {
+            setIsTransitioning(false);
+          }, 150);
         }, 100);
       }
     };
@@ -136,7 +138,9 @@ export const AppTour: React.FC = () => {
     };
   }, [state.isActive, currentStepData, updatePositions]);
 
-  const handleNext = async () => {
+  const handleNext = useCallback(async () => {
+    if (isTransitioning) return;
+
     if (currentStepData?.afterShow) {
       await currentStepData.afterShow();
     }
@@ -146,16 +150,57 @@ export const AppTour: React.FC = () => {
     } else {
       nextStep();
     }
-  };
+  }, [currentStepData, state.currentStep, totalSteps, endTour, nextStep, isTransitioning]);
 
-  const handlePrevious = async () => {
-    previousStep();
-  };
+  const handlePrevious = useCallback(async () => {
+    if (isTransitioning) return;
+    if (state.currentStep > 0) {
+      previousStep();
+    }
+  }, [previousStep, state.currentStep, isTransitioning]);
 
-  // Focus trap for accessibility
+  const handleSkip = useCallback(() => {
+    skipTour();
+  }, [skipTour]);
+
+  // Keyboard navigation: Arrow keys + Escape
+  useEffect(() => {
+    if (!state.isActive) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case 'ArrowLeft':
+          // In RTL, ArrowLeft = next
+          e.preventDefault();
+          handleNext();
+          break;
+        case 'ArrowRight':
+          // In RTL, ArrowRight = previous
+          e.preventDefault();
+          handlePrevious();
+          break;
+        case 'Escape':
+          e.preventDefault();
+          handleSkip();
+          break;
+        case 'Enter':
+        case ' ':
+          // Allow Enter/Space to advance if not focused on a button
+          if (!(document.activeElement instanceof HTMLButtonElement)) {
+            e.preventDefault();
+            handleNext();
+          }
+          break;
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [state.isActive, handleNext, handlePrevious, handleSkip]);
+
+  // Focus management and focus trap
   useEffect(() => {
     if (!state.isActive) {
-      // Restore focus when tour ends
       if (savedFocusRef.current) {
         savedFocusRef.current.focus();
         savedFocusRef.current = null;
@@ -163,7 +208,6 @@ export const AppTour: React.FC = () => {
       return;
     }
 
-    // Save current focus and focus tooltip
     savedFocusRef.current = document.activeElement as HTMLElement;
     if (tooltipRef.current) {
       const firstFocusable = tooltipRef.current.querySelector<HTMLElement>(
@@ -174,7 +218,7 @@ export const AppTour: React.FC = () => {
       }
     }
 
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleTabKey = (e: KeyboardEvent) => {
       if (e.key !== 'Tab' || !tooltipRef.current) return;
 
       const focusableElements = tooltipRef.current.querySelectorAll<HTMLElement>(
@@ -196,10 +240,10 @@ export const AppTour: React.FC = () => {
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keydown', handleTabKey);
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keydown', handleTabKey);
     };
   }, [state.isActive]);
 
@@ -213,7 +257,7 @@ export const AppTour: React.FC = () => {
 
       <AnimatePresence mode="wait">
         {state.isActive && spotlightPosition && currentStepData && (
-          <div key="tour-overlay">
+          <div key="tour-overlay" style={{ zIndex: Z_INDEX.tourBackdrop }}>
             <TourProgress
               currentStep={state.currentStep}
               totalSteps={totalSteps}
@@ -233,7 +277,7 @@ export const AppTour: React.FC = () => {
                 totalSteps={totalSteps}
                 onNext={handleNext}
                 onPrevious={handlePrevious}
-                onSkip={skipTour}
+                onSkip={handleSkip}
                 showPrevious={state.currentStep > 0}
                 showNext={true}
               />
@@ -244,4 +288,3 @@ export const AppTour: React.FC = () => {
     </>
   );
 };
-

@@ -20,6 +20,59 @@
 }
 
 :root {
+  /* Z-Index Scale (mirrors TypeScript constants) */
+  --z-map: 1;
+  --z-map-controls: 400;
+  --z-timeline: 500;
+  --z-timeline-dock: 550;
+  --z-dock-toggle: 560;
+  --z-header: 600;
+  --z-sidebar: 700;
+  --z-search-menu: 800;
+  --z-event-panel: 900;
+  --z-modal-backdrop: 950;
+  --z-modal: 1000;
+  --z-tooltip: 1100;
+  --z-toast: 1200;
+  --z-intro: 1300;
+  --z-tour-backdrop: 1400;
+  --z-tour-tooltip: 1500;
+  --z-tour-controls: 1550;
+  --z-skip-link: 1600;
+
+  /* Fluid Typography Scale */
+  --text-xs: clamp(0.7rem, 1.5vw, 0.8rem);
+  --text-sm: clamp(0.8rem, 2vw, 0.9rem);
+  --text-base: clamp(0.9rem, 2.5vw, 1rem);
+  --text-lg: clamp(1rem, 3vw, 1.25rem);
+  --text-xl: clamp(1.25rem, 4vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 5vw, 2rem);
+  --text-3xl: clamp(2rem, 6vw, 3rem);
+
+  /* Spacing Scale (8px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Glassmorphism */
+  --glass-bg: rgba(250, 246, 237, 0.85);
+  --glass-bg-dark: rgba(30, 20, 15, 0.85);
+  --glass-blur: blur(16px);
+  --glass-border: rgba(139, 92, 46, 0.15);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+
+  /* Panel Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
   /* Base Colors - Enhanced warmth and depth */
   --sys-parchment-50: #faf7f2;
   --sys-parchment: #f4ece1;
@@ -167,6 +220,36 @@
   --tour-tooltip-border: rgba(139, 107, 74, 0.3);
   --tour-tooltip-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   
+  /* Cursor styles */
+  --cursor-pointer: pointer;
+  --cursor-default: default;
+  --cursor-not-allowed: not-allowed;
+  --tour-spotlight-border: #8b6b4a;
+  --tour-spotlight-glow: rgba(139, 107, 74, 0.4);
+  --tour-text-primary: #2c241e;
+  --tour-text-secondary: #6b5a47;
+  --tour-text-tertiary: #8b7a67;
+  
+  /* Tour Typography */
+  --tour-text-xs: clamp(11px, 2vw, 12px);
+  --tour-text-sm: clamp(13px, 2.5vw, 14px);
+  --tour-text-base: clamp(15px, 3vw, 16px);
+  --tour-text-lg: clamp(17px, 3.5vw, 18px);
+  --tour-text-xl: clamp(20px, 4vw, 22px);
+  --tour-text-2xl: clamp(24px, 5vw, 28px);
+  --tour-text-3xl: clamp(30px, 6vw, 36px);
+  
+  /* Tour Spacing */
+  --tour-space-1: 4px;
+  --tour-space-2: 8px;
+  --tour-space-3: 12px;
+  --tour-space-4: 16px;
+  --tour-space-6: 24px;
+  --tour-space-8: 32px;
+  --tour-space-12: 48px;
+  --tour-space-16: 64px;
+}
+
 /* Fix scroll blocking on specific event panel sections */
 @media (max-width: 768px) {
   /* Allow scrolling on references section */
@@ -203,36 +286,6 @@
   [data-tour-id="event-panel"] .flex.flex-col.gap-6 {
     touch-action: pan-y !important;
   }
-}
-
-  /* Cursor styles */
-  --cursor-pointer: pointer;
-  --cursor-default: default;
-  --cursor-not-allowed: not-allowed;
-  --tour-spotlight-border: #8b6b4a;
-  --tour-spotlight-glow: rgba(139, 107, 74, 0.4);
-  --tour-text-primary: #2c241e;
-  --tour-text-secondary: #6b5a47;
-  --tour-text-tertiary: #8b7a67;
-  
-  /* Tour Typography */
-  --tour-text-xs: clamp(11px, 2vw, 12px);
-  --tour-text-sm: clamp(13px, 2.5vw, 14px);
-  --tour-text-base: clamp(15px, 3vw, 16px);
-  --tour-text-lg: clamp(17px, 3.5vw, 18px);
-  --tour-text-xl: clamp(20px, 4vw, 22px);
-  --tour-text-2xl: clamp(24px, 5vw, 28px);
-  --tour-text-3xl: clamp(30px, 6vw, 36px);
-  
-  /* Tour Spacing */
-  --tour-space-1: 4px;
-  --tour-space-2: 8px;
-  --tour-space-3: 12px;
-  --tour-space-4: 16px;
-  --tour-space-6: 24px;
-  --tour-space-8: 32px;
-  --tour-space-12: 48px;
-  --tour-space-16: 64px;
 }
 
 .dark {
@@ -357,19 +410,13 @@ body {
 }
 
 /* Touch Target Sizing - WCAG 2.1 AA Compliance */
-button,
-a,
-[role="button"],
-[role="link"],
+button:not(.no-min-size),
+[role="button"]:not(.no-min-size),
 input[type="checkbox"],
 input[type="radio"],
-select,
-.interactive-element {
+select {
   min-width: 44px;
   min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /* Exception for inline text links */
@@ -1627,11 +1674,17 @@ header {
 .tour-spotlight {
   pointer-events: none;
   transition: all var(--duration-normal) var(--ease-smooth);
+}
+
+.tour-spotlight.animating {
   will-change: opacity, transform;
 }
 
 .tour-tooltip {
   pointer-events: auto;
+}
+
+.tour-tooltip.animating {
   will-change: opacity, transform;
 }
 
@@ -2080,11 +2133,6 @@ background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0
 
 /* Mobile-Optimized Animations */
 @media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
-  /* Faster animations for mobile */
-  * {
-    transition-duration: 200ms !important;
-  }
-  
   /* Smooth scroll for mobile */
   html {
     scroll-behavior: smooth;
@@ -2468,11 +2516,11 @@ background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0
   }
   
   /* Hardware acceleration for frequently animated elements */
-  [class*="motion-"],
-  [class*="animate-"],
-  .modal,
-  .drawer,
-  .bottom-sheet {
+  [class*="motion-"]:active,
+  [class*="animate-"]:active,
+  .modal.animating,
+  .drawer.animating,
+  .bottom-sheet.animating {
     transform: translateZ(0);
     will-change: transform, opacity;
   }
@@ -2491,7 +2539,7 @@ background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0
   
   /* Ensure map is visible when panel is open */
   [data-tour-id="map-container"] {
-    height: 100vh !important;
+    height: 100dvh !important;
     padding-bottom: 0 !important;
   }
   
@@ -2527,11 +2575,6 @@ background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0
 
 /* Player Controls Mobile Positioning */
 @media (max-width: 768px) {
-  /* Ensure player controls stay above event panel */
-  [class*="bottom-"][class*="z-[900]"] {
-    z-index: 950 !important;
-  }
-  
   /* Player mode adjustments */
   .flex-wrap.justify-center {
     justify-content: flex-start;
@@ -2639,4 +2682,46 @@ background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0
       bottom: calc(120px + env(safe-area-inset-bottom)) !important;
     }
   }
+}
+
+/* Custom Cursor - Hide default cursor ONLY after custom cursor component has mounted.
+   The .custom-cursor-active class is added to <html> by CustomCursor.tsx on mount. */
+@media (hover: hover) {
+  .custom-cursor-active,
+  .custom-cursor-active *,
+  .custom-cursor-active *::before,
+  .custom-cursor-active *::after,
+  .custom-cursor-active body,
+  .custom-cursor-active a,
+  .custom-cursor-active button,
+  .custom-cursor-active [role="button"],
+  .custom-cursor-active input,
+  .custom-cursor-active textarea,
+  .custom-cursor-active select,
+  .custom-cursor-active label,
+  .custom-cursor-active .cursor-pointer,
+  .custom-cursor-active .leaflet-container,
+  .custom-cursor-active .leaflet-interactive,
+  .custom-cursor-active .leaflet-grab,
+  .custom-cursor-active .leaflet-dragging,
+  .custom-cursor-active .leaflet-marker-icon,
+  .custom-cursor-active .leaflet-control,
+  .custom-cursor-active .leaflet-popup,
+  .custom-cursor-active .leaflet-tooltip {
+    cursor: none !important;
+  }
+}
+
+/* Custom cursor glow pulse animation */
+@keyframes cursor-glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 6px rgba(212, 168, 83, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(212, 168, 83, 0.9);
+  }
+}
+
+.cursor-glow-pulse {
+  animation: cursor-glow-pulse 2s ease-in-out infinite;
 }

@@ -1,0 +1,511 @@
+/**
+ * BattlePlayer — Main React component for the battle replay viewer.
+ *
+ * Mounts the PixiJS canvas, initializes the Engine, loads a scenario,
+ * and provides playback controls + UI overlays.
+ */
+
+import { useRef, useEffect, useState, useCallback } from 'react';
+import { Engine } from '../core/Engine';
+import { usePlaybackStore } from '../state/playbackStore';
+import { useSimulationStore } from '../state/simulationStore';
+import { useUIStore } from '../state/uiStore';
+import { getScenario } from '../scenarios/index';
+import type { BattleScenario } from '../types/scenario';
+
+// ─── Props ───────────────────────────────────────────────────────────────────
+
+export interface BattlePlayerProps {
+  scenarioId?: string;
+  onBack?: () => void;
+}
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
+function formatTime(seconds: number): string {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return mins.toString().padStart(2, '0') + ':' + secs.toString().padStart(2, '0');
+}
+
+const SPEED_OPTIONS = [0.5, 1, 2, 4] as const;
+
+// ─── Component ───────────────────────────────────────────────────────────────
+
+export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePlayerProps) {
+  // Refs
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const engineRef = useRef<Engine | null>(null);
+
+  // Local state
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [scenario, setScenario] = useState<BattleScenario | null>(null);
+
+  // Zustand store selectors (granular subscriptions for performance)
+  const status = usePlaybackStore((s) => s.status);
+  const currentTime = usePlaybackStore((s) => s.currentTime);
+  const totalDuration = usePlaybackStore((s) => s.totalDuration);
+  const speed = usePlaybackStore((s) => s.speed);
+  const currentPhaseName = usePlaybackStore((s) => s.currentPhaseName);
+  const progress = usePlaybackStore((s) => s.progress);
+
+  const muslimStrength = useSimulationStore((s) => s.muslimStrength);
+  const enemyStrength = useSimulationStore((s) => s.enemyStrength);
+
+  const narration = useUIStore((s) => s.narration);
+
+  // ─── Engine Lifecycle ────────────────────────────────────────────────────────
+
+  useEffect(() => {
+    console.log('[BattlePlayer] useEffect triggered, scenarioId:', scenarioId);
+
+    const canvas = canvasRef.current;
+    const container = containerRef.current;
+    if (!canvas || !container) {
+      console.error('[BattlePlayer] canvas or container ref is null!', { canvas: !!canvas, container: !!container });
+      return;
+    }
+    console.log('[BattlePlayer] canvas and container refs OK');
+
+    // Resolve scenario
+    console.log('[BattlePlayer] resolving scenario...');
+    const loadedScenario = getScenario(scenarioId);
+    if (!loadedScenario) {
+      console.error('[BattlePlayer] scenario not found:', scenarioId);
+      setError(`Scenario "${scenarioId}" not found.`);
+      setIsLoading(false);
+      return;
+    }
+    console.log('[BattlePlayer] scenario resolved:', loadedScenario.name);
+
+    setScenario(loadedScenario);
+
+    let destroyed = false;
+    let rafId: number | null = null;
+
+    const initEngine = async () => {
+      try {
+        const width = container.clientWidth || window.innerWidth;
+        const height = container.clientHeight || window.innerHeight;
+        console.log('[BattlePlayer] container dimensions:', { width, height });
+
+        // Validate canvas dimensions before attempting WebGL init
+        if (width === 0 || height === 0) {
+          throw new Error(
+            'Canvas container has zero dimensions. Ensure the battle player is visible before initializing.'
+          );
+        }
+
+        console.log('[BattlePlayer] creating Engine...');
+        const engine = new Engine();
+        engineRef.current = engine;
+        console.log('[BattlePlayer] Engine created, calling engine.init()...');
+
+        await engine.init(canvas, width, height);
+        console.log('[BattlePlayer] engine.init() resolved!');
+
+        if (destroyed) {
+          console.log('[BattlePlayer] destroyed during init, cleaning up');
+          engine.destroy();
+          return;
+        }
+
+        console.log('[BattlePlayer] loading scenario...');
+        engine.loadScenario(loadedScenario);
+        console.log('[BattlePlayer] scenario loaded, setting isLoading=false');
+        setIsLoading(false);
+      } catch (err) {
+        console.error('[BattlePlayer] init error caught:', err);
+        if (!destroyed) {
+          setError(err instanceof Error ? err.message : 'Failed to initialize engine');
+          setIsLoading(false);
+        }
+      }
+    };
+
+    // Defer initialization to the next animation frame to ensure the canvas
+    // element is fully attached to the DOM and has valid layout dimensions.
+    // This prevents PixiJS WebGL context creation from hanging on a canvas
+    // that hasn't been painted yet.
+    console.log('[BattlePlayer] scheduling init via requestAnimationFrame...');
+    rafId = requestAnimationFrame(() => {
+      rafId = null;
+      console.log('[BattlePlayer] rAF fired, destroyed=', destroyed);
+      if (!destroyed) {
+        initEngine();
+      }
+    });
+
+    // Handle resize
+    const handleResize = () => {
+      if (engineRef.current && container) {
+        const width = container.clientWidth || window.innerWidth;
+        const height = container.clientHeight || window.innerHeight;
+        engineRef.current.resize(width, height);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => {
+      console.log('[BattlePlayer] cleanup running');
+      destroyed = true;
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
+      window.removeEventListener('resize', handleResize);
+      if (engineRef.current) {
+        engineRef.current.destroy();
+        engineRef.current = null;
+      }
+    };
+  }, [scenarioId]);
+
+  // ─── Playback Controls ───────────────────────────────────────────────────────
+
+  const handlePlayPause = useCallback(() => {
+    const engine = engineRef.current;
+    if (!engine) return;
+
+    if (status === 'playing') {
+      engine.pause();
+    } else if (status === 'paused' || status === 'completed') {
+      if (status === 'completed') {
+        engine.seek(0);
+      }
+      engine.play();
+    }
+  }, [status]);
+
+  const handleRestart = useCallback(() => {
+    const engine = engineRef.current;
+    if (!engine) return;
+
+    engine.seek(0);
+    engine.play();
+  }, []);
+
+  const handleSpeedChange = useCallback(() => {
+    const engine = engineRef.current;
+    if (!engine) return;
+
+    const currentIndex = SPEED_OPTIONS.indexOf(speed as typeof SPEED_OPTIONS[number]);
+    const nextIndex = (currentIndex + 1) % SPEED_OPTIONS.length;
+    engine.setSpeed(SPEED_OPTIONS[nextIndex]);
+  }, [speed]);
+
+  const handleSeek = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      const engine = engineRef.current;
+      if (!engine || totalDuration <= 0) return;
+
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const fraction = Math.max(0, Math.min(1, x / rect.width));
+      const seekTime = fraction * totalDuration;
+      engine.seek(seekTime);
+    },
+    [totalDuration]
+  );
+
+  // ─── Mouse Wheel Zoom ──────────────────────────────────────────────────────
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const engine = engineRef.current;
+      if (!engine) return;
+
+      const camera = engine.getCamera();
+      if (!camera) return;
+
+      const currentZoom = camera.getZoom();
+      const zoomDelta = e.deltaY > 0 ? -0.15 : 0.15;
+      const newZoom = Math.max(0.3, Math.min(3.0, currentZoom + zoomDelta));
+      camera.zoomTo(newZoom, 0.2);
+    };
+
+    container.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      container.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
+
+  // ─── ESC Key to Close ──────────────────────────────────────────────────────
+
+  useEffect(() => {
+    if (!onBack) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onBack();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onBack]);
+
+  // ─── Error State ─────────────────────────────────────────────────────────────
+
+  if (error) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-gray-900 text-white z-50">
+        <div className="text-center space-y-4">
+          <div className="text-red-400 text-5xl">⚠️</div>
+          <h2 className="text-xl font-semibold">Failed to Load Battle</h2>
+          <p className="text-gray-400 max-w-md">{error}</p>
+          {onBack && (
+            <button
+              onClick={onBack}
+              className="mt-4 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+            >
+              ← Go Back
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // ─── Render ──────────────────────────────────────────────────────────────────
+
+  return (
+    <div ref={containerRef} className="fixed inset-0 bg-black overflow-hidden z-50">
+      {/* PixiJS Canvas */}
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full"
+      />
+
+      {/* Loading Overlay */}
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-900/90 z-50">
+          <div className="text-center space-y-4">
+            <div className="w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto" />
+            <p className="text-gray-300 text-lg">Loading Battle...</p>
+          </div>
+        </div>
+      )}
+
+      {/* Top Bar / Header */}
+      {!isLoading && (
+        <div className="absolute top-0 left-0 right-0 z-30 pointer-events-none">
+          <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-b from-gray-900/80 to-transparent">
+            {/* Left: Back button + Battle name */}
+            <div className="flex items-center gap-3 pointer-events-auto">
+              {onBack && (
+                <button
+                  onClick={onBack}
+                  className="p-2 rounded-lg bg-gray-800/60 hover:bg-gray-700/80 transition-colors text-gray-300 hover:text-white"
+                  aria-label="Go back"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+              )}
+              <div>
+                <h1 className="text-white font-semibold text-lg leading-tight" dir="rtl" lang="ar">
+                  {scenario?.nameAr ?? scenario?.name ?? 'معركة'}
+                </h1>
+                {scenario?.date && (
+                  <p className="text-gray-400 text-xs">{scenario.date}</p>
+                )}
+              </div>
+            </div>
+
+            {/* Right: Faction Strength Indicators */}
+            <div className="flex items-center gap-4 pointer-events-auto">
+              {/* Muslim faction */}
+              <div className="flex items-center gap-2 bg-gray-800/60 rounded-lg px-3 py-1.5">
+                <div className="w-3 h-3 rounded-full bg-green-500" />
+                <span className="text-green-400 text-sm font-medium">
+                  {muslimStrength}
+                </span>
+                <span className="text-gray-500 text-xs">Muslims</span>
+              </div>
+              {/* Quraysh faction */}
+              <div className="flex items-center gap-2 bg-gray-800/60 rounded-lg px-3 py-1.5">
+                <div className="w-3 h-3 rounded-full bg-red-500" />
+                <span className="text-red-400 text-sm font-medium">
+                  {enemyStrength}
+                </span>
+                <span className="text-gray-500 text-xs">Quraysh</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Phase Info Display (top-left, below header) */}
+      {!isLoading && currentPhaseName && (
+        <div className="absolute top-16 right-4 z-20 pointer-events-none">
+          <div className="bg-gray-900/70 backdrop-blur-sm rounded-lg px-3 py-2 border border-gray-700/50">
+            <p className="text-gray-400 text-xs tracking-wider" dir="rtl" lang="ar">المرحلة</p>
+            <p className="text-white text-sm font-medium" dir="rtl" lang="ar">{currentPhaseName}</p>
+            <p className="text-gray-500 text-xs mt-0.5">{formatTime(currentTime)}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Narration Overlay (Arabic only) */}
+      {!isLoading && narration && (
+        <div className="absolute bottom-28 left-1/2 -translate-x-1/2 z-20 pointer-events-none w-full max-w-2xl px-4">
+          <div
+            className={`bg-gray-900/85 backdrop-blur-md rounded-xl px-6 py-4 border border-gray-600/30 animate-fade-in ${
+              narration.style === 'dramatic' ? 'border-amber-500/40' : ''
+            } ${narration.style === 'quote' ? 'border-green-500/30 italic' : ''}`}
+          >
+            {/* Arabic narration text (RTL) */}
+            <p
+              className="text-gray-100 text-center text-lg leading-relaxed"
+              dir="rtl"
+              lang="ar"
+              style={{ fontFamily: "'Noto Sans Arabic', 'Segoe UI', 'Tahoma', sans-serif" }}
+            >
+              {narration.textAr || narration.text}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Replay Overlay (shown when battle completes) */}
+      {!isLoading && status === 'completed' && (
+        <div className="absolute inset-0 flex items-center justify-center z-40 bg-black/40">
+          <div className="flex items-center gap-4">
+            {/* Replay Button */}
+            <button
+              onClick={handleRestart}
+              className="flex flex-col items-center gap-3 px-8 py-6 rounded-2xl bg-gray-900/90 backdrop-blur-md border border-gray-600/50 hover:bg-gray-800/90 transition-colors group"
+              aria-label="Replay battle"
+            >
+              <svg
+                className="w-12 h-12 text-green-400 group-hover:text-green-300 transition-colors"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 12a9 9 0 1 1 9 9M3 12V3m0 9h9" />
+              </svg>
+              <span className="text-white text-lg font-semibold">إعادة المعركة</span>
+              <span className="text-gray-400 text-sm">Replay Battle</span>
+            </button>
+
+            {/* Exit Button */}
+            {onBack && (
+              <button
+                onClick={onBack}
+                className="flex flex-col items-center gap-3 px-8 py-6 rounded-2xl bg-gray-900/90 backdrop-blur-md border border-red-600/40 hover:bg-red-900/40 transition-colors group"
+                aria-label="Exit battle"
+              >
+                <svg
+                  className="w-12 h-12 text-red-400 group-hover:text-red-300 transition-colors"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                <span className="text-white text-lg font-semibold">خروج</span>
+                <span className="text-gray-400 text-sm">Exit</span>
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Playback Controls Bar (bottom) */}
+      {!isLoading && (
+        <div className="absolute bottom-0 left-0 right-0 z-30 pointer-events-none">
+          <div className="px-4 pb-4 pt-8 bg-gradient-to-t from-gray-900/90 to-transparent">
+            <div className="flex items-center gap-3 pointer-events-auto">
+              {/* Play/Pause Button */}
+              <button
+                onClick={handlePlayPause}
+                className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-gray-800/80 hover:bg-gray-700 transition-colors text-white border border-gray-600/50"
+                aria-label={status === 'playing' ? 'Pause' : 'Play'}
+              >
+                {status === 'playing' ? (
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+                  </svg>
+                ) : (
+                  <svg className="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                )}
+              </button>
+
+              {/* Restart Button */}
+              <button
+                onClick={handleRestart}
+                className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-gray-800/80 hover:bg-gray-700 transition-colors text-white border border-gray-600/50"
+                aria-label="Restart"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 12a9 9 0 1 1 9 9M3 12V3m0 9h9" />
+                </svg>
+              </button>
+
+              {/* Time Display */}
+              <span className="text-gray-300 text-xs font-mono min-w-[80px]">
+                {formatTime(currentTime)} / {formatTime(totalDuration)}
+              </span>
+
+              {/* Progress/Seek Bar */}
+              <div
+                className="flex-1 h-2 bg-gray-700/80 rounded-full cursor-pointer relative group"
+                onClick={handleSeek}
+                role="slider"
+                aria-label="Seek"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={Math.round(progress * 100)}
+              >
+                {/* Progress fill */}
+                <div
+                  className="absolute inset-y-0 left-0 bg-green-500/80 rounded-full transition-[width] duration-100"
+                  style={{ width: `${progress * 100}%` }}
+                />
+                {/* Hover indicator */}
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity"
+                  style={{ left: `calc(${progress * 100}% - 6px)` }}
+                />
+              </div>
+
+              {/* Speed Control */}
+              <button
+                onClick={handleSpeedChange}
+                className="flex-shrink-0 px-3 py-1.5 rounded-lg bg-gray-800/80 hover:bg-gray-700 transition-colors text-gray-300 text-xs font-medium border border-gray-600/50"
+                aria-label="Change speed"
+              >
+                {speed}x
+              </button>
+
+              {/* Phase name (compact, Arabic) */}
+              {currentPhaseName && (
+                <span className="hidden sm:inline text-gray-500 text-xs truncate max-w-[150px]" dir="rtl" lang="ar">
+                  {currentPhaseName}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

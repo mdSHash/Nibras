@@ -1,810 +1,288 @@
-# نِبْرَاس (Nibras)
+# Nibras (نبراس)
 
-**تطبيق تفاعلي للخط الزمني والخريطة للتاريخ الإسلامي**
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![PixiJS](https://img.shields.io/badge/PixiJS-8-E72264?logo=pixijs&logoColor=white)](https://pixijs.com)
+[![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)](https://vitejs.dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-نِبْرَاس (بمعنى "المصباح" أو "النور" في اللغة العربية) هو تطبيق ويب تفاعلي يُصوّر التاريخ الإسلامي من خلال واجهة خط زمني ديناميكي وخريطة جغرافية. عِش السيرة النبوية والتاريخ الإسلامي المبكر كما لم تختبره من قبل، مع سياق مكاني وزماني يُحيي الأحداث التاريخية.
+**An interactive Islamic history educational platform with a cinematic battle replay engine.**
 
-## البدء السريع
-
-**مهم: يجب تشغيل كل من الخادم الخلفي والواجهة الأمامية للحصول على الوظائف الكاملة**
-
-### الخطوة 1: تشغيل الخادم الخلفي (مطلوب لـ Gemini TTS)
-
-**Unix/Mac:**
-```bash
-cd server
-chmod +x start.sh
-./start.sh
-```
-
-**Windows:**
-```bash
-cd server
-start.bat
-```
-
-**أو يدوياً:**
-```bash
-cd server
-npm install
-npm start
-```
-
-يجب أن يعمل الخادم الخلفي على `http://localhost:3001`
-
-### الخطوة 2: تشغيل الواجهة الأمامية
-
-في نافذة طرفية جديدة:
-```bash
-npm install
-npm run dev
-```
-
-سيكون التطبيق متاحاً على `http://localhost:3000`
-
-### استكشاف الأخطاء الشائعة
-
-**خطأ: "Failed to fetch" أو "Backend server not running"**
-- تأكد من تشغيل الخادم الخلفي أولاً (الخطوة 1)
-- تحقق من أن المنفذ 3001 غير مستخدم
-- تأكد من وجود `server/.env` مع `GEMINI_API_KEY`
-
-**خطأ: "GEMINI_API_KEY not configured"**
-- انسخ `server/.env.example` إلى `server/.env`
-- أضف مفتاح Gemini API من https://aistudio.google.com/app/apikey
-
-**TTS لا يعمل:**
-- تحقق من تشغيل كلا الخادمين
-- راجع وحدة تحكم الخادم الخلفي للأخطاء
-- سيعود التطبيق إلى TTS المتصفح إذا كان Gemini غير متاح
-
-## نظرة عامة
-
-يوفر نِبْرَاس رحلة غامرة عبر التاريخ الإسلامي من ميلاد النبي محمد صلى الله عليه وسلم إلى نهاية الخلافة الراشدة. يجمع التطبيق بين رسم الخرائط التفاعلية، والتنقل عبر الخط الزمني، والمحتوى التاريخي الغني لإنشاء تجربة تعليمية شاملة.
-
-**الفلسفة:** التاريخ ليس مجرد نص يُقرأ، بل هو "مكان" شهد الأحداث و"زمان" وثّق اللحظات. نِبْرَاس يُنير الزمان والمكان معاً، مما يتيح لك تجربة السيرة النبوية كأنك تشهدها بنفسك.
-
-## المميزات
-
-### خط زمني تفاعلي
-- التنقل عبر التاريخ الإسلامي بشكل زمني متسلسل
-- تصفية الأحداث حسب الحقبة (الفترة المكية، الفترة المدنية، الخلافة الراشدة)
-- عرض الأحداث الكبرى والغزوات مع معلومات تفصيلية
-- انتقالات سلسة بين الفترات التاريخية
-- وضع التشغيل التلقائي للأحداث
-- اختصارات لوحة المفاتيح للتنقل السريع
-
-### تصور خريطة ديناميكية
-- حدود إقليمية عضوية باستخدام خوارزميات خلايا فورونوي
-- تغييرات إقليمية في الوقت الفعلي تعكس التوسع التاريخي
-- علامات المدن ذات الأهمية التاريخية
-- حركات كاميرا سلسة إلى مواقع الأحداث
-- خريطة تاريخية مخصصة بدون حدود سياسية حديثة
-- تجميع ذكي للعلامات في المناطق الكثيفة
-- أيقونات مخصصة حسب فئة الحدث
-
-### محتوى تاريخي غني
-- أوصاف تفصيلية للأحداث مع مجريات الأحداث
-- سير الصحابة مع ملفات تعريف قابلة للبحث
-- مراجع قرآنية متعلقة بالأحداث التاريخية
-- استشهادات حديثية من مصادر موثوقة
-- توثيق المصادر التاريخية
-- معلومات تفصيلية عن الجيوش والمدة الزمنية
-
-### وظيفة البحث
-- البحث عن الصحابة والشخصيات التاريخية
-- وصول سريع إلى المعلومات السيرية
-- التصفية حسب الاسم أو اللقب أو الكنية
-- نتائج بحث فورية
-
-### ملفات الصحابة
-- سير شاملة للصحابة رضوان الله عليهم
-- تواريخ الميلاد والوفاة
-- الأدوار في الأحداث التاريخية
-- تنوعات متعددة للأسماء للبحث الدقيق
-
-### تجربة مستخدم محسنة
-- جولة تعريفية تفاعلية للمستخدمين الجدد
-- شاشة ترحيب جذابة
-- وضع مظلم وفاتح
-- تصميم متجاوب لجميع الأجهزة
-- إشعارات منبثقة للتفاعلات
-- حركات سلسة ومؤثرات بصرية
-- دعم إيماءات اللمس للأجهزة المحمولة
-- اختصارات لوحة المفاتيح للمستخدمين المتقدمين
-
-## التقنيات المستخدمة
-
-### إطار العمل الأمامي
-- **React 19** - مكتبة واجهة مستخدم حديثة
-- **TypeScript** - تطوير آمن من حيث الأنواع
-- **Vite** - أداة بناء سريعة وخادم تطوير
-
-### رسم الخرائط والمعلومات الجغرافية المكانية
-- **Leaflet** - عرض خرائط تفاعلية
-- **react-leaflet** - مكونات React لـ Leaflet
-- **Turf.js** - تحليل جغرافي مكاني متقدم وتوليد خلايا فورونوي
-- **use-supercluster** - تجميع فعال للنقاط الجغرافية الكثيفة
-
-### التنسيق والحركة
-- **TailwindCSS** - إطار عمل CSS قائم على الأدوات المساعدة
-- **Motion** - حركات وانتقالات سلسة
-
-### مكتبات إضافية
-- **lucide-react** - مكتبة أيقونات
-
-## التثبيت
-
-### المتطلبات الأساسية
-- Node.js (الإصدار 16 أو أعلى)
-- مدير حزم npm أو yarn
-
-### تعليمات الإعداد
-
-1. استنساخ المستودع:
-```bash
-git clone https://github.com/your-username/nibras.git
-cd nibras
-```
-
-2. تثبيت التبعيات:
-```bash
-npm install
-```
-
-3. تكوين متغيرات البيئة:
-```bash
-cp .env.example .env
-```
-
-قم بتحرير `.env` وأضف مفتاح Google Cloud API للنسخ الاحتياطي TTS (اختياري):
-```
-VITE_GOOGLE_CLOUD_API_KEY=your_api_key_here
-```
-
-4. بدء خادم التطوير:
-```bash
-npm run dev
-```
-
-سيكون التطبيق متاحاً على `http://localhost:3000`
-
-### إعداد خادم الخلفية
-
-يستخدم نِبْرَاس خادم خلفية لوظيفة Gemini TTS (تحويل النص إلى كلام) الآمنة. يعمل الخادم الخلفي كوكيل لحماية مفاتيح API ومعالجة طلبات TTS.
-
-#### البنية المعمارية
-- الواجهة الأمامية (React/Vite) تعمل على المنفذ 3000
-- الخادم الخلفي (Express) يعمل على المنفذ 3001
-- الواجهة الأمامية تستدعي API الخلفية لـ Gemini TTS
-- الخادم الخلفي يتعامل بشكل آمن مع طلبات Gemini API
-
-#### تعليمات إعداد الخادم الخلفي
-
-1. انتقل إلى دليل الخادم وقم بتثبيت التبعيات:
-```bash
-cd server
-npm install
-```
-
-2. تكوين بيئة الخادم الخلفي:
-```bash
-cp .env.example .env
-```
-
-3. قم بتحرير `server/.env` وأضف مفتاح Gemini API الخاص بك:
-```
-GEMINI_API_KEY=your_gemini_api_key_here
-PORT=3001
-```
-
-احصل على مفتاح Gemini API من: https://aistudio.google.com/app/apikey
-
-4. بدء تشغيل الخادم الخلفي:
-```bash
-cd server
-npm start
-```
-
-سيكون الخادم الخلفي متاحاً على `http://localhost:3001`
-
-#### تشغيل كل من الواجهة الأمامية والخادم الخلفي
-
-للحصول على الوظائف الكاملة بما في ذلك Gemini TTS، تحتاج إلى تشغيل كلا الخادمين:
-
-**الخيار 1: يدوي (نافذتان طرفيتان)**
-```bash
-# النافذة الطرفية 1 - الخادم الخلفي
-cd server
-npm start
-
-# النافذة الطرفية 2 - الواجهة الأمامية
-npm run dev
-```
-
-**الخيار 2: استخدام نصوص npm**
-```bash
-# بدء الخادم الخلفي فقط
-npm run dev:server
-
-# بدء كليهما (إذا كان لديك concurrently مثبت)
-npm run dev:all
-```
-
-#### استكشاف الأخطاء وإصلاحها
-
-**الخادم الخلفي لا يعمل:**
-- تأكد من بدء تشغيل الخادم الخلفي قبل استخدام ميزات TTS
-- تحقق من أن المنفذ 3001 غير مستخدم من قبل تطبيق آخر
-- تحقق من وجود `server/.env` ويحتوي على تكوين صالح
-
-**مشاكل مفتاح API:**
-- تأكد من تعيين `GEMINI_API_KEY` في `server/.env`
-- تحقق من صحة مفتاح API ولديه الأذونات المناسبة
-- تحقق من وحدة تحكم الخادم الخلفي لرسائل الخطأ
-
-**TTS لا يعمل:**
-- تحقق من تشغيل كل من الواجهة الأمامية والخادم الخلفي
-- تحقق من وحدة تحكم المتصفح لأخطاء الاتصال
-- تأكد من أن `VITE_TTS_BACKEND_URL` في `.env` يشير إلى عنوان URL الصحيح للخادم الخلفي
-- سيعود التطبيق إلى Google Cloud TTS أو TTS المتصفح إذا كان Gemini غير متاح
-
-## هيكل المشروع
-
-```
-nibras/
-├── src/
-│   ├── components/          # مكونات React
-│   │   ├── Timeline.tsx     # مكون التنقل عبر الخط الزمني
-│   │   ├── Map.tsx          # مكون الخريطة التفاعلية
-│   │   ├── EventPanel.tsx   # عرض تفاصيل الحدث
-│   │   ├── CompanionModal.tsx  # نافذة سيرة الصحابي
-│   │   ├── QuranModal.tsx   # نافذة المرجع القرآني
-│   │   ├── QuranRef.tsx     # مكون مرجع القرآن
-│   │   ├── SearchMenu.tsx   # وظيفة البحث
-│   │   ├── IntroScreen.tsx  # شاشة الترحيب
-│   │   ├── AppTour.tsx      # جولة تعريفية بالتطبيق
-│   │   ├── Button.tsx       # مكون الأزرار
-│   │   ├── EmptyState.tsx   # حالة فارغة
-│   │   ├── LoadingSpinner.tsx  # مؤشر التحميل
-│   │   ├── SkeletonCard.tsx # بطاقة هيكلية للتحميل
-│   │   ├── Toast.tsx        # إشعارات منبثقة
-│   │   ├── TouchFeedback.tsx  # ردود فعل اللمس
-│   │   ├── TourProgress.tsx # تقدم الجولة
-│   │   ├── TourPrompt.tsx   # مطالبة الجولة
-│   │   ├── TourSpotlight.tsx  # تسليط الضوء في الجولة
-│   │   └── TourTooltip.tsx  # تلميحات الجولة
-│   ├── contexts/
-│   │   └── TourContext.tsx  # سياق الجولة التعريفية
-│   ├── hooks/               # React Hooks مخصصة
-│   │   ├── useDebouncedValue.ts  # قيمة متأخرة
-│   │   ├── useFocusTrap.ts  # فخ التركيز
-│   │   ├── useKeyboardShortcuts.ts  # اختصارات لوحة المفاتيح
-│   │   ├── useSwipeGesture.ts  # إيماءات السحب
-│   │   └── useTour.ts       # منطق الجولة التعريفية
-│   ├── utils/               # وظائف مساعدة
-│   │   ├── animations.ts    # وظائف الحركة
-│   │   ├── eventHelpers.ts  # مساعدات الأحداث
-│   │   ├── formatters.ts    # تنسيق البيانات
-│   │   ├── performance.ts   # تحسينات الأداء
-│   │   └── scrollLock.ts    # قفل التمرير
-│   ├── data/
-│   │   └── tourSteps.ts     # خطوات الجولة التعريفية
-│   ├── types/
-│   │   └── tour.ts          # أنواع الجولة التعريفية
-│   ├── constants/
-│   │   └── index.ts         # ثوابت التطبيق
-│   ├── dataList.json        # بيانات الأحداث التاريخية
-│   ├── quranData.json       # المراجع القرآنية
-│   ├── companionsList.ts    # بيانات الصحابة الأساسية
-│   ├── citiesList.ts        # المدن والمواقع
-│   ├── territoriesData.ts   # حدود الأقاليم
-│   ├── data.ts              # تصدير البيانات الموحد
-│   ├── App.tsx              # مكون التطبيق الرئيسي
-│   ├── main.tsx             # نقطة دخول التطبيق
-│   ├── types.ts             # تعريفات أنواع TypeScript
-│   └── index.css            # أنماط عامة
-├── public/
-│   ├── nibras-icon.svg      # أيقونة التطبيق
-│   ├── favicon.svg          # أيقونة المتصفح
-│   └── favicon.png          # أيقونة المتصفح PNG
-├── ADDING_NEW_CONTENT_GUIDE.md  # دليل إضافة المحتوى
-├── PRD.md                   # وثيقة متطلبات المنتج
-├── metadata.json            # بيانات وصفية للمشروع
-├── package.json             # التبعيات والنصوص البرمجية
-├── tsconfig.json            # تكوين TypeScript
-├── vite.config.ts           # تكوين Vite
-└── README.md                # هذا الملف
-```
-
-## التطوير
-
-### النصوص البرمجية المتاحة
-
-- `npm run dev` - بدء خادم التطوير على المنفذ 3000
-- `npm run build` - بناء حزمة الإنتاج
-- `npm run preview` - معاينة بناء الإنتاج
-- `npm run clean` - إزالة مخرجات البناء
-- `npm run lint` - تشغيل فحص أنواع TypeScript
-
-### إضافة محتوى جديد
-
-لإضافة أحداث تاريخية جديدة أو صحابة أو مدن إلى التطبيق، راجع الدليل الشامل:
-
-**[ADDING_NEW_CONTENT_GUIDE.md](./ADDING_NEW_CONTENT_GUIDE.md)**
-
-يغطي الدليل:
-- إضافة أحداث تاريخية جديدة بالهيكل الصحيح
-- إضافة سير الصحابة
-- إضافة المدن والمواقع
-- التحقق من صحة البيانات والاختبار
-- الأخطاء الشائعة التي يجب تجنبها
-- أمثلة كاملة
-
-### هيكل البيانات
-
-#### الأحداث
-يتم تخزين الأحداث في [`src/dataList.json`](./src/dataList.json) بالهيكل التالي:
-- بيانات وصفية للحدث (المعرف، الفئة، الحقبة، العنوان)
-- معلومات التاريخ (هجري نسبي وميلادي)
-- الموقع مع الإحداثيات الجغرافية
-- أوصاف تفصيلية ومجريات الأحداث
-- أدوار الصحابة في الأحداث
-- مراجع قرآنية وحديثية
-- مصادر تاريخية موثقة
-- مسارات الأحداث (للمعارك والهجرات)
-
-#### الصحابة
-يتم تخزين بيانات الصحابة في [`src/companionsList.ts`](./src/companionsList.ts) مع:
-- الاسم الكامل والألقاب
-- الأدوار التاريخية
-- السيرة الذاتية المفصلة
-- تواريخ الميلاد والوفاة
-- أسماء بديلة للبحث الدقيق
-
-#### المدن
-يتم تخزين بيانات المدن في [`src/citiesList.ts`](./src/citiesList.ts) مع:
-- اسم المدينة والإحداثيات الدقيقة
-- وصف تاريخي شامل
-- الأهمية الدينية والتاريخية
-- الأحداث المرتبطة بالمدينة
-
-#### الأقاليم
-يتم تخزين بيانات الأقاليم في [`src/territoriesData.ts`](./src/territoriesData.ts) مع:
-- حدود الأقاليم التاريخية
-- التغييرات الإقليمية عبر الزمن
-- مراكز السيطرة والنفوذ
-
-## البناء للإنتاج
-
-لإنشاء بناء إنتاج:
-
-```bash
-npm run build
-```
-
-سيتم إنشاء الملفات المحسّنة في دليل `dist/`.
-
-لمعاينة بناء الإنتاج محلياً:
-
-```bash
-npm run preview
-```
-
-## المصادر التاريخية
-
-جميع المحتويات مستمدة من مصادر إسلامية سنية موثوقة:
-
-### المصادر الأساسية
-- سيرة ابن هشام (سيرة النبي)
-- الرحيق المختوم
-- زاد المعاد (ابن القيم)
-
-### المراجع التاريخية
-- البداية والنهاية (ابن كثير)
-- تاريخ الطبري
-- الكامل في التاريخ (ابن الأثير)
-
-### سير الصحابة
-- الإصابة في تمييز الصحابة (ابن حجر)
-- أسد الغابة (ابن الأثير)
-- الاستيعاب (ابن عبد البر)
-
-## المساهمة
-
-المساهمات مرحب بها! عند المساهمة:
-
-1. تأكد من الدقة التاريخية باستخدام مصادر موثوقة
-2. اتبع هيكل الكود الحالي واصطلاحات TypeScript
-3. اختبر جميع التغييرات بدقة
-4. راجع ADDING_NEW_CONTENT_GUIDE.md لإضافات المحتوى
-5. حافظ على النبرة المهنية ودقة التطبيق
-
-## الترخيص
-
-حقوق النشر 2026 - تم إنشاؤه بتفانٍ لخدمة التاريخ الإسلامي.
-
-جميع المصادر مستمدة من كتب سنية موثوقة والسيرة النبوية الصحيحة.
-
-## الرؤية والرسالة
-
-**الرؤية:** أن نكون أول مرجع مكاني تفاعلي للمسلمين المعاصرين لاستكشاف السيرة النبوية والتاريخ الإسلامي من خلال أساليب بصرية وتقنية تربط القلوب بأماكن الوحي.
-
-**الرسالة:** توظيف أحدث تقنيات رسم الخرائط التفاعلية لتوثيق أحداث السيرة النبوية وتاريخ الخلفاء الراشدين، وتقديمها خالية من الحدود السياسية الحديثة في عرض تفاعلي عضوي حي، بناءً على أصح المصادر السنية المعتمدة.
 
 ---
 
-# English Version
+## Table of Contents
 
-# نِبْرَاس (Nibras)
+- [Overview](#overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Battle Engine](#battle-engine)
+- [Available Battles](#available-battles)
+- [Configuration](#configuration)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
+- [Author](#author)
 
-**Interactive Islamic History Timeline and Map Application**
-
-Nibras (نِبْرَاس - meaning "lamp" or "light" in Arabic) is an interactive web application that visualizes Islamic history through a dynamic timeline and geographical map interface. Experience the Prophetic biography and early Islamic history as never before, with spatial and temporal context that brings historical events to life.
+---
 
 ## Overview
 
-Nibras provides an immersive journey through Islamic history from the birth of Prophet Muhammad (peace be upon him) to the end of the Rashidun Caliphate. The application combines interactive mapping, timeline navigation, and rich historical content to create a comprehensive educational experience.
+Nibras (نِبْرَاس — "lamp" or "light" in Arabic) is an interactive web application that illuminates Islamic history through dynamic timeline visualization, geographical mapping, and cinematic battle replays. It covers the period from 571 CE to 661 CE, spanning the Meccan period, the Medinan period, and the Rashidun Caliphate.
 
-**Philosophy:** History is not merely text to be read, but a "place" that witnessed events and a "time" that documented moments. Nibras illuminates both time and place together, allowing you to experience the Prophetic biography as if you were witnessing it firsthand.
+The platform serves as a spatial-temporal reference for exploring the Prophetic biography (Seerah) and early Islamic history. Events are presented on an interactive map with territorial changes, linked Quran references, companion biographies, and narrated descriptions. Major battles are rendered as full cinematic replays using a custom PixiJS-based engine.
+
+---
 
 ## Features
 
-### Interactive Timeline
-- Navigate through Islamic history chronologically
-- Filter events by era (Meccan period, Medinan period, Rashidun Caliphate)
-- View major events and battles with detailed information
-- Smooth transitions between historical periods
-- Auto-play mode for sequential event viewing
-- Keyboard shortcuts for quick navigation
+- **Interactive Timeline** — Chronological navigation of Islamic history events (571–661 CE) across three eras: Meccan, Medinan, and Rashidun Caliphate
+- **Cinematic Battle Replay Engine** — 11 fully scripted battles rendered with PixiJS WebGL at 60fps, featuring deterministic playback, cinematic camera choreography, and bilingual narration
+- **Arabic-First UI** — Full RTL support with Arabic calligraphy intro screen (Amiri/Naskh font), right-to-left layout throughout
+- **Map Visualization** — Leaflet-based interactive map with event markers, route polylines, territorial expansion polygons, and marker clustering via Supercluster
+- **Companion Profiles** — Biographical data for key Sahaba with their roles in specific events
+- **Quran References** — Events linked to relevant Quranic verses with modal display
+- **Text-to-Speech Narration** — Gemini-powered Arabic TTS for event descriptions and battle narration, with pre-cached audio via Cloudflare R2
+- **Guided App Tour** — Step-by-step onboarding tour for first-time users with spotlight highlighting
+- **Keyboard Shortcuts** — Full keyboard navigation support
+- **Dark/Light Mode** — Theme toggle with smooth transitions
+- **Autoplay Mode** — Sequential event playback with narration
 
-### Dynamic Map Visualization
-- Organic territorial boundaries using Voronoi cell algorithms
-- Real-time territory changes reflecting historical expansion
-- City markers with historical significance
-- Smooth camera movements to event locations
-- Custom historical map without modern political borders
-- Smart marker clustering for dense areas
-- Custom icons based on event category
+---
 
-### Rich Historical Content
-- Detailed event descriptions with course of events
-- Companion biographies with searchable profiles
-- Quranic references related to historical events
-- Hadith citations from authentic sources
-- Historical source documentation
-- Detailed information about armies and duration
+## Tech Stack
 
-### Search Functionality
-- Search for companions and historical figures
-- Quick access to biographical information
-- Filter by name, title, or aliases
-- Instant search results
+| Category | Technology |
+|----------|-----------|
+| Framework | React 19, TypeScript 5.8 |
+| Build | Vite 6 |
+| Battle Renderer | PixiJS 8 (WebGL) |
+| State Management | Zustand 5, XState 5 |
+| Animation | Framer Motion 12, GSAP 3 |
+| Styling | Tailwind CSS 4 |
+| Maps | Leaflet, React-Leaflet, Supercluster |
+| AI/TTS | Google Generative AI (Gemini) |
+| Geo Utilities | Turf.js |
+| Testing | Playwright |
 
-### Companion Profiles
-- Comprehensive biographies of Sahaba (companions)
-- Birth and death dates
-- Roles in historical events
-- Multiple name variations for accurate search
+---
 
-### Enhanced User Experience
-- Interactive tour for new users
-- Attractive welcome screen
-- Dark and light modes
-- Responsive design for all devices
-- Toast notifications for interactions
-- Smooth animations and visual effects
-- Touch gesture support for mobile devices
-- Keyboard shortcuts for advanced users
-
-## Technology Stack
-
-### Frontend Framework
-- **React 19** - Modern UI library
-- **TypeScript** - Type-safe development
-- **Vite** - Fast build tool and development server
-
-### Mapping and Geospatial
-- **Leaflet** - Interactive map rendering
-- **react-leaflet** - React components for Leaflet
-- **Turf.js** - Advanced geospatial analysis and Voronoi cell generation
-- **use-supercluster** - Efficient clustering for dense geographical points
-
-### Styling and Animation
-- **TailwindCSS** - Utility-first CSS framework
-- **Motion** - Smooth animations and transitions
-
-### Additional Libraries
-- **lucide-react** - Icon library
-
-## Installation
+## Getting Started
 
 ### Prerequisites
-- Node.js (v16 or higher)
-- npm or yarn package manager
 
-### Setup Instructions
+- Node.js >= 18
+- npm >= 9
 
-1. Clone the repository:
+### Installation
+
 ```bash
-git clone https://github.com/your-username/nibras.git
+git clone https://github.com/<your-org>/nibras.git
 cd nibras
-```
-
-2. Install dependencies:
-```bash
 npm install
 ```
 
-3. Configure environment variables:
+### Environment Variables
+
+Copy the example environment file and configure:
+
 ```bash
 cp .env.example .env
 ```
 
-Edit `.env` and add your Google Cloud API key for fallback TTS (optional):
-```
-VITE_GOOGLE_CLOUD_API_KEY=your_api_key_here
-```
+| Variable | Description |
+|----------|-------------|
+| `R2_ACCOUNT_ID` | Cloudflare R2 account ID (audio storage) |
+| `R2_ACCESS_KEY_ID` | Cloudflare R2 access key |
+| `R2_SECRET_ACCESS_KEY` | Cloudflare R2 secret key |
+| `R2_BUCKET_NAME` | R2 bucket name (default: `nibras-audio`) |
+| `R2_PUBLIC_URL` | Public URL for the R2 bucket |
+| `VITE_GEMINI_API_KEY` | Google Gemini API key for TTS |
 
-4. Start the development server:
+### Running Locally
+
 ```bash
+# Start the frontend dev server (port 3000)
 npm run dev
-```
 
-The application will be available at `http://localhost:3000`
-
-### Backend Server Setup
-
-Nibras uses a backend server for secure Gemini TTS (Text-to-Speech) functionality. The backend acts as a proxy to protect API keys and handle TTS requests.
-
-#### Architecture
-- Frontend (React/Vite) runs on port 3000
-- Backend (Express) runs on port 3001
-- Frontend calls backend API for Gemini TTS
-- Backend securely handles Gemini API requests
-
-#### Backend Setup Instructions
-
-1. Navigate to the server directory and install dependencies:
-```bash
-cd server
-npm install
-```
-
-2. Configure the backend environment:
-```bash
-cp .env.example .env
-```
-
-3. Edit `server/.env` and add your Gemini API key:
-```
-GEMINI_API_KEY=your_gemini_api_key_here
-PORT=3001
-```
-
-Get your Gemini API key from: https://aistudio.google.com/app/apikey
-
-4. Start the backend server:
-```bash
-cd server
-npm start
-```
-
-The backend will be available at `http://localhost:3001`
-
-#### Running Both Frontend and Backend
-
-For full functionality including Gemini TTS, you need to run both servers:
-
-**Option 1: Manual (Two Terminals)**
-```bash
-# Terminal 1 - Backend
-cd server
-npm start
-
-# Terminal 2 - Frontend
-npm run dev
-```
-
-**Option 2: Using npm scripts**
-```bash
-# Start backend only
+# Start the TTS backend server (separate terminal)
 npm run dev:server
-
-# Start both (if you have concurrently installed)
-npm run dev:all
 ```
 
-#### Troubleshooting
+The app will be available at `http://localhost:3000`.
 
-**Backend not running:**
-- Ensure the backend server is started before using TTS features
-- Check that port 3001 is not in use by another application
-- Verify `server/.env` exists and contains valid configuration
+---
 
-**API Key Issues:**
-- Ensure `GEMINI_API_KEY` is set in `server/.env`
-- Verify the API key is valid and has proper permissions
-- Check the backend console for error messages
+## Usage
 
-**TTS Not Working:**
-- Verify both frontend and backend are running
-- Check browser console for connection errors
-- Ensure `VITE_TTS_BACKEND_URL` in `.env` points to correct backend URL
-- The app will fallback to Google Cloud TTS or browser TTS if Gemini is unavailable
+1. **Timeline Navigation** — Use the vertical timeline on the right to browse events chronologically. Filter by era (Meccan, Medinan, Rashidun) or event type.
+2. **Map Exploration** — Click markers on the map to view event details. Territorial polygons update as you move through time.
+3. **Event Details** — Select any event to open the detail panel with full description, companion roles, Quran references, and TTS narration.
+4. **Battle Replay** — Events tagged as battles display a "Watch Battle" button. Click to launch the full-screen cinematic replay with play/pause controls and narration.
+5. **Search** — Use the search menu (keyboard shortcut available) to find events by title.
+6. **Autoplay** — Enable player mode to auto-advance through events with narration.
+
+---
 
 ## Project Structure
 
 ```
 nibras/
+├── public/                    # Static assets (favicon, audio cache)
+├── scripts/                   # Build/utility scripts (audio caching, R2 migration)
+├── server/                    # Express TTS proxy server
 ├── src/
-│   ├── components/          # React components
-│   │   ├── Timeline.tsx     # Timeline navigation component
-│   │   ├── Map.tsx          # Interactive map component
-│   │   ├── EventPanel.tsx   # Event details display
-│   │   ├── CompanionModal.tsx  # Companion biography modal
-│   │   ├── QuranModal.tsx   # Quranic reference modal
-│   │   ├── QuranRef.tsx     # Quran reference component
-│   │   ├── SearchMenu.tsx   # Search functionality
-│   │   ├── IntroScreen.tsx  # Welcome screen
-│   │   ├── AppTour.tsx      # Application tour component
-│   │   ├── Button.tsx       # Button component
-│   │   ├── EmptyState.tsx   # Empty state component
-│   │   ├── LoadingSpinner.tsx  # Loading spinner
-│   │   ├── SkeletonCard.tsx # Skeleton loading card
-│   │   ├── Toast.tsx        # Toast notifications
-│   │   ├── TouchFeedback.tsx  # Touch feedback
-│   │   ├── TourProgress.tsx # Tour progress indicator
-│   │   ├── TourPrompt.tsx   # Tour prompt component
-│   │   ├── TourSpotlight.tsx  # Tour spotlight effect
-│   │   └── TourTooltip.tsx  # Tour tooltip component
-│   ├── contexts/
-│   │   └── TourContext.tsx  # Tour context provider
-│   ├── hooks/               # Custom React hooks
-│   │   ├── useDebouncedValue.ts  # Debounced value hook
-│   │   ├── useFocusTrap.ts  # Focus trap hook
-│   │   ├── useKeyboardShortcuts.ts  # Keyboard shortcuts
-│   │   ├── useSwipeGesture.ts  # Swipe gesture detection
-│   │   └── useTour.ts       # Tour logic hook
-│   ├── utils/               # Utility functions
-│   │   ├── animations.ts    # Animation utilities
-│   │   ├── eventHelpers.ts  # Event helper functions
-│   │   ├── formatters.ts    # Data formatting utilities
-│   │   ├── performance.ts   # Performance optimizations
-│   │   └── scrollLock.ts    # Scroll lock utility
-│   ├── data/
-│   │   └── tourSteps.ts     # Tour step definitions
-│   ├── types/
-│   │   └── tour.ts          # Tour type definitions
-│   ├── constants/
-│   │   └── index.ts         # Application constants
-│   ├── dataList.json        # Historical events data
-│   ├── quranData.json       # Quranic references
-│   ├── companionsList.ts    # Core companions data
-│   ├── citiesList.ts        # Cities and locations
-│   ├── territoriesData.ts   # Territory boundaries
-│   ├── data.ts              # Unified data exports
-│   ├── App.tsx              # Main application component
-│   ├── main.tsx             # Application entry point
-│   ├── types.ts             # TypeScript type definitions
-│   └── index.css            # Global styles
-├── public/
-│   ├── nibras-icon.svg      # Application icon
-│   ├── favicon.svg          # Browser favicon
-│   └── favicon.png          # Browser favicon PNG
-├── ADDING_NEW_CONTENT_GUIDE.md  # Content addition guide
-├── PRD.md                   # Product Requirements Document
-├── metadata.json            # Project metadata
-├── package.json             # Dependencies and scripts
-├── tsconfig.json            # TypeScript configuration
-├── vite.config.ts           # Vite configuration
-└── README.md                # This file
+│   ├── App.tsx                # Root application component
+│   ├── data.ts                # Event data loader and type definitions
+│   ├── dataList.json          # Full event dataset (JSON)
+│   ├── types.ts               # Shared TypeScript types
+│   ├── battlefield/           # Battle replay engine (see below)
+│   │   ├── ARCHITECTURE.md    # Engine architecture overview
+│   │   ├── README.md          # Battle system documentation
+│   │   ├── camera/            # GSAP-powered camera controller
+│   │   ├── core/              # Engine, Clock, EventBus
+│   │   ├── entities/          # Entity manager (ECS)
+│   │   ├── formations/        # Unit formation calculators
+│   │   ├── machines/          # XState battle lifecycle FSM
+│   │   ├── react/             # BattlePlayer React shell
+│   │   ├── renderer/          # PixiJS WebGL renderer + layers
+│   │   ├── scenarios/         # 11 battle scenario data files
+│   │   ├── scripting/         # Scenario scripting engine
+│   │   ├── state/             # Zustand stores (playback, camera, simulation, UI)
+│   │   ├── systems/           # ECS systems (movement, combat, morale)
+│   │   ├── timeline/          # Playback timeline controller
+│   │   └── types/             # Engine type definitions
+│   ├── components/            # UI components
+│   │   ├── AppTour.tsx        # Guided tour overlay
+│   │   ├── EventPanel.tsx     # Event detail panel with TTS
+│   │   ├── IntroScreen.tsx    # Arabic calligraphy intro animation
+│   │   ├── Map.tsx            # Leaflet map with territories
+│   │   ├── Timeline.tsx       # Vertical timeline with autoplay
+│   │   ├── CompanionModal.tsx # Sahaba biography modal
+│   │   ├── QuranModal.tsx     # Quran reference modal
+│   │   └── SearchMenu.tsx     # Event search overlay
+│   ├── contexts/              # React contexts (Tour)
+│   ├── hooks/                 # Custom hooks (gestures, keyboard, focus trap)
+│   ├── services/              # TTS service layer (Gemini)
+│   ├── constants/             # App-wide constants (z-index, etc.)
+│   ├── data/                  # Tour step definitions
+│   └── utils/                 # Utilities (animations, formatting, era colors)
+├── .env.example               # Environment variable template
+├── package.json               # Dependencies and scripts
+├── PRD.md                     # Product Requirements Document
+└── index.html                 # Entry HTML
 ```
 
-## Development
+---
 
-### Available Scripts
+## Battle Engine
 
-- `npm run dev` - Start development server on port 3000
-- `npm run build` - Build production bundle
-- `npm run preview` - Preview production build
-- `npm run clean` - Remove build artifacts
-- `npm run lint` - Run TypeScript type checking
+The battle replay engine is a production-grade, ECS-based cinematic visualization system. It renders historical battles as documentary-style replays — not games.
 
-### Adding New Content
+### Architecture
 
-To add new historical events, companions, or cities to the application, refer to the comprehensive guide:
+- **ECS (Entity-Component-System)** — Units are entities with position, movement, combat, and render components. Systems process them each frame.
+- **Deterministic Playback** — Fixed timestep with seeded RNG ensures identical replays.
+- **PixiJS WebGL Rendering** — Layered container hierarchy (terrain, units, effects, UI) renders 500+ entities at 60fps.
+- **GSAP Camera** — Cinematic camera choreography with pan, zoom, and tracking shots scripted per battle phase.
+- **XState Lifecycle** — Battle phases (deploy, advance, engage, resolve) managed by a finite state machine.
+- **Zustand Bridge** — Engine writes to Zustand stores at 10fps; React UI subscribes without coupling to the render loop.
 
-**[ADDING_NEW_CONTENT_GUIDE.md](./ADDING_NEW_CONTENT_GUIDE.md)**
+### Data Flow
 
-The guide covers:
-- Adding new historical events with proper structure
-- Adding companion biographies
-- Adding cities and locations
-- Data validation and testing
-- Common mistakes to avoid
-- Complete examples
+```
+Scenario (.ts) → Engine (rAF loop) → PixiJS (WebGL)
+                       ↓
+               Zustand Stores (10fps)
+                       ↓
+               React UI (controls, narration)
+```
 
-### Data Structure
+For full architecture documentation, see [`src/battlefield/ARCHITECTURE.md`](src/battlefield/ARCHITECTURE.md).
 
-#### Events
-Events are stored in [`src/dataList.json`](./src/dataList.json) with the following structure:
-- Event metadata (id, category, era, title)
-- Date information (Hijri and Gregorian)
-- Location with coordinates
-- Detailed descriptions and course of events
-- Companion roles
-- Quranic and Hadith references
-- Historical sources
+---
 
-#### Companions
-Companion data is distributed across multiple files in [`src/`](./src/):
-- `companionsList.ts` - Core companions (Rashidun Caliphs, Ten Promised Paradise)
-- Additional companion files for extended biographies
+## Available Battles
 
-#### Cities
-City data is stored in [`src/citiesList.ts`](./src/citiesList.ts) with:
-- City name and coordinates
-- Historical description
-- Religious and historical significance
+| # | Battle | Date | Location | Scenario ID |
+|---|--------|------|----------|-------------|
+| 1 | Battle of Badr | 17 Ramadan 2 AH (624 CE) | Wells of Badr, Hejaz | `battle-of-badr` |
+| 2 | Battle of Uhud | 7 Shawwal 3 AH (625 CE) | Mount Uhud, near Medina | `battle-of-uhud` |
+| 3 | Battle of the Trench | Shawwal 5 AH (627 CE) | Northern Medina | `battle-of-khandaq` |
+| 4 | Battle of Khaybar | Muharram 7 AH (628 CE) | Khaybar fortress complex | `battle-of-khaybar` |
+| 5 | Battle of Mu'tah | Jumada al-Ula 8 AH (629 CE) | Mu'tah, Jordan | `battle-of-mutah` |
+| 6 | Conquest of Mecca | 20 Ramadan 8 AH (630 CE) | Mecca | `conquest-of-mecca` |
+| 7 | Battle of Hunayn | 10 Shawwal 8 AH (630 CE) | Valley of Hunayn | `battle-of-hunayn` |
+| 8 | Expedition of Tabuk | Rajab 9 AH (630 CE) | Tabuk, northern Arabia | `battle-of-tabuk` |
+| 9 | Battle of Yarmouk | 15-20 Rajab 15 AH (636 CE) | Yarmouk River, Syria | `battle-of-yarmouk` |
+| 10 | Battle of Qadisiyyah | 16-19 Sha'ban 15 AH (636 CE) | Al-Qadisiyyah, Iraq | `battle-of-qadisiyyah` |
+| 11 | Battle of Ain Jalut | 25 Ramadan 658 AH (1260 CE) | Jezreel Valley, Palestine | `battle-of-ain-jalut` |
 
-## Building for Production
+---
 
-To create a production build:
+## Configuration
+
+### Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server on port 3000 |
+| `npm run dev:server` | Start TTS backend server |
+| `npm run build` | Production build via Vite |
+| `npm run preview` | Preview production build |
+| `npm run lint` | TypeScript type checking |
+| `npm run cache-audio` | Pre-cache event audio to R2 |
+| `npm run cache-details` | Pre-cache detail narration audio |
+| `npm run test:ui` | Run Playwright E2E tests |
+
+### TTS Setup
+
+The application uses Google Gemini for Arabic text-to-speech. Audio is generated on-demand and cached to Cloudflare R2 for subsequent requests. The TTS proxy server runs separately via `npm run dev:server`.
+
+To pre-cache all audio (recommended for production):
+
+```bash
+npm run cache-audio
+npm run cache-details
+```
+
+---
+
+## Deployment
+
+Build the production bundle:
 
 ```bash
 npm run build
 ```
 
-The optimized files will be generated in the `dist/` directory.
+Output is written to `dist/`. Deploy to any static hosting provider (Vercel, Netlify, Cloudflare Pages, etc.).
 
-To preview the production build locally:
-
-```bash
-npm run preview
-```
-
-## Historical Sources
-
-All content is derived from authentic Sunni Islamic sources:
-
-### Primary Sources
-- Sirat Ibn Hisham (Biography of the Prophet)
-- Al-Raheeq Al-Makhtum (The Sealed Nectar)
-- Zad al-Ma'ad (Ibn Qayyim)
-
-### Historical References
-- Al-Bidaya wa'l-Nihaya (Ibn Kathir)
-- Tarikh al-Tabari
-- Al-Kamil fi al-Tarikh (Ibn al-Athir)
-
-### Companion Biographies
-- Al-Isabah fi Tamyiz al-Sahabah (Ibn Hajar)
-- Usd al-Ghabah (Ibn al-Athir)
-- Al-Isti'ab (Ibn Abd al-Barr)
-
-## Contributing
-
-Contributions are welcome! When contributing:
-
-1. Ensure historical accuracy using authentic sources
-2. Follow the existing code structure and TypeScript conventions
-3. Test all changes thoroughly
-4. Refer to ADDING_NEW_CONTENT_GUIDE.md for content additions
-5. Maintain the professional tone and accuracy of the application
-
-## License
-
-Copyright 2026 - Created with dedication to serve Islamic history.
-
-All sources are derived from authentic Sunni books and the authentic Prophetic biography.
-
-## Vision and Mission
-
-**Vision:** To be the first interactive spatial reference for contemporary Muslims to explore the Prophetic biography and Islamic history through visual and technical methods that connect hearts to the places of revelation.
-
-**Mission:** To employ the latest interactive mapping technologies to document events of the Prophetic biography and the history of the Rashidun Caliphs, presenting them free from modern political borders in an organic, living interactive display, based on the most authentic approved Sunni sources.
+The TTS server (`server/`) must be deployed separately as a Node.js service if live TTS generation is required. Pre-cached audio served from R2 does not require the server at runtime.
 
 ---
 
-**نِبْرَاس - Illuminating Islamic History Through Time and Space**
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/my-feature`)
+3. Commit changes (`git commit -m 'Add my feature'`)
+4. Push to the branch (`git push origin feature/my-feature`)
+5. Open a Pull Request
+
+For adding new battle scenarios, see [`src/battlefield/README.md`](src/battlefield/README.md) for the complete authoring guide.
+
+---
+
+## License
+
+MIT
+
+---
+
+## Author
+
+Nibras Team
