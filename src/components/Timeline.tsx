@@ -1,12 +1,15 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useMemo } from "react";
 import { EventItem } from "../data";
 import { motion, AnimatePresence } from "motion/react";
 import { RotateCw, Play, Pause, ChevronUp, ChevronDown, SkipBack, X, Volume2, VolumeX } from "lucide-react";
-import geminiTTS from "../services/ttsGemini";
+import { requestSpeak, releaseOwner } from "../services/ttsGemini";
 import { cn } from "../utils/cn";
 import { Z_INDEX } from "../constants";
 import { scaleIn } from "../utils/motionVariants";
 import { getEraColor } from "../utils/eraColors";
+import { useReducedMotion } from "../hooks/useReducedMotion";
+import { throttle } from "../utils/performance";
+import { formatGregorianDate } from "../utils/formatters";
 
 interface TimelineProps {
   events: EventItem[];
@@ -20,84 +23,65 @@ interface TimelineProps {
   onEraSelect?: (era: string | null) => void;
 }
 
-const getEraTheme = (era?: string) => {
-  if (!era) return {
-    color: "#8b7355",
-    title: "",
-    bgColor: "var(--timeline-bg-default)",
-    textColor: "var(--timeline-text-default)"
-  };
-  
+/** Get era title for display in the timeline */
+const getEraTitle = (era?: string): string => {
+  if (!era) return "";
   if (era.includes("المكي") || era.includes("قبل البعثة") || era.includes("البعثة"))
-    return {
-      color: "#10b981",
-      title: "العهد المكي",
-      bgColor: "var(--timeline-bg-meccan)",
-      textColor: "var(--timeline-text-meccan)"
-    };
-  
+    return "العهد المكي";
   if (era.includes("المدني") || era.includes("الوحي"))
-    return {
-      color: "#10b981",
-      title: "العهد المدني",
-      bgColor: "var(--timeline-bg-medinan)",
-      textColor: "var(--timeline-text-medinan)"
-    };
-  
-  if (
-    era.includes("أبي بكر") ||
-    era.includes("أبو بكر") ||
-    era.includes("عمر") ||
-    era.includes("عثمان") ||
-    era.includes("علي") ||
-    era.includes("الراشدة")
-  )
-    return {
-      color: era.includes("أبي بكر") || era.includes("أبو بكر") ? "#fbbf24" :
-             era.includes("عمر") ? "#ef4444" :
-             era.includes("عثمان") ? "#06b6d4" :
-             era.includes("علي") ? "#818cf8" : "#eab308",
-      title: era.includes("أبي بكر") || era.includes("أبو بكر") ? "خلافة الصديق" :
-             era.includes("عمر") ? "خلافة الفاروق" :
-             era.includes("عثمان") ? "خلافة ذو النورين" :
-             era.includes("علي") ? "خلافة الإمام علي" : "الخلافة الراشدة",
-      bgColor: "var(--timeline-bg-rashidun)",
-      textColor: "var(--timeline-text-rashidun)"
-    };
-  
-  return {
-    color: "#8b7355",
-    title: "",
-    bgColor: "var(--timeline-bg-default)",
-    textColor: "var(--timeline-text-default)"
-  };
+    return "العهد المدني";
+  if (era.includes("أبي بكر") || era.includes("أبو بكر"))
+    return "خلافة الصديق";
+  if (era.includes("عمر"))
+    return "خلافة الفاروق";
+  if (era.includes("عثمان"))
+    return "خلافة ذو النورين";
+  if (era.includes("علي"))
+    return "خلافة الإمام علي";
+  if (era.includes("الراشدة"))
+    return "الخلافة الراشدة";
+  return "";
 };
 
 export default function Timeline({
   events,
   selectedEvent,
   onSelectEvent,
-  isAutoPlaying: externalIsAutoPlaying,
+  isAutoPlaying = false,
   onAutoPlayChange,
-  isPlayerMode: externalIsPlayerMode,
+  isPlayerMode = false,
   onPlayerModeChange,
   selectedEra,
   onEraSelect,
 }: TimelineProps) {
+  const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
+  const mobileContainerRef = useRef<HTMLDivElement>(null);
   const wheelAnimationFrameRef = useRef<number | null>(null);
   const wheelVelocityRef = useRef(0);
   const [showScrollBack, setShowScrollBack] = useState(false);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
-  const [isPlayerMode, setIsPlayerMode] = useState(false);
+  // Bug #1 fix: useRef to track autoplay state for async loop (avoids stale closure)
+  const isAutoPlayingRef = useRef(isAutoPlaying);
   const [playbackSpeed, setPlaybackSpeed] = useState<1 | 2 | 3>(1);
   const [isDockVisible, setIsDockVisible] = useState(true);
   const [isTTSEnabled, setIsTTSEnabled] = useState(true); // TTS enabled by default
   const [isExpanded, setIsExpanded] = useState(false);
   const autoPlayTimerRef = useRef<NodeJS.Timeout | null>(null);
   const fullEventsRef = useRef<EventItem[]>([]);
-  const pausedAtEventRef = useRef<string | null>(null);
   const isPlayingTTSRef = useRef<boolean>(false);
+  // Tracks the id of the currently-selected event from the OUTSIDE (props).
+  // The autoplay loop reads this each iteration so a manual click during TTS
+  // re-syncs the loop instead of blindly advancing to the next sequential event.
+  const selectedEventIdRef = useRef<string | null>(null);
+
+  // Bug #1 fix: Keep ref in sync with prop so async loops always read fresh value
+  useEffect(() => {
+    isAutoPlayingRef.current = isAutoPlaying;
+  }, [isAutoPlaying]);
+
+  useEffect(() => {
+    selectedEventIdRef.current = selectedEvent?.id ?? null;
+  }, [selectedEvent]);
 
   // Store full event list for autoplay navigation
   useEffect(() => {
@@ -110,7 +94,8 @@ export default function Timeline({
   // Events are already sorted and filtered from parent
   const sortedEvents = events;
 
-  const eraTheme = getEraTheme(selectedEvent?.era);
+  const eraColor = getEraColor(selectedEvent?.era);
+  const eraTitle = getEraTitle(selectedEvent?.era);
 
   // Era Navigation Finders
   const jumpToStart = () => {
@@ -123,7 +108,7 @@ export default function Timeline({
   const quickJumps = [
     {
       label: "العهد النبوي",
-      color: "#10b981",
+      color: getEraColor("الوحي"),
       target: events.find(
         (e) =>
           e.era?.includes("الوحي") ||
@@ -133,33 +118,74 @@ export default function Timeline({
     },
     {
       label: "أبو بكر الصديق",
-      color: "#fbbf24",
+      color: getEraColor("أبي بكر"),
       target: events.find(
         (e) => e.title.includes("تولي أبو بكر") || e.era?.includes("أبي بكر"),
       ),
     },
     {
       label: "عمر بن الخطاب",
-      color: "#ef4444",
+      color: getEraColor("عمر"),
       target: events.find(
         (e) => e.title.includes("تولي عمر") || e.era?.includes("عمر"),
       ),
     },
     {
       label: "عثمان بن عفان",
-      color: "#06b6d4",
+      color: getEraColor("عثمان"),
       target: events.find(
         (e) => e.title.includes("تولي عثمان") || e.era?.includes("عثمان"),
       ),
     },
     {
       label: "علي بن أبي طالب",
-      color: "#818cf8",
+      color: getEraColor("علي"),
       target: events.find(
         (e) => e.title.includes("تولي علي") || e.era?.includes("علي"),
       ),
     },
   ];
+
+  // Throttled wheel handler for ~60fps performance (Fix #11)
+  const throttledWheelHandler = useMemo(() => throttle((e: WheelEvent) => {
+    const el = containerRef.current;
+    if (!el || e.deltaY === 0) return;
+
+    // Detect if device supports touch
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    // Don't prevent default on touch devices to allow native scroll
+    if (!isTouchDevice) {
+      e.preventDefault();
+    }
+
+    const delta =
+      e.deltaMode === WheelEvent.DOM_DELTA_LINE
+        ? e.deltaY * 8
+        : e.deltaMode === WheelEvent.DOM_DELTA_PAGE
+          ? e.deltaY * 24
+          : e.deltaY;
+
+    const dampenedDelta = Math.max(-40, Math.min(40, delta * 0.25));
+    wheelVelocityRef.current += -dampenedDelta;
+
+    if (wheelAnimationFrameRef.current === null) {
+      const animateWheelScroll = () => {
+        const velocity = wheelVelocityRef.current;
+
+        if (Math.abs(velocity) < 0.1) {
+          wheelVelocityRef.current = 0;
+          wheelAnimationFrameRef.current = null;
+          return;
+        }
+
+        el.scrollLeft += velocity;
+        wheelVelocityRef.current *= 0.86;
+        wheelAnimationFrameRef.current = requestAnimationFrame(animateWheelScroll);
+      };
+      wheelAnimationFrameRef.current = requestAnimationFrame(animateWheelScroll);
+    }
+  }, 16), []);
 
   // Mouse wheel horizontal scrolling and scroll position monitor
   useEffect(() => {
@@ -168,50 +194,6 @@ export default function Timeline({
 
     // Detect if device supports touch
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-    const stopWheelAnimation = () => {
-      if (wheelAnimationFrameRef.current !== null) {
-        cancelAnimationFrame(wheelAnimationFrameRef.current);
-        wheelAnimationFrameRef.current = null;
-      }
-    };
-
-    const animateWheelScroll = () => {
-      const velocity = wheelVelocityRef.current;
-
-      if (Math.abs(velocity) < 0.1) {
-        wheelVelocityRef.current = 0;
-        stopWheelAnimation();
-        return;
-      }
-
-      el.scrollLeft += velocity;
-      wheelVelocityRef.current *= 0.86;
-      wheelAnimationFrameRef.current = requestAnimationFrame(animateWheelScroll);
-    };
-
-    const handleWheel = (e: WheelEvent) => {
-      if (e.deltaY === 0) return;
-
-      // Don't prevent default on touch devices to allow native scroll
-      if (!isTouchDevice) {
-        e.preventDefault();
-      }
-
-      const delta =
-        e.deltaMode === WheelEvent.DOM_DELTA_LINE
-          ? e.deltaY * 8
-          : e.deltaMode === WheelEvent.DOM_DELTA_PAGE
-            ? e.deltaY * 24
-            : e.deltaY;
-
-      const dampenedDelta = Math.max(-40, Math.min(40, delta * 0.25));
-      wheelVelocityRef.current += -dampenedDelta;
-
-      if (wheelAnimationFrameRef.current === null) {
-        wheelAnimationFrameRef.current = requestAnimationFrame(animateWheelScroll);
-      }
-    };
 
     const handleScroll = () => {
       // In RTL, scrollLeft is typically negative or goes from scrollWidth to 0 depending on browser.
@@ -222,18 +204,21 @@ export default function Timeline({
 
     // Use passive listener on touch devices for better performance
     const wheelOptions = isTouchDevice ? { passive: true } : { passive: false };
-    el.addEventListener("wheel", handleWheel, wheelOptions);
+    el.addEventListener("wheel", throttledWheelHandler as EventListener, wheelOptions);
     el.addEventListener("scroll", handleScroll, { passive: true });
 
     // Check initial state
     handleScroll();
 
     return () => {
-      stopWheelAnimation();
-      el.removeEventListener("wheel", handleWheel);
+      if (wheelAnimationFrameRef.current !== null) {
+        cancelAnimationFrame(wheelAnimationFrameRef.current);
+        wheelAnimationFrameRef.current = null;
+      }
+      el.removeEventListener("wheel", throttledWheelHandler as EventListener);
       el.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [throttledWheelHandler]);
 
   // Auto-scroll to selected event - centers the event in the visible timeline
   useEffect(() => {
@@ -254,31 +239,25 @@ export default function Timeline({
       
       container.scrollBy({
         left: scrollOffset,
-        behavior: "smooth",
+        behavior: prefersReducedMotion ? "instant" : "smooth",
       });
     } else if (el) {
       // Fallback for mobile expanded view or when container ref isn't available
       el.scrollIntoView({
-        behavior: "smooth",
+        behavior: prefersReducedMotion ? "instant" : "smooth",
         block: "nearest",
         inline: "center",
       });
     }
-  }, [selectedEvent]);
 
-  // Sync external autoplay state
-  useEffect(() => {
-    if (externalIsAutoPlaying !== undefined && externalIsAutoPlaying !== isAutoPlaying) {
-      setIsAutoPlaying(externalIsAutoPlaying);
+    // Mobile auto-scroll: scroll selected event into view in mobile container
+    if (mobileContainerRef.current) {
+      const selectedEl = mobileContainerRef.current.querySelector(`[data-event-id="${selectedEvent.id}"]`);
+      if (selectedEl) {
+        selectedEl.scrollIntoView({ behavior: prefersReducedMotion ? 'instant' : 'smooth', block: 'nearest' });
+      }
     }
-  }, [externalIsAutoPlaying]);
-
-  // Sync external player mode state
-  useEffect(() => {
-    if (externalIsPlayerMode !== undefined && externalIsPlayerMode !== isPlayerMode) {
-      setIsPlayerMode(externalIsPlayerMode);
-    }
-  }, [externalIsPlayerMode]);
+  }, [selectedEvent, prefersReducedMotion]);
 
   // Autoplay functionality with TTS integration
   useEffect(() => {
@@ -287,13 +266,9 @@ export default function Timeline({
         clearTimeout(autoPlayTimerRef.current);
         autoPlayTimerRef.current = null;
       }
-      // Stop TTS when pausing
-      geminiTTS.stop();
+      // Stop TTS when pausing (only if timeline owns it)
+      releaseOwner('timeline');
       isPlayingTTSRef.current = false;
-      
-      if (selectedEvent) {
-        pausedAtEventRef.current = selectedEvent.id;
-      }
       return;
     }
 
@@ -302,15 +277,24 @@ export default function Timeline({
 
     const playCurrentAndAdvance = async () => {
       const fullEvents = fullEventsRef.current;
-      let currentIndex = fullEvents.findIndex(e => e.id === selectedEvent?.id);
-      
-      while (isActive && isAutoPlaying) {
+
+      while (isActive && isAutoPlayingRef.current) {
+        // Re-resolve current event from the ref every iteration so a manual
+        // click during TTS playback re-syncs the loop instead of advancing
+        // from the previous sequential position.
+        const liveId = selectedEventIdRef.current;
+        const currentIndex = liveId
+          ? fullEvents.findIndex(e => e.id === liveId)
+          : -1;
+
+        if (currentIndex < 0) {
+          // Selection was cleared or doesn't match the current event list — stop.
+          onAutoPlayChange?.(false);
+          break;
+        }
+
         const currentEvent = fullEvents[currentIndex];
-        
-        // Ensure we have a valid current event
         if (!currentEvent) {
-          console.error('[Timeline] No current event found at index:', currentIndex);
-          setIsAutoPlaying(false);
           onAutoPlayChange?.(false);
           break;
         }
@@ -319,45 +303,39 @@ export default function Timeline({
         if (isTTSEnabled && currentEvent.title) {
           try {
             isPlayingTTSRef.current = true;
-            
-            // Wait for TTS to complete
-            await geminiTTS.speak(currentEvent.title, {
+            await requestSpeak('timeline', currentEvent.title, {
               voice: 'Charon',
-              rate: playbackSpeed
+              rate: playbackSpeed,
             });
-            
             isPlayingTTSRef.current = false;
           } catch (error) {
             console.error('[Timeline] TTS error for', currentEvent.title, ':', error);
             isPlayingTTSRef.current = false;
-            // Continue even if TTS fails
           }
         } else if (!isTTSEnabled) {
-          // No TTS, wait base delay
           const baseDelay = 5000 / playbackSpeed;
           await new Promise(resolve => setTimeout(resolve, baseDelay));
         }
-        
-        // Check if still active and playing
-        if (!isActive || !isAutoPlaying) {
-          break;
+
+        if (!isActive || !isAutoPlayingRef.current) break;
+
+        // If the user clicked a different event during TTS, the ref now points
+        // somewhere else — let the next iteration resync against that new id
+        // instead of mechanically incrementing past it.
+        if (selectedEventIdRef.current !== currentEvent.id) {
+          continue;
         }
-        
+
         // Move to next event
-        currentIndex++;
-        if (currentIndex < fullEvents.length) {
-          const nextEvent = fullEvents[currentIndex];
-          
-          // Select next event
+        const nextIndex = currentIndex + 1;
+        if (nextIndex < fullEvents.length) {
+          const nextEvent = fullEvents[nextIndex];
           onSelectEvent(nextEvent);
-          
-          // Small delay before playing next event
           await new Promise(resolve => setTimeout(resolve, 500));
         } else {
           // Reached the end
-          setIsAutoPlaying(false);
           onAutoPlayChange?.(false);
-          geminiTTS.stop();
+          releaseOwner('timeline');
           isPlayingTTSRef.current = false;
           break;
         }
@@ -373,7 +351,7 @@ export default function Timeline({
         clearTimeout(autoPlayTimerRef.current);
         autoPlayTimerRef.current = null;
       }
-      geminiTTS.stop();
+      releaseOwner('timeline');
       isPlayingTTSRef.current = false;
     };
   }, [isAutoPlaying, playbackSpeed, onAutoPlayChange, isTTSEnabled]);
@@ -382,7 +360,6 @@ export default function Timeline({
     if (!isPlayerMode) {
       // Entering player mode for the first time - store full events list
       fullEventsRef.current = events;
-      setIsPlayerMode(true);
       onPlayerModeChange?.(true);
       if (!selectedEvent && events.length > 0) {
         onSelectEvent(events[0]);
@@ -403,16 +380,13 @@ export default function Timeline({
       }
     }
     
-    setIsAutoPlaying(newState);
     onAutoPlayChange?.(newState);
   };
 
   const startOver = () => {
     // Stop autoplay and TTS
-    setIsAutoPlaying(false);
     onAutoPlayChange?.(false);
-    pausedAtEventRef.current = null;
-    geminiTTS.stop();
+    releaseOwner('timeline');
     isPlayingTTSRef.current = false;
     
     if (autoPlayTimerRef.current) {
@@ -427,11 +401,9 @@ export default function Timeline({
   };
 
   const exitPlayerMode = () => {
-    setIsAutoPlaying(false);
-    setIsPlayerMode(false);
     onAutoPlayChange?.(false);
     onPlayerModeChange?.(false);
-    geminiTTS.stop();
+    releaseOwner('timeline');
     isPlayingTTSRef.current = false;
   };
 
@@ -439,7 +411,7 @@ export default function Timeline({
     setIsTTSEnabled(!isTTSEnabled);
     if (isTTSEnabled) {
       // Turning off - stop current TTS
-      geminiTTS.stop();
+      releaseOwner('timeline');
       isPlayingTTSRef.current = false;
     }
   };
@@ -891,7 +863,7 @@ export default function Timeline({
                         isAutoPlaying ? "bg-battle-red/20 border-battle-red/40" : "bg-islamic-green/20 border-islamic-green/40",
                         "text-ink text-[10px] font-bold px-2.5 py-1.5",
                         "rounded-full transition-all border shrink-0",
-                        "min-h-[36px] min-w-[36px]"
+                        "min-h-[44px] min-w-[44px]"
                       )}
                       style={{ touchAction: 'manipulation' }}
                     >
@@ -901,7 +873,7 @@ export default function Timeline({
                     <button
                       onClick={toggleTTS}
                       className={cn(
-                        "min-w-[36px] min-h-[36px] flex items-center justify-center rounded-full shrink-0",
+                        "min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full shrink-0",
                         isTTSEnabled ? "text-islamic-green" : "text-ink/50"
                       )}
                       style={{ touchAction: 'manipulation' }}
@@ -910,21 +882,21 @@ export default function Timeline({
                     </button>
                     <button
                       onClick={cycleSpeed}
-                      className="min-w-[36px] min-h-[36px] flex items-center justify-center rounded-full text-ink text-xs font-mono font-bold shrink-0"
+                      className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full text-ink text-xs font-mono font-bold shrink-0"
                       style={{ touchAction: 'manipulation' }}
                     >
                       {playbackSpeed}x
                     </button>
                     <button
                       onClick={startOver}
-                      className="min-w-[36px] min-h-[36px] flex items-center justify-center rounded-full text-ink shrink-0"
+                      className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full text-ink shrink-0"
                       style={{ touchAction: 'manipulation' }}
                     >
                       <SkipBack size={16} />
                     </button>
                     <button
                       onClick={exitPlayerMode}
-                      className="min-w-[36px] min-h-[36px] flex items-center justify-center rounded-full text-ink shrink-0"
+                      className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full text-ink shrink-0"
                       style={{ touchAction: 'manipulation' }}
                     >
                       <X size={16} />
@@ -941,7 +913,7 @@ export default function Timeline({
                         "bg-islamic-green/20 border-islamic-green/40",
                         "text-ink text-[10px] font-bold px-2.5 py-1.5",
                         "rounded-full transition-all border shrink-0",
-                        "min-h-[36px] min-w-[36px]"
+                        "min-h-[44px] min-w-[44px]"
                       )}
                       style={{ touchAction: 'manipulation' }}
                       title="تشغيل تلقائي"
@@ -959,7 +931,7 @@ export default function Timeline({
                             "flex items-center gap-1 px-2.5 py-1.5 rounded-full shrink-0",
                             "text-[10px] font-bold text-ink whitespace-nowrap",
                             "border transition-all",
-                            "min-h-[36px]",
+                            "min-h-[44px]",
                             isSelected ? "border-current" : "border-transparent"
                           )}
                           style={{
@@ -979,7 +951,7 @@ export default function Timeline({
                     {/* Hide dock button */}
                     <button
                       onClick={() => setIsDockVisible(false)}
-                      className="min-w-[36px] min-h-[36px] flex items-center justify-center rounded-full text-ink/50 shrink-0"
+                      className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full text-ink/50 shrink-0"
                       style={{ touchAction: 'manipulation' }}
                       aria-label="إخفاء شريط التنقل"
                     >
@@ -1025,7 +997,7 @@ export default function Timeline({
       {/* ===== PREMIUM TIMELINE SCROLLING BAR ===== */}
       <motion.div
         data-tour-id="timeline"
-        layout
+        layout={!prefersReducedMotion}
         className={cn(
           "relative w-full overflow-hidden",
           "select-none pointer-events-auto",
@@ -1038,7 +1010,7 @@ export default function Timeline({
         animate={{
           height: undefined, // Let CSS handle via className
         }}
-        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         style={{
           background: 'linear-gradient(180deg, rgba(15, 10, 5, 0.75) 0%, rgba(10, 8, 4, 0.92) 100%)',
           backdropFilter: 'blur(24px) saturate(1.8)',
@@ -1057,13 +1029,13 @@ export default function Timeline({
         {/* Animated shimmer sweep */}
         <div
           className="absolute inset-0 pointer-events-none overflow-hidden"
-          style={{ opacity: 0.4 }}
+          style={{ opacity: prefersReducedMotion ? 0 : 0.4 }}
         >
           <div
             className="absolute inset-0"
             style={{
               background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.06) 50%, transparent 60%)',
-              animation: 'timeline-shimmer 6s ease-in-out infinite',
+              animation: prefersReducedMotion ? 'none' : 'timeline-shimmer 6s ease-in-out infinite',
             }}
           />
         </div>
@@ -1071,7 +1043,7 @@ export default function Timeline({
         {/* Dynamic Era Glow Background */}
         <AnimatePresence>
           <motion.div
-            key={eraTheme.color}
+            key={eraColor}
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.15 }}
             exit={{ opacity: 0 }}
@@ -1108,7 +1080,7 @@ export default function Timeline({
                 {isAutoPlaying ? <Pause size={18} /> : <Play size={18} />}
               </motion.button>
               <span className="text-[11px] font-bold text-white/70 max-w-[100px] truncate">
-                {selectedEvent?.title || eraTheme.title || "الخط الزمني"}
+                {selectedEvent?.title || eraTitle || "الخط الزمني"}
               </span>
             </div>
             <motion.button
@@ -1185,7 +1157,7 @@ export default function Timeline({
                         }}
                       />
                       {/* Glow ring for selected */}
-                      {isEvtSelected && (
+                      {isEvtSelected && !prefersReducedMotion && (
                         <motion.div
                           className="absolute inset-[-4px] rotate-45 rounded-[3px]"
                           animate={{
@@ -1204,9 +1176,10 @@ export default function Timeline({
                     </motion.div>
                     {/* Event name label */}
                     <span
-                      className="text-[8px] leading-tight max-w-[48px] truncate text-center"
+                      className="leading-tight max-w-[56px] sm:max-w-[72px] truncate text-center"
                       style={{
-                        color: isEvtSelected ? evtColor : 'rgba(255,255,255,0.5)',
+                        fontSize: 'clamp(12px, 3vw, 13px)',
+                        color: isEvtSelected ? evtColor : 'rgba(255,255,255,0.78)',
                         fontWeight: isEvtSelected ? 700 : 500,
                       }}
                     >
@@ -1242,7 +1215,7 @@ export default function Timeline({
           </div>
 
           {/* Scrollable events list */}
-          <div className="flex-1 overflow-y-auto overflow-x-hidden px-3 pb-2 scrollbar-hide">
+          <div ref={mobileContainerRef} className="flex-1 overflow-y-auto overflow-x-hidden px-3 pb-2 scrollbar-hide">
             <div className="flex flex-col gap-1.5">
               {events.map((evt) => {
                 const isEvtSelected = selectedEvent?.id === evt.id;
@@ -1253,8 +1226,9 @@ export default function Timeline({
                   <motion.button
                     key={evt.id}
                     id={`timeline-item-${evt.id}`}
+                    data-event-id={evt.id}
                     onClick={() => onSelectEvent(evt)}
-                    whileTap={{ scale: 0.98 }}
+                    whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
                     className={cn(
                       "flex items-center gap-3 w-full text-right",
                       "px-3 py-2.5 rounded-xl transition-all",
@@ -1300,7 +1274,7 @@ export default function Timeline({
                         {evt.title}
                       </div>
                       <div className="text-[10px] text-white/40 mt-0.5">
-                        {Math.floor(evt.date.gregorian)} م
+                        {formatGregorianDate(Math.floor(evt.date.gregorian))}
                       </div>
                     </div>
                     {/* Selected indicator bar */}
@@ -1383,13 +1357,6 @@ export default function Timeline({
           ref={containerRef}
           tabIndex={0}
           dir="rtl"
-          onWheel={(e) => {
-            if (e.deltaY === 0) return;
-            e.preventDefault();
-            if (containerRef.current) {
-              containerRef.current.scrollLeft += e.deltaY;
-            }
-          }}
         >
           <div className={cn(
             "relative flex items-center h-full px-12",
@@ -1477,17 +1444,14 @@ export default function Timeline({
                         textShadow: 'none',
                       }}
                     >
-                      {Math.floor(evt.date.gregorian)} م
+                      {formatGregorianDate(Math.floor(evt.date.gregorian))}
                     </motion.div>
 
                     {/* Premium Diamond Marker */}
                     <motion.div
                       initial={false}
-                      animate={{
-                        scale: isSelected ? 1 : 1,
-                      }}
-                      whileHover={{ scale: 1.2 }}
-                      transition={{ duration: 0.3 }}
+                      whileHover={prefersReducedMotion ? undefined : { scale: 1.2 }}
+                      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }}
                       className={cn(
                         "relative flex items-center justify-center",
                         isExpanded
@@ -1500,7 +1464,7 @@ export default function Timeline({
                         animate={{
                           scale: isSelected ? 1.3 : isMajor ? 1.1 : 1,
                         }}
-                        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                         className={cn(
                           "rotate-45 rounded-[3px] transition-all",
                           isSelected ? "w-4 h-4" : isMajor ? "w-3.5 h-3.5" : "w-2.5 h-2.5"
@@ -1516,7 +1480,7 @@ export default function Timeline({
                       />
 
                       {/* Pulsing glow ring for selected */}
-                      {isSelected && (
+                      {isSelected && !prefersReducedMotion && (
                         <motion.div
                           className="absolute inset-[-6px] rotate-45 rounded-[4px]"
                           animate={{
@@ -1581,29 +1545,20 @@ export default function Timeline({
         </div>
 
       </motion.div>
-
-      {/* Shimmer keyframe animation */}
-      <style>{`
-        @keyframes timeline-shimmer {
-          0% { transform: translateX(-100%); }
-          50% { transform: translateX(100%); }
-          100% { transform: translateX(100%); }
-        }
-      `}</style>
     </div>
 
     {/* Desktop expand/collapse toggle - fixed position button on left side, OUTSIDE isolation container */}
     <button
       onClick={() => setIsExpanded(!isExpanded)}
       className={cn(
-        "hidden md:flex fixed bottom-[80px] left-4 z-[1000]",
+        "hidden md:flex fixed bottom-[80px] left-4",
         "w-12 h-12 items-center justify-center flex-col",
         "bg-amber-600 hover:bg-amber-700 rounded-full",
         "text-white shadow-xl pointer-events-auto",
         "hover:shadow-2xl hover:scale-110",
         "transition-all duration-200 cursor-pointer"
       )}
-      style={{ touchAction: 'manipulation' }}
+      style={{ touchAction: 'manipulation', zIndex: Z_INDEX.dockToggle }}
       aria-label={isExpanded ? "طي الخط الزمني" : "توسيع الخط الزمني"}
       title={isExpanded ? "طي" : "توسيع"}
     >

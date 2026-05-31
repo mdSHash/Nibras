@@ -144,7 +144,10 @@ export class MovementSystem {
 // VISUAL CONSTANTS & PALETTES
 // ============================================================
 
-/** Faction color palette — military cartography style */
+/** Faction color palette — military cartography style.
+ *  Each faction has a layered palette (base / light / dark / banner / dot) so
+ *  the renderer can shade formations, banner cloth, and individual soldier
+ *  dots distinctly without a string switch in render code. */
 const FACTION_COLORS: Record<Faction, {
   base: number;
   light: number;
@@ -153,23 +156,47 @@ const FACTION_COLORS: Record<Faction, {
   dot: number;
 }> = {
   muslim: {
-    base: 0x2d5016,
-    light: 0x4a7a2e,
-    dark: 0x1a3009,
-    banner: 0x1b6b1b,
+    base: 0x2d5016, light: 0x4a7a2e, dark: 0x1a3009,
+    banner: 0x000000, // black banner of the Prophet ﷺ (al-`uqab)
     dot: 0x3d8b3d,
   },
+  mamluk: {
+    base: 0xb8941f, light: 0xd4af37, dark: 0x7a6010,
+    banner: 0xb8941f, // Mamluk gold (Ain Jalut)
+    dot: 0xd4af37,
+  },
   quraysh: {
-    base: 0x8b1a1a,
-    light: 0xb22222,
-    dark: 0x5c1010,
-    banner: 0x8b0000,
+    base: 0x8b1a1a, light: 0xb22222, dark: 0x5c1010,
+    banner: 0x8b0000, // red eagle/black banner of Quraysh
     dot: 0xcd5c5c,
   },
+  jewish_tribes: {
+    base: 0x6b4f8b, light: 0x9778b8, dark: 0x3e2c52,
+    banner: 0x6b4f8b,
+    dot: 0x9778b8,
+  },
+  hawazin: {
+    base: 0xb8860b, light: 0xdaa520, dark: 0x6f5208,
+    banner: 0xb8860b, // dark goldenrod (Hawazin / Thaqif)
+    dot: 0xdaa520,
+  },
+  byzantine: {
+    base: 0x6b0f12, light: 0x9c1c20, dark: 0x3f0809,
+    banner: 0x6b0f12, // imperial purple-red labarum
+    dot: 0xc9a14b, // gold accent
+  },
+  sasanian: {
+    base: 0x5d2e8c, light: 0x8a4dcf, dark: 0x331853,
+    banner: 0x5d2e8c, // royal purple drafsh kaviani
+    dot: 0xd4af37, // gold
+  },
+  mongol: {
+    base: 0x4b5320, light: 0x6e7a32, dark: 0x2c3013,
+    banner: 0x4b5320, // olive — tugh standards
+    dot: 0x9aa64c,
+  },
   neutral: {
-    base: 0x6b6b6b,
-    light: 0x8b8b8b,
-    dark: 0x4b4b4b,
+    base: 0x6b6b6b, light: 0x8b8b8b, dark: 0x4b4b4b,
     banner: 0x555555,
     dot: 0x999999,
   },
@@ -965,13 +992,44 @@ export class TerrainRenderer {
             break;
           case 'rocky':
             zoneGraphic.fill({ color: TERRAIN_PALETTE.rocky, alpha: 0.15 });
-            // Add small rock shapes
             this.drawRockyDetails(zoneGraphic, zone.polygon);
             break;
           case 'dune':
             zoneGraphic.fill({ color: TERRAIN_PALETTE.dune, alpha: 0.2 });
-            // Add wavy lines for dunes
             this.drawDuneLines(zoneGraphic, zone.polygon);
+            break;
+          // ─── Scenario-specific terrain variants ───────────────────────────
+          case 'trench':
+            // Khandaq — dark, dug-out earth. Soldiers cannot cross except at
+            // designated landmarks (handled in MovementSystem).
+            zoneGraphic.fill({ color: 0x2a1a08, alpha: 0.55 });
+            zoneGraphic.stroke({ color: 0x4a3318, width: 2, alpha: 0.7 });
+            this.drawTrenchHatching(zoneGraphic, zone.polygon);
+            break;
+          case 'fortress_wall':
+            // Khaybar forts, Yarmouk Roman castra. Solid stone wall.
+            zoneGraphic.fill({ color: 0x6b6359, alpha: 0.6 });
+            zoneGraphic.stroke({ color: 0x3d3833, width: 3, alpha: 0.85 });
+            break;
+          case 'river':
+            // Yarmouk gorge river, Qadisiyyah Ateeq. Blue, blocks movement.
+            zoneGraphic.fill({ color: 0x2a5e8c, alpha: 0.55 });
+            zoneGraphic.stroke({ color: 0x4080b8, width: 2, alpha: 0.6 });
+            break;
+          case 'gorge':
+            // Yarmouk wadi where the Byzantine right was driven over the cliff.
+            zoneGraphic.fill({ color: 0x1c1a18, alpha: 0.7 });
+            zoneGraphic.stroke({ color: 0x5c1010, width: 2, alpha: 0.5 });
+            break;
+          case 'mountain':
+            // Uhud archers' hill. Higher contrast rocky.
+            zoneGraphic.fill({ color: 0x4a3a2a, alpha: 0.35 });
+            this.drawRockyDetails(zoneGraphic, zone.polygon);
+            break;
+          case 'snow':
+            // Reserved for winter scenarios.
+            zoneGraphic.fill({ color: 0xeaf0f5, alpha: 0.4 });
+            zoneGraphic.stroke({ color: 0xffffff, width: 1, alpha: 0.6 });
             break;
           default:
             zoneGraphic.fill({ color: zone.color, alpha: 0.15 });
@@ -1014,6 +1072,21 @@ export class TerrainRenderer {
       graphics.ellipse(x, y, size, size * 0.7);
       graphics.fill({ color: TERRAIN_PALETTE.rocky, alpha: 0.2 + Math.random() * 0.1 });
     }
+  }
+
+  /** Draw diagonal hatching to suggest a dug-out trench (Khandaq).
+   *  Strokes diagonal lines across the polygon's bounding box and fills the
+   *  whole zone darker so the trench reads as a barrier from any zoom level. */
+  private drawTrenchHatching(graphics: Graphics, polygon: Vector2D[]): void {
+    const bounds = this.getPolygonBounds(polygon);
+    const spacing = 14;
+    const startX = bounds.minX - (bounds.maxY - bounds.minY);
+    const endX = bounds.maxX;
+    for (let x = startX; x < endX; x += spacing) {
+      graphics.moveTo(x, bounds.minY);
+      graphics.lineTo(x + (bounds.maxY - bounds.minY), bounds.maxY);
+    }
+    graphics.stroke({ color: 0x6b4f1f, width: 1, alpha: 0.45 });
   }
 
   /** Draw wavy dune lines */

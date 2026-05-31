@@ -254,7 +254,7 @@ export const battleOfYarmouk: BattleScenario = {
     },
     // ─── BYZANTINE FORCES (~120,000 soldiers) ────────────────────────────────────
     {
-      faction: 'quraysh',
+      faction: 'byzantine',
       label: 'Byzantine Forces',
       labelAr: 'جيش الروم',
       totalStrength: 120000,
@@ -1301,7 +1301,7 @@ export const battleOfYarmouk: BattleScenario = {
   ],
 
   outcome: {
-    victor: 'muslim',
+    verdict: 'muslim_victory',
     muslimCasualties: 3000,
     enemyCasualties: 50000,
     summary:

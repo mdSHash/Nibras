@@ -1046,9 +1046,11 @@ export const battleOfUhud: BattleScenario = {
   ],
 
   outcome: {
-    victor: 'quraysh',
+    verdict: 'enemy_victory',
     muslimCasualties: 70,
-    enemyCasualties: 37,
+    // Sources vary widely; Ibn Ishaq gives ~22 Quraysh dead while later
+    // accounts cite higher figures. Using the conservative chronicle figure.
+    enemyCasualties: 22,
     summary:
       'A tactical defeat for the Muslims. Initial success was reversed when archers abandoned their post, allowing a devastating cavalry flanking attack. The Prophet ﷺ was wounded but survived.',
     summaryAr:

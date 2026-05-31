@@ -233,7 +233,7 @@ export const expeditionOfTabuk: BattleScenario = {
     },
     // ─── BYZANTINE & GHASSANID FORCES ─────────────────────────────────────────────
     {
-      faction: 'quraysh',
+      faction: 'byzantine',
       label: 'Byzantine & Ghassanid Forces',
       labelAr: 'الروم',
       totalStrength: 8000,
@@ -796,9 +796,11 @@ export const expeditionOfTabuk: BattleScenario = {
   ],
 
   outcome: {
-    victor: 'muslim',
+    // No battle was fought — the Byzantine army did not appear. Use the
+    // dedicated verdict so the UI doesn't render this as a combat victory.
+    verdict: 'unfought_expedition',
     muslimCasualties: 0,
-    enemyCasualties: 0,
+    enemyCasualties: undefined,
     summary:
       "A decisive strategic victory without combat. The massive Muslim army's march to Tabuk demonstrated overwhelming military power, causing the Byzantines to retreat. Northern tribes submitted, extending Muslim authority to the Byzantine border.",
     summaryAr:

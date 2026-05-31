@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* Scrollbar hide utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 @theme {
   --color-parchment: var(--sys-parchment);
   --color-ink: var(--sys-ink);
@@ -1363,217 +1372,80 @@ button[disabled],
   box-shadow: var(--shadow-elevated);
 }
 
-/* Responsive Layout Fixes - Comprehensive Z-Index and Positioning */
-
-/* Global Z-Index Hierarchy - Apply to all viewports */
-header {
-  z-index: 1000 !important;
-  position: relative;
+/* Responsive Layout Fixes
+ * Z-index is owned by Z_INDEX constants (src/constants/index.ts) and applied
+ * via inline styles in components. Do NOT re-assert z-index here.
+ * Header height is exposed as --header-h so EventPanel/etc. can offset.
+ */
+:root {
+  --header-h: 56px;
 }
-
-[data-tour-id="timeline"],
-.timeline-container {
-  z-index: 900 !important;
-  position: relative;
+@media (min-width: 768px) {
+  :root { --header-h: 64px; }
 }
-
-[data-tour-id="event-panel"],
-.event-panel {
-  z-index: 800 !important;
-}
-
-[data-tour-id="map"],
-.map-container {
-  z-index: 700 !important;
-  position: relative;
-}
-
-.search-menu {
-  z-index: 950 !important;
-  position: relative;
-}
-
-/* Mobile Landscape Optimization (Issue #4) */
 @media (max-width: 896px) and (orientation: landscape) {
-  /* Reduce header height in landscape */
+  :root { --header-h: 50px; }
+}
+@media (max-width: 640px) and (orientation: landscape) {
+  :root { --header-h: 48px; }
+}
+
+/* Mobile Landscape: tighten header height + prevent body scroll */
+@media (max-width: 896px) and (orientation: landscape) {
   header {
-    height: 50px !important;
-    min-height: 50px !important;
+    height: var(--header-h);
+    min-height: var(--header-h);
   }
-  
-  /* Adjust timeline position to prevent overlap */
-  [data-tour-id="timeline"],
-  .timeline-container {
-    bottom: 80px !important;
-    max-height: 60px !important;
-  }
-  
-  /* Optimize event panel for landscape */
-  [data-tour-id="event-panel"],
-  .event-panel {
-    max-height: calc(100vh - 140px) !important;
-  }
-  
-  /* Ensure controls don't overlap */
-  .timeline-controls {
-    bottom: 85px !important;
-    z-index: 910 !important;
-  }
-  
-  /* Map container adjustments */
-  [data-tour-id="map"],
-  .map-container {
-    height: calc(100vh - 130px) !important;
-    padding-bottom: 0 !important;
-  }
-  
-  /* Prevent content overflow */
   body {
-    overflow: hidden !important;
+    overflow: hidden;
   }
 }
 
-/* Tablet Portrait Optimization (Issue #5) */
+/* Tablet Portrait: gentle controls padding */
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-  /* Optimize event panel width for tablet */
-  [data-tour-id="event-panel"] > div,
-  [data-tour-id="event-panel"] > div > div,
-  .event-panel > div {
-    width: 450px !important;
-    max-width: 450px !important;
-  }
-  
-  /* Adjust map container for better tablet layout */
-  [data-tour-id="map"],
-  .map-container {
-    padding-bottom: 140px !important;
-    height: calc(100vh - 140px) !important;
-  }
-  
-  /* Better spacing for tablet controls */
   .timeline-controls {
-    padding: 12px 16px !important;
-    bottom: 100px !important;
-  }
-  
-  /* Timeline positioning */
-  [data-tour-id="timeline"],
-  .timeline-container {
-    bottom: 20px !important;
-    left: 0 !important;
-    right: 0 !important;
-  }
-  
-  /* Event panel positioning */
-  [data-tour-id="event-panel"],
-  .event-panel {
-    max-height: calc(100vh - 180px) !important;
+    padding: 12px 16px;
   }
 }
 
-/* Mobile Portrait Overlapping Elements Fix (Issue #6) */
+/* Mobile Portrait: WCAG touch targets, safe scrolling, safe-area inset */
 @media (max-width: 640px) {
-  /* Ensure proper z-index layering */
-  header {
-    z-index: 1000 !important;
-    position: sticky !important;
-    top: 0 !important;
+  /* Touch target size — narrowed to interactive surfaces inside the timeline
+     dock so we don't bloat tiny inline links/icons elsewhere. */
+  .timeline-container button,
+  .timeline-container [role="button"],
+  .timeline-controls button,
+  .timeline-controls [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
   }
-  
-  [data-tour-id="timeline"],
-  .timeline-container {
-    z-index: 900 !important;
-    position: fixed !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-  }
-  
-  [data-tour-id="event-panel"],
-  .event-panel {
-    z-index: 800 !important;
-    max-height: 85vh !important;
-  }
-  
-  /* Prevent timeline controls from overlapping with event panel */
-  .timeline-controls {
-    bottom: 120px !important;
-    margin-bottom: 0 !important;
-    z-index: 910 !important;
-  }
-  
-  /* Add safe spacing for mobile interactions */
-  button,
-  a,
-  [role="button"] {
-    min-height: 44px !important;
-    min-width: 44px !important;
-    cursor: pointer !important;
-  }
-  
-  /* Ensure touch targets don't overlap */
+
   .touch-target {
-    padding: 8px !important;
+    padding: 8px;
   }
-  
-  /* Map container mobile adjustments */
-  [data-tour-id="map"],
-  .map-container {
-    height: calc(100vh - 56px - 110px) !important;
-    padding-bottom: 0 !important;
-  }
-  
-  /* Prevent bottom sheet overlap */
-  .bottom-sheet {
-    z-index: 850 !important;
-    max-height: 85vh !important;
-  }
-  
-  /* Safe area for mobile notches */
-  body {
-    padding-bottom: env(safe-area-inset-bottom, 0) !important;
-  }
-  
-  /* Optimize map markers for mobile - Better visibility */
-  .custom-marker {
-    transform: scale(1);
-  }
-  
-  /* Mobile-specific improvements */
-  .leaflet-popup-content-wrapper {
-    max-width: calc(100vw - 40px) !important;
-  }
-  
+
   /* Better mobile scrolling */
   .overflow-y-auto,
   .overflow-x-auto {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
   }
+
+  .leaflet-popup-content-wrapper {
+    max-width: calc(100vw - 40px);
+  }
+
+  /* Safe area for notched devices */
+  body {
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
 }
 
-/* Additional Mobile Landscape Fixes for Small Screens */
+/* Small Mobile Landscape: header already handled by --header-h above */
 @media (max-width: 640px) and (orientation: landscape) {
   header {
-    height: 48px !important;
-    min-height: 48px !important;
-  }
-  
-  [data-tour-id="timeline"],
-  .timeline-container {
-    bottom: 70px !important;
-    max-height: 50px !important;
-  }
-  
-  [data-tour-id="event-panel"],
-  .event-panel {
-    max-height: calc(100vh - 120px) !important;
-    top: 50px !important;
-  }
-  
-  [data-tour-id="map"],
-  .map-container {
-    height: calc(100vh - 120px) !important;
+    height: var(--header-h);
+    min-height: var(--header-h);
   }
 }
 
@@ -2152,6 +2024,30 @@ background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0
   *:focus-visible {
     outline: 3px solid var(--color-accent);
     outline-offset: 3px;
+  }
+}
+
+/* ============================================
+   TIMELINE ANIMATIONS
+   ============================================ */
+
+/* Timeline shimmer sweep animation */
+@keyframes timeline-shimmer {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ============================================
+   TIMELINE TOUCH TARGETS
+   ============================================ */
+
+/* Ensure mobile timeline buttons meet WCAG 2.1 AA 44px minimum touch target */
+@media (max-width: 768px) {
+  .timeline-container button,
+  .timeline-container [role="button"] {
+    min-width: 44px;
+    min-height: 44px;
   }
 }
 

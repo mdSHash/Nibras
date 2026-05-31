@@ -99,13 +99,28 @@ export default function App() {
     setIsMenuOpen(false);
   };
 
+  // Suppress timeline navigation when any modal/overlay is open. Escape always
+  // fires (handled by the hook).
+  const isAnyModalOpen = !!(
+    selectedCompanion ||
+    selectedQuranRef ||
+    isMenuOpen ||
+    showBattlePlayer ||
+    state.isActive // tour active
+  );
+
   // Global keyboard shortcuts
-  useKeyboardShortcuts({
-    'escape': closeAllModals,
-    'ctrl+k': () => setIsMenuOpen(true),
-    'arrowleft': navigateToPreviousEvent,
-    'arrowright': navigateToNextEvent,
-  });
+  useKeyboardShortcuts(
+    {
+      'escape': closeAllModals,
+      'ctrl+k': () => setIsMenuOpen(true),
+      'arrowleft': navigateToPreviousEvent,
+      'arrowright': navigateToNextEvent,
+    },
+    {
+      isShortcutEnabled: () => !isAnyModalOpen,
+    }
+  );
 
   // Filter events based on filters state and selected era
   const filteredSortedEvents = useMemo(() => {
@@ -244,7 +259,6 @@ export default function App() {
     return (
       <>
         <IntroScreen onComplete={handleIntroComplete} />
-        <CustomCursor />
       </>
     );
   }

@@ -24,7 +24,7 @@ import { getEraColor, getEraColorScheme } from "../utils/eraColors";
 import { Z_INDEX } from "../constants";
 import { cn } from "../utils/cn";
 import { slideUp, slideInRight } from "../utils/motionVariants";
-import geminiTTS from "../services/ttsGemini";
+import geminiTTS, { releaseOwner } from "../services/ttsGemini";
 
 // List of battle scenarios that are actually implemented and available for replay.
 // Update this list as new scenarios are added to src/battlefield/scenarios/.
@@ -144,6 +144,7 @@ export default function EventPanel({
       audioRef.current = null;
     }
 
+    releaseOwner('panel');
     geminiTTS.stop();
     setAudioState("idle");
     setCurrentTime(0);
@@ -324,8 +325,17 @@ export default function EventPanel({
             exit="exit"
             style={
               isMobile
-                ? { zIndex: Z_INDEX.eventPanel, height: `${mobileHeight}dvh`, borderTopColor: eraTheme.color }
-                : { zIndex: Z_INDEX.eventPanel, borderInlineStartColor: eraTheme.color }
+                ? {
+                    zIndex: Z_INDEX.eventPanel,
+                    height: `${mobileHeight}dvh`,
+                    bottom: 'calc(var(--timeline-h, 90px) + env(safe-area-inset-bottom, 0px))',
+                    borderTopColor: eraTheme.color,
+                  }
+                : {
+                    zIndex: Z_INDEX.eventPanel,
+                    top: 'var(--header-h, 64px)',
+                    borderInlineStartColor: eraTheme.color,
+                  }
             }
             className={cn(
               'fixed flex flex-col pointer-events-auto',
@@ -333,14 +343,16 @@ export default function EventPanel({
               'text-right',
               'transition-[height] duration-300 ease-in-out',
               isMobile && [
-                'bottom-0 inset-x-0',
+                'inset-x-0',
                 'rounded-t-[var(--radius-xl)]',
                 'shadow-[var(--glass-shadow)]',
                 'border-t-2',
               ],
               !isMobile && [
-                'top-[64px] right-0',
-                isExpanded ? 'bottom-[80px] w-[580px] lg:w-[640px]' : 'bottom-[160px] w-[420px] lg:w-[480px]',
+                'right-0',
+                isExpanded
+                  ? 'bottom-[80px] w-[min(640px,55vw)] lg:w-[min(720px,45vw)] xl:w-[760px]'
+                  : 'bottom-[160px] w-[min(440px,40vw)] lg:w-[min(500px,32vw)] xl:w-[540px]',
                 'rounded-none',
                 'border-s-[3px]',
                 'transition-all duration-300 ease-in-out',

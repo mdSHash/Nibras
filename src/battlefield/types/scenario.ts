@@ -169,11 +169,27 @@ export interface CameraKeyframe {
 
 // ─── Battle Outcome ──────────────────────────────────────────────────────────
 
+/**
+ * The historical verdict of an engagement. `muslim_victory` / `enemy_victory`
+ * are the simple cases. `tactical_withdrawal` covers Mu'tah (the three
+ * commanders fell, Khalid extracted the army intact). `unfought_expedition`
+ * covers Tabuk (no battle occurred — the Byzantine army did not appear).
+ * `draw` and `inconclusive` are kept for engagements scholars dispute.
+ */
+export type BattleVerdict =
+  | 'muslim_victory'
+  | 'enemy_victory'
+  | 'tactical_withdrawal'
+  | 'unfought_expedition'
+  | 'draw'
+  | 'inconclusive';
+
 /** Historical outcome of the battle */
 export interface BattleOutcome {
-  victor: Faction;
+  verdict: BattleVerdict;
   muslimCasualties: number;
-  enemyCasualties: number;
+  /** May be undefined for unfought expeditions (e.g. Tabuk). */
+  enemyCasualties?: number;
   summary: string;
   summaryAr?: string;
   significance: string;

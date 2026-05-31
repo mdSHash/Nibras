@@ -217,7 +217,7 @@ export const battleOfHunayn: BattleScenario = {
     },
     // ─── HAWAZIN/THAQIF FORCES (~4,000 warriors) ──────────────────────────────
     {
-      faction: 'quraysh', // using 'quraysh' faction type for enemy
+      faction: 'hawazin',
       label: 'Hawazin & Thaqif Forces',
       labelAr: 'جيش هوازن وثقيف',
       totalStrength: 4000,
@@ -1226,7 +1226,7 @@ export const battleOfHunayn: BattleScenario = {
   ],
 
   outcome: {
-    victor: 'muslim',
+    verdict: 'muslim_victory',
     muslimCasualties: 4,
     enemyCasualties: 70,
     summary:

@@ -238,6 +238,90 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
     };
   }, []);
 
+  // ─── Touch: Pinch-to-Zoom + One-Finger Pan ────────────────────────────────
+  // Uses Pointer Events so it works on mouse, touch, and pen uniformly.
+  // Two pointers → pinch zoom (around the midpoint). One pointer → pan.
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const pointers = new Map<number, { x: number; y: number }>();
+    let lastPinchDistance = 0;
+
+    const distance = (a: { x: number; y: number }, b: { x: number; y: number }) =>
+      Math.hypot(a.x - b.x, a.y - b.y);
+
+    const handlePointerDown = (e: PointerEvent) => {
+      // Ignore gestures that start on UI overlays — let the buttons handle them.
+      const target = e.target as HTMLElement | null;
+      if (target && target.closest('[data-battle-ui]')) return;
+      // Mouse should keep using existing wheel zoom; only handle touch/pen here.
+      if (e.pointerType === 'mouse') return;
+
+      container.setPointerCapture(e.pointerId);
+      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+      if (pointers.size === 2) {
+        const pts = Array.from(pointers.values());
+        lastPinchDistance = distance(pts[0], pts[1]);
+      }
+    };
+
+    const handlePointerMove = (e: PointerEvent) => {
+      if (!pointers.has(e.pointerId)) return;
+      const engine = engineRef.current;
+      const camera = engine?.getCamera();
+      if (!camera) return;
+
+      const prev = pointers.get(e.pointerId)!;
+      const next = { x: e.clientX, y: e.clientY };
+      pointers.set(e.pointerId, next);
+
+      if (pointers.size === 1) {
+        // Pan: convert screen delta to world delta (inverse of zoom)
+        const dx = next.x - prev.x;
+        const dy = next.y - prev.y;
+        const pos = camera.getPosition();
+        const z = camera.getZoom();
+        camera.setPosition(pos.x - dx / z, pos.y - dy / z);
+      } else if (pointers.size === 2) {
+        const pts = Array.from(pointers.values());
+        const newDistance = distance(pts[0], pts[1]);
+        if (lastPinchDistance > 0) {
+          const ratio = newDistance / lastPinchDistance;
+          const newZoom = Math.max(0.3, Math.min(3.0, camera.getZoom() * ratio));
+          camera.setZoom(newZoom);
+        }
+        lastPinchDistance = newDistance;
+      }
+    };
+
+    const handlePointerUp = (e: PointerEvent) => {
+      pointers.delete(e.pointerId);
+      lastPinchDistance = 0;
+      try {
+        container.releasePointerCapture(e.pointerId);
+      } catch {
+        // already released
+      }
+    };
+
+    container.addEventListener('pointerdown', handlePointerDown);
+    container.addEventListener('pointermove', handlePointerMove);
+    container.addEventListener('pointerup', handlePointerUp);
+    container.addEventListener('pointercancel', handlePointerUp);
+    container.addEventListener('pointerleave', handlePointerUp);
+
+    return () => {
+      container.removeEventListener('pointerdown', handlePointerDown);
+      container.removeEventListener('pointermove', handlePointerMove);
+      container.removeEventListener('pointerup', handlePointerUp);
+      container.removeEventListener('pointercancel', handlePointerUp);
+      container.removeEventListener('pointerleave', handlePointerUp);
+    };
+  }, []);
+
   // ─── ESC Key to Close ──────────────────────────────────────────────────────
 
   useEffect(() => {
@@ -281,7 +365,11 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
   // ─── Render ──────────────────────────────────────────────────────────────────
 
   return (
-    <div ref={containerRef} className="fixed inset-0 bg-black overflow-hidden z-50">
+    <div
+      ref={containerRef}
+      className="fixed inset-0 bg-black overflow-hidden z-50"
+      style={{ touchAction: 'none' }}
+    >
       {/* PixiJS Canvas */}
       <canvas
         ref={canvasRef}
@@ -300,14 +388,17 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
 
       {/* Top Bar / Header */}
       {!isLoading && (
-        <div className="absolute top-0 left-0 right-0 z-30 pointer-events-none">
-          <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-b from-gray-900/80 to-transparent">
+        <div className="absolute top-0 left-0 right-0 z-30 pointer-events-none" data-battle-ui>
+          <div
+            className="flex flex-wrap items-center justify-between gap-2 px-3 sm:px-4 py-3 bg-gradient-to-b from-gray-900/85 to-transparent"
+            style={{ paddingTop: 'max(0.75rem, env(safe-area-inset-top))' }}
+          >
             {/* Left: Back button + Battle name */}
-            <div className="flex items-center gap-3 pointer-events-auto">
+            <div className="flex items-center gap-2 sm:gap-3 pointer-events-auto min-w-0">
               {onBack && (
                 <button
                   onClick={onBack}
-                  className="p-2 rounded-lg bg-gray-800/60 hover:bg-gray-700/80 transition-colors text-gray-300 hover:text-white"
+                  className="flex-shrink-0 w-11 h-11 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg bg-gray-800/60 hover:bg-gray-700/80 transition-colors text-gray-300 hover:text-white"
                   aria-label="Go back"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -315,33 +406,31 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
                   </svg>
                 </button>
               )}
-              <div>
-                <h1 className="text-white font-semibold text-lg leading-tight" dir="rtl" lang="ar">
+              <div className="min-w-0">
+                <h1 className="text-white font-semibold text-base sm:text-lg leading-tight truncate" dir="rtl" lang="ar">
                   {scenario?.nameAr ?? scenario?.name ?? 'معركة'}
                 </h1>
                 {scenario?.date && (
-                  <p className="text-gray-400 text-xs">{scenario.date}</p>
+                  <p className="text-gray-400 text-xs truncate">{scenario.date}</p>
                 )}
               </div>
             </div>
 
-            {/* Right: Faction Strength Indicators */}
-            <div className="flex items-center gap-4 pointer-events-auto">
-              {/* Muslim faction */}
-              <div className="flex items-center gap-2 bg-gray-800/60 rounded-lg px-3 py-1.5">
-                <div className="w-3 h-3 rounded-full bg-green-500" />
-                <span className="text-green-400 text-sm font-medium">
+            {/* Right: Faction Strength Indicators (compact on mobile, full on desktop) */}
+            <div className="flex items-center gap-2 sm:gap-3 pointer-events-auto">
+              <div className="flex items-center gap-1.5 sm:gap-2 bg-gray-800/60 rounded-lg px-2 sm:px-3 py-1.5">
+                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500" />
+                <span className="text-green-400 text-sm font-medium tabular-nums">
                   {muslimStrength}
                 </span>
-                <span className="text-gray-500 text-xs">Muslims</span>
+                <span className="hidden sm:inline text-gray-500 text-xs">Muslims</span>
               </div>
-              {/* Quraysh faction */}
-              <div className="flex items-center gap-2 bg-gray-800/60 rounded-lg px-3 py-1.5">
-                <div className="w-3 h-3 rounded-full bg-red-500" />
-                <span className="text-red-400 text-sm font-medium">
+              <div className="flex items-center gap-1.5 sm:gap-2 bg-gray-800/60 rounded-lg px-2 sm:px-3 py-1.5">
+                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500" />
+                <span className="text-red-400 text-sm font-medium tabular-nums">
                   {enemyStrength}
                 </span>
-                <span className="text-gray-500 text-xs">Quraysh</span>
+                <span className="hidden sm:inline text-gray-500 text-xs">Enemy</span>
               </div>
             </div>
           </div>
@@ -429,13 +518,16 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
 
       {/* Playback Controls Bar (bottom) */}
       {!isLoading && (
-        <div className="absolute bottom-0 left-0 right-0 z-30 pointer-events-none">
-          <div className="px-4 pb-4 pt-8 bg-gradient-to-t from-gray-900/90 to-transparent">
-            <div className="flex items-center gap-3 pointer-events-auto">
+        <div className="absolute bottom-0 left-0 right-0 z-30 pointer-events-none" data-battle-ui>
+          <div
+            className="px-3 sm:px-4 pt-8 bg-gradient-to-t from-gray-900/95 to-transparent"
+            style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
+          >
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 pointer-events-auto">
               {/* Play/Pause Button */}
               <button
                 onClick={handlePlayPause}
-                className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-gray-800/80 hover:bg-gray-700 transition-colors text-white border border-gray-600/50"
+                className="flex-shrink-0 w-11 h-11 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-gray-800/80 hover:bg-gray-700 transition-colors text-white border border-gray-600/50"
                 aria-label={status === 'playing' ? 'Pause' : 'Play'}
               >
                 {status === 'playing' ? (
@@ -452,7 +544,7 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
               {/* Restart Button */}
               <button
                 onClick={handleRestart}
-                className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-gray-800/80 hover:bg-gray-700 transition-colors text-white border border-gray-600/50"
+                className="flex-shrink-0 w-11 h-11 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-gray-800/80 hover:bg-gray-700 transition-colors text-white border border-gray-600/50"
                 aria-label="Restart"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
@@ -461,13 +553,29 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
               </button>
 
               {/* Time Display */}
-              <span className="text-gray-300 text-xs font-mono min-w-[80px]">
+              <span className="text-gray-300 text-xs font-mono tabular-nums min-w-[78px] sm:min-w-[80px]">
                 {formatTime(currentTime)} / {formatTime(totalDuration)}
               </span>
 
-              {/* Progress/Seek Bar */}
+              {/* Speed Control */}
+              <button
+                onClick={handleSpeedChange}
+                className="flex-shrink-0 px-3 py-1.5 min-h-[40px] rounded-lg bg-gray-800/80 hover:bg-gray-700 transition-colors text-gray-300 text-xs font-medium border border-gray-600/50"
+                aria-label="Change speed"
+              >
+                {speed}x
+              </button>
+
+              {/* Phase name (compact, Arabic) — hidden on small screens */}
+              {currentPhaseName && (
+                <span className="hidden md:inline text-gray-500 text-xs truncate max-w-[150px]" dir="rtl" lang="ar">
+                  {currentPhaseName}
+                </span>
+              )}
+
+              {/* Progress/Seek Bar — wraps to its own row on mobile */}
               <div
-                className="flex-1 h-2 bg-gray-700/80 rounded-full cursor-pointer relative group"
+                className="basis-full order-last sm:basis-auto sm:flex-1 sm:order-none h-3 sm:h-2 bg-gray-700/80 rounded-full cursor-pointer relative group"
                 onClick={handleSeek}
                 role="slider"
                 aria-label="Seek"
@@ -475,33 +583,15 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
                 aria-valuemax={100}
                 aria-valuenow={Math.round(progress * 100)}
               >
-                {/* Progress fill */}
                 <div
                   className="absolute inset-y-0 left-0 bg-green-500/80 rounded-full transition-[width] duration-100"
                   style={{ width: `${progress * 100}%` }}
                 />
-                {/* Hover indicator */}
                 <div
                   className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity"
                   style={{ left: `calc(${progress * 100}% - 6px)` }}
                 />
               </div>
-
-              {/* Speed Control */}
-              <button
-                onClick={handleSpeedChange}
-                className="flex-shrink-0 px-3 py-1.5 rounded-lg bg-gray-800/80 hover:bg-gray-700 transition-colors text-gray-300 text-xs font-medium border border-gray-600/50"
-                aria-label="Change speed"
-              >
-                {speed}x
-              </button>
-
-              {/* Phase name (compact, Arabic) */}
-              {currentPhaseName && (
-                <span className="hidden sm:inline text-gray-500 text-xs truncate max-w-[150px]" dir="rtl" lang="ar">
-                  {currentPhaseName}
-                </span>
-              )}
             </div>
           </div>
         </div>

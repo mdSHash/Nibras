@@ -48,16 +48,6 @@ export const Z_INDEX = {
   skipLink: 1600,
 } as const;
 
-export const ERA_COLORS = {
-  meccan: '#10b981',
-  medinan: '#10b981',
-  abuBakr: '#fbbf24',
-  umar: '#ef4444',
-  uthman: '#06b6d4',
-  ali: '#818cf8',
-  default: '#8b7355',
-} as const;
-
 export const KEYBOARD_SHORTCUTS = {
   CLOSE: 'Escape',
   SEARCH: 'ctrl+k',

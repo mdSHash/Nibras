@@ -9,7 +9,7 @@ const getInitialState = (): TourState => {
   try {
     const stored = localStorage.getItem(TOUR_STORAGE_KEY);
     if (stored) {
-      return JSON.parse(stored);
+      return { ...JSON.parse(stored), isActive: false };
     }
   } catch (error) {
     console.error('Error loading tour state:', error);

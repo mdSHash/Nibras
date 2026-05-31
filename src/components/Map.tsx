@@ -2,6 +2,16 @@ import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, Polygon, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { GestureHandling } from 'leaflet-gesture-handling';
+import 'leaflet-gesture-handling/dist/leaflet-gesture-handling.css';
+
+// Register the gesture handler once at module load.
+// Requires two-finger pan on touch, ctrl+wheel zoom on desktop — prevents map
+// from stealing page scroll when the user is scrolling the surrounding UI.
+if (!(L.Map as any)._nibrasGestureHandlerRegistered) {
+  L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
+  (L.Map as any)._nibrasGestureHandlerRegistered = true;
+}
 import { EventItem, citiesData } from '../data';
 import { renderToStaticMarkup } from 'react-dom/server';
 import useSupercluster from 'use-supercluster';
@@ -522,6 +532,16 @@ export default function HistoricalMap({ events, selectedEvent, onSelectEvent, sh
         zoomControl={false}
         attributionControl={false}
         ref={setMap}
+        // @ts-expect-error - gestureHandling options are added by the plugin
+        gestureHandling={true}
+        gestureHandlingOptions={{
+          text: {
+            touch: 'استخدم إصبعين للتحريك',
+            scroll: 'اضغط Ctrl + عجلة الفأرة للتكبير',
+            scrollMac: 'اضغط ⌘ + عجلة الفأرة للتكبير',
+          },
+          duration: 1500,
+        }}
       >
         <TileLayer
           url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"

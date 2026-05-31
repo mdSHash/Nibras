@@ -1001,7 +1001,7 @@ export const conquestOfMecca: BattleScenario = {
   ],
 
   outcome: {
-    victor: 'muslim',
+    verdict: 'muslim_victory',
     muslimCasualties: 2,
     enemyCasualties: 12,
     summary:

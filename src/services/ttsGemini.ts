@@ -515,4 +515,66 @@ class GeminiTTSService {
 
 const geminiTTS = new GeminiTTSService();
 
+/**
+ * TTS Owner Coordination
+ *
+ * Prevents contention when multiple components (Timeline autoplay, EventPanel)
+ * try to use the TTS service simultaneously.
+ *
+ * Priority: 'panel' > 'timeline' (user-initiated always wins over autoplay)
+ */
+export type TTSOwner = 'timeline' | 'panel' | null;
+
+let currentOwner: TTSOwner = null;
+
+/**
+ * Request to speak with ownership tracking.
+ * - If no one is speaking, start speaking and set owner.
+ * - If the same owner requests, stop current and start new.
+ * - If a different owner requests, stop the current one first, then start the new one.
+ *   Panel always takes priority over timeline autoplay.
+ */
+export async function requestSpeak(
+  owner: TTSOwner,
+  text: string,
+  options: GeminiTTSOptions = {}
+): Promise<number> {
+  if (currentOwner && currentOwner !== owner) {
+    // Different owner — stop current playback
+    geminiTTS.stop();
+  }
+  currentOwner = owner;
+  try {
+    const duration = await geminiTTS.speak(text, options);
+    // Clear owner when speech completes naturally
+    if (currentOwner === owner) {
+      currentOwner = null;
+    }
+    return duration;
+  } catch (error) {
+    if (currentOwner === owner) {
+      currentOwner = null;
+    }
+    throw error;
+  }
+}
+
+/**
+ * Release ownership — only stops TTS if the caller is the current owner.
+ * Prevents Timeline from stopping EventPanel's audio and vice versa.
+ */
+export function releaseOwner(owner: TTSOwner): void {
+  if (currentOwner === owner) {
+    geminiTTS.stop();
+    currentOwner = null;
+  }
+}
+
+/**
+ * Get the current TTS owner (for debugging/testing).
+ */
+export function getCurrentOwner(): TTSOwner {
+  return currentOwner;
+}
+
 export default geminiTTS;

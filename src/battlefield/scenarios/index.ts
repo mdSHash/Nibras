@@ -11,7 +11,7 @@
 
 import type { BattleScenario, ForceConfig, UnitConfig } from '../types/scenario';
 import type { EntityTemplate } from '../types/entities';
-import type { Faction, TroopType } from '../types/components';
+import { isMuslimSide, type Faction, type TroopType } from '../types/components';
 import { EntityManager } from '../entities';
 import { EventBus } from '../core/EventBus';
 import { calculateFormation } from '../formations';
@@ -76,10 +76,16 @@ export class ScenarioLoader {
     const visualSize = this.calculateVisualSize(config.soldierCount, config.troopType);
     const factionTint = this.getFactionTint(faction);
 
-    // Calculate formation slots
+    // Formation slot count: log-scaled so a 200-soldier unit and a 200,000-
+    // soldier unit don't render with the same number of slots. Clamps between
+    // 3 (tiny detachment) and 48 (massive army).
+    const slotCount = Math.max(
+      3,
+      Math.min(48, Math.round(Math.log10(Math.max(10, config.soldierCount)) * 8))
+    );
     const formationResult = calculateFormation({
       type: config.startFormation,
-      unitCount: Math.min(Math.floor(config.soldierCount / 20), 10),
+      unitCount: slotCount,
       spacing: 15,
       facing: config.startFacing,
     });
@@ -152,38 +158,49 @@ export class ScenarioLoader {
   }
 
   /**
-   * Calculate visual size based on soldier count.
-   * More soldiers = larger token (12-30px radius range).
+   * Calculate visual size based on soldier count, log-scaled across the full
+   * range from a 100-man detachment to a 200,000-strong Byzantine army.
+   * Uses log10 so each order-of-magnitude increase adds a roughly equal step.
    */
   private calculateVisualSize(soldierCount: number, troopType: TroopType): number {
-    // Map soldierCount from range [20, 200] to radius [12, 28]
-    const clamped = Math.max(20, Math.min(200, soldierCount));
-    const t = (clamped - 20) / (200 - 20); // normalize to 0-1
-    let radius = 12 + t * (28 - 12);
+    const safeCount = Math.max(10, soldierCount);
+    // log10(10) = 1 → small; log10(200,000) ≈ 5.3 → large.
+    const logScale = (Math.log10(safeCount) - 1) / (5.3 - 1); // normalize to ~[0, 1]
+    let radius = 10 + Math.max(0, Math.min(1, logScale)) * 24; // → [10, 34]
 
-    // Cavalry gets +3 bonus
-    if (troopType === 'cavalry' || troopType === 'camel_riders') {
+    // Mounted units read slightly larger; elephants distinctly so.
+    if (
+      troopType === 'cavalry' ||
+      troopType === 'heavy_cavalry' ||
+      troopType === 'horse_archer' ||
+      troopType === 'camel_riders'
+    ) {
       radius += 3;
+    } else if (troopType === 'elephant') {
+      radius += 6; // war elephants dwarf everything else
     }
 
-    // Clamp to [10, 30]
-    return Math.max(10, Math.min(30, radius));
+    return Math.max(10, Math.min(44, radius));
   }
 
   /**
-   * Get base tint color for a faction.
+   * Get base tint color for a faction. Using a Record<Faction, number> means
+   * TypeScript will flag any new faction added to the union that isn't tinted
+   * here — no silent fallback to gray.
    */
   private getFactionTint(faction: Faction): number {
-    switch (faction) {
-      case 'muslim':
-        return 0x2D5016; // green
-      case 'quraysh':
-        return 0x8B1A1A; // red/brown
-      case 'neutral':
-        return 0x6B6B6B; // gray
-      default:
-        return 0x6B6B6B;
-    }
+    const tints: Record<Faction, number> = {
+      muslim: 0x2D5016,        // dark green — Prophetic / Rashidun banner
+      mamluk: 0xD4AF37,        // gold — Mamluk Sultanate (Ain Jalut)
+      quraysh: 0x8B1A1A,       // red — pre-Islamic Mecca
+      jewish_tribes: 0x6B4F8B, // muted purple — Khaybar tribes
+      hawazin: 0xB8860B,       // dark goldenrod — Hawazin/Thaqif (Hunayn)
+      byzantine: 0x6B0F12,     // imperial purple-red — Eastern Rome
+      sasanian: 0x5D2E8C,      // royal purple — Sasanian Persia
+      mongol: 0x4B5320,        // olive — Ilkhanate
+      neutral: 0x6B6B6B,       // gray — civilians, terrain entities
+    };
+    return tints[faction] ?? 0x6B6B6B;
   }
 
   /**
@@ -193,8 +210,12 @@ export class ScenarioLoader {
     const baseSpeeds: Record<TroopType, number> = {
       infantry: 60,
       cavalry: 120,
+      heavy_cavalry: 95,    // Sasanian Savaran, Byzantine cataphracts — slower than light cav
+      horse_archer: 130,    // Mongol/Steppe — fastest, hit-and-run
       archers: 50,
       camel_riders: 100,
+      elephant: 35,         // Qadisiyyah war elephants — slow, terrifying
+      siege_engineer: 30,   // Khaybar/fortress assault — slowest
       reserves: 55,
       command: 70,
     };
@@ -247,8 +268,8 @@ export class ScenarioLoader {
           positionY: transform.position.y,
         });
 
-        // Accumulate strengths and morale
-        if (unit.faction === 'muslim') {
+        // Accumulate strengths and morale (Mamluks count as the muslim side)
+        if (isMuslimSide(unit.faction)) {
           muslimStrength += unit.soldierCount;
           muslimMoraleTotal += combat.morale;
           muslimUnitCount++;

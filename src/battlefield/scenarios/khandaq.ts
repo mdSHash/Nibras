@@ -1105,7 +1105,7 @@ export const battleOfKhandaq: BattleScenario = {
   ],
 
   outcome: {
-    victor: 'muslim',
+    verdict: 'muslim_victory',
     muslimCasualties: 6,
     enemyCasualties: 3,
     summary:

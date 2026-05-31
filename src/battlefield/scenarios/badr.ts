@@ -206,7 +206,7 @@ export const battleOfBadr: BattleScenario = {
           nameAr: 'الميمنة',
           troopType: 'cavalry',
           soldierCount: 100,
-          commander: 'Khalid ibn al-Walid',
+          commander: 'Hakim ibn Hizam',
           startPosition: { x: 1200, y: 400 },
           startFormation: 'line',
           startFacing: Math.PI / 2,
@@ -711,7 +711,7 @@ export const battleOfBadr: BattleScenario = {
   ],
 
   outcome: {
-    victor: 'muslim',
+    verdict: 'muslim_victory',
     muslimCasualties: 14,
     enemyCasualties: 70,
     summary:

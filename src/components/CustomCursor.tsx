@@ -1,12 +1,19 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
+import { useCanHover } from "../hooks/useMatchMedia";
 
 /**
  * CustomCursor - A JavaScript-based cursor follower with Islamic-inspired design.
  * Renders an 8-pointed star (Rub el Hizb) that follows the mouse with smooth interpolation.
  * Works everywhere including over Leaflet maps since it uses pointer-events: none.
- * Only shows on devices with hover capability (desktop).
+ * Only renders on devices with hover capability (desktop with mouse).
  */
 export default function CustomCursor() {
+  const canHover = useCanHover();
+  if (!canHover) return null;
+  return <CustomCursorImpl />;
+}
+
+function CustomCursorImpl() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const trail1Ref = useRef<HTMLDivElement>(null);
   const trail2Ref = useRef<HTMLDivElement>(null);

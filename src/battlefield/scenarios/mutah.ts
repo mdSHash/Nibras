@@ -208,7 +208,7 @@ export const battleOfMutah: BattleScenario = {
     },
     // ─── BYZANTINE & ALLIED FORCES (~100,000-200,000 soldiers) ──────────────────
     {
-      faction: 'quraysh',
+      faction: 'byzantine',
       label: 'Byzantine & Allied Forces',
       labelAr: 'الروم وحلفاؤهم',
       totalStrength: 100000,
@@ -930,7 +930,7 @@ export const battleOfMutah: BattleScenario = {
   ],
 
   outcome: {
-    victor: 'muslim',
+    verdict: 'tactical_withdrawal',
     muslimCasualties: 12,
     enemyCasualties: 0, // unknown exact number
     summary:

@@ -1,4 +1,4 @@
-import { useState, TouchEvent } from 'react';
+import { useRef, TouchEvent } from 'react';
 
 interface SwipeGestureOptions {
   onSwipeLeft?: () => void;
@@ -11,6 +11,8 @@ interface SwipeGestureOptions {
 /**
  * Custom hook to handle swipe gestures on touch devices
  * Supports horizontal (left/right) and vertical (up/down) swipes
+ *
+ * Uses useRef instead of useState to avoid re-renders on every touchmove.
  *
  * @param options - Configuration object with swipe callbacks and threshold
  * @returns Touch event handlers to spread on element
@@ -35,28 +37,28 @@ export const useSwipeGesture = (options: SwipeGestureOptions) => {
     threshold = 50
   } = options;
 
-  const [touchStartX, setTouchStartX] = useState(0);
-  const [touchStartY, setTouchStartY] = useState(0);
-  const [touchEndX, setTouchEndX] = useState(0);
-  const [touchEndY, setTouchEndY] = useState(0);
+  const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
+  const touchEndX = useRef(0);
+  const touchEndY = useRef(0);
   
   const onTouchStart = (e: TouchEvent) => {
-    setTouchEndX(0);
-    setTouchEndY(0);
-    setTouchStartX(e.targetTouches[0].clientX);
-    setTouchStartY(e.targetTouches[0].clientY);
+    touchEndX.current = 0;
+    touchEndY.current = 0;
+    touchStartX.current = e.targetTouches[0].clientX;
+    touchStartY.current = e.targetTouches[0].clientY;
   };
   
   const onTouchMove = (e: TouchEvent) => {
-    setTouchEndX(e.targetTouches[0].clientX);
-    setTouchEndY(e.targetTouches[0].clientY);
+    touchEndX.current = e.targetTouches[0].clientX;
+    touchEndY.current = e.targetTouches[0].clientY;
   };
   
   const onTouchEnd = () => {
-    if (!touchStartX || !touchStartY) return;
+    if (!touchStartX.current || !touchStartY.current) return;
     
-    const distanceX = touchStartX - touchEndX;
-    const distanceY = touchStartY - touchEndY;
+    const distanceX = touchStartX.current - touchEndX.current;
+    const distanceY = touchStartY.current - touchEndY.current;
     
     // Determine if swipe is more horizontal or vertical
     const isHorizontal = Math.abs(distanceX) > Math.abs(distanceY);
@@ -90,4 +92,3 @@ export const useSwipeGesture = (options: SwipeGestureOptions) => {
     onTouchEnd
   };
 };
-

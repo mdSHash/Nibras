@@ -73,17 +73,50 @@ export interface CombatComponent {
 
 // ─── Unit Component ──────────────────────────────────────────────────────────
 
-/** Types of troops available in battles */
+/**
+ * Types of troops available in battles. The expanded set covers historical
+ * unit types specific to particular battles — Qadisiyyah's elephants,
+ * Khaybar's siege engineering, Mongol horse-archers at Ain Jalut.
+ */
 export type TroopType =
   | 'infantry'
   | 'cavalry'
   | 'archers'
   | 'camel_riders'
+  | 'elephant'
+  | 'horse_archer'
+  | 'heavy_cavalry'
+  | 'siege_engineer'
   | 'reserves'
   | 'command';
 
-/** Faction allegiance */
-export type Faction = 'muslim' | 'quraysh' | 'neutral';
+/**
+ * Faction allegiance. Each faction gets a distinct visual tint and (in V2)
+ * its own banner sprite. The "muslim side" of any battle is represented by
+ * either `muslim` (Prophetic + Rashidun era) or `mamluk` (Ain Jalut, 13th c.)
+ * so the simulation store knows which side to count as the protagonist.
+ *
+ * Add `isMuslimSide(faction)` (helper below) when checking allegiance instead
+ * of comparing strings directly — this keeps Ain Jalut's Mamluk troops on the
+ * "us" side without conflating their banner/tint with the early caliphate.
+ */
+export type Faction =
+  | 'muslim'
+  | 'quraysh'
+  | 'jewish_tribes'
+  | 'hawazin'
+  | 'byzantine'
+  | 'sasanian'
+  | 'mongol'
+  | 'mamluk'
+  | 'neutral';
+
+/**
+ * Returns true if a faction represents the "Muslim side" of a battle for the
+ * purposes of strength/morale aggregation in the simulation store.
+ */
+export const isMuslimSide = (faction: Faction): boolean =>
+  faction === 'muslim' || faction === 'mamluk';
 
 /** Unit identity: troop type, count, faction, and commander */
 export interface UnitComponent {
@@ -158,8 +191,26 @@ export interface ScriptedAction {
 
 // ─── Terrain Component ───────────────────────────────────────────────────────
 
-/** Types of terrain on the battlefield */
-export type TerrainType = 'sand' | 'rocky' | 'oasis' | 'dune' | 'flat' | 'elevated';
+/**
+ * Types of terrain on the battlefield. Original types (sand/rocky/oasis/
+ * dune/flat/elevated) drive base appearance + speed. Variant types
+ * (trench/fortress_wall/river/gorge/mountain/snow) add scenario-specific
+ * obstacles — the Movement system blocks passage through trench/river/gorge
+ * except at landmarks.
+ */
+export type TerrainType =
+  | 'sand'
+  | 'rocky'
+  | 'oasis'
+  | 'dune'
+  | 'flat'
+  | 'elevated'
+  | 'trench'
+  | 'fortress_wall'
+  | 'river'
+  | 'gorge'
+  | 'mountain'
+  | 'snow';
 
 /** Terrain awareness and modifiers */
 export interface TerrainComponent {

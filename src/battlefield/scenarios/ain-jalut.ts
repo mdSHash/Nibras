@@ -156,7 +156,7 @@ export const battleOfAinJalut: BattleScenario = {
   forces: [
     // ─── MAMLUK FORCES (~20,000 soldiers) ─────────────────────────────────────
     {
-      faction: 'muslim',
+      faction: 'mamluk',
       label: 'Mamluk Army',
       labelAr: 'المماليك',
       totalStrength: 20000,
@@ -235,12 +235,12 @@ export const battleOfAinJalut: BattleScenario = {
         },
       ],
     },
-    // ─── MONGOL FORCES (~15,000 soldiers) ─────────────────────────────────────
+    // ─── MONGOL FORCES (~17,000 soldiers — both wings + center + guard) ──────
     {
-      faction: 'quraysh',
+      faction: 'mongol',
       label: 'Mongol Army',
       labelAr: 'المغول',
-      totalStrength: 15000,
+      totalStrength: 17000,
       units: [
         {
           id: 'mongol-cavalry',
@@ -298,6 +298,20 @@ export const battleOfAinJalut: BattleScenario = {
           soldierCount: 2000,
           commander: undefined,
           startPosition: { x: 350, y: 140 },
+          startFormation: 'line',
+          startFacing: Math.PI / 2,
+          stats: { attack: 8, defense: 5, speed: 9, morale: 7 },
+        },
+        {
+          // The Mongol force at Ain Jalut historically deployed both wings —
+          // the absent left wing is a structural gap the diagnostic flagged.
+          id: 'mongol-left-wing',
+          name: 'Mongol Left Wing',
+          nameAr: 'الجناح الأيسر المغولي',
+          troopType: 'cavalry',
+          soldierCount: 2000,
+          commander: undefined,
+          startPosition: { x: 950, y: 140 },
           startFormation: 'line',
           startFacing: Math.PI / 2,
           stats: { attack: 8, defense: 5, speed: 9, morale: 7 },
@@ -996,7 +1010,7 @@ export const battleOfAinJalut: BattleScenario = {
   ],
 
   outcome: {
-    victor: 'muslim',
+    verdict: 'muslim_victory',
     muslimCasualties: 1500,
     enemyCasualties: 10000,
     summary:

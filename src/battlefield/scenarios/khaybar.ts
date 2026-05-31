@@ -287,7 +287,7 @@ export const battleOfKhaybar: BattleScenario = {
     },
     // ─── JEWISH FORCES (~2,000 warriors defending fortresses) ──────────────────
     {
-      faction: 'quraysh', // using 'quraysh' as the enemy faction type
+      faction: 'jewish_tribes',
       label: 'Jewish Defenders of Khaybar',
       labelAr: 'مدافعو خيبر',
       totalStrength: 2000,
@@ -1134,7 +1134,7 @@ export const battleOfKhaybar: BattleScenario = {
   ],
 
   outcome: {
-    victor: 'muslim',
+    verdict: 'muslim_victory',
     muslimCasualties: 18,
     enemyCasualties: 93,
     summary:

@@ -196,11 +196,26 @@ export const battleOfQadisiyyah: BattleScenario = {
           startFacing: 0,
           stats: { attack: 10, defense: 7, speed: 9, morale: 10 },
         },
+        {
+          // The "dressed camels" stratagem: Sa'd ordered camels draped with
+          // cloth and masks to spook the Sasanian war elephants and cavalry
+          // horses. A small unit, but historically pivotal on day three.
+          id: 'muslim-clothed-camels',
+          name: 'Disguised Camel Detachment',
+          nameAr: 'الإبل المُلَبَّسة',
+          troopType: 'camel_riders',
+          soldierCount: 500,
+          commander: undefined,
+          startPosition: { x: 280, y: 500 },
+          startFormation: 'scattered',
+          startFacing: 0,
+          stats: { attack: 4, defense: 3, speed: 6, morale: 8 },
+        },
       ],
     },
     // ─── SASSANID PERSIAN FORCES (~80,000 soldiers + 33 elephants) ─────────────
     {
-      faction: 'quraysh',
+      faction: 'sasanian',
       label: 'Sassanid Persian Forces',
       labelAr: 'جيش الفرس الساسانيين',
       totalStrength: 80000,
@@ -245,7 +260,7 @@ export const battleOfQadisiyyah: BattleScenario = {
           id: 'war-elephants',
           name: 'War Elephants Corps',
           nameAr: 'فيلق الأفيال الحربية',
-          troopType: 'cavalry', // closest available type for elephants
+          troopType: 'elephant',
           soldierCount: 3300, // 33 elephants with crews (~100 per elephant unit)
           commander: undefined,
           startPosition: { x: 750, y: 500 },
@@ -1079,7 +1094,7 @@ export const battleOfQadisiyyah: BattleScenario = {
   ],
 
   outcome: {
-    victor: 'muslim',
+    verdict: 'muslim_victory',
     muslimCasualties: 8500,
     enemyCasualties: 30000,
     summary:
