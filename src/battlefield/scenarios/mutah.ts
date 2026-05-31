@@ -941,5 +941,7 @@ export const battleOfMutah: BattleScenario = {
       "The first major Muslim engagement with a superpower. Demonstrated that the Muslim army could face the Byzantine Empire. Khalid ibn al-Walid earned the title 'Sword of Allah' (سيف الله المسلول) from the Prophet ﷺ.",
   },
 
+  dayPhase: 'day',
+  weather: 'dust',
   totalDuration: 55,
 };

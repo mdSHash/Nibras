@@ -1116,5 +1116,10 @@ export const battleOfKhandaq: BattleScenario = {
       'The last major offensive by the Quraysh against Medina. Demonstrated that siege warfare and defensive innovation could defeat numerical superiority. After this, the Prophet ﷺ declared: "Now we march against them, they shall never march against us."',
   },
 
+  // The siege lasted ~27 days; the divine storm scattered the Confederates
+  // at night.
+  dayPhase: 'night',
+  weather: 'storm',
+  actualDayCount: 27,
   totalDuration: 50, // 50 seconds of simulation
 };

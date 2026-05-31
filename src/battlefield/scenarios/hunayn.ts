@@ -1237,5 +1237,6 @@ export const battleOfHunayn: BattleScenario = {
       'Demonstrated that victory comes from Allah alone, not from numbers. The dramatic reversal from near-total defeat to complete victory is directly referenced in Quran 9:25-26. One of the most dramatic battles in Islamic history.',
   },
 
+  dayPhase: 'dawn', // the ambush came at dawn in the Hunayn valley
   totalDuration: 50, // 50 seconds of simulation
 };

@@ -1145,5 +1145,7 @@ export const battleOfKhaybar: BattleScenario = {
       'Eliminated the last major hostile force near Medina. Demonstrated Muslim military capability against fortified positions. The terms set a precedent for treatment of conquered peoples in Islamic law.',
   },
 
+  dayPhase: 'day',
+  actualDayCount: 20, // protracted siege of the Khaybar fortresses
   totalDuration: 50, // 50 seconds of simulation
 };

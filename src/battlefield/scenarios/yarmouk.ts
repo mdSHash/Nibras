@@ -1312,5 +1312,8 @@ export const battleOfYarmouk: BattleScenario = {
       'One of the most decisive battles in world history. Ended Byzantine control of the Levant permanently and opened the way for the Muslim conquest of Syria, Palestine, and Egypt. Demonstrated Khalid ibn al-Walid\'s genius as one of history\'s greatest military commanders.',
   },
 
+  dayPhase: 'day',
+  weather: 'dust',
+  actualDayCount: 6,
   totalDuration: 50, // 50 seconds of simulation
 };

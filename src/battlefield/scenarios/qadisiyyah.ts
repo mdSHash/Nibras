@@ -1105,5 +1105,9 @@ export const battleOfQadisiyyah: BattleScenario = {
       'Broke the Sassanid Persian Empire permanently. One of the most important battles in Islamic history, opening the path to the conquest of the entire Persian Empire within a decade.',
   },
 
+  // 4 days of fighting culminating in the providential sandstorm on day 3.
+  dayPhase: 'day',
+  weather: 'sandstorm',
+  actualDayCount: 4,
   totalDuration: 50, // 50 seconds of simulation
 };

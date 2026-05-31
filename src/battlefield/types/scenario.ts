@@ -9,6 +9,23 @@ import type { Vector2D, FormationType, TroopType, Faction, TerrainType } from '.
 
 // ─── Battle Scenario ─────────────────────────────────────────────────────────
 
+/**
+ * Time of day for atmospheric tinting. Affects the global color overlay
+ * the renderer applies to the scene. Defaults to 'day' if unset.
+ */
+export type DayPhase = 'dawn' | 'day' | 'dusk' | 'night';
+
+/**
+ * Weather condition for the battle. Each value drives a different particle
+ * system in the WeatherSystem. Defaults to 'clear' if unset.
+ *
+ *  - sandstorm: Qadisiyyah day three (the historical providential storm)
+ *  - storm:    Khandaq's "wind from the heavens" that scattered the Confederates
+ *  - rain:     reserved
+ *  - dust:     light haze, e.g. cavalry charges in arid terrain
+ */
+export type WeatherCondition = 'clear' | 'sandstorm' | 'storm' | 'rain' | 'dust';
+
 /** Complete battle scenario definition — the top-level config for a replay */
 export interface BattleScenario {
   id: string;
@@ -21,6 +38,25 @@ export interface BattleScenario {
 
   /** Map configuration */
   map: MapConfig;
+
+  /**
+   * Time of day for atmospheric tinting. Optional — defaults to 'day'.
+   * Khandaq is 'night', Qadisiyyah day three is 'day' with sandstorm, etc.
+   */
+  dayPhase?: DayPhase;
+
+  /**
+   * Weather condition. Optional — defaults to 'clear'.
+   */
+  weather?: WeatherCondition;
+
+  /**
+   * Real-world duration of the historical battle, in days. When set, the
+   * BattlePlayer shows a day counter that maps simulation time to real days
+   * (e.g. Khandaq compressed 27 days into 50 simulation seconds).
+   * Omit for engagements that took less than a day.
+   */
+  actualDayCount?: number;
 
   /** Forces participating in the battle */
   forces: ForceConfig[];

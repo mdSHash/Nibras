@@ -722,5 +722,6 @@ export const battleOfBadr: BattleScenario = {
       'First major military victory in Islamic history. Demonstrated that faith and strategy could overcome numerical superiority.',
   },
 
+  dayPhase: 'day', // 17 Ramadan, midday battle
   totalDuration: 45, // 45 seconds of simulation
 };

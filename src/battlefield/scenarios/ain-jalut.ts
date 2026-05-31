@@ -1021,5 +1021,7 @@ export const battleOfAinJalut: BattleScenario = {
       "First major Mongol defeat in history. Proved the Mongols were not invincible. Saved Egypt, North Africa, and the remaining Muslim lands from Mongol conquest. Established the Mamluk Sultanate as the dominant power in the region. Baybars later became Sultan and expanded Mamluk territory significantly.",
   },
 
+  dayPhase: 'day',
+  weather: 'dust',
   totalDuration: 55,
 };

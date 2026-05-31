@@ -809,5 +809,7 @@ export const expeditionOfTabuk: BattleScenario = {
       "The last expedition of the Prophet ﷺ. Demonstrated that the Muslim state was now a superpower capable of projecting force to the Byzantine border. Secured the northern frontier and established Muslim hegemony over all of Arabia.",
   },
 
+  dayPhase: 'day',
+  actualDayCount: 30, // the long march, no engagement
   totalDuration: 50,
 };

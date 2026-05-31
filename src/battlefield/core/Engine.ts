@@ -35,6 +35,7 @@ import { usePlaybackStore } from '../state/playbackStore';
 import { useSimulationStore } from '../state/simulationStore';
 import { useCameraStore } from '../state/cameraStore';
 import { useUIStore } from '../state/uiStore';
+import { BattleAudio } from '../audio/BattleAudio';
 import type { BattleScenario } from '../types/scenario';
 
 export interface EngineOptions {
@@ -76,6 +77,9 @@ export class Engine {
 
   // Systems placeholder (for additional custom systems)
   private systems: Array<{ name: string; update: (dt: number, time: number) => void }>;
+
+  // Synthesized battle audio (subscribes to event bus, no asset loading)
+  private audio: BattleAudio | null = null;
 
   constructor(options?: EngineOptions) {
     console.log('[Engine] constructor start');
@@ -141,6 +145,13 @@ export class Engine {
     console.log('[Engine] CameraController created');
 
     this.initialized = true;
+
+    // Wire synthesized battle audio (events → Web Audio sound effects).
+    // Created here (after the renderer) so the audio context is unlocked by
+    // the same user gesture that triggered the canvas mount.
+    if (!this.audio) {
+      this.audio = new BattleAudio(this.eventBus);
+    }
 
     // Emit initialization event
     this.eventBus.emit({ type: 'engine:initialized' });
@@ -562,6 +573,12 @@ export class Engine {
     if (this.rafId !== null) {
       cancelAnimationFrame(this.rafId);
       this.rafId = null;
+    }
+
+    // Tear down audio (closes AudioContext, unsubscribes event listeners)
+    if (this.audio) {
+      this.audio.destroy();
+      this.audio = null;
     }
 
     // Destroy timeline controller

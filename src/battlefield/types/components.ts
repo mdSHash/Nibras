@@ -118,6 +118,19 @@ export type Faction =
 export const isMuslimSide = (faction: Faction): boolean =>
   faction === 'muslim' || faction === 'mamluk';
 
+/** Arabic display name for each faction. UI is Arabic-only. */
+export const FACTION_NAME_AR: Record<Faction, string> = {
+  muslim: 'المسلمون',
+  mamluk: 'المماليك',
+  quraysh: 'قريش',
+  jewish_tribes: 'يهود خيبر',
+  hawazin: 'هوازن وثقيف',
+  byzantine: 'الروم',
+  sasanian: 'الفرس',
+  mongol: 'المغول',
+  neutral: 'محايد',
+};
+
 /** Unit identity: troop type, count, faction, and commander */
 export interface UnitComponent {
   troopType: TroopType;

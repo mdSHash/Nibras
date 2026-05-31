@@ -1012,5 +1012,6 @@ export const conquestOfMecca: BattleScenario = {
       "The peaceful conquest of Mecca marked the triumph of Islam in Arabia. The Prophet's mercy in granting general amnesty won over former enemies and demonstrated that Islam's victory was spiritual as much as military.",
   },
 
+  dayPhase: 'day',
   totalDuration: 50, // 50 seconds of simulation
 };

@@ -5,13 +5,16 @@
  * and provides playback controls + UI overlays.
  */
 
-import { useRef, useEffect, useState, useCallback } from 'react';
+import { useRef, useEffect, useState, useCallback, useMemo } from 'react';
 import { Engine } from '../core/Engine';
 import { usePlaybackStore } from '../state/playbackStore';
 import { useSimulationStore } from '../state/simulationStore';
 import { useUIStore } from '../state/uiStore';
 import { getScenario } from '../scenarios/index';
+import { FACTION_NAME_AR } from '../types/components';
+import type { Faction } from '../types/components';
 import type { BattleScenario } from '../types/scenario';
+import { AtmosphereOverlay } from './AtmosphereOverlay';
 
 // ─── Props ───────────────────────────────────────────────────────────────────
 
@@ -55,6 +58,22 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
   const enemyStrength = useSimulationStore((s) => s.enemyStrength);
 
   const narration = useUIStore((s) => s.narration);
+
+  // Determine which factions are participating so we can label badges in Arabic.
+  // Defaults to 'muslim' / 'quraysh' until the scenario resolves.
+  const factionLabels = useMemo(() => {
+    const muslimSideFaction =
+      scenario?.forces.find((f) => f.faction === 'mamluk' || f.faction === 'muslim')
+        ?.faction ?? 'muslim';
+    const enemyFaction =
+      scenario?.forces.find(
+        (f) => f.faction !== 'muslim' && f.faction !== 'mamluk' && f.faction !== 'neutral'
+      )?.faction ?? 'quraysh';
+    return {
+      muslim: FACTION_NAME_AR[muslimSideFaction as Faction],
+      enemy: FACTION_NAME_AR[enemyFaction as Faction],
+    };
+  }, [scenario]);
 
   // ─── Engine Lifecycle ────────────────────────────────────────────────────────
 
@@ -344,17 +363,22 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
 
   if (error) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-gray-900 text-white z-50">
-        <div className="text-center space-y-4">
-          <div className="text-red-400 text-5xl">⚠️</div>
-          <h2 className="text-xl font-semibold">Failed to Load Battle</h2>
-          <p className="text-gray-400 max-w-md">{error}</p>
+      <div
+        className="fixed inset-0 flex items-center justify-center bg-gray-900 text-white z-50"
+        dir="rtl"
+        lang="ar"
+      >
+        <div className="text-center space-y-4 px-6">
+          <div className="text-red-400 text-5xl" aria-hidden>⚠️</div>
+          <h2 className="text-xl font-semibold">تعذّر تحميل المعركة</h2>
+          <p className="text-gray-400 max-w-md mx-auto">{error}</p>
           {onBack && (
             <button
               onClick={onBack}
-              className="mt-4 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+              className="mt-4 px-5 py-2 min-h-[44px] bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+              aria-label="رجوع"
             >
-              ← Go Back
+              رجوع
             </button>
           )}
         </div>
@@ -376,12 +400,21 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
         className="absolute inset-0 w-full h-full"
       />
 
+      {/* Atmosphere overlay (day phase + weather effects) */}
+      {scenario && (
+        <AtmosphereOverlay dayPhase={scenario.dayPhase} weather={scenario.weather} />
+      )}
+
       {/* Loading Overlay */}
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-900/90 z-50">
+        <div
+          className="absolute inset-0 flex items-center justify-center bg-gray-900/90 z-50"
+          dir="rtl"
+          lang="ar"
+        >
           <div className="text-center space-y-4">
             <div className="w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto" />
-            <p className="text-gray-300 text-lg">Loading Battle...</p>
+            <p className="text-gray-300 text-lg">جارٍ تحميل المعركة...</p>
           </div>
         </div>
       )}
@@ -399,7 +432,7 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
                 <button
                   onClick={onBack}
                   className="flex-shrink-0 w-11 h-11 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg bg-gray-800/60 hover:bg-gray-700/80 transition-colors text-gray-300 hover:text-white"
-                  aria-label="Go back"
+                  aria-label="رجوع"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -418,19 +451,19 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
 
             {/* Right: Faction Strength Indicators (compact on mobile, full on desktop) */}
             <div className="flex items-center gap-2 sm:gap-3 pointer-events-auto">
-              <div className="flex items-center gap-1.5 sm:gap-2 bg-gray-800/60 rounded-lg px-2 sm:px-3 py-1.5">
+              <div className="flex items-center gap-1.5 sm:gap-2 bg-gray-800/60 rounded-lg px-2 sm:px-3 py-1.5" dir="rtl" lang="ar">
                 <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500" />
                 <span className="text-green-400 text-sm font-medium tabular-nums">
                   {muslimStrength}
                 </span>
-                <span className="hidden sm:inline text-gray-500 text-xs">Muslims</span>
+                <span className="hidden sm:inline text-gray-300 text-xs">{factionLabels.muslim}</span>
               </div>
-              <div className="flex items-center gap-1.5 sm:gap-2 bg-gray-800/60 rounded-lg px-2 sm:px-3 py-1.5">
+              <div className="flex items-center gap-1.5 sm:gap-2 bg-gray-800/60 rounded-lg px-2 sm:px-3 py-1.5" dir="rtl" lang="ar">
                 <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500" />
                 <span className="text-red-400 text-sm font-medium tabular-nums">
                   {enemyStrength}
                 </span>
-                <span className="hidden sm:inline text-gray-500 text-xs">Enemy</span>
+                <span className="hidden sm:inline text-gray-300 text-xs">{factionLabels.enemy}</span>
               </div>
             </div>
           </div>
@@ -439,11 +472,28 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
 
       {/* Phase Info Display (top-left, below header) */}
       {!isLoading && currentPhaseName && (
-        <div className="absolute top-16 right-4 z-20 pointer-events-none">
-          <div className="bg-gray-900/70 backdrop-blur-sm rounded-lg px-3 py-2 border border-gray-700/50">
+        <div className="absolute top-20 sm:top-16 right-3 sm:right-4 z-20 pointer-events-none">
+          <div className="bg-gray-900/70 backdrop-blur-sm rounded-lg px-3 py-2 border border-gray-700/50 max-w-[60vw] sm:max-w-none">
             <p className="text-gray-400 text-xs tracking-wider" dir="rtl" lang="ar">المرحلة</p>
-            <p className="text-white text-sm font-medium" dir="rtl" lang="ar">{currentPhaseName}</p>
-            <p className="text-gray-500 text-xs mt-0.5">{formatTime(currentTime)}</p>
+            <p className="text-white text-sm font-medium truncate" dir="rtl" lang="ar">{currentPhaseName}</p>
+            <p className="text-gray-500 text-xs mt-0.5 tabular-nums">{formatTime(currentTime)}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Day counter (only for battles with time compression — Khandaq=27d, etc.) */}
+      {!isLoading && scenario?.actualDayCount && totalDuration > 0 && (
+        <div className="absolute top-20 sm:top-16 left-3 sm:left-4 z-20 pointer-events-none" dir="rtl" lang="ar">
+          <div className="bg-gray-900/70 backdrop-blur-sm rounded-lg px-3 py-2 border border-amber-700/40">
+            <p className="text-amber-400/80 text-xs tracking-wider">اليوم</p>
+            <p className="text-white text-sm font-bold tabular-nums">
+              {Math.min(
+                scenario.actualDayCount,
+                Math.max(1, Math.ceil((currentTime / totalDuration) * scenario.actualDayCount))
+              )}
+              <span className="text-gray-500 mx-1">/</span>
+              <span className="text-gray-400">{scenario.actualDayCount}</span>
+            </p>
           </div>
         </div>
       )}
@@ -471,45 +521,45 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
 
       {/* Replay Overlay (shown when battle completes) */}
       {!isLoading && status === 'completed' && (
-        <div className="absolute inset-0 flex items-center justify-center z-40 bg-black/40">
-          <div className="flex items-center gap-4">
+        <div className="absolute inset-0 flex items-center justify-center z-40 bg-black/40" dir="rtl" lang="ar">
+          <div className="flex items-center gap-4 flex-wrap justify-center px-4">
             {/* Replay Button */}
             <button
               onClick={handleRestart}
-              className="flex flex-col items-center gap-3 px-8 py-6 rounded-2xl bg-gray-900/90 backdrop-blur-md border border-gray-600/50 hover:bg-gray-800/90 transition-colors group"
-              aria-label="Replay battle"
+              className="flex flex-col items-center gap-3 px-6 sm:px-8 py-5 sm:py-6 rounded-2xl bg-gray-900/90 backdrop-blur-md border border-gray-600/50 hover:bg-gray-800/90 transition-colors group min-h-[44px]"
+              aria-label="إعادة المعركة"
             >
               <svg
-                className="w-12 h-12 text-green-400 group-hover:text-green-300 transition-colors"
+                className="w-10 h-10 sm:w-12 sm:h-12 text-green-400 group-hover:text-green-300 transition-colors"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
                 strokeWidth={2}
+                aria-hidden
               >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 12a9 9 0 1 1 9 9M3 12V3m0 9h9" />
               </svg>
               <span className="text-white text-lg font-semibold">إعادة المعركة</span>
-              <span className="text-gray-400 text-sm">Replay Battle</span>
             </button>
 
             {/* Exit Button */}
             {onBack && (
               <button
                 onClick={onBack}
-                className="flex flex-col items-center gap-3 px-8 py-6 rounded-2xl bg-gray-900/90 backdrop-blur-md border border-red-600/40 hover:bg-red-900/40 transition-colors group"
-                aria-label="Exit battle"
+                className="flex flex-col items-center gap-3 px-6 sm:px-8 py-5 sm:py-6 rounded-2xl bg-gray-900/90 backdrop-blur-md border border-red-600/40 hover:bg-red-900/40 transition-colors group min-h-[44px]"
+                aria-label="خروج"
               >
                 <svg
-                  className="w-12 h-12 text-red-400 group-hover:text-red-300 transition-colors"
+                  className="w-10 h-10 sm:w-12 sm:h-12 text-red-400 group-hover:text-red-300 transition-colors"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                   strokeWidth={2}
+                  aria-hidden
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>
                 <span className="text-white text-lg font-semibold">خروج</span>
-                <span className="text-gray-400 text-sm">Exit</span>
               </button>
             )}
           </div>
@@ -528,7 +578,7 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
               <button
                 onClick={handlePlayPause}
                 className="flex-shrink-0 w-11 h-11 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-gray-800/80 hover:bg-gray-700 transition-colors text-white border border-gray-600/50"
-                aria-label={status === 'playing' ? 'Pause' : 'Play'}
+                aria-label={status === 'playing' ? 'إيقاف' : 'تشغيل'}
               >
                 {status === 'playing' ? (
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -545,7 +595,7 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
               <button
                 onClick={handleRestart}
                 className="flex-shrink-0 w-11 h-11 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-gray-800/80 hover:bg-gray-700 transition-colors text-white border border-gray-600/50"
-                aria-label="Restart"
+                aria-label="إعادة من البداية"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 12a9 9 0 1 1 9 9M3 12V3m0 9h9" />
@@ -561,7 +611,7 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
               <button
                 onClick={handleSpeedChange}
                 className="flex-shrink-0 px-3 py-1.5 min-h-[40px] rounded-lg bg-gray-800/80 hover:bg-gray-700 transition-colors text-gray-300 text-xs font-medium border border-gray-600/50"
-                aria-label="Change speed"
+                aria-label="تغيير السرعة"
               >
                 {speed}x
               </button>
@@ -578,7 +628,7 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
                 className="basis-full order-last sm:basis-auto sm:flex-1 sm:order-none h-3 sm:h-2 bg-gray-700/80 rounded-full cursor-pointer relative group"
                 onClick={handleSeek}
                 role="slider"
-                aria-label="Seek"
+                aria-label="شريط التقدم"
                 aria-valuemin={0}
                 aria-valuemax={100}
                 aria-valuenow={Math.round(progress * 100)}

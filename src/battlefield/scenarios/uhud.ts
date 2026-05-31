@@ -1059,5 +1059,6 @@ export const battleOfUhud: BattleScenario = {
       'A harsh lesson in military discipline and obedience. The battle demonstrated the consequences of disobeying command orders and the importance of maintaining defensive positions.',
   },
 
+  dayPhase: 'day',
   totalDuration: 50, // 50 seconds of simulation
 };
