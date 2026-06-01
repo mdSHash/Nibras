@@ -105,6 +105,7 @@ export type Faction =
   | 'quraysh'
   | 'jewish_tribes'
   | 'hawazin'
+  | 'banu_hanifa'
   | 'byzantine'
   | 'sasanian'
   | 'mongol'
@@ -125,6 +126,7 @@ export const FACTION_NAME_AR: Record<Faction, string> = {
   quraysh: 'قريش',
   jewish_tribes: 'يهود خيبر',
   hawazin: 'هوازن وثقيف',
+  banu_hanifa: 'بنو حنيفة',
   byzantine: 'الروم',
   sasanian: 'الفرس',
   mongol: 'المغول',

@@ -195,6 +195,7 @@ export class ScenarioLoader {
       quraysh: 0x8B1A1A,       // red — pre-Islamic Mecca
       jewish_tribes: 0x6B4F8B, // muted purple — Khaybar tribes
       hawazin: 0xB8860B,       // dark goldenrod — Hawazin/Thaqif (Hunayn)
+      banu_hanifa: 0x8a4f1a,   // rusty ochre — Banu Hanifa of al-Yamamah
       byzantine: 0x6B0F12,     // imperial purple-red — Eastern Rome
       sasanian: 0x5D2E8C,      // royal purple — Sasanian Persia
       mongol: 0x4B5320,        // olive — Ilkhanate
@@ -313,6 +314,7 @@ import { battleOfQadisiyyah } from './qadisiyyah';
 import { battleOfMutah } from './mutah';
 import { expeditionOfTabuk } from './tabuk';
 import { battleOfAinJalut } from './ain-jalut';
+import { battleOfYamama } from './yamama';
 
 // Scenario registry
 export const scenarios: Record<string, BattleScenario> = {
@@ -326,6 +328,7 @@ export const scenarios: Record<string, BattleScenario> = {
   'battle-of-qadisiyyah': battleOfQadisiyyah,
   'battle-of-mutah': battleOfMutah,
   'battle-of-tabuk': expeditionOfTabuk,
+  'battle-of-yamama': battleOfYamama,
   'battle-of-ain-jalut': battleOfAinJalut,
 };
 
@@ -343,4 +346,4 @@ export function getScenario(id: string): BattleScenario | undefined {
   return scenarios[id];
 }
 
-export { battleOfBadr, battleOfUhud, battleOfKhandaq, battleOfKhaybar, conquestOfMecca, battleOfHunayn, battleOfYarmouk, battleOfQadisiyyah, battleOfMutah, expeditionOfTabuk, battleOfAinJalut };
+export { battleOfBadr, battleOfUhud, battleOfKhandaq, battleOfKhaybar, conquestOfMecca, battleOfHunayn, battleOfYarmouk, battleOfQadisiyyah, battleOfMutah, expeditionOfTabuk, battleOfYamama, battleOfAinJalut };

@@ -28,7 +28,7 @@ import geminiTTS, { releaseOwner } from "../services/ttsGemini";
 
 // List of battle scenarios that are actually implemented and available for replay.
 // Update this list as new scenarios are added to src/battlefield/scenarios/.
-const AVAILABLE_BATTLE_SCENARIOS = ['battle-of-badr', 'battle-of-uhud', 'battle-of-khandaq', 'battle-of-khaybar', 'conquest-of-mecca', 'battle-of-hunayn', 'battle-of-yarmouk', 'battle-of-qadisiyyah', 'battle-of-mutah', 'battle-of-tabuk', 'battle-of-ain-jalut'];
+const AVAILABLE_BATTLE_SCENARIOS = ['battle-of-badr', 'battle-of-uhud', 'battle-of-khandaq', 'battle-of-khaybar', 'conquest-of-mecca', 'battle-of-hunayn', 'battle-of-yarmouk', 'battle-of-qadisiyyah', 'battle-of-mutah', 'battle-of-tabuk', 'battle-of-yamama', 'battle-of-ain-jalut'];
 
 // Maps event battleId values to scenario registry IDs.
 // Most follow the pattern `battle-of-${battleId}`, but some have custom mappings.

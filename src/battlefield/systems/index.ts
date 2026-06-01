@@ -452,6 +452,11 @@ const FACTION_COLORS: Record<Faction, {
     banner: 0xb8860b, // dark goldenrod (Hawazin / Thaqif)
     dot: 0xdaa520,
   },
+  banu_hanifa: {
+    base: 0x8a4f1a, light: 0xc07a35, dark: 0x4a2810,
+    banner: 0x8a4f1a, // rusty ochre — Yamamah palm-grove tribesmen
+    dot: 0xc07a35,
+  },
   byzantine: {
     base: 0x6b0f12, light: 0x9c1c20, dark: 0x3f0809,
     banner: 0x6b0f12, // imperial purple-red labarum
@@ -1585,6 +1590,23 @@ export class RenderSystem {
         // Tribal arc (curved bow shape)
         g.arc(0, r * 0.4, r * 0.95, Math.PI, 0);
         g.stroke({ color: 0xffe27a, width: 1.6, alpha: 1 });
+        break;
+      }
+      case 'banu_hanifa': {
+        // Palm-tree silhouette — Yamamah's palm groves, the "Garden of Death"
+        // was a walled palm enclosure. Trunk + crown of fronds.
+        g.moveTo(0, r * 0.9);
+        g.lineTo(0, -r * 0.2);
+        g.stroke({ color: 0xc07a35, width: 1.6, alpha: 1 });
+        // Fronds — radiating curves at the top
+        for (let i = 0; i < 6; i++) {
+          const a = -Math.PI / 2 + (i - 2.5) * 0.45;
+          const fx = Math.cos(a) * r * 0.85;
+          const fy = -r * 0.2 + Math.sin(a) * r * 0.85;
+          g.moveTo(0, -r * 0.2);
+          g.lineTo(fx, fy);
+        }
+        g.stroke({ color: 0x6e8a2a, width: 1.4, alpha: 1 });
         break;
       }
       case 'jewish_tribes': {
