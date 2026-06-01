@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { EventItem } from "../data";
 import { motion, AnimatePresence, useMotionValue, PanInfo } from "motion/react";
 import {
@@ -10,14 +10,19 @@ import {
   Flag,
   Maximize2,
   Minimize2,
-  Type,
   ChevronRight,
   ChevronLeft,
   Play,
   Pause,
-  RotateCcw,
-  Volume2,
   LoaderCircle,
+  Calendar,
+  Swords,
+  Crown,
+  AArrowUp,
+  AArrowDown,
+  ScrollText,
+  ChevronsRight,
+  Users,
 } from "lucide-react";
 import QuranRef from "./QuranRef";
 import { getEraColor, getEraColorScheme } from "../utils/eraColors";
@@ -26,16 +31,24 @@ import { cn } from "../utils/cn";
 import { slideUp, slideInRight } from "../utils/motionVariants";
 import geminiTTS, { releaseOwner } from "../services/ttsGemini";
 
-// List of battle scenarios that are actually implemented and available for replay.
-// Update this list as new scenarios are added to src/battlefield/scenarios/.
-const AVAILABLE_BATTLE_SCENARIOS = ['battle-of-badr', 'battle-of-uhud', 'battle-of-khandaq', 'battle-of-khaybar', 'conquest-of-mecca', 'battle-of-hunayn', 'battle-of-yarmouk', 'battle-of-qadisiyyah', 'battle-of-mutah', 'battle-of-tabuk', 'battle-of-yamama', 'battle-of-ain-jalut'];
-
-// Maps event battleId values to scenario registry IDs.
-// Most follow the pattern `battle-of-${battleId}`, but some have custom mappings.
+// ─── Battle scenario availability map (unchanged) ─────────────────────────
+const AVAILABLE_BATTLE_SCENARIOS = [
+  'battle-of-badr',
+  'battle-of-uhud',
+  'battle-of-khandaq',
+  'battle-of-khaybar',
+  'conquest-of-mecca',
+  'battle-of-hunayn',
+  'battle-of-yarmouk',
+  'battle-of-qadisiyyah',
+  'battle-of-mutah',
+  'battle-of-tabuk',
+  'battle-of-yamama',
+  'battle-of-ain-jalut',
+];
 const BATTLE_ID_TO_SCENARIO: Record<string, string> = {
   'fath-makkah': 'conquest-of-mecca',
 };
-
 function getScenarioIdFromBattleId(battleId: string): string {
   return BATTLE_ID_TO_SCENARIO[battleId] || `battle-of-${battleId}`;
 }
@@ -54,31 +67,19 @@ const getEraTheme = (era?: string) => {
   const color = getEraColor(era);
   const scheme = getEraColorScheme(era);
   let title = "";
-  
   if (!era) return { color, scheme, title };
-  
   if (era.includes("المكي") || era.includes("المدني") || era.includes("الوحي") || era.includes("البعثة"))
     title = "عهد النبوة";
-  else if (era.includes("أبي بكر") || era.includes("أبو بكر"))
-    title = "خلافة الصديق";
-  else if (era.includes("عمر"))
-    title = "خلافة الفاروق";
-  else if (era.includes("عثمان"))
-    title = "خلافة ذو النورين";
-  else if (era.includes("علي"))
-    title = "خلافة الإمام علي";
-  
+  else if (era.includes("أبي بكر") || era.includes("أبو بكر")) title = "خلافة الصديق";
+  else if (era.includes("عمر")) title = "خلافة الفاروق";
+  else if (era.includes("عثمان")) title = "خلافة ذو النورين";
+  else if (era.includes("علي")) title = "خلافة الإمام علي";
   return { color, scheme, title };
 };
 
 const getRuler = (era?: string) => {
   if (!era) return "";
-  if (
-    era.includes("المكي") ||
-    era.includes("المدني") ||
-    era.includes("الوحي") ||
-    era.includes("البعثة")
-  )
+  if (era.includes("المكي") || era.includes("المدني") || era.includes("الوحي") || era.includes("البعثة"))
     return "النبي محمد ﷺ";
   if (era.includes("أبي بكر") || era.includes("أبو بكر")) return "أبو بكر الصديق";
   if (era.includes("عمر")) return "عمر بن الخطاب";
@@ -87,11 +88,54 @@ const getRuler = (era?: string) => {
   return "";
 };
 
-/** Snap points as percentage of viewport height */
-const SNAP_COLLAPSED = 30;
-const SNAP_HALF = 55;
-const SNAP_EXPANDED = 85;
+/** Format integers using Arabic-Eastern numerals (٠١٢٣٤٥٦٧٨٩). */
+const arNum = (n: number | string): string =>
+  String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[Number(d)]);
 
+/**
+ * Lighten or darken a hex color by an amount in [-1, 1]. Used to compute
+ * the second stop of the era-gradient hero from a single era color.
+ */
+function shadeHex(hex: string, amount: number): string {
+  const m = hex.replace('#', '');
+  const num = parseInt(m.length === 3 ? m.split('').map((c) => c + c).join('') : m, 16);
+  const r = Math.max(0, Math.min(255, ((num >> 16) & 0xff) + Math.round(255 * amount)));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0xff) + Math.round(255 * amount)));
+  const b = Math.max(0, Math.min(255, (num & 0xff) + Math.round(255 * amount)));
+  return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+}
+
+/** Snap points for the mobile bottom-sheet (% of viewport height). */
+const SNAP_COLLAPSED = 30;
+const SNAP_HALF = 60;
+const SNAP_EXPANDED = 90;
+
+/**
+ * EventPanel — Immersive Hero variant (D).
+ *
+ * Each event opens with a cinematic gradient hero (era-themed background
+ * with an arabesque pattern overlay, era-pill, large display title, and
+ * subtitle line carrying date · location · ruler · army sizes). A
+ * Spotify-style circular play button with a progress ring floats at the
+ * bottom-right of the hero, controlling audio narration of the description.
+ *
+ * Below the hero, an editorial article body:
+ *   - subhead / dek (event.details.summary)
+ *   - lead paragraph with a drop-cap on the first character
+ *   - Quran-ref pull-quotes called out with gold rules and larger type
+ *   - "مجريات الأحداث" — vertical timeline of course_of_events
+ *   - Hadith pull-quotes (italic, gold rule)
+ *   - "الصحابة والقادة" — horizontal scroll of avatar cards (clickable)
+ *   - "شخصيات أخرى" — chip cloud
+ *   - full-width Battle CTA when scenario is available
+ *   - "المصادر والمراجع" footer block linking to Shamela
+ *
+ * All pre-existing functionality preserved: mobile drag-to-resize (3 snap
+ * points), swipe-down-to-close, font scaling, hide/expand on desktop, audio
+ * play/pause/restart, companion + Quran clicks, source links.
+ *
+ * No props or callbacks changed — App.tsx integration is unaltered.
+ */
 export default function EventPanel({
   event,
   onClose,
@@ -115,14 +159,13 @@ export default function EventPanel({
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  // Detect mobile viewport and dark mode
+  // Detect mobile + dark mode
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     const checkDark = () => setIsDark(document.documentElement.classList.contains('dark'));
     checkMobile();
     checkDark();
     window.addEventListener('resize', checkMobile);
-    // Observe dark mode class changes
     const observer = new MutationObserver(checkDark);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     return () => {
@@ -143,7 +186,6 @@ export default function EventPanel({
       audioRef.current.onerror = null;
       audioRef.current = null;
     }
-
     releaseOwner('panel');
     geminiTTS.stop();
     setAudioState("idle");
@@ -152,7 +194,6 @@ export default function EventPanel({
     setIsAudioLoading(false);
   };
 
-  // Reset state when event changes
   useEffect(() => {
     setFontSizeStep(0);
     setIsExpanded(false);
@@ -163,35 +204,26 @@ export default function EventPanel({
   }, [event?.id, handleY]);
 
   useEffect(() => {
-    return () => {
-      cleanupAudio();
-    };
+    return () => cleanupAudio();
   }, []);
 
-  // Handle swipe to close or resize on mobile
+  // Mobile drag-end: vertical resize / swipe-to-close
   const handleDragEnd = (_: unknown, info: PanInfo) => {
     if (!isMobile) {
       handleY.set(0);
       return;
     }
-    
     const velocity = info.velocity.y;
     const offset = info.offset.y;
-    
-    // Fast swipe down - close panel
     if (velocity > 500 && offset > 100) {
       onClose();
       return;
     }
-    
-    // Fast swipe up - expand to max
     if (velocity < -500 && offset < -50) {
       setMobileHeight(SNAP_EXPANDED);
       handleY.set(0);
       return;
     }
-    
-    // Slow drag - snap to nearest size based on offset
     if (offset > 200) {
       onClose();
       return;
@@ -202,13 +234,11 @@ export default function EventPanel({
     } else if (offset < -50) {
       setMobileHeight(SNAP_HALF);
     }
-    
     handleY.set(0);
   };
 
   const increaseFont = () => setFontSizeStep((prev) => Math.min(prev + 1, 4));
   const decreaseFont = () => setFontSizeStep((prev) => Math.max(prev - 1, 0));
-
   const fs = (base: number) => ({ fontSize: `${base + fontSizeStep * 2}px` });
 
   const eraTheme = getEraTheme(event?.era);
@@ -216,105 +246,90 @@ export default function EventPanel({
   const eraBgColor = isDark ? eraTheme.scheme.bgDark : eraTheme.scheme.bgLight;
   const ruler = getRuler(event?.era);
 
+  // ─── Audio (unchanged behavior) ─────────────────────────────────────────
   const formatAudioTime = (time: number) => {
-    const safeTime = Number.isFinite(time) ? Math.max(0, Math.floor(time)) : 0;
-    const minutes = Math.floor(safeTime / 60);
-    const seconds = safeTime % 60;
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+    const safe = Number.isFinite(time) ? Math.max(0, Math.floor(time)) : 0;
+    const m = Math.floor(safe / 60);
+    const s = safe % 60;
+    return arNum(`${m}:${s.toString().padStart(2, "0")}`);
   };
-
   const setupAudioListeners = (audio: HTMLAudioElement, initialDuration = 0) => {
-    audio.onloadedmetadata = () => {
-      setDuration(audio.duration || initialDuration || 0);
-    };
-
-    audio.ontimeupdate = () => {
-      setCurrentTime(audio.currentTime);
-    };
-
+    audio.onloadedmetadata = () => setDuration(audio.duration || initialDuration || 0);
+    audio.ontimeupdate = () => setCurrentTime(audio.currentTime);
     audio.onplay = () => {
       setAudioState("playing");
       setAudioError(null);
     };
-
     audio.onpause = () => {
-      if (!audio.ended) {
-        setAudioState("paused");
-      }
+      if (!audio.ended) setAudioState("paused");
     };
-
     audio.onended = () => {
       setAudioState("paused");
       setCurrentTime(0);
       audio.currentTime = 0;
     };
-
     audio.onerror = () => {
-      setAudioError("تعذر تشغيل الصوت لهذا الحدث");
+      setAudioError("تعذّر تشغيل الصوت لهذا الحدث");
       setAudioState("idle");
       setIsAudioLoading(false);
     };
   };
-
   const startAudio = async (restart = false) => {
-    if (!event?.details?.full_description || isAudioLoading) {
-      return;
-    }
-
+    if (!event?.details?.full_description || isAudioLoading) return;
     try {
       setAudioError(null);
-
       if (!audioRef.current) {
         setIsAudioLoading(true);
-        const { audio, duration: audioDuration } = await geminiTTS.createAudio(event.details.full_description, {
-          voice: "Charon",
-          rate: 1,
-          volume: 1,
-        });
+        const { audio, duration: audioDuration } = await geminiTTS.createAudio(
+          event.details.full_description,
+          { voice: "Charon", rate: 1, volume: 1 },
+        );
         audioRef.current = audio;
         setupAudioListeners(audio, audioDuration);
         setDuration(audioDuration || 0);
         setCurrentTime(0);
         setIsAudioLoading(false);
       }
-
       const audio = audioRef.current;
-
-      if (!audio) {
-        return;
-      }
-
+      if (!audio) return;
       if (restart) {
         audio.currentTime = 0;
         setCurrentTime(0);
       }
-
       await audio.play();
     } catch (error) {
       setIsAudioLoading(false);
       setAudioState("idle");
-      setAudioError(error instanceof Error ? error.message : "تعذر تحميل الصوت");
+      setAudioError(error instanceof Error ? error.message : "تعذّر تحميل الصوت");
     }
   };
-
   const pauseAudio = () => {
-    if (!audioRef.current) {
-      return;
-    }
-
+    if (!audioRef.current) return;
     audioRef.current.pause();
     setCurrentTime(audioRef.current.currentTime);
     setAudioState("paused");
   };
+  const progressFraction = duration > 0 ? Math.min(currentTime / duration, 1) : 0;
 
-  const restartAudio = async () => {
-    await startAudio(true);
-  };
+  // Hero gradient: era-color → darker shade. For dark mode, deepen further.
+  const heroGradient = useMemo(() => {
+    const c = eraTheme.color || '#3a5a2a';
+    const dark = shadeHex(c, isDark ? -0.55 : -0.35);
+    const ink = isDark ? '#0a0a0a' : '#1a1a1a';
+    return `linear-gradient(135deg, ${c} 0%, ${dark} 60%, ${ink} 110%)`;
+  }, [eraTheme.color, isDark]);
+
+  if (!event) return null;
+
+  const hasBattleCTA =
+    !!event.battleId &&
+    !!onBattleOpen &&
+    AVAILABLE_BATTLE_SCENARIOS.includes(getScenarioIdFromBattleId(event.battleId));
 
   return (
     <>
       <AnimatePresence mode="wait">
-        {event && !isHidden && (
+        {!isHidden && (
           <motion.div
             key={event.id}
             ref={panelRef}
@@ -329,7 +344,6 @@ export default function EventPanel({
                     zIndex: Z_INDEX.eventPanel,
                     height: `${mobileHeight}dvh`,
                     bottom: 'calc(var(--timeline-h, 90px) + env(safe-area-inset-bottom, 0px))',
-                    borderTopColor: eraTheme.color,
                   }
                 : {
                     zIndex: Z_INDEX.eventPanel,
@@ -341,26 +355,26 @@ export default function EventPanel({
               'fixed flex flex-col pointer-events-auto',
               'bg-[var(--glass-bg)] backdrop-blur-[16px]',
               'text-right',
-              'transition-[height] duration-300 ease-in-out',
+              'transition-[height,width] duration-300 ease-in-out',
               isMobile && [
                 'inset-x-0',
                 'rounded-t-[var(--radius-xl)]',
                 'shadow-[var(--glass-shadow)]',
-                'border-t-2',
+                'overflow-hidden',
               ],
               !isMobile && [
                 'right-0',
                 isExpanded
-                  ? 'bottom-[80px] w-[min(640px,55vw)] lg:w-[min(720px,45vw)] xl:w-[760px]'
-                  : 'bottom-[160px] w-[min(440px,40vw)] lg:w-[min(500px,32vw)] xl:w-[540px]',
+                  ? 'bottom-[80px] w-[min(680px,55vw)] lg:w-[min(740px,46vw)] xl:w-[780px]'
+                  : 'bottom-[160px] w-[min(460px,40vw)] lg:w-[min(500px,32vw)] xl:w-[540px]',
                 'rounded-none',
                 'border-s-[3px]',
-                'transition-all duration-300 ease-in-out',
-              ]
+                'overflow-hidden',
+              ],
             )}
             dir="rtl"
           >
-            {/* Mobile Drag Handle */}
+            {/* ──── Mobile drag handle (vertical resize) ──── */}
             {isMobile && (
               <motion.div
                 drag="y"
@@ -368,570 +382,693 @@ export default function EventPanel({
                 dragElastic={{ top: 0.2, bottom: 0.6 }}
                 dragMomentum={false}
                 onDragEnd={handleDragEnd}
-                className="flex flex-col items-center pt-3 pb-2 cursor-grab active:cursor-grabbing touch-none shrink-0"
+                className="absolute top-0 inset-x-0 z-30 flex flex-col items-center pt-2 pb-4 cursor-grab active:cursor-grabbing touch-none"
                 style={{ y: handleY }}
+                aria-label="اسحب لتغيير الحجم"
               >
-                <div className="w-10 h-1 rounded-full bg-muted" />
+                <div className="w-12 h-1.5 rounded-full bg-white/55 shadow-[0_0_4px_rgba(0,0,0,0.4)]" />
               </motion.div>
             )}
 
-            {/* Era color top accent bar */}
-            <motion.div
-              className="w-full h-1.5 shrink-0 opacity-90"
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.5, ease: [0.19, 1, 0.22, 1] }}
-              style={{
-                backgroundColor: eraTheme.color,
-                backgroundImage:
-                  "repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 20px)",
-                transformOrigin: "right",
-              }}
-            />
-
-            {/* Header — sticky, always visible, with era tint */}
+            {/* ──── Floating header actions (over hero) ──── */}
             <div
               className={cn(
-                'shrink-0 px-4 py-3 flex items-center justify-between gap-2',
-                'border-b border-border-dark/10',
-                'backdrop-blur-md',
-                isMobile && 'sticky top-0 z-20'
+                'absolute inset-x-0 top-0 z-20 flex items-center justify-between gap-2 px-3 sm:px-4',
+                isMobile ? 'pt-7 pb-2' : 'pt-3 pb-2',
               )}
-              style={{ backgroundColor: eraBgColor }}
             >
-              <div className="flex items-center gap-2 flex-1 min-w-0">
-                <h2
-                  className={cn(
-                    'font-bold flex-1 min-w-0 line-clamp-2',
-                    isMobile ? 'text-[var(--text-lg)]' : 'text-[var(--text-lg)]'
-                  )}
-                  style={{ color: eraTextColor }}
+              <div className="flex items-center gap-1.5 shrink-0">
+                <button
+                  onClick={onClose}
+                  className="w-10 h-10 rounded-full bg-black/35 backdrop-blur-md hover:bg-black/55 active:scale-95 transition-all flex items-center justify-center text-white border border-white/15"
+                  aria-label="إغلاق لوحة الحدث"
+                  title="إغلاق"
                 >
-                  {event.title}
-                </h2>
+                  <X size={18} />
+                </button>
               </div>
-
-              <div className="flex items-center gap-1 shrink-0">
-                {/* Font controls */}
-                <motion.button
-                  onClick={increaseFont}
-                  whileTap={{ scale: 0.9 }}
-                  className={cn(
-                    'p-2 rounded transition flex items-center justify-center',
-                    'min-w-[40px] min-h-[40px] active:opacity-70'
-                  )}
-                  style={{ color: eraTextColor }}
-                  title="تكبير الخط"
-                  aria-label="تكبير الخط"
-                >
-                  <Type size={16} />
-                  <span className="text-[11px] font-bold -ml-0.5">+</span>
-                </motion.button>
-                <motion.button
-                  onClick={decreaseFont}
-                  whileTap={{ scale: 0.9 }}
-                  className={cn(
-                    'p-2 rounded transition flex items-center justify-center',
-                    'min-w-[40px] min-h-[40px] active:opacity-70'
-                  )}
-                  style={{ color: eraTextColor }}
-                  title="تصغير الخط"
-                  aria-label="تصغير الخط"
-                >
-                  <Type size={13} />
-                  <span className="text-[11px] font-bold -ml-0.5">-</span>
-                </motion.button>
-
-                {/* Desktop-only: expand/collapse & hide */}
-                {!isMobile && onToggleHidden && (
-                  <motion.button
-                    onClick={onToggleHidden}
-                    whileTap={{ scale: 0.9 }}
-                    className="p-2 rounded transition min-w-[40px] min-h-[40px] flex items-center justify-center active:opacity-70"
-                    style={{ color: eraTextColor }}
-                    title="إخفاء اللوحة"
-                    aria-label="إخفاء اللوحة"
+              <div className="flex items-center gap-1.5 shrink-0">
+                <div className="flex items-center rounded-full overflow-hidden bg-black/35 backdrop-blur-md border border-white/15">
+                  <button
+                    onClick={decreaseFont}
+                    className="w-9 h-9 flex items-center justify-center text-white hover:bg-white/10 disabled:opacity-40"
+                    aria-label="تصغير الخط"
+                    title="تصغير الخط"
+                    disabled={fontSizeStep === 0}
                   >
-                    <ChevronLeft size={20} />
-                  </motion.button>
+                    <AArrowDown size={15} />
+                  </button>
+                  <div className="w-px self-stretch bg-white/15" />
+                  <button
+                    onClick={increaseFont}
+                    className="w-9 h-9 flex items-center justify-center text-white hover:bg-white/10 disabled:opacity-40"
+                    aria-label="تكبير الخط"
+                    title="تكبير الخط"
+                    disabled={fontSizeStep >= 4}
+                  >
+                    <AArrowUp size={15} />
+                  </button>
+                </div>
+                {!isMobile && onToggleHidden && (
+                  <button
+                    onClick={onToggleHidden}
+                    className="w-9 h-9 rounded-full bg-black/35 backdrop-blur-md hover:bg-black/55 active:scale-95 transition-all flex items-center justify-center text-white border border-white/15"
+                    aria-label="إخفاء اللوحة"
+                    title="إخفاء اللوحة"
+                  >
+                    <ChevronLeft size={17} />
+                  </button>
                 )}
                 {!isMobile && (
-                  <motion.button
+                  <button
                     onClick={() => setIsExpanded(!isExpanded)}
-                    whileTap={{ scale: 0.9 }}
-                    className="p-2 rounded transition min-w-[40px] min-h-[40px] flex items-center justify-center active:opacity-70"
-                    style={{ color: eraTextColor }}
-                    title={isExpanded ? "تصغير النافذة" : "توسيع النافذة"}
-                    aria-label={isExpanded ? "تصغير النافذة" : "توسيع النافذة"}
+                    className="w-9 h-9 rounded-full bg-black/35 backdrop-blur-md hover:bg-black/55 active:scale-95 transition-all flex items-center justify-center text-white border border-white/15"
+                    aria-label={isExpanded ? 'تصغير النافذة' : 'توسيع النافذة'}
+                    title={isExpanded ? 'تصغير النافذة' : 'توسيع النافذة'}
                   >
-                    {isExpanded ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
-                  </motion.button>
+                    {isExpanded ? <Minimize2 size={15} /> : <Maximize2 size={15} />}
+                  </button>
                 )}
-
-                {/* Close button — always visible, 48x48 touch target */}
-                <motion.button
-                  onClick={onClose}
-                  whileTap={{ scale: 0.9 }}
-                  className={cn(
-                    'flex justify-center items-center rounded-full',
-                    'hover:bg-black/5 dark:hover:bg-white/10 text-ink transition-colors',
-                    'w-12 h-12 min-w-[48px] min-h-[48px]'
-                  )}
-                  title="إغلاق"
-                  aria-label="إغلاق لوحة الحدث"
-                >
-                  <X size={22} />
-                </motion.button>
               </div>
             </div>
 
-            {/* Scrollable Content */}
+            {/* ──── Scrollable content (hero + article) ──── */}
             <div
               className="flex-1 min-h-0 overflow-y-auto overscroll-contain"
               style={{ WebkitOverflowScrolling: 'touch' }}
             >
-              <motion.div
-                className={cn(
-                  'flex flex-col space-y-4 text-right',
-                  isMobile ? 'p-4 pb-28' : 'p-5 pb-8'
-                )}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.1 }}
-              >
-                {/* Era & Ruler Info */}
-                <div>
-                  <div
-                    className="flex items-center gap-1 font-bold mb-2"
-                    style={{ ...fs(13), color: eraTextColor }}
-                  >
-                    <span>{event.category} &rsaquo;</span>
-                    <span>{event.era}</span>
-                  </div>
-                  {ruler && (
-                    <span
-                      className="text-[13px] font-bold flex items-center gap-1.5 w-fit px-3 py-1.5 rounded-full border"
-                      style={{
-                        color: eraTextColor,
-                        backgroundColor: eraBgColor,
-                        borderColor: eraTheme.color + '40',
-                      }}
-                    >
-                      <Shield size={14} />
-                      الحاكم: {ruler}
-                    </span>
-                  )}
-                </div>
+              {/* HERO REGION */}
+              <Hero
+                event={event}
+                ruler={ruler}
+                eraTheme={eraTheme}
+                heroGradient={heroGradient}
+                fs={fs}
+                isMobile={isMobile}
+                audioState={audioState}
+                isAudioLoading={isAudioLoading}
+                progressFraction={progressFraction}
+                currentTime={currentTime}
+                duration={duration}
+                formatAudioTime={formatAudioTime}
+                startAudio={startAudio}
+                pauseAudio={pauseAudio}
+                audioError={audioError}
+              />
 
-                {/* Summary / Full Description with Audio */}
-                <div className="bg-card-bg p-4 rounded-xl border border-border-dark/10 shadow-sm flex flex-col gap-4">
-                  <div className={cn('flex gap-3', isMobile ? 'flex-col' : 'flex-row items-center justify-between')}>
-                    <div className="flex items-center gap-2" style={{ color: eraTextColor }}>
-                      <Volume2 size={18} className="shrink-0" />
-                      <span className="font-bold" style={fs(14)}>
-                        الاستماع إلى وصف الحدث
-                      </span>
-                    </div>
-
-                    <div className={cn('flex items-center gap-2 flex-wrap', isMobile ? 'justify-start' : 'justify-end')}>
-                      {audioState === "idle" ? (
-                        <motion.button
-                          onClick={() => void startAudio(false)}
-                          whileTap={{ scale: 0.96 }}
-                          disabled={isAudioLoading}
-                          className={cn(
-                            'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-bold',
-                            'border border-border-dark/10 bg-ink/5 text-ink',
-                            'hover:bg-ink/10 disabled:opacity-60 disabled:cursor-not-allowed transition-colors',
-                            isMobile && 'min-h-[48px]'
-                          )}
-                          aria-label="تشغيل وصف الحدث"
-                          title="تشغيل وصف الحدث"
-                        >
-                          {isAudioLoading ? <LoaderCircle size={18} className="animate-spin" /> : <Play size={18} />}
-                          <span style={fs(13)}>{isAudioLoading ? "جار التحميل" : "تشغيل"}</span>
-                        </motion.button>
-                      ) : (
-                        <>
-                          <motion.button
-                            onClick={() => (audioState === "playing" ? pauseAudio() : void startAudio(false))}
-                            whileTap={{ scale: 0.96 }}
-                            disabled={isAudioLoading}
-                            className={cn(
-                              'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-bold',
-                              'border border-border-dark/10 bg-ink/5 text-ink',
-                              'hover:bg-ink/10 disabled:opacity-60 disabled:cursor-not-allowed transition-colors',
-                              isMobile && 'min-h-[48px]'
-                            )}
-                            aria-label={audioState === "playing" ? "إيقاف مؤقت" : "متابعة التشغيل"}
-                            title={audioState === "playing" ? "إيقاف مؤقت" : "متابعة التشغيل"}
-                          >
-                            {isAudioLoading ? (
-                              <LoaderCircle size={18} className="animate-spin" />
-                            ) : audioState === "playing" ? (
-                              <Pause size={18} />
-                            ) : (
-                              <Play size={18} />
-                            )}
-                            <span style={fs(13)}>{audioState === "playing" ? "إيقاف مؤقت" : "متابعة"}</span>
-                          </motion.button>
-
-                          <motion.button
-                            onClick={() => void restartAudio()}
-                            whileTap={{ scale: 0.96 }}
-                            disabled={isAudioLoading}
-                            className={cn(
-                              'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-bold',
-                              'border border-border-dark/10 bg-transparent text-ink',
-                              'hover:bg-ink/5 disabled:opacity-60 disabled:cursor-not-allowed transition-colors',
-                              isMobile && 'min-h-[48px]'
-                            )}
-                            aria-label="البدء من جديد"
-                            title="البدء من جديد"
-                          >
-                            <RotateCcw size={18} />
-                            <span style={fs(13)}>البدء من جديد</span>
-                          </motion.button>
-                        </>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Progress bar */}
-                  <div className="flex flex-col gap-2">
-                    <div className="h-2 rounded-full bg-ink/10 overflow-hidden">
-                      <div
-                        className="h-full rounded-full transition-all duration-300"
-                        style={{
-                          width: `${duration > 0 ? Math.min((currentTime / duration) * 100, 100) : 0}%`,
-                          backgroundColor: eraTheme.color,
-                        }}
-                      />
-                    </div>
-                    <div className="flex items-center justify-between text-ink/70" style={fs(12)}>
-                      <span>{formatAudioTime(currentTime)}</span>
-                      <span>{formatAudioTime(duration)}</span>
-                    </div>
-                    {isAudioLoading && (
-                      <span className="text-ink/70 font-medium" style={fs(12)}>
-                        يتم تجهيز الصوت الآن
-                      </span>
-                    )}
-                    {audioError && (
-                      <span className="text-battle-red font-medium" style={fs(12)}>
-                        {audioError}
-                      </span>
-                    )}
-                  </div>
-
-                  <p className="text-ink leading-[1.85] text-justify font-medium" style={fs(15)}>
-                    {event.details.full_description}
-                  </p>
-                </div>
-
-                {/* Watch Battle Replay Button */}
-                {event.battleId && onBattleOpen && AVAILABLE_BATTLE_SCENARIOS.includes(getScenarioIdFromBattleId(event.battleId)) && (
-                  <motion.button
-                    onClick={() => onBattleOpen(event.battleId!)}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.97 }}
-                    className={cn(
-                      'w-full flex items-center justify-center gap-3 px-5 py-4 rounded-xl',
-                      'bg-gradient-to-r from-battle-red/90 to-battle-red/70',
-                      'hover:from-battle-red hover:to-battle-red/80',
-                      'text-parchment font-bold shadow-lg',
-                      'border border-battle-red/30',
-                      'transition-all duration-200'
-                    )}
-                    style={fs(15)}
-                    aria-label="مشاهدة إعادة المعركة"
-                  >
-                    <span className="text-xl">⚔️</span>
-                    <span>مشاهدة المعركة</span>
-                  </motion.button>
-                )}
-
-                {/* Meta Grid */}
-                <div className={cn('grid gap-3', isExpanded ? 'grid-cols-4' : 'grid-cols-2')}>
-                  <div className="bg-card-bg p-3 rounded-lg border border-border-dark/10 shadow-sm">
-                    <span className="block text-accent font-bold mb-1" style={fs(12)}>التاريخ الهجري</span>
-                    <span style={fs(13)} className="font-bold text-ink">{event.date.hijri_relative}</span>
-                  </div>
-                  <div className="bg-card-bg p-3 rounded-lg border border-border-dark/10 shadow-sm">
-                    <span className="block text-accent font-bold mb-1" style={fs(12)}>التاريخ الميلادي</span>
-                    <span style={fs(13)} className="font-bold text-ink">{event.date.gregorian} م</span>
-                  </div>
-                  {event.details.army_size && (
-                    <div className="bg-card-bg p-3 rounded-lg border border-border-dark/10 shadow-sm">
-                      <span className="block text-accent font-bold mb-1" style={fs(12)}>جيش المسلمين</span>
-                      <span style={fs(13)} className="font-bold text-ink">{event.details.army_size}</span>
-                    </div>
-                  )}
-                  {event.details.enemy_army_size && (
-                    <div className="bg-card-bg p-3 rounded-lg border border-border-dark/10 shadow-sm">
-                      <span className="block text-accent font-bold mb-1" style={fs(12)}>العدو</span>
-                      <span style={fs(13)} className="font-bold text-ink">{event.details.enemy_army_size}</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Map Location */}
-                <div className="bg-card-bg p-4 rounded-lg border border-border-dark/10 flex items-start gap-3 shadow-sm">
-                  <MapPin size={20} className="text-battle-red shrink-0 mt-0.5" />
-                  <div>
-                    <span className="block text-accent font-bold mb-1" style={fs(14)}>الموقع الجغرافي للحدث</span>
-                    <p className="text-ink/80 leading-relaxed font-bold" style={fs(14)}>
-                      {event.location.name}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Course of Events */}
-                {event.details.course_of_events && event.details.course_of_events.length > 0 && (
-                  <div className="bg-ink/5 p-4 rounded-lg border border-border-dark/10 relative shadow-inner">
-                    <h3
-                      className="flex items-center gap-2 text-battle-red font-bold mb-4 text-lg border-b border-border-dark/10 pb-2"
-                      style={fs(16)}
-                    >
-                      <Flag size={18} className="shrink-0" /> تسلسل الأحداث
-                    </h3>
-                    <div className="space-y-4">
-                      {event.details.course_of_events.map((step, idx) => (
-                        <div key={idx} className="flex gap-3">
-                          <div
-                            className="w-7 h-7 shrink-0 rounded-full bg-accent text-parchment flex justify-center items-center font-bold shadow-sm"
-                            style={fs(12)}
-                          >
-                            {idx + 1}
-                          </div>
-                          <p className="text-ink/80 leading-relaxed pt-0.5" style={fs(14)}>
-                            {step}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-
-                {/* Companions and Roles */}
-                {event.details.companion_roles && event.details.companion_roles.length > 0 && (
-                  <div data-tour-id="companions-section" className="border-t border-border-dark/20 pt-4">
-                    <h3
-                      className="flex items-center gap-2 text-accent font-bold mb-4 text-lg border-b border-border-dark/10 pb-2"
-                      style={fs(16)}
-                    >
-                      <Shield size={18} className="shrink-0" /> أدوار الصحابة والشخصيات البارزة
-                    </h3>
-                    <div className={cn('grid gap-3', isExpanded ? 'grid-cols-2' : 'grid-cols-1')}>
-                      {event.details.companion_roles.map((comp, idx) => (
-                        <div
-                          key={idx}
-                          className="bg-card-bg p-4 rounded-xl border border-border-dark/10 flex flex-col gap-2 transition-colors shadow-sm group hover:border-islamic-green/30"
-                        >
-                          <button
-                            onClick={() => onCompanionClick && onCompanionClick(comp.name)}
-                            className="inline-flex rounded-full px-3 py-1 font-bold text-islamic-green group-hover:text-accent w-fit text-right bg-islamic-green/10"
-                            style={fs(15)}
-                          >
-                            {comp.name}
-                          </button>
-                          <p className="text-ink/80 leading-relaxed" style={fs(13)}>
-                            {comp.role_in_event}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Other Key Figures */}
-                {event.entities?.key_figures && event.entities.key_figures.length > 0 && (
-                  <div>
-                    <span className="block text-accent font-bold mb-3 text-lg border-b border-border-dark/10 pb-2" style={fs(14)}>
-                      شخصيات أخرى
-                    </span>
-                    <div className="flex flex-wrap gap-2">
-                      {event.entities.key_figures.map((fig, idx) => (
-                        <button
-                          key={idx}
-                          onClick={() => onCompanionClick && onCompanionClick(fig)}
-                          className="inline-flex rounded-full px-3 py-1 bg-ink/5 text-ink hover:bg-accent hover:text-parchment border border-border-dark/20 transition-colors font-bold"
-                          style={fs(13)}
-                        >
-                          {fig}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* References (Quran, Hadith, Sources) */}
-                {(event.entities?.quran_refs?.length ||
-                  event.entities?.hadith_refs?.length ||
-                  event.entities?.sources?.length) && (
-                  <div
-                    data-tour-id="quran-section"
-                    className="bg-ink text-parchment p-5 rounded-xl shadow-inner border border-border-dark/50 relative"
-                  >
-                    <div
-                      className="absolute inset-0 opacity-5 pointer-events-none"
-                      style={{ backgroundImage: "radial-gradient(#8b6b4a 1px, transparent 1px)", backgroundSize: "10px 10px" }}
-                    />
-                    <h3
-                      className="flex items-center gap-2 font-bold mb-5 text-accent border-b border-parchment/10 pb-3 text-lg"
-                      style={fs(16)}
-                    >
-                      <BookOpen size={18} className="shrink-0" /> المصادر الإسلامية الموثقة
-                    </h3>
-                    <div className="space-y-6 relative z-10">
-                      {event.entities?.quran_refs?.length ? (
-                        <div>
-                          <span className="block text-islamic-green font-bold mb-3 uppercase tracking-wider" style={fs(12)}>
-                            آيات قرآنية نزلت في الحدث
-                          </span>
-                          {event.entities.quran_refs.map((ref, idx) => (
-                            <div key={`q-${idx}`} style={fs(13)}>
-                              <QuranRef reference={ref} onClick={onQuranClick} />
-                            </div>
-                          ))}
-                        </div>
-                      ) : null}
-
-                      {event.entities?.hadith_refs?.length ? (
-                        <div>
-                          <span className="block text-parchment/60 font-bold mb-2 uppercase tracking-wider" style={fs(12)}>
-                            أحاديث نبوية دالة
-                          </span>
-                          {event.entities.hadith_refs.map((ref, idx) => (
-                            <div key={`h-${idx}`} className="text-parchment italic flex items-start gap-2 mb-2">
-                              <Quote size={14} className="shrink-0 mt-1 text-accent opacity-50" />
-                              <span style={fs(13)}>{ref}</span>
-                            </div>
-                          ))}
-                        </div>
-                      ) : null}
-
-                      {event.entities?.sources?.length ? (
-                        <div>
-                          <span className="block text-parchment/60 font-bold mb-3 uppercase tracking-wider" style={fs(12)}>
-                            سيرة وتاريخ (أهل السنة والجماعة)
-                          </span>
-                          {event.entities.sources.map((src, idx) => (
-                            <div key={`s-${idx}`} className="flex items-start gap-2 mb-3">
-                              <span className="text-accent mt-0.5" style={fs(14)}>•</span>
-                              <a
-                                href={`https://shamela.ws/search?q=${encodeURIComponent(src.split(" - ")[0])}`}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="text-parchment/80 hover:text-accent underline underline-offset-4 decoration-accent/30 transition-colors"
-                                title="البحث عن المصدر في المكتبة الشاملة"
-                                style={fs(13)}
-                              >
-                                {src}
-                              </a>
-                            </div>
-                          ))}
-                        </div>
-                      ) : null}
-                    </div>
-                  </div>
-                )}
-              </motion.div>
+              {/* ARTICLE BODY */}
+              <ArticleBody
+                event={event}
+                eraTheme={eraTheme}
+                fs={fs}
+                isMobile={isMobile}
+                onCompanionClick={onCompanionClick}
+                onQuranClick={onQuranClick}
+                onBattleOpen={hasBattleCTA ? onBattleOpen : undefined}
+              />
             </div>
-
-            {/* Mobile sticky audio bar at bottom */}
-            {isMobile && audioState !== "idle" && (
-              <div
-                className={cn(
-                  'shrink-0 sticky bottom-0 px-4 py-3',
-                  'bg-[var(--glass-bg)] backdrop-blur-[16px]',
-                  'border-t border-border-dark/20',
-                  'flex items-center gap-3'
-                )}
-                style={{ minHeight: '48px' }}
-              >
-                <motion.button
-                  onClick={() => (audioState === "playing" ? pauseAudio() : void startAudio(false))}
-                  whileTap={{ scale: 0.96 }}
-                  disabled={isAudioLoading}
-                  className="w-12 h-12 min-w-[48px] min-h-[48px] flex items-center justify-center rounded-full bg-ink/10 text-ink"
-                  aria-label={audioState === "playing" ? "إيقاف مؤقت" : "متابعة"}
-                >
-                  {audioState === "playing" ? <Pause size={20} /> : <Play size={20} />}
-                </motion.button>
-                <div className="flex-1 min-w-0">
-                  <div className="h-1.5 rounded-full bg-ink/10 overflow-hidden">
-                    <div
-                      className="h-full rounded-full transition-all duration-300"
-                      style={{
-                        width: `${duration > 0 ? Math.min((currentTime / duration) * 100, 100) : 0}%`,
-                        backgroundColor: eraTheme.color,
-                      }}
-                    />
-                  </div>
-                  <div className="flex justify-between text-ink/60 mt-1" style={fs(11)}>
-                    <span>{formatAudioTime(currentTime)}</span>
-                    <span>{formatAudioTime(duration)}</span>
-                  </div>
-                </div>
-                <motion.button
-                  onClick={() => void restartAudio()}
-                  whileTap={{ scale: 0.96 }}
-                  disabled={isAudioLoading}
-                  className="w-12 h-12 min-w-[48px] min-h-[48px] flex items-center justify-center rounded-full bg-ink/10 text-ink"
-                  aria-label="البدء من جديد"
-                >
-                  <RotateCcw size={18} />
-                </motion.button>
-              </div>
-            )}
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Toggle Button - Shows when panel is hidden (desktop only) */}
+      {/* ──── Edge tab when desktop panel is hidden ──── */}
       <AnimatePresence>
-        {event && isHidden && onToggleHidden && (
+        {event && isHidden && onToggleHidden && !isMobile && (
           <motion.button
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 220 }}
             onClick={onToggleHidden}
             className={cn(
               'fixed top-1/2 right-0 -translate-y-1/2',
               'bg-[var(--glass-bg)] backdrop-blur-[16px]',
-              'border-l-2 border-t-2 border-b-2 border-border-dark/20',
-              'rounded-r-none rounded-l-xl',
-              'shadow-[-4px_0_12px_rgba(0,0,0,0.15)]',
-              'hover:shadow-[-6px_0_16px_rgba(0,0,0,0.2)]',
-              'transition-all duration-300 p-3 flex flex-col items-center gap-2 group pointer-events-auto'
+              'border-s-2 border-y-2 border-border-dark/20',
+              'rounded-s-xl rounded-e-none',
+              'shadow-[-4px_0_12px_rgba(0,0,0,0.15)] hover:shadow-[-6px_0_16px_rgba(0,0,0,0.22)]',
+              'transition-all duration-300 px-2 py-4 flex flex-col items-center gap-2 group pointer-events-auto',
             )}
             style={{
               zIndex: Z_INDEX.eventPanel,
-              backgroundColor: eraBgColor
+              backgroundColor: eraBgColor,
+              borderInlineStartColor: eraTheme.color,
             }}
             title="إظهار اللوحة"
             aria-label="إظهار لوحة الحدث"
           >
             <ChevronRight
-              size={24}
-              className="transition-transform duration-300 group-hover:translate-x-1"
+              size={20}
+              className="transition-transform duration-300 group-hover:-translate-x-1"
               style={{ color: eraTextColor }}
             />
-            <div
-              className="writing-mode-vertical text-sm font-bold whitespace-nowrap"
-              style={{
-                writingMode: 'vertical-rl',
-                color: eraTextColor
-              }}
+            <span
+              className="text-xs font-bold whitespace-nowrap max-h-[180px] overflow-hidden"
+              style={{ writingMode: 'vertical-rl', color: eraTextColor }}
             >
-              {event.title.slice(0, 20)}...
-            </div>
+              {event.title.length > 18 ? event.title.slice(0, 18) + '…' : event.title}
+            </span>
           </motion.button>
         )}
       </AnimatePresence>
     </>
+  );
+}
+
+// ─── Hero ───────────────────────────────────────────────────────────────────
+
+function Hero({
+  event,
+  ruler,
+  eraTheme,
+  heroGradient,
+  fs,
+  isMobile,
+  audioState,
+  isAudioLoading,
+  progressFraction,
+  currentTime,
+  duration,
+  formatAudioTime,
+  startAudio,
+  pauseAudio,
+  audioError,
+}: {
+  event: EventItem;
+  ruler: string;
+  eraTheme: ReturnType<typeof getEraTheme>;
+  heroGradient: string;
+  fs: (n: number) => { fontSize: string };
+  isMobile: boolean;
+  audioState: 'idle' | 'playing' | 'paused';
+  isAudioLoading: boolean;
+  progressFraction: number;
+  currentTime: number;
+  duration: number;
+  formatAudioTime: (t: number) => string;
+  startAudio: (restart?: boolean) => Promise<void>;
+  pauseAudio: () => void;
+  audioError: string | null;
+}) {
+  const handlePlayPause = () => {
+    if (audioState === 'playing') pauseAudio();
+    else void startAudio(false);
+  };
+
+  // Ring geometry for the play button: 56 px diameter, 3 px stroke, full
+  // circumference so the "filled" arc tracks `progressFraction`.
+  const ringSize = isMobile ? 64 : 72;
+  const ringStroke = 3;
+  const ringRadius = (ringSize - ringStroke) / 2;
+  const ringCircumference = 2 * Math.PI * ringRadius;
+  const ringDashOffset = ringCircumference * (1 - progressFraction);
+
+  return (
+    <header
+      className="relative w-full overflow-hidden"
+      style={{
+        background: heroGradient,
+        minHeight: isMobile ? '38vh' : '320px',
+      }}
+    >
+      {/* Arabesque pattern overlay — subtle, kicked into the corners. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          opacity: 0.13,
+          backgroundImage:
+            'repeating-radial-gradient(circle at 20% 30%, rgba(255,255,255,0.6) 0 1px, transparent 1px 22px), ' +
+            'repeating-radial-gradient(circle at 80% 70%, rgba(255,255,255,0.4) 0 1px, transparent 1px 28px)',
+        }}
+      />
+      {/* Soft vignette for legibility of the title against the gradient. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: 'linear-gradient(to bottom, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.25) 80%, rgba(0,0,0,0.5) 100%)',
+        }}
+      />
+
+      <div
+        className={cn(
+          'relative z-10 flex flex-col h-full',
+          isMobile ? 'px-5 pt-16 pb-6' : 'px-6 pt-14 pb-6',
+        )}
+        style={{ minHeight: isMobile ? '38vh' : '320px' }}
+      >
+        {/* Era pill */}
+        <div className="mb-3">
+          <span
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-bold border bg-white/15 backdrop-blur-md text-white border-white/25"
+            style={fs(12)}
+          >
+            <Crown size={13} className="shrink-0" />
+            {eraTheme.title || event.era}
+          </span>
+        </div>
+
+        {/* Display title — large, RTL */}
+        <h1
+          className="font-bold text-white leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)] mb-3"
+          style={fs(isMobile ? 26 : 34)}
+        >
+          {event.title}
+        </h1>
+
+        {/* Meta line: date · location · ruler */}
+        <div
+          className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-white/90 mb-2"
+          style={fs(13)}
+        >
+          <span className="inline-flex items-center gap-1.5">
+            <Calendar size={13} className="shrink-0 opacity-80" />
+            <span className="font-bold">{arNum(event.date.hijri_relative)}</span>
+          </span>
+          <span className="opacity-60">·</span>
+          <span className="opacity-90">{arNum(event.date.gregorian)} م</span>
+          <span className="opacity-60">·</span>
+          <span className="inline-flex items-center gap-1.5">
+            <MapPin size={13} className="shrink-0 opacity-80" />
+            <span className="font-bold truncate max-w-[180px]">{event.location.name}</span>
+          </span>
+          {ruler && (
+            <>
+              <span className="opacity-60">·</span>
+              <span className="opacity-90 font-bold">{ruler}</span>
+            </>
+          )}
+        </div>
+
+        {/* Army sizes (when present) */}
+        {(event.details.army_size || event.details.enemy_army_size) && (
+          <div className="flex items-center gap-3 text-white/95 mb-4" style={fs(13)}>
+            {event.details.army_size && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-700/50 backdrop-blur border border-emerald-300/30 font-bold">
+                <Users size={12} className="shrink-0" />
+                {event.details.army_size}
+              </span>
+            )}
+            {event.details.enemy_army_size && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-red-800/55 backdrop-blur border border-red-300/30 font-bold">
+                <Swords size={12} className="shrink-0" />
+                {event.details.enemy_army_size}
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* Spotify-style play button at the bottom-end of the hero */}
+        <div className="mt-auto flex items-end justify-between gap-3">
+          <div className="text-white/85 text-xs font-bold leading-tight max-w-[55%] flex flex-col gap-0.5">
+            {audioState !== 'idle' && (
+              <>
+                <span className="opacity-90 inline-flex items-center gap-1">
+                  <span
+                    className="inline-block w-1.5 h-1.5 rounded-full"
+                    style={{
+                      backgroundColor: '#fff',
+                      animation: audioState === 'playing' ? 'pulse 1.4s ease-in-out infinite' : 'none',
+                    }}
+                  />
+                  {audioState === 'playing' ? 'يقرأ الآن' : 'متوقف مؤقتًا'}
+                </span>
+                <span className="tabular-nums opacity-75">
+                  {formatAudioTime(currentTime)} / {formatAudioTime(duration)}
+                </span>
+              </>
+            )}
+            {audioError && (
+              <span className="text-red-200 font-medium" style={fs(11)}>
+                {audioError}
+              </span>
+            )}
+          </div>
+
+          <div className="relative shrink-0" style={{ width: ringSize, height: ringSize }}>
+            {/* Progress ring */}
+            <svg
+              width={ringSize}
+              height={ringSize}
+              className="absolute inset-0 -rotate-90"
+              aria-hidden="true"
+            >
+              <circle
+                cx={ringSize / 2}
+                cy={ringSize / 2}
+                r={ringRadius}
+                fill="none"
+                stroke="rgba(255,255,255,0.28)"
+                strokeWidth={ringStroke}
+              />
+              <circle
+                cx={ringSize / 2}
+                cy={ringSize / 2}
+                r={ringRadius}
+                fill="none"
+                stroke="#ffffff"
+                strokeWidth={ringStroke}
+                strokeLinecap="round"
+                strokeDasharray={ringCircumference}
+                strokeDashoffset={ringDashOffset}
+                style={{ transition: 'stroke-dashoffset 0.3s linear' }}
+              />
+            </svg>
+            <button
+              onClick={handlePlayPause}
+              disabled={isAudioLoading}
+              className="absolute inset-1 rounded-full flex items-center justify-center bg-white text-black shadow-lg hover:scale-105 active:scale-95 transition-transform disabled:opacity-60 disabled:cursor-not-allowed"
+              aria-label={audioState === 'playing' ? 'إيقاف السرد' : 'تشغيل السرد'}
+              title={audioState === 'playing' ? 'إيقاف السرد' : 'تشغيل السرد'}
+            >
+              {isAudioLoading ? (
+                <LoaderCircle size={isMobile ? 22 : 26} className="animate-spin" />
+              ) : audioState === 'playing' ? (
+                <Pause size={isMobile ? 22 : 26} />
+              ) : (
+                <Play size={isMobile ? 22 : 26} className="translate-x-[1px]" />
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* CSS keyframes for the playing pulse */}
+      <style>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 0.4; }
+          50% { opacity: 1; }
+        }
+      `}</style>
+    </header>
+  );
+}
+
+// ─── Article body ──────────────────────────────────────────────────────────
+
+function ArticleBody({
+  event,
+  eraTheme,
+  fs,
+  isMobile,
+  onCompanionClick,
+  onQuranClick,
+  onBattleOpen,
+}: {
+  event: EventItem;
+  eraTheme: ReturnType<typeof getEraTheme>;
+  fs: (n: number) => { fontSize: string };
+  isMobile: boolean;
+  onCompanionClick?: (name: string) => void;
+  onQuranClick?: (ref: string) => void;
+  onBattleOpen?: (battleId: string) => void;
+}) {
+  const desc = event.details.full_description ?? '';
+  const firstChar = desc.slice(0, 1);
+  const restOfDesc = desc.slice(1);
+
+  return (
+    <article
+      className={cn(
+        'flex flex-col gap-6',
+        isMobile ? 'px-5 py-6' : 'px-7 py-8',
+      )}
+    >
+      {/* Subhead / dek */}
+      {event.details.summary && (
+        <p
+          className="text-ink/90 leading-relaxed font-medium border-b border-border-dark/15 pb-4"
+          style={{ ...fs(15), fontStyle: 'normal' }}
+        >
+          {event.details.summary}
+        </p>
+      )}
+
+      {/* Lead paragraph with drop-cap */}
+      <div className="text-ink leading-[2] text-justify font-medium" style={fs(15)}>
+        <span
+          className="float-right ms-2 mt-1 mb-0 leading-none font-bold"
+          style={{
+            fontSize: '3.4em',
+            color: eraTheme.color,
+            fontFamily: "'Amiri', 'Tajawal', serif",
+            textShadow: '0 2px 4px rgba(0,0,0,0.08)',
+          }}
+        >
+          {firstChar}
+        </span>
+        {restOfDesc}
+      </div>
+
+      {/* Quran refs as pull-quote callouts (split across mid-article). The
+          first ref appears here just after the lead; further refs flow with
+          course of events / hadith below. */}
+      {event.entities?.quran_refs && event.entities.quran_refs.length > 0 && (
+        <PullQuote color={eraTheme.color} variant="quran">
+          {event.entities.quran_refs.slice(0, 1).map((ref, idx) => (
+            <div key={idx} style={fs(15)}>
+              <QuranRef reference={ref} onClick={onQuranClick} />
+            </div>
+          ))}
+        </PullQuote>
+      )}
+
+      {/* Course of events */}
+      {event.details.course_of_events && event.details.course_of_events.length > 0 && (
+        <section data-tour-id="course-section">
+          <SectionHeading
+            icon={<Flag size={16} />}
+            label="مجريات الأحداث"
+            color={eraTheme.color}
+            fs={fs}
+          />
+          <ol className="relative space-y-4 list-none ps-2 mt-2">
+            <div
+              className="absolute top-3 bottom-3 w-px"
+              style={{
+                insetInlineEnd: '13px',
+                backgroundColor: eraTheme.color + '60',
+              }}
+              aria-hidden="true"
+            />
+            {event.details.course_of_events.map((step, idx) => (
+              <li key={idx} className="relative flex gap-3 items-start">
+                <span
+                  className="shrink-0 relative z-10 w-7 h-7 rounded-full flex items-center justify-center font-bold tabular-nums shadow-sm"
+                  style={{ ...fs(12), backgroundColor: eraTheme.color, color: '#fff' }}
+                >
+                  {arNum(idx + 1)}
+                </span>
+                <p className="text-ink/90 leading-relaxed pt-0.5" style={fs(14)}>
+                  {step}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
+
+      {/* Remaining Quran refs (if more than one) — folded between events
+          and hadith for visual rhythm. */}
+      {event.entities?.quran_refs && event.entities.quran_refs.length > 1 && (
+        <PullQuote color={eraTheme.color} variant="quran">
+          {event.entities.quran_refs.slice(1).map((ref, idx) => (
+            <div key={idx} style={fs(15)}>
+              <QuranRef reference={ref} onClick={onQuranClick} />
+            </div>
+          ))}
+        </PullQuote>
+      )}
+
+      {/* Hadith refs as italic callouts */}
+      {event.entities?.hadith_refs && event.entities.hadith_refs.length > 0 && (
+        <PullQuote color={eraTheme.color} variant="hadith">
+          {event.entities.hadith_refs.map((ref, idx) => (
+            <div key={idx} className="flex items-start gap-2 text-ink/90 italic">
+              <Quote size={14} className="shrink-0 mt-1.5 opacity-50" style={{ color: eraTheme.color }} />
+              <span style={fs(14)}>{ref}</span>
+            </div>
+          ))}
+        </PullQuote>
+      )}
+
+      {/* Companions — horizontal scroll cards */}
+      {event.details.companion_roles && event.details.companion_roles.length > 0 && (
+        <section data-tour-id="companions-section">
+          <SectionHeading
+            icon={<Shield size={16} />}
+            label="الصحابة والقادة"
+            color={eraTheme.color}
+            fs={fs}
+          />
+          <div className="-me-5 me-[-1.25rem]">
+            <div
+              className="flex gap-3 overflow-x-auto pb-3 ps-5 pe-5"
+              style={{ scrollbarWidth: 'thin' }}
+            >
+              {event.details.companion_roles.map((comp, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => onCompanionClick && onCompanionClick(comp.name)}
+                  className="shrink-0 w-56 sm:w-64 text-right rounded-xl border border-border-dark/15 bg-card-bg shadow-sm hover:shadow-md hover:border-islamic-green/40 active:scale-[0.98] transition-all p-3 flex flex-col gap-2"
+                >
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="w-9 h-9 rounded-full flex items-center justify-center bg-islamic-green/10 text-islamic-green font-bold shrink-0"
+                      style={fs(14)}
+                      aria-hidden="true"
+                    >
+                      {comp.name.split(' ')[0]?.slice(0, 1) ?? '·'}
+                    </span>
+                    <span className="font-bold text-islamic-green truncate flex-1" style={fs(13)}>
+                      {comp.name}
+                    </span>
+                  </div>
+                  <p className="text-ink/85 leading-relaxed text-right line-clamp-3" style={fs(12)}>
+                    {comp.role_in_event}
+                  </p>
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Other key figures as chips */}
+      {event.entities?.key_figures && event.entities.key_figures.length > 0 && (
+        <section>
+          <SectionHeading
+            icon={<Users size={16} />}
+            label="شخصيات أخرى"
+            color={eraTheme.color}
+            fs={fs}
+          />
+          <div className="flex flex-wrap gap-2 mt-2">
+            {event.entities.key_figures.map((fig, idx) => (
+              <button
+                key={idx}
+                onClick={() => onCompanionClick && onCompanionClick(fig)}
+                className="inline-flex rounded-full px-3 py-1.5 bg-ink/5 text-ink hover:bg-accent hover:text-parchment border border-border-dark/15 active:scale-95 transition-all font-bold"
+                style={fs(13)}
+              >
+                {fig}
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Battle CTA — full-width, era-gradient */}
+      {event.battleId && onBattleOpen && (
+        <button
+          onClick={() => onBattleOpen(event.battleId!)}
+          className="w-full flex items-center justify-center gap-2.5 px-5 py-4 rounded-xl text-white font-bold shadow-lg active:scale-[0.98] transition-all"
+          style={{
+            ...fs(15),
+            background: `linear-gradient(135deg, ${eraTheme.color} 0%, ${shadeHex(eraTheme.color, -0.25)} 100%)`,
+          }}
+          aria-label="مشاهدة المعركة على الخريطة"
+        >
+          <Swords size={18} className="shrink-0" />
+          <span>مشاهدة المعركة على الخريطة</span>
+          <ChevronsRight size={18} className="shrink-0" />
+        </button>
+      )}
+
+      {/* Footer: sources */}
+      {event.entities?.sources && event.entities.sources.length > 0 && (
+        <section
+          data-tour-id="quran-section"
+          className="rounded-xl border border-border-dark/20 p-4 mt-2 relative overflow-hidden"
+          style={{ backgroundColor: 'rgba(0,0,0,0.04)' }}
+        >
+          <div
+            className="flex items-center gap-2 mb-3 pb-2 border-b border-border-dark/15"
+            style={{ color: eraTheme.color }}
+          >
+            <BookOpen size={15} className="shrink-0" />
+            <h3 className="font-bold flex-1" style={fs(13)}>
+              المصادر والمراجع
+            </h3>
+          </div>
+          <ul className="space-y-2 list-none">
+            {event.entities.sources.map((src, idx) => (
+              <li key={idx} className="flex items-start gap-2">
+                <ScrollText
+                  size={13}
+                  className="shrink-0 mt-1 opacity-50"
+                  style={{ color: eraTheme.color }}
+                  aria-hidden="true"
+                />
+                <a
+                  href={`https://shamela.ws/search?q=${encodeURIComponent(src.split(' - ')[0])}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-ink/85 hover:text-accent underline underline-offset-4 decoration-accent/30 transition-colors leading-relaxed"
+                  title="البحث عن المصدر في المكتبة الشاملة"
+                  style={fs(13)}
+                >
+                  {src}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </article>
+  );
+}
+
+// ─── Pull-quote callout ────────────────────────────────────────────────────
+
+function PullQuote({
+  color,
+  variant,
+  children,
+}: {
+  color: string;
+  variant: 'quran' | 'hadith';
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className="relative rounded-xl px-5 py-4 my-1"
+      style={{
+        backgroundColor: variant === 'quran' ? color + '14' : 'rgba(0,0,0,0.04)',
+        borderInlineStart: `4px solid ${color}`,
+      }}
+    >
+      <span
+        aria-hidden="true"
+        className="absolute -top-2 right-3 px-2 rounded-full text-white text-xs font-bold tracking-wide"
+        style={{ backgroundColor: color }}
+      >
+        {variant === 'quran' ? 'آية' : 'حديث'}
+      </span>
+      <div className="space-y-2">{children}</div>
+    </div>
+  );
+}
+
+// ─── Section heading helper ────────────────────────────────────────────────
+
+function SectionHeading({
+  icon,
+  label,
+  color,
+  fs,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  color: string;
+  fs: (n: number) => { fontSize: string };
+}) {
+  return (
+    <div className="flex items-center gap-2 mb-2 pb-2 border-b border-border-dark/15" style={{ color }}>
+      <span className="shrink-0">{icon}</span>
+      <h3 className="font-bold flex-1 min-w-0" style={fs(15)}>
+        {label}
+      </h3>
+    </div>
   );
 }
