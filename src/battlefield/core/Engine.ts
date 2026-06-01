@@ -427,11 +427,12 @@ export class Engine {
     const cx = (minX + maxX) / 2;
     const cy = (minY + maxY) / 2;
 
-    // Pull factor — smaller value = more breathing room around the action.
-    // Desktop now keeps generous padding so the viewer sees the whole field
-    // without the formations crowding the frame edges. Mobile is tighter
-    // because every CSS pixel matters there.
-    const fitFactor = isMobile ? 0.92 : 0.78;
+    // Pull factor — smaller value = more breathing room. The user iterated
+    // a few times: too tight at 0.92, too loose at 0.78, comfortable at
+    // ~0.88 on desktop / 0.97 on mobile. These values give roughly 12 %
+    // tighter framing than the previous pass while still showing the
+    // whole action zone with margin.
+    const fitFactor = isMobile ? 0.97 : 0.88;
     const bboxFitZoom = Math.min(viewportW / bboxW, viewportH / bboxH) * fitFactor;
 
     // Floor: ensure each soldier figure is at least this many CSS pixels.
