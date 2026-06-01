@@ -39,16 +39,22 @@ The platform serves as a spatial-temporal reference for exploring the Prophetic 
 
 ## Features
 
-- **Interactive Timeline** — Chronological navigation of Islamic history events (571–661 CE) across three eras: Meccan, Medinan, and Rashidun Caliphate
-- **Cinematic Battle Replay Engine** — 11 fully scripted battles rendered with PixiJS WebGL at 60fps, featuring deterministic playback, cinematic camera choreography, and bilingual narration
-- **Arabic-First UI** — Full RTL support with Arabic calligraphy intro screen (Amiri/Naskh font), right-to-left layout throughout
-- **Map Visualization** — Leaflet-based interactive map with event markers, route polylines, territorial expansion polygons, and marker clustering via Supercluster
+- **Interactive Timeline** — Chronological navigation of Islamic history events across the Prophetic, Rashidun, and selected later eras (Ain Jalut)
+- **Cinematic Battle Replay Engine** — 12 fully scripted battles rendered with PixiJS WebGL at 60fps. Each unit is a stylized soldier silhouette per troop type (infantry, cavalry, archers, elephant, camel rider, …). Includes:
+  - **Autonomous combat resolution** — units close to melee range, exchange damage, take visible casualties (fallen-soldier silhouettes appear in formation as numbers drop)
+  - **Cinematic auto-camera** — pans + zooms onto engagements, snaps to dying units, yields to authored keyframes
+  - **Day/night + weather** — sandstorm, storm, dust haze, plus dayPhase tinting (e.g. Khandaq night)
+  - **Time compression UI** — day counter for siege-length engagements (Khandaq 27d, Khaybar 20d, Tabuk 30d)
+  - **End-of-battle summary** — Arabic verdict badge (نصر / انسحاب تكتيكي / غزوة بدون قتال) + casualty grid + historical significance
+- **Arabic-only UI** — Full RTL support with Arabic calligraphy intro (Amiri / Tajawal). All user-facing strings, narration, and aria-labels are Arabic; numerals use Arabic-Eastern digits in summary panels.
+- **Map Visualization** — Leaflet-based interactive map with event markers, route polylines, territorial expansion polygons (Voronoi via Turf.js), and marker clustering via Supercluster
 - **Companion Profiles** — Biographical data for key Sahaba with their roles in specific events
 - **Quran References** — Events linked to relevant Quranic verses with modal display
-- **Text-to-Speech Narration** — Gemini-powered Arabic TTS for event descriptions and battle narration, with pre-cached audio via Cloudflare R2
-- **Guided App Tour** — Step-by-step onboarding tour for first-time users with spotlight highlighting
-- **Keyboard Shortcuts** — Full keyboard navigation support
-- **Dark/Light Mode** — Theme toggle with smooth transitions
+- **Text-to-Speech Narration** — Gemini-powered Arabic TTS for event descriptions and battle narration, served from pre-cached WAV files in `public/audio/` (SHA-256-hashed)
+- **Synthesized Battle Audio** — Web Audio API generates clash, charge, defeat, takbir, and horn SFX for the battlefield engine — no asset files needed
+- **Guided App Tour** — Step-by-step onboarding with spotlight highlighting; auto-repositions when targets resize/remount via ResizeObserver
+- **Keyboard Shortcuts** — Full keyboard navigation; gated when modals are open
+- **Dark/Light Mode** — Theme toggle, WCAG AA contrast verified in both modes
 - **Autoplay Mode** — Sequential event playback with narration
 
 ---
@@ -140,19 +146,19 @@ nibras/
 │   ├── dataList.json          # Full event dataset (JSON)
 │   ├── types.ts               # Shared TypeScript types
 │   ├── battlefield/           # Battle replay engine (see below)
-│   │   ├── ARCHITECTURE.md    # Engine architecture overview
-│   │   ├── README.md          # Battle system documentation
-│   │   ├── camera/            # GSAP-powered camera controller
+│   │   ├── README.md          # Engine architecture + scenario authoring guide
+│   │   ├── audio/             # BattleAudio — Web Audio synthesized SFX
+│   │   ├── camera/            # CameraController (GSAP) + CameraDirector (cinematic)
 │   │   ├── core/              # Engine, Clock, EventBus
 │   │   ├── entities/          # Entity manager (ECS)
 │   │   ├── formations/        # Unit formation calculators
-│   │   ├── machines/          # XState battle lifecycle FSM
-│   │   ├── react/             # BattlePlayer React shell
-│   │   ├── renderer/          # PixiJS WebGL renderer + layers
-│   │   ├── scenarios/         # 11 battle scenario data files
-│   │   ├── scripting/         # Scenario scripting engine
+│   │   ├── machines/          # XState machine (defined, currently unused)
+│   │   ├── react/             # BattlePlayer + AtmosphereOverlay
+│   │   ├── renderer/          # PixiJS WebGL renderer + 5-layer scene graph
+│   │   ├── scenarios/         # 12 battle scenario data files + registry
+│   │   ├── scripting/         # ScriptInterpreter for scenario phase actions
 │   │   ├── state/             # Zustand stores (playback, camera, simulation, UI)
-│   │   ├── systems/           # ECS systems (movement, combat, morale)
+│   │   ├── systems/           # ECS systems (Movement, Combat, Render, Terrain)
 │   │   ├── timeline/          # Playback timeline controller
 │   │   └── types/             # Engine type definitions
 │   ├── components/            # UI components
@@ -180,28 +186,37 @@ nibras/
 
 ## Battle Engine
 
-The battle replay engine is a production-grade, ECS-based cinematic visualization system. It renders historical battles as documentary-style replays — not games.
+A 2D PixiJS replay engine for Islamic historical battles. Each scenario is a TypeScript data file describing forces, scripted phases, narration, and camera choreography; the engine plays them back as a 50-60-second cinematic with autonomous combat and an auto-cinematic camera.
+
+This is **not a game** — outcomes are predetermined by the scenario; the simulation animates the path between deployment and the historical result.
 
 ### Architecture
 
-- **ECS (Entity-Component-System)** — Units are entities with position, movement, combat, and render components. Systems process them each frame.
-- **Deterministic Playback** — Fixed timestep with seeded RNG ensures identical replays.
-- **PixiJS WebGL Rendering** — Layered container hierarchy (terrain, units, effects, UI) renders 500+ entities at 60fps.
-- **GSAP Camera** — Cinematic camera choreography with pan, zoom, and tracking shots scripted per battle phase.
-- **XState Lifecycle** — Battle phases (deploy, advance, engage, resolve) managed by a finite state machine.
-- **Zustand Bridge** — Engine writes to Zustand stores at 10fps; React UI subscribes without coupling to the render loop.
+- **ECS (Entity-Component-System)** — Units are entities with transform, movement, combat, formation, visual, and unit components. Systems process them each frame.
+- **Fixed-timestep simulation** — Movement → Combat → Timeline (scripted actions) → CameraDirector → Render, in that order, at 60 fps.
+- **PixiJS v8 WebGL rendering** — 5-layer scene graph (background terrain → tactical → entity → effects → UI). Each soldier is a stylized silhouette per troop type with faction-tinted palette.
+- **Autonomous CombatSystem** — Detects unit-vs-unit engagement at melee range, exchanges damage as a fraction of `maxSoldiers/sec`, scaled by attack/defense ratio + troop-type matchup multipliers. Casualties become visible as fallen-soldier figures in formation.
+- **CameraDirector** — Listens to combat events (engagement_started, unit_destroyed, unit_routed) and cinematically pans/zooms onto the action, yielding to authored `cameraScript` keyframes when they're active.
+- **GSAP CameraController** — Smooth pan / zoom / focus tweens with keyframe support, driven by both the scenario's `cameraScript` and the autonomous director.
+- **BattleAudio** — Web Audio API synthesized clash / charge / defeat / takbir / horn SFX. Listens to the EventBus, no asset files required.
+- **Zustand Bridge** — Engine writes to four Zustand stores (`playback`, `camera`, `ui`, `simulation`) at ~10 fps. React UI subscribes without coupling to the render loop.
+- **AtmosphereOverlay** — CSS-based dayPhase tinting + weather effects (sandstorm, storm, rain, dust) above the Pixi canvas.
 
 ### Data Flow
 
 ```
-Scenario (.ts) → Engine (rAF loop) → PixiJS (WebGL)
+Scenario (.ts) → Engine.loadScenario() → ECS entities + Pixi sprites
                        ↓
-               Zustand Stores (10fps)
+               rAF loop @ 60fps
                        ↓
-               React UI (controls, narration)
+        Movement → Combat → Timeline → CameraDirector → Render
+                       ↓
+        syncToStores @ 10fps  (muslim/enemy strength, morale)
+                       ↓
+               React UI (header counters, narration, summary)
 ```
 
-For full architecture documentation, see [`src/battlefield/ARCHITECTURE.md`](src/battlefield/ARCHITECTURE.md).
+For the full engine architecture, scenario format, and authoring guide see [`src/battlefield/README.md`](src/battlefield/README.md).
 
 ---
 
@@ -209,17 +224,18 @@ For full architecture documentation, see [`src/battlefield/ARCHITECTURE.md`](src
 
 | # | Battle | Date | Location | Scenario ID |
 |---|--------|------|----------|-------------|
-| 1 | Battle of Badr | 17 Ramadan 2 AH (624 CE) | Wells of Badr, Hejaz | `battle-of-badr` |
-| 2 | Battle of Uhud | 7 Shawwal 3 AH (625 CE) | Mount Uhud, near Medina | `battle-of-uhud` |
-| 3 | Battle of the Trench | Shawwal 5 AH (627 CE) | Northern Medina | `battle-of-khandaq` |
-| 4 | Battle of Khaybar | Muharram 7 AH (628 CE) | Khaybar fortress complex | `battle-of-khaybar` |
-| 5 | Battle of Mu'tah | Jumada al-Ula 8 AH (629 CE) | Mu'tah, Jordan | `battle-of-mutah` |
-| 6 | Conquest of Mecca | 20 Ramadan 8 AH (630 CE) | Mecca | `conquest-of-mecca` |
-| 7 | Battle of Hunayn | 10 Shawwal 8 AH (630 CE) | Valley of Hunayn | `battle-of-hunayn` |
-| 8 | Expedition of Tabuk | Rajab 9 AH (630 CE) | Tabuk, northern Arabia | `battle-of-tabuk` |
-| 9 | Battle of Yarmouk | 15-20 Rajab 15 AH (636 CE) | Yarmouk River, Syria | `battle-of-yarmouk` |
-| 10 | Battle of Qadisiyyah | 16-19 Sha'ban 15 AH (636 CE) | Al-Qadisiyyah, Iraq | `battle-of-qadisiyyah` |
-| 11 | Battle of Ain Jalut | 25 Ramadan 658 AH (1260 CE) | Jezreel Valley, Palestine | `battle-of-ain-jalut` |
+| 1 | غزوة بدر الكبرى | 17 Ramadan 2 AH (624 CE) | Wells of Badr, Hejaz | `battle-of-badr` |
+| 2 | غزوة أُحُد | 7 Shawwal 3 AH (625 CE) | Mount Uhud, near Medina | `battle-of-uhud` |
+| 3 | غزوة الخندق (الأحزاب) | Shawwal 5 AH (627 CE) | Northern Medina | `battle-of-khandaq` |
+| 4 | غزوة خيبر | Muharram 7 AH (628 CE) | Khaybar fortress complex | `battle-of-khaybar` |
+| 5 | معركة مؤتة | Jumada al-Ula 8 AH (629 CE) | Mu'tah, Jordan | `battle-of-mutah` |
+| 6 | فتح مكة المكرمة | 20 Ramadan 8 AH (630 CE) | Mecca | `conquest-of-mecca` |
+| 7 | غزوة حُنين | 10 Shawwal 8 AH (630 CE) | Valley of Hunayn | `battle-of-hunayn` |
+| 8 | غزوة تبوك | Rajab 9 AH (630 CE) | Tabuk, northern Arabia | `battle-of-tabuk` |
+| 9 | معركة اليمامة (حديقة الموت) | 12 AH (633 CE) | Aqraba plain, al-Yamamah | `battle-of-yamama` |
+| 10 | معركة اليرموك | 15-20 Rajab 15 AH (636 CE) | Yarmouk River, Syria | `battle-of-yarmouk` |
+| 11 | معركة القادسية | 16-19 Sha'ban 15 AH (636 CE) | Al-Qadisiyyah, Iraq | `battle-of-qadisiyyah` |
+| 12 | معركة عين جالوت | 25 Ramadan 658 AH (1260 CE) | Jezreel Valley, Palestine | `battle-of-ain-jalut` |
 
 ---
 
@@ -229,14 +245,16 @@ For full architecture documentation, see [`src/battlefield/ARCHITECTURE.md`](src
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start dev server on port 3000 |
-| `npm run dev:server` | Start TTS backend server |
-| `npm run build` | Production build via Vite |
+| `npm run dev` | Start the Vite dev server (port 3000) |
+| `npm run dev:server` | Start the TTS backend server |
+| `npm run build` | Production build |
 | `npm run preview` | Preview production build |
-| `npm run lint` | TypeScript type checking |
-| `npm run cache-audio` | Pre-cache event audio to R2 |
-| `npm run cache-details` | Pre-cache detail narration audio |
-| `npm run test:ui` | Run Playwright E2E tests |
+| `npm run lint` | TypeScript type checking (`tsc --noEmit`) |
+| `npm run cache-audio` | Pre-cache event-title audio (run during build, not at runtime) |
+| `npm run cache-details` | Pre-cache full-description audio |
+| `npm run test:ui` | Run Playwright tests |
+| `node scripts/capture-yamama.mjs` | Playwright capture of the Yamama battle at key sim times — useful template for verifying any new scenario |
+| `node scripts/capture-contrast.mjs` | Playwright capture of the EventPanel in light + dark mode at desktop + mobile viewports |
 
 ### TTS Setup
 

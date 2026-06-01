@@ -1,303 +1,215 @@
-# Islamic Battle Replay Engine
+# Battlefield Engine — `src/battlefield/`
 
-A cinematic, data-driven battlefield visualization system for Islamic historical battles. Built with PixiJS, Zustand, GSAP, and XState.
+A 2D PixiJS replay engine for Islamic historical battles. Each scenario is a
+TypeScript data file describing forces, scripted phases, narration, and
+camera choreography; the engine plays them back as a cinematic 60-second
+documentary-style replay with autonomous combat resolution and an
+auto-cinematic camera.
 
----
-
-## Overview
-
-This engine renders historical Islamic battles as **cinematic replays** — not games. Each battle is scripted as a data file describing troop positions, movements, phases, narration, and camera choreography. The engine plays these back as smooth, educational visualizations.
-
-**Key features:**
-- WebGL rendering via PixiJS (500+ entities at 60fps)
-- Deterministic replay (same scenario = same visualization every time)
-- Cinematic camera with GSAP-powered choreography
-- Data-driven scenarios (add battles without writing engine code)
-- Bilingual narration (Arabic + English)
-- Respectful, educational visual style
+This is **not a game** — it's a data-driven historical visualization.
+Outcomes are predetermined by the scenario; the simulation just animates
+the path between deployment and the historical result.
 
 ---
 
-## Architecture
-
-See [`ARCHITECTURE.md`](ARCHITECTURE.md) for the complete architecture overview and links to detailed design documents in the [`docs/`](docs/) folder.
-
----
-
-## How to Add a New Battle
-
-### Step 1: Create the Scenario File
-
-Create a new file at `src/battlefield/scenarios/{battle_name}.scenario.ts`:
-
-```typescript
-import type { BattleScenario } from '../scripting/types';
-
-export const myBattleScenario: BattleScenario = {
-  id: 'my_battle',
-  metadata: {
-    name: 'Battle Name',
-    nameAr: 'اسم المعركة',
-    date: '636 CE',
-    dateAr: '١٥ هـ',
-    hijriYear: 15,
-    location: 'Location',
-    locationAr: 'الموقع',
-    description: 'Brief description.',
-    descriptionAr: 'وصف مختصر.',
-    outcome: 'muslim_victory',
-    significance: 'Why this battle matters.',
-    significanceAr: 'أهمية المعركة.',
-    totalDuration: 180, // 3 minutes
-  },
-  terrain: { /* ... */ },
-  factions: [ /* ... */ ],
-  deployment: { /* ... */ },
-  phases: [ /* ... */ ],
-  events: [ /* ... */ ],
-  narration: [ /* ... */ ],
-  cameraCues: [ /* ... */ ],
-};
-```
-
-### Step 2: Define Terrain
-
-```typescript
-terrain: {
-  type: 'desert',        // desert | valley | oasis | coastal | plains
-  width: 2000,           // world units
-  height: 1200,
-  features: [
-    {
-      id: 'hill_1',
-      type: 'hill',
-      position: { x: 300, y: 200 },
-      size: { x: 200, y: 120 },
-      blocksMovement: false,
-      providesDefenseBonus: 15,
-    },
-  ],
-  ambientColor: '#F5E6D3',
-},
-```
-
-### Step 3: Define Factions and Units
-
-```typescript
-factions: [
-  {
-    id: 'muslims',
-    name: 'Muslim Army',
-    nameAr: 'جيش المسلمين',
-    team: 'muslim',
-    color: '#1B4332',
-    secondaryColor: '#15803D',
-    commander: {
-      name: 'Commander Name',
-      nameAr: 'اسم القائد',
-      commandRadius: 300,
-      moraleBoost: 25,
-      position: { x: 1400, y: 600 },
-    },
-    units: [
-      {
-        id: 'unit_1',
-        label: 'Infantry Division',
-        labelAr: 'فرقة المشاة',
-        type: 'infantry',       // infantry | cavalry | archer | camel | reserve
-        soldierCount: 100,      // 20-200 soldiers per token
-        position: { x: 1300, y: 500 },
-        facing: Math.PI,        // radians, facing left
-        formation: 'line',      // line | wedge | defensive_circle | column | flank | crescent
-        stats: {
-          health: 100,
-          attack: 12,
-          defense: 8,
-          speed: 40,
-          morale: 85,
-          range: 30,
-          chargeBonus: 0,
-        },
-      },
-    ],
-  },
-],
-```
-
-### Step 4: Script Battle Phases
-
-```typescript
-phases: [
-  {
-    id: 'phase_1',
-    type: 'deployment',
-    name: 'Deployment',
-    nameAr: 'الانتشار',
-    startTime: 0,          // seconds
-    duration: 15,
-    description: 'Armies take positions.',
-    descriptionAr: 'تتخذ الجيوش مواقعها.',
-    triggerEvents: [],
-  },
-  // Add more phases...
-],
-```
-
-### Step 5: Add Scripted Events
-
-```typescript
-events: [
-  {
-    id: 'event_advance',
-    type: 'move_unit',
-    timestamp: 15,         // when to fire (seconds)
-    target: 'unit_1',      // which unit
-    params: {
-      type: 'move_unit',
-      destination: { x: 900, y: 500 },
-      speed: 40,
-    },
-  },
-  {
-    id: 'event_charge',
-    type: 'trigger_charge',
-    timestamp: 45,
-    target: 'cavalry_1',
-    params: {
-      type: 'trigger_charge',
-      targetEntityId: 'enemy_unit_1',
-      speedMultiplier: 2.0,
-    },
-  },
-],
-```
-
-### Step 6: Add Narration
-
-```typescript
-narration: [
-  {
-    id: 'narr_1',
-    timestamp: 0,
-    duration: 8,
-    text: 'English narration text...',
-    textAr: 'نص السرد بالعربية...',
-    position: 'bottom',    // top | bottom | center | subtitle
-    style: 'standard',     // standard | dramatic | quran_verse | hadith | historical_note
-    autoAdvance: true,
-  },
-],
-```
-
-### Step 7: Add Camera Cues
-
-```typescript
-cameraCues: [
-  {
-    id: 'cam_1',
-    timestamp: 0,
-    moveType: 'overview',  // pan | zoom | follow | overview | focus | cinematic_sweep
-    zoom: 0.6,
-    duration: 3,
-    easing: 'power2.inOut',
-    hold: 5,
-  },
-  {
-    id: 'cam_2',
-    timestamp: 45,
-    moveType: 'follow',
-    entityId: 'cavalry_1',
-    zoom: 1.5,
-    duration: 1,
-    easing: 'power3.inOut',
-  },
-],
-```
-
-### Step 8: Register the Scenario
-
-Add your scenario to the scenario index so the engine can find it.
-
----
-
-## Available Event Types
-
-| Event Type | Description |
-|-----------|-------------|
-| `move_unit` | Move a unit to a destination |
-| `rotate_formation` | Rotate a formation to face a direction |
-| `change_formation` | Morph to a different formation type |
-| `trigger_charge` | Launch a charge at a target |
-| `play_narration` | Trigger a narration cue |
-| `focus_camera` | Move camera to a position |
-| `spawn_projectile` | Create projectiles |
-| `arrow_volley` | Launch a volley of arrows |
-| `morale_break` | Force morale collapse |
-| `retreat` | Order a unit to retreat |
-| `reveal_reinforcements` | Spawn new units mid-battle |
-| `set_speed` | Change unit movement speed |
-| `spawn_effect` | Create a visual effect |
-| `remove_entity` | Remove a unit from the field |
-| `set_morale` | Set morale to a specific value |
-| `commander_death` | Kill a commander with morale impact |
-
----
-
-## Architecture Diagram
+## What's in here
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    BATTLE REPLAY ENGINE                       │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │                 ENGINE CORE (rAF)                    │    │
-│  │                                                     │    │
-│  │  Scenario ──→ ScriptInterpreter ──→ EventHandlers   │    │
-│  │                      │                              │    │
-│  │                      ▼                              │    │
-│  │  ┌─────────────────────────────────────────────┐   │    │
-│  │  │              ECS WORLD                       │   │    │
-│  │  │  Entities + Components + Systems             │   │    │
-│  │  │  (Movement, Formation, Combat, Morale, etc.) │   │    │
-│  │  └──────────────────┬──────────────────────────┘   │    │
-│  │                     │                              │    │
-│  │         ┌───────────┼───────────┐                  │    │
-│  │         ▼           ▼           ▼                  │    │
-│  │    RenderMgr    CameraCtrl   Timeline              │    │
-│  │    (PixiJS)     (GSAP)       (Playback)            │    │
-│  └─────────────────────────────────────────────────────┘    │
-│                         │                                    │
-│              Zustand Stores (10fps)                          │
-│                         │                                    │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │              REACT UI SHELL                          │    │
-│  │  BattlePlayer > Canvas + Controls + Timeline + Narr │    │
-│  └─────────────────────────────────────────────────────┘    │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │              XSTATE MACHINE                          │    │
-│  │  idle → loading → intro → deployment → active →     │    │
-│  │  pause → replay → completed                         │    │
-│  └─────────────────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────────────────┘
+src/battlefield/
+├── core/                 # Engine, Clock, EventBus
+├── entities/             # ECS EntityManager
+├── systems/index.ts      # Movement, Combat, Render, Terrain (single file)
+├── scripting/            # ScriptInterpreter for scenario phase actions
+├── timeline/             # TimelineController — drives scenario playback
+├── camera/
+│   ├── CameraController.ts   # Pan/zoom/follow with GSAP tweens
+│   └── CameraDirector.ts     # Autonomous cinematic camera (combat events)
+├── audio/BattleAudio.ts  # Web Audio synthesized SFX (clash, charge, takbir)
+├── renderer/PixiRenderer.ts  # PixiJS v8 5-layer scene graph
+├── react/
+│   ├── BattlePlayer.tsx  # Mounts the canvas + Arabic UI overlays
+│   └── AtmosphereOverlay.tsx # CSS day-phase + weather effects
+├── state/                # 4 Zustand stores (playback, camera, ui, simulation)
+├── scenarios/            # 12 scenario files + the registry
+├── types/                # All shared types: components, scenario, events
+└── machines/             # XState machine — defined but currently unused
 ```
 
 ---
 
-## Dependencies (to be installed)
+## How a scenario plays back
 
-```json
-{
-  "pixi.js": "^8.x",
-  "zustand": "^5.x",
-  "gsap": "^3.x",
-  "xstate": "^5.x",
-  "@xstate/react": "^4.x"
-}
+```
+   ┌─ User clicks "شاهد المعركة" on an Event ────────────────┐
+   │                                                          │
+   ▼                                                          │
+BattlePlayer mounts → Engine.init(canvas) → loadScenario()   │
+   │                                                          │
+   ├─ ScenarioLoader spawns ECS entities                      │
+   │  (one per UnitConfig, with transform/movement/combat/    │
+   │   formation/visual/unit/selectable/behavior components)  │
+   │                                                          │
+   ├─ TerrainRenderer paints terrain zones one-shot           │
+   │  (palms in oases, mountain peaks, sand ripples,          │
+   │   trench hatching, fortress crenellations, …)            │
+   │                                                          │
+   └─ Per-frame loop @ 60fps (rAF):                           │
+                                                              │
+        MovementSystem.update    (acceleration + melee-stop)  │
+            ↓                                                 │
+        CombatSystem.update      (auto-engage, exchange dmg,  │
+            ↓                     emit engage/destroy/rout)   │
+        TimelineController       (fires scripted phase actions│
+            ↓                     + narration + camera cues)  │
+        CameraDirector.tick      (frames the action when no   │
+            ↓                     scripted cue is active)     │
+        RenderSystem.update      (sync ECS → Pixi sprites,    │
+            ↓                     fallen casualties etc.)     │
+        PixiRenderer.render      (WebGL draw)                 │
+                                                              │
+        syncToStores @ 10Hz      (push muslim/enemy strength  │
+                                  to Zustand for the React    │
+                                  header counters)            │
 ```
 
 ---
 
-## File Structure
+## Adding a new scenario
 
-See [`docs/01-folder-structure.md`](docs/01-folder-structure.md) for the complete directory layout.
+1. Create `src/battlefield/scenarios/{name}.ts` exporting a
+   `BattleScenario` const. Required top-level fields:
+   - `id`, `name`, `nameAr`, `date`, `location`,
+   - `description`, `descriptionAr` (always pair English + Arabic; the UI
+     prefers Arabic),
+   - `map: { width, height, terrain[], landmarks[], backgroundColor }`,
+   - `forces: ForceConfig[]` — each force has a `faction`, units (each
+     with `id`, `nameAr`, `troopType`, `soldierCount`, `commander?`,
+     `startPosition`, `startFormation`, `startFacing`, `stats`),
+   - `phases: BattlePhaseConfig[]` — each with `actions[]` (move_unit,
+     attack_unit, change_formation, destroy_unit, camera_move, etc.),
+   - `narration: NarrationPoint[]` — one Arabic line per dramatic beat
+     (`textAr` is required; `text` English is optional fallback),
+   - `cameraScript: CameraKeyframe[]` — authored camera moves; the
+     CameraDirector fills the gaps autonomously,
+   - `outcome: { verdict, muslimCasualties, enemyCasualties?, summary,
+     summaryAr, significance, significanceAr }`,
+   - `totalDuration` in simulation seconds (the existing 12 are 50–60s),
+   - optional: `dayPhase` (`'dawn'|'day'|'dusk'|'night'`),
+     `weather` (`'clear'|'sandstorm'|'storm'|'rain'|'dust'`),
+     `actualDayCount` (real-world days the battle lasted — turns on the
+     day-counter UI for compressed-time scenarios like Khandaq).
+
+2. Register it in `src/battlefield/scenarios/index.ts`:
+   ```ts
+   import { battleOfFoo } from './foo';
+   // …
+   export const scenarios: Record<string, BattleScenario> = {
+     // …
+     'battle-of-foo': battleOfFoo,
+   };
+   ```
+
+3. Wire the event into the UI:
+   - Add the title → battleId mapping to `src/data.ts` `BATTLE_ID_MAP`.
+   - Add the scenario id to `AVAILABLE_BATTLE_SCENARIOS` in
+     `src/components/EventPanel.tsx` so the "شاهد المعركة" button
+     appears on the event panel.
+
+4. Verify with the Playwright capture pattern in
+   `scripts/capture-yamama.mjs` — duplicate it pointing at the new
+   battle, run against the dev server, and screenshot at the
+   simulation-time markers you defined.
+
+---
+
+## Conventions
+
+### Factions
+
+The `Faction` union (in `types/components.ts`) covers every army that has
+appeared in the existing scenarios:
+
+| Faction         | Use                                         |
+|-----------------|---------------------------------------------|
+| `muslim`        | Prophetic + Rashidun era Muslim armies      |
+| `mamluk`        | Mamluks (Ain Jalut)                         |
+| `quraysh`       | Pre-Islamic Mecca                           |
+| `jewish_tribes` | Khaybar fortresses                          |
+| `hawazin`       | Hawazin / Thaqif (Hunayn)                   |
+| `banu_hanifa`   | Yamama (Musaylimah)                         |
+| `byzantine`     | Eastern Rome (Mu'tah, Tabuk, Yarmouk)       |
+| `sasanian`      | Sasanian Persia (Qadisiyyah)                |
+| `mongol`        | Ilkhanate (Ain Jalut)                       |
+| `neutral`       | Civilians, terrain entities                 |
+
+Each faction has a layered color palette (`base/light/dark/banner/dot`) in
+`systems/index.ts → FACTION_COLORS` and a banner glyph in
+`drawFactionGlyph()` (al-uqab crescent, eagle silhouette, Chi-Rho /
+labarum, drafsh kaviani rhombus, mongol tugh X, palm tree, etc.).
+
+`FACTION_NAME_AR` in `types/components.ts` carries the Arabic name shown
+in the BattlePlayer header.
+
+`isMuslimSide(faction)` returns true for `muslim` and `mamluk` — used by
+the simulation store so Mamluk troops at Ain Jalut count as the
+protagonist side without conflating their banner with the early
+caliphate.
+
+### Troop types
+
+`infantry`, `cavalry`, `heavy_cavalry`, `horse_archer`, `archers`,
+`camel_riders`, `elephant`, `siege_engineer`, `reserves`, `command`. The
+RenderSystem draws a stylized silhouette per type — infantry with a
+spear, cavalry with a lance, archers with a bow, an elephant with a
+howdah and tusks, and so on. Movement system gives each type a base
+speed (cavalry > infantry > siege).
+
+### Terrain types
+
+`sand`, `rocky`, `oasis`, `dune`, `flat`, `elevated`, `trench`,
+`fortress_wall`, `river`, `gorge`, `mountain`, `snow`. The renderer
+paints distinct treatments per type (e.g. crenellations for
+`fortress_wall`, jagged peaks with snow caps for `mountain`, palm
+clusters in `oasis`, diagonal hatching for `trench`).
+
+### BattleVerdict
+
+`outcome.verdict` is one of `muslim_victory`, `enemy_victory`,
+`tactical_withdrawal` (Mu'tah), `unfought_expedition` (Tabuk — sets
+`enemyCasualties: undefined`), `draw`, `inconclusive`. The
+end-of-battle summary panel renders a colored verdict badge based on
+this.
+
+### Combat tuning
+
+`CombatSystem` damage rate is a fraction of `maxSoldiers/sec` (default
+~0.018), scaled by attacker.attack/defender.defense and a small troop-
+type matchup multiplier (cavalry × 1.3 vs infantry, elephant × 1.6,
+etc.). Tuned so a 50-second engagement at parity removes 5–15% of a
+unit — historical-ish casualty percentages without making the
+autonomous combat decisive enough to rewrite scenario outcomes.
+Scripted `destroy_unit` actions still drive the major story beats.
+
+### Audio
+
+`BattleAudio` synthesizes SFX with the Web Audio API — no asset files.
+It listens to `combat:engagement_started`, `combat:unit_destroyed`,
+`combat:unit_routed`, and `phase:started`, mapping to clash, defeat,
+charge, takbir, or horn voices. AudioContext is unlocked lazily on
+first user gesture.
+
+---
+
+## Hard rules (also recorded in `.claude/.../memory/`)
+
+- **All UI strings Arabic.** No English fallback in the BattlePlayer
+  header, summary panel, narration, aria-labels, or button text. The
+  Arabic field on a scenario (`nameAr`, `descriptionAr`, `summaryAr`,
+  `significanceAr`, `narration[].textAr`) is canonical.
+- **Historical accuracy per Sunni scholarly sources** (Ibn Hisham,
+  Tabari, Ibn Kathir, Bukhari). Don't invent commanders, casualty
+  counts, or scenes that contradict the canonical sirah.
+- **WCAG AA contrast in both light and dark mode.** Era `textLight`
+  pairs with `bgLight`, `textDark` with `bgDark` — never crossed.
+- **No `Co-Authored-By` trailers in commits.** History reads as solo-
+  authored.

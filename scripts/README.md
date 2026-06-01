@@ -1,199 +1,79 @@
-# Scripts Directory
+# `scripts/`
 
-This directory contains utility scripts for the Nibras project.
-
-## Available Scripts
-
-### cache-event-audio.js
-
-Pre-caches TTS audio for all event **titles** in the application.
-
-**Purpose:**
-- Generates audio files for event titles using Gemini TTS
-- Stores cached audio in `server/audio-cache/`
-- Reduces API calls during runtime
-- Improves user experience with instant audio playback
-
-**Requirements:**
-- Backend TTS server must be running (`npm run dev:server`)
-- GEMINI_API_KEY must be configured in `server/.env`
-
-**Usage:**
-```bash
-# Cache all event titles
-npm run cache-audio
-
-# Resume from a specific event index
-START_FROM=37 npm run cache-audio
-```
+Utility scripts for Nibras. Two groups: **build-time audio caching** (run
+during deploys to prepare TTS files) and **Playwright capture** (run
+against the local dev server to verify visual correctness).
 
 ---
 
-### cache-event-details-audio.js
+## Audio caching (build-time)
 
-Pre-caches TTS audio for all event **full descriptions** in the application.
+These pre-generate Gemini TTS audio files keyed by SHA-256 of the spoken
+text. The client (`src/services/ttsGemini.ts`) computes the same hash at
+runtime and fetches `${BASE_URL}audio/<hash>.wav` — so as long as the cache
+is populated, the deployed app makes zero TTS API calls at runtime.
 
-**Purpose:**
-- Generates audio files for complete event descriptions using Gemini TTS
-- Processes long descriptions by splitting into chunks
-- Stores cached audio in `server/audio-cache/`
-- Enables offline audio playback for detailed event narration
+| Script | npm | Caches |
+|---|---|---|
+| `cache-event-audio.js` | `npm run cache-audio` | Event **titles** |
+| `cache-event-details-audio.js` | `npm run cache-details` | Event **full descriptions** |
 
-**Requirements:**
-- GEMINI_API_KEY must be configured in `.env`
-- Internet connection for Gemini API
+Both write WAVs into `public/audio/`. The TTS backend server
+(`npm run dev:server`) must be running, and `GEMINI_API_KEY` must be set
+in `server/.env`.
 
-**Usage:**
+**Resume / batch options** (read from env):
+
 ```bash
-# Cache all event full descriptions
-npm run cache-details
-
-# Resume from a specific event index
-START_FROM=37 npm run cache-details
-
-# Process in smaller batches
-BATCH_SIZE=5 npm run cache-details
-
-# Combine options
-START_FROM=20 BATCH_SIZE=10 npm run cache-details
+START_FROM=37 npm run cache-audio       # skip first 37 events
+BATCH_SIZE=5  npm run cache-details      # 5 at a time
 ```
 
-**Environment Variables:**
-- `START_FROM`: Event index to resume from (default: 0)
-- `BATCH_SIZE`: Number of events to process before showing progress (default: 10)
-- `DELAY_BETWEEN_REQUESTS`: Milliseconds between event requests (default: 6000)
-- `DELAY_BETWEEN_CHUNKS`: Milliseconds between chunks of same event (default: 2000)
-- `RETRY_DELAY_ON_QUOTA`: Milliseconds to wait on quota exceeded (default: 60000)
+If the Gemini quota errors out, the script reports the last index it
+finished — re-run with `START_FROM=<that+1>`.
 
-**Output:**
-- Audio files stored in `server/audio-cache/`
-- Each file named with SHA-256 hash of: text + voice + rate
-- WAV format, 24kHz sample rate
-- Long descriptions split into multiple cache files
+### Verifying / fixing the audio cache
 
-**Notes:**
-- Automatically splits long descriptions into chunks (max 4500 chars)
-- Respects API rate limits with delays
-- Automatically retries on quota exceeded
-- Shows detailed progress and statistics
-- Can be safely interrupted and resumed using START_FROM
+| Script | Purpose |
+|---|---|
+| `verify-all-audio.js` | Walk every event and event detail, recompute its SHA-256, check the file exists in `public/audio/`. Reports missing entries. |
+| `test-audio-hash.js` | Sanity-check that the client and server compute the same hash for a known string — useful when bumping the TTS voice / rate constants. |
+| `fix-aqaba-audio-r2.js` | One-shot fix for a specific historical mismatch (Aqaba audio that landed under a stale hash). Kept for reference; only re-run if the same bug recurs. |
+| `migrate-to-cloudflare-r2.js` | One-shot migration to upload local `public/audio/` files into the R2 bucket configured by `R2_*` env vars. The runtime currently serves from `public/audio/` directly, so this is only needed if you switch the deploy target. |
 
 ---
 
-### migrate-cache-to-blob.js
+## Playwright capture (visual verification)
 
-Migrates locally cached audio files to Vercel Blob Storage.
+These open a headless Chromium against the local dev server, drive the
+UI, and screenshot critical surfaces. Useful as a "did the change I just
+made actually look right" smoke test, and as templates for verifying new
+scenarios.
 
-**Purpose:**
-- Uploads all WAV files from `server/audio-cache/` to Vercel Blob
-- Enables production deployment without local cache
-- Provides CDN-backed audio delivery
+| Script | What it captures |
+|---|---|
+| `capture-yamama.mjs` | Yamama battle frames at 9 simulation-time markers (overview, initial clash, reorganization, counter-attack, Muhakkim falls, retreat-to-garden, Bara'a wall, Garden of Death, Musaylimah falls) + the end-of-battle summary. Run after editing scenario phases / camera scripts. |
+| `capture-event-panel.mjs` | EventPanel at 4 scroll positions on both desktop (1440×900) and mobile (390×844) viewports. Run after touching `EventPanel.tsx`. |
+| `capture-contrast.mjs` | EventPanel + Timeline in **both light and dark mode**, on desktop + mobile. Run after any theming / token change. |
 
-**Requirements:**
-- BLOB_READ_WRITE_TOKEN must be configured in `.env`
-- Audio files must exist in `server/audio-cache/`
+### Running them
 
-**Usage:**
-```bash
-# Migrate all cached audio to Blob storage
-npm run migrate-to-blob
-```
-
-**Output:**
-- Files uploaded to `tts-cache/` prefix in Vercel Blob
-- Public URLs for each audio file
-- Migration summary with success/failure counts
-
-**Notes:**
-- Original cache files are preserved after migration
-- Each file gets a public URL for direct access
-- Files are cached with 1-year max-age
-- Safe to run multiple times (skips existing files)
-
----
-
-## Workflow
-
-### Complete Audio Caching Workflow
-
-1. **Generate audio for event descriptions:**
+1. Start the dev server in another terminal: `npm run dev` (defaults to
+   port 3000; if 3000 is taken Vite falls back to 3001 — use the URL it
+   prints).
+2. From the repo root: `node scripts/capture-yamama.mjs` (or any other
+   capture-* script). Override the URL if needed:
    ```bash
-   npm run cache-details
+   NIBRAS_URL=http://localhost:3001 node scripts/capture-yamama.mjs
    ```
+3. Frames land under `tmp/<script-name>-frames/`. The `tmp/` directory
+   is gitignored.
 
-2. **Upload to Vercel Blob Storage:**
-   ```bash
-   npm run migrate-to-blob
-   ```
+### Adding a capture for a new battle
 
-3. **Deploy to Vercel:**
-   ```bash
-   git push
-   ```
-
-### Resuming After Interruption
-
-If the script is interrupted or quota is exceeded:
-
-```bash
-# Check the last processed event index from console output
-# Resume from that index
-START_FROM=42 npm run cache-details
-```
-
-### Processing in Batches
-
-For large datasets or to monitor progress:
-
-```bash
-# Process 5 events at a time
-BATCH_SIZE=5 npm run cache-details
-```
-
----
-
-## Cache File Structure
-
-All audio files are stored with SHA-256 hash filenames:
-
-```
-server/audio-cache/
-├── a1b2c3d4e5f6...xyz.wav  (event 1, chunk 1)
-├── b2c3d4e5f6g7...abc.wav  (event 1, chunk 2)
-├── c3d4e5f6g7h8...def.wav  (event 2, chunk 1)
-└── ...
-```
-
-After migration to Blob:
-
-```
-Vercel Blob Storage (tts-cache/)
-├── a1b2c3d4e5f6...xyz.wav  → https://xyz.blob.vercel-storage.com/tts-cache/a1b2c3d4e5f6...xyz.wav
-├── b2c3d4e5f6g7...abc.wav  → https://xyz.blob.vercel-storage.com/tts-cache/b2c3d4e5f6g7...abc.wav
-└── ...
-```
-
----
-
-## Troubleshooting
-
-### Quota Exceeded
-
-If you see "Quota exceeded" errors:
-1. Wait for the specified retry delay
-2. Resume using START_FROM parameter
-3. Consider increasing DELAY_BETWEEN_REQUESTS
-
-### Missing Audio Files
-
-If audio files are not being generated:
-1. Check GEMINI_API_KEY is set correctly
-2. Verify internet connection
-3. Check Gemini API quota limits
-
-### Migration Failures
-
-If blob migration fails:
-1. Verify BLOB_READ_WRITE_TOKEN is correct
-2. Check Vercel Blob storage is connected to project
-3. Ensure sufficient Blob storage quota
+The `capture-yamama.mjs` file is the cleanest template. Copy it,
+swap the search term ("اليمامة") for the new battle's Arabic name, and
+update the `MARKERS` array with the simulation-time beats you want
+captured. The script unlocks the engine via `window.__nibrasEngine`
+(exposed in DEV mode by `BattlePlayer.tsx`) so it can drive playback
+deterministically.
