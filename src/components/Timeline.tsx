@@ -1174,13 +1174,21 @@ export default function Timeline({
                         />
                       )}
                     </motion.div>
-                    {/* Event name label */}
+                    {/* Event name label. Selected items use the era hue
+                     *  on top of an era-tinted glow that's the SAME hue —
+                     *  contrast collapses below 2:1 for light eras. We
+                     *  keep the colored fill but anchor it with a black
+                     *  text-shadow halo so the label stays readable on
+                     *  any era glow. Non-selected stays at /85 white. */}
                     <span
                       className="leading-tight max-w-[56px] sm:max-w-[72px] truncate text-center"
                       style={{
                         fontSize: 'clamp(12px, 3vw, 13px)',
-                        color: isEvtSelected ? evtColor : 'rgba(255,255,255,0.78)',
-                        fontWeight: isEvtSelected ? 700 : 500,
+                        color: isEvtSelected ? evtColor : 'rgba(255,255,255,0.85)',
+                        fontWeight: isEvtSelected ? 700 : 600,
+                        textShadow: isEvtSelected
+                          ? '0 0 8px rgba(0,0,0,0.85), 0 1px 2px rgba(0,0,0,0.95)'
+                          : '0 1px 2px rgba(0,0,0,0.55)',
                       }}
                     >
                       {evt.title}

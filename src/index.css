@@ -350,7 +350,20 @@
   /* Legacy support */
   --sys-border-dark: #4a382b;
   --sys-panel-bg: rgba(34, 26, 21, 0.95);
-  --sys-card-bg: rgba(255, 255, 255, 0.03);
+  /* Bumped from 0.03 to 0.07 so card affordance survives in dark mode —
+     0.03 was so close to the panel that companion cards / search results
+     visually disappeared into the background. */
+  --sys-card-bg: rgba(255, 255, 255, 0.07);
+
+  /* CRITICAL: --glass-bg was previously only defined in :root and never
+     overridden under .dark, so every panel painted with bg-[var(--glass-bg)]
+     stayed light-cream in dark mode while text-ink flipped to a light cream
+     too — light-on-light, unreadable. The matching --glass-bg-dark token
+     existed but no consumer used it. Pointing --glass-bg at the dark value
+     here fixes EventPanel root, the edge tab, the desktop + mobile Timeline
+     docks, every modal (Companion / Quran / Search), and Toast all at once. */
+  --glass-bg: rgba(30, 20, 15, 0.88);
+  --glass-border: rgba(212, 163, 115, 0.22);
   --sys-map-center: #2b211a;
   --sys-map-edge: #18120e;
   --sys-map-filter: sepia(0.4) grayscale(0.6) brightness(0.4) contrast(1.3) opacity(0.4);

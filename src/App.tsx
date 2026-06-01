@@ -286,7 +286,12 @@ export default function App() {
           "absolute top-0 left-0 right-0 h-14 md:h-16",
           "pt-[env(safe-area-inset-top)]",
           "px-3 sm:px-4 flex items-center justify-between",
-          "bg-gradient-to-b from-ink/80 via-ink/60 to-ink/40",
+          // Hardcoded dark gradient — `from-ink/80` flips to a LIGHT
+          // gradient in dark mode (because --color-ink swaps), turning
+          // the entire header into light-on-light. Pinning to literal
+          // dark RGB keeps the header dark in both modes so every text
+          // / icon child stays legible.
+          "bg-gradient-to-b from-[rgba(20,15,10,0.85)] via-[rgba(20,15,10,0.65)] to-[rgba(20,15,10,0.4)]",
           "backdrop-blur-[20px] backdrop-saturate-150",
           "border-b border-[var(--glass-border)]",
           "pointer-events-none",
@@ -305,11 +310,11 @@ export default function App() {
           className="flex items-center gap-1.5 sm:gap-3 md:gap-4 pointer-events-auto shrink-0 drop-shadow-md relative"
         >
           <motion.div
-            className="relative text-[18px] sm:text-[24px] md:text-[32px] font-bold tracking-[0.5px] sm:tracking-[1px] md:tracking-[2px] text-parchment"
+            className="relative text-[18px] sm:text-[24px] md:text-[32px] font-bold tracking-[0.5px] sm:tracking-[1px] md:tracking-[2px] text-[#f4ece1]"
             whileHover={{ scale: 1.03 }}
             transition={{ duration: 0.2 }}
           >
-            <span className="relative z-10 bg-gradient-to-l from-parchment via-[#f5e6c8] to-parchment bg-clip-text text-transparent bg-[length:200%_100%] animate-[shimmer_6s_ease-in-out_infinite]">
+            <span className="relative z-10 bg-gradient-to-l from-[#f4ece1] via-[#f5e6c8] to-[#f4ece1] bg-clip-text text-transparent bg-[length:200%_100%] animate-[shimmer_6s_ease-in-out_infinite]">
               نِبْرَاس
             </span>
           </motion.div>
@@ -317,7 +322,7 @@ export default function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
-            className="italic text-[10px] sm:text-[12px] md:text-[14px] text-parchment/70 hidden sm:block"
+            className="italic text-[10px] sm:text-[12px] md:text-[14px] text-[#f4ece1]/75 hidden sm:block"
           >
             التاريخ الإسلامي كما لم تره من قبل
           </motion.div>
@@ -376,10 +381,10 @@ export default function App() {
             className={cn(
               "w-12 h-12 rounded-full",
               "border border-parchment/30",
-              "bg-ink/50 backdrop-blur-sm",
+              "bg-[rgba(20,15,10,0.55)] backdrop-blur-sm",
               "flex justify-center items-center",
-              "text-parchment shadow-md",
-              "hover:bg-accent/80 hover:border-accent/60 hover:text-parchment",
+              "text-[#f4ece1] shadow-md",
+              "hover:bg-accent/80 hover:border-accent/60 hover:text-[#f4ece1]",
               "active:bg-accent active:border-accent",
               "transition-all duration-200"
             )}
@@ -406,10 +411,10 @@ export default function App() {
             className={cn(
               "w-12 h-12 rounded-full",
               "border border-parchment/30",
-              "bg-ink/50 backdrop-blur-sm",
+              "bg-[rgba(20,15,10,0.55)] backdrop-blur-sm",
               "flex justify-center items-center",
-              "text-parchment shadow-md",
-              "hover:bg-accent/80 hover:border-accent/60 hover:text-parchment",
+              "text-[#f4ece1] shadow-md",
+              "hover:bg-accent/80 hover:border-accent/60 hover:text-[#f4ece1]",
               "active:bg-accent active:border-accent",
               "transition-all duration-200"
             )}
@@ -442,7 +447,7 @@ export default function App() {
                   "px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2",
                   "rounded-full border border-accent/40",
                   "bg-gradient-to-br from-accent to-accent-dark",
-                  "backdrop-blur text-parchment",
+                  "backdrop-blur text-[#f4ece1]",
                   "shadow-[0_4px_16px_rgba(34,139,34,0.3)]",
                   "hover:shadow-[0_6px_24px_rgba(34,139,34,0.5)]",
                   "transition-all font-bold text-xs sm:text-sm",
@@ -469,9 +474,9 @@ export default function App() {
             className={cn(
               "w-12 h-12 lg:hidden rounded-full",
               "border border-parchment/30",
-              "bg-ink/50 backdrop-blur-sm",
+              "bg-[rgba(20,15,10,0.55)] backdrop-blur-sm",
               "flex justify-center items-center",
-              "text-parchment shadow-md",
+              "text-[#f4ece1] shadow-md",
               "hover:bg-accent/80 hover:border-accent/60",
               "active:bg-accent active:border-accent",
               "transition-all duration-200"
@@ -495,9 +500,9 @@ export default function App() {
             className={cn(
               "w-12 h-12 rounded-full",
               "border border-parchment/30",
-              "bg-ink/50 backdrop-blur-sm",
+              "bg-[rgba(20,15,10,0.55)] backdrop-blur-sm",
               "flex justify-center items-center",
-              "text-parchment shadow-md",
+              "text-[#f4ece1] shadow-md",
               "hover:bg-accent/80 hover:border-accent/60",
               "active:bg-accent active:border-accent",
               "transition-all duration-200"

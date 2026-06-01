@@ -504,19 +504,19 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
 
             {/* Right: Faction Strength Indicators (compact on mobile, full on desktop) */}
             <div className="flex items-center gap-2 sm:gap-3 pointer-events-auto">
-              <div className="flex items-center gap-1.5 sm:gap-2 bg-gray-800/60 rounded-lg px-2 sm:px-3 py-1.5" dir="rtl" lang="ar">
+              <div className="flex items-center gap-1.5 sm:gap-2 bg-gray-900/80 ring-1 ring-white/10 rounded-lg px-2 sm:px-3 py-1.5" dir="rtl" lang="ar">
                 <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500" />
                 <span className="text-green-400 text-sm font-medium tabular-nums">
                   {muslimStrength.toLocaleString('ar-EG')}
                 </span>
-                <span className="hidden sm:inline text-gray-300 text-xs">{factionLabels.muslim}</span>
+                <span className="hidden sm:inline text-gray-100 text-xs">{factionLabels.muslim}</span>
               </div>
-              <div className="flex items-center gap-1.5 sm:gap-2 bg-gray-800/60 rounded-lg px-2 sm:px-3 py-1.5" dir="rtl" lang="ar">
+              <div className="flex items-center gap-1.5 sm:gap-2 bg-gray-900/80 ring-1 ring-white/10 rounded-lg px-2 sm:px-3 py-1.5" dir="rtl" lang="ar">
                 <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500" />
                 <span className="text-red-400 text-sm font-medium tabular-nums">
                   {enemyStrength.toLocaleString('ar-EG')}
                 </span>
-                <span className="hidden sm:inline text-gray-300 text-xs">{factionLabels.enemy}</span>
+                <span className="hidden sm:inline text-gray-100 text-xs">{factionLabels.enemy}</span>
               </div>
             </div>
           </div>
@@ -527,7 +527,7 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
       {!isLoading && currentPhaseName && (
         <div className="absolute top-20 sm:top-16 right-3 sm:right-4 z-20 pointer-events-none">
           <div className="bg-gray-900/70 backdrop-blur-sm rounded-lg px-3 py-2 border border-gray-700/50 max-w-[60vw] sm:max-w-none">
-            <p className="text-gray-400 text-xs tracking-wider" dir="rtl" lang="ar">المرحلة</p>
+            <p className="text-gray-200 text-xs" dir="rtl" lang="ar">المرحلة</p>
             <p className="text-white text-sm font-medium truncate" dir="rtl" lang="ar">{currentPhaseName}</p>
             <p className="text-gray-500 text-xs mt-0.5 tabular-nums">{formatTime(currentTime)}</p>
           </div>

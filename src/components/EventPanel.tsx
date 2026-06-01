@@ -480,6 +480,7 @@ export default function EventPanel({
               <ArticleBody
                 event={event}
                 eraTheme={eraTheme}
+                eraTextColor={eraTextColor}
                 fs={fs}
                 isMobile={isMobile}
                 onCompanionClick={onCompanionClick}
@@ -601,12 +602,17 @@ function Hero({
             'repeating-radial-gradient(circle at 80% 70%, rgba(255,255,255,0.4) 0 1px, transparent 1px 28px)',
         }}
       />
-      {/* Soft vignette for legibility of the title against the gradient. */}
+      {/* Vignette for title legibility — darkens the TOP region where the
+          display title sits, since light eras (prophetic gold, abuBakr
+          emerald) at full chroma drop white-text-on-color contrast below
+          AA Large. Stops chosen so a band ~15% deep at the top is dimmed
+          enough that white at full opacity passes ≥3:1 on every era. */}
       <div
         aria-hidden="true"
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: 'linear-gradient(to bottom, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.25) 80%, rgba(0,0,0,0.5) 100%)',
+          backgroundImage:
+            'linear-gradient(to bottom, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.10) 30%, rgba(0,0,0,0.10) 60%, rgba(0,0,0,0.55) 100%)',
         }}
       />
 
@@ -617,10 +623,13 @@ function Hero({
         )}
         style={{ minHeight: isMobile ? '38vh' : '320px' }}
       >
-        {/* Era pill */}
+        {/* Era pill — bg-black/30 for cross-era contrast guarantee. The
+            previous bg-white/15 over light era gradients (prophetic gold,
+            abuBakr emerald) failed AA. Black scrim + white text passes on
+            every era. */}
         <div className="mb-3">
           <span
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-bold border bg-white/15 backdrop-blur-md text-white border-white/25"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-bold border bg-black/35 backdrop-blur-md text-white border-white/15"
             style={fs(12)}
           >
             <Crown size={13} className="shrink-0" />
@@ -630,47 +639,50 @@ function Hero({
 
         {/* Display title — large, RTL */}
         <h1
-          className="font-bold text-white leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)] mb-3"
+          className="font-bold text-white leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.65)] mb-3"
           style={fs(isMobile ? 26 : 34)}
         >
           {event.title}
         </h1>
 
-        {/* Meta line: date · location · ruler */}
+        {/* Meta line: date · location · ruler. Solid white (no /90) and
+            stronger separator opacity so each item carries weight on the
+            era-tinted gradient. */}
         <div
-          className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-white/90 mb-2"
+          className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-white mb-2 drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]"
           style={fs(13)}
         >
           <span className="inline-flex items-center gap-1.5">
-            <Calendar size={13} className="shrink-0 opacity-80" />
+            <Calendar size={13} className="shrink-0" />
             <span className="font-bold">{arNum(event.date.hijri_relative)}</span>
           </span>
-          <span className="opacity-60">·</span>
-          <span className="opacity-90">{arNum(event.date.gregorian)} م</span>
-          <span className="opacity-60">·</span>
+          <span className="text-white/70" aria-hidden="true">·</span>
+          <span className="font-medium">{arNum(event.date.gregorian)} م</span>
+          <span className="text-white/70" aria-hidden="true">·</span>
           <span className="inline-flex items-center gap-1.5">
-            <MapPin size={13} className="shrink-0 opacity-80" />
+            <MapPin size={13} className="shrink-0" />
             <span className="font-bold truncate max-w-[180px]">{event.location.name}</span>
           </span>
           {ruler && (
             <>
-              <span className="opacity-60">·</span>
-              <span className="opacity-90 font-bold">{ruler}</span>
+              <span className="text-white/70" aria-hidden="true">·</span>
+              <span className="font-bold">{ruler}</span>
             </>
           )}
         </div>
 
-        {/* Army sizes (when present) */}
+        {/* Army sizes — opaquer pill backgrounds so they carry their own
+            weight regardless of era gradient underneath. */}
         {(event.details.army_size || event.details.enemy_army_size) && (
-          <div className="flex items-center gap-3 text-white/95 mb-4" style={fs(13)}>
+          <div className="flex items-center gap-3 text-white mb-4" style={fs(13)}>
             {event.details.army_size && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-700/50 backdrop-blur border border-emerald-300/30 font-bold">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-900/75 backdrop-blur-md border border-emerald-300/25 font-bold ring-1 ring-white/10">
                 <Users size={12} className="shrink-0" />
                 {event.details.army_size}
               </span>
             )}
             {event.details.enemy_army_size && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-red-800/55 backdrop-blur border border-red-300/30 font-bold">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-red-950/75 backdrop-blur-md border border-red-300/25 font-bold ring-1 ring-white/10">
                 <Swords size={12} className="shrink-0" />
                 {event.details.enemy_army_size}
               </span>
@@ -769,6 +781,7 @@ function Hero({
 function ArticleBody({
   event,
   eraTheme,
+  eraTextColor,
   fs,
   isMobile,
   onCompanionClick,
@@ -777,6 +790,11 @@ function ArticleBody({
 }: {
   event: EventItem;
   eraTheme: ReturnType<typeof getEraTheme>;
+  /** Mode-aware era foreground (textLight in light mode, textDark in dark
+   *  mode). Use this for ALL text drawn on the article body's neutral
+   *  background — `eraTheme.color` (the era primary) is too pale on light
+   *  parchment for the smaller text sizes (drop-cap, headings). */
+  eraTextColor: string;
   fs: (n: number) => { fontSize: string };
   isMobile: boolean;
   onCompanionClick?: (name: string) => void;
@@ -804,13 +822,17 @@ function ArticleBody({
         </p>
       )}
 
-      {/* Lead paragraph with drop-cap */}
+      {/* Lead paragraph with drop-cap. Drop-cap color uses the mode-aware
+          eraTextColor (textLight on parchment in light mode, textDark on
+          dark glass in dark mode) instead of the era primary, which would
+          collapse to ~1.9:1 contrast on the light parchment for warm-gold
+          and emerald eras. */}
       <div className="text-ink leading-[2] text-justify font-medium" style={fs(15)}>
         <span
           className="float-right ms-2 mt-1 mb-0 leading-none font-bold"
           style={{
             fontSize: '3.4em',
-            color: eraTheme.color,
+            color: eraTextColor,
             fontFamily: "'Amiri', 'Tajawal', serif",
             textShadow: '0 2px 4px rgba(0,0,0,0.08)',
           }}
@@ -839,7 +861,7 @@ function ArticleBody({
           <SectionHeading
             icon={<Flag size={16} />}
             label="مجريات الأحداث"
-            color={eraTheme.color}
+            color={eraTextColor}
             fs={fs}
           />
           <ol className="relative space-y-4 list-none ps-2 mt-2">
@@ -855,7 +877,15 @@ function ArticleBody({
               <li key={idx} className="relative flex gap-3 items-start">
                 <span
                   className="shrink-0 relative z-10 w-7 h-7 rounded-full flex items-center justify-center font-bold tabular-nums shadow-sm"
-                  style={{ ...fs(12), backgroundColor: eraTheme.color, color: '#fff' }}
+                  style={{
+                    ...fs(12),
+                    backgroundColor: eraTheme.color,
+                    // textLight is the era's WCAG-tuned dark hue (e.g. #92700A
+                    // on prophetic gold, #065F46 on abuBakr emerald) — passes
+                    // 4.5:1 against the bright era primary on every era,
+                    // unlike a plain '#fff' which fails AA on warm/bright eras.
+                    color: eraTheme.scheme.textLight,
+                  }}
                 >
                   {arNum(idx + 1)}
                 </span>
@@ -898,7 +928,7 @@ function ArticleBody({
           <SectionHeading
             icon={<Shield size={16} />}
             label="الصحابة والقادة"
-            color={eraTheme.color}
+            color={eraTextColor}
             fs={fs}
           />
           <div className="-me-5 me-[-1.25rem]">
@@ -940,7 +970,7 @@ function ArticleBody({
           <SectionHeading
             icon={<Users size={16} />}
             label="شخصيات أخرى"
-            color={eraTheme.color}
+            color={eraTextColor}
             fs={fs}
           />
           <div className="flex flex-wrap gap-2 mt-2">
@@ -984,7 +1014,7 @@ function ArticleBody({
         >
           <div
             className="flex items-center gap-2 mb-3 pb-2 border-b border-border-dark/15"
-            style={{ color: eraTheme.color }}
+            style={{ color: eraTextColor }}
           >
             <BookOpen size={15} className="shrink-0" />
             <h3 className="font-bold flex-1" style={fs(13)}>

@@ -34,7 +34,7 @@ const FloatingParticle: React.FC<{ delay: number; x: number; y: number; size: nu
 /** Feature item for the tour description */
 const FeatureItem: React.FC<{ icon: React.ReactNode; text: string; delay: number }> = ({ icon, text, delay }) => (
   <motion.div
-    className="flex items-center gap-3 text-parchment/90"
+    className="flex items-center gap-3 text-[#f4ece1]/90"
     initial={{ opacity: 0, x: -10 }}
     animate={{ opacity: 1, x: 0 }}
     transition={{ delay, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
@@ -170,7 +170,7 @@ export const TourPrompt: React.FC<TourPromptProps> = ({ isOpen, onAccept, onDecl
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3 }}
                   >
-                    <X className="w-4 h-4 text-parchment/60" />
+                    <X className="w-4 h-4 text-[#f4ece1]/70" />
                   </motion.button>
 
                   {/* Header area with icon */}
@@ -231,7 +231,7 @@ export const TourPrompt: React.FC<TourPromptProps> = ({ isOpen, onAccept, onDecl
                     {/* Description */}
                     <motion.p
                       id="tour-prompt-description"
-                      className="text-parchment/85 text-base sm:text-lg leading-relaxed text-center mb-5"
+                      className="text-[#f4ece1]/85 text-base sm:text-lg leading-relaxed text-center mb-5"
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.55, duration: 0.4 }}
@@ -304,11 +304,11 @@ export const TourPrompt: React.FC<TourPromptProps> = ({ isOpen, onAccept, onDecl
                         onClick={onDecline}
                         className={cn(
                           "w-full px-6 py-3.5",
-                          "bg-parchment/5 hover:bg-parchment/10",
-                          "text-parchment/70 hover:text-parchment",
+                          "bg-[#f4ece1]/5 hover:bg-[#f4ece1]/10",
+                          "text-[#f4ece1]/75 hover:text-[#f4ece1]",
                           "rounded-xl",
                           "font-medium text-base sm:text-lg",
-                          "transition-all border border-parchment/15 hover:border-parchment/30",
+                          "transition-all border border-[#f4ece1]/20 hover:border-[#f4ece1]/35",
                           "min-h-[52px]"
                         )}
                         initial={{ opacity: 0, y: 10 }}
@@ -323,7 +323,7 @@ export const TourPrompt: React.FC<TourPromptProps> = ({ isOpen, onAccept, onDecl
 
                     {/* Footer note */}
                     <motion.p
-                      className="text-parchment/40 text-xs sm:text-sm text-center mt-4"
+                      className="text-[#f4ece1]/55 text-xs sm:text-sm text-center mt-4"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 1.1, duration: 0.3 }}
