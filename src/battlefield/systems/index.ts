@@ -44,10 +44,23 @@ import { PixiRenderer } from '../renderer/PixiRenderer';
  * - Update velocity based on movement
  * - Update transform rotation to face movement direction
  */
+/** Distance below which a unit is considered "in melee range" of another. */
+const MELEE_RANGE = 28;
+
+/** When two enemy units come within this distance, auto-engage them.
+ *  Slightly larger than MELEE_RANGE so units lock on just before stopping. */
+const ENGAGEMENT_TRIGGER_RANGE = 36;
+
+/** How quickly a unit ramps up to its max speed (units/sec/sec). */
+const ACCELERATION = 180;
+
 export class MovementSystem {
   private entityManager: EntityManager;
   private eventBus: EventBus;
   private arrivalThreshold: number;
+  /** Per-entity instantaneous speed (separate from maxSpeed in component
+   *  so we can ramp smoothly without mutating scenario stats). */
+  private currentSpeeds: Map<string, number> = new Map();
 
   constructor(entityManager: EntityManager, eventBus: EventBus, arrivalThreshold: number = 5) {
     this.entityManager = entityManager;
@@ -67,14 +80,39 @@ export class MovementSystem {
   private moveEntity(entity: Entity, dt: number): void {
     const transform = entity.components.transform!;
     const movement = entity.components.movement!;
+    const combat = entity.components.combat;
 
-    // If already arrived or no target, zero velocity and return
-    if (movement.arrived || (!movement.targetPosition && movement.path.length === 0)) {
+    // Dead units don't move.
+    if (combat && combat.health <= 0) {
       movement.velocity = { x: 0, y: 0 };
+      this.currentSpeeds.set(entity.id, 0);
       return;
     }
 
-    // Determine current target (waypoint or final target)
+    // Engaged units stop where they are — they're locked in melee.
+    // Without this, units keep walking past their target through each other.
+    if (combat && combat.isEngaged && combat.targetEntityId) {
+      const targetEntity = this.entityManager.get(combat.targetEntityId);
+      if (targetEntity?.components.transform) {
+        const distToTarget = this.distance(transform.position, targetEntity.components.transform.position);
+        if (distToTarget <= MELEE_RANGE) {
+          movement.velocity = { x: 0, y: 0 };
+          this.currentSpeeds.set(entity.id, 0);
+          // Face the enemy
+          const dx = targetEntity.components.transform.position.x - transform.position.x;
+          const dy = targetEntity.components.transform.position.y - transform.position.y;
+          transform.rotation = Math.atan2(dy, dx);
+          return;
+        }
+      }
+    }
+
+    if (movement.arrived || (!movement.targetPosition && movement.path.length === 0)) {
+      movement.velocity = { x: 0, y: 0 };
+      this.currentSpeeds.set(entity.id, Math.max(0, (this.currentSpeeds.get(entity.id) ?? 0) - ACCELERATION * dt));
+      return;
+    }
+
     let target: Vector2D;
     if (movement.path.length > 0) {
       target = movement.path[0];
@@ -82,15 +120,13 @@ export class MovementSystem {
       target = movement.targetPosition!;
     }
 
-    // Calculate direction
     const dx = target.x - transform.position.x;
     const dy = target.y - transform.position.y;
     const dist = this.distance(transform.position, target);
 
     if (dist < this.arrivalThreshold) {
-      // Arrived at current target
       if (movement.path.length > 0) {
-        movement.path.shift(); // advance to next waypoint
+        movement.path.shift();
         if (movement.path.length === 0 && !movement.targetPosition) {
           movement.arrived = true;
           movement.velocity = { x: 0, y: 0 };
@@ -100,7 +136,6 @@ export class MovementSystem {
           });
         }
       } else {
-        // Arrived at final target
         movement.arrived = true;
         movement.velocity = { x: 0, y: 0 };
         this.eventBus.emit({
@@ -111,16 +146,18 @@ export class MovementSystem {
       return;
     }
 
-    // Move toward target
+    // Smooth acceleration toward maxSpeed instead of jumping instantly to it.
+    // Cavalry charges from 0 → 120 in ~0.7s instead of teleporting to full speed.
+    const cur = this.currentSpeeds.get(entity.id) ?? 0;
+    const ramped = Math.min(movement.currentSpeed, cur + ACCELERATION * dt);
+    this.currentSpeeds.set(entity.id, ramped);
+
     const dir = this.normalize({ x: dx, y: dy });
-    const speed = movement.currentSpeed * dt;
-    const actualMove = Math.min(speed, dist); // don't overshoot
+    const actualMove = Math.min(ramped * dt, dist);
 
     transform.position.x += dir.x * actualMove;
     transform.position.y += dir.y * actualMove;
-    movement.velocity = { x: dir.x * movement.currentSpeed, y: dir.y * movement.currentSpeed };
-
-    // Update rotation to face movement direction
+    movement.velocity = { x: dir.x * ramped, y: dir.y * ramped };
     transform.rotation = Math.atan2(dir.y, dir.x);
   }
 
@@ -138,6 +175,240 @@ export class MovementSystem {
       return { x: 0, y: 0 };
     }
     return { x: v.x / len, y: v.y / len };
+  }
+}
+
+// ============================================================
+// COMBAT SYSTEM
+// ============================================================
+
+/**
+ * CombatSystem — autonomous damage exchange between engaged units.
+ *
+ * Each frame, for every unit with `combat.isEngaged` and a `targetEntityId`,
+ * this system:
+ *   1. Validates the target is still alive and in range.
+ *   2. Calculates damage based on attack/defense stats + a charge bonus
+ *      while the attacker is closing distance.
+ *   3. Reduces the defender's `soldierCount` by a fraction of `dt` so
+ *      casualty totals tick smoothly (visible numbers dropping).
+ *   4. Reduces morale; once it crosses the rout threshold, emits
+ *      `combat:unit_routed` (once per unit) so the camera/audio react.
+ *   5. When `soldierCount` reaches zero, sets health to 0 and emits
+ *      `combat:unit_destroyed` so other systems clean up.
+ *
+ * Damage rate is calibrated so a typical 50-second simulation produces
+ * historically-plausible casualty percentages (5–15%) without making
+ * the autonomous combat decisive — scripted `destroy_unit` actions in the
+ * scenario timeline still drive the major outcomes.
+ *
+ * Auto-engagement: if a unit is moving toward an enemy and gets within
+ * ENGAGEMENT_TRIGGER_RANGE, this system marks them engaged so combat
+ * starts even without a scripted attack_unit action.
+ */
+export class CombatSystem {
+  private entityManager: EntityManager;
+  private eventBus: EventBus;
+
+  /** Track which units have already routed so we emit the event once. */
+  private routedUnits = new Set<string>();
+  /** Track the last damage event time per attacker so we throttle audio. */
+  private lastDamageEventTime = new Map<string, number>();
+
+  /** Damage rate (soldiers/sec) at attack==defense. Tuned so a 50s
+   *  engagement strips ~10% of a 200-soldier formation. */
+  private readonly BASE_DAMAGE_RATE = 0.45;
+  /** Morale damage rate (points/sec). Below 25 morale → unit routs. */
+  private readonly MORALE_DAMAGE_RATE = 0.5;
+  /** Below this morale, the unit breaks. */
+  private readonly ROUT_THRESHOLD = 22;
+
+  constructor(entityManager: EntityManager, eventBus: EventBus) {
+    this.entityManager = entityManager;
+    this.eventBus = eventBus;
+  }
+
+  update(dt: number, time: number): void {
+    const units = this.entityManager.withComponents('transform', 'unit', 'combat');
+
+    // First pass: auto-engage units in proximity. Without this, units only
+    // engage when a script calls attack_unit, which leaves big "ghost
+    // movement" sections where two armies walk past each other in silence.
+    this.autoEngageNearbyEnemies(units);
+
+    // Second pass: resolve damage for everyone currently engaged.
+    for (const attacker of units) {
+      const aCombat = attacker.components.combat!;
+      const aUnit = attacker.components.unit!;
+
+      if (!aCombat.isEngaged || !aCombat.targetEntityId) continue;
+      if (aCombat.health <= 0 || aUnit.soldierCount <= 0) continue;
+
+      const defender = this.entityManager.get(aCombat.targetEntityId);
+      if (!defender || !defender.components.combat || !defender.components.unit) {
+        // Target gone — drop engagement.
+        aCombat.isEngaged = false;
+        aCombat.targetEntityId = null;
+        continue;
+      }
+
+      const dCombat = defender.components.combat;
+      const dUnit = defender.components.unit;
+
+      if (dCombat.health <= 0 || dUnit.soldierCount <= 0) {
+        // Target dead — drop engagement.
+        aCombat.isEngaged = false;
+        aCombat.targetEntityId = null;
+        continue;
+      }
+
+      // Range check — if defender drifted out of melee, drop engagement
+      // (the movement system will handle re-approach).
+      const aT = attacker.components.transform!;
+      const dT = defender.components.transform!;
+      const distance = Math.hypot(dT.position.x - aT.position.x, dT.position.y - aT.position.y);
+      if (distance > MELEE_RANGE * 1.5) {
+        aCombat.isEngaged = false;
+        continue;
+      }
+
+      // Damage exchange: scaled by attack/defense ratio with a small
+      // multiplier for cavalry/heavy_cavalry vs infantry advantages.
+      const ratio = (aCombat.attack + 10) / (dCombat.defense + 10);
+      const typeBonus = this.troopMatchupBonus(aUnit.troopType, dUnit.troopType);
+      const damageThisTick = this.BASE_DAMAGE_RATE * ratio * typeBonus * dt;
+
+      // Reduce soldier count (visible: the count text + casualty figures).
+      // Round to keep integer-ish soldier counts but allow fractional
+      // accumulation so small dt doesn't get truncated to 0.
+      const newCount = Math.max(0, dUnit.soldierCount - damageThisTick);
+      dUnit.soldierCount = newCount;
+      // Health mirrors soldierCount as a percentage of original.
+      dCombat.health = Math.max(0, (newCount / dUnit.maxSoldiers) * 100);
+
+      // Morale damage — defenders with high losses break faster.
+      const moraleHit = this.MORALE_DAMAGE_RATE * ratio * dt;
+      dCombat.morale = Math.max(0, dCombat.morale - moraleHit);
+
+      // Throttled damage event for audio system (once per second per pair).
+      const lastT = this.lastDamageEventTime.get(attacker.id) ?? 0;
+      if (time - lastT > 1.0) {
+        this.lastDamageEventTime.set(attacker.id, time);
+        this.eventBus.emit({
+          type: 'combat:damage_dealt',
+          payload: {
+            attackerId: attacker.id,
+            defenderId: defender.id,
+            damage: damageThisTick,
+          },
+        });
+      }
+
+      // Rout check — fire once per unit.
+      if (dCombat.morale < this.ROUT_THRESHOLD && !this.routedUnits.has(defender.id)) {
+        this.routedUnits.add(defender.id);
+        this.eventBus.emit({
+          type: 'combat:unit_routed',
+          payload: { entityId: defender.id, faction: dUnit.faction },
+        });
+      }
+
+      // Destruction check.
+      if (dUnit.soldierCount <= 0 && dCombat.health <= 0) {
+        this.eventBus.emit({
+          type: 'combat:unit_destroyed',
+          payload: { entityId: defender.id, faction: dUnit.faction },
+        });
+        // Don't remove the entity here — the renderer needs to keep the
+        // dead figures on-screen. The scenario script can call destroy_unit
+        // to actually remove it, or the entity stays visible as a "wreck".
+        dCombat.isEngaged = false;
+        aCombat.isEngaged = false;
+        aCombat.targetEntityId = null;
+      }
+    }
+  }
+
+  /** Find pairs of enemy units within ENGAGEMENT_TRIGGER_RANGE and lock
+   *  them into combat. Skips units that already have a target. */
+  private autoEngageNearbyEnemies(units: readonly Entity[]): void {
+    for (let i = 0; i < units.length; i++) {
+      const a = units[i];
+      const aCombat = a.components.combat!;
+      const aUnit = a.components.unit!;
+      const aT = a.components.transform!;
+
+      if (aCombat.health <= 0 || aUnit.soldierCount <= 0) continue;
+      if (aCombat.isEngaged) continue;
+
+      let bestTarget: Entity | null = null;
+      let bestDist = ENGAGEMENT_TRIGGER_RANGE;
+
+      for (let j = 0; j < units.length; j++) {
+        if (i === j) continue;
+        const b = units[j];
+        const bUnit = b.components.unit!;
+        const bCombat = b.components.combat!;
+
+        // Same side: skip. (Mamluks and Muslims both count as "muslim
+        // side" so they don't fight each other.)
+        if (this.sameSide(aUnit.faction, bUnit.faction)) continue;
+        if (bCombat.health <= 0 || bUnit.soldierCount <= 0) continue;
+
+        const bT = b.components.transform!;
+        const d = Math.hypot(bT.position.x - aT.position.x, bT.position.y - aT.position.y);
+        if (d < bestDist) {
+          bestDist = d;
+          bestTarget = b;
+        }
+      }
+
+      if (bestTarget) {
+        aCombat.isEngaged = true;
+        aCombat.targetEntityId = bestTarget.id;
+        this.eventBus.emit({
+          type: 'combat:engagement_started',
+          payload: { attackerId: a.id, defenderId: bestTarget.id },
+        });
+      }
+    }
+  }
+
+  /** Two factions are on the same side if they're both on the muslim side
+   *  or both on the enemy side. Used to prevent same-side friendly fire. */
+  private sameSide(a: Faction, b: Faction): boolean {
+    const muslimSide = (f: Faction) => f === 'muslim' || f === 'mamluk';
+    if (a === b) return true;
+    if (muslimSide(a) && muslimSide(b)) return true;
+    return false;
+  }
+
+  /** Multiplier for troop-type matchups. Cavalry charges shock infantry,
+   *  archers struggle in melee, elephants trample everyone. Conservative
+   *  values so the simulation stays within historical bounds. */
+  private troopMatchupBonus(attacker: string, defender: string): number {
+    const cav = ['cavalry', 'heavy_cavalry', 'horse_archer'];
+    const ranged = ['archers', 'horse_archer'];
+
+    if (attacker === 'elephant') return 1.6;
+    if (defender === 'elephant') return 0.7;
+
+    if (cav.includes(attacker) && (defender === 'infantry' || defender === 'archers')) {
+      return 1.3;
+    }
+    if (attacker === 'infantry' && cav.includes(defender)) {
+      return 0.85;
+    }
+    if (ranged.includes(attacker) && defender === 'infantry') {
+      return 0.95;
+    }
+    return 1.0;
+  }
+
+  /** Reset routing/event-throttle state when a scenario unloads. */
+  reset(): void {
+    this.routedUnits.clear();
+    this.lastDamageEventTime.clear();
   }
 }
 
@@ -699,12 +970,27 @@ export class RenderSystem {
         break;
     }
 
-    // Draw a stylized soldier figure at each formation position. Figures
-    // are tinted with the faction palette and oriented to face forward
-    // (positive Y). The container's rotation handles unit facing.
+    // Draw stylized soldier figures at each formation slot. Casualties are
+    // rendered as fallen silhouettes — a proportional number of slots show
+    // upright soldiers (the survivors), the remainder show fallen / faded
+    // figures so a unit at 60 % strength visibly looks like 40 % of its
+    // formation has been lost. This is the "broken pieces" feedback.
     const positions = this.getSoldierPositions(dotCount, formationType, dims);
-    for (const pos of positions) {
-      this.drawSoldierFigure(graphics, unit, pos.x, pos.y);
+    const survivalRatio = unit.maxSoldiers > 0
+      ? Math.max(0, Math.min(1, unit.soldierCount / unit.maxSoldiers))
+      : 1;
+    const liveCount = Math.round(positions.length * survivalRatio);
+
+    // Live figures occupy the FRONT of the formation (lower index = closer
+    // to the enemy). Fallen figures cluster at the back rows so the unit
+    // visually retreats slot-by-slot as casualties mount.
+    for (let i = 0; i < positions.length; i++) {
+      const pos = positions[i];
+      if (i < liveCount) {
+        this.drawSoldierFigure(graphics, unit, pos.x, pos.y);
+      } else {
+        this.drawFallenFigure(graphics, unit, pos.x, pos.y);
+      }
     }
 
     // Highlight border if selected
@@ -975,6 +1261,29 @@ export class RenderSystem {
     g.fill({ color: 0x6b4f1f, alpha: 0.95 });
     g.circle(cx + 0.5, cy - 7.5, 1.4);
     g.fill({ color: armor, alpha: 1 });
+  }
+
+  /** Fallen soldier — body lying on its side with a small dark blood
+   *  smear underneath. Drawn faded so the eye reads it as "casualty" not
+   *  "moving unit". One shape covers all troop types: anyone who falls
+   *  looks roughly the same. */
+  private drawFallenFigure(
+    g: Graphics,
+    unit: UnitComponent,
+    cx: number,
+    cy: number,
+  ): void {
+    const colors = FACTION_COLORS[unit.faction];
+    // Dark smear underneath
+    g.ellipse(cx, cy + 3, 4.5, 1.4);
+    g.fill({ color: 0x3a0808, alpha: 0.5 });
+    // Body lying on side (rounded rectangle)
+    g.roundRect(cx - 4, cy - 0.5, 8, 2.6, 1);
+    g.fill({ color: colors.dark, alpha: 0.55 });
+    g.stroke({ color: 0x000000, width: 0.4, alpha: 0.5 });
+    // Head detached / off to the side
+    g.circle(cx - 5, cy + 0.5, 1.4);
+    g.fill({ color: colors.dark, alpha: 0.55 });
   }
 
   /** Siege engineer — figure with a mallet. */
@@ -1868,6 +2177,7 @@ export interface SystemRefs {
   movement: MovementSystem;
   render: RenderSystem;
   terrain: TerrainRenderer;
+  combat: CombatSystem;
 }
 
 export function createSystems(
@@ -1878,6 +2188,7 @@ export function createSystems(
   const movement = new MovementSystem(entityManager, eventBus);
   const render = new RenderSystem(entityManager, renderer, eventBus);
   const terrain = new TerrainRenderer(renderer);
+  const combat = new CombatSystem(entityManager, eventBus);
 
-  return { movement, render, terrain };
+  return { movement, render, terrain, combat };
 }

@@ -26,6 +26,7 @@ import { Clock } from './Clock';
 import { EventBus } from './EventBus';
 import { PixiRenderer } from '../renderer/PixiRenderer';
 import { CameraController } from '../camera/CameraController';
+import { CameraDirector } from '../camera/CameraDirector';
 import { EntityManager } from '../entities';
 import { ScenarioLoader } from '../scenarios';
 import { ScriptInterpreter } from '../scripting';
@@ -80,6 +81,9 @@ export class Engine {
 
   // Synthesized battle audio (subscribes to event bus, no asset loading)
   private audio: BattleAudio | null = null;
+
+  // Cinematic camera director (auto-zoom on combat events)
+  private cameraDirector: CameraDirector | null = null;
 
   constructor(options?: EngineOptions) {
     console.log('[Engine] constructor start');
@@ -193,10 +197,26 @@ export class Engine {
     this.systemRefs.terrain.renderTerrain(scenario.map);
     console.log('[Engine] terrain rendered');
 
-    // Register movement system as a fixed-step system
+    // Register movement + combat as fixed-step systems. Movement runs
+    // first (positions update), then combat (engagement detection +
+    // damage exchange uses the new positions).
     this.systems = [];
     this.registerSystem('movement', (dt, time) => {
       this.systemRefs!.movement.update(dt, time);
+    });
+    this.registerSystem('combat', (dt, time) => {
+      this.systemRefs!.combat.update(dt, time);
+    });
+
+    // Spin up the cinematic camera director once the camera is alive.
+    if (this.camera) {
+      // Tear down any director from a prior scenario load.
+      this.cameraDirector?.destroy();
+      this.cameraDirector = new CameraDirector(this.camera, this.eventBus, this.entityManager);
+    }
+    // Director needs sim time each frame to manage its cooldown / yield.
+    this.registerSystem('cameraDirector', (_dt, time) => {
+      this.cameraDirector?.tick(time);
     });
 
     // 3. Create ScriptInterpreter and TimelineController
@@ -602,6 +622,38 @@ export class Engine {
 
     // Update playback store with current time
     usePlaybackStore.getState().setCurrentTime(this.clock.getTimeSeconds());
+
+    // Update faction strength totals from live unit state so the
+    // BattlePlayer header counters tick down as the CombatSystem inflicts
+    // casualties. Throttled to 10 Hz with the rest of the store sync to
+    // avoid React re-render thrash at 60 fps.
+    let muslimStrength = 0;
+    let enemyStrength = 0;
+    let muslimMorale = 0;
+    let muslimUnits = 0;
+    let enemyMorale = 0;
+    let enemyUnits = 0;
+    const muslimSide = (f: string) => f === 'muslim' || f === 'mamluk';
+
+    for (const entity of this.entityManager.withComponents('unit', 'combat')) {
+      const u = entity.components.unit!;
+      const c = entity.components.combat!;
+      if (muslimSide(u.faction)) {
+        muslimStrength += Math.max(0, Math.round(u.soldierCount));
+        muslimMorale += c.morale;
+        muslimUnits++;
+      } else if (u.faction !== 'neutral') {
+        enemyStrength += Math.max(0, Math.round(u.soldierCount));
+        enemyMorale += c.morale;
+        enemyUnits++;
+      }
+    }
+    const sim = useSimulationStore.getState();
+    sim.updateStrengths(muslimStrength, enemyStrength);
+    sim.updateMorale(
+      muslimUnits ? muslimMorale / muslimUnits : 100,
+      enemyUnits ? enemyMorale / enemyUnits : 100,
+    );
   }
 
   /**
@@ -620,6 +672,12 @@ export class Engine {
     if (this.audio) {
       this.audio.destroy();
       this.audio = null;
+    }
+
+    // Tear down the cinematic director (unsubscribes event listeners)
+    if (this.cameraDirector) {
+      this.cameraDirector.destroy();
+      this.cameraDirector = null;
     }
 
     // Destroy timeline controller
