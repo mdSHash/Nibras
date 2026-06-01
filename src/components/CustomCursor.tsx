@@ -176,7 +176,12 @@ function CustomCursorImpl() {
             width: isHovering ? "28px" : "16px",
             height: isHovering ? "28px" : "16px",
             transition: "width 0.2s ease, height 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease",
-            transform: isClicking ? "scale(0.75)" : "scale(1)",
+            // 45° rotation gives the 8-pointed star a windmill orientation
+            // (points facing the cardinal directions instead of diagonals).
+            // The hover state stays unrotated so the circle reads cleanly.
+            transform: isHovering
+              ? (isClicking ? "scale(0.75)" : "scale(1)")
+              : (isClicking ? "rotate(45deg) scale(0.75)" : "rotate(45deg) scale(1)"),
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
