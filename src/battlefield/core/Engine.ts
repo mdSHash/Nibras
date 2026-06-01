@@ -427,14 +427,19 @@ export class Engine {
     const cx = (minX + maxX) / 2;
     const cy = (minY + maxY) / 2;
 
-    const fitFactor = isMobile ? 0.96 : 0.92;
+    // Pull factor — smaller value = more breathing room around the action.
+    // Desktop now keeps generous padding so the viewer sees the whole field
+    // without the formations crowding the frame edges. Mobile is tighter
+    // because every CSS pixel matters there.
+    const fitFactor = isMobile ? 0.92 : 0.78;
     const bboxFitZoom = Math.min(viewportW / bboxW, viewportH / bboxH) * fitFactor;
 
     // Floor: ensure each soldier figure is at least this many CSS pixels.
-    // Without this, a wide bbox on a small viewport would zoom out so far
-    // that figures become 2 px specks. We accept cropping over invisibility.
-    // Figures are ~7 world-units wide; target 11 px on mobile, 9 px on desktop.
-    const targetFigurePx = isMobile ? 11 : 9;
+    // Earlier this was 9 / 11 which forced minimum 1.29× zoom on every
+    // scenario — the user reported "too zoomed in" on desktop so we drop
+    // the floor; the cinematic camera and the manual reset button can
+    // always tighten on demand.
+    const targetFigurePx = isMobile ? 9 : 6;
     const minZoomFloor = targetFigurePx / 7;
 
     const fitZoom = Math.max(bboxFitZoom, minZoomFloor);

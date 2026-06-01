@@ -66,15 +66,41 @@ export const battleOfYamama: BattleScenario = {
         color: 0xb89968,
         label: 'سهل عقرباء',
       },
+      // The Najd uplands form the northern horizon of al-Yamamah —
+      // jagged dark sandstone ridges visible during the battle
+      {
+        id: 'najd-mountains',
+        type: 'mountain',
+        polygon: [
+          { x: 0, y: 0 },
+          { x: 1500, y: 0 },
+          { x: 1500, y: 90 },
+          { x: 0, y: 90 },
+        ],
+        color: 0x3c2a1a,
+        label: 'جبال نجد',
+      },
+      // Low rolling hills bordering the south of the plain
+      {
+        id: 'southern-hills',
+        type: 'elevated',
+        polygon: [
+          { x: 0, y: 920 },
+          { x: 1500, y: 920 },
+          { x: 1500, y: 1000 },
+          { x: 0, y: 1000 },
+        ],
+        color: 0x6b5a4a,
+      },
       // Palm groves to the north and south of the garden
       {
         id: 'north-palms',
         type: 'oasis',
         polygon: [
-          { x: 950, y: 100 },
-          { x: 1450, y: 100 },
-          { x: 1450, y: 280 },
-          { x: 950, y: 280 },
+          { x: 950, y: 110 },
+          { x: 1450, y: 110 },
+          { x: 1450, y: 290 },
+          { x: 950, y: 290 },
         ],
         color: 0x3a5a2a,
         label: 'بساتين النخل',
@@ -712,29 +738,35 @@ export const battleOfYamama: BattleScenario = {
   ],
 
   // ─── Camera Choreography ───────────────────────────────────────────────────
+  // Zooms are deliberately moderate — the field is wide and the viewer
+  // should be able to see whole formations clashing, not just one or two
+  // figures. The CameraDirector's autonomous moves add slight zoom-ins on
+  // engagement events, so the authored values stay loose.
   cameraScript: [
     // Opening overview of the entire field
-    { time: 0, position: { x: 700, y: 500 }, zoom: 0.55, duration: 3, easing: 'power2.inOut', type: 'overview' },
-    // Drop in on the initial clash
-    { time: 4, position: { x: 600, y: 480 }, zoom: 0.85, duration: 2, easing: 'power2.inOut', type: 'focus' },
+    { time: 0, position: { x: 700, y: 500 }, zoom: 0.45, duration: 3, easing: 'power2.inOut', type: 'overview' },
+    // Drop in slightly on the initial clash
+    { time: 4, position: { x: 600, y: 480 }, zoom: 0.6, duration: 2, easing: 'power2.inOut', type: 'focus' },
     // Pull back as lines bend
-    { time: 10, position: { x: 450, y: 500 }, zoom: 0.7, duration: 2, easing: 'power2.inOut', type: 'pan' },
-    // Tight on Khalid as he reorganizes
-    { time: 16, position: { x: 280, y: 500 }, zoom: 1.1, duration: 2, easing: 'power2.inOut', type: 'focus' },
+    { time: 10, position: { x: 450, y: 500 }, zoom: 0.5, duration: 2, easing: 'power2.inOut', type: 'pan' },
+    // Khalid reorganizes — show the whole western side, not just him
+    { time: 16, position: { x: 320, y: 500 }, zoom: 0.7, duration: 2, easing: 'power2.inOut', type: 'focus' },
     // Wide for the counter-attack
-    { time: 22, position: { x: 600, y: 500 }, zoom: 0.6, duration: 2.5, easing: 'power2.inOut', type: 'overview' },
-    // Tight on Muhakkim's death
-    { time: 32.5, position: { x: 580, y: 470 }, zoom: 1.3, duration: 1.5, easing: 'power3.out', type: 'focus' },
+    { time: 22, position: { x: 600, y: 500 }, zoom: 0.45, duration: 2.5, easing: 'power2.inOut', type: 'overview' },
+    // Muhakkim's death — modest tighten so the viewer sees the surrounding
+    // melee, not just the dying unit
+    { time: 32.5, position: { x: 580, y: 470 }, zoom: 0.85, duration: 1.5, easing: 'power3.out', type: 'focus' },
     // Pull back for the retreat to garden
-    { time: 37, position: { x: 1000, y: 500 }, zoom: 0.6, duration: 2.5, easing: 'power2.inOut', type: 'pan' },
-    // Cinematic on Bara'a climbing the wall
-    { time: 44, position: { x: 1240, y: 380 }, zoom: 1.7, duration: 1.5, easing: 'power3.out', type: 'focus' },
-    // Garden interior overhead
-    { time: 50, position: { x: 1240, y: 510 }, zoom: 0.85, duration: 2, easing: 'power2.inOut', type: 'overview' },
-    // Snap to Musaylimah's death
-    { time: 56, position: { x: 1320, y: 510 }, zoom: 1.9, duration: 1, easing: 'power3.out', type: 'focus' },
-    // Final overview
-    { time: 58.5, position: { x: 800, y: 500 }, zoom: 0.5, duration: 1.5, easing: 'power2.inOut', type: 'overview' },
+    { time: 37, position: { x: 1000, y: 500 }, zoom: 0.5, duration: 2.5, easing: 'power2.inOut', type: 'pan' },
+    // Bara'a's wall — pulled back so the Muslim line surrounding the wall
+    // and the interior of the garden are both readable in one frame
+    { time: 44, position: { x: 1200, y: 470 }, zoom: 0.78, duration: 1.5, easing: 'power3.out', type: 'focus' },
+    // Garden interior — wide enough to see the slaughter as a whole
+    { time: 50, position: { x: 1240, y: 510 }, zoom: 0.6, duration: 2, easing: 'power2.inOut', type: 'overview' },
+    // Musaylimah's death — modest tighten only
+    { time: 56, position: { x: 1320, y: 510 }, zoom: 0.85, duration: 1, easing: 'power3.out', type: 'focus' },
+    // Final overview before the summary panel takes over
+    { time: 58.5, position: { x: 800, y: 500 }, zoom: 0.42, duration: 1.5, easing: 'power2.inOut', type: 'overview' },
   ],
 
   // ─── Outcome ───────────────────────────────────────────────────────────────
@@ -748,6 +780,8 @@ export const battleOfYamama: BattleScenario = {
       'انتصارٌ حاسمٌ أنهى حروبَ الردة. استُشهد قرابة ألفٍ ومئتي مسلم، منهم نحو سبع مئة من حُفّاظ كتاب الله. كان فقدُ هؤلاء الحُفّاظ السببَ الذي حَمَل أبا بكرٍ الصدّيق رضي الله عنه على تكليف زيد بن ثابت بجمعِ القرآن في مصحفٍ واحد — أصلُ كلِّ مصحفٍ بعدَه. سقط من بني حنيفةَ ما يَزيدُ على واحدٍ وعشرين ألفاً بين السهلِ والحديقةِ والطلبِ، وقَتل وحشيُّ بنُ حربٍ مسيلمةَ بحربتِه. تثبَّتَ خالدُ بن الوليد قائداً عاماً لجيوشِ الخلافة، وانفتح الطريقُ نحوَ العراقِ والشام.',
     significance:
       "The catastrophic loss of Qur'an memorizers prompted the first compilation of the Qur'an. The Ridda Wars ended decisively, securing the unity of the Arabian peninsula under the caliphate. Khalid's tribal-banner reorganization passed into military doctrine. The Garden of Death — حديقة الموت — became the proverb in Arabic for a place of irrevocable engagement.",
+    significanceAr:
+      'سقوط هذا العدد من حُفّاظ كتاب الله كان السببَ المباشر لجمعِ القرآن في مصحفٍ واحد على عهد أبي بكرٍ الصدّيق رضي الله عنه. انتهت حروبُ الردة حسماً وثبتت وحدة الجزيرة العربية تحت راية الخلافة. تنظيمُ خالدٍ للقبائل تحت راياتها صار مذهباً عسكريّاً يُتعلَّم. وصارت "حديقةُ الموت" مَثَلاً عربيّاً لكلِّ ساحةِ قتالٍ لا مَهرَب منها.',
   },
 
   totalDuration: 60,

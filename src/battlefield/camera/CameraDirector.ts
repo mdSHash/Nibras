@@ -67,11 +67,18 @@ export class CameraDirector {
     this.eventBus = eventBus;
     this.entityManager = entityManager;
 
-    this.cooldown = opts.cooldown ?? 1.4;
-    this.combatZoom = opts.combatZoom ?? 1.6;
-    this.killZoom = opts.killZoom ?? 2.0;
+    // Cooldown bumped so the director moves at most ~once per 2.5 sec —
+    // earlier 1.4 s let the camera flicker in scenes with many concurrent
+    // engagements (the Garden of Death, Yarmouk's bridge fight).
+    this.cooldown = opts.cooldown ?? 2.5;
+    // Very modest zoom-ins. Combined with an authored keyframe, the
+    // multiply must stay close to 1× or the camera ends up suffocating
+    // on a single tile. Authored keyframes already tighten the framing
+    // for important moments.
+    this.combatZoom = opts.combatZoom ?? 1.08;
+    this.killZoom = opts.killZoom ?? 1.18;
     this.transitionDuration = opts.transitionDuration ?? 0.9;
-    this.scriptedYieldDuration = opts.scriptedYieldDuration ?? 1.5;
+    this.scriptedYieldDuration = opts.scriptedYieldDuration ?? 2.5;
 
     this.subscribe();
   }
@@ -151,6 +158,6 @@ export class CameraDirector {
   /** Keep autonomous zooms within reasonable bounds — the camera has its
    *  own min/max but the director shouldn't get anywhere near them. */
   private clampZoom(z: number): number {
-    return Math.max(0.5, Math.min(2.6, z));
+    return Math.max(0.45, Math.min(1.3, z));
   }
 }

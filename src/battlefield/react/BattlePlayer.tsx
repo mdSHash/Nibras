@@ -33,6 +33,37 @@ function formatTime(seconds: number): string {
 
 const SPEED_OPTIONS = [0.5, 1, 2, 4] as const;
 
+/** Arabic label for each BattleVerdict on the end-of-battle summary card. */
+function verdictLabelAr(verdict: string): string {
+  switch (verdict) {
+    case 'muslim_victory':       return 'نصر المسلمين';
+    case 'enemy_victory':        return 'انتصار العدو';
+    case 'tactical_withdrawal':  return 'انسحاب تكتيكي';
+    case 'unfought_expedition':  return 'غزوة دون قتال';
+    case 'draw':                 return 'تعادل';
+    case 'inconclusive':         return 'غير حاسمة';
+    default:                     return verdict;
+  }
+}
+
+/** Tailwind classes for the verdict badge — colored by outcome. */
+function cnVerdict(verdict: string): string {
+  const base =
+    'px-3 py-1.5 rounded-full text-xs sm:text-sm font-bold border tabular-nums whitespace-nowrap';
+  switch (verdict) {
+    case 'muslim_victory':
+      return `${base} bg-green-900/40 border-green-500/60 text-green-200`;
+    case 'enemy_victory':
+      return `${base} bg-red-900/40 border-red-500/60 text-red-200`;
+    case 'tactical_withdrawal':
+      return `${base} bg-amber-900/40 border-amber-500/60 text-amber-200`;
+    case 'unfought_expedition':
+      return `${base} bg-blue-900/40 border-blue-500/60 text-blue-200`;
+    default:
+      return `${base} bg-gray-800/60 border-gray-500/40 text-gray-300`;
+  }
+}
+
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePlayerProps) {
@@ -125,6 +156,13 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
         await engine.init(canvas, width, height);
         console.log('[BattlePlayer] engine.init() resolved!');
 
+        // Dev-only handle so end-to-end capture scripts (Playwright,
+        // dev-tools console) can seek the simulation. Stripped in
+        // production builds via the import.meta.env.DEV check.
+        if (import.meta.env?.DEV && typeof window !== 'undefined') {
+          (window as unknown as { __nibrasEngine?: unknown }).__nibrasEngine = engine;
+        }
+
         if (destroyed) {
           console.log('[BattlePlayer] destroyed during init, cleaning up');
           engine.destroy();
@@ -181,6 +219,13 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
       if (engineRef.current) {
         engineRef.current.destroy();
         engineRef.current = null;
+      }
+      if (import.meta.env?.DEV && typeof window !== 'undefined') {
+        try {
+          delete (window as unknown as { __nibrasEngine?: unknown }).__nibrasEngine;
+        } catch {
+          (window as unknown as { __nibrasEngine?: unknown }).__nibrasEngine = undefined;
+        }
       }
     };
   }, [scenarioId]);
@@ -462,14 +507,14 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
               <div className="flex items-center gap-1.5 sm:gap-2 bg-gray-800/60 rounded-lg px-2 sm:px-3 py-1.5" dir="rtl" lang="ar">
                 <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500" />
                 <span className="text-green-400 text-sm font-medium tabular-nums">
-                  {muslimStrength}
+                  {muslimStrength.toLocaleString('ar-EG')}
                 </span>
                 <span className="hidden sm:inline text-gray-300 text-xs">{factionLabels.muslim}</span>
               </div>
               <div className="flex items-center gap-1.5 sm:gap-2 bg-gray-800/60 rounded-lg px-2 sm:px-3 py-1.5" dir="rtl" lang="ar">
                 <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500" />
                 <span className="text-red-400 text-sm font-medium tabular-nums">
-                  {enemyStrength}
+                  {enemyStrength.toLocaleString('ar-EG')}
                 </span>
                 <span className="hidden sm:inline text-gray-300 text-xs">{factionLabels.enemy}</span>
               </div>
@@ -527,11 +572,100 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
         </div>
       )}
 
-      {/* Replay Overlay (shown when battle completes) */}
-      {!isLoading && status === 'completed' && (
+      {/* End-of-battle summary panel (when status === 'completed') */}
+      {!isLoading && status === 'completed' && scenario && (
+        <div
+          className="absolute inset-0 flex items-center justify-center z-40 bg-black/65 overflow-y-auto py-6 px-3"
+          dir="rtl"
+          lang="ar"
+        >
+          <div className="w-full max-w-2xl bg-gray-900/95 backdrop-blur-md border border-amber-700/40 rounded-2xl shadow-2xl p-5 sm:p-7 space-y-5">
+            {/* Verdict badge */}
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+              <h2 className="text-amber-300 text-xl sm:text-2xl font-bold">
+                {scenario.nameAr}
+              </h2>
+              <span
+                className={cnVerdict(scenario.outcome.verdict)}
+                aria-label="نتيجة المعركة"
+              >
+                {verdictLabelAr(scenario.outcome.verdict)}
+              </span>
+            </div>
+
+            {/* Casualties grid — survivors take green, fallen take faction-red */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-gray-800/70 rounded-xl p-3 border border-green-700/40">
+                <p className="text-gray-400 text-xs">خسائر المسلمين</p>
+                <p className="text-green-300 text-2xl sm:text-3xl font-bold tabular-nums">
+                  {scenario.outcome.muslimCasualties.toLocaleString('ar-EG')}
+                </p>
+                <p className="text-gray-500 text-[11px] mt-0.5">شهيداً</p>
+              </div>
+              <div className="bg-gray-800/70 rounded-xl p-3 border border-red-700/40">
+                <p className="text-gray-400 text-xs">خسائر العدو</p>
+                <p className="text-red-300 text-2xl sm:text-3xl font-bold tabular-nums">
+                  {scenario.outcome.enemyCasualties !== undefined
+                    ? scenario.outcome.enemyCasualties.toLocaleString('ar-EG')
+                    : '—'}
+                </p>
+                <p className="text-gray-500 text-[11px] mt-0.5">قتيلاً</p>
+              </div>
+            </div>
+
+            {/* Summary paragraph */}
+            <div className="bg-gray-800/40 rounded-xl p-3 sm:p-4 border border-gray-700/40">
+              <p className="text-gray-200 text-sm sm:text-base leading-relaxed">
+                {scenario.outcome.summaryAr || scenario.outcome.summary}
+              </p>
+            </div>
+
+            {/* Significance — historical importance, Arabic only.
+             *  Falls back to English `significance` only if no Arabic
+             *  text was authored. */}
+            {(scenario.outcome.significanceAr || scenario.outcome.significance) && (
+              <div className="border-r-2 border-amber-600/60 pr-3">
+                <p className="text-amber-200/90 text-xs sm:text-sm leading-relaxed">
+                  {scenario.outcome.significanceAr || scenario.outcome.significance}
+                </p>
+              </div>
+            )}
+
+            {/* Action buttons */}
+            <div className="flex items-center gap-3 flex-wrap justify-center pt-2">
+              <button
+                onClick={handleRestart}
+                className="flex items-center gap-2 px-5 py-3 min-h-[44px] rounded-xl bg-gray-800 hover:bg-gray-700 transition-colors border border-gray-600/60 text-white font-semibold"
+                aria-label="إعادة المعركة"
+              >
+                <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} aria-hidden>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 12a9 9 0 1 1 9 9M3 12V3m0 9h9" />
+                </svg>
+                <span>إعادة المعركة</span>
+              </button>
+
+              {onBack && (
+                <button
+                  onClick={onBack}
+                  className="flex items-center gap-2 px-5 py-3 min-h-[44px] rounded-xl bg-gray-800 hover:bg-red-900/40 transition-colors border border-red-700/40 text-white font-semibold"
+                  aria-label="خروج"
+                >
+                  <svg className="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} aria-hidden>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                  <span>خروج</span>
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Legacy fallback kept hidden — old replay overlay (never renders;
+          the summary panel above always wins when scenario is present). */}
+      {false && !isLoading && status === 'completed' && (
         <div className="absolute inset-0 flex items-center justify-center z-40 bg-black/40" dir="rtl" lang="ar">
           <div className="flex items-center gap-4 flex-wrap justify-center px-4">
-            {/* Replay Button */}
             <button
               onClick={handleRestart}
               className="flex flex-col items-center gap-3 px-6 sm:px-8 py-5 sm:py-6 rounded-2xl bg-gray-900/90 backdrop-blur-md border border-gray-600/50 hover:bg-gray-800/90 transition-colors group min-h-[44px]"
@@ -550,7 +684,6 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
               <span className="text-white text-lg font-semibold">إعادة المعركة</span>
             </button>
 
-            {/* Exit Button */}
             {onBack && (
               <button
                 onClick={onBack}

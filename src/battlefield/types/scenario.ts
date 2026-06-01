@@ -229,4 +229,7 @@ export interface BattleOutcome {
   summary: string;
   summaryAr?: string;
   significance: string;
+  /** Arabic version of `significance` — used by the summary panel. The
+   *  English `significance` is kept as fallback / scholarly metadata. */
+  significanceAr?: string;
 }

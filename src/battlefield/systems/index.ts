@@ -215,13 +215,24 @@ export class CombatSystem {
   /** Track the last damage event time per attacker so we throttle audio. */
   private lastDamageEventTime = new Map<string, number>();
 
-  /** Damage rate (soldiers/sec) at attack==defense. Tuned so a 50s
-   *  engagement strips ~10% of a 200-soldier formation. */
-  private readonly BASE_DAMAGE_RATE = 0.45;
+  /** Damage rate as a fraction of the defender's `maxSoldiers` per second
+   *  at attack==defense. Earlier this was a flat soldier count which made
+   *  large units (Banu Hanifa center: 15,000) appear untouched while
+   *  small units (Wahshi: 50) evaporated instantly. Now it scales: a
+   *  20-second engagement at parity removes ~30 % of any unit, regardless
+   *  of size. Casualties become visibly dramatic. */
+  private readonly BASE_DAMAGE_FRACTION = 0.018;
   /** Morale damage rate (points/sec). Below 25 morale → unit routs. */
-  private readonly MORALE_DAMAGE_RATE = 0.5;
+  private readonly MORALE_DAMAGE_RATE = 1.6;
   /** Below this morale, the unit breaks. */
   private readonly ROUT_THRESHOLD = 22;
+  /** Damage applies when units are within this distance — generous so
+   *  scripted `attack_unit` actions take effect even when units are still
+   *  closing in. Earlier the immediate distance check (MELEE_RANGE * 1.5)
+   *  dropped engagements before a single damage tick could land. */
+  private readonly DAMAGE_RANGE = MELEE_RANGE * 3.0;
+  /** Engagement persists this far apart — beyond it, contact is broken. */
+  private readonly DISENGAGE_RANGE = MELEE_RANGE * 5.5;
 
   constructor(entityManager: EntityManager, eventBus: EventBus) {
     this.entityManager = entityManager;
@@ -262,21 +273,30 @@ export class CombatSystem {
         continue;
       }
 
-      // Range check — if defender drifted out of melee, drop engagement
-      // (the movement system will handle re-approach).
+      // Range check — engagement persists out to DISENGAGE_RANGE so
+      // scripted `attack_unit` calls don't get cancelled while the units
+      // are still closing in. Damage only applies inside DAMAGE_RANGE,
+      // but the engagement intent is preserved between those two
+      // distances so the units keep walking toward each other.
       const aT = attacker.components.transform!;
       const dT = defender.components.transform!;
       const distance = Math.hypot(dT.position.x - aT.position.x, dT.position.y - aT.position.y);
-      if (distance > MELEE_RANGE * 1.5) {
+      if (distance > this.DISENGAGE_RANGE) {
         aCombat.isEngaged = false;
         continue;
       }
+      if (distance > this.DAMAGE_RANGE) {
+        // Closing in — keep engagement, no damage yet.
+        continue;
+      }
 
-      // Damage exchange: scaled by attack/defense ratio with a small
-      // multiplier for cavalry/heavy_cavalry vs infantry advantages.
+      // Damage exchange — fraction-of-maxSoldiers per second, scaled by
+      // attack/defense ratio + troop-matchup multiplier. Fraction-based
+      // makes large and small units take comparable casualty percentages.
       const ratio = (aCombat.attack + 10) / (dCombat.defense + 10);
       const typeBonus = this.troopMatchupBonus(aUnit.troopType, dUnit.troopType);
-      const damageThisTick = this.BASE_DAMAGE_RATE * ratio * typeBonus * dt;
+      const damageThisTick =
+        this.BASE_DAMAGE_FRACTION * ratio * typeBonus * dUnit.maxSoldiers * dt;
 
       // Reduce soldier count (visible: the count text + casualty figures).
       // Round to keep integer-ish soldier counts but allow fractional
@@ -714,7 +734,7 @@ export class RenderSystem {
       },
     });
     const countText = new Text({
-      text: `${unit.soldierCount}`,
+      text: `${Math.round(unit.soldierCount)}`,
       style: countStyle,
     });
     countText.label = 'count';
@@ -812,7 +832,7 @@ export class RenderSystem {
     // Update troop count
     const countText = container.getChildByLabel('count') as Text;
     if (countText) {
-      countText.text = `${unit.soldierCount}/${unit.maxSoldiers}`;
+      countText.text = `${Math.round(unit.soldierCount)}/${unit.maxSoldiers}`;
     }
 
     // Update movement trail
@@ -1840,50 +1860,73 @@ export class TerrainRenderer {
         }
         zoneGraphic.closePath();
 
-        // Different styles per terrain type
         switch (zone.type) {
           case 'oasis':
-            zoneGraphic.fill({ color: TERRAIN_PALETTE.oasis, alpha: 0.2 });
-            zoneGraphic.stroke({ color: TERRAIN_PALETTE.oasis, width: 1.5, alpha: 0.3 });
+            // Green carpet + clusters of palm trees. The oases of al-Yamama,
+            // Khaybar, and others were dense palm groves — the renderer
+            // now draws individual palms scattered through the zone.
+            zoneGraphic.fill({ color: TERRAIN_PALETTE.oasis, alpha: 0.32 });
+            zoneGraphic.stroke({ color: TERRAIN_PALETTE.oasis, width: 1.5, alpha: 0.45 });
+            this.drawPalmCluster(zoneGraphic, zone.polygon);
             break;
           case 'rocky':
-            zoneGraphic.fill({ color: TERRAIN_PALETTE.rocky, alpha: 0.15 });
+            zoneGraphic.fill({ color: TERRAIN_PALETTE.rocky, alpha: 0.18 });
             this.drawRockyDetails(zoneGraphic, zone.polygon);
             break;
           case 'dune':
-            zoneGraphic.fill({ color: TERRAIN_PALETTE.dune, alpha: 0.2 });
-            this.drawDuneLines(zoneGraphic, zone.polygon);
+            // Dunes get full sand-ripple treatment + a subtle highlight on
+            // ridges so the eye reads "this is sand drifted by wind".
+            zoneGraphic.fill({ color: TERRAIN_PALETTE.dune, alpha: 0.25 });
+            this.drawSandRipples(zoneGraphic, zone.polygon);
+            break;
+          case 'sand':
+            // Plain sand zones get faint ripple texture too.
+            zoneGraphic.fill({ color: zone.color, alpha: 0.12 });
+            this.drawSandRipples(zoneGraphic, zone.polygon, 0.4);
+            break;
+          case 'flat':
+            // Flat ground: subtle dust hatching, no ripples.
+            zoneGraphic.fill({ color: zone.color, alpha: 0.18 });
+            break;
+          case 'elevated':
+            // Hill / raised ground — concentric darker bands hint at
+            // contour lines, plus scattered rocks.
+            zoneGraphic.fill({ color: 0x6b5a4a, alpha: 0.25 });
+            zoneGraphic.stroke({ color: 0x4a3728, width: 1.2, alpha: 0.6 });
+            this.drawHillContours(zoneGraphic, zone.polygon);
+            this.drawRockyDetails(zoneGraphic, zone.polygon);
             break;
           // ─── Scenario-specific terrain variants ───────────────────────────
           case 'trench':
-            // Khandaq — dark, dug-out earth. Soldiers cannot cross except at
-            // designated landmarks (handled in MovementSystem).
             zoneGraphic.fill({ color: 0x2a1a08, alpha: 0.55 });
             zoneGraphic.stroke({ color: 0x4a3318, width: 2, alpha: 0.7 });
             this.drawTrenchHatching(zoneGraphic, zone.polygon);
             break;
           case 'fortress_wall':
-            // Khaybar forts, Yarmouk Roman castra. Solid stone wall.
-            zoneGraphic.fill({ color: 0x6b6359, alpha: 0.6 });
-            zoneGraphic.stroke({ color: 0x3d3833, width: 3, alpha: 0.85 });
+            // Stone wall with crenellated outline — taller battlements every
+            // ~40 world units. Reads as a fortified enclosure even at low zoom.
+            zoneGraphic.fill({ color: 0x6b6359, alpha: 0.55 });
+            zoneGraphic.stroke({ color: 0x3d3833, width: 3, alpha: 0.9 });
+            this.drawCrenellations(zoneGraphic, zone.polygon);
             break;
           case 'river':
-            // Yarmouk gorge river, Qadisiyyah Ateeq. Blue, blocks movement.
             zoneGraphic.fill({ color: 0x2a5e8c, alpha: 0.55 });
             zoneGraphic.stroke({ color: 0x4080b8, width: 2, alpha: 0.6 });
+            this.drawWaterRipples(zoneGraphic, zone.polygon);
             break;
           case 'gorge':
-            // Yarmouk wadi where the Byzantine right was driven over the cliff.
             zoneGraphic.fill({ color: 0x1c1a18, alpha: 0.7 });
             zoneGraphic.stroke({ color: 0x5c1010, width: 2, alpha: 0.5 });
             break;
           case 'mountain':
-            // Uhud archers' hill. Higher contrast rocky.
-            zoneGraphic.fill({ color: 0x4a3a2a, alpha: 0.35 });
+            // Mountain ranges get jagged peak silhouettes — visible from
+            // any zoom level — plus the rocky scatter at ground level.
+            zoneGraphic.fill({ color: 0x4a3a2a, alpha: 0.42 });
+            zoneGraphic.stroke({ color: 0x2c1f12, width: 1, alpha: 0.6 });
+            this.drawMountainPeaks(zoneGraphic, zone.polygon);
             this.drawRockyDetails(zoneGraphic, zone.polygon);
             break;
           case 'snow':
-            // Reserved for winter scenarios.
             zoneGraphic.fill({ color: 0xeaf0f5, alpha: 0.4 });
             zoneGraphic.stroke({ color: 0xffffff, width: 1, alpha: 0.6 });
             break;
@@ -1945,7 +1988,156 @@ export class TerrainRenderer {
     graphics.stroke({ color: 0x6b4f1f, width: 1, alpha: 0.45 });
   }
 
-  /** Draw wavy dune lines */
+  /** Draw a cluster of palm trees scattered through an oasis polygon.
+   *  Each palm is a stylized silhouette: brown trunk + green frond crown.
+   *  Uses a deterministic pseudo-random based on position so palms appear
+   *  in the same places on every render (no flicker). */
+  private drawPalmCluster(graphics: Graphics, polygon: Vector2D[]): void {
+    const bounds = this.getPolygonBounds(polygon);
+    const palmCount = Math.max(8, Math.floor((bounds.maxX - bounds.minX) / 60));
+    // Deterministic seed for stable layout
+    const rand = (i: number) => {
+      const x = Math.sin((i + 1) * 12.9898) * 43758.5453;
+      return x - Math.floor(x);
+    };
+    for (let i = 0; i < palmCount; i++) {
+      const cx = bounds.minX + 30 + rand(i * 2) * (bounds.maxX - bounds.minX - 60);
+      const cy = bounds.minY + 30 + rand(i * 2 + 1) * (bounds.maxY - bounds.minY - 60);
+      const scale = 0.85 + rand(i * 3) * 0.5;
+      // Trunk
+      graphics.moveTo(cx, cy + 10 * scale);
+      graphics.lineTo(cx, cy - 4 * scale);
+      graphics.stroke({ color: 0x6b3f1a, width: 1.6 * scale, alpha: 0.85 });
+      // Fronds — six radiating curves at the crown
+      for (let f = 0; f < 6; f++) {
+        const angle = -Math.PI / 2 + (f - 2.5) * 0.42;
+        const fx = cx + Math.cos(angle) * 9 * scale;
+        const fy = cy - 4 * scale + Math.sin(angle) * 9 * scale;
+        graphics.moveTo(cx, cy - 4 * scale);
+        graphics.quadraticCurveTo(
+          cx + Math.cos(angle) * 4 * scale,
+          cy - 7 * scale + Math.sin(angle) * 4 * scale,
+          fx, fy,
+        );
+      }
+      graphics.stroke({ color: 0x3a5a2a, width: 1.4 * scale, alpha: 0.95 });
+      // Tiny shadow under the trunk
+      graphics.ellipse(cx, cy + 11 * scale, 3 * scale, 1 * scale);
+      graphics.fill({ color: 0x1c1a14, alpha: 0.3 });
+    }
+  }
+
+  /** Draw a procedural sand-ripple pattern across a polygon. Two layers
+   *  of low-amplitude wavy lines at slightly different orientations give
+   *  the impression of wind-rippled dunes without per-frame randomness. */
+  private drawSandRipples(graphics: Graphics, polygon: Vector2D[], intensity = 1): void {
+    const bounds = this.getPolygonBounds(polygon);
+    const rows = Math.max(4, Math.floor((bounds.maxY - bounds.minY) / 24));
+    const w = bounds.maxX - bounds.minX;
+    for (let r = 0; r < rows; r++) {
+      const y = bounds.minY + (r + 0.5) * (bounds.maxY - bounds.minY) / rows;
+      const offsetPhase = r * 0.7;
+      const amp = 4 + (r % 2) * 2;
+      graphics.moveTo(bounds.minX, y);
+      const segments = 12;
+      for (let s = 0; s < segments; s++) {
+        const t = (s + 1) / segments;
+        const x = bounds.minX + w * t;
+        const ny = y + Math.sin(t * Math.PI * 4 + offsetPhase) * amp;
+        const cx = bounds.minX + w * (t - 1 / (segments * 2));
+        const cy = y + Math.sin((t - 1 / (segments * 2)) * Math.PI * 4 + offsetPhase) * amp;
+        graphics.quadraticCurveTo(cx, cy, x, ny);
+      }
+      graphics.stroke({ color: 0x6b4f1f, width: 0.7, alpha: 0.18 * intensity });
+    }
+  }
+
+  /** Concentric contour lines for elevated/hill zones — suggests rising
+   *  ground without needing 3D. Deepest contour is innermost. */
+  private drawHillContours(graphics: Graphics, polygon: Vector2D[]): void {
+    const bounds = this.getPolygonBounds(polygon);
+    const cx = (bounds.minX + bounds.maxX) / 2;
+    const cy = (bounds.minY + bounds.maxY) / 2;
+    const maxR = Math.min(bounds.maxX - bounds.minX, bounds.maxY - bounds.minY) / 2;
+    for (let i = 1; i <= 4; i++) {
+      const r = maxR * (i / 5);
+      graphics.ellipse(cx, cy, r * 1.1, r * 0.7);
+      graphics.stroke({ color: 0x3d2c1a, width: 0.9, alpha: 0.25 });
+    }
+  }
+
+  /** Jagged mountain-peak silhouettes drawn as triangular notches along
+   *  the top edge of a polygon. Conveys "this is a mountain range" from
+   *  any zoom level. Optionally adds a snowy cap line at peak tips. */
+  private drawMountainPeaks(graphics: Graphics, polygon: Vector2D[]): void {
+    const bounds = this.getPolygonBounds(polygon);
+    const w = bounds.maxX - bounds.minX;
+    const peakCount = Math.max(4, Math.floor(w / 90));
+    const baseY = bounds.minY + (bounds.maxY - bounds.minY) * 0.55;
+    // Range silhouette
+    graphics.moveTo(bounds.minX, baseY);
+    for (let i = 0; i <= peakCount; i++) {
+      const x = bounds.minX + (i / peakCount) * w;
+      // Alternate tall and shorter peaks for visual variety
+      const peakHeight = (i % 2 === 0 ? 0.6 : 0.42) * (bounds.maxY - bounds.minY);
+      const peakY = baseY - peakHeight;
+      const midX = x - w / (peakCount * 2);
+      graphics.lineTo(midX, peakY);
+      graphics.lineTo(x, baseY);
+    }
+    graphics.lineTo(bounds.maxX, baseY);
+    graphics.fill({ color: 0x3a2c1f, alpha: 0.55 });
+    graphics.stroke({ color: 0x1c130a, width: 1.2, alpha: 0.7 });
+    // Snow caps on every other peak
+    for (let i = 0; i <= peakCount; i += 2) {
+      const x = bounds.minX + (i / peakCount) * w - w / (peakCount * 2);
+      const peakHeight = 0.6 * (bounds.maxY - bounds.minY);
+      const peakY = baseY - peakHeight;
+      graphics.moveTo(x - 6, peakY + 8);
+      graphics.lineTo(x, peakY);
+      graphics.lineTo(x + 6, peakY + 8);
+      graphics.fill({ color: 0xe8efef, alpha: 0.5 });
+    }
+  }
+
+  /** Crenellated battlement line along the top edge of a fortress_wall
+   *  polygon — squared notches cut every ~30 world units. Reads as a
+   *  fortified wall even at mid zoom. */
+  private drawCrenellations(graphics: Graphics, polygon: Vector2D[]): void {
+    const bounds = this.getPolygonBounds(polygon);
+    const w = bounds.maxX - bounds.minX;
+    const merlonW = 16;
+    const crenelW = 12;
+    const stride = merlonW + crenelW;
+    const merlons = Math.floor(w / stride);
+    const top = bounds.minY;
+    for (let i = 0; i < merlons; i++) {
+      const x = bounds.minX + i * stride;
+      graphics.rect(x, top - 6, merlonW, 6);
+      graphics.fill({ color: 0x3d3833, alpha: 0.85 });
+    }
+  }
+
+  /** Faint horizontal ripples for river zones — water reads as moving. */
+  private drawWaterRipples(graphics: Graphics, polygon: Vector2D[]): void {
+    const bounds = this.getPolygonBounds(polygon);
+    const rows = 4;
+    for (let r = 0; r < rows; r++) {
+      const y = bounds.minY + (r + 0.5) * (bounds.maxY - bounds.minY) / rows;
+      graphics.moveTo(bounds.minX + 10, y);
+      const segments = 8;
+      for (let s = 1; s <= segments; s++) {
+        const t = s / segments;
+        const x = bounds.minX + 10 + (bounds.maxX - bounds.minX - 20) * t;
+        const ny = y + Math.sin(t * Math.PI * 6 + r) * 1.5;
+        graphics.lineTo(x, ny);
+      }
+      graphics.stroke({ color: 0xb8d8f0, width: 0.7, alpha: 0.4 });
+    }
+  }
+
+  /** Draw wavy dune lines (legacy — kept for back-compat with existing
+   *  scenarios that explicitly expect this style). */
   private drawDuneLines(graphics: Graphics, polygon: Vector2D[]): void {
     const bounds = this.getPolygonBounds(polygon);
     const lineCount = 4;
