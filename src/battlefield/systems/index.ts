@@ -217,14 +217,29 @@ const TERRAIN_PALETTE = {
   hill: 0x7a6b5a,
 };
 
-/** Max soldier dots to render per unit (for performance) */
-const MAX_DOTS_PER_UNIT = 20;
+/**
+ * Visual constants for the soldier-figure renderer.
+ *
+ * Earlier the renderer drew each soldier as a 3 px circle with 7 px spacing,
+ * which made formations roughly 30–80 world-units wide — barely visible at
+ * the fit-to-map zoom. The new renderer draws a stylized figure per soldier
+ * at ~12 world-units tall with 16-unit spacing — about 2.3× the previous
+ * footprint. Combined with the tighter camera fit (Engine.ts) this gives
+ * each formation a substantial, recognizable shape on desktop AND mobile
+ * without making formations collide on the fixed 1200×900-unit maps.
+ *
+ * MAX_FIGURES_PER_UNIT caps the visual count: a 200,000-strong Byzantine
+ * army doesn't render 200,000 figures, and a 4×6 grid is the widest a
+ * single formation gets even at maximum log scale.
+ */
+const FIGURE_SPACING = 16;
+const MAX_FIGURES_PER_UNIT = 24;
+const FIGURE_HEIGHT = 14;
 
-/** Dot size in pixels */
+/** Backwards-compatibility aliases for the older renderer. */
+const DOT_SPACING = FIGURE_SPACING;
 const DOT_SIZE = 3;
-
-/** Spacing between dots */
-const DOT_SPACING = 7;
+const MAX_DOTS_PER_UNIT = MAX_FIGURES_PER_UNIT;
 
 // ============================================================
 // RENDER SYSTEM
@@ -408,18 +423,18 @@ export class RenderSystem {
 
     this.drawBanner(bannerContainer, unit);
 
-    // 5. Troop count text
+    // 5. Troop count text — readable at fit-to-action zoom levels
     const countStyle = new TextStyle({
-      fontSize: 9,
+      fontSize: 12,
       fill: 0xffffff,
-      fontFamily: 'Arial, sans-serif',
+      fontFamily: "'Noto Sans Arabic', 'Tajawal', Arial, sans-serif",
       fontWeight: 'bold',
       dropShadow: {
-        alpha: 0.8,
+        alpha: 0.95,
         angle: Math.PI / 4,
-        blur: 2,
+        blur: 3,
         color: 0x000000,
-        distance: 1,
+        distance: 1.5,
       },
     });
     const countText = new Text({
@@ -448,8 +463,8 @@ export class RenderSystem {
 
     // Position elements relative to formation
     const dims = this.getFormationDimensions(unit.soldierCount, formationType);
-    bannerContainer.position.set(0, -dims.height / 2 - 20);
-    countText.position.set(0, dims.height / 2 + 4);
+    bannerContainer.position.set(0, -dims.height / 2 - 24);
+    countText.position.set(0, dims.height / 2 + 8);
 
     if (unit.commanderName) {
       const star = container.getChildByLabel('commander') as Graphics;
@@ -504,11 +519,11 @@ export class RenderSystem {
       const dims = this.getFormationDimensions(unit.soldierCount, currentFormationType);
       const bannerContainer = container.getChildByLabel('banner') as Container;
       if (bannerContainer) {
-        bannerContainer.position.set(0, -dims.height / 2 - 20);
+        bannerContainer.position.set(0, -dims.height / 2 - 24);
       }
       const countText = container.getChildByLabel('count') as Text;
       if (countText) {
-        countText.position.set(0, dims.height / 2 + 4);
+        countText.position.set(0, dims.height / 2 + 8);
       }
     }
 
@@ -649,33 +664,47 @@ export class RenderSystem {
     const dotCount = Math.min(unit.soldierCount, MAX_DOTS_PER_UNIT);
     const dims = this.getFormationDimensions(unit.soldierCount, formationType);
 
-    // Draw a subtle background shape for the formation
-    const bgAlpha = 0.15;
+    // Draw a substantial backdrop so the formation reads against the desert
+    // background even when zoomed out. Earlier alpha was 0.15 (almost
+    // invisible); 0.32 + a soft outline makes each unit a clear silhouette.
+    const bgAlpha = 0.32;
+    const padX = 10;
+    const padY = 14;
     switch (formationType) {
       case 'wedge':
         this.drawWedgeBackground(graphics, dims, colors.dark, bgAlpha);
+        graphics.stroke({ color: colors.light, width: 1.5, alpha: 0.55 });
         break;
       case 'defensive_circle':
         this.drawCircleBackground(graphics, dims, colors.dark, bgAlpha);
+        graphics.stroke({ color: colors.light, width: 1.5, alpha: 0.55 });
         break;
       default:
-        // Rectangle background
         graphics.roundRect(
-          -dims.width / 2 - 4,
-          -dims.height / 2 - 4,
-          dims.width + 8,
-          dims.height + 8,
-          3
+          -dims.width / 2 - padX,
+          -dims.height / 2 - padY,
+          dims.width + padX * 2,
+          dims.height + padY * 2,
+          6
         );
         graphics.fill({ color: colors.dark, alpha: bgAlpha });
+        graphics.roundRect(
+          -dims.width / 2 - padX,
+          -dims.height / 2 - padY,
+          dims.width + padX * 2,
+          dims.height + padY * 2,
+          6
+        );
+        graphics.stroke({ color: colors.light, width: 1.5, alpha: 0.55 });
         break;
     }
 
-    // Draw individual soldier dots based on formation type
+    // Draw a stylized soldier figure at each formation position. Figures
+    // are tinted with the faction palette and oriented to face forward
+    // (positive Y). The container's rotation handles unit facing.
     const positions = this.getSoldierPositions(dotCount, formationType, dims);
     for (const pos of positions) {
-      graphics.circle(pos.x, pos.y, DOT_SIZE);
-      graphics.fill({ color: colors.dot, alpha: 0.9 });
+      this.drawSoldierFigure(graphics, unit, pos.x, pos.y);
     }
 
     // Highlight border if selected
@@ -685,21 +714,293 @@ export class RenderSystem {
           this.drawWedgeBackground(graphics, dims, 0xffd700, 0.4);
           break;
         case 'defensive_circle':
-          graphics.circle(0, 0, dims.width / 2 + 6);
-          graphics.stroke({ color: 0xffd700, width: 2, alpha: 0.8 });
+          graphics.circle(0, 0, dims.width / 2 + 8);
+          graphics.stroke({ color: 0xffd700, width: 2.5, alpha: 0.9 });
           break;
         default:
           graphics.roundRect(
-            -dims.width / 2 - 6,
-            -dims.height / 2 - 6,
-            dims.width + 12,
-            dims.height + 12,
-            4
+            -dims.width / 2 - padX - 2,
+            -dims.height / 2 - padY - 2,
+            dims.width + padX * 2 + 4,
+            dims.height + padY * 2 + 4,
+            7
           );
-          graphics.stroke({ color: 0xffd700, width: 2, alpha: 0.8 });
+          graphics.stroke({ color: 0xffd700, width: 2.5, alpha: 0.9 });
           break;
       }
     }
+  }
+
+  /**
+   * Draw a stylized soldier figure for a unit at the given position.
+   *
+   * Each troop type has a distinct silhouette so a viewer can tell at a
+   * glance whether they're looking at infantry, mounted cavalry, an
+   * archer, a camel rider, or an elephant — even before reading the
+   * banner. Figures use the unit's faction palette so colors carry the
+   * allegiance information without a separate legend.
+   *
+   * Figures are drawn around the origin (0,0); the caller offsets via
+   * pos.x / pos.y. The container's `rotation` carries unit facing — so
+   * we always draw "forward = +Y" and let Pixi rotate the whole formation.
+   */
+  private drawSoldierFigure(
+    g: Graphics,
+    unit: UnitComponent,
+    cx: number,
+    cy: number,
+  ): void {
+    const colors = FACTION_COLORS[unit.faction];
+    const body = colors.dot;          // body fill
+    const armor = colors.dark;         // helmet / armor / mount body
+    const accent = colors.light;       // banner cloth / weapon glint
+
+    switch (unit.troopType) {
+      case 'cavalry':
+      case 'reserves':
+      case 'command':
+        this.drawCavalry(g, cx, cy, body, armor, accent, false);
+        break;
+      case 'heavy_cavalry':
+        this.drawCavalry(g, cx, cy, body, armor, accent, true);
+        break;
+      case 'horse_archer':
+        this.drawCavalry(g, cx, cy, body, armor, accent, false);
+        // Bow on the rider's right side
+        g.moveTo(cx + 6, cy - 7);
+        g.lineTo(cx + 9, cy - 4);
+        g.lineTo(cx + 6, cy - 1);
+        g.stroke({ color: 0x6b4f1f, width: 1.2, alpha: 0.95 });
+        break;
+      case 'camel_riders':
+        this.drawCamelRider(g, cx, cy, body, armor, accent);
+        break;
+      case 'elephant':
+        this.drawElephant(g, cx, cy, body, armor);
+        break;
+      case 'archers':
+        this.drawArcher(g, cx, cy, body, armor, accent);
+        break;
+      case 'siege_engineer':
+        this.drawSiegeEngineer(g, cx, cy, body, armor);
+        break;
+      case 'infantry':
+      default:
+        this.drawInfantry(g, cx, cy, body, armor, accent);
+        break;
+    }
+  }
+
+  /** Standing infantry figure: helmet + trapezoid body + spear.
+   *  ~7 world-units wide × 14 tall, drawn around (cx, cy). */
+  private drawInfantry(
+    g: Graphics,
+    cx: number,
+    cy: number,
+    body: number,
+    armor: number,
+    accent: number,
+  ): void {
+    // Spear shaft
+    g.moveTo(cx + 2, cy - 7);
+    g.lineTo(cx + 2, cy + 5);
+    g.stroke({ color: 0x4a3318, width: 0.8, alpha: 0.95 });
+    // Spear tip
+    g.moveTo(cx + 2, cy - 7);
+    g.lineTo(cx + 1, cy - 5);
+    g.lineTo(cx + 3, cy - 5);
+    g.closePath();
+    g.fill({ color: accent, alpha: 0.95 });
+    // Body
+    g.moveTo(cx - 2, cy - 2);
+    g.lineTo(cx + 2, cy - 2);
+    g.lineTo(cx + 2.5, cy + 4);
+    g.lineTo(cx - 2.5, cy + 4);
+    g.closePath();
+    g.fill({ color: body, alpha: 1 });
+    g.stroke({ color: armor, width: 0.5, alpha: 0.8 });
+    // Helmet
+    g.circle(cx, cy - 4, 2);
+    g.fill({ color: armor, alpha: 1 });
+    // Legs
+    g.moveTo(cx - 1.2, cy + 4);
+    g.lineTo(cx - 1.2, cy + 7);
+    g.moveTo(cx + 1.2, cy + 4);
+    g.lineTo(cx + 1.2, cy + 7);
+    g.stroke({ color: armor, width: 0.9, alpha: 0.95 });
+  }
+
+  /** Archer: helmet + body + curved bow */
+  private drawArcher(
+    g: Graphics,
+    cx: number,
+    cy: number,
+    body: number,
+    armor: number,
+    accent: number,
+  ): void {
+    g.moveTo(cx - 2, cy - 2);
+    g.lineTo(cx + 2, cy - 2);
+    g.lineTo(cx + 2.5, cy + 4);
+    g.lineTo(cx - 2.5, cy + 4);
+    g.closePath();
+    g.fill({ color: body, alpha: 1 });
+    g.circle(cx, cy - 4, 2);
+    g.fill({ color: armor, alpha: 1 });
+    g.moveTo(cx - 1.2, cy + 4); g.lineTo(cx - 1.2, cy + 7);
+    g.moveTo(cx + 1.2, cy + 4); g.lineTo(cx + 1.2, cy + 7);
+    g.stroke({ color: armor, width: 0.9, alpha: 0.95 });
+    // Bow (arc to the side)
+    g.arc(cx + 3, cy, 3, Math.PI * 0.3, Math.PI * 1.7);
+    g.stroke({ color: accent, width: 1, alpha: 0.95 });
+    // Bowstring
+    g.moveTo(cx + 3 + Math.cos(Math.PI * 0.3) * 3, cy + Math.sin(Math.PI * 0.3) * 3);
+    g.lineTo(cx + 3 + Math.cos(Math.PI * 1.7) * 3, cy + Math.sin(Math.PI * 1.7) * 3);
+    g.stroke({ color: 0xefe4c8, width: 0.5, alpha: 0.7 });
+  }
+
+  /** Mounted figure: horse silhouette + rider. heavy=true adds barding. */
+  private drawCavalry(
+    g: Graphics,
+    cx: number,
+    cy: number,
+    body: number,
+    armor: number,
+    accent: number,
+    heavy: boolean,
+  ): void {
+    const lanceLen = heavy ? 11 : 8;
+    g.moveTo(cx + 4, cy - lanceLen + 2);
+    g.lineTo(cx + 4, cy + 4);
+    g.stroke({ color: 0x4a3318, width: 0.8, alpha: 0.95 });
+    g.moveTo(cx + 4, cy - lanceLen + 2);
+    g.lineTo(cx + 2.5, cy - lanceLen + 5);
+    g.lineTo(cx + 5.5, cy - lanceLen + 5);
+    g.closePath();
+    g.fill({ color: accent, alpha: 0.95 });
+
+    // Horse body
+    g.ellipse(cx, cy + 2, 5.5, 2.8);
+    g.fill({ color: armor, alpha: 1 });
+    g.stroke({ color: 0x000000, width: 0.4, alpha: 0.5 });
+    // Legs
+    g.moveTo(cx - 3.5, cy + 3); g.lineTo(cx - 3.5, cy + 7);
+    g.moveTo(cx + 3.5, cy + 3); g.lineTo(cx + 3.5, cy + 7);
+    g.moveTo(cx - 1.2, cy + 3); g.lineTo(cx - 1.2, cy + 7);
+    g.moveTo(cx + 1.2, cy + 3); g.lineTo(cx + 1.2, cy + 7);
+    g.stroke({ color: armor, width: 0.8, alpha: 0.95 });
+    // Neck + head
+    g.moveTo(cx - 5.5, cy + 0.5);
+    g.lineTo(cx - 7.5, cy - 1.5);
+    g.lineTo(cx - 6, cy - 2);
+    g.lineTo(cx - 4.5, cy + 0.5);
+    g.closePath();
+    g.fill({ color: armor, alpha: 1 });
+
+    if (heavy) {
+      g.roundRect(cx - 5, cy + 0.5, 10, 3, 1);
+      g.fill({ color: body, alpha: 0.7 });
+    }
+
+    // Rider body
+    g.roundRect(cx - 1.4, cy - 2.5, 2.8, 4, 0.7);
+    g.fill({ color: body, alpha: 1 });
+    g.circle(cx, cy - 4, 1.7);
+    g.fill({ color: armor, alpha: 1 });
+  }
+
+  /** Camel + rider — taller hump, longer neck. */
+  private drawCamelRider(
+    g: Graphics,
+    cx: number,
+    cy: number,
+    body: number,
+    armor: number,
+    _accent: number,
+  ): void {
+    g.moveTo(cx - 5.5, cy + 3);
+    g.bezierCurveTo(cx - 4, cy - 1.5, cx, cy - 2.5, cx + 1.5, cy);
+    g.bezierCurveTo(cx + 4, cy - 0.5, cx + 5.5, cy + 1.5, cx + 5.5, cy + 3);
+    g.lineTo(cx - 5.5, cy + 3);
+    g.closePath();
+    g.fill({ color: armor, alpha: 1 });
+    g.moveTo(cx - 3.5, cy + 3); g.lineTo(cx - 3.5, cy + 7.5);
+    g.moveTo(cx + 3.5, cy + 3); g.lineTo(cx + 3.5, cy + 7.5);
+    g.moveTo(cx - 1.2, cy + 3); g.lineTo(cx - 1.2, cy + 7);
+    g.moveTo(cx + 1.2, cy + 3); g.lineTo(cx + 1.2, cy + 7);
+    g.stroke({ color: armor, width: 0.8, alpha: 0.95 });
+    // Neck + head
+    g.moveTo(cx - 5.5, cy);
+    g.lineTo(cx - 8, cy - 3.5);
+    g.lineTo(cx - 6.5, cy - 4);
+    g.lineTo(cx - 4.5, cy);
+    g.closePath();
+    g.fill({ color: armor, alpha: 1 });
+    // Rider on hump
+    g.roundRect(cx - 0.7, cy - 5.5, 2.8, 4, 0.7);
+    g.fill({ color: body, alpha: 1 });
+    g.circle(cx + 0.7, cy - 7, 1.7);
+    g.fill({ color: armor, alpha: 1 });
+  }
+
+  /** Elephant — body, trunk, tusks, howdah. Larger than other figures. */
+  private drawElephant(
+    g: Graphics,
+    cx: number,
+    cy: number,
+    _body: number,
+    armor: number,
+  ): void {
+    g.ellipse(cx, cy, 8.5, 4.5);
+    g.fill({ color: armor, alpha: 1 });
+    g.stroke({ color: 0x000000, width: 0.4, alpha: 0.55 });
+    // Head
+    g.circle(cx - 7, cy - 0.5, 3.2);
+    g.fill({ color: armor, alpha: 1 });
+    // Trunk
+    g.moveTo(cx - 9, cy + 0.5);
+    g.bezierCurveTo(cx - 12, cy + 2.5, cx - 11, cy + 5, cx - 9, cy + 6);
+    g.stroke({ color: armor, width: 1.6, alpha: 1 });
+    // Tusks
+    g.moveTo(cx - 9, cy + 0.5);
+    g.lineTo(cx - 11, cy + 2.5);
+    g.stroke({ color: 0xefe4c8, width: 0.8, alpha: 1 });
+    // Legs
+    g.roundRect(cx - 6, cy + 3, 2, 4.5, 0.7); g.fill({ color: armor, alpha: 1 });
+    g.roundRect(cx - 2, cy + 3, 2, 4.5, 0.7); g.fill({ color: armor, alpha: 1 });
+    g.roundRect(cx + 2, cy + 3, 2, 4.5, 0.7); g.fill({ color: armor, alpha: 1 });
+    g.roundRect(cx + 6, cy + 3, 2, 4.5, 0.7); g.fill({ color: armor, alpha: 1 });
+    // Howdah
+    g.roundRect(cx - 2, cy - 6, 5, 2.5, 0.7);
+    g.fill({ color: 0x6b4f1f, alpha: 0.95 });
+    g.circle(cx + 0.5, cy - 7.5, 1.4);
+    g.fill({ color: armor, alpha: 1 });
+  }
+
+  /** Siege engineer — figure with a mallet. */
+  private drawSiegeEngineer(
+    g: Graphics,
+    cx: number,
+    cy: number,
+    body: number,
+    armor: number,
+  ): void {
+    g.moveTo(cx - 2, cy - 2);
+    g.lineTo(cx + 2, cy - 2);
+    g.lineTo(cx + 2.5, cy + 4);
+    g.lineTo(cx - 2.5, cy + 4);
+    g.closePath();
+    g.fill({ color: body, alpha: 1 });
+    g.circle(cx, cy - 4, 2);
+    g.fill({ color: armor, alpha: 1 });
+    g.moveTo(cx + 2.5, cy - 5.5);
+    g.lineTo(cx + 2.5, cy + 2);
+    g.stroke({ color: 0x4a3318, width: 0.8, alpha: 0.95 });
+    g.roundRect(cx + 0.5, cy - 7, 5, 2.5, 0.6);
+    g.fill({ color: 0x4a3318, alpha: 1 });
+    g.moveTo(cx - 1.2, cy + 4); g.lineTo(cx - 1.2, cy + 7);
+    g.moveTo(cx + 1.2, cy + 4); g.lineTo(cx + 1.2, cy + 7);
+    g.stroke({ color: armor, width: 0.9, alpha: 0.95 });
   }
 
   /** Get soldier dot positions for a given formation */
@@ -838,36 +1139,48 @@ export class RenderSystem {
   private drawBanner(bannerContainer: Container, unit: UnitComponent): void {
     const colors = FACTION_COLORS[unit.faction];
 
-    // Banner flag background
+    // Banner flag background — taller + darker for readability
     const bannerBg = new Graphics();
     bannerBg.label = 'bannerBg';
 
-    // Use Arabic label exclusively (project is Arabic-only).
     const labelText = unit.labelAr || unit.label;
-    const textWidth = Math.max(labelText.length * 7, 50);
-    const iconSize = 14;
-    const iconGap = 4;
+    const textWidth = Math.max(labelText.length * 8.5, 60);
+    const iconSize = 16;
+    const iconGap = 5;
     const totalWidth = textWidth + iconSize + iconGap;
+    const bannerH = 22;
 
-    bannerBg.roundRect(-totalWidth / 2 - 4, -8, totalWidth + 8, 16, 2);
-    bannerBg.fill({ color: colors.banner, alpha: 0.85 });
-    bannerBg.roundRect(-totalWidth / 2 - 4, -8, totalWidth + 8, 16, 2);
-    bannerBg.stroke({ color: colors.light, width: 1, alpha: 0.6 });
+    // Dark drop-shadow rect behind the banner so text stays readable on
+    // bright desert / sandstorm overlays
+    bannerBg.roundRect(-totalWidth / 2 - 6, -bannerH / 2 + 1, totalWidth + 12, bannerH, 4);
+    bannerBg.fill({ color: 0x0a0a0a, alpha: 0.55 });
+    // Faction-color banner cloth
+    bannerBg.roundRect(-totalWidth / 2 - 5, -bannerH / 2, totalWidth + 10, bannerH, 3);
+    bannerBg.fill({ color: colors.banner, alpha: 0.92 });
+    bannerBg.roundRect(-totalWidth / 2 - 5, -bannerH / 2, totalWidth + 10, bannerH, 3);
+    bannerBg.stroke({ color: colors.light, width: 1.4, alpha: 0.85 });
     bannerContainer.addChild(bannerBg);
 
-    // Faction icon — drawn left of the text in RTL banner reading order
+    // Faction icon
     const icon = new Graphics();
     icon.label = 'factionIcon';
     icon.position.set(-totalWidth / 2 + iconSize / 2, 0);
     this.drawFactionGlyph(icon, unit.faction, iconSize);
     bannerContainer.addChild(icon);
 
-    // Banner text
+    // Banner text — bigger + drop shadow
     const textStyle = new TextStyle({
-      fontSize: 11,
+      fontSize: 14,
       fill: 0xffffff,
-      fontFamily: "'Noto Sans Arabic', 'Segoe UI', 'Tahoma', Arial, sans-serif",
+      fontFamily: "'Noto Sans Arabic', 'Tajawal', 'Segoe UI', 'Tahoma', Arial, sans-serif",
       fontWeight: 'bold',
+      dropShadow: {
+        alpha: 0.95,
+        angle: Math.PI / 4,
+        blur: 3,
+        color: 0x000000,
+        distance: 1.5,
+      },
     });
     const text = new Text({ text: labelText, style: textStyle });
     text.anchor.set(0.5, 0.5);

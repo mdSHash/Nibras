@@ -221,26 +221,8 @@ export class Engine {
       this.timelineController!.update(_dt, time);
     });
 
-    // 4. Set initial camera to show battlefield overview (eagle-eye view)
-    if (this.camera) {
-      // Calculate zoom to fit the entire map within the viewport
-      const viewportW = this.renderer.getWidth();
-      const viewportH = this.renderer.getHeight();
-      const mapW = scenario.map.width;
-      const mapH = scenario.map.height;
-
-      // Fit map in viewport with slight padding (90%)
-      const zoomX = viewportW / mapW;
-      const zoomY = viewportH / mapH;
-      const fitZoom = Math.min(zoomX, zoomY) * 0.9;
-
-      // Center camera on the map center
-      const centerX = mapW / 2;
-      const centerY = mapH / 2;
-
-      this.camera.moveTo(centerX, centerY, fitZoom, 0, 'none');
-      console.log('[Engine] initial camera set to eagle-eye view:', { centerX, centerY, fitZoom, viewportW, viewportH, mapW, mapH });
-    }
+    // 4. Set initial camera to fit the unit bounding box (see fitToScenario).
+    this.fitToScenario(0);
 
     // 5. Do an initial render pass so entities appear immediately
     this.systemRefs.render.update(0, 0);
@@ -379,6 +361,65 @@ export class Engine {
 
     // Emit playback event
     this.eventBus.emit({ type: 'playback:stop' });
+  }
+
+  /**
+   * Fit the camera to the bounding box of all unit start positions.
+   *
+   * Called automatically once on scenario load, and exposed publicly so the
+   * BattlePlayer can offer a "reset view" control after the user has
+   * pinch-zoomed or panned away. Pass `duration > 0` to animate the move.
+   *
+   * Padding is mobile-aware: phones get a tighter fit factor since every
+   * pixel of viewport matters, desktops get a bit more breathing room.
+   */
+  fitToScenario(duration: number = 0.6): void {
+    if (!this.camera || !this.scenario) return;
+
+    const viewportW = this.renderer.getWidth();
+    const viewportH = this.renderer.getHeight();
+    const isMobile =
+      typeof window !== 'undefined' && window.matchMedia
+        ? window.matchMedia('(max-width: 767px)').matches
+        : false;
+
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    let hasAny = false;
+    for (const force of this.scenario.forces) {
+      for (const u of force.units) {
+        hasAny = true;
+        minX = Math.min(minX, u.startPosition.x);
+        minY = Math.min(minY, u.startPosition.y);
+        maxX = Math.max(maxX, u.startPosition.x);
+        maxY = Math.max(maxY, u.startPosition.y);
+      }
+    }
+    if (!hasAny) {
+      minX = 0; minY = 0;
+      maxX = this.scenario.map.width; maxY = this.scenario.map.height;
+    }
+
+    // Pad bbox so formations near the edges aren't clipped (each formation
+    // is ~150 world-units wide with banner above + count below).
+    const padding = 160;
+    const bboxW = (maxX - minX) + padding * 2;
+    const bboxH = (maxY - minY) + padding * 2;
+    const cx = (minX + maxX) / 2;
+    const cy = (minY + maxY) / 2;
+
+    const fitFactor = isMobile ? 0.96 : 0.92;
+    const bboxFitZoom = Math.min(viewportW / bboxW, viewportH / bboxH) * fitFactor;
+
+    // Floor: ensure each soldier figure is at least this many CSS pixels.
+    // Without this, a wide bbox on a small viewport would zoom out so far
+    // that figures become 2 px specks. We accept cropping over invisibility.
+    // Figures are ~7 world-units wide; target 11 px on mobile, 9 px on desktop.
+    const targetFigurePx = isMobile ? 11 : 9;
+    const minZoomFloor = targetFigurePx / 7;
+
+    const fitZoom = Math.max(bboxFitZoom, minZoomFloor);
+
+    this.camera.moveTo(cx, cy, fitZoom, duration, 'power2.inOut');
   }
 
   /**

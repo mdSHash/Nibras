@@ -157,12 +157,14 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
       }
     });
 
-    // Handle resize
+    // Handle resize — also re-fit the camera so a phone rotation doesn't
+    // leave the action zoomed off-screen.
     const handleResize = () => {
       if (engineRef.current && container) {
         const width = container.clientWidth || window.innerWidth;
         const height = container.clientHeight || window.innerHeight;
         engineRef.current.resize(width, height);
+        engineRef.current.fitToScenario(0.4);
       }
     };
 
@@ -198,6 +200,12 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
       engine.play();
     }
   }, [status]);
+
+  /** Re-fit the camera to the action bounding box. Useful after the user
+   *  has pinch-zoomed away or scrolled to inspect a specific corner. */
+  const handleFitCamera = useCallback(() => {
+    engineRef.current?.fitToScenario(0.5);
+  }, []);
 
   const handleRestart = useCallback(() => {
     const engine = engineRef.current;
@@ -606,6 +614,18 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
               <span className="text-gray-300 text-xs font-mono tabular-nums min-w-[78px] sm:min-w-[80px]">
                 {formatTime(currentTime)} / {formatTime(totalDuration)}
               </span>
+
+              {/* Fit-to-action button — re-centers the camera */}
+              <button
+                onClick={handleFitCamera}
+                className="flex-shrink-0 w-11 h-11 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-gray-800/80 hover:bg-gray-700 transition-colors text-white border border-gray-600/50"
+                aria-label="إعادة ضبط العرض"
+                title="إعادة ضبط العرض"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} aria-hidden>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                </svg>
+              </button>
 
               {/* Speed Control */}
               <button
