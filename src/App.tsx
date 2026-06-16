@@ -244,6 +244,22 @@ export default function App() {
     return () => document.removeEventListener('fullscreenchange', handleFs);
   }, []);
 
+  // Debug deep-link helper — exposes window.__nibrasOpenBattle('battle-of-X')
+  // so verification scripts (Playwright captures, smoke tests) can jump
+  // straight into a scenario without driving the full UI flow.
+  useEffect(() => {
+    (window as unknown as { __nibrasOpenBattle?: (id: string) => void }).__nibrasOpenBattle =
+      (id: string) => {
+        setShowIntro(false);
+        setBattleScenarioId(id);
+        setShowBattlePlayer(true);
+      };
+    return () => {
+      delete (window as unknown as { __nibrasOpenBattle?: (id: string) => void })
+        .__nibrasOpenBattle;
+    };
+  }, []);
+
   const handleIntroComplete = () => {
     setShowIntro(false);
     // After intro completes, trigger tour prompt only on first visit

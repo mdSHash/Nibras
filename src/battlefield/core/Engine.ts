@@ -524,6 +524,14 @@ export class Engine {
   }
 
   /**
+   * Get the synthesized battle audio system (may be null until init).
+   * Exposed so the UI can toggle mute without reaching through internals.
+   */
+  getAudio(): BattleAudio | null {
+    return this.audio;
+  }
+
+  /**
    * Check if engine is initialized.
    */
   isInitialized(): boolean {

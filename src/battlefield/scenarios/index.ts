@@ -315,6 +315,7 @@ import { battleOfMutah } from './mutah';
 import { expeditionOfTabuk } from './tabuk';
 import { battleOfAinJalut } from './ain-jalut';
 import { battleOfYamama } from './yamama';
+import { battleOfNahavand } from './nahavand';
 
 // Scenario registry
 export const scenarios: Record<string, BattleScenario> = {
@@ -330,6 +331,7 @@ export const scenarios: Record<string, BattleScenario> = {
   'battle-of-tabuk': expeditionOfTabuk,
   'battle-of-yamama': battleOfYamama,
   'battle-of-ain-jalut': battleOfAinJalut,
+  'battle-of-nahavand': battleOfNahavand,
 };
 
 // Get available scenario IDs
@@ -346,4 +348,4 @@ export function getScenario(id: string): BattleScenario | undefined {
   return scenarios[id];
 }
 
-export { battleOfBadr, battleOfUhud, battleOfKhandaq, battleOfKhaybar, conquestOfMecca, battleOfHunayn, battleOfYarmouk, battleOfQadisiyyah, battleOfMutah, expeditionOfTabuk, battleOfYamama, battleOfAinJalut };
+export { battleOfBadr, battleOfUhud, battleOfKhandaq, battleOfKhaybar, conquestOfMecca, battleOfHunayn, battleOfYarmouk, battleOfQadisiyyah, battleOfMutah, expeditionOfTabuk, battleOfYamama, battleOfAinJalut, battleOfNahavand };

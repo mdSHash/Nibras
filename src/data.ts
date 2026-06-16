@@ -54,6 +54,7 @@ const BATTLE_ID_MAP: Record<string, string> = {
   'غَزْوَةُ تَبُوكَ (جَيْشُ الْعُسْرَةِ)': 'tabuk',
   'مَعْرَكَةُ الْيَمَامَةِ (حَدِيقَةُ الْمَوْتِ)': 'yamama',
   'معركة عين جالوت': 'ain-jalut',
+  'مَعْرَكَةُ نَهَاوَنْدَ (فَتْحُ الْفُتُوحِ)': 'nahavand',
 };
 
 export const eventsData: EventItem[] = (eventsDataJson as any[]).map((e, idx) => ({

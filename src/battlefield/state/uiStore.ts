@@ -32,6 +32,10 @@ export interface UIState {
   showUnitList: boolean;
   showPhaseInfo: boolean;
   isPanelOpen: boolean;
+  /** Persisted across scenario switches — survives Engine re-init. */
+  muted: boolean;
+  /** Whether the mid-screen narration overlay is rendered. */
+  subtitlesEnabled: boolean;
 
   // Actions
   selectEntity: (entityId: string | null) => void;
@@ -42,6 +46,8 @@ export interface UIState {
   toggleUnitList: () => void;
   togglePhaseInfo: () => void;
   setPanelOpen: (open: boolean) => void;
+  setMuted: (muted: boolean) => void;
+  setSubtitlesEnabled: (enabled: boolean) => void;
   reset: () => void;
 }
 
@@ -54,6 +60,8 @@ const initialState = {
   showUnitList: true,
   showPhaseInfo: true,
   isPanelOpen: false,
+  muted: false,
+  subtitlesEnabled: true,
 };
 
 export const useUIStore = create<UIState>()((set) => ({
@@ -76,5 +84,17 @@ export const useUIStore = create<UIState>()((set) => ({
 
   setPanelOpen: (open) => set({ isPanelOpen: open }),
 
-  reset: () => set(initialState),
+  setMuted: (muted) => set({ muted }),
+
+  setSubtitlesEnabled: (subtitlesEnabled) => set({ subtitlesEnabled }),
+
+  // Note: `muted` and `subtitlesEnabled` are intentionally preserved across
+  // scenario resets — users who muted once shouldn't have audio re-enabled
+  // when switching battles.
+  reset: () =>
+    set((state) => ({
+      ...initialState,
+      muted: state.muted,
+      subtitlesEnabled: state.subtitlesEnabled,
+    })),
 }));

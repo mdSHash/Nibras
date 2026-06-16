@@ -1,1228 +1,1050 @@
 import type { BattleScenario } from '../types/scenario';
 
 /**
- * Battle of Hunayn - 10 Shawwal 8 AH (31 January 630 CE)
+ * غَزْوَةُ حُنَيْنٍ — اليَوْمُ الَّذِي سَمَّاهُ القُرْآنُ
+ * Battle of Hunayn — The Day Named in the Qur'an
  *
- * One of the most dramatic battles in Islamic history.
- * After the Conquest of Mecca, the Hawazin and Thaqif tribes ambushed
- * the massive Muslim army in the Valley of Hunayn. Despite initial rout,
- * the Prophet ﷺ stood firm and rallied his forces to a decisive victory.
+ * 10 Shawwal 8 AH / ~31 January 630 CE — two weeks after Fath Makkah
+ * and before the Siege of al-Ta'if. Wadi Hunayn, in the Sarawat
+ * highlands ~16 miles east-southeast of Makkah on the road to al-Ta'if:
+ * a wide arid wadi running west-to-east, narrowing into a defile at
+ * the eastern third where flanking rocky ridges (shi'ab) close in on
+ * both north and south. No fortifications, no palms, no river — bare
+ * ochre dust and dark basalt outcrops in the cold pre-dawn of the
+ * Hijazi winter.
  *
- * Referenced in Quran 9:25-26.
+ * Hawazin and Thaqif had massed against the Prophet ﷺ as soon as
+ * Fath Makkah was sealed. Their war-chief Malik ibn 'Awf an-Nasri
+ * brought the women, children, and livestock to the rear of the line
+ * — a psychological commitment device. The aged poet-warrior Durayd
+ * ibn al-Simma, carried in a litter, reportedly past a hundred and
+ * nearly sightless from age, heard the camels groan and the donkeys
+ * bray, and rebuked Malik: «هَلْ يَرُدُّ المُنْهَزِمَ شَيْءٌ؟ إِنْ
+ * كَانَتْ لَكَ لَمْ يَنْفَعْكَ إِلَّا رَجُلٌ بِسَيْفِهِ وَرُمْحِهِ»
+ * (Ibn Hisham). Malik dismissed the counsel.
+ *
+ * The Prophet ﷺ marched from Makkah on 6 Shawwal with 12,000 — the
+ * 10,000 of the Madinan veterans who had taken Makkah, and 2,000
+ * fresh tulaqa' from Quraysh still in their four-month grace period.
+ * He had borrowed 100 coats of mail from Safwan ibn Umayya — still a
+ * polytheist within his post-Fath grace — as 'ariya madmuna, a
+ * guaranteed loan (Sunan Abi Dawud 3562). On the route past a sidra
+ * tree of the polytheists called Dhat Anwat, some recent converts
+ * asked for a similar tree to be designated for them. He rebuked
+ * them with the saying preserved by al-Tirmidhi 2180: «سُبْحَانَ
+ * اللَّهِ! هَذَا كَمَا قَالَ قَوْمُ مُوسَى: ٱجْعَل لَّنَا إِلَٰهًا
+ * كَمَا لَهُمْ ءَالِهَةٌ. وَالَّذِي نَفْسِي بِيَدِهِ، لَتَرْكَبُنَّ
+ * سُنَّةَ مَنْ كَانَ قَبْلَكُمْ» — a tawhid error corrected before
+ * the army made contact.
+ *
+ * Some among them then said as they neared the wadi: «لَنْ نُغْلَبَ
+ * اليَوْمَ مِنْ قِلَّةٍ» — we will not be defeated today from
+ * fewness. Tradition narrators differ on the speaker (Salama ibn
+ * Salama, Abu Bakr, or unnamed); the Qur'an names the sentiment as
+ * collective. Hunayn is the only battle named in the Qur'an by
+ * name, and its rebuke is preserved in Q 9:25–26: ﴿لَقَدْ نَصَرَكُمُ
+ * اللَّهُ فِي مَوَاطِنَ كَثِيرَةٍ ۙ وَيَوْمَ حُنَيْنٍ ۙ إِذْ
+ * أَعْجَبَتْكُمْ كَثْرَتُكُمْ فَلَمْ تُغْنِ عَنكُمْ شَيْئًا
+ * وَضَاقَتْ عَلَيْكُمُ الأَرْضُ بِمَا رَحُبَتْ ثُمَّ وَلَّيْتُم
+ * مُّدْبِرِينَ﴾.
+ *
+ * Just before fajr on Wednesday 10 Shawwal, in the dim ghalas, the
+ * Muslim vanguard — Banu Sulaym under Khalid ibn al-Walid — descended
+ * into the western mouth of the wadi. The narrow defile and rough
+ * road forced the column to file in single order. Sahih al-Bukhari
+ * 2930 (al-Bara'): «اسْتَقْبَلَنَا رُمَاةُ هَوَازِنَ وَبَنِي
+ * نَصْرٍ» — massed archery from the heights, then infantry charge
+ * down the slopes from both flanks, Jusham cavalry striking the rear
+ * in flank. The vanguard broke first, collapsing backward into the
+ * column. The terrain itself became the trap — «وَضَاقَتْ
+ * عَلَيْكُمُ الأَرْضُ بِمَا رَحُبَتْ». The collapse rippled, the
+ * tulaqa' and rear elements turned back, and most of the 12,000
+ * fled.
+ *
+ * Only the Prophet ﷺ and a small core held — Sahih al-Bukhari 4315:
+ * «وَلَكِنْ رَسُولُ اللَّهِ ﷺ لَمْ يَفِرَّ». On his white mule
+ * Duldul, with Abu Sufyan ibn al-Harith holding the bridle and
+ * al-Abbas at the stirrup, he advanced toward the enemy reciting:
+ * «أَنَا النَّبِيُّ لَا كَذِبْ، أَنَا ابْنُ عَبْدِ المُطَّلِبْ» —
+ * the single most cited proof-text in classical fiqh al-sira for
+ * the Prophet's personal courage.
+ *
+ * Then he ﷺ said to al-Abbas — رَجُلًا صَيِّتًا, a man of mighty
+ * voice (Sahih Muslim 1775): «أَيْ عَبَّاسُ، نَادِ أَصْحَابَ
+ * السَّمُرَةِ». Al-Abbas called in three nested escalations:
+ * «يَا أَصْحَابَ السَّمُرَةِ» — invoking Bay'at al-Ridwan;
+ * «يَا مَعْشَرَ الأَنْصَارِ»; then narrowing to «يَا بَنِي الحَارِثِ
+ * بنِ الخَزْرَجِ». The Ansar returned crying لَبَّيْكَ، لَبَّيْكَ —
+ * «وَكَأَنَّ عَطْفَتَهُمْ عَلَى رَسُولِ اللَّهِ ﷺ عَطْفَةُ البَقَرِ
+ * عَلَى أَوْلَادِهَا». Then the Prophet ﷺ scooped a handful of dust
+ * from the wadi floor and threw it toward the enemy lines saying
+ * «شَاهَتِ الوُجُوهُ» — and «مَا خَلَقَ اللَّهُ مِنْهُمْ إِنْسَانًا
+ * إِلَّا مَلَأَ عَيْنَيْهِ تُرَابًا» (Sahih Muslim 1777, Salama ibn
+ * al-Akwa'). He proclaimed «انْهَزَمُوا وَرَبِّ مُحَمَّدٍ»; Q 9:26
+ * followed: ﴿ثُمَّ أَنزَلَ اللَّهُ سَكِينَتَهُ عَلَىٰ رَسُولِهِ
+ * وَعَلَى المُؤْمِنِينَ وَأَنزَلَ جُنُودًا لَّمْ تَرَوْهَا﴾.
+ *
+ * As the counter-attack rolled forward — the Muhajirun banner with
+ * 'Ali, the Aws and Khazraj banners returning, al-Zubayr's cavalry,
+ * the borrowed-armour kataeb under Abu Talha — he ﷺ described the
+ * intensifying combat: «الآنَ حَمِيَ الوَطِيسُ» — now the furnace is
+ * hot, an idiom no Arab had been heard to utter before him (Sahih
+ * Muslim 1775). The salab ruling was established this day via Abu
+ * Qatada's single combat (Sahih al-Bukhari 3142).
+ *
+ * The Hawazin coalition shattered. ~70 Hawazin fell. One body fled
+ * east toward Awtas, where Abu 'Amir al-Ash'ari pursued, was killed
+ * by an arrow, and command passed to his nephew Abu Musa al-Ash'ari
+ * (Sahih al-Bukhari 4323). Another body fled southeast with Malik to
+ * fortify in al-Ta'if, triggering the next siege. Durayd ibn al-Simma
+ * was overtaken in his litter and killed by Rabi'a ibn Rufay'
+ * al-Sulami (al-Tabari). Four Muslims were martyred — among them
+ * Ayman ibn 'Ubayd, son of Umm Ayman. The rear camp — women,
+ * children, livestock — fell intact: ~6,000 captives, ~22,000–24,000
+ * camels, >40,000 sheep, 4,000 uqiyya silver, held at al-Ji'rana.
+ *
+ * After the brief siege of al-Ta'if the Prophet ﷺ returned. A
+ * Hawazin delegation arrived as Muslims; he offered them (Sahih
+ * al-Bukhari 4318–4319): «فَاخْتَارُوا إِحْدَى الطَّائِفَتَيْنِ:
+ * إِمَّا السَّبْيَ، وَإِمَّا المَالَ». They chose captives. All
+ * 6,000 were returned, including his foster-sister Shayma bint
+ * al-Harith of Banu Sa'd ibn Bakr — Halima al-Sa'diyya's clan. Then
+ * the mu'allafat qulubihim distribution: 100 camels each to Abu
+ * Sufyan, Safwan ibn Umayya, 'Uyayna ibn Hisn, al-Aqra' ibn Habis
+ * (Sahih Muslim 1060). Safwan said: «فَلَقَدْ أَعْطَانِي مَا
+ * أَعْطَانِي وَإِنَّهُ لَأَبْغَضُ النَّاسِ إِلَيَّ، فَمَا زَالَ
+ * يُعْطِينِي حَتَّى إِنَّهُ لَأَحَبُّ النَّاسِ إِلَيَّ» (Muslim
+ * 2313). The Ansar murmured. The Prophet ﷺ gathered them in a
+ * leather-walled qubba and delivered the famous khutba (Sahih
+ * al-Bukhari 4337, Anas): «يَا مَعْشَرَ الأَنْصَارِ، أَلَا
+ * تَرْضَوْنَ أَنْ يَذْهَبَ النَّاسُ بِالدُّنْيَا، وَتَذْهَبُونَ
+ * بِرَسُولِ اللَّهِ ﷺ تَحُوزُونَهُ إِلَى بُيُوتِكُمْ؟» The men
+ * wept until their beards were wet, and said: «رَضِينَا بِرَسُولِ
+ * اللَّهِ قَسْمًا وَحَظًّا».
+ *
+ * With Hunayn ended the last organised resistance to Islam in the
+ * Hijaz. The Year of Delegations (9 AH) followed, and the salab
+ * ruling and the ta'lif al-qulub category of zakat (Q 9:60) entered
+ * permanent fiqh.
+ *
+ * Sources: al-Bukhari, Sahih (Kitab al-Maghazi: 2930, 3142, 4315,
+ *          4318–4319, 4323, 4337); Muslim, Sahih (1060, 1775, 1777,
+ *          2313); Abu Dawud, Sunan (3562); al-Tirmidhi (2180);
+ *          Ibn Hisham, as-Sirah an-Nabawiyyah (Ghazwat Hunayn);
+ *          al-Waqidi, Kitab al-Maghazi; at-Tabari, Tarikh year 8 AH;
+ *          Ibn Kathir, al-Bidayah wa'n-Nihayah vol. 4. Surat at-Tawbah
+ *          25–26 was revealed in connection with this battle.
  */
 export const battleOfHunayn: BattleScenario = {
   id: 'battle-of-hunayn',
   name: 'Battle of Hunayn',
   nameAr: 'غزوة حنين',
-  date: '10 Shawwal 8 AH (31 January 630 CE)',
-  location: 'Valley of Hunayn, between Mecca and Ta\'if',
+  date: '10 Shawwal 8 AH (~31 January 630 CE)',
+  location: "Wadi Hunayn, Sarawat highlands between Makkah and al-Ta'if",
   description:
-    'After the Conquest of Mecca, the Hawazin and Thaqif tribes ambushed the 12,000-strong Muslim army in a narrow valley. Despite a devastating initial rout, the Prophet ﷺ stood firm with a handful of companions and rallied his forces to a complete victory.',
+    "Hunayn — victory after a near-defeat, the only battle named in the Qur'an by name. Two weeks after Fath Makkah, the Hawazin and Thaqif coalition under Malik ibn 'Awf an-Nasri massed at Wadi Hunayn, ~16 miles east-southeast of Makkah, with women, children, and livestock at the rear as a psychological commitment device that the aged poet Durayd ibn al-Simma had warned against. The Prophet ﷺ marched with 12,000 — 10,000 from Madinah and 2,000 fresh tulaqa' from Quraysh. Some boasted: 'we will not be defeated today from fewness.' Q 9:25 was revealed in rebuke. In the pre-dawn ghalas of Wednesday 10 Shawwal 8 AH, Khalid's Banu Sulaym vanguard descended into the throat of the wadi and was met by archery from both ridges and a downhill charge of spearmen and cavalry. The vanguard collapsed; the column buckled; most of the army fled. The Prophet ﷺ on his white mule Duldul, with Abu Sufyan ibn al-Harith holding the bridle and al-Abbas at the stirrup, did not move — declaring 'I am the Prophet, no lie; I am the son of 'Abd al-Muttalib' (Bukhari 4315). At his command al-Abbas — a man of mighty voice — called out three nested rallies: 'O Companions of the Tree! O Ansar! O Banu al-Harith ibn al-Khazraj!' (Muslim 1775); the Ansar returned crying 'labbayk, labbayk' like cattle to their young. Then the Prophet ﷺ scooped a handful of dust from the wadi floor, threw it toward the enemy saying 'shahat al-wujuh' — and Allah filled every Hawazin's eyes with that single throw (Muslim 1777). 'They are routed, by the Lord of Muhammad.' Q 9:26 followed: sakina and unseen armies. As the counter-attack rolled forward he ﷺ declared 'al-aana hamiya al-watis' — now the furnace is hot. The Hawazin shattered. Durayd was overtaken in his litter and killed by Rabi'a ibn Rufay'. ~70 of Hawazin fell; 4 Muslims, including Ayman ibn 'Ubayd. The 6,000 captives were held at al-Ji'rana over ten nights; when the Hawazin came as Muslims, the Prophet ﷺ offered them captives or property — they chose captives, and all 6,000 were returned including his foster-sister Shayma bint al-Harith. The mu'allafat qulubihim distribution gave 100 camels each to recent Quraysh converts; the Ansar grieved, and the Prophet ﷺ delivered the famous khutba in the leather qubba: 'are you not pleased that the people go off with worldly things while you go off with the Messenger of Allah?' (Bukhari 4337). They wept until their beards were wet.",
   descriptionAr:
-    'بعد فتح مكة، نصب قبائل هوازن وثقيف كميناً لجيش المسلمين البالغ ١٢ ألف مقاتل في وادٍ ضيق. رغم الهزيمة الأولية المدمرة، ثبت النبي ﷺ مع نفر قليل من أصحابه وجمع قواته لتحقيق نصر كامل.',
+    'حُنَيْنٌ — نَصْرٌ بَعْدَ هَزِيمَةٍ كَادَتْ تَكُونُ، وَهِيَ المَعْرَكَةُ الوَحِيدَةُ المُسَمَّاةُ بِاسْمِهَا فِي القُرْآنِ. بَعْدَ أُسْبُوعَيْنِ مِنْ فَتْحِ مَكَّةَ، حَشَدَ مَالِكُ بنُ عَوْفٍ النَّصْرِيُّ هَوَازِنَ وَثَقِيفَ فِي وَادِي حُنَيْنٍ، وَسَاقَ مَعَهُ النِّسَاءَ وَالأَبْنَاءَ وَالأَنْعَامَ — وَأَنْكَرَ عَلَيْهِ الشَّيْخُ دُرَيْدُ بنُ الصِّمَّةِ. خَرَجَ النَّبِيُّ ﷺ فِي اثْنَيْ عَشَرَ أَلْفًا — عَشَرَةُ آلَافٍ مِنْ أَهْلِ المَدِينَةِ، وَأَلْفَانِ مِنَ الطُّلَقَاءِ. قَالَ بَعْضُهُمْ: «لَنْ نُغْلَبَ اليَوْمَ مِنْ قِلَّةٍ»، فَأَنْزَلَ اللَّهُ ﴿وَيَوْمَ حُنَيْنٍ ۙ إِذْ أَعْجَبَتْكُمْ كَثْرَتُكُمْ﴾. وَلَمَّا انْحَدَرَتْ مُقَدِّمَةُ خَالِدٍ فِي غَلَسِ الفَجْرِ، انْفَجَرَ الكَمِينُ — سِهَامٌ مِنَ الشِّعَابِ، رِمَاحٌ مِنَ السَّفْحِ، وَوَلَّى أَكْثَرُ النَّاسِ مُدْبِرِينَ. وَثَبَتَ رَسُولُ اللَّهِ ﷺ عَلَى بَغْلَتِهِ البَيْضَاءِ، يَقُولُ: «أَنَا النَّبِيُّ لَا كَذِبْ، أَنَا ابْنُ عَبْدِ المُطَّلِبْ». فَنَادَى العَبَّاسُ — وَكَانَ صَيِّتًا — ثَلَاثَ نِدَاءَاتٍ: «يَا أَصْحَابَ السَّمُرَةِ! يَا مَعْشَرَ الأَنْصَارِ! يَا بَنِي الحَارِثِ بنِ الخَزْرَجِ!» فَأَقْبَلُوا كَعَطْفَةِ البَقَرِ. ثُمَّ أَخَذَ ﷺ كَفًّا مِنْ تُرَابٍ فَرَمَى بِهِ وُجُوهَ المُشْرِكِينَ وَقَالَ «شَاهَتِ الوُجُوهُ»، ثُمَّ قَالَ «انْهَزَمُوا وَرَبِّ مُحَمَّدٍ». وَلَمَّا اشْتَدَّ القِتَالُ قَالَ: «الآنَ حَمِيَ الوَطِيسُ». فَتَشَتَّتَتْ هَوَازِنُ بَيْنَ أَوْطَاسٍ وَالطَّائِفِ، وَقُتِلَ دُرَيْدُ فِي شِجَارِهِ. اسْتُشْهِدَ أَرْبَعَةٌ — مِنْهُمْ أَيْمَنُ بنُ عُبَيْدٍ — وَقُتِلَ مِنْ هَوَازِنَ نَحْوُ سَبْعِينَ. وَأُمْسِكَ السَّبْيُ — سِتَّةُ آلَافٍ — بِالجِعْرَانَةِ بِضْعَ عَشْرَةَ لَيْلَةً، حَتَّى قَدِمَ وَفْدُ هَوَازِنَ مُسْلِمِينَ، فَقَالَ: «فَاخْتَارُوا إِحْدَى الطَّائِفَتَيْنِ: إِمَّا السَّبْيَ، وَإِمَّا المَالَ»، فَاخْتَارُوا السَّبْيَ، فَرَدَّ السِّتَّةَ آلَافٍ، فِيهِمْ أُخْتُهُ مِنَ الرَّضَاعَةِ الشَّيْمَاءُ. ثُمَّ أَعْطَى المُؤَلَّفَةَ قُلُوبُهُمْ مِنْ قُرَيْشٍ مِئَةَ مِئَةٍ، فَوَجَدَ الأَنْصَارُ، فَجَمَعَهُمْ ﷺ فِي قُبَّةٍ وَقَالَ: «أَلَا تَرْضَوْنَ أَنْ يَذْهَبَ النَّاسُ بِالدُّنْيَا، وَتَذْهَبُونَ بِرَسُولِ اللَّهِ؟»، فَبَكَوْا حَتَّى أَخْضَلُوا لِحَاهُمْ.',
+
+  // Pre-dawn ghalas — battle joined just before fajr per Ibn Hisham.
+  dayPhase: 'dawn',
+  weather: 'clear',
+  // Single day of fighting; the al-Ji'rana hold was over ten nights but
+  // the engagement itself was Wednesday 10 Shawwal.
+  actualDayCount: 1,
 
   map: {
-    width: 1200, // world units
-    height: 900,
+    width: 2400,
+    height: 1600,
     terrain: [
-      // Valley floor (main area)
+      // Base wadi floor — bare ochre-dust rocky highland
       {
-        id: 'valley-floor',
-        type: 'sand',
-        polygon: [
-          { x: 350, y: 0 },
-          { x: 850, y: 0 },
-          { x: 900, y: 900 },
-          { x: 300, y: 900 },
-        ],
-        color: 0x3d2b1f,
-      },
-      // Eastern hillside (elevated - ambush positions)
-      {
-        id: 'east-hills',
-        type: 'elevated',
-        polygon: [
-          { x: 850, y: 0 },
-          { x: 1200, y: 0 },
-          { x: 1200, y: 900 },
-          { x: 900, y: 900 },
-        ],
-        color: 0x4a3728,
-      },
-      // Western hillside (elevated - ambush positions)
-      {
-        id: 'west-hills',
-        type: 'elevated',
-        polygon: [
-          { x: 0, y: 0 },
-          { x: 350, y: 0 },
-          { x: 300, y: 900 },
-          { x: 0, y: 900 },
-        ],
-        color: 0x4a3728,
-      },
-      // Valley narrows (rocky passage at north entrance)
-      {
-        id: 'valley-narrows',
+        id: 'wadi-floor',
         type: 'rocky',
         polygon: [
-          { x: 400, y: 0 },
-          { x: 800, y: 0 },
-          { x: 750, y: 150 },
-          { x: 450, y: 150 },
+          { x: 0, y: 0 },
+          { x: 2400, y: 0 },
+          { x: 2400, y: 1600 },
+          { x: 0, y: 1600 },
         ],
-        color: 0x5c4033,
+        color: 0x4a3826,
+        label: 'وَادِي حُنَيْنٍ',
       },
-      // Hawazin camp area (south)
+      // Northern flanking ridge — Hawazin archers' position
       {
-        id: 'hawazin-camp-area',
+        id: 'north-ridge',
+        type: 'mountain',
+        polygon: [
+          { x: 0, y: 0 },
+          { x: 2400, y: 0 },
+          { x: 2400, y: 600 },
+          { x: 0, y: 600 },
+        ],
+        color: 0x251a10,
+        label: 'الشِّعَابُ الشَّمَالِيَّةُ',
+      },
+      // Southern flanking ridge — Hawazin spearmen's position
+      {
+        id: 'south-ridge',
+        type: 'mountain',
+        polygon: [
+          { x: 0, y: 1100 },
+          { x: 2400, y: 1100 },
+          { x: 2400, y: 1600 },
+          { x: 0, y: 1600 },
+        ],
+        color: 0x251a10,
+        label: 'الشِّعَابُ الجَنُوبِيَّةُ',
+      },
+      // Open wadi entry from the west (Makkah direction)
+      {
+        id: 'wadi-mouth-west',
         type: 'flat',
         polygon: [
-          { x: 300, y: 750 },
-          { x: 900, y: 750 },
-          { x: 900, y: 900 },
-          { x: 300, y: 900 },
+          { x: 0, y: 600 },
+          { x: 700, y: 600 },
+          { x: 700, y: 1100 },
+          { x: 0, y: 1100 },
         ],
-        color: 0x2c1810,
+        color: 0x6b5430,
+      },
+      // The throat (defile) — narrows where the ridges close in
+      {
+        id: 'defile-throat',
+        type: 'gorge',
+        polygon: [
+          { x: 1400, y: 700 },
+          { x: 1750, y: 700 },
+          { x: 1750, y: 1000 },
+          { x: 1400, y: 1000 },
+        ],
+        color: 0x2d1f12,
+        label: 'مَضِيقُ حُنَيْنٍ',
+      },
+      // Rear (eastern) staging area beyond the defile — Hawazin camp
+      {
+        id: 'hawazin-rear-camp',
+        type: 'sand',
+        polygon: [
+          { x: 1900, y: 700 },
+          { x: 2350, y: 700 },
+          { x: 2350, y: 1050 },
+          { x: 1900, y: 1050 },
+        ],
+        color: 0x6b552f,
+        label: 'مُعَسْكَرُ الظَّعَائِنِ',
+      },
+      // North-side gully cuts (shi'ab) — concealed paths down for the spearmen
+      {
+        id: 'shiab-north-cuts',
+        type: 'rocky',
+        polygon: [
+          { x: 1300, y: 600 },
+          { x: 1900, y: 600 },
+          { x: 1900, y: 720 },
+          { x: 1300, y: 720 },
+        ],
+        color: 0x35251a,
+      },
+      // South-side gully cuts
+      {
+        id: 'shiab-south-cuts',
+        type: 'rocky',
+        polygon: [
+          { x: 1300, y: 980 },
+          { x: 1900, y: 980 },
+          { x: 1900, y: 1100 },
+          { x: 1300, y: 1100 },
+        ],
+        color: 0x35251a,
+      },
+      // Al-Ji'rana camp — appears in phase 12 (south-west, off the wadi)
+      {
+        id: 'jirana-camp',
+        type: 'oasis',
+        polygon: [
+          { x: 200, y: 1180 },
+          { x: 900, y: 1180 },
+          { x: 900, y: 1500 },
+          { x: 200, y: 1500 },
+        ],
+        color: 0x2d4a1d,
+        label: 'مُعَسْكَرُ الجِعْرَانَةِ',
       },
     ],
     landmarks: [
       {
-        id: 'valley-entrance',
-        position: { x: 600, y: 50 },
+        id: 'wadi-mouth-west',
+        position: { x: 200, y: 850 },
         type: 'mountain_pass',
-        label: 'Valley Entrance',
-        labelAr: 'مدخل الوادي',
+        label: 'Western Mouth — From Makkah',
+        labelAr: 'مَدْخَلُ الوَادِي الغَرْبِيُّ',
       },
       {
-        id: 'east-ambush-ridge',
-        position: { x: 1000, y: 300 },
-        type: 'hill',
-        label: 'Eastern Ridge',
-        labelAr: 'التلال الشرقية',
-      },
-      {
-        id: 'west-ambush-ridge',
-        position: { x: 200, y: 300 },
-        type: 'hill',
-        label: 'Western Ridge',
-        labelAr: 'التلال الغربية',
-      },
-      {
-        id: 'prophet-stand',
-        position: { x: 600, y: 400 },
+        id: 'defile-throat-marker',
+        position: { x: 1500, y: 850 },
         type: 'marker',
-        label: "Prophet's Stand",
-        labelAr: 'موقف النبي ﷺ',
+        label: 'The Throat of Hunayn',
+        labelAr: 'مَضِيقُ حُنَيْنٍ',
       },
       {
-        id: 'hawazin-camp',
-        position: { x: 600, y: 830 },
+        id: 'prophet-stand-marker',
+        position: { x: 1300, y: 850 },
+        type: 'marker',
+        label: "The Prophet's ﷺ Stand",
+        labelAr: 'مَوْقِفُ النَّبِيِّ ﷺ',
+      },
+      {
+        id: 'north-ridge-marker',
+        position: { x: 1500, y: 540 },
+        type: 'mountain_pass',
+        label: 'Northern Hawazin Ridge',
+        labelAr: 'الشِّعَابُ الشَّمَالِيَّةُ',
+      },
+      {
+        id: 'south-ridge-marker',
+        position: { x: 1500, y: 1160 },
+        type: 'mountain_pass',
+        label: 'Southern Hawazin Ridge',
+        labelAr: 'الشِّعَابُ الجَنُوبِيَّةُ',
+      },
+      {
+        id: 'hawazin-rear-camp-marker',
+        position: { x: 2120, y: 870 },
         type: 'camp',
-        label: 'Hawazin Camp (Families & Livestock)',
-        labelAr: 'معسكر هوازن (العائلات والأنعام)',
+        label: "Hawazin Camp — Women, Children, Herds",
+        labelAr: 'مُعَسْكَرُ هَوَازِنَ وَالظَّعَائِنُ',
       },
       {
-        id: 'rally-point',
-        position: { x: 600, y: 250 },
-        type: 'marker',
-        label: 'Rally Point',
-        labelAr: 'نقطة التجمع',
+        id: 'awtas-direction',
+        position: { x: 2370, y: 850 },
+        type: 'mountain_pass',
+        label: 'Awtas Direction (East)',
+        labelAr: 'اتِّجَاهُ أَوْطَاسٍ',
+      },
+      {
+        id: 'taif-direction',
+        position: { x: 2370, y: 1100 },
+        type: 'mountain_pass',
+        label: "al-Ta'if Direction (Southeast)",
+        labelAr: 'اتِّجَاهُ الطَّائِفِ',
+      },
+      {
+        id: 'jirana-camp-marker',
+        position: { x: 550, y: 1340 },
+        type: 'camp',
+        label: "al-Ji'rana — Spoils Camp",
+        labelAr: 'الجِعْرَانَةُ',
       },
     ],
-    backgroundColor: 0x2c1810,
+    backgroundColor: 0x1a1208,
   },
 
   forces: [
-    // ─── MUSLIM FORCES (~12,000 soldiers) ─────────────────────────────────────
+    // ─── Muslim Forces (~12,000 — 10,000 from Madinah + 2,000 tulaqa') ───
     {
       faction: 'muslim',
       label: 'Muslim Forces',
-      labelAr: 'جيش المسلمين',
+      labelAr: 'جَيْشُ المُسْلِمِينَ',
       totalStrength: 12000,
       units: [
         {
-          id: 'muslim-vanguard-cavalry',
-          name: "Vanguard Cavalry (Khalid's)",
-          nameAr: 'فرسان المقدمة (خالد)',
+          // Banu Sulaym vanguard — Khalid leads, first hit by archery
+          id: 'muslim-vanguard-sulaym',
+          name: "Banu Sulaym Vanguard under Khalid",
+          nameAr: 'كَتِيبَةُ بَنِي سُلَيْمٍ — المُقَدِّمَةُ',
           troopType: 'cavalry',
-          soldierCount: 200,
-          commander: 'Khalid ibn al-Walid',
-          startPosition: { x: 600, y: 80 },
+          soldierCount: 900,
+          commander: 'خَالِدُ بنُ الوَلِيدِ',
+          startPosition: { x: 1100, y: 850 },
           startFormation: 'column',
-          startFacing: Math.PI / 2, // facing south (into valley)
-          stats: { attack: 9, defense: 7, speed: 9, morale: 8 },
+          startFacing: 0, // facing east into the wadi
+          stats: { attack: 10, defense: 8, speed: 9, morale: 10 },
         },
         {
-          id: 'muslim-meccan-converts',
-          name: 'New Meccan Converts',
-          nameAr: 'مسلمو مكة الجدد',
+          // 'Ali — banner of the Muhajirun
+          id: 'muslim-muhajirun-banner',
+          name: "'Ali's Muhajirun Banner",
+          nameAr: 'كَتِيبَةُ المُهَاجِرِينَ — رَايَةُ عَلِيٍّ',
           troopType: 'infantry',
-          soldierCount: 200,
-          commander: 'Abu Sufyan ibn Harb',
-          startPosition: { x: 600, y: 130 },
-          startFormation: 'column',
-          startFacing: Math.PI / 2,
-          stats: { attack: 5, defense: 4, speed: 5, morale: 4 },
+          soldierCount: 700,
+          commander: 'عَلِيُّ بنُ أَبِي طَالِبٍ',
+          startPosition: { x: 900, y: 850 },
+          startFormation: 'line',
+          startFacing: 0,
+          stats: { attack: 10, defense: 9, speed: 6, morale: 10 },
         },
         {
-          id: 'muslim-main-body',
-          name: 'Main Body (Muhajirun & Ansar)',
-          nameAr: 'الجيش الرئيسي (المهاجرون والأنصار)',
+          // Aws under Usayd ibn Hudayr
+          id: 'muslim-aws-banner',
+          name: "Aws Banner under Usayd ibn Hudayr",
+          nameAr: 'كَتِيبَةُ الأَوْسِ — رَايَةُ أُسَيْدٍ',
           troopType: 'infantry',
-          soldierCount: 200,
-          commander: undefined,
-          startPosition: { x: 600, y: 200 },
-          startFormation: 'column',
-          startFacing: Math.PI / 2,
-          stats: { attack: 8, defense: 7, speed: 6, morale: 9 },
-        },
-        {
-          id: 'muslim-prophet-guard',
-          name: "Prophet's ﷺ Guard",
-          nameAr: 'حرس النبي ﷺ',
-          troopType: 'command',
-          soldierCount: 100,
-          commander: 'Prophet Muhammad ﷺ',
-          startPosition: { x: 600, y: 270 },
-          startFormation: 'column',
-          startFacing: Math.PI / 2,
+          soldierCount: 1500,
+          commander: 'أُسَيْدُ بنُ حُضَيْرٍ',
+          startPosition: { x: 700, y: 800 },
+          startFormation: 'line',
+          startFacing: 0,
           stats: { attack: 8, defense: 9, speed: 5, morale: 10 },
         },
         {
-          id: 'muslim-rear-guard',
-          name: 'Rear Guard',
-          nameAr: 'المؤخرة',
+          // Khazraj under Sa'd ibn 'Ubada
+          id: 'muslim-khazraj-banner',
+          name: "Khazraj Banner under Sa'd ibn 'Ubada",
+          nameAr: 'كَتِيبَةُ الخَزْرَجِ — رَايَةُ سَعْدٍ',
           troopType: 'infantry',
-          soldierCount: 150,
-          commander: 'Umar ibn al-Khattab',
-          startPosition: { x: 600, y: 50 },
-          startFormation: 'column',
-          startFacing: Math.PI / 2,
-          stats: { attack: 7, defense: 7, speed: 6, morale: 9 },
+          soldierCount: 1900,
+          commander: 'سَعْدُ بنُ عُبَادَةَ',
+          startPosition: { x: 700, y: 900 },
+          startFormation: 'line',
+          startFacing: 0,
+          stats: { attack: 8, defense: 9, speed: 5, morale: 10 },
         },
         {
-          id: 'muslim-ansar-veterans',
-          name: 'Ansar Veterans',
-          nameAr: 'أبطال الأنصار',
+          // The Prophet's small command core — held when the army fled
+          id: 'muslim-prophet-core',
+          name: "The Prophet's Core (al-Mustafa ﷺ)",
+          nameAr: 'كَتِيبَةُ المُصْطَفَى ﷺ — قَلْبُ الجَيْشِ',
+          troopType: 'command',
+          soldierCount: 80,
+          commander: 'النَّبِيُّ مُحَمَّدٌ ﷺ عَلَى بَغْلَتِهِ البَيْضَاءِ',
+          startPosition: { x: 800, y: 850 },
+          startFormation: 'defensive_circle',
+          startFacing: 0,
+          stats: { attack: 9, defense: 10, speed: 6, morale: 10 },
+        },
+        {
+          // The 2,000 newly-converted Makkans (al-tulaqa') — Abu Sufyan
+          id: 'muslim-tulaqa-quraysh',
+          name: "Quraysh Tulaqa'",
+          nameAr: 'كَتِيبَةُ الطُّلَقَاءِ مِنْ قُرَيْشٍ',
           troopType: 'infantry',
-          soldierCount: 150,
-          commander: undefined,
-          startPosition: { x: 550, y: 230 },
+          soldierCount: 2000,
+          commander: 'أَبُو سُفْيَانَ بنُ حَرْبٍ',
+          startPosition: { x: 500, y: 870 },
           startFormation: 'column',
-          startFacing: Math.PI / 2,
-          stats: { attack: 8, defense: 8, speed: 6, morale: 10 },
+          startFacing: 0,
+          stats: { attack: 7, defense: 7, speed: 5, morale: 7 },
+        },
+        {
+          // Ansari archers — Abu Qatada (salab ruling) and Salama ibn al-Akwa'
+          id: 'muslim-ansar-archers',
+          name: "Ansari Archers — Abu Qatada",
+          nameAr: 'رُمَاةُ الأَنْصَارِ',
+          troopType: 'archers',
+          soldierCount: 600,
+          commander: 'أَبُو قَتَادَةَ الأَنْصَارِيُّ',
+          startPosition: { x: 700, y: 950 },
+          startFormation: 'line',
+          startFacing: 0,
+          stats: { attack: 9, defense: 5, speed: 5, morale: 10 },
+        },
+        {
+          // al-Zubayr's cavalry — part of the counter-attack after the dust-throw
+          id: 'muslim-zubayr-cavalry',
+          name: "al-Zubayr's Cavalry",
+          nameAr: 'خَيْلُ الزُّبَيْرِ بنِ العَوَّامِ',
+          troopType: 'cavalry',
+          soldierCount: 800,
+          commander: 'الزُّبَيْرُ بنُ العَوَّامِ',
+          startPosition: { x: 600, y: 800 },
+          startFormation: 'wedge',
+          startFacing: 0,
+          stats: { attack: 9, defense: 7, speed: 9, morale: 10 },
+        },
+        {
+          // The 100 borrowed coats of mail from Safwan — 'ariya madmuna
+          id: 'muslim-borrowed-armour',
+          name: "The Borrowed-Armour Detachment ('Ariya Madmuna)",
+          nameAr: 'كَتِيبَةُ الدُّرُوعِ المُسْتَعَارَةِ',
+          troopType: 'heavy_cavalry',
+          soldierCount: 100,
+          commander: 'أَبُو طَلْحَةَ الأَنْصَارِيُّ',
+          startPosition: { x: 650, y: 850 },
+          startFormation: 'wedge',
+          startFacing: 0,
+          stats: { attack: 9, defense: 10, speed: 8, morale: 10 },
+        },
+        {
+          // Rear elements of the 12,000-strong force — saqa
+          id: 'muslim-rear-reserves',
+          name: 'Rear Elements (al-Saqa)',
+          nameAr: 'السَّاقَةُ — مُؤَخِّرَةُ الجَيْشِ',
+          troopType: 'reserves',
+          soldierCount: 5500,
+          commander: 'قِيَادَةُ الجَيْشِ المُشْتَرَكَةُ',
+          startPosition: { x: 300, y: 850 },
+          startFormation: 'column',
+          startFacing: 0,
+          stats: { attack: 7, defense: 7, speed: 5, morale: 8 },
         },
       ],
     },
-    // ─── HAWAZIN/THAQIF FORCES (~4,000 warriors) ──────────────────────────────
+
+    // ─── Hawazin Forces (~6,000 with women + herds in the rear) ───────────
     {
       faction: 'hawazin',
-      label: 'Hawazin & Thaqif Forces',
-      labelAr: 'جيش هوازن وثقيف',
-      totalStrength: 4000,
+      label: 'Hawazin & Thaqif Coalition',
+      labelAr: 'جَيْشُ هَوَازِنَ وَثَقِيفَ',
+      totalStrength: 6000,
       units: [
         {
-          id: 'hawazin-east-archers',
-          name: 'Eastern Hillside Archers',
-          nameAr: 'رماة التلال الشرقية',
+          // Hawazin archers on the north ridge — open the battle
+          id: 'hawazin-archers-north',
+          name: 'Hawazin Archers — Northern Ridge',
+          nameAr: 'كَتِيبَةُ رُمَاةِ هَوَازِنَ — الشِّعْبُ الشَّمَالِيُّ',
           troopType: 'archers',
-          soldierCount: 150,
-          commander: undefined,
-          startPosition: { x: 950, y: 250 },
+          soldierCount: 800,
+          commander: 'مَالِكُ بنُ عَوْفٍ النَّصْرِيُّ',
+          startPosition: { x: 1500, y: 540 },
           startFormation: 'line',
-          startFacing: -Math.PI, // facing west (into valley)
-          stats: { attack: 8, defense: 4, speed: 5, morale: 8 },
+          startFacing: Math.PI / 2, // facing south down into the wadi
+          stats: { attack: 9, defense: 6, speed: 5, morale: 9 },
         },
         {
-          id: 'hawazin-west-archers',
-          name: 'Western Hillside Archers',
-          nameAr: 'رماة التلال الغربية',
-          troopType: 'archers',
-          soldierCount: 150,
-          commander: undefined,
-          startPosition: { x: 250, y: 250 },
-          startFormation: 'line',
-          startFacing: 0, // facing east (into valley)
-          stats: { attack: 8, defense: 4, speed: 5, morale: 8 },
-        },
-        {
-          id: 'hawazin-ambush-infantry',
-          name: 'Hidden Valley Infantry',
-          nameAr: 'مشاة الكمين',
+          // Banu Nasr spearmen on the south ridge — the second jaw
+          id: 'hawazin-spearmen-south',
+          name: 'Banu Nasr Spearmen — Southern Ridge',
+          nameAr: 'كَتِيبَةُ بَنِي نَصْرٍ — الشِّعْبُ الجَنُوبِيُّ',
           troopType: 'infantry',
-          soldierCount: 200,
-          commander: 'Malik ibn Awf al-Nasri',
-          startPosition: { x: 600, y: 450 },
-          startFormation: 'line',
-          startFacing: -Math.PI / 2, // facing north (toward Muslims)
-          stats: { attack: 8, defense: 6, speed: 7, morale: 9 },
+          soldierCount: 900,
+          commander: 'قَائِدُ بَنِي نَصْرٍ',
+          startPosition: { x: 1500, y: 1160 },
+          startFormation: 'scattered',
+          startFacing: -Math.PI / 2, // facing north
+          stats: { attack: 8, defense: 7, speed: 6, morale: 8 },
         },
         {
-          id: 'hawazin-east-infantry',
-          name: 'Eastern Ambush Infantry',
-          nameAr: 'مشاة الكمين الشرقي',
-          troopType: 'infantry',
-          soldierCount: 150,
-          commander: undefined,
-          startPosition: { x: 900, y: 350 },
-          startFormation: 'line',
-          startFacing: -Math.PI, // facing west
-          stats: { attack: 7, defense: 6, speed: 7, morale: 8 },
-        },
-        {
-          id: 'hawazin-west-infantry',
-          name: 'Western Ambush Infantry',
-          nameAr: 'مشاة الكمين الغربي',
-          troopType: 'infantry',
-          soldierCount: 150,
-          commander: undefined,
-          startPosition: { x: 300, y: 350 },
-          startFormation: 'line',
-          startFacing: 0, // facing east
-          stats: { attack: 7, defense: 6, speed: 7, morale: 8 },
-        },
-        {
-          id: 'hawazin-cavalry',
-          name: 'Hawazin Cavalry',
-          nameAr: 'فرسان هوازن',
+          // Banu Jusham cavalry — Durayd's tribe; he advised against the women-rearing
+          id: 'hawazin-jusham-cavalry',
+          name: "Banu Jusham Cavalry (Durayd's tribe)",
+          nameAr: 'خَيْلُ بَنِي جُشَمَ',
           troopType: 'cavalry',
-          soldierCount: 150,
-          commander: undefined,
-          startPosition: { x: 1050, y: 450 },
+          soldierCount: 600,
+          commander: 'دُرَيْدُ بنُ الصِّمَّةِ (مُسْتَشَارٌ)',
+          startPosition: { x: 1700, y: 850 },
           startFormation: 'wedge',
-          startFacing: -Math.PI, // facing west
-          stats: { attack: 8, defense: 6, speed: 9, morale: 8 },
+          startFacing: Math.PI, // facing west toward incoming Muslims
+          stats: { attack: 8, defense: 7, speed: 9, morale: 8 },
         },
         {
-          id: 'hawazin-reserves',
-          name: 'Hawazin Reserves (Camp Guard)',
-          nameAr: 'احتياط هوازن (حراسة المعسكر)',
-          troopType: 'reserves',
-          soldierCount: 100,
-          commander: 'Duraid ibn al-Simma',
-          startPosition: { x: 600, y: 800 },
+          // Thaqif of al-Ta'if joined the coalition (except Banu Mu'attib)
+          id: 'hawazin-thaqif',
+          name: 'Thaqif of al-Ta\'if',
+          nameAr: 'كَتِيبَةُ ثَقِيفَ مِنَ الطَّائِفِ',
+          troopType: 'infantry',
+          soldierCount: 1000,
+          commander: 'قَارِبُ بنُ الأَسْوَدِ، وَذُو الخِمَارِ',
+          startPosition: { x: 1800, y: 900 },
           startFormation: 'line',
-          startFacing: -Math.PI / 2,
-          stats: { attack: 5, defense: 5, speed: 4, morale: 7 },
+          startFacing: Math.PI,
+          stats: { attack: 8, defense: 7, speed: 5, morale: 8 },
+        },
+        {
+          // Banu Sa'd ibn Bakr — the Prophet's foster-tribe
+          id: 'hawazin-saad-ibn-bakr',
+          name: "Banu Sa'd ibn Bakr (the Prophet's foster-tribe)",
+          nameAr: 'كَتِيبَةُ بَنِي سَعْدِ بنِ بَكْرٍ',
+          troopType: 'infantry',
+          soldierCount: 400,
+          commander: 'قَائِدُ بَنِي سَعْدٍ',
+          startPosition: { x: 1700, y: 780 },
+          startFormation: 'line',
+          startFacing: Math.PI,
+          stats: { attack: 7, defense: 7, speed: 5, morale: 7 },
+        },
+        {
+          // The rear camp — women, children, livestock
+          id: 'hawazin-rear-camp',
+          name: 'The Rear Camp — Captives, Camels, Sheep',
+          nameAr: 'الظَّعَائِنُ وَالأَنْعَامُ — مُعَسْكَرُ المُؤَخِّرَةِ',
+          troopType: 'reserves',
+          soldierCount: 300,
+          commander: 'حُرَّاسُ المُعَسْكَرِ',
+          startPosition: { x: 2120, y: 870 },
+          startFormation: 'defensive_circle',
+          startFacing: Math.PI,
+          stats: { attack: 4, defense: 5, speed: 4, morale: 5 },
         },
       ],
     },
   ],
 
-  // ─── Battle Phases (total ~50 seconds of simulation time) ──────────────────
   phases: [
-    // Phase 1: Valley Approach (0-8s)
+    // Phase 1 (0–6s): March from Makkah; Dhat Anwat rebuke.
     {
-      id: 'valley-approach',
-      name: 'Valley Approach',
-      nameAr: 'دخول الوادي',
+      id: 'phase-01-march-dhat-anwat',
+      name: 'March from Makkah & Dhat Anwat',
+      nameAr: 'المَسِيرُ مِنْ مَكَّةَ وَحَدِيثُ ذَاتِ أَنْوَاطٍ',
       startTime: 0,
-      duration: 8,
-      description: 'The massive Muslim army enters the Valley of Hunayn in long marching columns, confident after the Conquest of Mecca.',
+      duration: 6,
+      description:
+        "6 Shawwal 8 AH — the Muslim army marches east-southeast from Makkah toward Hunayn (~16 miles). Some recent converts ask the Prophet ﷺ to designate a sidra tree like Dhat Anwat for them; he rebukes them with the Tirmidhi 2180 saying — 'Subhan Allah! This is as the people of Musa said: Make for us a god as they have gods.'",
       actions: [
-        // Camera shows overview of the valley
-        {
-          type: 'camera_move',
-          params: { x: 600, y: 200, zoom: 0.6, duration: 2 },
-          delay: 0,
-        },
-        // Vanguard advances into valley
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-vanguard-cavalry',
-          params: { position: { x: 600, y: 250 }, speed: 80 },
-          delay: 0,
-        },
-        // Meccan converts follow
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-meccan-converts',
-          params: { position: { x: 600, y: 200 }, speed: 70 },
-          delay: 1,
-        },
-        // Main body advances
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-main-body',
-          params: { position: { x: 600, y: 280 }, speed: 65 },
-          delay: 2,
-        },
-        // Prophet's guard advances
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-prophet-guard',
-          params: { position: { x: 600, y: 330 }, speed: 60 },
-          delay: 3,
-        },
-        // Rear guard enters
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-rear-guard',
-          params: { position: { x: 600, y: 150 }, speed: 60 },
-          delay: 3,
-        },
-        // Ansar veterans advance
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-ansar-veterans',
-          params: { position: { x: 550, y: 300 }, speed: 60 },
-          delay: 2.5,
-        },
-        // Set advancing behavior
-        {
-          type: 'set_behavior',
-          targetUnitId: 'muslim-vanguard-cavalry',
-          params: { behavior: 'advancing' },
-          delay: 0,
-        },
-        {
-          type: 'set_behavior',
-          targetUnitId: 'muslim-meccan-converts',
-          params: { behavior: 'advancing' },
-          delay: 1,
-        },
+        { type: 'camera_move', params: { x: 1200, y: 800, zoom: 0.45, duration: 4 }, delay: 0 },
+        // The 12,000-strong column tightens into march formation
+        { type: 'change_formation', targetUnitId: 'muslim-vanguard-sulaym', params: { formation: 'column' }, delay: 1 },
+        { type: 'change_formation', targetUnitId: 'muslim-muhajirun-banner', params: { formation: 'column' }, delay: 1 },
+        { type: 'change_formation', targetUnitId: 'muslim-aws-banner', params: { formation: 'column' }, delay: 1 },
+        { type: 'change_formation', targetUnitId: 'muslim-khazraj-banner', params: { formation: 'column' }, delay: 1 },
+        { type: 'play_effect', params: { effect: 'sidra-tree-marker', position: { x: 600, y: 850 }, label: 'ذَاتُ أَنْوَاطٍ' }, delay: 3 },
       ],
       triggers: [],
     },
-    // Phase 2: The Ambush (8-18s)
+
+    // Phase 2 (6–11s): The boast over numbers.
     {
-      id: 'the-ambush',
-      name: 'The Ambush',
-      nameAr: 'الكمين',
-      startTime: 8,
-      duration: 10,
-      description: 'Hawazin spring their devastating trap — arrows rain from the hillsides and warriors charge from hidden positions on all sides.',
+      id: 'phase-02-confidence-and-boast',
+      name: 'The Boast over Numbers',
+      nameAr: 'الإِعْجَابُ بِالكَثْرَةِ',
+      startTime: 6,
+      duration: 5,
+      description:
+        "On approach to Hunayn, some boast 'lan nughlaba al-yawma min qillatin' (we will not be defeated today from fewness). Q 9:25 explicitly rebukes this self-admiration over numbers — Hunayn is named in the Qur'an by name.",
       actions: [
-        // Camera zooms to ambush zone
-        {
-          type: 'camera_move',
-          params: { x: 600, y: 300, zoom: 0.8, duration: 1.5 },
-          delay: 0,
-        },
-        // Eastern archers attack
-        {
-          type: 'attack_unit',
-          targetUnitId: 'hawazin-east-archers',
-          params: { targetId: 'muslim-vanguard-cavalry' },
-          delay: 0,
-        },
-        // Western archers attack
-        {
-          type: 'attack_unit',
-          targetUnitId: 'hawazin-west-archers',
-          params: { targetId: 'muslim-meccan-converts' },
-          delay: 0.5,
-        },
-        // Eastern archers move to firing positions
-        {
-          type: 'move_unit',
-          targetUnitId: 'hawazin-east-archers',
-          params: { position: { x: 850, y: 250 }, speed: 60 },
-          delay: 0,
-        },
-        // Western archers move to firing positions
-        {
-          type: 'move_unit',
-          targetUnitId: 'hawazin-west-archers',
-          params: { position: { x: 350, y: 250 }, speed: 60 },
-          delay: 0,
-        },
-        // Hidden infantry charges from center
-        {
-          type: 'set_behavior',
-          targetUnitId: 'hawazin-ambush-infantry',
-          params: { behavior: 'attacking' },
-          delay: 1,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'hawazin-ambush-infantry',
-          params: { position: { x: 600, y: 300 }, speed: 100 },
-          delay: 1,
-        },
-        // Eastern infantry charges into valley
-        {
-          type: 'set_behavior',
-          targetUnitId: 'hawazin-east-infantry',
-          params: { behavior: 'attacking' },
-          delay: 1.5,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'hawazin-east-infantry',
-          params: { position: { x: 700, y: 280 }, speed: 90 },
-          delay: 1.5,
-        },
-        // Western infantry charges into valley
-        {
-          type: 'set_behavior',
-          targetUnitId: 'hawazin-west-infantry',
-          params: { behavior: 'attacking' },
-          delay: 2,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'hawazin-west-infantry',
-          params: { position: { x: 500, y: 280 }, speed: 90 },
-          delay: 2,
-        },
-        // Hawazin cavalry charges from behind eastern hills
-        {
-          type: 'set_behavior',
-          targetUnitId: 'hawazin-cavalry',
-          params: { behavior: 'flanking' },
-          delay: 3,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'hawazin-cavalry',
-          params: { position: { x: 750, y: 200 }, speed: 130 },
-          delay: 3,
-        },
-        // Engagements
-        {
-          type: 'attack_unit',
-          targetUnitId: 'hawazin-ambush-infantry',
-          params: { targetId: 'muslim-vanguard-cavalry' },
-          delay: 4,
-        },
-        {
-          type: 'attack_unit',
-          targetUnitId: 'hawazin-east-infantry',
-          params: { targetId: 'muslim-main-body' },
-          delay: 5,
-        },
-        {
-          type: 'attack_unit',
-          targetUnitId: 'hawazin-west-infantry',
-          params: { targetId: 'muslim-meccan-converts' },
-          delay: 5,
-        },
-        // Vanguard panics - formation breaks
-        {
-          type: 'change_formation',
-          targetUnitId: 'muslim-vanguard-cavalry',
-          params: { formation: 'scattered' },
-          delay: 6,
-        },
-        // Meccan converts panic
-        {
-          type: 'change_formation',
-          targetUnitId: 'muslim-meccan-converts',
-          params: { formation: 'scattered' },
-          delay: 7,
-        },
+        { type: 'camera_move', params: { x: 800, y: 700, zoom: 0.7, duration: 3 }, delay: 0 },
+        // Slow chest-height tracking pan along the column
+        { type: 'play_effect', params: { effect: 'banner-flutter', position: { x: 800, y: 850 } }, delay: 1 },
+        { type: 'play_effect', params: { effect: 'quran-recitation', text: 'إِذْ أَعْجَبَتْكُمْ كَثْرَتُكُمْ' }, delay: 2 },
       ],
       triggers: [],
     },
-    // Phase 3: The Rout (18-28s)
+
+    // Phase 3 (11–17s): Malik ibn 'Awf's ambush prepared the night before.
     {
-      id: 'the-rout',
-      name: 'The Rout',
-      nameAr: 'الانهزام',
-      startTime: 18,
-      duration: 10,
-      description: 'Chain rout — the vanguard flees backward, causing panic throughout the massive army. Only the Prophet ﷺ and ~100 companions hold firm.',
+      id: 'phase-03-malik-ambush-prep',
+      name: "Malik ibn 'Awf's Ambush — Wednesday Night",
+      nameAr: 'كَمِينُ مَالِكِ بْنِ عَوْفٍ — لَيْلَةَ الأَرْبِعَاءِ',
+      startTime: 11,
+      duration: 6,
+      description:
+        "Night of Wednesday 10 Shawwal: Malik moves his force into Wadi Hunayn under cover of darkness, stations archers and spearmen in the gullies on both ridges, and places women, children, and livestock at the rear. Durayd ibn al-Simma — carried in a litter, reportedly over 100 — warns: 'Does anything turn back a man in flight?' Malik dismisses the counsel.",
       actions: [
-        // Camera shows the chaos
-        {
-          type: 'camera_move',
-          params: { x: 600, y: 250, zoom: 0.5, duration: 2 },
-          delay: 0,
-        },
-        // Vanguard cavalry routs northward
-        {
-          type: 'set_behavior',
-          targetUnitId: 'muslim-vanguard-cavalry',
-          params: { behavior: 'retreating' },
-          delay: 0,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-vanguard-cavalry',
-          params: { position: { x: 650, y: 30 }, speed: 130 },
-          delay: 0,
-        },
-        // Meccan converts rout
-        {
-          type: 'set_behavior',
-          targetUnitId: 'muslim-meccan-converts',
-          params: { behavior: 'retreating' },
-          delay: 1,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-meccan-converts',
-          params: { position: { x: 550, y: 30 }, speed: 110 },
-          delay: 1,
-        },
-        // Main body starts to waver and retreat
-        {
-          type: 'set_behavior',
-          targetUnitId: 'muslim-main-body',
-          params: { behavior: 'retreating' },
-          delay: 2,
-        },
-        {
-          type: 'change_formation',
-          targetUnitId: 'muslim-main-body',
-          params: { formation: 'scattered' },
-          delay: 2,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-main-body',
-          params: { position: { x: 620, y: 80 }, speed: 90 },
-          delay: 2.5,
-        },
-        // Rear guard panics
-        {
-          type: 'set_behavior',
-          targetUnitId: 'muslim-rear-guard',
-          params: { behavior: 'retreating' },
-          delay: 3,
-        },
-        {
-          type: 'change_formation',
-          targetUnitId: 'muslim-rear-guard',
-          params: { formation: 'scattered' },
-          delay: 3,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-rear-guard',
-          params: { position: { x: 580, y: 20 }, speed: 85 },
-          delay: 3.5,
-        },
-        // Ansar veterans waver but slow retreat
-        {
-          type: 'set_behavior',
-          targetUnitId: 'muslim-ansar-veterans',
-          params: { behavior: 'retreating' },
-          delay: 3,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-ansar-veterans',
-          params: { position: { x: 530, y: 100 }, speed: 70 },
-          delay: 3.5,
-        },
-        // *** PROPHET STANDS FIRM ***
-        // Prophet's guard forms defensive circle - does NOT retreat
-        {
-          type: 'change_formation',
-          targetUnitId: 'muslim-prophet-guard',
-          params: { formation: 'defensive_circle' },
-          delay: 2,
-        },
-        {
-          type: 'set_behavior',
-          targetUnitId: 'muslim-prophet-guard',
-          params: { behavior: 'holding' },
-          delay: 2,
-        },
-        // Prophet's guard moves slightly to hold position
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-prophet-guard',
-          params: { position: { x: 600, y: 350 }, speed: 30 },
-          delay: 2,
-        },
-        // Camera focuses on Prophet's stand
-        {
-          type: 'camera_move',
-          params: { x: 600, y: 350, zoom: 1.2, duration: 2 },
-          delay: 5,
-        },
-        // Hawazin continue pressing
-        {
-          type: 'move_unit',
-          targetUnitId: 'hawazin-ambush-infantry',
-          params: { position: { x: 600, y: 250 }, speed: 70 },
-          delay: 3,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'hawazin-cavalry',
-          params: { position: { x: 650, y: 150 }, speed: 100 },
-          delay: 4,
-        },
+        { type: 'camera_move', params: { x: 1900, y: 600, zoom: 0.6, duration: 3 }, delay: 0 },
+        // Hawazin archers move into ambush positions on north ridge
+        { type: 'set_behavior', targetUnitId: 'hawazin-archers-north', params: { behavior: 'holding' }, delay: 0.5 },
+        { type: 'change_formation', targetUnitId: 'hawazin-archers-north', params: { formation: 'line' }, delay: 0.5 },
+        // Spearmen on south ridge
+        { type: 'set_behavior', targetUnitId: 'hawazin-spearmen-south', params: { behavior: 'holding' }, delay: 0.5 },
+        { type: 'change_formation', targetUnitId: 'hawazin-spearmen-south', params: { formation: 'scattered' }, delay: 0.5 },
+        // Jusham cavalry in concealed position; Durayd in litter
+        { type: 'change_formation', targetUnitId: 'hawazin-jusham-cavalry', params: { formation: 'wedge' }, delay: 1 },
+        // Rear camp visible
+        { type: 'play_effect', params: { effect: 'rear-camp-zaaain', position: { x: 2120, y: 870 } }, delay: 2 },
+        { type: 'play_effect', params: { effect: 'durayd-litter', position: { x: 1700, y: 850 } }, delay: 3 },
       ],
       triggers: [],
     },
-    // Phase 4: Abbas's Call & Rally (28-38s)
+
+    // Phase 4 (17–23s): Vanguard descent at first light.
     {
-      id: 'abbas-call-rally',
-      name: "Abbas's Call & The Rally",
-      nameAr: 'نداء العباس والتجمع',
+      id: 'phase-04-vanguard-descent',
+      name: "Khalid's Vanguard Descends in the Ghalas",
+      nameAr: 'نُزُولُ مُقَدِّمَةِ خَالِدٍ فِي الغَلَسِ',
+      startTime: 17,
+      duration: 6,
+      description:
+        "Just before fajr on Wednesday 10 Shawwal. The Muslim vanguard — Banu Sulaym under Khalid ibn al-Walid — descends into the western mouth of Wadi Hunayn in the dim ghalas, the dawn still grey, the sky overcast. The narrow defile and rough road force the column to file in single order.",
+      actions: [
+        { type: 'camera_move', params: { x: 1100, y: 750, zoom: 0.75, duration: 3 }, delay: 0 },
+        // Vanguard moves deeper into the throat
+        { type: 'set_behavior', targetUnitId: 'muslim-vanguard-sulaym', params: { behavior: 'advancing' }, delay: 0.5 },
+        { type: 'move_unit', targetUnitId: 'muslim-vanguard-sulaym', params: { position: { x: 1400, y: 850 }, speed: 90 }, delay: 0.5 },
+        // The other columns follow into the wadi
+        { type: 'set_behavior', targetUnitId: 'muslim-muhajirun-banner', params: { behavior: 'advancing' }, delay: 1 },
+        { type: 'move_unit', targetUnitId: 'muslim-muhajirun-banner', params: { position: { x: 1100, y: 850 }, speed: 70 }, delay: 1 },
+        { type: 'set_behavior', targetUnitId: 'muslim-aws-banner', params: { behavior: 'advancing' }, delay: 1.5 },
+        { type: 'move_unit', targetUnitId: 'muslim-aws-banner', params: { position: { x: 900, y: 800 }, speed: 60 }, delay: 1.5 },
+        { type: 'set_behavior', targetUnitId: 'muslim-khazraj-banner', params: { behavior: 'advancing' }, delay: 1.5 },
+        { type: 'move_unit', targetUnitId: 'muslim-khazraj-banner', params: { position: { x: 900, y: 900 }, speed: 60 }, delay: 1.5 },
+        { type: 'move_unit', targetUnitId: 'muslim-prophet-core', params: { position: { x: 1000, y: 850 }, speed: 70 }, delay: 2 },
+        { type: 'move_unit', targetUnitId: 'muslim-tulaqa-quraysh', params: { position: { x: 700, y: 870 }, speed: 60 }, delay: 2 },
+        { type: 'play_effect', params: { effect: 'pre-dawn-cold', position: { x: 1200, y: 800 } }, delay: 4 },
+      ],
+      triggers: [],
+    },
+
+    // Phase 5 (23–28s): The ambush detonates.
+    {
+      id: 'phase-05-the-ambush',
+      name: "The Ambush Detonates — Rain of Arrows",
+      nameAr: 'انْفِجَارُ الكَمِينِ — مَطَرُ السِّهَامِ',
+      startTime: 23,
+      duration: 5,
+      description:
+        "Sahih al-Bukhari 2930 — al-Bara: 'we were confronted by archers of Hawazin and Banu Nasr.' Massed archery from both heights followed by infantry charge down the slopes. The Banu Sulaym vanguard breaks first, collapsing backward. Q 9:25: 'wa-daqat 'alaykumu al-ardu bi-ma rahubat' — and the earth was straitened upon you despite its vastness.",
+      actions: [
+        { type: 'camera_move', params: { x: 1400, y: 700, zoom: 0.85, duration: 2 }, delay: 0 },
+        // North ridge archers volley
+        { type: 'set_behavior', targetUnitId: 'hawazin-archers-north', params: { behavior: 'attacking' }, delay: 0 },
+        { type: 'attack_unit', targetUnitId: 'hawazin-archers-north', params: { targetId: 'muslim-vanguard-sulaym' }, delay: 0.5 },
+        // South ridge spearmen charge down
+        { type: 'set_behavior', targetUnitId: 'hawazin-spearmen-south', params: { behavior: 'attacking' }, delay: 0.5 },
+        { type: 'move_unit', targetUnitId: 'hawazin-spearmen-south', params: { position: { x: 1500, y: 950 }, speed: 130 }, delay: 0.5 },
+        { type: 'attack_unit', targetUnitId: 'hawazin-spearmen-south', params: { targetId: 'muslim-vanguard-sulaym' }, delay: 1.5 },
+        // Jusham cavalry flank attack
+        { type: 'set_behavior', targetUnitId: 'hawazin-jusham-cavalry', params: { behavior: 'attacking' }, delay: 1 },
+        { type: 'move_unit', targetUnitId: 'hawazin-jusham-cavalry', params: { position: { x: 1500, y: 850 }, speed: 130 }, delay: 1 },
+        { type: 'attack_unit', targetUnitId: 'hawazin-jusham-cavalry', params: { targetId: 'muslim-vanguard-sulaym' }, delay: 2 },
+        // Vanguard breaks
+        { type: 'set_behavior', targetUnitId: 'muslim-vanguard-sulaym', params: { behavior: 'retreating' }, delay: 2.5 },
+        { type: 'change_formation', targetUnitId: 'muslim-vanguard-sulaym', params: { formation: 'scattered' }, delay: 3 },
+        { type: 'play_effect', params: { effect: 'camera-shake', intensity: 1.0 }, delay: 1.5 },
+      ],
+      triggers: [],
+    },
+
+    // Phase 6 (28–34s): The first rout — most of the army flees.
+    {
+      id: 'phase-06-the-rout',
+      name: "The Rout — 'You Turned Back, Fleeing'",
+      nameAr: 'الهَزِيمَةُ الأُولَى — وَلَّيْتُمْ مُدْبِرِينَ',
       startTime: 28,
-      duration: 10,
-      description: 'The Prophet ﷺ orders Abbas to call out with his thunderous voice. The Ansar and Muhajirun veterans hear and turn back, shouting "Labbayk!"',
+      duration: 6,
+      description:
+        "The collapse of the vanguard ripples through the column. The tulaqa' and rear elements turn back. Q 9:25 closes: 'thumma wallaytum mudbirin'. Most of the 12,000 break. Only the Prophet ﷺ and a small core hold their ground in the wadi floor.",
       actions: [
-        // Camera on Prophet's position for the call
-        {
-          type: 'camera_move',
-          params: { x: 600, y: 300, zoom: 1.0, duration: 1.5 },
-          delay: 0,
-        },
-        // Play dramatic effect for Abbas's call
-        {
-          type: 'play_effect',
-          params: { effect: 'rally_call', position: { x: 600, y: 350 }, radius: 400 },
-          delay: 1,
-        },
-        // Ansar veterans STOP retreating and turn back
-        {
-          type: 'set_behavior',
-          targetUnitId: 'muslim-ansar-veterans',
-          params: { behavior: 'advancing' },
-          delay: 3,
-        },
-        {
-          type: 'change_formation',
-          targetUnitId: 'muslim-ansar-veterans',
-          params: { formation: 'line' },
-          delay: 3,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-ansar-veterans',
-          params: { position: { x: 550, y: 350 }, speed: 90 },
-          delay: 3.5,
-        },
-        // Main body rallies
-        {
-          type: 'set_behavior',
-          targetUnitId: 'muslim-main-body',
-          params: { behavior: 'advancing' },
-          delay: 4,
-        },
-        {
-          type: 'change_formation',
-          targetUnitId: 'muslim-main-body',
-          params: { formation: 'line' },
-          delay: 4,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-main-body',
-          params: { position: { x: 620, y: 320 }, speed: 85 },
-          delay: 4.5,
-        },
-        // Rear guard rallies
-        {
-          type: 'set_behavior',
-          targetUnitId: 'muslim-rear-guard',
-          params: { behavior: 'advancing' },
-          delay: 5,
-        },
-        {
-          type: 'change_formation',
-          targetUnitId: 'muslim-rear-guard',
-          params: { formation: 'line' },
-          delay: 5,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-rear-guard',
-          params: { position: { x: 580, y: 280 }, speed: 80 },
-          delay: 5.5,
-        },
-        // Vanguard cavalry rallies
-        {
-          type: 'set_behavior',
-          targetUnitId: 'muslim-vanguard-cavalry',
-          params: { behavior: 'advancing' },
-          delay: 5.5,
-        },
-        {
-          type: 'change_formation',
-          targetUnitId: 'muslim-vanguard-cavalry',
-          params: { formation: 'wedge' },
-          delay: 5.5,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-vanguard-cavalry',
-          params: { position: { x: 700, y: 300 }, speed: 110 },
-          delay: 6,
-        },
-        // Meccan converts rally (slower)
-        {
-          type: 'set_behavior',
-          targetUnitId: 'muslim-meccan-converts',
-          params: { behavior: 'advancing' },
-          delay: 7,
-        },
-        {
-          type: 'change_formation',
-          targetUnitId: 'muslim-meccan-converts',
-          params: { formation: 'line' },
-          delay: 7,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-meccan-converts',
-          params: { position: { x: 500, y: 350 }, speed: 70 },
-          delay: 7.5,
-        },
-        // Camera pulls back to show rally
-        {
-          type: 'camera_move',
-          params: { x: 600, y: 300, zoom: 0.6, duration: 2 },
-          delay: 5,
-        },
-        // Prophet's guard expands formation
-        {
-          type: 'change_formation',
-          targetUnitId: 'muslim-prophet-guard',
-          params: { formation: 'line' },
-          delay: 6,
-        },
-        // Counter-attacks begin
-        {
-          type: 'attack_unit',
-          targetUnitId: 'muslim-ansar-veterans',
-          params: { targetId: 'hawazin-ambush-infantry' },
-          delay: 7,
-        },
-        {
-          type: 'attack_unit',
-          targetUnitId: 'muslim-vanguard-cavalry',
-          params: { targetId: 'hawazin-cavalry' },
-          delay: 8,
-        },
+        { type: 'camera_move', params: { x: 1200, y: 800, zoom: 0.4, duration: 3 }, delay: 0 },
+        // The vanguard recoils backward into the column
+        { type: 'move_unit', targetUnitId: 'muslim-vanguard-sulaym', params: { position: { x: 800, y: 850 }, speed: 130 }, delay: 0 },
+        // Tulaqa' flee west
+        { type: 'set_behavior', targetUnitId: 'muslim-tulaqa-quraysh', params: { behavior: 'retreating' }, delay: 0.5 },
+        { type: 'change_formation', targetUnitId: 'muslim-tulaqa-quraysh', params: { formation: 'scattered' }, delay: 0.5 },
+        { type: 'move_unit', targetUnitId: 'muslim-tulaqa-quraysh', params: { position: { x: 200, y: 870 }, speed: 130 }, delay: 1 },
+        // Rear reserves flee west
+        { type: 'set_behavior', targetUnitId: 'muslim-rear-reserves', params: { behavior: 'retreating' }, delay: 0.5 },
+        { type: 'change_formation', targetUnitId: 'muslim-rear-reserves', params: { formation: 'scattered' }, delay: 0.5 },
+        { type: 'move_unit', targetUnitId: 'muslim-rear-reserves', params: { position: { x: 100, y: 850 }, speed: 110 }, delay: 1 },
+        // Aws and Khazraj banners recoil
+        { type: 'set_behavior', targetUnitId: 'muslim-aws-banner', params: { behavior: 'retreating' }, delay: 1.5 },
+        { type: 'move_unit', targetUnitId: 'muslim-aws-banner', params: { position: { x: 400, y: 800 }, speed: 100 }, delay: 1.5 },
+        { type: 'set_behavior', targetUnitId: 'muslim-khazraj-banner', params: { behavior: 'retreating' }, delay: 1.5 },
+        { type: 'move_unit', targetUnitId: 'muslim-khazraj-banner', params: { position: { x: 400, y: 900 }, speed: 100 }, delay: 1.5 },
+        // Prophet's core holds at center
+        { type: 'set_behavior', targetUnitId: 'muslim-prophet-core', params: { behavior: 'holding' }, delay: 2 },
+        { type: 'change_formation', targetUnitId: 'muslim-prophet-core', params: { formation: 'defensive_circle' }, delay: 2.5 },
       ],
       triggers: [],
     },
-    // Phase 5: Victory (38-50s)
+
+    // Phase 7 (34–40s): The Prophet ﷺ stands firm.
     {
-      id: 'victory',
-      name: 'Muslim Victory',
-      nameAr: 'نصر المسلمين',
-      startTime: 38,
-      duration: 12,
-      description: 'The rallied Muslim forces overwhelm the Hawazin. Malik ibn Awf flees to Ta\'if. Massive spoils are captured.',
+      id: 'phase-07-prophet-stand',
+      name: "The Prophet ﷺ Stands Firm — 'I am the Prophet, no lie'",
+      nameAr: 'ثُبُوتُ النَّبِيِّ ﷺ — أَنَا النَّبِيُّ لَا كَذِبْ',
+      startTime: 34,
+      duration: 6,
+      description:
+        "Sahih al-Bukhari 4315 (al-Bara): 'but the Messenger of Allah ﷺ did not flee.' He on his white mule Duldul, with Abu Sufyan ibn al-Harith holding the bridle and al-Abbas at the stirrup, advances toward the enemy reciting the rajaz: 'أَنَا النَّبِيُّ لَا كَذِبْ، أَنَا ابْنُ عَبْدِ المُطَّلِبْ'.",
       actions: [
-        // Full Muslim counter-attack
-        {
-          type: 'set_behavior',
-          targetUnitId: 'muslim-main-body',
-          params: { behavior: 'attacking' },
-          delay: 0,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-main-body',
-          params: { position: { x: 620, y: 450 }, speed: 90 },
-          delay: 0,
-        },
-        {
-          type: 'set_behavior',
-          targetUnitId: 'muslim-ansar-veterans',
-          params: { behavior: 'attacking' },
-          delay: 0,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-ansar-veterans',
-          params: { position: { x: 550, y: 480 }, speed: 90 },
-          delay: 0.5,
-        },
-        {
-          type: 'set_behavior',
-          targetUnitId: 'muslim-vanguard-cavalry',
-          params: { behavior: 'pursuing' },
-          delay: 1,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-vanguard-cavalry',
-          params: { position: { x: 700, y: 500 }, speed: 130 },
-          delay: 1,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-rear-guard',
-          params: { position: { x: 500, y: 400 }, speed: 85 },
-          delay: 1,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-meccan-converts',
-          params: { position: { x: 450, y: 450 }, speed: 75 },
-          delay: 2,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-prophet-guard',
-          params: { position: { x: 600, y: 450 }, speed: 70 },
-          delay: 1.5,
-        },
+        { type: 'camera_move', params: { x: 1300, y: 800, zoom: 0.95, duration: 3 }, delay: 0 },
+        // Prophet's core advances toward the enemy
+        { type: 'set_behavior', targetUnitId: 'muslim-prophet-core', params: { behavior: 'advancing' }, delay: 1 },
+        { type: 'move_unit', targetUnitId: 'muslim-prophet-core', params: { position: { x: 1200, y: 850 }, speed: 50 }, delay: 1 },
+        { type: 'play_effect', params: { effect: 'rajaz-calligraphy', text: 'أَنَا النَّبِيُّ لَا كَذِبْ — أَنَا ابْنُ عَبْدِ المُطَّلِبْ' }, delay: 2 },
+      ],
+      triggers: [],
+    },
+
+    // Phase 8 (40–46s): al-Abbas's three nested rally calls.
+    {
+      id: 'phase-08-abbas-rally-call',
+      name: "al-Abbas's Rally — 'O Companions of the Tree'",
+      nameAr: 'نِدَاءُ العَبَّاسِ — يَا أَصْحَابَ السَّمُرَةِ',
+      startTime: 40,
+      duration: 6,
+      description:
+        "Sahih Muslim 1775 — al-Abbas's own narration. The Prophet ﷺ instructs: 'O 'Abbas, call out to the Companions of the Tree.' Al-Abbas — a man of mighty voice — calls in three nested escalations: (1) 'O Companions of the Tree!' invoking Bay'at al-Ridwan; (2) 'O company of the Ansar!'; (3) narrowing to 'O Banu al-Harith ibn al-Khazraj!'. The Ansar return crying 'labbayk, labbayk'.",
+      actions: [
+        { type: 'camera_move', params: { x: 1280, y: 800, zoom: 0.85, duration: 3 }, delay: 0 },
+        { type: 'play_effect', params: { effect: 'rally-call-1', label: 'يَا أَصْحَابَ السَّمُرَةِ' }, delay: 1 },
+        { type: 'play_effect', params: { effect: 'rally-call-2', label: 'يَا مَعْشَرَ الأَنْصَارِ' }, delay: 2 },
+        { type: 'play_effect', params: { effect: 'rally-call-3', label: 'يَا بَنِي الحَارِثِ بنِ الخَزْرَجِ' }, delay: 3 },
+        // Aws and Khazraj banners halt and turn back
+        { type: 'set_behavior', targetUnitId: 'muslim-aws-banner', params: { behavior: 'advancing' }, delay: 3.5 },
+        { type: 'change_formation', targetUnitId: 'muslim-aws-banner', params: { formation: 'line' }, delay: 3.5 },
+        { type: 'move_unit', targetUnitId: 'muslim-aws-banner', params: { position: { x: 1100, y: 800 }, speed: 100 }, delay: 4 },
+        { type: 'set_behavior', targetUnitId: 'muslim-khazraj-banner', params: { behavior: 'advancing' }, delay: 3.5 },
+        { type: 'change_formation', targetUnitId: 'muslim-khazraj-banner', params: { formation: 'line' }, delay: 3.5 },
+        { type: 'move_unit', targetUnitId: 'muslim-khazraj-banner', params: { position: { x: 1100, y: 900 }, speed: 100 }, delay: 4 },
+        // Archers rejoin the line
+        { type: 'set_behavior', targetUnitId: 'muslim-ansar-archers', params: { behavior: 'advancing' }, delay: 4 },
+        { type: 'move_unit', targetUnitId: 'muslim-ansar-archers', params: { position: { x: 1100, y: 950 }, speed: 90 }, delay: 4 },
+      ],
+      triggers: [],
+    },
+
+    // Phase 9 (46–51s): The handful of dust — 'shahat al-wujuh'.
+    {
+      id: 'phase-09-handful-of-dust',
+      name: "The Handful of Dust — 'Shahat al-Wujuh'",
+      nameAr: 'قَبْضَةُ التُّرَابِ — شَاهَتِ الوُجُوهُ',
+      startTime: 46,
+      duration: 5,
+      description:
+        "Sahih Muslim 1777 (Salama ibn al-Akwa'): the Prophet ﷺ scoops a handful of dust from the wadi floor, throws it toward the Hawazin lines saying 'shahat al-wujuh' — every man on the enemy side has his eyes filled with dust from that single throw. Q 9:26: 'Then Allah sent down His tranquillity upon His Messenger and the believers, and sent down armies you did not see.' Then the Prophet's words: 'inhazamu wa-Rabbi Muhammadin' — they are routed, by the Lord of Muhammad.",
+      actions: [
+        { type: 'camera_move', params: { x: 1500, y: 750, zoom: 0.9, duration: 2 }, delay: 0 },
+        { type: 'play_effect', params: { effect: 'slow-motion', position: { x: 1300, y: 850 } }, delay: 0.5 },
+        { type: 'play_effect', params: { effect: 'dust-throw', from: { x: 1300, y: 850 }, to: { x: 1500, y: 800 } }, delay: 1.5 },
+        { type: 'play_effect', params: { effect: 'shahat-al-wujuh' }, delay: 2 },
+        { type: 'play_effect', params: { effect: 'quran-recitation', text: 'وَأَنزَلَ جُنُودًا لَّمْ تَرَوْهَا' }, delay: 3 },
+        // Hawazin recoil — blinded
+        { type: 'set_behavior', targetUnitId: 'hawazin-archers-north', params: { behavior: 'retreating' }, delay: 3.5 },
+        { type: 'set_behavior', targetUnitId: 'hawazin-spearmen-south', params: { behavior: 'retreating' }, delay: 3.5 },
+        { type: 'play_effect', params: { effect: 'inhazamu-wa-rabbi-muhammad' }, delay: 4 },
+      ],
+      triggers: [],
+    },
+
+    // Phase 10 (51–57s): "Now the furnace is hot" — counter-attack.
+    {
+      id: 'phase-10-now-the-furnace-is-hot',
+      name: "'Now the Furnace is Hot'",
+      nameAr: 'الآنَ حَمِيَ الوَطِيسُ',
+      startTime: 51,
+      duration: 6,
+      description:
+        "Sahih Muslim 1775. The Prophet ﷺ declares: 'al-aana hamiya al-watis' — now the furnace is hot, an idiom no Arab had been heard to utter before. The counter-attack rolls forward; Khalid is wounded; Banu Sulaym recover. The salab ruling is established this day via Abu Qatada (Sahih al-Bukhari 3142).",
+      actions: [
+        { type: 'camera_move', params: { x: 1600, y: 800, zoom: 0.6, duration: 3 }, delay: 0 },
+        { type: 'play_effect', params: { effect: 'lighting-warm-shift' }, delay: 0.5 },
+        // Muhajirun banner with 'Ali charges forward
+        { type: 'change_formation', targetUnitId: 'muslim-muhajirun-banner', params: { formation: 'wedge' }, delay: 0.5 },
+        { type: 'set_behavior', targetUnitId: 'muslim-muhajirun-banner', params: { behavior: 'attacking' }, delay: 0.5 },
+        { type: 'move_unit', targetUnitId: 'muslim-muhajirun-banner', params: { position: { x: 1500, y: 850 }, speed: 110 }, delay: 0.5 },
+        // Zubayr's cavalry flank charge
+        { type: 'change_formation', targetUnitId: 'muslim-zubayr-cavalry', params: { formation: 'flank_right' }, delay: 1 },
+        { type: 'set_behavior', targetUnitId: 'muslim-zubayr-cavalry', params: { behavior: 'attacking' }, delay: 1 },
+        { type: 'move_unit', targetUnitId: 'muslim-zubayr-cavalry', params: { position: { x: 1600, y: 800 }, speed: 140 }, delay: 1 },
+        // Borrowed-armour shock charge
+        { type: 'change_formation', targetUnitId: 'muslim-borrowed-armour', params: { formation: 'wedge' }, delay: 1.5 },
+        { type: 'set_behavior', targetUnitId: 'muslim-borrowed-armour', params: { behavior: 'attacking' }, delay: 1.5 },
+        { type: 'move_unit', targetUnitId: 'muslim-borrowed-armour', params: { position: { x: 1550, y: 850 }, speed: 130 }, delay: 1.5 },
         // Engagements
-        {
-          type: 'attack_unit',
-          targetUnitId: 'muslim-main-body',
-          params: { targetId: 'hawazin-ambush-infantry' },
-          delay: 2,
-        },
-        {
-          type: 'attack_unit',
-          targetUnitId: 'muslim-rear-guard',
-          params: { targetId: 'hawazin-west-infantry' },
-          delay: 3,
-        },
-        {
-          type: 'attack_unit',
-          targetUnitId: 'muslim-vanguard-cavalry',
-          params: { targetId: 'hawazin-cavalry' },
-          delay: 3,
-        },
-        // Hawazin morale breaks - they rout
-        {
-          type: 'set_behavior',
-          targetUnitId: 'hawazin-ambush-infantry',
-          params: { behavior: 'retreating' },
-          delay: 4,
-        },
-        {
-          type: 'change_formation',
-          targetUnitId: 'hawazin-ambush-infantry',
-          params: { formation: 'scattered' },
-          delay: 4,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'hawazin-ambush-infantry',
-          params: { position: { x: 600, y: 880 }, speed: 100 },
-          delay: 4.5,
-        },
-        {
-          type: 'set_behavior',
-          targetUnitId: 'hawazin-east-infantry',
-          params: { behavior: 'retreating' },
-          delay: 5,
-        },
-        {
-          type: 'change_formation',
-          targetUnitId: 'hawazin-east-infantry',
-          params: { formation: 'scattered' },
-          delay: 5,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'hawazin-east-infantry',
-          params: { position: { x: 1100, y: 850 }, speed: 95 },
-          delay: 5.5,
-        },
-        {
-          type: 'set_behavior',
-          targetUnitId: 'hawazin-west-infantry',
-          params: { behavior: 'retreating' },
-          delay: 5,
-        },
-        {
-          type: 'change_formation',
-          targetUnitId: 'hawazin-west-infantry',
-          params: { formation: 'scattered' },
-          delay: 5,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'hawazin-west-infantry',
-          params: { position: { x: 100, y: 850 }, speed: 95 },
-          delay: 5.5,
-        },
-        {
-          type: 'set_behavior',
-          targetUnitId: 'hawazin-cavalry',
-          params: { behavior: 'retreating' },
-          delay: 5.5,
-        },
-        {
-          type: 'change_formation',
-          targetUnitId: 'hawazin-cavalry',
-          params: { formation: 'scattered' },
-          delay: 5.5,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'hawazin-cavalry',
-          params: { position: { x: 1100, y: 900 }, speed: 130 },
-          delay: 6,
-        },
-        {
-          type: 'set_behavior',
-          targetUnitId: 'hawazin-east-archers',
-          params: { behavior: 'retreating' },
-          delay: 6,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'hawazin-east-archers',
-          params: { position: { x: 1150, y: 800 }, speed: 80 },
-          delay: 6.5,
-        },
-        {
-          type: 'set_behavior',
-          targetUnitId: 'hawazin-west-archers',
-          params: { behavior: 'retreating' },
-          delay: 6,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'hawazin-west-archers',
-          params: { position: { x: 50, y: 800 }, speed: 80 },
-          delay: 6.5,
-        },
-        {
-          type: 'set_behavior',
-          targetUnitId: 'hawazin-reserves',
-          params: { behavior: 'retreating' },
-          delay: 7,
-        },
-        {
-          type: 'change_formation',
-          targetUnitId: 'hawazin-reserves',
-          params: { formation: 'scattered' },
-          delay: 7,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'hawazin-reserves',
-          params: { position: { x: 600, y: 900 }, speed: 70 },
-          delay: 7.5,
-        },
-        // Camera shows the rout overview
-        {
-          type: 'camera_move',
-          params: { x: 600, y: 500, zoom: 0.4, duration: 2.5 },
-          delay: 4,
-        },
-        // Muslim pursuit
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-vanguard-cavalry',
-          params: { position: { x: 700, y: 750 }, speed: 140 },
-          delay: 8,
-        },
-        {
-          type: 'move_unit',
-          targetUnitId: 'muslim-main-body',
-          params: { position: { x: 600, y: 650 }, speed: 80 },
-          delay: 8,
-        },
+        { type: 'attack_unit', targetUnitId: 'muslim-muhajirun-banner', params: { targetId: 'hawazin-jusham-cavalry' }, delay: 2.5 },
+        { type: 'attack_unit', targetUnitId: 'muslim-zubayr-cavalry', params: { targetId: 'hawazin-thaqif' }, delay: 2.5 },
+        { type: 'play_effect', params: { effect: 'al-aana-hamiya-al-watis' }, delay: 3 },
+        // Salab ruling — Abu Qatada single combat
+        { type: 'play_effect', params: { effect: 'abu-qatada-salab', position: { x: 1500, y: 950 } }, delay: 4 },
+      ],
+      triggers: [],
+    },
+
+    // Phase 11 (57–63s): Hawazin shatter — Awtas and al-Ta'if pursuits.
+    {
+      id: 'phase-11-hawazin-shatter',
+      name: "Hawazin Shatter — Awtas and al-Ta'if",
+      nameAr: 'تَشَتُّتُ هَوَازِنَ — أَوْطَاسٌ وَالطَّائِفُ',
+      startTime: 57,
+      duration: 6,
+      description:
+        "The Hawazin coalition shatters. ~70 Hawazin killed. One body flees east to Awtas — Abu Amir al-Ash'ari pursues, is killed by an arrow, command passes to his nephew Abu Musa al-Ash'ari (Bukhari 4323). Another body flees southeast with Malik to fortify in al-Ta'if. Durayd ibn al-Simma is overtaken in his litter and killed by Rabi'a ibn Rafi' al-Sulami. The rear camp falls intact as spoils.",
+      actions: [
+        { type: 'camera_move', params: { x: 1800, y: 700, zoom: 0.5, duration: 3 }, delay: 0 },
+        // Hawazin units scatter and rout
+        { type: 'change_formation', targetUnitId: 'hawazin-archers-north', params: { formation: 'scattered' }, delay: 0 },
+        { type: 'change_formation', targetUnitId: 'hawazin-spearmen-south', params: { formation: 'scattered' }, delay: 0 },
+        { type: 'change_formation', targetUnitId: 'hawazin-jusham-cavalry', params: { formation: 'scattered' }, delay: 0.5 },
+        // Thaqif flee southeast toward al-Ta'if
+        { type: 'set_behavior', targetUnitId: 'hawazin-thaqif', params: { behavior: 'retreating' }, delay: 1 },
+        { type: 'move_unit', targetUnitId: 'hawazin-thaqif', params: { position: { x: 2370, y: 1100 }, speed: 130 }, delay: 1 },
+        // Banu Sa'd flee east toward Awtas
+        { type: 'set_behavior', targetUnitId: 'hawazin-saad-ibn-bakr', params: { behavior: 'retreating' }, delay: 1 },
+        { type: 'move_unit', targetUnitId: 'hawazin-saad-ibn-bakr', params: { position: { x: 2370, y: 850 }, speed: 130 }, delay: 1 },
+        // Durayd's litter overtaken — killed
+        { type: 'destroy_unit', targetUnitId: 'hawazin-jusham-cavalry', params: { cause: 'durayd-killed' }, delay: 3 },
+        { type: 'play_effect', params: { effect: 'casualty-marker', position: { x: 1700, y: 850 }, label: 'دُرَيْدُ بنُ الصِّمَّةِ' }, delay: 3.5 },
+        // Other units destroyed/scattered
+        { type: 'destroy_unit', targetUnitId: 'hawazin-archers-north', params: { cause: 'shattered' }, delay: 4 },
+        { type: 'destroy_unit', targetUnitId: 'hawazin-spearmen-south', params: { cause: 'shattered' }, delay: 4 },
+        // Rear camp captured intact
+        { type: 'set_behavior', targetUnitId: 'hawazin-rear-camp', params: { behavior: 'holding' }, delay: 4.5 },
+        { type: 'play_effect', params: { effect: 'rear-camp-captured', position: { x: 2120, y: 870 } }, delay: 5 },
+      ],
+      triggers: [],
+    },
+
+    // Phase 12 (63–68s): al-Ji'rana — captives returned, Ansar khutba.
+    {
+      id: 'phase-12-jirana-and-ansar-khutba',
+      name: "al-Ji'rana — Captives Returned & the Ansar Khutba",
+      nameAr: 'الجِعْرَانَةُ — رَدُّ السَّبْيِ وَخُطْبَةُ الأَنْصَارِ',
+      startTime: 63,
+      duration: 5,
+      description:
+        "After the brief siege of al-Ta'if, the Prophet ﷺ returns to al-Ji'rana. The spoils have been held over ten nights: ~6,000 captives, ~22,000-24,000 camels, >40,000 sheep, 4,000 uqiyya silver. The Hawazin delegation comes as Muslims; the Prophet ﷺ offers them: 'Choose one of the two parties: either the captives or the property.' They choose captives. All 6,000 are returned, including his foster-sister Shayma bint al-Harith. Then mu'allafat qulubihim distribution: 100 camels each to Abu Sufyan, Safwan, Uyayna, al-Aqra'. The Ansar murmur. He gathers them in a leather qubba (Bukhari 4337): 'Are you not pleased that the people go off with worldly things while you go off with the Messenger of Allah?' They weep until their beards are wet.",
+      actions: [
+        { type: 'camera_move', params: { x: 600, y: 1100, zoom: 0.55, duration: 3 }, delay: 0 },
+        { type: 'play_effect', params: { effect: 'fade-to-jirana' }, delay: 0.5 },
+        { type: 'play_effect', params: { effect: 'spoils-tally', position: { x: 550, y: 1340 }, label: '٦٠٠٠ سَبْيٌ، ٢٤٠٠٠ بَعِيرٌ، ٤٠٠٠٠ شَاةٍ' }, delay: 1.5 },
+        { type: 'play_effect', params: { effect: 'hawazin-delegation-bayah', position: { x: 600, y: 1340 } }, delay: 2.5 },
+        { type: 'play_effect', params: { effect: 'captives-released', count: 6000 }, delay: 3 },
+        { type: 'play_effect', params: { effect: 'ansar-leather-qubba', position: { x: 700, y: 1350 } }, delay: 3.5 },
+        { type: 'play_effect', params: { effect: 'ansar-khutba-tears' }, delay: 4 },
       ],
       triggers: [],
     },
   ],
 
-  // ─── Narration Points ──────────────────────────────────────────────────────
   narration: [
     {
-      id: 'intro',
-      time: 0,
+      id: 'narr-01-march',
+      time: 1,
       duration: 5,
-      text: 'The Battle of Hunayn — 10 Shawwal, 8 AH. After the Conquest of Mecca, 12,000 Muslims march toward the Hawazin tribes.',
+      text: "On the sixth of Shawwal, in the eighth year of the Hijra, the Messenger of Allah ﷺ departed Makkah with twelve thousand men — ten thousand veterans of Madinah, and two thousand newly converted Makkans, the tulaqa'.",
       textAr:
-        'غزوة حنين — ١٠ شوال ٨ هـ. بعد فتح مكة العظيم، يزحف اثنا عشر ألف مقاتل مسلم نحو قبائل هوازن وثقيف في أكبر جيش إسلامي عرفته الجزيرة.',
-      position: 'center',
-      style: 'dramatic',
-    },
-    {
-      id: 'overconfidence',
-      time: 5,
-      duration: 4,
-      text: '"We cannot be defeated today due to our numbers!" — Some Muslims boasted. Allah later revealed: "...your great numbers pleased you, but they availed you not." (Quran 9:25)',
-      textAr:
-        '"لن نُغلب اليوم من قلة!" — تفاخر بعض المسلمين. فأنزل الله: "...وَيَوْمَ حُنَيْنٍ إِذْ أَعْجَبَتْكُمْ كَثْرَتُكُمْ فَلَمْ تُغْنِ عَنكُمْ شَيْئًا" (التوبة: ٢٥)',
+        'فِي السَّادِسِ مِنْ شَوَّالٍ، سَنَةَ ثَمَانٍ لِلْهِجْرَةِ، خَرَجَ رَسُولُ اللَّهِ ﷺ مِنْ مَكَّةَ فِي اثْنَيْ عَشَرَ أَلْفًا — عَشَرَةُ آلَافٍ مِنْ أَهْلِ المَدِينَةِ، وَأَلْفَانِ مِنْ مُسْلِمَةِ الفَتْحِ، الطُّلَقَاءِ.',
+      style: 'normal',
       position: 'bottom',
-      style: 'quote',
     },
     {
-      id: 'ambush-narration',
-      time: 9,
-      duration: 5,
-      text: 'Malik ibn Awf springs the trap! Arrows rain from the hillsides. Warriors charge from every hidden position. The valley becomes a death trap.',
+      id: 'narr-02-dhat-anwat',
+      time: 6.5,
+      duration: 4.5,
+      text: "The army passed a lote-tree called Dhat Anwat. Some new converts said: 'O Messenger of Allah, designate for us a Dhat Anwat as they have one.' He said: 'Glory be to Allah — this is as the people of Musa said: Make for us a god as they have gods. By the One in whose hand is my soul, you will follow the ways of those before you.' (Tirmidhi 2180)",
       textAr:
-        'مالك بن عوف يُطلق الكمين المدمر! تنهمر السهام كالمطر الأسود من التلال، والمقاتلون ينقضّون من كل شِعب وكل صخرة. الوادي يتحول إلى فخ مميت لا مخرج منه!',
+        'وَمَرَّ الجَيْشُ بِسِدْرَةٍ يُقَالُ لَهَا «ذَاتُ أَنْوَاطٍ»، فَقَالَ نَفَرٌ مِنْ حُدَثَاءِ العَهْدِ بِالإِسْلَامِ: يَا رَسُولَ اللَّهِ، اجْعَلْ لَنَا ذَاتَ أَنْوَاطٍ كَمَا لَهُمْ ذَاتُ أَنْوَاطٍ. فَقَالَ ﷺ: «سُبْحَانَ اللَّهِ! هَذَا كَمَا قَالَ قَوْمُ مُوسَى: ٱجْعَل لَّنَآ إِلَٰهًا كَمَا لَهُمْ ءَالِهَةٌ. وَالَّذِي نَفْسِي بِيَدِهِ، لَتَرْكَبُنَّ سُنَّةَ مَنْ كَانَ قَبْلَكُمْ».',
+      style: 'quote',
       position: 'center',
-      style: 'dramatic',
     },
     {
-      id: 'rout-narration',
+      id: 'narr-03-quran-9-25',
+      time: 11.5,
+      duration: 6,
+      text: "Some among them said that day: 'We shall not be defeated today from fewness.' So Allah revealed: 'Allah has already granted you victory in many regions, and on the day of Hunayn — when your great number pleased you, but it availed you nothing; and the earth, vast as it is, was straitened upon you, then you turned back, fleeing.' (Q 9:25)",
+      textAr:
+        'وَقَالَ بَعْضُهُمْ يَوْمَئِذٍ: لَنْ نُغْلَبَ اليَوْمَ مِنْ قِلَّةٍ. فَأَنْزَلَ اللَّهُ تَعَالَى: ﴿لَقَدْ نَصَرَكُمُ اللَّهُ فِي مَوَاطِنَ كَثِيرَةٍ ۙ وَيَوْمَ حُنَيْنٍ ۙ إِذْ أَعْجَبَتْكُمْ كَثْرَتُكُمْ فَلَمْ تُغْنِ عَنكُمْ شَيْئًا وَضَاقَتْ عَلَيْكُمُ الْأَرْضُ بِمَا رَحُبَتْ ثُمَّ وَلَّيْتُم مُّدْبِرِينَ﴾.',
+      style: 'quote',
+      position: 'center',
+    },
+    {
+      id: 'narr-04-durayd',
       time: 18,
       duration: 5,
-      text: 'Panic spreads like wildfire. The vanguard flees, crashing into those behind. 12,000 men rout in chaos — the greatest army Arabia has ever seen, fleeing in terror.',
+      text: "Malik ibn 'Awf an-Nasri had brought the women, children, and livestock — so that men would fight for their families and possessions. The aged Durayd ibn al-Simma — carried in a litter, reportedly over a hundred years old — rebuked him: 'Does anything turn back a man in flight?' (Ibn Hisham, Sira)",
       textAr:
-        'ينتشر الذعر كالنار في الهشيم! تفر المقدمة فتصطدم بمن خلفها في فوضى عارمة. اثنا عشر ألف مقاتل ينهزمون — أعظم جيش عرفته الجزيرة يفر مذعوراً كأن الأرض ضاقت عليهم بما رحبت!',
-      position: 'center',
+        'وَكَانَ مَالِكُ بْنُ عَوْفٍ النَّصْرِيُّ قَدْ سَاقَ مَعَهُ النِّسَاءَ وَالأَبْنَاءَ وَالأَنْعَامَ — لِيَقْتَتِلَ النَّاسُ عَنْ أَهْلِيهِمْ وَأَمْوَالِهِمْ. فَأَنْكَرَ عَلَيْهِ الشَّيْخُ الكَبِيرُ دُرَيْدُ بْنُ الصِّمَّةِ، وَهُوَ يُحْمَلُ فِي شِجَارٍ، فَقَالَ: «هَلْ يَرُدُّ المُنْهَزِمَ شَيْءٌ؟».',
       style: 'dramatic',
+      position: 'bottom',
     },
     {
-      id: 'prophet-stand-narration',
-      time: 23,
+      id: 'narr-05-ambush',
+      time: 24,
+      duration: 4,
+      text: "When the vanguard of Banu Sulaym, under Khalid ibn al-Walid, descended in the grey of dawn — arrows burst from the gullies like locusts, and horsemen and spearmen poured down from the heights. (Sahih al-Bukhari 2930)",
+      textAr:
+        'وَلَمَّا انْحَدَرَتْ مُقَدِّمَةُ بَنِي سُلَيْمٍ، بِقِيَادَةِ خَالِدِ بْنِ الوَلِيدِ، فِي غَلَسِ الفَجْرِ — انْفَجَرَتِ السِّهَامُ مِنَ الشِّعَابِ كَأَنَّهَا الجَرَادُ، وَانْحَدَرَ الفُرْسَانُ وَالرِّمَاحُ مِنَ الشَّوَاهِقِ.',
+      style: 'dramatic',
+      position: 'bottom',
+    },
+    {
+      id: 'narr-06-rout',
+      time: 28.5,
       duration: 5,
-      text: 'The Prophet ﷺ stands firm on his white mule, with only Abu Bakr, Ali, Abbas, and fewer than 100 companions. He calls out: "I am the Prophet, this is no lie! I am the son of Abdul-Muttalib!"',
+      text: "The army was thrown into disorder, the vanguard collapsed back upon those behind it, and most of the people turned in flight — and the earth, vast as it was, was straitened upon them, as Allah said.",
       textAr:
-        'يثبت النبي ﷺ ثبات الجبال على بغلته البيضاء، ومعه أبو بكر وعلي والعباس ونفر قليل لا يتجاوزون المئة. يصيح بأعلى صوته الشريف: "أنا النبي لا كذب، أنا ابن عبد المطلب!"',
-      position: 'center',
+        'فَاضْطَرَبَ الجَيْشُ، وَانْكَفَأَتِ المُقَدِّمَةُ عَلَى مَنْ خَلْفَهَا، وَوَلَّى أَكْثَرُ النَّاسِ مُدْبِرِينَ — وَضَاقَتْ عَلَيْهِمُ الأَرْضُ بِمَا رَحُبَتْ، كَمَا قَالَ اللَّهُ.',
       style: 'dramatic',
+      position: 'bottom',
     },
     {
-      id: 'abbas-call-narration',
-      time: 29,
+      id: 'narr-07-prophet-stand',
+      time: 34.5,
       duration: 5,
-      text: 'The Prophet ﷺ orders Abbas — whose voice could reach across valleys — to call: "O Companions of the Acacia Tree! O Companions of Surah al-Baqarah!" The call thunders across the battlefield.',
+      text: "The Messenger of Allah ﷺ stood firm on his white mule, with Abu Sufyan ibn al-Harith holding its head and al-Abbas holding its stirrup, urging it toward the disbelievers and saying: 'I am the Prophet — no lie; I am the son of 'Abd al-Muttalib.' (Sahih al-Bukhari 4315)",
       textAr:
-        'يأمر النبي ﷺ عمه العباس — صاحب الصوت الذي يزلزل الوديان — أن يصرخ بأعلى صوته: "يا أصحاب الشجرة! يا أصحاب سورة البقرة!" فيدوي النداء في أرجاء المعركة.',
+        'وَثَبَتَ رَسُولُ اللَّهِ ﷺ عَلَى بَغْلَتِهِ البَيْضَاءِ، وَأَبُو سُفْيَانَ بْنُ الحَارِثِ آخِذٌ بِرَأْسِهَا، وَالعَبَّاسُ آخِذٌ بِرِكَابِهَا، وَهُوَ يَرْكُضُهَا قِبَلَ الكُفَّارِ وَيَقُولُ: «أَنَا النَّبِيُّ لَا كَذِبْ، أَنَا ابْنُ عَبْدِ المُطَّلِبْ».',
+      style: 'quote',
       position: 'center',
+    },
+    {
+      id: 'narr-08-abbas-call',
+      time: 40.5,
+      duration: 5.5,
+      text: "Then he ﷺ said to al-Abbas — a man of mighty voice: 'O 'Abbas, call out to the Companions of the Tree.' He cried at the top of his voice: 'O Companions of the Tree! O company of the Ansar! O Banu al-Harith ibn al-Khazraj!' They answered: 'Here we are, here we are' — and their turning to the Messenger was like the turning of cattle to their young. (Sahih Muslim 1775)",
+      textAr:
+        'ثُمَّ قَالَ ﷺ لِلْعَبَّاسِ — وَكَانَ رَجُلًا صَيِّتًا: «أَيْ عَبَّاسُ، نَادِ أَصْحَابَ السَّمُرَةِ». فَنَادَى بِأَعْلَى صَوْتِهِ: «يَا أَصْحَابَ السَّمُرَةِ! يَا مَعْشَرَ الأَنْصَارِ! يَا بَنِي الحَارِثِ بْنِ الخَزْرَجِ!». فَقَالُوا: لَبَّيْكَ، لَبَّيْكَ — وَكَأَنَّ عَطْفَتَهُمْ عَلَى رَسُولِ اللَّهِ ﷺ عَطْفَةُ البَقَرِ عَلَى أَوْلَادِهَا.',
+      style: 'quote',
+      position: 'center',
+    },
+    {
+      id: 'narr-09-dust-and-sakina',
+      time: 46,
+      duration: 5,
+      text: "Then the Prophet ﷺ took a handful of dust and threw it in the faces of the polytheists, saying: 'May the faces be disfigured' — and Allah did not leave a man of them but filled his eyes with dust. Then he said: 'They are routed, by the Lord of Muhammad!' 'Then Allah sent down His tranquillity upon His Messenger and upon the believers, and sent down armies you did not see.' (Sahih Muslim 1777; Q 9:26)",
+      textAr:
+        'ثُمَّ أَخَذَ النَّبِيُّ ﷺ كَفًّا مِنْ تُرَابٍ، فَرَمَى بِهِ وُجُوهَ المُشْرِكِينَ، وَقَالَ: «شَاهَتِ الوُجُوهُ» — فَمَا خَلَقَ اللَّهُ مِنْهُمْ إِنْسَانًا إِلَّا مَلَأَ عَيْنَيْهِ تُرَابًا. ثُمَّ قَالَ: «انْهَزَمُوا وَرَبِّ مُحَمَّدٍ». ﴿ثُمَّ أَنزَلَ اللَّهُ سَكِينَتَهُ عَلَىٰ رَسُولِهِ وَعَلَى الْمُؤْمِنِينَ وَأَنزَلَ جُنُودًا لَّمْ تَرَوْهَا﴾.',
+      style: 'quote',
+      position: 'center',
+    },
+    {
+      id: 'narr-10-watis',
+      time: 51.5,
+      duration: 4,
+      text: "When the fighting reached its height he ﷺ said: 'Now the furnace is hot' — a phrase no Arab had been heard to say before him. The Muslims charged as one: the banner of the Muhajirun with 'Ali, the banners of the Ansar, and the cavalry of al-Zubayr. (Sahih Muslim 1775)",
+      textAr:
+        'وَلَمَّا اشْتَدَّ القِتَالُ، قَالَ ﷺ: «الآنَ حَمِيَ الوَطِيسُ» — وَهِيَ كَلِمَةٌ لَمْ تُسْمَعْ مِنْ عَرَبِيٍّ قَبْلَهُ. فَكَرَّ المُسْلِمُونَ كَرَّةً وَاحِدَةً، وَتَقَدَّمَتْ رَايَةُ المُهَاجِرِينَ مَعَ عَلِيٍّ، وَرَايَاتُ الأَنْصَارِ، وَخَيْلُ الزُّبَيْرِ.',
       style: 'dramatic',
+      position: 'bottom',
     },
     {
-      id: 'rally-narration',
-      time: 34,
-      duration: 4,
-      text: '"Labbayk! Labbayk!" (At your service!) — The Ansar and Muhajirun veterans hear the call, turn their horses, and charge back toward the Prophet ﷺ.',
+      id: 'narr-11-shatter',
+      time: 56,
+      duration: 4.5,
+      text: "Hawazin scattered: one body fled to Awtas — where Abu 'Amir al-Ash'ari was martyred, and his nephew Abu Musa took the banner and completed the victory. Another body fled with Malik to al-Ta'if. And Durayd ibn al-Simma was overtaken in his litter, and Rabi'a ibn Rufay' al-Sulami killed him. (Sahih al-Bukhari 4323; al-Tabari)",
       textAr:
-        '"لبيك! لبيك!" — يسمع الأنصار والمهاجرون النداء، فيلوون أعنة خيولهم، ويعودون مسرعين نحو النبي ﷺ.',
-      position: 'bottom',
-      style: 'dramatic',
-    },
-    {
-      id: 'counter-attack-narration',
-      time: 38,
-      duration: 4,
-      text: 'The rallied Muslims crash into the Hawazin like a tidal wave. The ambushers become the ambushed. The tide of battle reverses completely.',
-      textAr:
-        'ينقضّ المسلمون المتجمعون على هوازن كالموج العارم الذي لا يُردّ! يصبح الكامنون هم المحاصرين، والصيادون هم الفريسة. تنقلب موازين المعركة رأساً على عقب!',
-      position: 'bottom',
+        'وَتَشَتَّتَتْ هَوَازِنُ: فَفِرْقَةٌ إِلَى أَوْطَاسٍ — وَهُنَاكَ اسْتُشْهِدَ أَبُو عَامِرٍ الأَشْعَرِيُّ، فَأَخَذَ الرَّايَةَ ابْنُ أَخِيهِ أَبُو مُوسَى وَأَتَمَّ الفَتْحَ. وَفِرْقَةٌ إِلَى الطَّائِفِ مَعَ مَالِكٍ. وَأُدْرِكَ دُرَيْدُ بْنُ الصِّمَّةِ فِي شِجَارِهِ، فَقَتَلَهُ رَبِيعَةُ بْنُ رُفَيْعٍ السُّلَمِيُّ.',
       style: 'normal',
-    },
-    {
-      id: 'hawazin-rout-narration',
-      time: 43,
-      duration: 4,
-      text: 'The Hawazin lines shatter. Malik ibn Awf flees to the fortress of Ta\'if. Their camp with families and livestock falls to the Muslims.',
-      textAr:
-        'تتحطم صفوف هوازن كالزجاج المهشّم! يفر مالك بن عوف مذعوراً إلى حصن الطائف. يسقط معسكرهم بكل ما فيه من عائلات وأنعام وغنائم في أيدي المسلمين.',
       position: 'bottom',
-      style: 'normal',
     },
     {
-      id: 'victory-narration',
-      time: 47,
+      id: 'narr-12-jirana-choice',
+      time: 60.5,
+      duration: 4.5,
+      text: "Then he ﷺ returned to al-Ji'rana, and held the captives for more than ten nights. The delegation of Hawazin came as Muslims, and he said: 'Choose one of the two parties: either the captives or the property.' They chose their captives — and he returned to them six thousand of their women and children, including his foster-sister Shayma bint al-Harith. (Sahih al-Bukhari 4318–4319; Ibn Hisham)",
+      textAr:
+        'ثُمَّ رَجَعَ ﷺ إِلَى الجِعْرَانَةِ، وَأَمْسَكَ السَّبْيَ بِضْعَ عَشْرَةَ لَيْلَةً، فَقَدِمَ وَفْدُ هَوَازِنَ مُسْلِمِينَ، فَقَالَ ﷺ: «فَاخْتَارُوا إِحْدَى الطَّائِفَتَيْنِ: إِمَّا السَّبْيَ، وَإِمَّا المَالَ». فَاخْتَارُوا سَبْيَهُمْ — فَرَدَّ عَلَيْهِمْ سِتَّةَ آلَافٍ مِنَ الذَّرَارِيِّ وَالنِّسَاءِ، وَفِيهِمْ أُخْتُهُ مِنَ الرَّضَاعَةِ الشَّيْمَاءُ بِنْتُ الحَارِثِ.',
+      style: 'quote',
+      position: 'center',
+    },
+    {
+      id: 'narr-13-ansar-khutba',
+      time: 65,
       duration: 3,
-      text: 'Total victory. From the brink of annihilation to complete triumph. Allah sent down His tranquility upon His Messenger and the believers. (Quran 9:26)',
+      text: "When he ﷺ gave the recent Quraysh converts a hundred camels each, the Ansar were grieved. He gathered them in a leather pavilion and said: 'O company of the Ansar — are you not pleased that the people go off with worldly things while you go off with the Messenger of Allah, taking him to your homes?' They wept until their beards were wet. (Sahih al-Bukhari 4337)",
       textAr:
-        'نصر مبين عظيم! من حافة الهلاك والفناء إلى النصر الساحق الكامل. "ثُمَّ أَنزَلَ اللَّهُ سَكِينَتَهُ عَلَىٰ رَسُولِهِ وَعَلَى الْمُؤْمِنِينَ" (التوبة: ٢٦)',
+        'وَلَمَّا أَعْطَى المُؤَلَّفَةَ قُلُوبُهُمْ مِنْ قُرَيْشٍ مِئَةَ مِئَةٍ مِنَ الإِبِلِ، وَجَدَ الأَنْصَارُ فِي أَنْفُسِهِمْ. فَجَمَعَهُمْ ﷺ فِي قُبَّةٍ مِنْ أَدَمٍ وَقَالَ: «يَا مَعْشَرَ الأَنْصَارِ، أَلَا تَرْضَوْنَ أَنْ يَذْهَبَ النَّاسُ بِالدُّنْيَا، وَتَذْهَبُونَ بِرَسُولِ اللَّهِ ﷺ تَحُوزُونَهُ إِلَى بُيُوتِكُمْ؟». فَبَكَوْا حَتَّى أَخْضَلُوا لِحَاهُمْ، وَقَالُوا: رَضِينَا بِرَسُولِ اللَّهِ قَسْمًا وَحَظًّا.',
+      style: 'quote',
       position: 'center',
-      style: 'dramatic',
     },
   ],
 
-  // ─── Camera Choreography ───────────────────────────────────────────────────
   cameraScript: [
-    // Opening overview of the valley
-    {
-      time: 0,
-      position: { x: 600, y: 200 },
-      zoom: 0.5,
-      duration: 2,
-      easing: 'power2.inOut',
-      type: 'overview',
-    },
-    // Follow Muslim column entering
-    {
-      time: 3,
-      position: { x: 600, y: 250 },
-      zoom: 0.7,
-      duration: 2,
-      easing: 'power2.inOut',
-      type: 'pan',
-    },
-    // Ambush begins - quick zoom
-    {
-      time: 8,
-      position: { x: 600, y: 300 },
-      zoom: 0.9,
-      duration: 1,
-      easing: 'power2.inOut',
-      type: 'focus',
-    },
-    // Show the ambush from above
-    {
-      time: 11,
-      position: { x: 600, y: 300 },
-      zoom: 0.6,
-      duration: 2,
-      easing: 'power2.inOut',
-      type: 'overview',
-    },
-    // Rout - wide shot showing chaos
-    {
-      time: 18,
-      position: { x: 600, y: 250 },
-      zoom: 0.45,
-      duration: 2,
-      easing: 'power2.inOut',
-      type: 'overview',
-    },
-    // Focus on Prophet's stand
-    {
-      time: 22,
-      position: { x: 600, y: 350 },
-      zoom: 1.2,
-      duration: 2,
-      easing: 'power2.inOut',
-      type: 'focus',
-    },
-    // Abbas's call - dramatic zoom
-    {
-      time: 28,
-      position: { x: 600, y: 350 },
-      zoom: 1.0,
-      duration: 1.5,
-      easing: 'power2.inOut',
-      type: 'focus',
-    },
-    // Rally - pull back to show troops returning
-    {
-      time: 32,
-      position: { x: 600, y: 300 },
-      zoom: 0.6,
-      duration: 2,
-      easing: 'power2.inOut',
-      type: 'overview',
-    },
-    // Counter-attack
-    {
-      time: 38,
-      position: { x: 600, y: 400 },
-      zoom: 0.7,
-      duration: 2,
-      easing: 'power2.inOut',
-      type: 'pan',
-    },
-    // Hawazin rout - wide overview
-    {
-      time: 42,
-      position: { x: 600, y: 500 },
-      zoom: 0.4,
-      duration: 2.5,
-      easing: 'power2.inOut',
-      type: 'overview',
-    },
-    // Final victory shot
-    {
-      time: 47,
-      position: { x: 600, y: 450 },
-      zoom: 0.35,
-      duration: 3,
-      easing: 'power2.out',
-      type: 'overview',
-    },
+    // Wide establishing overview of the 12,000-strong column on the march
+    { time: 0, position: { x: 1200, y: 800 }, zoom: 0.45, duration: 6, easing: 'power2.inOut', type: 'overview' },
+    // Glide along the column at chest-height to highlight the polished mail
+    { time: 6, position: { x: 800, y: 700 }, zoom: 0.7, duration: 5, easing: 'power2.inOut', type: 'pan' },
+    // Cut to the enemy side: pan across the dark ridges to reveal Hawazin ambush
+    { time: 11, position: { x: 1900, y: 600 }, zoom: 0.6, duration: 6, easing: 'power2.inOut', type: 'pan' },
+    // Follow Khalid's vanguard descending into the throat in the grey ghalas
+    { time: 17, position: { x: 1100, y: 750 }, zoom: 0.75, duration: 6, easing: 'power2.inOut', type: 'follow', followEntityId: 'muslim-vanguard-sulaym' },
+    // Snap into the ambush — arrows from north, charge from south, vanguard buckling
+    { time: 23, position: { x: 1400, y: 700 }, zoom: 0.85, duration: 5, easing: 'power2.inOut', type: 'focus' },
+    // Zoom out to overview to show the entire host disintegrating
+    { time: 28, position: { x: 1200, y: 800 }, zoom: 0.4, duration: 6, easing: 'power2.inOut', type: 'zoom' },
+    // Tightest zoom of the scenario — onto the Prophet ﷺ on Duldul
+    { time: 34, position: { x: 1300, y: 800 }, zoom: 0.95, duration: 6, easing: 'power2.inOut', type: 'follow', followEntityId: 'muslim-prophet-core' },
+    // Hold close on al-Abbas as he delivers the three nested rally calls
+    { time: 40, position: { x: 1280, y: 800 }, zoom: 0.85, duration: 6, easing: 'power2.inOut', type: 'focus' },
+    // Slow-motion focus on the handful-of-dust moment
+    { time: 46, position: { x: 1500, y: 750 }, zoom: 0.9, duration: 5, easing: 'power2.inOut', type: 'focus' },
+    // Widen to a battle-wide pan as the Muslim banners wheel forward together
+    { time: 51, position: { x: 1600, y: 800 }, zoom: 0.6, duration: 6, easing: 'power2.inOut', type: 'pan' },
+    // High overhead showing the two pursuit axes — Awtas east, al-Ta'if southeast
+    { time: 57, position: { x: 1800, y: 700 }, zoom: 0.5, duration: 6, easing: 'power2.inOut', type: 'overview' },
+    // Final transition — fade from the wadi to the al-Ji'rana staging camp
+    { time: 63, position: { x: 600, y: 1100 }, zoom: 0.55, duration: 5, easing: 'power2.inOut', type: 'pan' },
   ],
 
   outcome: {
@@ -1230,13 +1052,14 @@ export const battleOfHunayn: BattleScenario = {
     muslimCasualties: 4,
     enemyCasualties: 70,
     summary:
-      'Decisive Muslim victory after initial near-disaster. The Hawazin were routed, their camp captured with 6,000 prisoners, 24,000 camels, and 40,000 sheep. Malik ibn Awf fled to Ta\'if.',
+      "Victory after a near-defeat. Twelve thousand were drawn into the throat of Wadi Hunayn at first light; most fled. The Prophet ﷺ stood firm on his white mule declaring 'I am the Prophet — no lie.' Al-Abbas's voice — three nested calls — recalled the Companions of the Tree, and the Prophet ﷺ threw a handful of dust saying 'May the faces be disfigured': not a man of them remained but Allah filled his eyes with dust. Four Muslims fell — among them Ayman ibn 'Ubayd — about seventy of Hawazin were killed, and the rest scattered between Awtas and al-Ta'if. The captives — six thousand — and the herds were held at al-Ji'rana until the Hawazin came as Muslims, and all the captives were returned.",
     summaryAr:
-      'نصر حاسم للمسلمين بعد كارثة أولية وشيكة. هُزمت هوازن واستُولي على معسكرهم مع ٦٠٠٠ أسير و٢٤٠٠٠ بعير و٤٠٠٠٠ شاة. فر مالك بن عوف إلى الطائف.',
+      'نَصْرٌ بَعْدَ هَزِيمَةٍ كَادَتْ تَكُونُ. اسْتُدْرِجَ اثْنَا عَشَرَ أَلْفًا فِي مَضِيقِ حُنَيْنٍ فِي غَلَسِ الفَجْرِ، فَوَلَّى أَكْثَرُهُمْ، وَثَبَتَ النَّبِيُّ ﷺ عَلَى بَغْلَتِهِ البَيْضَاءِ مُعْلِنًا: «أَنَا النَّبِيُّ لَا كَذِبْ». فَنَادَى العَبَّاسُ أَصْحَابَ السَّمُرَةِ، وَرَمَى ﷺ بِقَبْضَةٍ مِنْ تُرَابٍ قَائِلًا: «شَاهَتِ الوُجُوهُ»، فَمَا بَقِيَ مِنْهُمْ أَحَدٌ إِلَّا مَلَأَ اللَّهُ عَيْنَيْهِ تُرَابًا. اسْتُشْهِدَ أَرْبَعَةٌ — فِيهِمْ أَيْمَنُ بْنُ عُبَيْدٍ — وَقُتِلَ مِنْ هَوَازِنَ نَحْوُ سَبْعِينَ، وَتَفَرَّقَ سَائِرُهُمْ بَيْنَ أَوْطَاسٍ وَالطَّائِفِ. وَسِيقَ السَّبْيُ — سِتَّةُ آلَافٍ — وَالأَنْعَامُ إِلَى الجِعْرَانَةِ، حَتَّى قَدِمَ وَفْدُ هَوَازِنَ مُسْلِمِينَ فَرُدَّ السَّبْيُ كُلُّهُ.',
     significance:
-      'Demonstrated that victory comes from Allah alone, not from numbers. The dramatic reversal from near-total defeat to complete victory is directly referenced in Quran 9:25-26. One of the most dramatic battles in Islamic history.',
+      "Allah revealed two verses of Surat al-Tawba about the day of Hunayn — a chastisement for self-admiration over numbers, and a glad tiding of sakina and unseen armies. With it ended the last organized resistance to Islam in the Hijaz, opening the Year of Delegations. The salab ruling — the slain combatant's effects to his killer with proof — was promulgated this day (Bukhari 3142), and ta'lif al-qulub became a permanent zakat category (Q 9:60). The Prophet ﷺ delivered his famous khutba to the Ansar — that the people go off with worldly goods while the Ansar go off with the Messenger of Allah — sealing their bond to prophethood forever.",
+    significanceAr:
+      'أَنْزَلَ اللَّهُ فِي يَوْمِ حُنَيْنٍ آيَتَيْنِ مِنْ سُورَةِ التَّوْبَةِ — تَأْدِيبٌ عَلَى الإِعْجَابِ بِالكَثْرَةِ، وَتَبْشِيرٌ بِالسَّكِينَةِ وَالجُنُودِ الَّتِي لَمْ تُرَ. وَبِهَا انْتَهَتْ آخِرُ مُقَاوَمَةٍ مُنَظَّمَةٍ لِلْإِسْلَامِ فِي الحِجَازِ، وَفُتِحَ بَابُ «عَامِ الوُفُودِ». وَأُسِّسَ يَوْمَئِذٍ حُكْمُ السَّلَبِ لِلْقَاتِلِ بِالبَيِّنَةِ (البخاري ٣١٤٢)، وَتَأْلِيفُ القُلُوبِ كَأَصْلٍ مِنْ مَصَارِفِ الزَّكَاةِ (التوبة ٩:٦٠). وَخَطَبَ ﷺ الأَنْصَارَ خُطْبَتَهُ المَشْهُورَةَ — أَنْ يَذْهَبَ النَّاسُ بِالدُّنْيَا، وَيَذْهَبُوا بِرَسُولِ اللَّهِ — فَخَتَمَ بِهَا حَمِيمِيَّةَ الأَنْصَارِ بِالنُّبُوَّةِ خَتْمًا أَبَدِيًّا.',
   },
 
-  dayPhase: 'dawn', // the ambush came at dawn in the Hunayn valley
-  totalDuration: 50, // 50 seconds of simulation
+  totalDuration: 68,
 };

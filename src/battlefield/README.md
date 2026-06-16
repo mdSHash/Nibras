@@ -200,7 +200,7 @@ first user gesture.
 
 ---
 
-## Hard rules (also recorded in `.claude/.../memory/`)
+## Hard rules
 
 - **All UI strings Arabic.** No English fallback in the BattlePlayer
   header, summary panel, narration, aria-labels, or button text. The
@@ -211,5 +211,3 @@ first user gesture.
   counts, or scenes that contradict the canonical sirah.
 - **WCAG AA contrast in both light and dark mode.** Era `textLight`
   pairs with `bgLight`, `textDark` with `bgDark` — never crossed.
-- **No `Co-Authored-By` trailers in commits.** History reads as solo-
-  authored.

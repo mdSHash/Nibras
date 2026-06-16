@@ -89,6 +89,22 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
   const enemyStrength = useSimulationStore((s) => s.enemyStrength);
 
   const narration = useUIStore((s) => s.narration);
+  const muted = useUIStore((s) => s.muted);
+  const setMuted = useUIStore((s) => s.setMuted);
+  const subtitlesEnabled = useUIStore((s) => s.subtitlesEnabled);
+  const setSubtitlesEnabled = useUIStore((s) => s.setSubtitlesEnabled);
+
+  // Maximum strength per side (sum of all forces' totalStrength). Used to show
+  // the "current / max" fraction so viewers can see casualty drain at a glance.
+  const factionMaxStrength = useMemo(() => {
+    const muslimMax = scenario?.forces
+      .filter((f) => f.faction === 'muslim' || f.faction === 'mamluk')
+      .reduce((sum, f) => sum + f.totalStrength, 0) ?? 0;
+    const enemyMax = scenario?.forces
+      .filter((f) => f.faction !== 'muslim' && f.faction !== 'mamluk' && f.faction !== 'neutral')
+      .reduce((sum, f) => sum + f.totalStrength, 0) ?? 0;
+    return { muslim: muslimMax, enemy: enemyMax };
+  }, [scenario]);
 
   // Determine which factions are participating so we can label badges in Arabic.
   // Defaults to 'muslim' / 'quraysh' until the scenario resolves.
@@ -109,7 +125,7 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
   // ─── Engine Lifecycle ────────────────────────────────────────────────────────
 
   useEffect(() => {
-    console.log('[BattlePlayer] useEffect triggered, scenarioId:', scenarioId);
+    if (import.meta.env.DEV) console.log('[BattlePlayer] useEffect triggered, scenarioId:', scenarioId);
 
     const canvas = canvasRef.current;
     const container = containerRef.current;
@@ -117,10 +133,10 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
       console.error('[BattlePlayer] canvas or container ref is null!', { canvas: !!canvas, container: !!container });
       return;
     }
-    console.log('[BattlePlayer] canvas and container refs OK');
+    if (import.meta.env.DEV) console.log('[BattlePlayer] canvas and container refs OK');
 
     // Resolve scenario
-    console.log('[BattlePlayer] resolving scenario...');
+    if (import.meta.env.DEV) console.log('[BattlePlayer] resolving scenario...');
     const loadedScenario = getScenario(scenarioId);
     if (!loadedScenario) {
       console.error('[BattlePlayer] scenario not found:', scenarioId);
@@ -128,7 +144,7 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
       setIsLoading(false);
       return;
     }
-    console.log('[BattlePlayer] scenario resolved:', loadedScenario.name);
+    if (import.meta.env.DEV) console.log('[BattlePlayer] scenario resolved:', loadedScenario.name);
 
     setScenario(loadedScenario);
 
@@ -139,7 +155,7 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
       try {
         const width = container.clientWidth || window.innerWidth;
         const height = container.clientHeight || window.innerHeight;
-        console.log('[BattlePlayer] container dimensions:', { width, height });
+        if (import.meta.env.DEV) console.log('[BattlePlayer] container dimensions:', { width, height });
 
         // Validate canvas dimensions before attempting WebGL init
         if (width === 0 || height === 0) {
@@ -148,13 +164,13 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
           );
         }
 
-        console.log('[BattlePlayer] creating Engine...');
+        if (import.meta.env.DEV) console.log('[BattlePlayer] creating Engine...');
         const engine = new Engine();
         engineRef.current = engine;
-        console.log('[BattlePlayer] Engine created, calling engine.init()...');
+        if (import.meta.env.DEV) console.log('[BattlePlayer] Engine created, calling engine.init()...');
 
         await engine.init(canvas, width, height);
-        console.log('[BattlePlayer] engine.init() resolved!');
+        if (import.meta.env.DEV) console.log('[BattlePlayer] engine.init() resolved!');
 
         // Dev-only handle so end-to-end capture scripts (Playwright,
         // dev-tools console) can seek the simulation. Stripped in
@@ -164,14 +180,14 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
         }
 
         if (destroyed) {
-          console.log('[BattlePlayer] destroyed during init, cleaning up');
+          if (import.meta.env.DEV) console.log('[BattlePlayer] destroyed during init, cleaning up');
           engine.destroy();
           return;
         }
 
-        console.log('[BattlePlayer] loading scenario...');
+        if (import.meta.env.DEV) console.log('[BattlePlayer] loading scenario...');
         engine.loadScenario(loadedScenario);
-        console.log('[BattlePlayer] scenario loaded, setting isLoading=false');
+        if (import.meta.env.DEV) console.log('[BattlePlayer] scenario loaded, setting isLoading=false');
         setIsLoading(false);
       } catch (err) {
         console.error('[BattlePlayer] init error caught:', err);
@@ -186,10 +202,10 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
     // element is fully attached to the DOM and has valid layout dimensions.
     // This prevents PixiJS WebGL context creation from hanging on a canvas
     // that hasn't been painted yet.
-    console.log('[BattlePlayer] scheduling init via requestAnimationFrame...');
+    if (import.meta.env.DEV) console.log('[BattlePlayer] scheduling init via requestAnimationFrame...');
     rafId = requestAnimationFrame(() => {
       rafId = null;
-      console.log('[BattlePlayer] rAF fired, destroyed=', destroyed);
+      if (import.meta.env.DEV) console.log('[BattlePlayer] rAF fired, destroyed=', destroyed);
       if (!destroyed) {
         initEngine();
       }
@@ -210,7 +226,7 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
 
     // Cleanup
     return () => {
-      console.log('[BattlePlayer] cleanup running');
+      if (import.meta.env.DEV) console.log('[BattlePlayer] cleanup running');
       destroyed = true;
       if (rafId !== null) {
         cancelAnimationFrame(rafId);
@@ -260,14 +276,27 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
     engine.play();
   }, []);
 
-  const handleSpeedChange = useCallback(() => {
-    const engine = engineRef.current;
-    if (!engine) return;
+  const handleSetSpeed = useCallback((nextSpeed: number) => {
+    engineRef.current?.setSpeed(nextSpeed);
+  }, []);
 
-    const currentIndex = SPEED_OPTIONS.indexOf(speed as typeof SPEED_OPTIONS[number]);
-    const nextIndex = (currentIndex + 1) % SPEED_OPTIONS.length;
-    engine.setSpeed(SPEED_OPTIONS[nextIndex]);
-  }, [speed]);
+  const handleToggleMute = useCallback(() => {
+    const next = !muted;
+    setMuted(next);
+    engineRef.current?.getAudio()?.setMuted(next);
+  }, [muted, setMuted]);
+
+  const handleToggleSubtitles = useCallback(() => {
+    setSubtitlesEnabled(!subtitlesEnabled);
+  }, [subtitlesEnabled, setSubtitlesEnabled]);
+
+  // Re-apply persisted mute state whenever the engine's audio system comes
+  // up (initial load, scenario switch). Without this, the audio defaults to
+  // unmuted after every scenario change even if the user muted previously.
+  useEffect(() => {
+    if (isLoading) return;
+    engineRef.current?.getAudio()?.setMuted(muted);
+  }, [isLoading, muted]);
 
   const handleSeek = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
@@ -502,12 +531,18 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
               </div>
             </div>
 
-            {/* Right: Faction Strength Indicators (compact on mobile, full on desktop) */}
+            {/* Right: Faction Strength Indicators (current / max — shows casualty drain at a glance) */}
             <div className="flex items-center gap-2 sm:gap-3 pointer-events-auto">
               <div className="flex items-center gap-1.5 sm:gap-2 bg-gray-900/80 ring-1 ring-white/10 rounded-lg px-2 sm:px-3 py-1.5" dir="rtl" lang="ar">
                 <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500" />
                 <span className="text-green-400 text-sm font-medium tabular-nums">
                   {muslimStrength.toLocaleString('ar-EG')}
+                  {factionMaxStrength.muslim > 0 && (
+                    <>
+                      <span className="text-gray-500 mx-1">/</span>
+                      <span className="text-gray-300">{factionMaxStrength.muslim.toLocaleString('ar-EG')}</span>
+                    </>
+                  )}
                 </span>
                 <span className="hidden sm:inline text-gray-100 text-xs">{factionLabels.muslim}</span>
               </div>
@@ -515,6 +550,12 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
                 <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500" />
                 <span className="text-red-400 text-sm font-medium tabular-nums">
                   {enemyStrength.toLocaleString('ar-EG')}
+                  {factionMaxStrength.enemy > 0 && (
+                    <>
+                      <span className="text-gray-500 mx-1">/</span>
+                      <span className="text-gray-300">{factionMaxStrength.enemy.toLocaleString('ar-EG')}</span>
+                    </>
+                  )}
                 </span>
                 <span className="hidden sm:inline text-gray-100 text-xs">{factionLabels.enemy}</span>
               </div>
@@ -551,8 +592,8 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
         </div>
       )}
 
-      {/* Narration Overlay (Arabic only) */}
-      {!isLoading && narration && (
+      {/* Narration Overlay (Arabic only) — hidden when subtitles are toggled off */}
+      {!isLoading && narration && subtitlesEnabled && (
         <div className="absolute bottom-28 left-1/2 -translate-x-1/2 z-20 pointer-events-none w-full max-w-2xl px-4">
           <div
             className={`bg-gray-900/85 backdrop-blur-md rounded-xl px-6 py-4 border border-gray-600/30 animate-fade-in ${
@@ -661,52 +702,6 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
         </div>
       )}
 
-      {/* Legacy fallback kept hidden — old replay overlay (never renders;
-          the summary panel above always wins when scenario is present). */}
-      {false && !isLoading && status === 'completed' && (
-        <div className="absolute inset-0 flex items-center justify-center z-40 bg-black/40" dir="rtl" lang="ar">
-          <div className="flex items-center gap-4 flex-wrap justify-center px-4">
-            <button
-              onClick={handleRestart}
-              className="flex flex-col items-center gap-3 px-6 sm:px-8 py-5 sm:py-6 rounded-2xl bg-gray-900/90 backdrop-blur-md border border-gray-600/50 hover:bg-gray-800/90 transition-colors group min-h-[44px]"
-              aria-label="إعادة المعركة"
-            >
-              <svg
-                className="w-10 h-10 sm:w-12 sm:h-12 text-green-400 group-hover:text-green-300 transition-colors"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                aria-hidden
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 12a9 9 0 1 1 9 9M3 12V3m0 9h9" />
-              </svg>
-              <span className="text-white text-lg font-semibold">إعادة المعركة</span>
-            </button>
-
-            {onBack && (
-              <button
-                onClick={onBack}
-                className="flex flex-col items-center gap-3 px-6 sm:px-8 py-5 sm:py-6 rounded-2xl bg-gray-900/90 backdrop-blur-md border border-red-600/40 hover:bg-red-900/40 transition-colors group min-h-[44px]"
-                aria-label="خروج"
-              >
-                <svg
-                  className="w-10 h-10 sm:w-12 sm:h-12 text-red-400 group-hover:text-red-300 transition-colors"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  aria-hidden
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                </svg>
-                <span className="text-white text-lg font-semibold">خروج</span>
-              </button>
-            )}
-          </div>
-        </div>
-      )}
-
       {/* Playback Controls Bar (bottom) */}
       {!isLoading && (
         <div className="absolute bottom-0 left-0 right-0 z-30 pointer-events-none" data-battle-ui>
@@ -760,23 +755,74 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
                 </svg>
               </button>
 
-              {/* Speed Control */}
+              {/* Mute toggle — wired to BattleAudio, persisted in UI store */}
               <button
-                onClick={handleSpeedChange}
-                className="flex-shrink-0 px-3 py-1.5 min-h-[40px] rounded-lg bg-gray-800/80 hover:bg-gray-700 transition-colors text-gray-300 text-xs font-medium border border-gray-600/50"
-                aria-label="تغيير السرعة"
+                onClick={handleToggleMute}
+                className="flex-shrink-0 w-11 h-11 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-gray-800/80 hover:bg-gray-700 transition-colors text-white border border-gray-600/50"
+                aria-label="كَتْم الصَّوْت"
+                aria-pressed={muted}
+                title="كَتْم الصَّوْت"
               >
-                {speed}x
+                {muted ? (
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} aria-hidden>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5.586 15H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 9l4 4m0-4l-4 4" />
+                  </svg>
+                ) : (
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} aria-hidden>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5.586 15H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.536 8.464a5 5 0 0 1 0 7.072M19.07 4.93a10 10 0 0 1 0 14.14" />
+                  </svg>
+                )}
               </button>
 
-              {/* Phase name (compact, Arabic) — hidden on small screens */}
-              {currentPhaseName && (
-                <span className="hidden md:inline text-gray-500 text-xs truncate max-w-[150px]" dir="rtl" lang="ar">
-                  {currentPhaseName}
-                </span>
-              )}
+              {/* Subtitles / narration toggle */}
+              <button
+                onClick={handleToggleSubtitles}
+                className={`flex-shrink-0 w-11 h-11 sm:w-10 sm:h-10 flex items-center justify-center rounded-full transition-colors border ${
+                  subtitlesEnabled
+                    ? 'bg-green-700/40 hover:bg-green-700/60 text-white border-green-500/60'
+                    : 'bg-gray-800/80 hover:bg-gray-700 text-gray-300 border-gray-600/50'
+                }`}
+                aria-label="السَّرْد"
+                aria-pressed={subtitlesEnabled}
+                title="السَّرْد"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} aria-hidden>
+                  <rect x="3" y="6" width="18" height="12" rx="2" />
+                  <path strokeLinecap="round" d="M7 12h3M7 15h6M14 12h3" />
+                </svg>
+              </button>
 
-              {/* Progress/Seek Bar — wraps to its own row on mobile */}
+              {/* Speed Control — segmented 4-button toggle */}
+              <div
+                className="flex-shrink-0 inline-flex rounded-lg bg-gray-800/80 border border-gray-600/50 overflow-hidden"
+                role="group"
+                aria-label="سرعة التشغيل"
+              >
+                {SPEED_OPTIONS.map((opt) => {
+                  const active = speed === opt;
+                  return (
+                    <button
+                      key={opt}
+                      onClick={() => handleSetSpeed(opt)}
+                      className={`px-2.5 sm:px-3 py-1.5 min-h-[40px] text-xs font-medium tabular-nums transition-colors ${
+                        active
+                          ? 'bg-green-600 text-white'
+                          : 'text-gray-200 hover:bg-gray-700'
+                      }`}
+                      aria-pressed={active}
+                      aria-label={`السرعة ${opt}x`}
+                    >
+                      {opt}x
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Progress/Seek Bar — wraps to its own row on mobile.
+               *  Phase boundaries render as low-opacity tick marks on the
+               *  unplayed portion and full-opacity ticks on the played portion. */}
               <div
                 className="basis-full order-last sm:basis-auto sm:flex-1 sm:order-none h-3 sm:h-2 bg-gray-700/80 rounded-full cursor-pointer relative group"
                 onClick={handleSeek}
@@ -790,6 +836,23 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
                   className="absolute inset-y-0 left-0 bg-green-500/80 rounded-full transition-[width] duration-100"
                   style={{ width: `${progress * 100}%` }}
                 />
+                {/* Phase tick markers — half-height, 1px wide. Skip phases at
+                 *  position 0 and >= 1 since those align with the bar ends. */}
+                {scenario && totalDuration > 0 && scenario.phases.map((p) => {
+                  const pct = p.startTime / totalDuration;
+                  if (pct <= 0 || pct >= 1) return null;
+                  const played = pct <= progress;
+                  return (
+                    <div
+                      key={p.id}
+                      className={`absolute top-1/2 -translate-y-1/2 w-px h-1/2 pointer-events-none ${
+                        played ? 'bg-white/90' : 'bg-white/30'
+                      }`}
+                      style={{ left: `${pct * 100}%` }}
+                      aria-hidden
+                    />
+                  );
+                })}
                 <div
                   className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity"
                   style={{ left: `calc(${progress * 100}% - 6px)` }}

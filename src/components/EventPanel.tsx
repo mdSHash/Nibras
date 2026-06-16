@@ -45,6 +45,7 @@ const AVAILABLE_BATTLE_SCENARIOS = [
   'battle-of-tabuk',
   'battle-of-yamama',
   'battle-of-ain-jalut',
+  'battle-of-nahavand',
 ];
 const BATTLE_ID_TO_SCENARIO: Record<string, string> = {
   'fath-makkah': 'conquest-of-mecca',

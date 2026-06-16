@@ -4,31 +4,74 @@ import type { BattleScenario } from '../types/scenario';
  * مَعْرَكَةُ الْيَمَامَةِ — حَدِيقَةُ الْمَوْتِ
  * Battle of al-Yamamah — The Garden of Death
  *
- * 12 AH / December 632 – January 633 CE — Caliphate of Abu Bakr al-Siddiq
- * Aqraba plain, region of al-Yamamah (modern al-Aflaj, central Arabia).
+ * 12 AH / December 632 – January 633 CE — Caliphate of Abu Bakr al-Siddiq.
+ * Aqraba plain, region of al-Yamamah (central-eastern Najd, ~70km SE of
+ * modern Riyadh). The decisive battle of the Ridda Wars.
  *
- * The decisive battle of the Ridda Wars. Khalid ibn al-Walid led ~13,000
- * Muslims against ~40,000 of Banu Hanifa under Musaylimah al-Kadhdhab
- * (the False Prophet). The first phases went badly for the Muslims —
- * Banu Hanifa shattered the front lines and reached the women's tents.
- * Khalid then ordered the famous reorganization: each tribal contingent
- * was to fight under its own banner so men would not break and run past
- * unfamiliar faces. The reorganized Muslim army drove Banu Hanifa back.
+ * Khalid ibn al-Walid led ~13,000 Muslims against ~40,000 of Banu Hanifa
+ * under Musaylimah ibn Habib al-Hanafi al-Kadhdhab (the False Prophet of
+ * al-Yamamah). After the failures of Ikrima and Shurahbil, Abu Bakr
+ * appointed Khalid. Battle opened with a ferocious Hanafi shock-charge
+ * under Muhakkim ibn al-Tufayl and al-Rajjal ibn Unfuwa — the apostate
+ * former Companion who had falsely testified that the Prophet ﷺ named
+ * Musaylimah a co-prophet. The Hanafi taunt rang out: «يَا أَهْلَ سُورَةِ
+ * الْبَقَرَةِ، بَطَلَتِ الْبَقَرَةُ الْيَوْم!» Banu Hanifa broke the
+ * mixed Muslim line, reached the women's tents, and Khalid's wife Umm
+ * Tamim was nearly captured. Khalid roared: «الْيَوْمَ يَوْمُ الْغَيْرَة!»
  *
- * The survivors retreated into a walled garden — حديقة الرحمن — to
- * make a last stand. Bara'a ibn Malik (brother of Anas) had himself
- * hoisted up on a shield and dropped over the wall, fought through to
- * the gate, and threw it open. The slaughter inside earned the garden
- * its new name: حديقة الموت — the Garden of Death. Wahshi ibn Harb,
- * the same man who killed Hamza at Uhud (and was now a Muslim), threw
- * his javelin and killed Musaylimah, saying afterward: "I killed with
- * it the best of men and the worst of men."
+ * On Thabit ibn Qays's advice, Khalid ordered the famous tribal-banner
+ * reorganization: «تَمَيَّزُوا!» — Muhajirun under Salim's standard,
+ * Ansar under Thabit's, the Bedouin contingents apart. Thabit anointed
+ * himself with hanut (the embalming-perfume of those vowing to die),
+ * wrapped his shroud upon himself, and rebuked the fleers: «بِئْسَ مَا
+ * عَوَّدْتُمْ أَقْرَانَكُم» (Bukhari 2845). Zayd ibn al-Khattab — Umar's
+ * elder brother — raised the Muhajirun banner and exhorted: «أَيُّهَا
+ * النَّاسُ، عَضُّوا عَلَى أَضْرَاسِكُم، وَاضْرِبُوا فِي عَدُوِّكُم،
+ * وَامْضُوا قُدُمًا، وَاللهِ لَا أَتَكَلَّمُ حَتَّى يُهْزَمُوا أَوْ
+ * أَلْقَى اللهَ فَأُكَلِّمَهُ بِحُجَّتِي.»
  *
- * Casualties were brutal. Roughly 1,200 Muslim dead, including ~700
- * memorizers of the Qur'an (al-huffaz). Their loss prompted Abu Bakr
- * to commission Zayd ibn Thabit to compile the Qur'an into one volume.
- * Banu Hanifa lost over 10,000 — 7,000 in the open field, 7,000 in
- * the garden, and several thousand more during the pursuit.
+ * The reorganized line surged. Zayd killed al-Rajjal — the believer
+ * felled the apostate — and Hanafi morale snapped. Muhakkim fell during
+ * the rearguard fighting; the Hanafi cavalry broke. The four named
+ * Reciters were martyred holding their standards: Salim mawla Abi
+ * Hudhayfa carried the Muhajirun banner until both his hands were severed,
+ * then clutched it to his chest reciting ﴿وَمَا مُحَمَّدٌ إِلَّا رَسُول﴾,
+ * found dead embracing his master Abu Hudhayfa ibn Utba; Zayd ibn al-Khattab
+ * was killed by Abu Maryam al-Hanafi still holding the banner; Thabit ibn
+ * Qays, the Khatib of the Ansar, fell in his hanut-perfume; Abu Dujana
+ * Simak ibn Kharasha al-Ansari fell at the gate.
+ *
+ * The survivors retreated into the walled garden — حَدِيقَةُ الرَّحْمَن,
+ * named for Musaylimah's claim to be «الرَّحْمَن of al-Yamamah» — and
+ * sealed the single gate. al-Bara ibn Malik al-Ansari (brother of Anas,
+ * Banu Najjar/Khazraj) cried: «أَرْسِلُونِي عَلَى تُرْسِكُم» (Ibn Sa'd,
+ * Tabaqat 7/17; al-Bayhaqi, Dala'il). His comrades hoisted him on shields
+ * raised on spears, vaulted him over the wall, and he fought through to
+ * the gate alone, sustaining ~80 wounds, throwing it open from inside.
+ * He survived a month of convalescence under Khalid's care.
+ *
+ * The Muslim army poured through. Inside the walls, retreat was impossible.
+ * The orchard ran red and Hadiqat al-Rahman became Hadiqat al-Mawt — the
+ * Garden of Death. Wahshi ibn Harb — the Ethiopian freedman who had
+ * killed Hamza ibn Abd al-Muttalib at Uhud, now a repentant Muslim —
+ * hurled his harba (the same javelin) at Musaylimah, and Abu Dujana
+ * struck simultaneously with the sword. Mujja'a ibn Murara identified
+ * the small sallow corpse. Wahshi's words (Bukhari 4072): «قَتَلْتُ
+ * خَيْرَ النَّاسِ فِي الْجَاهِلِيَّة، وَقَتَلْتُ شَرَّ النَّاسِ فِي
+ * الْإِسْلَام» — closing the Hamza wound by the very same hand and weapon.
+ *
+ * Casualties: ~1,200 Muslims martyred, of whom traditional sources count
+ * between 360 and 700 huffaz — the largest single loss of memorizers of
+ * the Qur'an in Islamic history. Banu Hanifa lost more than 21,000 between
+ * the open field, the garden, and the pursuit. The aftermath in Madinah
+ * was the first compilation of the Mushaf: Umar came to Abu Bakr saying
+ * «إِنَّ الْقَتْلَ قَدِ اسْتَحَرَّ يَوْمَ الْيَمَامَةِ بِقُرَّاءِ الْقُرْآن»;
+ * Abu Bakr at first hesitated — «كَيْفَ نَفْعَلُ شَيْئًا لَمْ يَفْعَلْهُ
+ * رَسُولُ اللهِ ﷺ؟» — then Allah opened his breast to it, and he commissioned
+ * Zayd ibn Thabit to gather the Qur'an into a single mushaf. From that
+ * codex descend all later masahif. The Ridda Wars ended decisively, the
+ * Arabian peninsula was sealed under the caliphate, and the road to Iraq
+ * and Syria was opened.
  */
 export const battleOfYamama: BattleScenario = {
   id: 'battle-of-yamama',
@@ -37,23 +80,19 @@ export const battleOfYamama: BattleScenario = {
   date: '12 AH (December 632 – January 633 CE)',
   location: 'Aqraba plain, al-Yamamah, central Arabia',
   description:
-    "The decisive battle of the Ridda Wars under Caliph Abu Bakr. Khalid ibn al-Walid led ~13,000 Muslims against ~40,000 of Banu Hanifa under the false prophet Musaylimah. After early Muslim setbacks, Khalid's tribal-banner reorganization turned the battle. The survivors made their last stand inside a walled garden — afterward known as the Garden of Death. Roughly 700 memorizers of the Qur'an were martyred, prompting the first compilation of the mushaf.",
+    "The decisive battle of the Ridda Wars under Caliph Abu Bakr al-Siddiq. Khalid ibn al-Walid led ~13,000 Muslims against ~40,000 of Banu Hanifa under the false prophet Musaylimah al-Kadhdhab. After early Muslim setbacks — the line broken, the camp overrun, the Hanafi taunt 'O people of Surat al-Baqara, today al-Baqara has failed!' — Khalid's tribal-banner reorganization on Thabit ibn Qays's advice turned the field. The named Reciters fell holding their standards: Salim mawla Abi Hudhayfa, Zayd ibn al-Khattab, Thabit ibn Qays, Abu Hudhayfa, Abu Dujana. The survivors made their last stand inside Hadiqat al-Rahman, which al-Bara ibn Malik stormed by being hoisted on shields and dropped over the wall to fight to the gate alone. Wahshi ibn Harb killed Musaylimah with the same javelin he had once thrown at Hamza at Uhud. Roughly 1,200 Muslims fell, of whom traditional sources count 360–700 huffaz — the loss that prompted Abu Bakr's first compilation of the Qur'an into a single mushaf.",
   descriptionAr:
-    'المعركة الفاصلة من حروب الردة في خلافة أبي بكر الصديق رضي الله عنه. قاد خالد بن الوليد نحو ثلاثة عشر ألف مسلم في مواجهة قرابة أربعين ألفاً من بني حنيفة بقيادة مسيلمة الكذاب. تأخر النصر في أول الأمر حتى أمر خالد بإعادة تنظيم الجيش — فقاتل كل قومٍ تحت رايتهم. تحوّلت كفة المعركة، ولجأ مَن بقي من بني حنيفة إلى حديقةٍ مسوّرة قاتلوا فيها قتالهم الأخير، فسُمّيت بعدها حديقةَ الموت. استُشهد قرابة سبعمائة من حُفّاظ القرآن، وكان ذلك السبب الأكبر في جمع المصحف على عهد الصديق.',
+    'الْمَعْرَكَةُ الْفَاصِلَةُ مِنْ حُرُوبِ الرِّدَّةِ فِي خِلَافَةِ أَبِي بَكْرٍ الصِّدِّيقِ رَضِيَ اللهُ عَنْه. قَادَ خَالِدُ بْنُ الْوَلِيدِ نَحْوَ ثَلَاثَةَ عَشَرَ أَلْفًا مِنَ الْمُسْلِمِينَ فِي مُوَاجَهَةِ قُرَابَةِ أَرْبَعِينَ أَلْفًا مِنْ بَنِي حَنِيفَةَ بِقِيَادَةِ مُسَيْلِمَةَ الْكَذَّاب. اِنْكَسَرَ الصَّفُّ الْأَوَّل، وَبَلَغَ الْعَدُوُّ خِيَامَ النِّسَاء، وَتَنَادَى بَنُو حَنِيفَةَ سَاخِرِينَ: «يَا أَهْلَ سُورَةِ الْبَقَرَةِ، بَطَلَتِ الْبَقَرَةُ الْيَوْم!» فَأَمَرَ خَالِدٌ بِنَصِيحَةِ ثَابِتِ بْنِ قَيْسٍ بِتَنْظِيمِ الْقَبَائِلِ تَحْتَ رَايَاتِهَا — الْمُهَاجِرُونَ تَحْتَ رَايَةِ سَالِمٍ، وَالْأَنْصَارُ تَحْتَ رَايَةِ ثَابِتٍ — فَتَحَوَّلَتِ الْكِفَّة. اِسْتُشْهِدَ الْقُرَّاءُ الْأَرْبَعَة، وَلَجَأَ مَنْ بَقِيَ مِنْ بَنِي حَنِيفَةَ إِلَى حَدِيقَةِ الرَّحْمَنِ الْمَسْوُورَة. اِقْتَحَمَهَا الْبَرَاءُ بْنُ مَالِكٍ بَعْدَ أَنْ حُمِلَ عَلَى التُّرُسِ وَقُذِفَ مِنْ فَوْقِ الْجِدَار، فَفَتَحَ الْبَابَ مِنْ دَاخِلِه. وَقَتَلَ وَحْشِيُّ بْنُ حَرْبٍ مُسَيْلِمَةَ بِالْحَرْبَةِ ذَاتِهَا الَّتِي قَتَلَ بِهَا حَمْزَةَ يَوْمَ أُحُد. اِسْتُشْهِدَ قُرَابَةَ أَلْفٍ وَمِئَتَيْ مُسْلِم، مِنْهُمْ مَا بَيْنَ ثَلَاثِمِئَةٍ وَسِتِّينَ وَسَبْعِمِئَةٍ مِنْ حُفَّاظِ كِتَابِ الله — وَكَانَ ذَلِكَ السَّبَبَ فِي جَمْعِ الْمُصْحَفِ عَلَى عَهْدِ الصِّدِّيق.',
 
-  // Day-of-battle atmosphere — clear desert daylight; the garden carnage
-  // is what darkens the scene, not the weather.
   dayPhase: 'day',
   weather: 'dust',
-  // Two days of fighting historically; we'll show it as a single arc.
   actualDayCount: 2,
 
-  // ─── Map ───────────────────────────────────────────────────────────────────
   map: {
     width: 1500,
     height: 1000,
     terrain: [
-      // Main field — the open Aqraba plain
+      // Main field — the open Aqraba plain (sahl Aqraba)
       {
         id: 'aqraba-plain',
         type: 'sand',
@@ -92,6 +131,21 @@ export const battleOfYamama: BattleScenario = {
         ],
         color: 0x6b5a4a,
       },
+      // Shu'ayb al-Dam — the Gully of Blood, drainage gully cutting
+      // the center-east of the plain where blood ran in a rivulet
+      // during the open-field phase (named in classical sources)
+      {
+        id: 'shu-ayb-al-dam',
+        type: 'gorge',
+        polygon: [
+          { x: 720, y: 470 },
+          { x: 1020, y: 470 },
+          { x: 1020, y: 540 },
+          { x: 720, y: 540 },
+        ],
+        color: 0x5a3220,
+        label: 'شعيب الدم',
+      },
       // Palm groves to the north and south of the garden
       {
         id: 'north-palms',
@@ -117,7 +171,9 @@ export const battleOfYamama: BattleScenario = {
         color: 0x3a5a2a,
       },
       // The Garden of Death — walled enclosure on the east side.
-      // Rendered as fortress_wall terrain (stone walls + dark interior).
+      // Pre-battle name: حديقة الرحمن (Musaylimah claimed to be
+      // 'al-Rahman of al-Yamamah'). After: حديقة الموت.
+      // Rendered as fortress_wall terrain.
       {
         id: 'garden-of-death',
         type: 'fortress_wall',
@@ -130,7 +186,7 @@ export const battleOfYamama: BattleScenario = {
         color: 0x6b6359,
         label: 'حديقة الموت',
       },
-      // Muslim camp — west side
+      // Muslim camp — west side (Medina-facing, Khalid approached from Buta)
       {
         id: 'muslim-camp',
         type: 'flat',
@@ -167,22 +223,50 @@ export const battleOfYamama: BattleScenario = {
         id: 'aqraba-marker',
         position: { x: 600, y: 60 },
         type: 'marker',
-        label: 'Aqraba',
-        labelAr: 'عقرباء',
+        label: 'Aqraba Plain',
+        labelAr: 'سهل عقرباء',
+      },
+      {
+        id: 'najd-ridges',
+        position: { x: 900, y: 30 },
+        type: 'mountain_pass',
+        label: 'Najd Ridges',
+        labelAr: 'جبال نجد',
+      },
+      {
+        id: 'shu-ayb-al-dam-marker',
+        position: { x: 870, y: 510 },
+        type: 'marker',
+        label: 'Gully of Blood',
+        labelAr: 'شعيب الدم',
+      },
+      {
+        id: 'hanifa-camp-marker',
+        position: { x: 900, y: 500 },
+        type: 'camp',
+        label: 'Banu Hanifa Camp',
+        labelAr: 'معسكر بني حنيفة',
+      },
+      {
+        id: 'reciters-fall',
+        position: { x: 720, y: 460 },
+        type: 'marker',
+        label: 'Where the Reciters Fell',
+        labelAr: 'مصارع القراء',
       },
       {
         id: 'garden-gate',
         position: { x: 1050, y: 510 },
         type: 'marker',
-        label: 'Garden Gate',
+        label: 'Gate of the Garden',
         labelAr: 'باب الحديقة',
       },
       {
         id: 'baraa-wall-point',
         position: { x: 1240, y: 320 },
         type: 'marker',
-        label: "Bara'a's Wall",
-        labelAr: 'مكان البراء',
+        label: "al-Bara's Leap",
+        labelAr: 'موضع اقتحام البراء',
       },
       {
         id: 'musaylimah-spot',
@@ -195,7 +279,6 @@ export const battleOfYamama: BattleScenario = {
     backgroundColor: 0x3a2c1a,
   },
 
-  // ─── Forces ────────────────────────────────────────────────────────────────
   forces: [
     // ─── Muslim Forces (~13,000) ─────────────────────────────────────────
     {
@@ -205,24 +288,29 @@ export const battleOfYamama: BattleScenario = {
       totalStrength: 13000,
       units: [
         {
-          // Vanguard — Khalid himself with the elite cavalry
+          // Khalid himself with the elite cavalry — the wedge that
+          // drove into Muhakkim's line during the counter-attack
           id: 'khalid-vanguard',
           name: "Khalid's Vanguard",
-          nameAr: 'مقدمة خالد',
+          nameAr: 'كتيبة خالد بن الوليد',
           troopType: 'heavy_cavalry',
           soldierCount: 1500,
           commander: 'Khalid ibn al-Walid',
           startPosition: { x: 280, y: 500 },
           startFormation: 'wedge',
-          startFacing: 0, // facing east toward Banu Hanifa
+          startFacing: 0, // east toward Banu Hanifa
           stats: { attack: 10, defense: 8, speed: 9, morale: 10 },
         },
         {
+          // The Muhajirun under Salim's banner. Salim mawla Abi Hudhayfa
+          // is one of the four named in Sahih al-Bukhari 4999 from whom
+          // to take the Qur'an. He fell with the banner, found dead
+          // embracing his master Abu Hudhayfa ibn Utba.
           id: 'muhajirun',
           name: 'Muhajirun',
-          nameAr: 'المهاجرون',
+          nameAr: 'كتيبة المهاجرين',
           troopType: 'infantry',
-          soldierCount: 2500,
+          soldierCount: 2400,
           commander: 'Salim mawla Abi Hudhayfa',
           startPosition: { x: 250, y: 380 },
           startFormation: 'line',
@@ -230,11 +318,16 @@ export const battleOfYamama: BattleScenario = {
           stats: { attack: 8, defense: 8, speed: 5, morale: 10 },
         },
         {
+          // The Ansar under Thabit ibn Qays — Khatib of the Ansar.
+          // He advised the tribal reorganization, perfumed himself
+          // with hanut (the embalming-perfume of those vowing to die),
+          // and rebuked the fleers with «بِئْسَ مَا عَوَّدْتُمْ
+          // أَقْرَانَكُم» (Bukhari 2845).
           id: 'ansar',
           name: 'Ansar',
-          nameAr: 'الأنصار',
+          nameAr: 'كتيبة الأنصار',
           troopType: 'infantry',
-          soldierCount: 3000,
+          soldierCount: 2900,
           commander: 'Thabit ibn Qays',
           startPosition: { x: 250, y: 620 },
           startFormation: 'line',
@@ -242,9 +335,12 @@ export const battleOfYamama: BattleScenario = {
           stats: { attack: 8, defense: 8, speed: 5, morale: 10 },
         },
         {
+          // The Bedouin tribal contingents — wavered during the first
+          // Hanafi shock-charge, prompting the tribal reorganization.
+          // Sidelined for the decisive engagement, rallied for the pursuit.
           id: 'bedouin-allies',
           name: 'Bedouin Tribes',
-          nameAr: 'القبائل العربية',
+          nameAr: 'كتيبة قبائل الأعراب',
           troopType: 'cavalry',
           soldierCount: 2000,
           commander: undefined,
@@ -254,26 +350,33 @@ export const battleOfYamama: BattleScenario = {
           stats: { attack: 7, defense: 6, speed: 8, morale: 7 },
         },
         {
+          // al-Bara ibn Malik al-Ansari (brother of Anas, Banu
+          // Najjar/Khazraj) — led the storming of the gate of Hadiqat
+          // al-Mawt, hoisted on shields and dropped over the wall to
+          // fight to the gate alone. Survived ~80 wounds and a month
+          // of convalescence under Khalid.
           id: 'baraa-company',
-          name: "Bara'a ibn Malik's Company",
+          name: "al-Bara ibn Malik's Company",
           nameAr: 'كتيبة البراء بن مالك',
           troopType: 'infantry',
           soldierCount: 1500,
-          commander: 'Bara’a ibn Malik',
-          // Slightly forward — they'll be the spearhead at the garden wall
+          commander: 'al-Bara ibn Malik',
           startPosition: { x: 320, y: 440 },
           startFormation: 'line',
           startFacing: 0,
           stats: { attack: 9, defense: 7, speed: 6, morale: 10 },
         },
         {
-          // Reserve under Zayd ibn al-Khattab (Umar's brother). Many huffaz
-          // were here — they fall heavily in this battle.
+          // Zayd ibn al-Khattab — Umar's elder brother. Held the
+          // Muhajirun standard and exhorted: «أَيُّهَا النَّاسُ، عَضُّوا
+          // عَلَى أَضْرَاسِكُم...». Killed by Abu Maryam al-Hanafi while
+          // holding the banner. Umar later said: «سَبَقَنِي إِلَى
+          // الْحُسْنَيَيْنِ — الْإِسْلَامِ وَالشَّهَادَة.»
           id: 'muslim-reserve',
-          name: 'Muslim Reserve',
-          nameAr: 'الاحتياط',
+          name: "Zayd ibn al-Khattab's Company",
+          nameAr: 'كتيبة زيد بن الخطاب',
           troopType: 'reserves',
-          soldierCount: 2450,
+          soldierCount: 2200,
           commander: 'Zayd ibn al-Khattab',
           startPosition: { x: 130, y: 500 },
           startFormation: 'column',
@@ -281,13 +384,30 @@ export const battleOfYamama: BattleScenario = {
           stats: { attack: 7, defense: 7, speed: 5, morale: 9 },
         },
         {
-          // Wahshi ibn Harb — small skirmisher unit. The same man who
-          // killed Hamza at Uhud, now a Muslim. Will cast the javelin
-          // that kills Musaylimah. Keep the count tiny so the renderer
-          // shows a single distinct figure.
+          // Abu Dujana Simak ibn Kharasha al-Ansari — the swordsman who
+          // fought beside Wahshi to finish Musaylimah (the Ansari finisher
+          // named in tradition; Bukhari leaves him unnamed). He fell at
+          // Yamama, completing the symmetry with Uhud.
+          id: 'abu-dujana',
+          name: "Abu Dujana al-Ansari",
+          nameAr: 'كتيبة أبي دجانة الأنصاري',
+          troopType: 'infantry',
+          soldierCount: 450,
+          commander: 'Abu Dujana al-Ansari',
+          startPosition: { x: 290, y: 560 },
+          startFormation: 'line',
+          startFacing: 0,
+          stats: { attack: 9, defense: 7, speed: 6, morale: 10 },
+        },
+        {
+          // Wahshi ibn Harb — the Ethiopian freedman who killed Hamza
+          // at Uhud, now a Muslim. Threw the same harba (short spear)
+          // at Musaylimah inside the garden. Bukhari 4072 preserves
+          // his self-narration framing it as expiation. Tiny unit so
+          // the renderer reads him as a single distinct figure.
           id: 'wahshi',
           name: 'Wahshi ibn Harb',
-          nameAr: 'وحشي بن حرب',
+          nameAr: 'كتيبة وحشي بن حرب',
           troopType: 'infantry',
           soldierCount: 50,
           commander: 'Wahshi ibn Harb',
@@ -307,27 +427,50 @@ export const battleOfYamama: BattleScenario = {
       totalStrength: 40000,
       units: [
         {
-          // Muhakkim's elite cavalry — the strike force that breaks the
-          // Muslim front lines in phase 1. Killed during the counter-attack.
+          // Muhakkim ibn al-Tufayl ('Muhakkim al-Yamama') — commanded
+          // the Hanafi cavalry wing. The strike force that broke the
+          // Muslim front in Phase 1. Killed during the rearguard
+          // fighting of the retreat to the garden; his fall triggered
+          // the rout.
           id: 'muhakkim-cavalry',
           name: "Muhakkim's Cavalry",
-          nameAr: 'فرسان محكّم',
+          nameAr: 'كتيبة محكّم بن الطفيل',
           troopType: 'heavy_cavalry',
           soldierCount: 5000,
-          commander: 'Muhakkim al-Yamama',
+          commander: 'Muhakkim ibn al-Tufayl',
           startPosition: { x: 880, y: 400 },
           startFormation: 'wedge',
-          startFacing: Math.PI, // facing west toward Muslims
+          startFacing: Math.PI, // west toward Muslims
           stats: { attack: 9, defense: 7, speed: 8, morale: 9 },
         },
         {
+          // al-Rajjal ibn Unfuwa — the apostate former Companion sent
+          // by Madinah to teach Banu Hanifa the Qur'an, who instead
+          // defected and falsely testified that the Prophet ﷺ named
+          // Musaylimah co-prophet. Killed by Zayd ibn al-Khattab; his
+          // death is the moral collapse-point of Hanafi morale.
+          id: 'al-rajjal',
+          name: 'al-Rajjal ibn Unfuwa',
+          nameAr: 'كتيبة نهار الرجّال بن عُنفُوة',
+          troopType: 'infantry',
+          soldierCount: 3000,
+          commander: 'Nahar al-Rajjal ibn Unfuwa',
+          startPosition: { x: 850, y: 540 },
+          startFormation: 'line',
+          startFacing: Math.PI,
+          stats: { attack: 8, defense: 7, speed: 5, morale: 8 },
+        },
+        {
+          // The mass infantry center of Banu Hanifa. Their first charge
+          // under al-Rajjal and Muhakkim drove the Muslims back through
+          // their own camp, prompting the Hanafi taunt.
           id: 'hanifa-center',
           name: 'Banu Hanifa Center',
           nameAr: 'قلب بني حنيفة',
           troopType: 'infantry',
-          soldierCount: 15000,
+          soldierCount: 12000,
           commander: undefined,
-          startPosition: { x: 900, y: 500 },
+          startPosition: { x: 920, y: 500 },
           startFormation: 'line',
           startFacing: Math.PI,
           stats: { attack: 8, defense: 7, speed: 5, morale: 8 },
@@ -357,11 +500,12 @@ export const battleOfYamama: BattleScenario = {
           stats: { attack: 7, defense: 7, speed: 5, morale: 8 },
         },
         {
-          // Garden defenders — sit inside the walls from t=0, fight only
-          // during the garden-assault phases.
+          // Garden defenders — sit inside the walls from t=0,
+          // engage only during the assault phases. Traditional sources
+          // give ~7,000 killed inside Hadiqat al-Mawt.
           id: 'garden-defenders',
           name: 'Garden Defenders',
-          nameAr: 'حُماة الحديقة',
+          nameAr: 'كتيبة حُماة الحديقة',
           troopType: 'infantry',
           soldierCount: 4500,
           commander: undefined,
@@ -371,14 +515,32 @@ export const battleOfYamama: BattleScenario = {
           stats: { attack: 7, defense: 9, speed: 4, morale: 8 },
         },
         {
-          // Musaylimah and his personal guard. Small unit so the figure
-          // reads as a distinct person on screen during the killing.
+          // Mujja'a ibn Murara — the Hanifa elder who survived as
+          // chief negotiator with Khalid after the battle, famously
+          // inflating the garrison's apparent strength to secure
+          // favorable surrender terms. Captured during the rout;
+          // identified Musaylimah's small sallow corpse.
+          id: 'mujjaa',
+          name: "Mujja'a ibn Murara",
+          nameAr: 'كتيبة مُجَّاعة بن مُرارة',
+          troopType: 'infantry',
+          soldierCount: 1000,
+          commander: "Mujja'a ibn Murara",
+          startPosition: { x: 1100, y: 600 },
+          startFormation: 'line',
+          startFacing: Math.PI,
+          stats: { attack: 7, defense: 7, speed: 5, morale: 8 },
+        },
+        {
+          // Musaylimah and his personal guard. Took refuge inside
+          // Hadiqat al-Mawt. Mujja'a identified his small sallow
+          // corpse after the slaughter.
           id: 'musaylimah-guard',
           name: "Musaylimah's Guard",
-          nameAr: 'حرس مسيلمة',
+          nameAr: 'كتيبة حرس مسيلمة',
           troopType: 'heavy_cavalry',
           soldierCount: 1500,
-          commander: 'Musaylimah al-Kadhdhab',
+          commander: 'Musaylimah ibn Habib al-Kadhdhab',
           startPosition: { x: 1340, y: 510 },
           startFormation: 'wedge',
           startFacing: Math.PI,
@@ -388,46 +550,65 @@ export const battleOfYamama: BattleScenario = {
     },
   ],
 
-  // ─── Phases (60 simulation seconds) ────────────────────────────────────────
   phases: [
-    // Phase 1 (0–10s): The Initial Clash. Banu Hanifa attacks aggressively,
-    // breaks through the Muslim front, pushes them back toward the camp.
+    // Phase 1 (0–4s): Opening Deployment. Khalid's army draws up on
+    // the Aqraba plain. Banu Hanifa massed in front of Hadiqat al-Rahman.
     {
-      id: 'initial-clash',
-      name: 'The Initial Clash',
-      nameAr: 'الصدام الأول',
+      id: 'opening-deployment',
+      name: 'Deployment on Aqraba',
+      nameAr: 'الاصطفاف على عقرباء',
       startTime: 0,
-      duration: 10,
+      duration: 4,
       description:
-        'Banu Hanifa launches a ferocious assault. Muhakkim leads his cavalry through the Muslim front lines, scattering the tribal Bedouin cavalry. The Muslim front bends.',
+        "Khalid's army (Muhajirun under Salim, Ansar under Thabit, Bedouin contingents, ~13,000 total) draws up on the Aqraba plain. Banu Hanifa massed in front of Hadiqat al-Rahman. Wide reveal: dust over Aqraba, the dark Najd ridges, the walled garden glinting on the eastern horizon.",
       actions: [
-        { type: 'camera_move', params: { x: 700, y: 500, zoom: 0.65, duration: 2.5 }, delay: 0 },
+        { type: 'camera_move', params: { x: 700, y: 500, zoom: 0.42, duration: 3 }, delay: 0 },
+      ],
+      triggers: [],
+    },
+
+    // Phase 2 (4–12s): The Hanafi Shock-Charge. Muhakkim and al-Rajjal
+    // launch the wedge that breaks the mixed Muslim line. The taunt
+    // rings out: "ya ashab Surat al-Baqara, batalat al-Baqara al-yawm!"
+    {
+      id: 'hanifa-shock-charge',
+      name: 'The Hanafi Shock-Charge',
+      nameAr: 'صدمة بني حنيفة',
+      startTime: 4,
+      duration: 8,
+      description:
+        "The Hanafi line under Muhakkim ibn al-Tufayl and al-Rajjal ibn Unfuwa launches a ferocious shock-charge that breaks the initially mixed Muslim line. The Hanafi taunt rings out: 'O people of Surat al-Baqara — today al-Baqara has failed!' The Bedouin allies waver.",
+      actions: [
+        { type: 'camera_move', params: { x: 700, y: 480, zoom: 0.6, duration: 2 }, delay: 0 },
         // Banu Hanifa surges forward
         { type: 'move_unit', targetUnitId: 'muhakkim-cavalry', params: { position: { x: 500, y: 460 }, speed: 110 }, delay: 0.5 },
         { type: 'move_unit', targetUnitId: 'hanifa-center', params: { position: { x: 600, y: 500 }, speed: 75 }, delay: 1 },
         { type: 'move_unit', targetUnitId: 'hanifa-right', params: { position: { x: 600, y: 360 }, speed: 70 }, delay: 1 },
         { type: 'move_unit', targetUnitId: 'hanifa-left', params: { position: { x: 600, y: 640 }, speed: 70 }, delay: 1 },
-        // Engagements: Hanifa cav strikes Bedouin allies, breaks them
+        { type: 'move_unit', targetUnitId: 'al-rajjal', params: { position: { x: 560, y: 540 }, speed: 80 }, delay: 1 },
+        // Engagements: cavalry shatters the Bedouin allies; infantry hits the line
         { type: 'attack_unit', targetUnitId: 'muhakkim-cavalry', params: { targetId: 'bedouin-allies' }, delay: 4 },
         { type: 'attack_unit', targetUnitId: 'hanifa-center', params: { targetId: 'muhajirun' }, delay: 5 },
         { type: 'attack_unit', targetUnitId: 'hanifa-right', params: { targetId: 'ansar' }, delay: 5 },
+        { type: 'attack_unit', targetUnitId: 'al-rajjal', params: { targetId: 'muslim-reserve' }, delay: 5 },
         { type: 'attack_unit', targetUnitId: 'hanifa-left', params: { targetId: 'ansar' }, delay: 5.5 },
       ],
       triggers: [],
     },
 
-    // Phase 2 (10–15s): Muslims falter. The line bends, casualties mount,
-    // Banu Hanifa reaches the women's camp.
+    // Phase 3 (12–17s): Camp Overrun. Hanafi units break through
+    // and reach the women's tents. Khalid cries: "al-yawma yawm
+    // al-ghayrah!"
     {
-      id: 'muslims-falter',
-      name: 'The Lines Bend',
-      nameAr: 'تتمايل الصفوف',
-      startTime: 10,
+      id: 'camp-overrun',
+      name: 'The Camp Overrun',
+      nameAr: 'اقتحام المعسكر',
+      startTime: 12,
       duration: 5,
       description:
-        "The Muslim front gives way. Bedouin allies break and run. The Ansar and Muhajirun are pushed back; Banu Hanifa reaches the women's tents.",
+        "Hanafi units break through and reach the women's tents. Khalid's wife Umm Tamim is nearly captured. Bedouin allies break and run. Khalid roars: 'al-yawma yawm al-ghayrah!' (Today is the day of jealous honour) — Tabari preserves the verbatim phrase.",
       actions: [
-        { type: 'camera_move', params: { x: 500, y: 480, zoom: 0.8, duration: 1.5 }, delay: 0 },
+        { type: 'camera_move', params: { x: 450, y: 500, zoom: 0.55, duration: 1.5 }, delay: 0 },
         // Bedouin allies break — fall back to the camp
         { type: 'set_behavior', targetUnitId: 'bedouin-allies', params: { behavior: 'retreating' }, delay: 0 },
         { type: 'move_unit', targetUnitId: 'bedouin-allies', params: { position: { x: 100, y: 480 }, speed: 130 }, delay: 0 },
@@ -438,77 +619,99 @@ export const battleOfYamama: BattleScenario = {
       triggers: [],
     },
 
-    // Phase 3 (15–22s): Khalid orders the famous reorganization. Each
-    // tribe under its own banner. The Muhajirun, the Ansar, and the
-    // Bedouin contingents pull apart and re-form, identifiable by banner.
+    // Phase 4 (17–24s): Tribal-Banner Reorganization. On Thabit ibn
+    // Qays's advice Khalid orders «تَمَيَّزُوا!» — each tribe under
+    // its own banner. Thabit perfumes himself with hanut.
     {
-      id: 'khalid-reorganizes',
+      id: 'tribal-reorganization',
       name: "Khalid's Tribal Reorganization",
-      nameAr: 'تنظيم خالد للقبائل',
-      startTime: 15,
+      nameAr: 'تميَّزوا — تنظيم الرايات',
+      startTime: 17,
       duration: 7,
       description:
-        'Khalid rides among the troops shouting "تميَّزوا!" — let each tribe fight under its own banner. The Muslim line re-forms, this time with each contingent fighting beside its own kin.',
+        "On Thabit ibn Qays's advice Khalid orders the tribal reorganization: Muhajirun under Salim's banner, Ansar under Thabit's, Bedouin sidelined. Thabit perfumes himself with hanut and rebukes the fleers: 'bi'sa ma awwadtum aqranakum' (Bukhari 2845).",
       actions: [
-        { type: 'camera_move', params: { x: 280, y: 500, zoom: 0.95, duration: 2 }, delay: 0 },
+        { type: 'camera_move', params: { x: 320, y: 500, zoom: 0.7, duration: 2 }, delay: 0 },
         // Khalid rides forward
         { type: 'move_unit', targetUnitId: 'khalid-vanguard', params: { position: { x: 380, y: 500 }, speed: 110 }, delay: 1 },
-        // Bedouin allies rally and return
-        { type: 'set_behavior', targetUnitId: 'bedouin-allies', params: { behavior: 'advancing' }, delay: 2 },
-        { type: 'move_unit', targetUnitId: 'bedouin-allies', params: { position: { x: 350, y: 500 }, speed: 90 }, delay: 2.5 },
-        // Muhajirun realign in tighter line
+        // Muhajirun realign in tighter line under Salim's banner
         { type: 'change_formation', targetUnitId: 'muhajirun', params: { formation: 'line' }, delay: 1 },
         { type: 'move_unit', targetUnitId: 'muhajirun', params: { position: { x: 360, y: 380 }, speed: 60 }, delay: 1.5 },
-        // Ansar reform
+        // Ansar reform under Thabit's banner
         { type: 'change_formation', targetUnitId: 'ansar', params: { formation: 'line' }, delay: 1 },
         { type: 'move_unit', targetUnitId: 'ansar', params: { position: { x: 360, y: 620 }, speed: 60 }, delay: 1.5 },
-        // Bara'a forward
+        // al-Bara's company forward
         { type: 'move_unit', targetUnitId: 'baraa-company', params: { position: { x: 420, y: 480 }, speed: 80 }, delay: 3 },
+        // Bedouin allies rally back to a flank position
+        { type: 'set_behavior', targetUnitId: 'bedouin-allies', params: { behavior: 'advancing' }, delay: 2 },
+        { type: 'move_unit', targetUnitId: 'bedouin-allies', params: { position: { x: 300, y: 540 }, speed: 90 }, delay: 2.5 },
+        // Abu Dujana joins the Ansar wing
+        { type: 'move_unit', targetUnitId: 'abu-dujana', params: { position: { x: 360, y: 580 }, speed: 70 }, delay: 2.5 },
       ],
       triggers: [],
     },
 
-    // Phase 4 (22–32s): The Counter-Attack. Reorganized Muslims advance.
-    // Khalid drives a wedge into Muhakkim's cavalry. The Banu Hanifa
-    // center buckles.
+    // Phase 5 (24–33s): The Reciters' Counter-Charge. Three banners
+    // surge forward. Khalid drives his wedge into Muhakkim. Zayd
+    // exhorts the Muhajirun.
     {
-      id: 'counter-attack',
-      name: 'The Counter-Attack',
-      nameAr: 'الهجوم المضاد',
-      startTime: 22,
-      duration: 10,
+      id: 'reciters-counter-charge',
+      name: "The Reciters' Counter-Charge",
+      nameAr: 'حملة القراء',
+      startTime: 24,
+      duration: 9,
       description:
-        'The reorganized Muslim line advances as one. Khalid charges Muhakkim head-on. The Muhajirun and Ansar press the Banu Hanifa center and wings simultaneously.',
+        "The reorganized line — banners flying, men beside their kin — surges forward. Salim mawla Abi Hudhayfa carries the Muhajirun standard. Zayd ibn al-Khattab exhorts: 'O people, bite down on your molars, strike your enemy, press forward; by Allah I shall not speak until they are routed or I meet Allah and speak my plea.' Khalid drives his wedge into Muhakkim's cavalry.",
       actions: [
-        { type: 'camera_move', params: { x: 600, y: 500, zoom: 0.6, duration: 2 }, delay: 0 },
+        { type: 'camera_move', params: { x: 600, y: 500, zoom: 0.45, duration: 2.5 }, delay: 0 },
         // Charges
         { type: 'move_unit', targetUnitId: 'khalid-vanguard', params: { position: { x: 580, y: 470 }, speed: 130 }, delay: 0 },
         { type: 'move_unit', targetUnitId: 'muhajirun', params: { position: { x: 560, y: 400 }, speed: 80 }, delay: 1 },
         { type: 'move_unit', targetUnitId: 'ansar', params: { position: { x: 560, y: 600 }, speed: 80 }, delay: 1 },
         { type: 'move_unit', targetUnitId: 'baraa-company', params: { position: { x: 620, y: 480 }, speed: 90 }, delay: 1 },
+        { type: 'move_unit', targetUnitId: 'muslim-reserve', params: { position: { x: 520, y: 500 }, speed: 80 }, delay: 1 },
+        { type: 'move_unit', targetUnitId: 'abu-dujana', params: { position: { x: 560, y: 570 }, speed: 80 }, delay: 1 },
         { type: 'move_unit', targetUnitId: 'bedouin-allies', params: { position: { x: 580, y: 530 }, speed: 95 }, delay: 1 },
         // Engagements
         { type: 'attack_unit', targetUnitId: 'khalid-vanguard', params: { targetId: 'muhakkim-cavalry' }, delay: 2 },
         { type: 'attack_unit', targetUnitId: 'muhajirun', params: { targetId: 'hanifa-right' }, delay: 3 },
         { type: 'attack_unit', targetUnitId: 'ansar', params: { targetId: 'hanifa-left' }, delay: 3 },
         { type: 'attack_unit', targetUnitId: 'baraa-company', params: { targetId: 'hanifa-center' }, delay: 3 },
+        { type: 'attack_unit', targetUnitId: 'muslim-reserve', params: { targetId: 'al-rajjal' }, delay: 3 },
       ],
       triggers: [],
     },
 
-    // Phase 5 (32–37s): Death of Muhakkim. The cavalry breaks. Banu
-    // Hanifa morale collapses. They begin to retreat eastward toward
-    // the garden.
+    // Phase 6 (33–37s): Fall of al-Rajjal. Zayd kills the apostate.
+    // Hanafi morale buckles. Then Zayd himself falls, banner held high.
+    {
+      id: 'fall-of-al-rajjal',
+      name: 'The Fall of al-Rajjal',
+      nameAr: 'مصرع الرجّال بن عُنفُوة',
+      startTime: 33,
+      duration: 4,
+      description:
+        "Zayd ibn al-Khattab kills al-Rajjal ibn Unfuwa — the apostate ex-Companion who legitimized Musaylimah. Hanafi morale buckles. Zayd then falls himself, killed by Abu Maryam al-Hanafi while still holding the banner. The standard does not fall — Salim catches it.",
+      actions: [
+        { type: 'camera_move', params: { x: 560, y: 520, zoom: 0.95, duration: 1.3 }, delay: 0 },
+        { type: 'attack_unit', targetUnitId: 'muslim-reserve', params: { targetId: 'al-rajjal' }, delay: 0.5 },
+        { type: 'destroy_unit', targetUnitId: 'al-rajjal', params: {}, delay: 1.5 },
+      ],
+      triggers: [],
+    },
+
+    // Phase 7 (37–42s): The Fall of Muhakkim. Hanafi cavalry breaks.
+    // Infantry begins streaming east toward the garden gate.
     {
       id: 'muhakkim-falls',
       name: 'The Fall of Muhakkim',
       nameAr: 'مصرع محكّم اليمامة',
-      startTime: 32,
+      startTime: 37,
       duration: 5,
       description:
-        "Khalid's vanguard cuts through the cavalry. Muhakkim al-Yamama falls. The Banu Hanifa cavalry breaks; foot soldiers begin to fall back toward the walled garden.",
+        "Muhakkim ibn al-Tufayl falls during the rearguard fighting as he tries to cover the Hanafi withdrawal. The Hanafi cavalry breaks. Infantry begins streaming east toward the garden gate.",
       actions: [
-        { type: 'camera_move', params: { x: 580, y: 470, zoom: 1.1, duration: 1.2 }, delay: 0 },
+        { type: 'camera_move', params: { x: 580, y: 470, zoom: 0.85, duration: 1.5 }, delay: 0 },
         // Muhakkim's cavalry destroyed
         { type: 'destroy_unit', targetUnitId: 'muhakkim-cavalry', params: {}, delay: 1.5 },
         // Hanifa starts retreating to the garden
@@ -522,23 +725,41 @@ export const battleOfYamama: BattleScenario = {
       triggers: [],
     },
 
-    // Phase 6 (37–44s): Retreat to the Garden. Banu Hanifa survivors
-    // pour through the single gate. Muslims pursue, but the gate is
-    // shut behind the last defender.
+    // Phase 8 (42–48s): Martyrdom of the Reciters. Salim holds the
+    // Muhajirun banner until both his hands are severed; he clutches
+    // it to his chest reciting Q3:144 and dies. Found embracing Abu
+    // Hudhayfa. Hundreds of huffaz are martyred.
+    {
+      id: 'martyrdom-of-the-reciters',
+      name: 'Martyrdom of the Reciters',
+      nameAr: 'استشهاد القراء',
+      startTime: 42,
+      duration: 6,
+      description:
+        "During the rout's pursuit, the standard-bearers fall. Salim mawla Abi Hudhayfa holds the Muhajirun banner until both his hands are severed; he clutches it to his chest reciting Q3:144 'wa ma Muhammadun illa rasul' and dies. Found embracing his master Abu Hudhayfa ibn Utba. Hundreds of huffaz are martyred. Total Muslim losses ~1,200, of whom traditional sources count 360–700 huffaz.",
+      actions: [
+        { type: 'camera_move', params: { x: 700, y: 460, zoom: 0.9, duration: 2 }, delay: 0 },
+      ],
+      triggers: [],
+    },
+
+    // Phase 9 (48–53s): Retreat to the Garden. Hanifa survivors pour
+    // through the single gate. The gate slams shut.
     {
       id: 'retreat-to-garden',
       name: 'Retreat to the Garden',
       nameAr: 'الفرار إلى الحديقة',
-      startTime: 37,
-      duration: 7,
+      startTime: 48,
+      duration: 5,
       description:
-        'The Banu Hanifa survivors pour through the single gate of the walled garden. The gate slams shut behind them; the surviving Muslims line the wall but cannot enter.',
+        "Banu Hanifa survivors pour through the single gate of Hadiqat al-Rahman. The gate slams shut behind the last man. The walls are too high to climb directly. Muslims surround the garden but cannot enter.",
       actions: [
-        { type: 'camera_move', params: { x: 1100, y: 510, zoom: 0.7, duration: 2 }, delay: 0 },
+        { type: 'camera_move', params: { x: 1080, y: 510, zoom: 0.55, duration: 2.5 }, delay: 0 },
         // Hanifa units enter the garden
         { type: 'move_unit', targetUnitId: 'hanifa-center', params: { position: { x: 1240, y: 510 }, speed: 130 }, delay: 0 },
         { type: 'move_unit', targetUnitId: 'hanifa-right', params: { position: { x: 1200, y: 400 }, speed: 130 }, delay: 0 },
         { type: 'move_unit', targetUnitId: 'hanifa-left', params: { position: { x: 1200, y: 620 }, speed: 130 }, delay: 0 },
+        { type: 'move_unit', targetUnitId: 'mujjaa', params: { position: { x: 1220, y: 600 }, speed: 110 }, delay: 0 },
         // Muslims reach the wall
         { type: 'move_unit', targetUnitId: 'muhajirun', params: { position: { x: 980, y: 380 }, speed: 90 }, delay: 1 },
         { type: 'move_unit', targetUnitId: 'ansar', params: { position: { x: 980, y: 620 }, speed: 90 }, delay: 1 },
@@ -548,21 +769,20 @@ export const battleOfYamama: BattleScenario = {
       triggers: [],
     },
 
-    // Phase 7 (44–50s): Bara'a's Wall. Bara'a ibn Malik volunteers to
-    // be hoisted onto a shield and dropped over the wall. He fights
-    // through to the gate and throws it open. The Muslims pour in.
+    // Phase 10 (53–60s): al-Bara's Shield-Toss. He calls «أَرْسِلُونِي
+    // عَلَى تُرْسِكُم». Hoisted on shields, vaulted over the wall,
+    // fights through to the gate, throws it open.
     {
       id: 'baraas-wall',
-      name: "Bara'a's Wall",
-      nameAr: 'البراء يقتحم الجدار',
-      startTime: 44,
-      duration: 6,
+      name: "al-Bara's Shield-Toss",
+      nameAr: 'اقتحام البراء بن مالك',
+      startTime: 53,
+      duration: 7,
       description:
-        'Bara’a ibn Malik says: "Lift me on a shield and throw me over the wall!" He drops inside, fights ten wounds, reaches the gate, and throws it open. The Muslim army surges into the Garden.',
+        "al-Bara ibn Malik says: 'irfa'uni ala al-turus wa-alquni fi al-hadiqa' (Ibn Sa'd, Tabaqat 7/17). His comrades hoist him on shields raised on spears, drop him over the wall. He fights through to the gate alone, sustains ~80 wounds, throws the gate open from inside. Muslims pour through. He survives a month of convalescence under Khalid's care.",
       actions: [
-        // Cinematic close-up on Bara'a as he climbs
-        { type: 'camera_move', params: { x: 1240, y: 380, zoom: 1.6, duration: 1.5 }, delay: 0 },
-        // Bara'a's company rushes the wall point
+        { type: 'camera_move', params: { x: 1230, y: 380, zoom: 1.5, duration: 1.5 }, delay: 0 },
+        // al-Bara is hoisted and vaulted
         { type: 'move_unit', targetUnitId: 'baraa-company', params: { position: { x: 1240, y: 360 }, speed: 130 }, delay: 0 },
         { type: 'attack_unit', targetUnitId: 'baraa-company', params: { targetId: 'garden-defenders' }, delay: 2 },
         // Gate opens — pan to gate
@@ -572,24 +792,25 @@ export const battleOfYamama: BattleScenario = {
         { type: 'move_unit', targetUnitId: 'muhajirun', params: { position: { x: 1180, y: 420 }, speed: 100 }, delay: 4 },
         { type: 'move_unit', targetUnitId: 'ansar', params: { position: { x: 1180, y: 600 }, speed: 100 }, delay: 4 },
         { type: 'move_unit', targetUnitId: 'wahshi', params: { position: { x: 1240, y: 480 }, speed: 100 }, delay: 4.5 },
+        { type: 'move_unit', targetUnitId: 'abu-dujana', params: { position: { x: 1220, y: 540 }, speed: 100 }, delay: 4.5 },
       ],
       triggers: [],
     },
 
-    // Phase 8 (50–56s): Garden of Death. Massive slaughter inside the
-    // walled enclosure. The Muslim contingents engage all defenders.
-    // Heavy losses on both sides — many huffaz fall here.
+    // Phase 11 (60–64s): Hadiqat al-Mawt. Inside the walls, retreat
+    // is impossible. The orchard runs red. Hadiqat al-Rahman becomes
+    // Hadiqat al-Mawt.
     {
       id: 'garden-of-death',
       name: 'The Garden of Death',
       nameAr: 'حديقة الموت',
-      startTime: 50,
-      duration: 6,
+      startTime: 60,
+      duration: 4,
       description:
-        'Inside the walls, retreat is impossible. The Muslims and Banu Hanifa fight at sword-point in cramped space. The garden runs red. Roughly 700 memorizers of the Qur’an are martyred here.',
+        "Inside the walls, retreat is impossible. The Muslims and the ~7,000 Hanafi defenders fight at sword-point in cramped space. The garden runs red. Banu Hanifa's military power is permanently broken. The orchard, once Hadiqat al-Rahman, is renamed Hadiqat al-Mawt — the Garden of Death.",
       actions: [
-        { type: 'camera_move', params: { x: 1240, y: 510, zoom: 0.9, duration: 2 }, delay: 0 },
-        // All Muslim units engage all garden defenders
+        { type: 'camera_move', params: { x: 1240, y: 510, zoom: 0.65, duration: 2 }, delay: 0 },
+        // Engagements inside the garden
         { type: 'attack_unit', targetUnitId: 'khalid-vanguard', params: { targetId: 'garden-defenders' }, delay: 0.5 },
         { type: 'attack_unit', targetUnitId: 'muhajirun', params: { targetId: 'hanifa-right' }, delay: 1 },
         { type: 'attack_unit', targetUnitId: 'ansar', params: { targetId: 'hanifa-left' }, delay: 1 },
@@ -598,191 +819,210 @@ export const battleOfYamama: BattleScenario = {
       triggers: [],
     },
 
-    // Phase 9 (56–60s): The Death of Musaylimah. Wahshi ibn Harb throws
-    // his javelin — the same one that killed Hamza at Uhud. Musaylimah
-    // falls. Banu Hanifa surrenders.
+    // Phase 12 (64–68s): Wahshi and the Javelin. The same harba that
+    // killed Hamza at Uhud strikes Musaylimah. Abu Dujana finishes
+    // him. Mujja'a identifies the corpse. The Mushaf is foreshadowed.
     {
-      id: 'musaylimah-falls',
-      name: 'The Death of Musaylimah',
-      nameAr: 'مصرع مسيلمة الكذاب',
-      startTime: 56,
+      id: 'wahshi-and-the-javelin',
+      name: 'Wahshi and the Javelin',
+      nameAr: 'وحشيٌّ والحربة',
+      startTime: 64,
       duration: 4,
       description:
-        'Wahshi ibn Harb hurls his javelin — the same weapon he once used to kill Hamza ibn Abd al-Muttalib at Uhud. Musaylimah falls. Banu Hanifa surrenders. The Ridda Wars are decided.',
+        "Wahshi ibn Harb — the Ethiopian who killed Hamza at Uhud — hurls his harba (the same short spear) at Musaylimah. An Ansari (Abu Dujana in tradition; unnamed in Bukhari) strikes simultaneously with the sword. Mujja'a identifies the small sallow corpse. Wahshi narrates in Bukhari 4072 framed as expiation. Banu Hanifa surrender; the Mushaf is commissioned in Madinah; the Ridda Wars are decided.",
       actions: [
-        // Snap close-up on Wahshi
-        { type: 'camera_move', params: { x: 1320, y: 510, zoom: 1.8, duration: 1.0 }, delay: 0 },
+        { type: 'camera_move', params: { x: 1320, y: 510, zoom: 0.92, duration: 1 }, delay: 0 },
         { type: 'move_unit', targetUnitId: 'wahshi', params: { position: { x: 1310, y: 510 }, speed: 120 }, delay: 0.2 },
         { type: 'attack_unit', targetUnitId: 'wahshi', params: { targetId: 'musaylimah-guard' }, delay: 0.8 },
+        { type: 'attack_unit', targetUnitId: 'abu-dujana', params: { targetId: 'musaylimah-guard' }, delay: 1.0 },
         // Musaylimah's guard falls
         { type: 'destroy_unit', targetUnitId: 'musaylimah-guard', params: {}, delay: 2 },
         // Pull back for the aftermath
-        { type: 'camera_move', params: { x: 1240, y: 510, zoom: 0.5, duration: 2 }, delay: 2.5 },
+        { type: 'camera_move', params: { x: 900, y: 500, zoom: 0.4, duration: 1.5 }, delay: 2.5 },
       ],
       triggers: [],
     },
   ],
 
-  // ─── Narration ─────────────────────────────────────────────────────────────
   narration: [
     {
       id: 'opening',
       time: 0.5,
-      duration: 6,
-      text: 'Battle of al-Yamamah — 12 AH. Khalid ibn al-Walid leads ~13,000 Muslims against 40,000 of Banu Hanifa under the false prophet Musaylimah.',
+      duration: 5,
+      text: 'The Battle of al-Yamama — late 11–12 AH, in the caliphate of Abu Bakr al-Siddiq. On the plain of Aqraba, Khalid ibn al-Walid meets Banu Hanifa under Musaylimah the Liar — thirteen thousand against forty.',
       textAr:
-        'معركة اليمامة — السنة الثانية عشر للهجرة. يقود خالد بن الوليد قرابة ثلاثة عشر ألفاً من المسلمين في مواجهة أربعين ألفاً من بني حنيفة، يتزعّمهم مسيلمة الكذاب.',
+        'مَعْرَكَةُ الْيَمَامَة — أَوَاخِرُ الْحَادِيَةِ عَشْرَةَ مِنَ الْهِجْرَة، فِي خِلَافَةِ أَبِي بَكْرٍ الصِّدِّيقِ رَضِيَ اللهُ عَنْه. عَلَى سَهْلِ عَقْرَبَاءَ يَلْتَقِي خَالِدُ بْنُ الْوَلِيدِ بِثَلَاثَةَ عَشَرَ أَلْفًا، وَمُسَيْلِمَةُ الْكَذَّابُ بِأَرْبَعِينَ أَلْفًا مِنْ بَنِي حَنِيفَة.',
       position: 'bottom',
       style: 'normal',
     },
     {
-      id: 'first-clash',
-      time: 5,
+      id: 'first-shock',
+      time: 6,
       duration: 5,
-      text: "Banu Hanifa's cavalry strikes first. Muhakkim al-Yamama scatters the Bedouin tribes; the Muslim front bends and breaks.",
+      text: "Muhakkim al-Yamama charges with his cavalry; al-Rajjal ibn Unfuwa, the apostate Companion, drives forward. Banu Hanifa taunt the Muslims: 'O people of Surat al-Baqara — today al-Baqara has failed!' The Muslim line trembles.",
       textAr:
-        'يَحْمِلُ محكَّمُ اليمامةِ بفرسانِه على القبائل العربيّة فيُفرِّقُها. يَتَزعزعُ صفُّ المسلمين الأوّل ويَتراجع.',
+        'يَحْمِلُ مُحَكَّمُ الْيَمَامَةِ بِفُرْسَانِهِ، وَيَنْدَفِعُ الرَّجَّالُ بْنُ عُنْفُوَةَ — الْمُرْتَدُّ مِنَ الصَّحَابَة — وَيَتَنَادَى بَنُو حَنِيفَةَ سَاخِرِينَ: «يَا أَهْلَ سُورَةِ الْبَقَرَةِ، بَطَلَتِ الْبَقَرَةُ الْيَوْم!» يَتَزَعْزَعُ صَفُّ الْمُسْلِمِينَ.',
       position: 'bottom',
       style: 'dramatic',
     },
     {
-      id: 'lines-bend',
-      time: 11,
+      id: 'camp-overrun',
+      time: 12.5,
       duration: 4,
-      text: "Banu Hanifa reach the women's tents — the Muslim camp itself is in danger.",
+      text: "Banu Hanifa reach the women's tents — the camp itself is in danger. Khalid roars to his men: 'Today is the day of jealous honour — today reputations are defended!'",
       textAr:
-        'يَبْلُغُ بنو حنيفةَ خِيامَ النساءِ! المعسكرُ ذاتُه يَكادُ يَسقط.',
-      position: 'bottom',
-      style: 'dramatic',
-    },
-    {
-      id: 'reorganization',
-      time: 16,
-      duration: 6,
-      text: 'Khalid rides among the men shouting: "Distinguish yourselves! Let each tribe fight under its own banner!"',
-      textAr:
-        'يَجولُ خالدُ بين الناسِ صائحاً: «تَميَّزُوا! ليُقاتِل كلُّ قومٍ تحتَ رايتِهم» فيَتميَّز المهاجرون والأنصارُ والقبائلُ كلٌّ تحتَ رايتِه.',
+        'يَبْلُغُ بَنُو حَنِيفَةَ خِيَامَ النِّسَاء! يَكَادُ مُعَسْكَرُ الْمُسْلِمِينَ يَسْقُط. وَيَصِيحُ خَالِدٌ فِي جُنْدِهِ: «الْيَوْمَ يَوْمُ الْغَيْرَة، الْيَوْمَ تُذَبُّ الْأَحْسَاب!»',
       position: 'top',
-      style: 'normal',
-    },
-    {
-      id: 'counter-attack',
-      time: 23,
-      duration: 5,
-      text: "The reorganized Muslim line surges forward. Khalid drives his wedge into Muhakkim's cavalry.",
-      textAr:
-        'يَنطلقُ الصفُّ المُتميِّزُ كالسَّيلِ. يَشُقُّ خالدُ بمقدمتِه فُرسانَ محكَّم.',
-      position: 'bottom',
-      style: 'normal',
-    },
-    {
-      id: 'muhakkim-killed',
-      time: 33,
-      duration: 4,
-      text: 'Muhakkim al-Yamama falls. The Banu Hanifa cavalry breaks. The infantry begins to flee toward the walled garden.',
-      textAr:
-        'يَسقُطُ محكَّمُ اليمامة. تَنكَسرُ خيلُ بني حنيفة، ويَبدأ المُشاةُ بالفرارِ نحوَ الحديقةِ المسوَّرة.',
-      position: 'bottom',
       style: 'dramatic',
     },
     {
-      id: 'the-garden',
-      time: 39,
+      id: 'thabit-hanut',
+      time: 17.5,
       duration: 5,
-      text: 'The survivors pour into a walled garden — حديقة الرحمن — and shut the gate behind them. Inside: thousands of warriors with no escape.',
+      text: "Thabit ibn Qays anoints himself with hanut — the perfume of the dying — wraps his shroud upon himself, and rebukes the fleeing men: 'What an evil habit you have taught your foes!'",
       textAr:
-        'يَتَدافعُ مَن بقِيَ من بني حنيفةَ داخلَ الحديقةِ المسوَّرة — حديقةِ الرحمن — ثُمَّ يُوصدون البابَ خلفَهم. آلافُ المقاتلين في حصارٍ بلا مَهرَب.',
+        'يَتَحَنَّطُ ثَابِتُ بْنُ قَيْسٍ بِالطِّيبِ — طِيبِ الْمَوْت — وَيَكْفُرُ نَفْسَهُ بِكَفَنِه، وَيَزْأَرُ فِي الْفَارِّين: «بِئْسَ مَا عَوَّدْتُمْ أَقْرَانَكُم!»',
       position: 'top',
       style: 'quote',
     },
     {
-      id: 'baraa-call',
-      time: 45,
+      id: 'reorganization',
+      time: 22.5,
       duration: 5,
-      text: 'Bara’a ibn Malik shouts: "Lift me on a shield and throw me over the wall!" He drops inside alone, fights through ten wounds, and throws the gate open from within.',
+      text: "Khalid rides among the men shouting: 'Distinguish yourselves! Let each tribe fight under its own banner!' The Muhajirun rally under Salim's standard, the Ansar under Thabit's, the Bedouin contingents stand apart.",
       textAr:
-        'يَصْرُخُ البراءُ بن مالك: «احْمِلوني على تُرسٍ وارْفَعوني فوقَ الجدار!» فيُلْقَى داخلَ الحديقةِ وحدَه. يُقاتلُ بعشرِ جراحاتٍ حتى يَفتحَ البابَ من الداخل.',
+        'يَجُولُ خَالِدٌ بَيْنَ النَّاسِ صَائِحًا: «تَمَيَّزُوا! لِيُقَاتِلْ كُلُّ قَوْمٍ تَحْتَ رَايَتِهِم.» فَتَتَمَيَّزُ الْمُهَاجِرُونَ تَحْتَ رَايَةِ سَالِمٍ، وَالْأَنْصَارُ تَحْتَ رَايَةِ ثَابِتٍ، وَيَنْحَازُ الْأَعْرَابُ.',
+      position: 'top',
+      style: 'normal',
+    },
+    {
+      id: 'zayd-exhorts',
+      time: 28,
+      duration: 5,
+      text: "Zayd ibn al-Khattab — Umar's elder brother — raises the Muhajirun banner and cries: 'O people! Bite down on your molars, strike at your enemy, press forward! By Allah, I shall not speak again until they are routed, or I meet Allah and speak my plea to Him.'",
+      textAr:
+        'يَرْفَعُ زَيْدُ بْنُ الْخَطَّابِ — أَخُو عُمَرَ — رَايَةَ الْمُهَاجِرِينَ وَيَصْرُخ: «أَيُّهَا النَّاسُ، عَضُّوا عَلَى أَضْرَاسِكُم، وَاضْرِبُوا فِي عَدُوِّكُم، وَامْضُوا قُدُمًا، وَاللهِ لَا أَتَكَلَّمُ حَتَّى يُهْزَمُوا أَوْ أَلْقَى اللهَ فَأُكَلِّمَهُ بِحُجَّتِي.»',
+      position: 'top',
+      style: 'quote',
+    },
+    {
+      id: 'rajjal-falls',
+      time: 33.5,
+      duration: 4,
+      text: "Zayd and al-Rajjal duel — the believer and the apostate — and al-Rajjal falls. The moral spine of Banu Hanifa snaps with him; the line begins to break.",
+      textAr:
+        'يَتَبَارَزُ زَيْدٌ وَالرَّجَّالُ — الْمُؤْمِنُ وَالْمُرْتَدّ — فَيَخِرُّ الرَّجَّالُ صَرِيعًا. يَنْكَسِرُ مَوْقِفُ بَنِي حَنِيفَةِ الْمَعْنَوِيُّ، فَيَنْكَسِرُ صَفُّهُم.',
+      position: 'bottom',
+      style: 'dramatic',
+    },
+    {
+      id: 'muhakkim-falls',
+      time: 38,
+      duration: 4,
+      text: "Muhakkim al-Yamama falls. The Hanafi cavalry scatters, and the foot soldiers flood eastward toward the walled garden — the Garden of al-Rahman.",
+      textAr:
+        'يَسْقُطُ مُحَكَّمُ الْيَمَامَة. تَتَفَرَّقُ خَيْلُ بَنِي حَنِيفَة، وَيَنْدَفِعُ الْمُشَاةُ فِرَارًا نَحْوَ الْحَدِيقَةِ الْمَسْوُورَة — حَدِيقَةِ الرَّحْمَن.',
+      position: 'bottom',
+      style: 'dramatic',
+    },
+    {
+      id: 'salim-banner',
+      time: 42.5,
+      duration: 6,
+      text: "Salim mawla Abi Hudhayfa carries the Muhajirun banner, saying: 'Wretched would I be as a bearer of the Qur'an if the Muslims were attacked from my side.' His hands are severed; he clutches the banner to his chest reciting 'Muhammad is naught but a Messenger' — and is found dead embracing his master, Abu Hudhayfa. Hundreds of memorizers of the Qur'an fall around them.",
+      textAr:
+        'يَحْمِلُ سَالِمٌ مَوْلَى أَبِي حُذَيْفَةَ رَايَةَ الْمُهَاجِرِينَ، وَيَقُول: «بِئْسَ حَامِلُ الْقُرْآنِ أَنَا إِنْ أُتِيَ الْمُسْلِمُونَ مِنْ قِبَلِي.» تُقْطَعُ يَدَاه، فَيَحْتَضِنُ الرَّايَةَ بِصَدْرِهِ تَالِيًا: «وَمَا مُحَمَّدٌ إِلَّا رَسُول» حَتَّى يُوجَدَ صَرِيعًا مُعَانِقًا مَوْلَاهُ أَبَا حُذَيْفَة. يَسْقُطُ مَعَهُمَا مِئَاتٌ مِنْ حُفَّاظِ كِتَابِ الله.',
+      position: 'top',
+      style: 'dramatic',
+    },
+    {
+      id: 'baraa-call',
+      time: 53.5,
+      duration: 6,
+      text: "At the wall al-Bara ibn Malik — Anas's brother — calls out: 'O my people, lift me upon the shield, then cast me upon them inside the garden!' He is hoisted on shields, vaulted over the wall, and fights through eighty wounds until he throws the gate open from within.",
+      textAr:
+        'يَصْرُخُ الْبَرَاءُ بْنُ مَالِكٍ — أَخُو أَنَس — عِنْدَ السُّور: «يَا قَوْمِ، ارْفَعُونِي عَلَى التُّرْسِ، ثُمَّ أَلْقُونِي عَلَيْهِمْ فِي الْحَدِيقَة!» فَيُحْمَلُ عَلَى التِّرَاسِ، وَيُقْذَفُ مِنْ فَوْقِ الْجِدَار، وَيُقَاتِلُ بِثَمَانِينَ جُرْحًا حَتَّى يَفْتَحَ الْبَابَ مِنْ دَاخِلِه.',
       position: 'top',
       style: 'dramatic',
     },
     {
       id: 'into-the-garden',
-      time: 50.5,
-      duration: 4,
-      text: 'The Muslim army pours through the gate. The garden becomes a butchery. Hundreds of memorizers of the Qur’an are martyred here.',
+      time: 60.5,
+      duration: 3,
+      text: "The Muslim army surges through the open gate. The Garden of al-Rahman becomes — the Garden of Death.",
       textAr:
-        'يَنْدَفِعُ الجيشُ من البابِ المفتوح. تَتحوَّلُ الحديقةُ إلى مَجزَرة. يَسقُطُ سبعُ مئةٍ من حُفّاظِ كتابِ الله شهداء.',
-      position: 'bottom',
+        'يَنْدَفِعُ الْجَيْشُ مِنَ الْبَابِ الْمَفْتُوح. تَسْتَحِيلُ حَدِيقَةُ الرَّحْمَنِ — حَدِيقَةَ الْمَوْت.',
+      position: 'center',
       style: 'dramatic',
     },
     {
-      id: 'wahshi',
-      time: 56.5,
+      id: 'wahshi-throws',
+      time: 64,
       duration: 3,
-      text: 'Wahshi ibn Harb hurls his javelin — the same weapon he once used to kill Hamza at Uhud. Musaylimah falls.',
+      text: "Wahshi ibn Harb hurls his javelin — the same javelin he had cast at Hamza on the day of Uhud — and Abu Dujana strikes with his sword. Musaylimah falls.",
       textAr:
-        'يَرْمي وحشيُّ بنُ حربٍ بحربتِه — هي الحربةُ ذاتُها التي قتلَ بها حمزةَ يومَ أُحُد — فيَسقُطُ مسيلمةُ صريعاً.',
+        'يَرْمِي وَحْشِيُّ بْنُ حَرْبٍ بِحَرْبَتِه — هِيَ الْحَرْبَةُ ذَاتُهَا الَّتِي قَتَلَ بِهَا حَمْزَةَ يَوْمَ أُحُد — وَيَضْرِبُ أَبُو دُجَانَةَ بِسَيْفِه. فَيَخِرُّ مُسَيْلِمَةُ صَرِيعًا.',
       position: 'center',
       style: 'dramatic',
     },
     {
       id: 'wahshi-quote',
-      time: 58,
+      time: 67,
       duration: 4,
-      text: 'Wahshi: "I killed with this javelin the best of men, and I have now killed with it the worst of men."',
+      text: "Wahshi says: 'I have killed the best of men in the Jahiliyya, and I have killed the worst of men in Islam — and I hope Allah will forgive me by the second for the first.'",
       textAr:
-        'يقولُ وحشيٌّ: «قَتلتُ بهذه الحربةِ خيرَ الناسِ، وقَتلتُ بها شرَّ الناس.»',
+        'يَقُولُ وَحْشِيٌّ: «قَدْ قَتَلْتُ خَيْرَ النَّاسِ فِي الْجَاهِلِيَّة، وَقَتَلْتُ شَرَّ النَّاسِ فِي الْإِسْلَام، فَأَرْجُو أَنْ يَغْفِرَ اللهُ لِي بِالثَّانِي عَنِ الْأَوَّل.»',
       position: 'center',
       style: 'quote',
     },
   ],
 
-  // ─── Camera Choreography ───────────────────────────────────────────────────
-  // Zooms are deliberately moderate — the field is wide and the viewer
-  // should be able to see whole formations clashing, not just one or two
-  // figures. The CameraDirector's autonomous moves add slight zoom-ins on
-  // engagement events, so the authored values stay loose.
   cameraScript: [
-    // Opening overview of the entire field
-    { time: 0, position: { x: 700, y: 500 }, zoom: 0.45, duration: 3, easing: 'power2.inOut', type: 'overview' },
-    // Drop in slightly on the initial clash
-    { time: 4, position: { x: 600, y: 480 }, zoom: 0.6, duration: 2, easing: 'power2.inOut', type: 'focus' },
-    // Pull back as lines bend
-    { time: 10, position: { x: 450, y: 500 }, zoom: 0.5, duration: 2, easing: 'power2.inOut', type: 'pan' },
-    // Khalid reorganizes — show the whole western side, not just him
-    { time: 16, position: { x: 320, y: 500 }, zoom: 0.7, duration: 2, easing: 'power2.inOut', type: 'focus' },
-    // Wide for the counter-attack
-    { time: 22, position: { x: 600, y: 500 }, zoom: 0.45, duration: 2.5, easing: 'power2.inOut', type: 'overview' },
-    // Muhakkim's death — modest tighten so the viewer sees the surrounding
-    // melee, not just the dying unit
-    { time: 32.5, position: { x: 580, y: 470 }, zoom: 0.85, duration: 1.5, easing: 'power3.out', type: 'focus' },
-    // Pull back for the retreat to garden
-    { time: 37, position: { x: 1000, y: 500 }, zoom: 0.5, duration: 2.5, easing: 'power2.inOut', type: 'pan' },
-    // Bara'a's wall — pulled back so the Muslim line surrounding the wall
-    // and the interior of the garden are both readable in one frame
-    { time: 44, position: { x: 1200, y: 470 }, zoom: 0.78, duration: 1.5, easing: 'power3.out', type: 'focus' },
-    // Garden interior — wide enough to see the slaughter as a whole
-    { time: 50, position: { x: 1240, y: 510 }, zoom: 0.6, duration: 2, easing: 'power2.inOut', type: 'overview' },
-    // Musaylimah's death — modest tighten only
-    { time: 56, position: { x: 1320, y: 510 }, zoom: 0.85, duration: 1, easing: 'power3.out', type: 'focus' },
-    // Final overview before the summary panel takes over
-    { time: 58.5, position: { x: 800, y: 500 }, zoom: 0.42, duration: 1.5, easing: 'power2.inOut', type: 'overview' },
+    // Opening reveal — full plain of Aqraba, Najd ridges, the garden glinting east
+    { time: 0, position: { x: 700, y: 500 }, zoom: 0.42, duration: 3, easing: 'power2.inOut', type: 'overview' },
+    // Drop in on the Hanafi shock-charge — Muhakkim's wedge collides with the Muslim front
+    { time: 4, position: { x: 650, y: 480 }, zoom: 0.6, duration: 2, easing: 'power2.inOut', type: 'focus' },
+    // Pull west toward the Muslim camp as Hanifa overruns the tents
+    { time: 12, position: { x: 420, y: 500 }, zoom: 0.55, duration: 2, easing: 'power2.inOut', type: 'pan' },
+    // Tight on Thabit perfuming himself with hanut — the moral pivot
+    { time: 17, position: { x: 280, y: 520 }, zoom: 0.75, duration: 2, easing: 'power2.inOut', type: 'focus' },
+    // Glide along the new tribal banners separating into distinct lines
+    { time: 22, position: { x: 340, y: 500 }, zoom: 0.7, duration: 2, easing: 'power2.inOut', type: 'pan' },
+    // Wide for the simultaneous counter-charge — three Muslim banners striking at once
+    { time: 27, position: { x: 600, y: 500 }, zoom: 0.45, duration: 2.5, easing: 'power2.inOut', type: 'overview' },
+    // Tight on the Zayd–al-Rajjal duel
+    { time: 33, position: { x: 560, y: 520 }, zoom: 0.95, duration: 1.3, easing: 'power3.out', type: 'focus' },
+    // Muhakkim's fall and the camera tracks east as the rout begins
+    { time: 38, position: { x: 680, y: 480 }, zoom: 0.78, duration: 1.5, easing: 'power3.out', type: 'focus' },
+    // Solemn focus on Salim raising the banner with severed hands — the moral weight that produces the Mushaf
+    { time: 42, position: { x: 700, y: 460 }, zoom: 0.9, duration: 2, easing: 'power2.inOut', type: 'focus' },
+    // Sweep east following the rout into the garden gate
+    { time: 48, position: { x: 1080, y: 510 }, zoom: 0.55, duration: 2.5, easing: 'power2.inOut', type: 'pan' },
+    // al-Bara on the wall — the shield-toss vault
+    { time: 53, position: { x: 1230, y: 380 }, zoom: 0.85, duration: 1.5, easing: 'power3.out', type: 'focus' },
+    // Pan with the Muslim wave pouring through the opened gate
+    { time: 58, position: { x: 1100, y: 510 }, zoom: 0.7, duration: 2, easing: 'power2.inOut', type: 'pan' },
+    // Wide enough to read the carnage inside the walls — the rename
+    { time: 60, position: { x: 1240, y: 510 }, zoom: 0.65, duration: 2, easing: 'power2.inOut', type: 'overview' },
+    // Tight on Wahshi's javelin and Abu Dujana's sword striking Musaylimah
+    { time: 64, position: { x: 1320, y: 510 }, zoom: 0.92, duration: 1, easing: 'power3.out', type: 'focus' },
+    // Pull back wide for the aftermath — silence after the storm, with the Mushaf-aftermath narration
+    { time: 66.5, position: { x: 900, y: 500 }, zoom: 0.4, duration: 1.5, easing: 'power2.inOut', type: 'overview' },
   ],
 
-  // ─── Outcome ───────────────────────────────────────────────────────────────
   outcome: {
     verdict: 'muslim_victory',
     muslimCasualties: 1200,
     enemyCasualties: 21000,
     summary:
-      "Decisive Muslim victory ending the Ridda Wars. Roughly 1,200 Muslims fell, including ~700 memorizers of the Qur'an — their loss prompted Caliph Abu Bakr to commission Zayd ibn Thabit to gather the Qur'an into a single mushaf, the foundation of every later Qur'anic codex. Banu Hanifa lost over 21,000 between the open field, the garden, and the pursuit. Musaylimah was killed by Wahshi ibn Harb. Khalid ibn al-Walid was confirmed as the supreme military commander of the caliphate, and the path to the Iraq and Syria campaigns was opened.",
+      "A decisive Muslim victory ending the Ridda Wars. About 1,200 Muslims fell, of whom traditional sources count between 360 and 700 huffaz — among them Salim mawla Abi Hudhayfa, Abu Hudhayfa ibn Utba, Zayd ibn al-Khattab (Umar's brother), Thabit ibn Qays the Khatib of the Ansar, and Abu Dujana. Banu Hanifa lost more than 21,000 between the open field, the walled garden, and the pursuit. Wahshi ibn Harb killed Musaylimah with the same javelin he had once thrown at Hamza, and Abu Dujana finished him with the sword. Khalid ibn al-Walid was confirmed as supreme commander of the caliphal armies, and the road to Iraq and Syria opened.",
     summaryAr:
-      'انتصارٌ حاسمٌ أنهى حروبَ الردة. استُشهد قرابة ألفٍ ومئتي مسلم، منهم نحو سبع مئة من حُفّاظ كتاب الله. كان فقدُ هؤلاء الحُفّاظ السببَ الذي حَمَل أبا بكرٍ الصدّيق رضي الله عنه على تكليف زيد بن ثابت بجمعِ القرآن في مصحفٍ واحد — أصلُ كلِّ مصحفٍ بعدَه. سقط من بني حنيفةَ ما يَزيدُ على واحدٍ وعشرين ألفاً بين السهلِ والحديقةِ والطلبِ، وقَتل وحشيُّ بنُ حربٍ مسيلمةَ بحربتِه. تثبَّتَ خالدُ بن الوليد قائداً عاماً لجيوشِ الخلافة، وانفتح الطريقُ نحوَ العراقِ والشام.',
+      'اِنْتِصَارٌ حَاسِمٌ أَنْهَى حُرُوبَ الرِّدَّة. اُسْتُشْهِدَ قُرَابَةَ أَلْفٍ وَمِئَتَيْ مُسْلِم، تَذْكُرُ الرِّوَايَاتُ أَنَّ بَيْنَ ثَلَاثِمِئَةٍ وَسِتِّينَ وَسَبْعِمِئَةٍ مِنْهُمْ مِنْ حُفَّاظِ كِتَابِ الله — مِنْهُمْ سَالِمٌ مَوْلَى أَبِي حُذَيْفَة، وَأَبُو حُذَيْفَةَ بْنُ عُتْبَة، وَزَيْدُ بْنُ الْخَطَّاب، وَثَابِتُ بْنُ قَيْس، وَأَبُو دُجَانَةَ الْأَنْصَارِيّ. سَقَطَ مِنْ بَنِي حَنِيفَةَ مَا يَزِيدُ عَلَى وَاحِدٍ وَعِشْرِينَ أَلْفًا بَيْنَ السَّهْلِ وَالْحَدِيقَةِ وَالطَّلَب، وَقَتَلَ وَحْشِيُّ بْنُ حَرْبٍ بِحَرْبَتِهِ مُسَيْلِمَةَ الْكَذَّاب، وَأَجْهَزَ عَلَيْهِ أَبُو دُجَانَة. ثَبَّتَ خَالِدُ بْنُ الْوَلِيدِ قَائِدًا عَامًّا لِجُيُوشِ الْخِلَافَة، وَانْفَتَحَ الطَّرِيقُ نَحْوَ الْعِرَاقِ وَالشَّام.',
     significance:
-      "The catastrophic loss of Qur'an memorizers prompted the first compilation of the Qur'an. The Ridda Wars ended decisively, securing the unity of the Arabian peninsula under the caliphate. Khalid's tribal-banner reorganization passed into military doctrine. The Garden of Death — حديقة الموت — became the proverb in Arabic for a place of irrevocable engagement.",
+      "The catastrophic loss of Qur'an memorizers was the direct cause of the first compilation of the Qur'an under Abu Bakr. Umar came to him saying 'Casualties have been heavy among the reciters of the Qur'an on the Day of al-Yamama'; Abu Bakr at first refused — 'How can we do a thing the Messenger of Allah did not do?' — then Allah opened his breast to it, and he commissioned Zayd ibn Thabit. From that mushaf descend all later codices. The Ridda Wars ended decisively, securing the unity of the Arabian peninsula under the caliphate. Khalid's tribal-banner reorganization passed into the doctrine of the conquest armies. And 'the Garden of Death' — Hadiqat al-Mawt — became proverbial in Arabic for any field of battle from which there is no escape.",
     significanceAr:
-      'سقوط هذا العدد من حُفّاظ كتاب الله كان السببَ المباشر لجمعِ القرآن في مصحفٍ واحد على عهد أبي بكرٍ الصدّيق رضي الله عنه. انتهت حروبُ الردة حسماً وثبتت وحدة الجزيرة العربية تحت راية الخلافة. تنظيمُ خالدٍ للقبائل تحت راياتها صار مذهباً عسكريّاً يُتعلَّم. وصارت "حديقةُ الموت" مَثَلاً عربيّاً لكلِّ ساحةِ قتالٍ لا مَهرَب منها.',
+      'كَانَ سُقُوطُ هَذَا الْعَدَدِ مِنْ حُفَّاظِ كِتَابِ اللهِ السَّبَبَ الْمُبَاشِرَ لِجَمْعِ الْقُرْآنِ فِي مُصْحَفٍ وَاحِدٍ عَلَى عَهْدِ أَبِي بَكْرٍ الصِّدِّيق. جَاءَ عُمَرُ إِلَى أَبِي بَكْرٍ فَقَال: «إِنَّ الْقَتْلَ قَدِ اسْتَحَرَّ يَوْمَ الْيَمَامَةِ بِقُرَّاءِ الْقُرْآن»، فَتَرَدَّدَ أَبُو بَكْرٍ: «كَيْفَ نَفْعَلُ شَيْئًا لَمْ يَفْعَلْهُ رَسُولُ اللهِ ﷺ؟» ثُمَّ شَرَحَ اللهُ صَدْرَهُ، فَكَلَّفَ زَيْدَ بْنَ ثَابِتٍ بِالْجَمْع — فَكَانَ ذَلِكَ أَصْلَ كُلِّ مُصْحَفٍ بَعْدَه. اِنْتَهَتْ حُرُوبُ الرِّدَّةِ حَسْمًا، وَثَبَتَتْ وَحْدَةُ الْجَزِيرَةِ الْعَرَبِيَّةِ تَحْتَ رَايَةِ الْخِلَافَة. وَصَارَ تَنْظِيمُ خَالِدٍ لِلْقَبَائِلِ تَحْتَ رَايَاتِهَا مَذْهَبًا عَسْكَرِيًّا تَوَارَثَتْهُ جُيُوشُ الْفُتُوحِ مِنْ بَعْد، وَصَارَتْ «حَدِيقَةُ الْمَوْت» مَثَلًا عَرَبِيًّا لِكُلِّ سَاحَةِ قِتَالٍ لَا مَهْرَبَ مِنْهَا.',
   },
 
-  totalDuration: 60,
+  totalDuration: 68,
 };
