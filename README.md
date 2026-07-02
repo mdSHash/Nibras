@@ -31,16 +31,16 @@
 
 ## Overview
 
-Nibras (نِبْرَاس — "lamp" or "light" in Arabic) is an interactive web application that illuminates Islamic history through dynamic timeline visualization, geographical mapping, and cinematic battle replays. It covers the period from 571 CE to 661 CE, spanning the Meccan period, the Medinan period, and the Rashidun Caliphate.
+Nibras (نِبْرَاس — "lamp" or "light" in Arabic) is an interactive web application that illuminates Islamic history through dynamic timeline visualization, geographical mapping, and cinematic battle replays. It covers 571–661 CE — the Meccan period, the Medinan period, and the four Rashidun caliphates (Abu Bakr, Umar, Uthman, Ali) up to `عام الجماعة` in 41 هـ.
 
-The platform serves as a spatial-temporal reference for exploring the Prophetic biography (Seerah) and early Islamic history. Events are presented on an interactive map with territorial changes, linked Quran references, companion biographies, and narrated descriptions. Major battles are rendered as full cinematic replays using a custom PixiJS-based engine.
+131 chapter-events are laid out on an interactive Leaflet map with time-varying territorial polygons, linked Quranic and hadith references, ~150 companion biographies at classical-source depth, and Arabic TTS narration on every title and description. Thirteen decisive battles are rendered as full cinematic replays through a custom PixiJS engine.
 
 ---
 
 ## Features
 
-- **Interactive Timeline** — Chronological navigation of Islamic history events across the Prophetic, Rashidun, and selected later eras (Ain Jalut)
-- **Cinematic Battle Replay Engine** — 12 fully scripted battles rendered with PixiJS WebGL at 60fps. Each unit is a stylized soldier silhouette per troop type (infantry, cavalry, archers, elephant, camel rider, …). Includes:
+- **Interactive Timeline** — 131 chronological events spanning the Prophetic era (571 CE), all four Rashidun caliphates (632–661 CE), and one later window (Ain Jalut, 1260 CE). Filter by era or category.
+- **Cinematic Battle Replay Engine** — 13 fully scripted battles rendered with PixiJS WebGL at 60fps. Each unit is a stylized soldier silhouette per troop type (infantry, cavalry, archers, elephant, camel rider, …). Includes:
   - **Autonomous combat resolution** — units close to melee range, exchange damage, take visible casualties (fallen-soldier silhouettes appear in formation as numbers drop)
   - **Cinematic auto-camera** — pans + zooms onto engagements, snaps to dying units, yields to authored keyframes
   - **Day/night + weather** — sandstorm, storm, dust haze, plus dayPhase tinting (e.g. Khandaq night)
@@ -48,9 +48,9 @@ The platform serves as a spatial-temporal reference for exploring the Prophetic 
   - **End-of-battle summary** — Arabic verdict badge (نصر / انسحاب تكتيكي / غزوة بدون قتال) + casualty grid + historical significance
 - **Arabic-only UI** — Full RTL support with Arabic calligraphy intro (Amiri / Tajawal). All user-facing strings, narration, and aria-labels are Arabic; numerals use Arabic-Eastern digits in summary panels.
 - **Map Visualization** — Leaflet-based interactive map with event markers, route polylines, territorial expansion polygons (Voronoi via Turf.js), and marker clustering via Supercluster
-- **Companion Profiles** — Biographical data for key Sahaba with their roles in specific events
-- **Quran References** — Events linked to relevant Quranic verses with modal display
-- **Text-to-Speech Narration** — Gemini-powered Arabic TTS for event descriptions and battle narration, served from pre-cached WAV files in `public/audio/` (SHA-256-hashed)
+- **Companion Profiles** — ~150 Sahaba biographies at Ibn Hajar / Ibn al-Athir / Ibn Sa'd source depth, indexed by name and alias for cross-event lookup
+- **Quran & Hadith References** — Events linked to relevant Quranic verses and canonical hadith (Bukhari, Muslim, Ahmad, Tirmidhi) with modal display
+- **Text-to-Speech Narration** — 262 pre-cached Charon-voice WAV files (Gemini 3.1 flash-tts, 24 kHz PCM) covering every event's title and full description, served as static assets from `public/audio/{sha256}.wav`
 - **Synthesized Battle Audio** — Web Audio API generates clash, charge, defeat, takbir, and horn SFX for the battlefield engine — no asset files needed
 - **Guided App Tour** — Step-by-step onboarding with spotlight highlighting; auto-repositions when targets resize/remount via ResizeObserver
 - **Keyboard Shortcuts** — Full keyboard navigation; gated when modals are open
@@ -86,35 +86,27 @@ The platform serves as a spatial-temporal reference for exploring the Prophetic 
 ### Installation
 
 ```bash
-git clone https://github.com/<your-org>/nibras.git
-cd nibras
+git clone https://github.com/mdSHash/Nibras.git
+cd Nibras
 npm install
+cd server && npm install && cd ..
 ```
 
 ### Environment Variables
 
-Copy the example environment file and configure:
+Runtime doesn't require any secrets — the 262 narration WAVs are committed under `public/audio/` and served with the site. Environment variables are only needed at **build time** if you're regenerating audio.
 
-```bash
-cp .env.example .env
-```
-
-| Variable | Description |
-|----------|-------------|
-| `R2_ACCOUNT_ID` | Cloudflare R2 account ID (audio storage) |
-| `R2_ACCESS_KEY_ID` | Cloudflare R2 access key |
-| `R2_SECRET_ACCESS_KEY` | Cloudflare R2 secret key |
-| `R2_BUCKET_NAME` | R2 bucket name (default: `nibras-audio`) |
-| `R2_PUBLIC_URL` | Public URL for the R2 bucket |
-| `VITE_GEMINI_API_KEY` | Google Gemini API key for TTS |
+| Variable | Location | Description |
+|---|---|---|
+| `GEMINI_API_KEY` | `server/.env` | Google Gemini API key. Consumed by `server/index.js` (TTS proxy) and `scripts/cache-event-*.js`. Get one at https://aistudio.google.com/apikey. |
 
 ### Running Locally
 
 ```bash
-# Start the frontend dev server (port 3000)
+# Frontend dev server (port 3000)
 npm run dev
 
-# Start the TTS backend server (separate terminal)
+# TTS backend server (separate terminal, only needed if you regenerate audio)
 npm run dev:server
 ```
 
@@ -137,9 +129,9 @@ The app will be available at `http://localhost:3000`.
 
 ```
 nibras/
-├── public/                    # Static assets (favicon, audio cache)
-├── scripts/                   # Build/utility scripts (audio caching, R2 migration)
-├── server/                    # Express TTS proxy server
+├── public/                    # Static assets — includes public/audio/*.wav (262 SHA-256-hashed narration files)
+├── scripts/                   # Build/utility scripts (audio caching, Playwright captures)
+├── server/                    # Express TTS proxy server (build-time only)
 ├── src/
 │   ├── App.tsx                # Root application component
 │   ├── data.ts                # Event data loader and type definitions
@@ -155,7 +147,7 @@ nibras/
 │   │   ├── machines/          # XState machine (defined, currently unused)
 │   │   ├── react/             # BattlePlayer + AtmosphereOverlay
 │   │   ├── renderer/          # PixiJS WebGL renderer + 5-layer scene graph
-│   │   ├── scenarios/         # 12 battle scenario data files + registry
+│   │   ├── scenarios/         # 13 battle scenario data files + registry
 │   │   ├── scripting/         # ScriptInterpreter for scenario phase actions
 │   │   ├── state/             # Zustand stores (playback, camera, simulation, UI)
 │   │   ├── systems/           # ECS systems (Movement, Combat, Render, Terrain)
@@ -235,7 +227,8 @@ For the full engine architecture, scenario format, and authoring guide see [`src
 | 9 | معركة اليمامة (حديقة الموت) | 12 AH (633 CE) | Aqraba plain, al-Yamamah | `battle-of-yamama` |
 | 10 | معركة اليرموك | 15-20 Rajab 15 AH (636 CE) | Yarmouk River, Syria | `battle-of-yarmouk` |
 | 11 | معركة القادسية | 16-19 Sha'ban 15 AH (636 CE) | Al-Qadisiyyah, Iraq | `battle-of-qadisiyyah` |
-| 12 | معركة عين جالوت | 25 Ramadan 658 AH (1260 CE) | Jezreel Valley, Palestine | `battle-of-ain-jalut` |
+| 12 | معركة نهاوند (فتح الفتوح) | 21 AH (642 CE) | Nahavand, northern Zagros | `battle-of-nahavand` |
+| 13 | معركة عين جالوت | 25 Ramadan 658 AH (1260 CE) | Jezreel Valley, Palestine | `battle-of-ain-jalut` |
 
 ---
 
@@ -250,36 +243,52 @@ For the full engine architecture, scenario format, and authoring guide see [`src
 | `npm run build` | Production build |
 | `npm run preview` | Preview production build |
 | `npm run lint` | TypeScript type checking (`tsc --noEmit`) |
-| `npm run cache-audio` | Pre-cache event-title audio (run during build, not at runtime) |
-| `npm run cache-details` | Pre-cache full-description audio |
-| `npm run test:ui` | Run Playwright tests |
+| `npm run cache-audio` | Pre-cache title audio for every event through the TTS proxy |
+| `npm run cache-details` | Pre-cache full-description audio (chunked at 4500 chars) |
+| `node scripts/verify-all-audio.js` | Check every event has both title + description WAVs in `public/audio/` — reports missing files with expected SHA-256 hashes |
 | `node scripts/capture-yamama.mjs` | Playwright capture of the Yamama battle at key sim times — useful template for verifying any new scenario |
+| `node scripts/capture-nahavand.mjs` | Same for the Nahavand replay |
 | `node scripts/capture-contrast.mjs` | Playwright capture of the EventPanel in light + dark mode at desktop + mobile viewports |
 
 ### TTS Setup
 
-The application uses Google Gemini for Arabic text-to-speech. Audio is generated on-demand and cached to Cloudflare R2 for subsequent requests. The TTS proxy server runs separately via `npm run dev:server`.
+Every event's title + `full_description` is pre-rendered as a WAV in `public/audio/`. Filenames are `SHA-256(normalizeText(text) + "|" + voice + "|" + rate)` — the front-end recomputes the same hash and fetches from that path, so audio playback is a static-file GET, not a live API call.
 
-To pre-cache all audio (recommended for production):
+To regenerate audio (e.g. after adding new events):
 
 ```bash
+# 1. Put a Gemini key in server/.env (see .env.example)
+# 2. Start the TTS proxy
+npm run dev:server &
+
+# 3. Cache titles + full descriptions
 npm run cache-audio
 npm run cache-details
+
+# 4. Sanity-check coverage
+node scripts/verify-all-audio.js
 ```
 
 ---
 
 ## Deployment
 
-Build the production bundle:
+Production is hosted at **https://mdshash.github.io/Nibras/** on GitHub Pages. Every push to `main` triggers `.github/workflows/deploy.yml`, which builds with Vite (`base: '/Nibras/'`) and publishes the `dist/` artifact via `actions/deploy-pages@v4`. Typical build-and-deploy time is ~2 minutes.
+
+Because all audio ships as static WAVs bundled into `dist/audio/`, no separate backend is required at runtime. The TTS proxy in `server/` is only used at authoring time when regenerating narration.
+
+To publish new content:
 
 ```bash
-npm run build
+# 1. Add events / companions, generate audio locally
+# 2. Verify
+node scripts/verify-all-audio.js
+
+# 3. Commit + push
+git add src/dataList.json src/companionsList.ts public/audio/
+git commit -m "…"
+git push origin main    # GitHub Actions handles the deploy
 ```
-
-Output is written to `dist/`. Deploy to any static hosting provider (Vercel, Netlify, Cloudflare Pages, etc.).
-
-The TTS server (`server/`) must be deployed separately as a Node.js service if live TTS generation is required. Pre-cached audio served from R2 does not require the server at runtime.
 
 ---
 
