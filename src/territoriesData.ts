@@ -223,6 +223,7 @@ export const getTerritoriesForYear = (year: number): TerritoryGroup[] => {
     const specificName = REGIONS.find((r) => r.id === cellId)?.title || name;
     const isEmpire =
       groupId === "isl" ||
+      groupId === "umayyad" ||
       groupId === "byz" ||
       groupId === "sas" ||
       groupId === "ridda" ||
@@ -382,15 +383,36 @@ export const getTerritoriesForYear = (year: number): TerritoryGroup[] => {
           rId,
         );
     }
-    // 6. Uthman & Ali (644+)
-    else {
-      if (rId.startsWith("b_bej"))
+    // 6. Uthman & Ali — end of Rashidun caliphate (644 - 661.5)
+    else if (year < 661.5) {
+      // Nubia stayed autonomous under the Baqt treaty from 31 AH onward — it
+      // was never absorbed into the caliphate. Both b_nub (Nubia proper) and
+      // b_bej (Beja tribes) belong to the tributary Nubian polity, not to
+      // Muslim territory (event: `conquest-nubia-baqt`).
+      if (rId.startsWith("b_bej") || rId.startsWith("b_nub"))
         addToGroup("nubia", "ممالك النوبة والبجة", "#a0522d", rId);
       else if (["b_anatolia1", "b_anatolia2"].includes(rId))
         addToGroup("byz", "الإمبراطورية البيزنطية", C_BYZ, rId);
       else if (rId.startsWith("axum_"))
         addToGroup("axum", "مملكة أكسوم (الحبشة)", "#0284c7", rId);
+      // Alexandria briefly reoccupied by the Byzantines under Manuel the
+      // Eunuch in early 25 AH before Amr ibn al-As's re-conquest later in
+      // the same year (event: `alexandria-reconquest`, gregorian 645.7).
+      else if (rId === "b_egypt3" && year >= 645.3 && year < 645.7)
+        addToGroup("byz", "الإمبراطورية البيزنطية", C_BYZ, rId);
       else addToGroup("isl", "دولة الخلفاء الراشدين", C_ISLAM, rId);
+    }
+    // 7. Umayyad era — begins with عام الجماعة (event: `year-of-reconciliation`,
+    // gregorian 661.55). Same territorial extent as end-of-Rashidun; the change
+    // is dynastic (Hasan رضي الله عنه abdicated to Muawiya رضي الله عنه).
+    else {
+      if (rId.startsWith("b_bej") || rId.startsWith("b_nub"))
+        addToGroup("nubia", "ممالك النوبة والبجة", "#a0522d", rId);
+      else if (["b_anatolia1", "b_anatolia2"].includes(rId))
+        addToGroup("byz", "الإمبراطورية البيزنطية", C_BYZ, rId);
+      else if (rId.startsWith("axum_"))
+        addToGroup("axum", "مملكة أكسوم (الحبشة)", "#0284c7", rId);
+      else addToGroup("umayyad", "الدولة الأموية", C_ISLAM, rId);
     }
   });
 
