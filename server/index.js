@@ -192,30 +192,47 @@ app.post('/api/synthesize', validateRequest, async (req, res) => {
     
     console.log(`[TTS Request] Voice: ${voice}, Text length: ${text.length} chars`);
     
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-3.1-flash-tts-preview',
-    });
-    
-    const result = await model.generateContent({
-      contents: [{
-        role: 'user',
-        parts: [{
-          text: text
-        }]
-      }],
-      generationConfig: {
-        responseModalities: ['AUDIO'],
-        speechConfig: {
-          voiceConfig: {
-            prebuiltVoiceConfig: {
-              voiceName: voice
+    // The @google/generative-ai v0.21 SDK doesn't return the AUDIO-modality
+    // response shape correctly for gemini-3.x TTS models — the candidates
+    // array is not exposed on result.response. Call the REST API directly.
+    const modelName = 'gemini-3.1-flash-tts-preview';
+    const geminiResp = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ role: 'user', parts: [{ text }] }],
+          // Educational Islamic-history content triggers false-positive
+          // safety flags on Arabic text about 7th-century conquests. Lower
+          // the harm thresholds to BLOCK_NONE across the board so the
+          // narration is generated for all 131 events reliably.
+          safetySettings: [
+            { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' },
+            { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE' },
+            { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE' },
+            { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_NONE' },
+            { category: 'HARM_CATEGORY_CIVIC_INTEGRITY', threshold: 'BLOCK_NONE' },
+          ],
+          generationConfig: {
+            responseModalities: ['AUDIO'],
+            speechConfig: {
+              voiceConfig: {
+                prebuiltVoiceConfig: { voiceName: voice }
+              }
             }
           }
-        }
+        })
       }
-    });
-    
-    const audioData = result.response.candidates[0].content.parts[0].inlineData;
+    );
+
+    if (!geminiResp.ok) {
+      const errBody = await geminiResp.text();
+      throw new Error(`Gemini API ${geminiResp.status}: ${errBody.slice(0, 300)}`);
+    }
+
+    const result = await geminiResp.json();
+    const audioData = result?.candidates?.[0]?.content?.parts?.[0]?.inlineData;
     
     if (!audioData || !audioData.data) {
       throw new Error('No audio data received from Gemini API');
