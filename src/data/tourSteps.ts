@@ -1,19 +1,35 @@
 import { TourStep } from '../types/tour';
+import { queryVisibleTourTarget } from '../utils/tour';
 
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const clickIfPresent = async (selector: string, delayAfter = 300) => {
+  const el = document.querySelector<HTMLElement>(selector);
+  if (!el) return false;
+  el.click();
+  await wait(delayAfter);
+  return true;
+};
+
+/** Close any open panels (search menu + event panel) before a step runs. */
 const closeAllPanels = async () => {
-  // Close search menu if open
-  const searchCloseBtn = document.querySelector('[aria-label="إغلاق القائمة"]') as HTMLElement;
-  if (searchCloseBtn) {
-    searchCloseBtn.click();
-    await new Promise(resolve => setTimeout(resolve, 300));
-  }
+  await clickIfPresent('[aria-label="إغلاق القائمة"]');
+  await clickIfPresent('[data-tour-id="event-panel"] button[title="إغلاق"]');
+};
 
-  // Close event panel if open
-  const eventPanelClose = document.querySelector('[data-tour-id="event-panel"] button[title="إغلاق"]') as HTMLElement;
-  if (eventPanelClose) {
-    eventPanelClose.click();
-    await new Promise(resolve => setTimeout(resolve, 300));
+/** Close only the search menu — used by event-details, which needs the event panel to stay open. */
+const closeSearchMenu = async () => {
+  await clickIfPresent('[aria-label="إغلاق القائمة"]');
+};
+
+/** Wait until the given selector's first visible match reports non-zero size, up to `timeout` ms. */
+const waitForVisible = async (selector: string, timeout = 1200) => {
+  const start = performance.now();
+  while (performance.now() - start < timeout) {
+    if (queryVisibleTourTarget(selector)) return true;
+    await wait(80);
   }
+  return false;
 };
 
 export const tourSteps: TourStep[] = [
@@ -21,196 +37,108 @@ export const tourSteps: TourStep[] = [
     id: 'welcome',
     target: 'body',
     title: 'مرحباً بك في نبراس',
-    content: 'نبراس هو تطبيق تفاعلي لاستكشاف التاريخ الإسلامي المبكر من خلال الخرائط والخطوط الزمنية. دعنا نأخذك في جولة سريعة للتعرف على مميزات التطبيق.',
+    content:
+      'نِبراس تطبيق تفاعلي لاستكشاف التاريخ الإسلامي المبكر عبر الخريطة والخط الزمني. سنأخذك في جولة قصيرة للتعرّف على أهم مميزاته.',
     position: 'center',
     spotlightPadding: 0,
     disableInteraction: true,
-    beforeShow: async () => {
-      await closeAllPanels();
-    }
   },
   {
     id: 'timeline',
     target: '[data-tour-id="timeline"]',
     title: 'الخط الزمني',
-    content: 'يعرض الخط الزمني الأحداث مرتبة زمنياً من عام 571م إلى 661م. يمكنك النقر على أي حدث لعرض تفاصيله على الخريطة.',
+    content:
+      'يعرض الخط الزمني الأحداث مرتّبةً من عام 571م إلى 661م. انقر على أي حدث لعرض موقعه وتفاصيله على الخريطة.',
     position: 'top',
     spotlightPadding: 10,
-    action: {
-      type: 'click',
-      description: 'انقر على أي حدث في الخط الزمني'
-    },
-    beforeShow: async () => {
-      await closeAllPanels();
-    }
+    action: { type: 'click', description: 'انقر على أي حدث في الخط الزمني' },
   },
   {
     id: 'map',
     target: '[data-tour-id="map-container"]',
     title: 'الخريطة التفاعلية',
-    content: 'هذه هي الخريطة التفاعلية التي تعرض مواقع الأحداث التاريخية. يمكنك التكبير والتصغير والتنقل بحرية. انقر على أي علامة لعرض تفاصيل الحدث.',
+    content:
+      'تعرض الخريطة مواقع الأحداث التاريخية. يمكنك التكبير والتصغير والتنقّل بحرية، ثم النقر على أي علامة لعرض تفاصيل الحدث.',
     position: 'right',
     spotlightPadding: 10,
-    action: {
-      type: 'click',
-      description: 'انقر على علامة في الخريطة لعرض التفاصيل'
-    },
-    beforeShow: async () => {
-      await closeAllPanels();
-    }
+    action: { type: 'click', description: 'انقر على أي علامة في الخريطة' },
   },
   {
     id: 'search',
     target: '[data-tour-id="search-button"]',
     title: 'البحث والتصفية',
-    content: 'استخدم زر البحث للوصول إلى خيارات البحث والتصفية المتقدمة. يمكنك البحث عن أحداث، صحابة، أو مواقع محددة.',
+    content:
+      'من هنا تفتح قائمة البحث والتصفية المتقدّمة، وتستطيع البحث عن الأحداث والصحابة والمواقع.',
     position: 'bottom',
     spotlightPadding: 8,
-    action: {
-      type: 'click',
-      target: '[data-tour-id="search-button"]',
-      description: 'انقر لفتح قائمة البحث'
-    },
-    beforeShow: async () => {
-      await closeAllPanels();
-    }
+    action: { type: 'click', target: '[data-tour-id="search-button"]', description: 'انقر لفتح قائمة البحث' },
   },
   {
     id: 'filters',
     target: '[data-tour-id="filters-section"]',
     title: 'خيارات التصفية',
-    content: 'يمكنك تصفية الأحداث حسب الفترة الزمنية (العهد المكي، المدني، الخلافة الراشدة) أو حسب النوع (أحداث، معارك، مدن).',
+    content:
+      'يمكنك تصفية الأحداث حسب الفترة الزمنية (العهد المكي، العهد المدني، عصر الخلافة الراشدة) أو حسب نوع المحتوى (أحداث، معارك، مدن).',
     position: 'left',
     spotlightPadding: 10,
     beforeShow: async () => {
       await closeAllPanels();
-      try {
-        const searchButton = document.querySelector('[data-tour-id="search-button"]') as HTMLElement;
-        if (searchButton && !document.querySelector('[data-tour-id="filters-section"]')) {
-          searchButton.click();
-          await new Promise(resolve => setTimeout(resolve, 400));
-          
-          // Verify the filters section appeared
-          const filtersSection = document.querySelector('[data-tour-id="filters-section"]');
-          if (!filtersSection) {
-            console.warn('Filters section did not appear after clicking search button');
-          }
-        }
-      } catch (error) {
-        console.error('Error in filters step beforeShow:', error);
-      }
+      if (document.querySelector('[data-tour-id="filters-section"]')) return;
+      const searchBtn = queryVisibleTourTarget('[data-tour-id="search-button"]');
+      if (!searchBtn) return;
+      searchBtn.click();
+      await waitForVisible('[data-tour-id="filters-section"]');
     },
-    afterShow: async () => {
-      try {
-        // Close the search menu by clicking the close button
-        const closeButton = document.querySelector('[aria-label="إغلاق القائمة"]') as HTMLElement;
-        if (closeButton) {
-          closeButton.click();
-          await new Promise(resolve => setTimeout(resolve, 400));
-        }
-      } catch (error) {
-        console.error('Error in filters step afterShow:', error);
-      }
-    }
+    afterShow: closeSearchMenu,
   },
   {
     id: 'dark-mode',
     target: '[data-tour-id="dark-mode-toggle"]',
     title: 'الوضع الداكن',
-    content: 'يمكنك التبديل بين الوضع الفاتح والداكن حسب تفضيلاتك. الوضع الداكن مريح للعينين في الإضاءة المنخفضة.',
+    content:
+      'يمكنك التبديل بين الوضع الفاتح والوضع الداكن حسب تفضيلك. الوضع الداكن أكثر راحةً للعين في الإضاءة المنخفضة.',
     position: 'bottom',
     spotlightPadding: 8,
-    beforeShow: async () => {
-      await closeAllPanels();
-    }
   },
   {
     id: 'event-details',
     target: '[data-tour-id="event-panel"]',
-    title: 'تفاصيل الأحداث',
-    content: 'الآن سنختار حدثاً لنريك كيف تظهر التفاصيل. ستظهر لوحة على الجانب تحتوي على: الوصف الكامل، التاريخ، الموقع، الصحابة المشاركين، والآيات القرآنية المرتبطة.',
+    title: 'تفاصيل الحدث',
+    content:
+      'سنفتح لك حدثاً كمثال. تعرض اللوحة الجانبية: الوصف الكامل، والتاريخ، والموقع، والصحابة المشاركين، والآيات القرآنية المرتبطة بالحدث.',
     position: 'left',
     spotlightPadding: 10,
     beforeShow: async () => {
-      // Close search menu but NOT event panel (we need to open it)
-      const searchCloseBtn = document.querySelector('[aria-label="إغلاق القائمة"]') as HTMLElement;
-      if (searchCloseBtn) {
-        searchCloseBtn.click();
-        await new Promise(resolve => setTimeout(resolve, 300));
-      }
-
-      try {
-        // Then select the first event from timeline (they are divs with role="button", not actual buttons)
-        const timelineEvents = document.querySelectorAll('[data-tour-id="timeline"] [role="button"]');
-        if (timelineEvents.length > 0) {
-          const firstEvent = timelineEvents[0] as HTMLElement;
-          firstEvent.click();
-          
-          // Wait longer for the event panel animation to complete and become visible
-          await new Promise(resolve => setTimeout(resolve, 800));
-          
-          // Wait for event panel to be visible with retry logic
-          let retries = 0;
-          const maxRetries = 10;
-          while (retries < maxRetries) {
-            const eventPanel = document.querySelector('[data-tour-id="event-panel"]') as HTMLElement;
-            if (eventPanel) {
-              const rect = eventPanel.getBoundingClientRect();
-              const isVisible = rect.width > 0 && rect.height > 0 &&
-                               rect.top < window.innerHeight && rect.bottom > 0;
-              if (isVisible) {
-                break;
-              }
-            }
-            await new Promise(resolve => setTimeout(resolve, 100));
-            retries++;
-          }
-          
-          if (retries >= maxRetries) {
-            console.warn('Event panel did not become visible after clicking timeline event');
-          }
-        } else {
-          console.warn('No timeline events found to select');
-        }
-      } catch (error) {
-        console.error('Error in event-details step beforeShow:', error);
-      }
+      await closeSearchMenu();
+      const first = document.querySelector<HTMLElement>('[data-tour-id="timeline"] [role="button"]');
+      if (!first) return;
+      first.click();
+      await waitForVisible('[data-tour-id="event-panel"]', 1500);
     },
     afterShow: async () => {
-      try {
-        // Close event panel when moving to next step
-        const closeButton = document.querySelector('[data-tour-id="event-panel"] button[title="إغلاق"]') as HTMLElement;
-        if (closeButton) {
-          closeButton.click();
-          await new Promise(resolve => setTimeout(resolve, 300));
-        }
-      } catch (error) {
-        console.error('Error in event-details step afterShow:', error);
-      }
-    }
+      await clickIfPresent('[data-tour-id="event-panel"] button[title="إغلاق"]');
+    },
   },
   {
     id: 'navigation-tips',
     target: 'body',
     title: 'نصائح للتنقل',
-    content: 'يمكنك التنقل بحرية بين الخريطة والخط الزمني. استخدم البحث للوصول السريع إلى أحداث محددة، أو تصفح الأحداث زمنياً. جرب النقر على الأحداث المختلفة لاستكشاف التاريخ!',
+    content:
+      'انتقل بحرية بين الخريطة والخط الزمني. استخدم البحث للوصول السريع إلى أحداث بعينها، أو تصفّح الأحداث زمنياً. جرّب النقر على الأحداث المختلفة لاستكشاف التاريخ.',
     position: 'center',
     spotlightPadding: 0,
     disableInteraction: true,
-    beforeShow: async () => {
-      await closeAllPanels();
-    }
   },
   {
     id: 'complete',
     target: 'body',
     title: 'انتهت الجولة',
-    content: 'الآن أنت جاهز لاستكشاف التاريخ الإسلامي المبكر! يمكنك إعادة الجولة في أي وقت من الزر العائم في الزاوية السفلية اليسرى. نتمنى لك تجربة ممتعة ومفيدة.',
+    content:
+      'أنت الآن جاهز لاستكشاف التاريخ الإسلامي المبكر. تستطيع إعادة الجولة في أي وقت بالضغط على زر "ابدأ الجولة" في شريط الأدوات. نتمنى لك تجربةً ممتعةً ومفيدة.',
     position: 'center',
     spotlightPadding: 0,
     disableInteraction: true,
-    beforeShow: async () => {
-      await closeAllPanels();
-    }
-  }
+  },
 ];
+
+export { closeAllPanels };

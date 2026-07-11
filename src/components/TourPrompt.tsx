@@ -236,7 +236,7 @@ export const TourPrompt: React.FC<TourPromptProps> = ({ isOpen, onAccept, onDecl
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.55, duration: 0.4 }}
                     >
-                      دعنا نأخذك في جولة سريعة لاستكشاف مميزات التطبيق
+                      خذ جولة قصيرة للتعرّف على أهم مميزات التطبيق
                     </motion.p>
 
                     {/* Feature list */}
@@ -248,7 +248,7 @@ export const TourPrompt: React.FC<TourPromptProps> = ({ isOpen, onAccept, onDecl
                       />
                       <FeatureItem
                         icon={<BookOpen className="w-4 h-4 text-accent" />}
-                        text="تفاصيل شاملة مع مراجع قرآنية"
+                        text="تفاصيل شاملة مع الآيات القرآنية المرتبطة"
                         delay={0.75}
                       />
                       <FeatureItem
@@ -328,7 +328,7 @@ export const TourPrompt: React.FC<TourPromptProps> = ({ isOpen, onAccept, onDecl
                       animate={{ opacity: 1 }}
                       transition={{ delay: 1.1, duration: 0.3 }}
                     >
-                      يمكنك إعادة الجولة في أي وقت من شريط الأدوات
+                      تستطيع إعادة الجولة في أي وقت من زر "ابدأ الجولة" في الأعلى
                     </motion.p>
                   </div>
                 </div>

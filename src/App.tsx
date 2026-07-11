@@ -469,11 +469,11 @@ export default function App() {
                   "transition-all font-bold text-xs sm:text-sm",
                   "min-w-[48px] min-h-[48px] justify-center"
                 )}
-                aria-label="بدء الجولة التعريفية"
-                title="بدء الجولة التعريفية"
+                aria-label="ابدأ الجولة التعريفية"
+                title="ابدأ الجولة التعريفية"
               >
                 <Compass size={16} className="sm:w-4 sm:h-4 animate-pulse" />
-                <span className="whitespace-nowrap hidden md:inline">بدء الرحلة</span>
+                <span className="whitespace-nowrap hidden md:inline">ابدأ الجولة</span>
               </motion.button>
             )}
           </AnimatePresence>
@@ -483,7 +483,7 @@ export default function App() {
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ type: 'spring', damping: 18, stiffness: 300, delay: 0.6 }}
-            data-tour-id="search-button-mobile"
+            data-tour-id="search-button"
             onClick={() => setIsMenuOpen(true)}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.88 }}

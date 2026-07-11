@@ -1,9 +1,7 @@
 export type TourPosition = 'top' | 'bottom' | 'left' | 'right' | 'center';
 
-export type TourActionType = 'click' | 'scroll' | 'hover' | 'none';
-
 export interface TourAction {
-  type: TourActionType;
+  type: 'click';
   target?: string;
   description: string;
 }
@@ -24,19 +22,6 @@ export interface TourStep {
 export interface TourState {
   isActive: boolean;
   currentStep: number;
-  isCompleted: boolean;
-  hasSeenTour: boolean;
-}
-
-export interface TourContextValue {
-  state: TourState;
-  startTour: () => void;
-  endTour: () => void;
-  nextStep: () => void;
-  previousStep: () => void;
-  goToStep: (step: number) => void;
-  skipTour: () => void;
-  resetTour: () => void;
 }
 
 export interface SpotlightPosition {
@@ -53,4 +38,3 @@ export interface TooltipPosition {
   right?: number;
   transform?: string;
 }
-

@@ -1,7 +1,12 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { useTourContext } from '../contexts/TourContext';
-import { calculateSpotlightPosition, calculateTooltipPosition } from '../hooks/useTour';
+import {
+  calculateSpotlightPosition,
+  calculateTooltipPosition,
+  queryVisibleTourTarget,
+} from '../utils/tour';
+import { closeAllPanels } from '../data/tourSteps';
 import { TourSpotlight } from './TourSpotlight';
 import { TourTooltip } from './TourTooltip';
 import { TourProgress } from './TourProgress';
@@ -9,7 +14,11 @@ import { TourPrompt } from './TourPrompt';
 import { SpotlightPosition, TooltipPosition } from '../types/tour';
 import { Z_INDEX } from '../constants';
 
-export const AppTour: React.FC = () => {
+const FOCUSABLE = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+const TARGET_POLL_MS = 2000;
+const TARGET_POLL_INTERVAL = 100;
+
+export const AppTour = () => {
   const {
     state,
     currentStepData,
@@ -20,329 +29,187 @@ export const AppTour: React.FC = () => {
     endTour,
     showPrompt,
     acceptTourPrompt,
-    declineTourPrompt
+    declineTourPrompt,
   } = useTourContext();
 
-  const [spotlightPosition, setSpotlightPosition] = useState<SpotlightPosition | null>(null);
-  const [tooltipPosition, setTooltipPosition] = useState<TooltipPosition | null>(null);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [spotlight, setSpotlight] = useState<SpotlightPosition | null>(null);
+  const [tooltip, setTooltip] = useState<TooltipPosition | null>(null);
+  const [transitioning, setTransitioning] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
-  const resizeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const savedFocusRef = useRef<HTMLElement | null>(null);
 
   const updatePositions = useCallback(() => {
     if (!currentStepData || !state.isActive) {
-      setSpotlightPosition(null);
-      setTooltipPosition(null);
+      setSpotlight(null);
+      setTooltip(null);
       return;
     }
 
-    const targetElement = document.querySelector(currentStepData.target) as HTMLElement | null;
-
-    if (!targetElement) {
-      // Fullscreen step (e.g. welcome / completion) — spotlight covers viewport.
-      if (currentStepData.target === 'body') {
-        setSpotlightPosition({
-          top: 0,
-          left: 0,
-          width: window.innerWidth,
-          height: window.innerHeight,
+    // Fullscreen step (welcome / navigation-tips / complete) — spotlight covers viewport.
+    if (currentStepData.target === 'body') {
+      setSpotlight({ top: 0, left: 0, width: window.innerWidth, height: window.innerHeight });
+      if (currentStepData.position === 'center') {
+        setTooltip({
+          top: window.innerHeight / 2,
+          left: window.innerWidth / 2,
+          transform: 'translate(-50%, -50%)',
         });
-
-        if (currentStepData.position === 'center') {
-          setTooltipPosition({
-            top: window.innerHeight / 2,
-            left: window.innerWidth / 2,
-            transform: 'translate(-50%, -50%)',
-          });
-        }
-        return;
       }
-
-      // Target missing — clear stale spotlight/tooltip so we don't render an
-      // out-of-place overlay from the previous step.
-      console.warn(`Tour target not found: ${currentStepData.target}`);
-      setSpotlightPosition(null);
-      setTooltipPosition(null);
       return;
     }
 
-    const rect = targetElement.getBoundingClientRect();
-    const isVisible = rect.width > 0 && rect.height > 0 &&
-                     rect.top < window.innerHeight && rect.bottom > 0 &&
-                     rect.left < window.innerWidth && rect.right > 0;
-
-    if (!isVisible) {
-      console.warn(`Tour target not visible: ${currentStepData.target}`);
-      setSpotlightPosition(null);
-      setTooltipPosition(null);
+    const target = queryVisibleTourTarget(currentStepData.target);
+    if (!target) {
+      setSpotlight(null);
+      setTooltip(null);
       return;
     }
 
     const padding = currentStepData.spotlightPadding ?? 10;
-    setSpotlightPosition(calculateSpotlightPosition(targetElement, padding));
+    setSpotlight(calculateSpotlightPosition(target, padding));
 
-    const calculateTooltip = () => {
-      if (!tooltipRef.current) {
-        setTimeout(calculateTooltip, 50);
-        return;
-      }
-      setTooltipPosition(
-        calculateTooltipPosition(targetElement, tooltipRef.current, currentStepData.position)
-      );
+    // Tooltip depends on its own measured size, so wait one frame if the ref
+    // hasn't mounted yet (first render of this step).
+    const placeTooltip = () => {
+      if (!tooltipRef.current) return requestAnimationFrame(placeTooltip);
+      setTooltip(calculateTooltipPosition(target, tooltipRef.current, currentStepData.position));
     };
-    calculateTooltip();
+    placeTooltip();
   }, [currentStepData, state.isActive]);
 
+  // Run step lifecycle: beforeShow → measure → observe target for resizes.
   useEffect(() => {
     if (!state.isActive || !currentStepData) return;
 
     let cancelled = false;
-    let pollInterval: ReturnType<typeof setInterval> | null = null;
+    let pollId: ReturnType<typeof setInterval> | null = null;
     let resizeObserver: ResizeObserver | null = null;
-    let mutationObserver: MutationObserver | null = null;
-    let observedTarget: Element | null = null;
 
     const observeTarget = () => {
-      const target = document.querySelector(currentStepData.target);
-      if (!target || target === observedTarget) return;
-      observedTarget = target;
-
-      // ResizeObserver: target resized (e.g. mobile drawer expanded) → reposition.
-      if (typeof ResizeObserver !== 'undefined') {
-        resizeObserver?.disconnect();
-        resizeObserver = new ResizeObserver(() => updatePositions());
-        resizeObserver.observe(target);
-      }
+      const target = queryVisibleTourTarget(currentStepData.target);
+      if (!target) return;
+      resizeObserver?.disconnect();
+      resizeObserver = new ResizeObserver(() => updatePositions());
+      resizeObserver.observe(target);
     };
 
-    const executeBeforeShow = async () => {
-      setIsTransitioning(true);
-
-      if (currentStepData.beforeShow) {
-        await currentStepData.beforeShow();
-      }
-
+    const run = async () => {
+      setTransitioning(true);
+      // Step-specific setup, or default panel cleanup for steps without one.
+      await (currentStepData.beforeShow ?? closeAllPanels)();
       if (cancelled) return;
 
-      // Brief delay for spotlight morphing before showing tooltip
+      updatePositions();
+      observeTarget();
+
+      // Target may not be mounted yet (a drawer that beforeShow opened will
+      // mount the target on the next frame). Poll briefly.
+      if (currentStepData.target !== 'body' && !queryVisibleTourTarget(currentStepData.target)) {
+        let elapsed = 0;
+        pollId = setInterval(() => {
+          if (cancelled) return;
+          elapsed += TARGET_POLL_INTERVAL;
+          if (queryVisibleTourTarget(currentStepData.target)) {
+            if (pollId) clearInterval(pollId);
+            updatePositions();
+            observeTarget();
+          } else if (elapsed >= TARGET_POLL_MS && pollId) {
+            clearInterval(pollId);
+          }
+        }, TARGET_POLL_INTERVAL);
+      }
+
       setTimeout(() => {
-        updatePositions();
-        observeTarget();
-
-        // If target wasn't there yet (a beforeShow may have just opened a
-        // drawer that mounts the target on the next frame), poll for up to
-        // 2s before giving up.
-        if (
-          currentStepData.target !== 'body' &&
-          !document.querySelector(currentStepData.target)
-        ) {
-          let elapsed = 0;
-          pollInterval = setInterval(() => {
-            elapsed += 100;
-            if (cancelled) {
-              if (pollInterval) clearInterval(pollInterval);
-              return;
-            }
-            if (document.querySelector(currentStepData.target)) {
-              if (pollInterval) clearInterval(pollInterval);
-              pollInterval = null;
-              updatePositions();
-              observeTarget();
-            } else if (elapsed >= 2000) {
-              if (pollInterval) clearInterval(pollInterval);
-              pollInterval = null;
-            }
-          }, 100);
-        }
-
-        setTimeout(() => {
-          if (!cancelled) setIsTransitioning(false);
-        }, 150);
-      }, 100);
+        if (!cancelled) setTransitioning(false);
+      }, 150);
     };
+    run();
 
-    executeBeforeShow();
-
-    // MutationObserver: target may be re-mounted (route change, conditional
-    // render). Reposition when its presence/attributes change.
-    if (typeof MutationObserver !== 'undefined') {
-      mutationObserver = new MutationObserver(() => {
-        const stillThere = document.querySelector(currentStepData.target);
-        if (stillThere && stillThere !== observedTarget) {
-          observeTarget();
-          updatePositions();
-        }
-      });
-      mutationObserver.observe(document.body, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        attributeFilter: ['class', 'style', 'hidden'],
-      });
-    }
-
-    const handleResize = () => {
-      if (resizeTimeoutRef.current) clearTimeout(resizeTimeoutRef.current);
-      resizeTimeoutRef.current = setTimeout(updatePositions, 150);
-    };
-
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('scroll', updatePositions, true);
+    const onResize = () => updatePositions();
+    window.addEventListener('resize', onResize);
+    window.addEventListener('scroll', onResize, true);
 
     return () => {
       cancelled = true;
-      if (pollInterval) clearInterval(pollInterval);
+      if (pollId) clearInterval(pollId);
       resizeObserver?.disconnect();
-      mutationObserver?.disconnect();
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('scroll', updatePositions, true);
-      if (resizeTimeoutRef.current) clearTimeout(resizeTimeoutRef.current);
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('scroll', onResize, true);
     };
   }, [state.isActive, currentStepData, updatePositions]);
 
   const handleNext = useCallback(async () => {
-    if (isTransitioning) return;
+    if (transitioning) return;
+    await currentStepData?.afterShow?.();
+    if (state.currentStep === totalSteps - 1) endTour();
+    else nextStep();
+  }, [currentStepData, state.currentStep, totalSteps, endTour, nextStep, transitioning]);
 
-    if (currentStepData?.afterShow) {
-      await currentStepData.afterShow();
-    }
-    
-    if (state.currentStep === totalSteps - 1) {
-      endTour();
-    } else {
-      nextStep();
-    }
-  }, [currentStepData, state.currentStep, totalSteps, endTour, nextStep, isTransitioning]);
+  const handlePrevious = useCallback(() => {
+    if (transitioning || state.currentStep === 0) return;
+    previousStep();
+  }, [previousStep, state.currentStep, transitioning]);
 
-  const handlePrevious = useCallback(async () => {
-    if (isTransitioning) return;
-    if (state.currentStep > 0) {
-      previousStep();
-    }
-  }, [previousStep, state.currentStep, isTransitioning]);
-
-  const handleSkip = useCallback(() => {
-    skipTour();
-  }, [skipTour]);
-
-  // Keyboard navigation: Arrow keys + Escape
+  // Keyboard: arrows (RTL-aware), Escape, Enter/Space to advance.
   useEffect(() => {
     if (!state.isActive) return;
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      switch (e.key) {
-        case 'ArrowLeft':
-          // In RTL, ArrowLeft = next
-          e.preventDefault();
-          handleNext();
-          break;
-        case 'ArrowRight':
-          // In RTL, ArrowRight = previous
-          e.preventDefault();
-          handlePrevious();
-          break;
-        case 'Escape':
-          e.preventDefault();
-          handleSkip();
-          break;
-        case 'Enter':
-        case ' ':
-          // Allow Enter/Space to advance if not focused on a button
-          if (!(document.activeElement instanceof HTMLButtonElement)) {
-            e.preventDefault();
-            handleNext();
-          }
-          break;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); handleNext(); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); handlePrevious(); }
+      else if (e.key === 'Escape') { e.preventDefault(); skipTour(); }
+      else if ((e.key === 'Enter' || e.key === ' ') && !(document.activeElement instanceof HTMLButtonElement)) {
+        e.preventDefault();
+        handleNext();
       }
     };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [state.isActive, handleNext, handlePrevious, skipTour]);
 
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [state.isActive, handleNext, handlePrevious, handleSkip]);
-
-  // Focus management and focus trap
+  // Focus save/restore + focus trap inside the tooltip.
   useEffect(() => {
     if (!state.isActive) {
-      if (savedFocusRef.current) {
-        savedFocusRef.current.focus();
-        savedFocusRef.current = null;
-      }
+      savedFocusRef.current?.focus();
+      savedFocusRef.current = null;
       return;
     }
 
     savedFocusRef.current = document.activeElement as HTMLElement;
-    if (tooltipRef.current) {
-      const firstFocusable = tooltipRef.current.querySelector<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      if (firstFocusable) {
-        firstFocusable.focus();
-      }
-    }
+    tooltipRef.current?.querySelector<HTMLElement>(FOCUSABLE)?.focus();
 
-    const handleTabKey = (e: KeyboardEvent) => {
+    const trap = (e: KeyboardEvent) => {
       if (e.key !== 'Tab' || !tooltipRef.current) return;
-
-      const focusableElements = tooltipRef.current.querySelectorAll<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      const firstElement = focusableElements[0];
-      const lastElement = focusableElements[focusableElements.length - 1];
-
-      if (e.shiftKey) {
-        if (document.activeElement === firstElement) {
-          e.preventDefault();
-          lastElement?.focus();
-        }
-      } else {
-        if (document.activeElement === lastElement) {
-          e.preventDefault();
-          firstElement?.focus();
-        }
-      }
+      const focusables = tooltipRef.current.querySelectorAll<HTMLElement>(FOCUSABLE);
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     };
-
-    document.addEventListener('keydown', handleTabKey);
-
-    return () => {
-      document.removeEventListener('keydown', handleTabKey);
-    };
+    document.addEventListener('keydown', trap);
+    return () => document.removeEventListener('keydown', trap);
   }, [state.isActive]);
 
   return (
     <>
-      <TourPrompt
-        isOpen={showPrompt}
-        onAccept={acceptTourPrompt}
-        onDecline={declineTourPrompt}
-      />
+      <TourPrompt isOpen={showPrompt} onAccept={acceptTourPrompt} onDecline={declineTourPrompt} />
 
       <AnimatePresence mode="wait">
-        {state.isActive && spotlightPosition && currentStepData && (
+        {state.isActive && spotlight && currentStepData && (
           <div key="tour-overlay" style={{ zIndex: Z_INDEX.tourBackdrop }}>
-            <TourProgress
-              currentStep={state.currentStep}
-              totalSteps={totalSteps}
-            />
-
-            <TourSpotlight
-              position={spotlightPosition}
-              disableInteraction={currentStepData.disableInteraction}
-            />
-
+            <TourProgress currentStep={state.currentStep} totalSteps={totalSteps} />
+            <TourSpotlight position={spotlight} disableInteraction={currentStepData.disableInteraction} />
             <div ref={tooltipRef}>
               <TourTooltip
                 title={currentStepData.title}
                 content={currentStepData.content}
-                position={tooltipPosition || {}}
+                position={tooltip ?? {}}
                 currentStep={state.currentStep}
                 totalSteps={totalSteps}
                 onNext={handleNext}
                 onPrevious={handlePrevious}
-                onSkip={handleSkip}
+                onSkip={skipTour}
                 showPrevious={state.currentStep > 0}
-                showNext={true}
               />
             </div>
           </div>

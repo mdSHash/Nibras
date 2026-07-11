@@ -44,9 +44,6 @@
   --z-tooltip: 1100;
   --z-toast: 1200;
   --z-intro: 1300;
-  --z-tour-backdrop: 1400;
-  --z-tour-tooltip: 1500;
-  --z-tour-controls: 1550;
   --z-skip-link: 1600;
 
   /* Fluid Typography Scale */
@@ -221,42 +218,11 @@
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
   --ease-in-expo: cubic-bezier(0.95, 0.05, 0.795, 0.035);
-  
-  /* Tour System Variables */
-  --tour-backdrop: rgba(44, 36, 30, 0.85);
-  --tour-backdrop-blur: 12px;
-  --tour-tooltip-bg: linear-gradient(135deg, #f4ece1 0%, #e8dfd0 100%);
-  --tour-tooltip-border: rgba(139, 107, 74, 0.3);
-  --tour-tooltip-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  
+
   /* Cursor styles */
   --cursor-pointer: pointer;
   --cursor-default: default;
   --cursor-not-allowed: not-allowed;
-  --tour-spotlight-border: #8b6b4a;
-  --tour-spotlight-glow: rgba(139, 107, 74, 0.4);
-  --tour-text-primary: #2c241e;
-  --tour-text-secondary: #6b5a47;
-  --tour-text-tertiary: #8b7a67;
-  
-  /* Tour Typography */
-  --tour-text-xs: clamp(11px, 2vw, 12px);
-  --tour-text-sm: clamp(13px, 2.5vw, 14px);
-  --tour-text-base: clamp(15px, 3vw, 16px);
-  --tour-text-lg: clamp(17px, 3.5vw, 18px);
-  --tour-text-xl: clamp(20px, 4vw, 22px);
-  --tour-text-2xl: clamp(24px, 5vw, 28px);
-  --tour-text-3xl: clamp(30px, 6vw, 36px);
-  
-  /* Tour Spacing */
-  --tour-space-1: 4px;
-  --tour-space-2: 8px;
-  --tour-space-3: 12px;
-  --tour-space-4: 16px;
-  --tour-space-6: 24px;
-  --tour-space-8: 32px;
-  --tour-space-12: 48px;
-  --tour-space-16: 64px;
 }
 
 /* Fix scroll blocking on specific event panel sections */
@@ -320,17 +286,6 @@
   --sys-islamic-green-light: #8bc77f;
   --sys-islamic-green: #6da561;
   
-  /* Tour System Variables - Dark Mode */
-  --tour-backdrop: rgba(18, 13, 9, 0.9);
-  --tour-backdrop-blur: 16px;
-  --tour-tooltip-bg: linear-gradient(135deg, #2d231c 0%, #221a15 100%);
-  --tour-tooltip-border: rgba(212, 163, 115, 0.3);
-  --tour-tooltip-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --tour-spotlight-border: #d4a373;
-  --tour-spotlight-glow: rgba(212, 163, 115, 0.5);
-  --tour-text-primary: #f0e6d8;
-  --tour-text-secondary: #c4b39a;
-  --tour-text-tertiary: #a89a82;
   --sys-islamic-green-dark: #558a4a;
   --sys-islamic-green-glow: rgba(109, 165, 97, 0.3);
   
@@ -592,9 +547,7 @@ html {
   
   /* Optimize frequently animated elements */
   [class*="motion-"],
-  [class*="animate-"],
-  .tour-spotlight,
-  .tour-tooltip {
+  [class*="animate-"] {
     transform: translateZ(0);
     backface-visibility: hidden;
     perspective: 1000px;
@@ -842,25 +795,6 @@ html {
     border-radius: 24px;
     font-size: 12px;
     font-weight: bold;
-  }
-}
-
-/* Mobile Tour Optimizations */
-@media (max-width: 768px) {
-  .tour-tooltip-mobile {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    max-height: 70vh;
-    border-radius: 24px 24px 0 0;
-    padding: 24px;
-    padding-bottom: calc(24px + env(safe-area-inset-bottom));
-  }
-  
-  .tour-spotlight-mobile {
-    border-width: 4px;
-    border-radius: 16px;
   }
 }
 
@@ -1481,14 +1415,6 @@ button[disabled],
     transition-duration: 150ms !important;
   }
   
-  /* Tour components - disable complex animations */
-  .tour-spotlight,
-  .tour-tooltip,
-  .tour-progress,
-  .tour-prompt {
-    animation: none !important;
-  }
-  
   /* Disable motion animations but keep opacity transitions */
   [class*="motion-"],
   [data-motion] {
@@ -1555,100 +1481,6 @@ button[disabled],
     background-color: rgba(212, 163, 115, 0.7);
   }
 
-/* Guided Tour Styles */
-.tour-spotlight {
-  pointer-events: none;
-  transition: all var(--duration-normal) var(--ease-smooth);
-}
-
-.tour-spotlight.animating {
-  will-change: opacity, transform;
-}
-
-.tour-tooltip {
-  pointer-events: auto;
-}
-
-.tour-tooltip.animating {
-  will-change: opacity, transform;
-}
-
-@keyframes tour-pulse {
-  0%, 100% {
-    box-shadow: 0 0 0 0 var(--color-accent);
-  }
-  50% {
-    box-shadow: 0 0 0 8px transparent;
-  }
-}
-
-@keyframes tour-glow {
-  0%, 100% {
-    box-shadow: 0 0 0 4px rgba(139, 92, 46, 0.3), 0 0 20px rgba(139, 92, 46, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 0 6px rgba(139, 92, 46, 0.4), 0 0 30px rgba(139, 92, 46, 0.6);
-  }
-}
-
-@keyframes tour-shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(200%);
-  }
-}
-
-@keyframes tour-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes tour-scale-in {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.tour-highlight {
-  animation: tour-pulse 2s infinite;
-}
-
-.tour-glow {
-  animation: tour-glow 2s ease-in-out infinite;
-}
-
-/* Ensure tour elements are above everything */
-.tour-overlay {
-  z-index: 9998;
-}
-
-.tour-content {
-  z-index: 10000;
-}
-
-/* Performance optimizations for tour animations */
-@media (prefers-reduced-motion: no-preference) {
-  .tour-spotlight,
-  .tour-tooltip,
-  .tour-progress {
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    perspective: 1000px;
-  }
-}
 }
 
 /* Event Panel Toggle Button Styles */
