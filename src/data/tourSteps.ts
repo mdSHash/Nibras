@@ -78,7 +78,7 @@ export const tourSteps: TourStep[] = [
     target: '[data-tour-id="filters-section"]',
     title: 'خيارات التصفية',
     content:
-      'يمكنك تصفية الأحداث حسب الفترة الزمنية (العهد المكي، العهد المدني، عصر الخلافة الراشدة) أو حسب نوع المحتوى (أحداث، معارك، مدن).',
+      'يمكنك تصفية الأحداث حسب الفترة الزمنية (عصر النبي ﷺ أو الخلفاء الراشدين) أو حسب نوع المحتوى (الأحداث فقط أو المعارك فقط).',
     position: 'left',
     spotlightPadding: 10,
     beforeShow: async () => {
@@ -110,7 +110,11 @@ export const tourSteps: TourStep[] = [
     spotlightPadding: 10,
     beforeShow: async () => {
       await closeSearchMenu();
-      const first = document.querySelector<HTMLElement>('[data-tour-id="timeline"] [role="button"]');
+      // Match BOTH desktop (`<div role="button" data-event-id>`) and mobile
+      // (`<motion.button data-event-id>`) timeline events. The prior selector
+      // used only `[role="button"]`, which mobile doesn't set — leaving the
+      // step invisible under ~640px because EventPanel never opened.
+      const first = document.querySelector<HTMLElement>('[data-tour-id="timeline"] [data-event-id]');
       if (!first) return;
       first.click();
       await waitForVisible('[data-tour-id="event-panel"]', 1500);

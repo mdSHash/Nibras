@@ -11,6 +11,7 @@ import { Moon, Sun, Search, Compass, LocateFixed, Maximize2, Minimize2 } from 'l
 import { FilterOptions } from './types';
 import { motion, AnimatePresence } from 'motion/react';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
+import { useIsMobile } from './hooks/useMatchMedia';
 import { ToastContainer, ToastType } from './components/Toast';
 import { LoadingSpinner } from './components/LoadingSpinner';
 import { isBattle, isProphetEra, isRashidunEra } from './utils/eventHelpers';
@@ -45,6 +46,7 @@ export default function App() {
   });
 
   const { startTour, state, triggerPrompt, isFirstVisit } = useTourContext();
+  const isMobile = useIsMobile();
 
   // Stop autoplay when panel is hidden or closed
   const handlePanelToggle = () => {
@@ -127,9 +129,7 @@ export default function App() {
     const sorted = [...eventsData]
       .filter(evt => {
         // Type matching
-        if (filters.type === 'cities') {
-          return false;
-        } else if (filters.type === 'battles') {
+        if (filters.type === 'battles') {
           if (!isBattle(evt)) return false;
         } else if (filters.type === 'events') {
           if (isBattle(evt)) return false;
@@ -146,30 +146,11 @@ export default function App() {
       })
       .sort((a, b) => a.date.gregorian - b.date.gregorian);
 
-    // Apply era filtering if an era is selected
-    if (selectedEra) {
-      const eraIndex = sorted.findIndex(evt => {
-        if (selectedEra === 'العهد النبوي') {
-          return evt.era?.includes('الوحي') || evt.era?.includes('المدني') || evt.title.includes('نزول');
-        } else if (selectedEra === 'أبو بكر الصديق') {
-          return evt.title.includes('تولي أبو بكر') || evt.era?.includes('أبي بكر');
-        } else if (selectedEra === 'عمر بن الخطاب') {
-          return evt.title.includes('تولي عمر') || evt.era?.includes('عمر');
-        } else if (selectedEra === 'عثمان بن عفان') {
-          return evt.title.includes('تولي عثمان') || evt.era?.includes('عثمان');
-        } else if (selectedEra === 'علي بن أبي طالب') {
-          return evt.title.includes('تولي علي') || evt.era?.includes('علي');
-        }
-        return false;
-      });
-
-      if (eraIndex !== -1) {
-        return sorted.slice(0, eraIndex + 1);
-      }
-    }
-
+    // selectedEra is a cosmetic highlight on the era pill — it does NOT filter
+    // the timeline. Clicking a pill jumps to that era's anchor event and marks
+    // the pill as "current"; it never hides events past that era.
     return sorted;
-  }, [filters, selectedEra]);
+  }, [filters]);
 
   // Events to display on map and timeline (filtered by player mode progress)
   const displayedEvents = useMemo(() => {
@@ -372,9 +353,7 @@ export default function App() {
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/8 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <Search size={16} className="sm:w-[18px] sm:h-[18px] text-accent relative z-10" />
             <span className="font-bold text-[13px] sm:text-[14px] truncate relative z-10">
-              {filters.type === 'cities'
-                ? 'استكشف المدن التاريخية...'
-                : `ابحث واستكشف ${filteredSortedEvents.length} حدث تاريخي...`}
+              {`ابحث واستكشف ${filteredSortedEvents.length} حدث تاريخي...`}
             </span>
           </motion.button>
         </motion.div>
@@ -550,7 +529,7 @@ export default function App() {
             setSelectedEvent(event);
             setIsMenuOpen(false); // Close search menu when selecting event
           }}
-          showCities={filters.type === 'all' || filters.type === 'cities'}
+          showCities={filters.type === 'all'}
           onOpenFilter={() => setIsMenuOpen(true)}
         />
       </main>
@@ -570,6 +549,7 @@ export default function App() {
           }}
           isHidden={isPanelHidden}
           onToggleHidden={handlePanelToggle}
+          isDrawerOpen={isMenuOpen}
         />
       </div>
 
@@ -599,7 +579,10 @@ export default function App() {
           events={filteredSortedEvents}
           onSelectEvent={(event) => {
             setSelectedEvent(event);
-            setIsMenuOpen(false); // Auto-close menu after selection
+            // Desktop: keep the drawer open so the user retains filter context
+            // and can pick another event. Mobile: close, since the drawer is a
+            // full-screen overlay and would otherwise hide the detail panel.
+            if (isMobile) setIsMenuOpen(false);
           }}
           filters={filters}
           setFilters={setFilters}
@@ -609,6 +592,7 @@ export default function App() {
       <div>
         <Timeline
           events={displayedEvents}
+          allEvents={filteredSortedEvents}
           selectedEvent={selectedEvent}
           onSelectEvent={setSelectedEvent}
           isAutoPlaying={isAutoPlaying}

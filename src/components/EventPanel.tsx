@@ -28,7 +28,7 @@ import QuranRef from "./QuranRef";
 import { getEraColor, getEraColorScheme } from "../utils/eraColors";
 import { Z_INDEX } from "../constants";
 import { cn } from "../utils/cn";
-import { slideUp, slideInRight } from "../utils/motionVariants";
+import { slideUp, slideInRight, slideInLeft } from "../utils/motionVariants";
 import geminiTTS, { releaseOwner } from "../services/ttsGemini";
 
 // ─── Battle scenario availability map (unchanged) ─────────────────────────
@@ -62,6 +62,10 @@ interface EventPanelProps {
   onBattleOpen?: (battleId: string) => void;
   isHidden?: boolean;
   onToggleHidden?: () => void;
+  /** When the SearchMenu drawer is open on desktop, the panel slides to the
+   *  LEFT edge instead of the RIGHT so the drawer stays visible for filter
+   *  context. Ignored on mobile (drawer is a full-screen overlay there). */
+  isDrawerOpen?: boolean;
 }
 
 const getEraTheme = (era?: string) => {
@@ -145,6 +149,7 @@ export default function EventPanel({
   onBattleOpen,
   isHidden = false,
   onToggleHidden,
+  isDrawerOpen = false,
 }: EventPanelProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -335,7 +340,7 @@ export default function EventPanel({
             key={event.id}
             ref={panelRef}
             data-tour-id="event-panel"
-            variants={isMobile ? slideUp : slideInRight}
+            variants={isMobile ? slideUp : isDrawerOpen ? slideInLeft : slideInRight}
             initial="hidden"
             animate="visible"
             exit="exit"
@@ -344,11 +349,12 @@ export default function EventPanel({
                 ? {
                     zIndex: Z_INDEX.eventPanel,
                     height: `${mobileHeight}dvh`,
-                    bottom: 'calc(var(--timeline-h, 90px) + env(safe-area-inset-bottom, 0px))',
+                    bottom: 'calc(var(--timeline-height, 90px) + env(safe-area-inset-bottom, 0px))',
                   }
                 : {
                     zIndex: Z_INDEX.eventPanel,
                     top: 'var(--header-h, 64px)',
+                    bottom: 'var(--timeline-height, 110px)',
                     borderInlineStartColor: eraTheme.color,
                   }
             }
@@ -364,12 +370,15 @@ export default function EventPanel({
                 'overflow-hidden',
               ],
               !isMobile && [
-                'right-0',
+                // Slide to LEFT when the drawer is open so both surfaces are
+                // visible side-by-side; otherwise sit on the RIGHT as usual.
+                isDrawerOpen ? 'left-0' : 'right-0',
                 isExpanded
-                  ? 'bottom-[80px] w-[min(680px,55vw)] lg:w-[min(740px,46vw)] xl:w-[780px]'
-                  : 'bottom-[160px] w-[min(460px,40vw)] lg:w-[min(500px,32vw)] xl:w-[540px]',
+                  ? 'w-[min(680px,55vw)] lg:w-[min(740px,46vw)] xl:w-[780px]'
+                  : 'w-[min(460px,40vw)] lg:w-[min(500px,32vw)] xl:w-[540px]',
                 'rounded-none',
-                'border-s-[3px]',
+                // Accent border on the side facing the map (opposite the edge).
+                isDrawerOpen ? 'border-e-[3px]' : 'border-s-[3px]',
                 'overflow-hidden',
               ],
             )}

@@ -119,6 +119,20 @@ export const AppTour = () => {
         }, TARGET_POLL_INTERVAL);
       }
 
+      // The initial measurement can land while the target is still animating
+      // in (slideInRight / slideUp / expand-transition), so its rect is stale.
+      // ResizeObserver doesn't fire on transform-only changes, so re-measure
+      // at a few points until animations settle. Without this the tooltip
+      // ends up anchored to the target's pre-animation position — e.g. the
+      // mobile EventPanel appears at rect.top ≈ vh (offscreen) at slideUp
+      // start, so the tooltip parks near the bottom of the viewport instead
+      // of above the settled panel.
+      for (const ms of [200, 450, 800]) {
+        setTimeout(() => {
+          if (!cancelled) updatePositions();
+        }, ms);
+      }
+
       setTimeout(() => {
         if (!cancelled) setTransitioning(false);
       }, 150);

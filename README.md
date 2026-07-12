@@ -52,7 +52,8 @@ Nibras (نِبْرَاس — "lamp" or "light" in Arabic) is an interactive web 
 - **Quran & Hadith References** — Events linked to relevant Quranic verses and canonical hadith (Bukhari, Muslim, Ahmad, Tirmidhi) with modal display
 - **Text-to-Speech Narration** — 262 pre-cached Charon-voice WAV files (Gemini 3.1 flash-tts, 24 kHz PCM) covering every event's title and full description, served as static assets from `public/audio/{sha256}.wav`
 - **Synthesized Battle Audio** — Web Audio API generates clash, charge, defeat, takbir, and horn SFX for the battlefield engine — no asset files needed
-- **Guided App Tour** — Step-by-step onboarding with spotlight highlighting; auto-repositions when targets resize/remount via ResizeObserver
+- **Diacritic-tolerant Arabic search** — Type `معركه بدر` or `بدر الكبرى` and match the vocalized title `مَعْرَكَةُ بَدْرٍ الْكُبْرَى`. Normalizes tashkeel, alef/yeh/teh-marbuta variants, and matches whitespace-separated tokens (all-of), against title, summary, full description, location, and year.
+- **Guided App Tour** — Step-by-step onboarding with spotlight highlighting; auto-repositions when targets resize/remount and after slide-in animations settle
 - **Keyboard Shortcuts** — Full keyboard navigation; gated when modals are open
 - **Dark/Light Mode** — Theme toggle, WCAG AA contrast verified in both modes
 - **Autoplay Mode** — Sequential event playback with narration
@@ -120,7 +121,7 @@ The app will be available at `http://localhost:3000`.
 2. **Map Exploration** — Click markers on the map to view event details. Territorial polygons update as you move through time.
 3. **Event Details** — Select any event to open the detail panel with full description, companion roles, Quran references, and TTS narration.
 4. **Battle Replay** — Events tagged as battles display a "Watch Battle" button. Click to launch the full-screen cinematic replay with play/pause controls and narration.
-5. **Search** — Use the search menu (keyboard shortcut available) to find events by title.
+5. **Search** — Open the search drawer (Ctrl+K on desktop, magnifier icon on mobile) to filter events by keyword, era, or type. Search is diacritic-tolerant Arabic: `معركه` matches `معركة`, `بدر الكبرى` matches `غزوة بدر الكبرى`, and tokens can appear in any order across title, summary, description, location, or year.
 6. **Autoplay** — Enable player mode to auto-advance through events with narration.
 
 ---
@@ -161,13 +162,14 @@ nibras/
 │   │   ├── Timeline.tsx       # Vertical timeline with autoplay
 │   │   ├── CompanionModal.tsx # Sahaba biography modal
 │   │   ├── QuranModal.tsx     # Quran reference modal
-│   │   └── SearchMenu.tsx     # Event search overlay
+│   │   ├── SearchMenu.tsx     # Event search + filter drawer
+│   │   └── timeline/          # Timeline subcomponents (Rail, DesktopDock, MobileDock, Diamond, EraPill)
 │   ├── contexts/              # React contexts (Tour)
 │   ├── hooks/                 # Custom hooks (gestures, keyboard, focus trap)
 │   ├── services/              # TTS service layer (Gemini)
 │   ├── constants/             # App-wide constants (z-index, etc.)
 │   ├── data/                  # Tour step definitions
-│   └── utils/                 # Utilities (animations, formatting, era colors)
+│   └── utils/                 # Utilities (animations, formatting, era colors, Arabic-search normalization)
 ├── .env.example               # Environment variable template
 ├── package.json               # Dependencies and scripts
 ├── PRD.md                     # Product Requirements Document

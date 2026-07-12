@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { EventItem, citiesData } from '../data';
+import { EventItem } from '../data';
 import { X, Search, MapPin, Filter } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { FilterOptions } from '../types';
@@ -10,6 +10,7 @@ import { slideInRight, staggerContainer, staggerItem } from '../utils/motionVari
 import { Z_INDEX } from '../constants';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useSwipeGesture } from '../hooks/useSwipeGesture';
+import { normalizeArabic, tokenizeQuery } from '../utils/searchNormalize';
 
 interface SearchMenuProps {
   isOpen: boolean;
@@ -35,18 +36,33 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
     threshold: 60
   });
 
+  // Pre-normalize each event once per `events` prop change. A single lowercased,
+  // diacritic-stripped haystack per event lets filtering shrink to a token loop
+  // without re-allocating for every keystroke.
+  const eventHaystacks = useMemo(() => {
+    const map = new Map<string, string>();
+    events.forEach(e => {
+      const parts = [
+        e.title,
+        e.details?.summary ?? '',
+        e.details?.full_description ?? '',
+        e.location?.name ?? '',
+        String(e.date.gregorian),
+        e.date.hijri_relative ?? '',
+      ].join(' ');
+      map.set(e.id, normalizeArabic(parts));
+    });
+    return map;
+  }, [events]);
+
   const filteredEvents = useMemo(() => {
-    const query = debouncedSearch.trim().toLowerCase();
-    if (!query) return events;
-    return events.filter(e => 
-      e.title.toLowerCase().includes(query) || 
-      (e.details.summary && e.details.summary.toLowerCase().includes(query)) ||
-      (e.details.full_description && e.details.full_description.toLowerCase().includes(query)) ||
-      (e.location.name && e.location.name.toLowerCase().includes(query)) ||
-      e.date.gregorian.toString().includes(query) ||
-      (e.date.hijri_relative && e.date.hijri_relative.toString().includes(query))
-    );
-  }, [debouncedSearch, events]);
+    const tokens = tokenizeQuery(debouncedSearch);
+    if (!tokens.length) return events;
+    return events.filter(e => {
+      const haystack = eventHaystacks.get(e.id) ?? '';
+      return tokens.every(t => haystack.includes(t));
+    });
+  }, [debouncedSearch, events, eventHaystacks]);
 
   return (
     <AnimatePresence>
@@ -68,7 +84,10 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
             aria-hidden="true"
           />
 
-          {/* Drawer Panel */}
+          {/* Drawer Panel — its `bottom` is driven by `--timeline-height` (set
+              live by Timeline via ResizeObserver) so the drawer stops above the
+              rail instead of overlaying it. Falls back to 0 when the var isn't
+              set yet (e.g. first paint before Timeline mounts). */}
           <motion.div
             ref={focusTrapRef}
             variants={slideInRight}
@@ -81,21 +100,23 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
             aria-label="قائمة البحث"
             className={cn(
               // Base positioning
-              'fixed top-0 right-0 bottom-0',
+              'fixed top-0 right-0',
               'flex flex-col pointer-events-auto',
               'text-right',
-              // Mobile: full-screen overlay
+              // Mobile: full-screen overlay (bottom offset via inline style)
               'w-full bg-[var(--glass-bg)]',
               'pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]',
               // Desktop: side panel with glassmorphism
-              'md:top-[64px] md:bottom-0 md:w-[360px]',
-              'md:h-[calc(100dvh-64px)]',
+              'md:top-[64px] md:w-[360px]',
               'md:backdrop-blur-[16px] md:bg-[var(--glass-bg)]',
               'md:border-e md:border-[var(--glass-border)]',
               'md:shadow-[var(--glass-shadow)]',
               'md:rounded-e-[var(--radius-lg)]'
             )}
-            style={{ zIndex: Z_INDEX.searchMenu }}
+            style={{
+              zIndex: Z_INDEX.searchMenu,
+              bottom: 'var(--timeline-height, 0px)',
+            }}
             {...swipeHandlers}
           >
             {/* Mobile swipe indicator */}
@@ -140,7 +161,7 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
             )}>
               <div className="flex items-center gap-2">
                 <span className="font-bold text-[var(--color-ink)] text-xs md:text-sm">
-                  {filters.type === 'cities' ? 'إجمالي المدن:' : 'إجمالي الأحداث:'}
+                  إجمالي الأحداث:
                 </span>
               </div>
               <div className={cn(
@@ -149,7 +170,7 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
                 'rounded-full border border-[var(--color-accent)]/20',
                 'text-xs md:text-sm'
               )}>
-                {filters.type === 'cities' ? `${citiesData.length} مدينة` : `${filteredEvents.length} حدث`}
+                {filteredEvents.length} حدث
               </div>
             </div>
 
@@ -245,16 +266,6 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
                         : 'bg-white/80 dark:bg-black/30 border border-[var(--glass-border)] text-[var(--color-ink)] active:bg-white'
                     )}
                   >الأحداث فقط</button>
-                  <button
-                    onClick={() => setFilters({ ...filters, type: 'cities' })}
-                    className={cn(
-                      'px-3 py-2 font-bold transition-colors min-h-[44px]',
-                      'rounded-[var(--radius-sm)]',
-                      filters.type === 'cities'
-                        ? 'bg-[var(--color-islamic-green)] text-white'
-                        : 'bg-white/80 dark:bg-black/30 border border-[var(--glass-border)] text-[var(--color-ink)] active:bg-white'
-                    )}
-                  >المدن فقط</button>
                 </div>
               </div>
             </div>
@@ -268,59 +279,7 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
               role="listbox"
               aria-label="نتائج البحث"
             >
-              {filters.type === 'cities' ? (
-                <motion.div
-                  variants={staggerContainer}
-                  initial="hidden"
-                  animate="visible"
-                  key="cities-list"
-                  className="flex flex-col gap-2"
-                >
-                  {citiesData.map(city => (
-                    <motion.div
-                      key={city.id}
-                      variants={staggerItem}
-                      role="option"
-                      aria-selected={false}
-                      className={cn(
-                        'flex flex-col text-right',
-                        'p-3 rounded-[var(--radius-sm)]',
-                        'bg-[var(--color-islamic-green)]/10',
-                        'border border-[var(--color-islamic-green)]/30',
-                        'gap-1',
-                        'hover:bg-[var(--color-islamic-green)]/15',
-                        'transition-colors'
-                      )}
-                    >
-                      <div className="flex justify-between items-start w-full">
-                        <span className="font-bold text-[var(--color-ink)] flex items-center gap-1.5">
-                          <MapPin size={14} className="text-[var(--color-islamic-green)] shrink-0" />
-                          {city.name}
-                        </span>
-                        <span className={cn(
-                          'rounded-full px-2 py-0.5 text-xs',
-                          'bg-[var(--color-islamic-green)]/20 text-[var(--color-islamic-green)]',
-                          'font-bold'
-                        )}>
-                          مدينة
-                        </span>
-                      </div>
-                      
-                      <div className="text-xs mt-1 leading-relaxed text-[var(--color-ink)]/80">
-                        {city.description}
-                      </div>
-                      <div className={cn(
-                        'text-xs mt-2 leading-relaxed p-2',
-                        'bg-black/5 dark:bg-white/5 rounded-[var(--radius-sm)]',
-                        'text-[var(--color-ink)]/70'
-                      )}>
-                        <span className="font-bold text-[var(--color-islamic-green)]">الأهمية: </span>
-                        {city.significance}
-                      </div>
-                    </motion.div>
-                  ))}
-                </motion.div>
-              ) : filteredEvents.length === 0 ? (
+              {filteredEvents.length === 0 ? (
                 <div className="flex items-center justify-center h-full">
                   <EmptyState
                     icon={<Search size={48} />}
@@ -343,9 +302,10 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
                       role="option"
                       aria-selected={false}
                       onClick={() => {
+                        // Parent decides whether to close the drawer (mobile
+                        // closes so the detail panel is visible; desktop keeps
+                        // it open so filter/search context survives).
                         onSelectEvent(evt);
-                        onClose();
-                        setSearchQuery('');
                       }}
                       className={cn(
                         'flex flex-col text-right',
