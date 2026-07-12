@@ -350,19 +350,25 @@ export default function EventPanel({
                     zIndex: Z_INDEX.eventPanel,
                     height: `${mobileHeight}dvh`,
                     bottom: 'calc(var(--timeline-height, 90px) + env(safe-area-inset-bottom, 0px))',
+                    // Match the timeline rail's own layout animation so the panel bottom
+                    // moves in lockstep with the rail growing/shrinking. Without an
+                    // explicit transition, the CSS var change is instant and the panel
+                    // snaps while the rail animates — leaving a gap or overlap.
+                    transition: 'bottom 0.3s cubic-bezier(0.22, 1, 0.36, 1), height 0.3s ease-in-out',
                   }
                 : {
                     zIndex: Z_INDEX.eventPanel,
                     top: 'var(--header-h, 64px)',
                     bottom: 'var(--timeline-height, 110px)',
                     borderInlineStartColor: eraTheme.color,
+                    // Sync with the rail's expand/collapse animation (see mobile note).
+                    transition: 'bottom 0.3s cubic-bezier(0.22, 1, 0.36, 1), height 0.3s ease-in-out, width 0.3s ease-in-out',
                   }
             }
             className={cn(
               'fixed flex flex-col pointer-events-auto',
               'bg-[var(--glass-bg)] backdrop-blur-[16px]',
               'text-right',
-              'transition-[height,width] duration-300 ease-in-out',
               isMobile && [
                 'inset-x-0',
                 'rounded-t-[var(--radius-xl)]',

@@ -116,6 +116,10 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
             style={{
               zIndex: Z_INDEX.searchMenu,
               bottom: 'var(--timeline-height, 0px)',
+              // Match Timeline rail's layout animation so the drawer bottom moves in
+              // lockstep with the rail's expand/collapse (without this the CSS-var
+              // change is instant while the rail visually animates over 0.3s).
+              transition: 'bottom 0.3s cubic-bezier(0.22, 1, 0.36, 1)',
             }}
             {...swipeHandlers}
           >

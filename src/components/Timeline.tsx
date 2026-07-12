@@ -90,12 +90,20 @@ export default function Timeline({
       document.documentElement.style.setProperty('--timeline-height', `${Math.round(h)}px`);
     };
     publish(el.getBoundingClientRect().height);
-    // Use getBoundingClientRect (border-box height including borders + padding)
-    // rather than entry.contentRect (which strips borders and padding). On
-    // mobile the rail has `pb-[env(safe-area-inset-bottom)]` plus a 1px top
-    // border — measuring contentRect under-reports height and leaves a
-    // hairline gap between overlays and the rail.
-    const ro = new ResizeObserver(() => publish(el.getBoundingClientRect().height));
+    // Use ResizeObserverEntry.borderBoxSize.blockSize instead of getBoundingClientRect:
+    // framer-motion's `layout` prop applies a transform during the h-[110px] → h-[220px]
+    // expand animation, and getBoundingClientRect returns the TRANSFORMED size, so the
+    // observer callback (which only fires once when the CSS box changes) captured a
+    // mid-animation visual value and the var got stuck there. borderBoxSize reports the
+    // post-CSS-layout size unaffected by transforms — always the target height.
+    // Includes borders + padding, so hairline top border / safe-area padding are covered.
+    const ro = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        const box = entry.borderBoxSize?.[0];
+        const h = box ? box.blockSize : el.getBoundingClientRect().height;
+        publish(h);
+      }
+    });
     ro.observe(el);
     return () => {
       ro.disconnect();
