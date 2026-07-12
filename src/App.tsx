@@ -14,7 +14,7 @@ import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useIsMobile } from './hooks/useMatchMedia';
 import { ToastContainer, ToastType } from './components/Toast';
 import { LoadingSpinner } from './components/LoadingSpinner';
-import { isBattle, isProphetEra, isRashidunEra } from './utils/eventHelpers';
+import { isBattle, isProphetEra, isRashidunEra, findEraAnchor } from './utils/eventHelpers';
 import { Z_INDEX } from './constants';
 import { cn } from './utils/cn';
 
@@ -184,25 +184,11 @@ export default function App() {
     }
   }, [isPlayerMode]);
 
-  // Handle era selection
+  // Handle era selection — jump to the coronation event for that era.
   const handleEraSelect = (era: string | null) => {
     setSelectedEra(era);
     if (era && filteredSortedEvents.length > 0) {
-      // Jump to the first event of the selected era
-      const eraEvent = filteredSortedEvents.find(evt => {
-        if (era === 'العهد النبوي') {
-          return evt.era?.includes('الوحي') || evt.era?.includes('المدني') || evt.title.includes('نزول');
-        } else if (era === 'أبو بكر الصديق') {
-          return evt.title.includes('تولي أبو بكر') || evt.era?.includes('أبي بكر');
-        } else if (era === 'عمر بن الخطاب') {
-          return evt.title.includes('تولي عمر') || evt.era?.includes('عمر');
-        } else if (era === 'عثمان بن عفان') {
-          return evt.title.includes('تولي عثمان') || evt.era?.includes('عثمان');
-        } else if (era === 'علي بن أبي طالب') {
-          return evt.title.includes('تولي علي') || evt.era?.includes('علي');
-        }
-        return false;
-      });
+      const eraEvent = findEraAnchor(filteredSortedEvents, era);
       if (eraEvent) {
         setSelectedEvent(eraEvent);
       }

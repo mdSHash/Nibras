@@ -1,4 +1,5 @@
 import { EventItem } from '../data';
+import { normalizeArabic } from './searchNormalize';
 // Re-export era color utilities from the shared module
 export { getEraColor, getEraColorScheme, getEraKey } from './eraColors';
 
@@ -56,5 +57,53 @@ export const getRulerName = (era: string): string => {
   if (era.includes('عثمان')) return 'عثمان بن عفان';
   if (era.includes('علي')) return 'علي بن أبي طالب';
   return '';
+};
+
+/**
+ * Locate the anchor event for a given era-pill label. Prefers the coronation
+ * (entry) event over other era events, matched via a distinctive marker in the
+ * title:
+ *   - Abu Bakr → السقيفة
+ *   - Uthman  → الشورى
+ *   - Umar / Ali → تولي <name>
+ * Falls back to the first event whose era field matches. Comparisons use
+ * `normalizeArabic` so vocalized titles (تَوَلِّي أَبِي بَكْرٍ) and case-form
+ * variants (أبي / أبو) match plain queries — the prior includes-based check
+ * missed the coronation because the title has أبي (genitive) while the era on
+ * that event is "أبو بكر الصديق" and the death event is the only one whose
+ * era literally contains "أبي بكر".
+ */
+export const findEraAnchor = (events: EventItem[], era: string): EventItem | undefined => {
+  const nMatch = (s: string | undefined, needle: string) =>
+    normalizeArabic(s ?? '').includes(normalizeArabic(needle));
+
+  if (era === 'العهد النبوي') {
+    return events.find(e => nMatch(e.era, 'الوحي') || nMatch(e.era, 'المدني') || nMatch(e.title, 'نزول'));
+  }
+  if (era === 'أبو بكر الصديق') {
+    return (
+      events.find(e => nMatch(e.title, 'السقيفة'))
+      ?? events.find(e => nMatch(e.era, 'أبي بكر') || nMatch(e.era, 'أبو بكر'))
+    );
+  }
+  if (era === 'عمر بن الخطاب') {
+    return (
+      events.find(e => nMatch(e.title, 'تولي عمر'))
+      ?? events.find(e => nMatch(e.era, 'عمر'))
+    );
+  }
+  if (era === 'عثمان بن عفان') {
+    return (
+      events.find(e => nMatch(e.title, 'الشورى') || nMatch(e.title, 'تولي عثمان'))
+      ?? events.find(e => nMatch(e.era, 'عثمان'))
+    );
+  }
+  if (era === 'علي بن أبي طالب') {
+    return (
+      events.find(e => nMatch(e.title, 'تولي علي'))
+      ?? events.find(e => nMatch(e.era, 'علي'))
+    );
+  }
+  return undefined;
 };
 

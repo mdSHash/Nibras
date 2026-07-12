@@ -5,7 +5,7 @@ import { requestSpeak, releaseOwner } from '../services/ttsGemini';
 import { cn } from '../utils/cn';
 import { Z_INDEX } from '../constants';
 import { getEraColor } from '../utils/eraColors';
-import { getEraTitle } from '../utils/eventHelpers';
+import { getEraTitle, findEraAnchor } from '../utils/eventHelpers';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { throttle } from '../utils/performance';
 import { DesktopDock } from './timeline/DesktopDock';
@@ -122,31 +122,11 @@ export default function Timeline({
   }, [events, onSelectEvent]);
 
   const quickJumps = useMemo<QuickJump[]>(() => [
-    {
-      label: 'العهد النبوي',
-      color: getEraColor('الوحي'),
-      target: events.find(e => e.era?.includes('الوحي') || e.era?.includes('المدني') || e.title.includes('نزول')),
-    },
-    {
-      label: 'أبو بكر الصديق',
-      color: getEraColor('أبي بكر'),
-      target: events.find(e => e.title.includes('تولي أبو بكر') || e.era?.includes('أبي بكر')),
-    },
-    {
-      label: 'عمر بن الخطاب',
-      color: getEraColor('عمر'),
-      target: events.find(e => e.title.includes('تولي عمر') || e.era?.includes('عمر')),
-    },
-    {
-      label: 'عثمان بن عفان',
-      color: getEraColor('عثمان'),
-      target: events.find(e => e.title.includes('تولي عثمان') || e.era?.includes('عثمان')),
-    },
-    {
-      label: 'علي بن أبي طالب',
-      color: getEraColor('علي'),
-      target: events.find(e => e.title.includes('تولي علي') || e.era?.includes('علي')),
-    },
+    { label: 'العهد النبوي',   color: getEraColor('الوحي'),    target: findEraAnchor(events, 'العهد النبوي') },
+    { label: 'أبو بكر الصديق', color: getEraColor('أبي بكر'), target: findEraAnchor(events, 'أبو بكر الصديق') },
+    { label: 'عمر بن الخطاب',  color: getEraColor('عمر'),      target: findEraAnchor(events, 'عمر بن الخطاب') },
+    { label: 'عثمان بن عفان',  color: getEraColor('عثمان'),    target: findEraAnchor(events, 'عثمان بن عفان') },
+    { label: 'علي بن أبي طالب', color: getEraColor('علي'),    target: findEraAnchor(events, 'علي بن أبي طالب') },
   ], [events]);
 
   // Throttled wheel handler for smooth horizontal scroll with kinetic decay.
