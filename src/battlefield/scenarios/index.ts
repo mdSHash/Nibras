@@ -313,7 +313,6 @@ import { battleOfYarmouk } from './yarmouk';
 import { battleOfQadisiyyah } from './qadisiyyah';
 import { battleOfMutah } from './mutah';
 import { expeditionOfTabuk } from './tabuk';
-import { battleOfAinJalut } from './ain-jalut';
 import { battleOfYamama } from './yamama';
 import { battleOfNahavand } from './nahavand';
 
@@ -330,7 +329,6 @@ export const scenarios: Record<string, BattleScenario> = {
   'battle-of-mutah': battleOfMutah,
   'battle-of-tabuk': expeditionOfTabuk,
   'battle-of-yamama': battleOfYamama,
-  'battle-of-ain-jalut': battleOfAinJalut,
   'battle-of-nahavand': battleOfNahavand,
 };
 
@@ -348,4 +346,4 @@ export function getScenario(id: string): BattleScenario | undefined {
   return scenarios[id];
 }
 
-export { battleOfBadr, battleOfUhud, battleOfKhandaq, battleOfKhaybar, conquestOfMecca, battleOfHunayn, battleOfYarmouk, battleOfQadisiyyah, battleOfMutah, expeditionOfTabuk, battleOfYamama, battleOfAinJalut, battleOfNahavand };
+export { battleOfBadr, battleOfUhud, battleOfKhandaq, battleOfKhaybar, conquestOfMecca, battleOfHunayn, battleOfYarmouk, battleOfQadisiyyah, battleOfMutah, expeditionOfTabuk, battleOfYamama, battleOfNahavand };

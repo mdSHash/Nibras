@@ -88,9 +88,10 @@ const getCategoryIcon = (category: string, title: string) => {
 };
 
 // Helper to create custom marker icons
-const createIcon = (color: string, label: string, category: string, title: string, isSelected?: boolean, isDimmed?: boolean) => {
+const createIcon = (color: string, label: string, category: string, title: string, isSelected?: boolean, isDimmed?: boolean, hasBattle?: boolean) => {
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const iconSize = isMobile ? (isSelected ? '48px' : '40px') : (isSelected ? '44px' : '36px');
+  const badgeSize = isMobile ? 16 : 14;
   
   const iconMarkup = renderToStaticMarkup(
     <div
@@ -140,6 +141,31 @@ const createIcon = (color: string, label: string, category: string, title: strin
       >
         {getCategoryIcon(category, title)}
       </div>
+      {hasBattle && !isDimmed && (
+        <div
+          aria-hidden
+          style={{
+            position: 'absolute',
+            top: '-2px',
+            right: '-2px',
+            width: `${badgeSize}px`,
+            height: `${badgeSize}px`,
+            borderRadius: '9999px',
+            backgroundColor: 'var(--color-accent)',
+            border: '1.5px solid rgba(20,15,10,0.9)',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 11,
+          }}
+        >
+          {/* Filled play triangle, optically nudged to visually center. */}
+          <svg width={badgeSize - 6} height={badgeSize - 6} viewBox="0 0 8 8" fill="rgba(20,15,10,0.95)">
+            <path d="M2 1.2 L6.6 4 L2 6.8 Z" />
+          </svg>
+        </div>
+      )}
       {!isDimmed && (
         <div
           style={{
@@ -242,7 +268,8 @@ const EventClusters = ({ events, selectedEvent, onSelectEvent }: Pick<MapViewPro
       unclusteredSelectedEvent.category,
       unclusteredSelectedEvent.title,
       true,
-      false
+      false,
+      !!unclusteredSelectedEvent.battleId,
     );
   }, [unclusteredSelectedEvent]);
 
@@ -323,7 +350,7 @@ const EventClusters = ({ events, selectedEvent, onSelectEvent }: Pick<MapViewPro
         const evt = cluster.properties.event;
         const mappedColor = iconConfig[evt.category]?.color || iconConfig['أحداث'].color;
         const isDimmed = selectedEvent !== null;
-        const icon = createIcon(mappedColor, evt.location?.name || evt.title, evt.category, evt.title, false, isDimmed);
+        const icon = createIcon(mappedColor, evt.location?.name || evt.title, evt.category, evt.title, false, isDimmed, !!evt.battleId);
 
         return (
           <Marker 

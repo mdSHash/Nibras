@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { EventItem } from '../data';
-import { X, Search, MapPin, Filter } from 'lucide-react';
+import { X, Search, MapPin, Filter, Play } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { FilterOptions } from '../types';
 import { useDebouncedValue } from '../hooks/useDebouncedValue';
@@ -320,9 +320,18 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
                         'group min-h-[44px]'
                       )}
                     >
-                      <div className="flex justify-between items-start w-full">
-                        <span className="font-bold text-[var(--color-ink)] group-hover:text-[var(--color-accent)] transition-colors">
-                          {evt.title}
+                      <div className="flex justify-between items-start w-full gap-2">
+                        <span className="font-bold text-[var(--color-ink)] group-hover:text-[var(--color-accent)] transition-colors flex items-center gap-1.5 min-w-0">
+                          {evt.battleId && (
+                            <span
+                              className="shrink-0 inline-flex items-center justify-center w-5 h-5 rounded-full bg-[var(--color-accent)] shadow-[0_1px_3px_rgba(0,0,0,0.3)]"
+                              aria-label="معركة قابلة للمشاهدة"
+                              title="معركة قابلة للمشاهدة"
+                            >
+                              <Play size={9} className="text-[var(--color-ink)] fill-current translate-x-[1px]" strokeWidth={0} />
+                            </span>
+                          )}
+                          <span className="truncate">{evt.title}</span>
                         </span>
                         <span className={cn(
                           'rounded-full px-2 py-0.5 text-xs shrink-0',

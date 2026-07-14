@@ -7,7 +7,7 @@ import CustomCursor from './components/CustomCursor';
 import { AppTour } from './components/AppTour';
 import { useTourContext } from './contexts/TourContext';
 import { eventsData, EventItem } from './data';
-import { Moon, Sun, Search, Compass, LocateFixed, Maximize2, Minimize2 } from 'lucide-react';
+import { Moon, Sun, Search, Compass, LocateFixed, Maximize2, Minimize2, HelpCircle } from 'lucide-react';
 import { FilterOptions } from './types';
 import { motion, AnimatePresence } from 'motion/react';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
@@ -22,7 +22,13 @@ import { cn } from './utils/cn';
 const SearchMenu = lazy(() => import('./components/SearchMenu'));
 const CompanionModal = lazy(() => import('./components/CompanionModal'));
 const QuranModal = lazy(() => import('./components/QuranModal'));
+const HelpModal = lazy(() => import('./components/HelpModal'));
 const BattlePlayer = lazy(() => import('./battlefield/react/BattlePlayer').then(m => ({ default: m.BattlePlayer })));
+
+// localStorage key for "user has seen the help modal at least once". Used to
+// stop the gold pulse animation on the header help button — pulse ends the
+// first time the modal is opened.
+const HELP_SEEN_KEY = 'nibras.help.seen';
 
 export default function App() {
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
@@ -39,6 +45,12 @@ export default function App() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showBattlePlayer, setShowBattlePlayer] = useState(false);
   const [battleScenarioId, setBattleScenarioId] = useState<string | undefined>(undefined);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [helpSeen, setHelpSeen] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return true;
+    try { return localStorage.getItem(HELP_SEEN_KEY) === 'true'; }
+    catch { return true; }
+  });
   
   const [filters, setFilters] = useState<FilterOptions>({
     era: 'all',
@@ -412,6 +424,54 @@ export default function App() {
           {/* Divider between map controls and app controls */}
           <div className="w-px h-7 bg-parchment/20 mx-0.5 hidden sm:block" />
 
+          {/* Help / Legend button — pulses gently until the user opens it
+              once (first-visit affordance), then behaves like the other
+              controls. Opens the HelpModal (map legend + shortcuts). */}
+          <motion.button
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ type: 'spring', damping: 18, stiffness: 300, delay: 0.52 }}
+            onClick={() => {
+              setIsHelpOpen(true);
+              if (!helpSeen) {
+                setHelpSeen(true);
+                try { localStorage.setItem(HELP_SEEN_KEY, 'true'); } catch {}
+              }
+            }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.88 }}
+            data-tour-id="help-button"
+            className={cn(
+              "relative w-12 h-12 rounded-full",
+              "border border-parchment/30",
+              "bg-[rgba(20,15,10,0.55)] backdrop-blur-sm",
+              "flex justify-center items-center",
+              "text-[#f4ece1] shadow-md",
+              "hover:bg-accent/80 hover:border-accent/60",
+              "active:bg-accent active:border-accent",
+              "transition-all duration-200"
+            )}
+            aria-label="دليل الاستخدام والاختصارات"
+            aria-haspopup="dialog"
+            aria-expanded={isHelpOpen}
+            title="دليل الاستخدام"
+          >
+            <HelpCircle size={18} strokeWidth={2.5} aria-hidden="true" />
+            {!helpSeen && (
+              <motion.span
+                aria-hidden="true"
+                className="absolute inset-0 rounded-full pointer-events-none"
+                animate={{
+                  boxShadow: [
+                    '0 0 0 0 rgba(212,168,83,0.55)',
+                    '0 0 0 10px rgba(212,168,83,0)',
+                  ],
+                }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: 'easeOut' }}
+              />
+            )}
+          </motion.button>
+
           {/* Tour Start Button */}
           <AnimatePresence>
             {!state.isActive && (
@@ -573,6 +633,11 @@ export default function App() {
           filters={filters}
           setFilters={setFilters}
         />
+      </Suspense>
+
+      {/* Help modal — map legend + keyboard shortcuts / touch hints */}
+      <Suspense fallback={null}>
+        <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
       </Suspense>
 
       <div>

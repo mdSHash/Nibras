@@ -33,16 +33,16 @@
 
 Nibras (نِبْرَاس — "lamp" or "light" in Arabic) is an interactive web application that illuminates Islamic history through dynamic timeline visualization, geographical mapping, and cinematic battle replays. It covers 571–661 CE — the Meccan period, the Medinan period, and the four Rashidun caliphates (Abu Bakr, Umar, Uthman, Ali) up to `عام الجماعة` in 41 هـ.
 
-131 chapter-events are laid out on an interactive Leaflet map with time-varying territorial polygons, linked Quranic and hadith references, ~150 companion biographies at classical-source depth, and Arabic TTS narration on every title and description. Thirteen decisive battles are rendered as full cinematic replays through a custom PixiJS engine.
+131 chapter-events are laid out on an interactive Leaflet map with time-varying territorial polygons, linked Quranic and hadith references, ~150 companion biographies at classical-source depth, and Arabic TTS narration on every title and description. Twelve decisive battles are rendered as full cinematic replays through a custom PixiJS engine.
 
 ---
 
 ## Features
 
-- **Interactive Timeline** — 131 chronological events spanning the Prophetic era (571 CE), all four Rashidun caliphates (632–661 CE), and one later window (Ain Jalut, 1260 CE). Filter by era or category.
-- **Cinematic Battle Replay Engine** — 13 fully scripted battles rendered with PixiJS WebGL at 60fps. Each unit is a stylized soldier silhouette per troop type (infantry, cavalry, archers, elephant, camel rider, …). Includes:
+- **Interactive Timeline** — 131 chronological events spanning the Prophetic era (571 CE) and all four Rashidun caliphates (632–661 CE). Filter by era or category. Events with a playable cinematic battle are marked with a gold ▷ badge on the timeline diamond, the search list, and the map pin so watchable moments are recognizable at a glance.
+- **Cinematic Battle Replay Engine** — 12 fully scripted battles rendered with PixiJS WebGL at 60fps. Each unit is a stylized soldier silhouette per troop type (infantry, cavalry, archers, elephant, camel rider, …). Includes:
   - **Autonomous combat resolution** — units close to melee range, exchange damage, take visible casualties (fallen-soldier silhouettes appear in formation as numbers drop)
-  - **Cinematic auto-camera** — pans + zooms onto engagements, snaps to dying units, yields to authored keyframes
+  - **Cinematic auto-camera** — pans + zooms onto engagements, snaps to dying units, yields to authored keyframes. Every scenario opens at the "fit the whole battlefield" zoom, which is also the widest view the camera can reach — the reset-view button snaps back to it, and no cinematic keyframe can pan wider. Mobile viewports reserve space for the top header + narration + controls so no unit ends up behind the chrome.
   - **Day/night + weather** — sandstorm, storm, dust haze, plus dayPhase tinting (e.g. Khandaq night)
   - **Time compression UI** — day counter for siege-length engagements (Khandaq 27d, Khaybar 20d, Tabuk 30d)
   - **End-of-battle summary** — Arabic verdict badge (نصر / انسحاب تكتيكي / غزوة بدون قتال) + casualty grid + historical significance
@@ -230,8 +230,6 @@ For the full engine architecture, scenario format, and authoring guide see [`src
 | 10 | معركة اليرموك | 15-20 Rajab 15 AH (636 CE) | Yarmouk River, Syria | `battle-of-yarmouk` |
 | 11 | معركة القادسية | 16-19 Sha'ban 15 AH (636 CE) | Al-Qadisiyyah, Iraq | `battle-of-qadisiyyah` |
 | 12 | معركة نهاوند (فتح الفتوح) | 21 AH (642 CE) | Nahavand, northern Zagros | `battle-of-nahavand` |
-| 13 | معركة عين جالوت | 25 Ramadan 658 AH (1260 CE) | Jezreel Valley, Palestine | `battle-of-ain-jalut` |
-
 ---
 
 ## Configuration

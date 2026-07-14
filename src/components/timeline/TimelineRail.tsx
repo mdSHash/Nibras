@@ -241,7 +241,7 @@ function MobileCollapsedView(props: MobileCollapsedProps) {
                 style={{ touchAction: 'manipulation' }}
                 aria-label={evt.title}
               >
-                <Diamond variant="dot" color={c} isSelected={isSel} isMajor={!!evt.is_major_event} prefersReducedMotion={prefersReducedMotion} />
+                <Diamond variant="dot" color={c} isSelected={isSel} isMajor={!!evt.is_major_event} prefersReducedMotion={prefersReducedMotion} hasBattle={!!evt.battleId} />
                 <span
                   className="leading-tight max-w-[56px] sm:max-w-[72px] truncate text-center"
                   style={{
@@ -315,7 +315,7 @@ function MobileExpandedView(props: MobileExpandedProps) {
                 }}
               >
                 <div className="shrink-0 flex items-center justify-center w-5 h-5">
-                  <Diamond variant="row" color={c} isSelected={isSel} isMajor={isMajor} prefersReducedMotion={prefersReducedMotion} />
+                  <Diamond variant="row" color={c} isSelected={isSel} isMajor={isMajor} prefersReducedMotion={prefersReducedMotion} hasBattle={!!evt.battleId} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div
@@ -446,7 +446,7 @@ function DesktopView(props: DesktopViewProps) {
                     isExpanded && 'relative md:absolute md:top-[calc(50%-2px)] md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2',
                   )}
                 >
-                  <Diamond variant="desktop" color={c} isSelected={isSel} isMajor={isMajor} prefersReducedMotion={prefersReducedMotion} />
+                  <Diamond variant="desktop" color={c} isSelected={isSel} isMajor={isMajor} prefersReducedMotion={prefersReducedMotion} hasBattle={!!evt.battleId} />
                 </motion.div>
 
                 <motion.div

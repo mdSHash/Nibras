@@ -101,6 +101,25 @@ export class CameraController {
     });
   }
 
+  /**
+   * Update the runtime minimum zoom. Used by the engine after computing the
+   * "fit whole battlefield" zoom so that no cinematic keyframe, autonomous
+   * director move, or user gesture can pull the camera any wider than that
+   * baseline. If the current zoom is below the new minimum, it snaps up
+   * (matching what any subsequent move would produce via clampZoom).
+   */
+  setMinZoom(zoom: number): void {
+    this.minZoom = zoom;
+    if (this.zoom < zoom) {
+      this.setZoom(zoom);
+    }
+  }
+
+  /** Current runtime minimum zoom. */
+  getMinZoom(): number {
+    return this.minZoom;
+  }
+
   /** Animate camera to a position */
   panTo(x: number, y: number, duration: number = 1.0, easing: string = 'power2.inOut'): void {
     this.stop();

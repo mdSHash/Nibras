@@ -132,14 +132,12 @@ appeared in the existing scenarios:
 | Faction         | Use                                         |
 |-----------------|---------------------------------------------|
 | `muslim`        | Prophetic + Rashidun era Muslim armies      |
-| `mamluk`        | Mamluks (Ain Jalut)                         |
 | `quraysh`       | Pre-Islamic Mecca                           |
 | `jewish_tribes` | Khaybar fortresses                          |
 | `hawazin`       | Hawazin / Thaqif (Hunayn)                   |
 | `banu_hanifa`   | Yamama (Musaylimah)                         |
 | `byzantine`     | Eastern Rome (Mu'tah, Tabuk, Yarmouk)       |
 | `sasanian`      | Sasanian Persia (Qadisiyyah)                |
-| `mongol`        | Ilkhanate (Ain Jalut)                       |
 | `neutral`       | Civilians, terrain entities                 |
 
 Each faction has a layered color palette (`base/light/dark/banner/dot`) in
@@ -150,10 +148,10 @@ labarum, drafsh kaviani rhombus, mongol tugh X, palm tree, etc.).
 `FACTION_NAME_AR` in `types/components.ts` carries the Arabic name shown
 in the BattlePlayer header.
 
-`isMuslimSide(faction)` returns true for `muslim` and `mamluk` — used by
-the simulation store so Mamluk troops at Ain Jalut count as the
-protagonist side without conflating their banner with the early
-caliphate.
+`isMuslimSide(faction)` returns true for `muslim` — used by the
+simulation store to identify the protagonist side. Additional Muslim-side
+factions (e.g. Mamluk / Umayyad if a later scenario is added) can be
+added to the check without conflating banners with the early caliphate.
 
 ### Troop types
 

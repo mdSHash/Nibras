@@ -403,6 +403,19 @@ export class Engine {
         ? window.matchMedia('(max-width: 767px)').matches
         : false;
 
+    // BattlePlayer chrome (header + phase/day row + narration bubble +
+    // controls) is opaque and covers a fixed band at the top and bottom of
+    // the canvas. Measured against BattlePlayer.tsx (top bar ~64/72 + phase
+    // row ~72/80 = ~140 mobile / ~64 desktop; bottom bar + narration
+    // ~112-240 mobile / ~72-200 desktop — we use the lower "no-narration"
+    // bound so the shift doesn't over-correct when subtitles are off).
+    // Fitting against the full canvas hid the bottom row of units behind
+    // the narration/controls bar on mobile — we fit against the visible
+    // strip only and shift the camera so the bbox lands in its centre.
+    const insetTop = isMobile ? 140 : 64;
+    const insetBottom = isMobile ? 220 : 80;
+    const effectiveH = Math.max(1, viewportH - insetTop - insetBottom);
+
     let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
     let hasAny = false;
     for (const force of this.scenario.forces) {
@@ -427,25 +440,40 @@ export class Engine {
     const cx = (minX + maxX) / 2;
     const cy = (minY + maxY) / 2;
 
-    // Pull factor — smaller value = more breathing room. The user iterated
-    // a few times: too tight at 0.92, too loose at 0.78, comfortable at
-    // ~0.88 on desktop / 0.97 on mobile. These values give roughly 12 %
-    // tighter framing than the previous pass while still showing the
-    // whole action zone with margin.
+    // Desktop pull factor unchanged (comfortable framing at 0.88). Mobile
+    // keeps the tight 0.97 because with the top/bottom insets removed from
+    // the min() the horizontal term binds in every portrait scenario, so
+    // the factor mainly controls edge padding — not vertical fit.
     const fitFactor = isMobile ? 0.97 : 0.88;
-    const bboxFitZoom = Math.min(viewportW / bboxW, viewportH / bboxH) * fitFactor;
+    const bboxFitZoom = Math.min(viewportW / bboxW, effectiveH / bboxH) * fitFactor;
 
-    // Floor: ensure each soldier figure is at least this many CSS pixels.
-    // Earlier this was 9 / 11 which forced minimum 1.29× zoom on every
-    // scenario — the user reported "too zoomed in" on desktop so we drop
-    // the floor; the cinematic camera and the manual reset button can
-    // always tighten on demand.
-    const targetFigurePx = isMobile ? 9 : 6;
+    // Desktop keeps its 6-CSS-pixel-per-figure floor; mobile drops the
+    // floor entirely because the old 9/7 ≈ 1.29× floor was always winning
+    // against the actual bboxFitZoom (~0.3× for a 1200-wide bbox on a
+    // 425-wide viewport), permanently pinning mobile ~4× further zoomed
+    // in than the scenario needed and pushing units off the visible strip.
+    const targetFigurePx = isMobile ? 0 : 6;
     const minZoomFloor = targetFigurePx / 7;
-
     const fitZoom = Math.max(bboxFitZoom, minZoomFloor);
 
-    this.camera.moveTo(cx, cy, fitZoom, duration, 'power2.inOut');
+    // The camera projects world (cameraX, cameraY) onto screen
+    // (viewportW/2, viewportH/2). We want bbox centre (cx, cy) to instead
+    // land at the middle of the visible strip (screen-y = insetTop +
+    // effectiveH/2), so no unit sits behind the header or the controls.
+    // Solving that projection:
+    //   (cy - cameraY) * fitZoom + viewportH/2 = insetTop + effectiveH/2
+    //   cameraY = cy + (insetBottom - insetTop) / (2 * fitZoom)
+    // On mobile insetBottom > insetTop, so cameraY > cy, which rides the
+    // world content UP on screen and clears the narration bubble.
+    const cameraY = cy + (insetBottom - insetTop) / (2 * fitZoom);
+
+    // Lock the "fit whole battlefield" zoom as the widest allowed view so no
+    // cinematic keyframe, director move, or user gesture pulls the camera any
+    // further out than the reset-view button gives. The Director's combat /
+    // kill zoom-ins (which multiply the current zoom) are still free to zoom
+    // IN because clampZoom only floors, not ceilings.
+    this.camera.setMinZoom(fitZoom);
+    this.camera.moveTo(cx, cameraY, fitZoom, duration, 'power2.inOut');
   }
 
   /**
