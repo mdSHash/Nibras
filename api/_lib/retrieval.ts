@@ -7,7 +7,7 @@
  * embedding similarity without needing a second offline pipeline or a
  * binary asset to load on every cold start.
  */
-import corpus from '../../public/data/chat-corpus.json';
+import corpus from '../../public/data/chat-corpus.json' with { type: 'json' };
 import { tokenizeQuery } from '../../shared/searchNormalize.js';
 
 export interface CorpusChunk {
