@@ -33,6 +33,11 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          # Public URL of the chat backend, deployed as its own Vercel
+          # project (api/). Not a secret — just an endpoint address; the
+          # actual LLM API keys live server-side, only in Vercel's env vars.
+          VITE_CHAT_API_URL: https://nibras-chat-api.vercel.app/api/chat
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
