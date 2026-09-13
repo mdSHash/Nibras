@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { retrieve } from './_lib/retrieval';
-import { buildSystemPrompt, NOT_COVERED_MESSAGE, SERVICE_BUSY_MESSAGE } from './_lib/systemPrompt';
-import { callWithFallback } from './_lib/llmProviders';
-import { corsHeaders } from './_lib/cors';
+import { retrieve } from './_lib/retrieval.js';
+import { buildSystemPrompt, NOT_COVERED_MESSAGE, SERVICE_BUSY_MESSAGE } from './_lib/systemPrompt.js';
+import { callWithFallback } from './_lib/llmProviders.js';
+import { corsHeaders } from './_lib/cors.js';
 
 // Plain Node.js serverless function (not Edge): the bundled ~1.7MB
 // chat-corpus.json comfortably fits Node's function size limit, whereas

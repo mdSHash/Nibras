@@ -8,7 +8,7 @@
  * binary asset to load on every cold start.
  */
 import corpus from '../../public/data/chat-corpus.json';
-import { tokenizeQuery } from '../../shared/searchNormalize';
+import { tokenizeQuery } from '../../shared/searchNormalize.js';
 
 export interface CorpusChunk {
   id: string;
