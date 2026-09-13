@@ -1,0 +1,12 @@
+# This Vercel project hosts only the /api/chat function — the static app and
+# its audio library stay on GitHub Pages (see plan: hosting decision). Keep
+# the Vercel deployment lean by excluding everything that function doesn't need.
+public/audio
+dist
+server
+scripts/cache-event-audio.js
+scripts/cache-event-details-audio.js
+playwright-report
+test-results
+tests
+*.md

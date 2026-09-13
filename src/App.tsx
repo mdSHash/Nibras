@@ -7,7 +7,7 @@ import CustomCursor from './components/CustomCursor';
 import { AppTour } from './components/AppTour';
 import { useTourContext } from './contexts/TourContext';
 import { eventsData, EventItem } from './data';
-import { Moon, Sun, Search, Compass, LocateFixed, Maximize2, Minimize2, HelpCircle } from 'lucide-react';
+import { Moon, Sun, Search, Compass, LocateFixed, Maximize2, Minimize2, HelpCircle, MessageCircle } from 'lucide-react';
 import { FilterOptions } from './types';
 import { motion, AnimatePresence } from 'motion/react';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
@@ -17,18 +17,22 @@ import { LoadingSpinner } from './components/LoadingSpinner';
 import { isBattle, isProphetEra, isRashidunEra, findEraAnchor } from './utils/eventHelpers';
 import { Z_INDEX } from './constants';
 import { cn } from './utils/cn';
+import { resolveScenarioId } from './utils/battleScenario';
 
 // Lazy load heavy components for better performance
 const SearchMenu = lazy(() => import('./components/SearchMenu'));
 const CompanionModal = lazy(() => import('./components/CompanionModal'));
 const QuranModal = lazy(() => import('./components/QuranModal'));
 const HelpModal = lazy(() => import('./components/HelpModal'));
+const ChatPanel = lazy(() => import('./components/ChatPanel'));
 const BattlePlayer = lazy(() => import('./battlefield/react/BattlePlayer').then(m => ({ default: m.BattlePlayer })));
 
 // localStorage key for "user has seen the help modal at least once". Used to
 // stop the gold pulse animation on the header help button — pulse ends the
 // first time the modal is opened.
 const HELP_SEEN_KEY = 'nibras.help.seen';
+// Same first-visit pulse affordance, for the chat button.
+const CHAT_SEEN_KEY = 'nibras.chat.seen';
 
 export default function App() {
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
@@ -49,6 +53,12 @@ export default function App() {
   const [helpSeen, setHelpSeen] = useState<boolean>(() => {
     if (typeof window === 'undefined') return true;
     try { return localStorage.getItem(HELP_SEEN_KEY) === 'true'; }
+    catch { return true; }
+  });
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [chatSeen, setChatSeen] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return true;
+    try { return localStorage.getItem(CHAT_SEEN_KEY) === 'true'; }
     catch { return true; }
   });
   
@@ -472,6 +482,53 @@ export default function App() {
             )}
           </motion.button>
 
+          {/* Chat / Ask Assistant button — pulses gently until first opened,
+              same first-visit affordance as the Help button. Opens ChatPanel,
+              a grounded Arabic Q&A assistant over the app's own content. */}
+          <motion.button
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ type: 'spring', damping: 18, stiffness: 300, delay: 0.56 }}
+            onClick={() => {
+              setIsChatOpen(true);
+              if (!chatSeen) {
+                setChatSeen(true);
+                try { localStorage.setItem(CHAT_SEEN_KEY, 'true'); } catch {}
+              }
+            }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.88 }}
+            className={cn(
+              "relative w-12 h-12 rounded-full",
+              "border border-parchment/30",
+              "bg-[rgba(20,15,10,0.55)] backdrop-blur-sm",
+              "flex justify-center items-center",
+              "text-[#f4ece1] shadow-md",
+              "hover:bg-accent/80 hover:border-accent/60",
+              "active:bg-accent active:border-accent",
+              "transition-all duration-200"
+            )}
+            aria-label="اسأل المساعد الذكي"
+            aria-haspopup="dialog"
+            aria-expanded={isChatOpen}
+            title="اسأل نبراس"
+          >
+            <MessageCircle size={18} strokeWidth={2.5} aria-hidden="true" />
+            {!chatSeen && (
+              <motion.span
+                aria-hidden="true"
+                className="absolute inset-0 rounded-full pointer-events-none"
+                animate={{
+                  boxShadow: [
+                    '0 0 0 0 rgba(212,168,83,0.55)',
+                    '0 0 0 10px rgba(212,168,83,0)',
+                  ],
+                }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: 'easeOut' }}
+              />
+            )}
+          </motion.button>
+
           {/* Tour Start Button */}
           <AnimatePresence>
             {!state.isActive && (
@@ -588,9 +645,7 @@ export default function App() {
           onCompanionClick={(name) => setSelectedCompanion(name)}
           onQuranClick={(ref) => setSelectedQuranRef(ref)}
           onBattleOpen={(battleId) => {
-            const BATTLE_ID_TO_SCENARIO: Record<string, string> = { 'fath-makkah': 'conquest-of-mecca' };
-            const scenarioId = BATTLE_ID_TO_SCENARIO[battleId] || `battle-of-${battleId}`;
-            setBattleScenarioId(scenarioId);
+            setBattleScenarioId(resolveScenarioId(battleId));
             setShowBattlePlayer(true);
           }}
           isHidden={isPanelHidden}
@@ -638,6 +693,30 @@ export default function App() {
       {/* Help modal — map legend + keyboard shortcuts / touch hints */}
       <Suspense fallback={null}>
         <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
+      </Suspense>
+
+      {/* Chat assistant — grounded Arabic Q&A over the app's own content.
+          Citation chips reopen the same surfaces the rest of the app uses
+          (EventPanel, CompanionModal, QuranModal, BattlePlayer). */}
+      <Suspense fallback={null}>
+        <ChatPanel
+          isOpen={isChatOpen}
+          onClose={() => setIsChatOpen(false)}
+          onCitationClick={(citation) => {
+            const { eventId, companionId, quranKey, battleId } = citation.entityRefs;
+            if (eventId) {
+              const event = eventsData.find(e => e.id === eventId);
+              if (event) setSelectedEvent(event);
+            } else if (companionId) {
+              setSelectedCompanion(companionId);
+            } else if (quranKey) {
+              setSelectedQuranRef(quranKey);
+            } else if (battleId) {
+              setBattleScenarioId(resolveScenarioId(battleId));
+              setShowBattlePlayer(true);
+            }
+          }}
+        />
       </Suspense>
 
       <div>

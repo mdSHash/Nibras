@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { BookOpen } from 'lucide-react';
 import quranData from '../quranData.json';
+import { matchQuranKey } from '../utils/quranMatch';
 
 interface QuranRefProps {
   reference: string;
@@ -8,29 +9,7 @@ interface QuranRefProps {
 }
 
 export default function QuranRef({ reference, onClick }: QuranRefProps) {
-  const mappedKey = useMemo(() => {
-    const keys = Object.keys(quranData);
-    if (keys.includes(reference)) return reference;
-
-    let match = keys.find(k => reference.startsWith(k));
-    if (match) return match;
-
-    const namePart = reference.split(':')[0].trim();
-    if (namePart.includes('سورة')) {
-       const partialMatch = keys.find(k => k.startsWith(namePart) || namePart.startsWith(k));
-       if (partialMatch) return partialMatch;
-    } else {
-       const matchNoSurah = keys.find(k => k.includes(namePart));
-       if (matchNoSurah) return matchNoSurah;
-    }
-
-    // specific fallbacks
-    if (reference.includes('الممتحنة')) return 'سورة الممتحنة: 12';
-    if (reference.includes('نزل قرآن ثم نُسخ تلاوته')) return null;
-    if (reference.includes('سورة التوبة فضحت المنافقين')) return 'سورة التوبة: 117';
-
-    return null;
-  }, [reference]);
+  const mappedKey = useMemo(() => matchQuranKey(reference, Object.keys(quranData)), [reference]);
 
   const data = mappedKey ? (quranData as any)[mappedKey] : null;
 
