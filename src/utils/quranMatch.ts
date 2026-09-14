@@ -1,22 +1,17 @@
+const TASHKEEL = /[\u064B-\u065F\u0670]/g;
+
+function stripTashkeel(text: string): string {
+  return text.replace(TASHKEEL, '');
+}
+
+// A reference must start with its exact key ("سورة آل عمران: 144"), and the key
+// must not be followed by more digits or a range, so ": 14" never matches ": 144".
 export function matchQuranKey(reference: string, keys: string[]): string | null {
-  if (keys.includes(reference)) return reference;
-
-  const match = keys.find(k => reference.startsWith(k));
-  if (match) return match;
-
-  const namePart = reference.split(':')[0].trim();
-  if (namePart.includes('سورة')) {
-    const partialMatch = keys.find(k => k.startsWith(namePart) || namePart.startsWith(k));
-    if (partialMatch) return partialMatch;
-  } else {
-    const matchNoSurah = keys.find(k => k.includes(namePart));
-    if (matchNoSurah) return matchNoSurah;
-  }
-
-  // specific fallbacks
-  if (reference.includes('الممتحنة')) return 'سورة الممتحنة: 12';
-  if (reference.includes('نزل قرآن ثم نُسخ تلاوته')) return null;
-  if (reference.includes('سورة التوبة فضحت المنافقين')) return 'سورة التوبة: 117';
-
-  return null;
+  const ref = stripTashkeel(reference);
+  return (
+    keys.find(key => {
+      const k = stripTashkeel(key);
+      return ref.startsWith(k) && !/^[\d-]/.test(ref.slice(k.length));
+    }) ?? null
+  );
 }
