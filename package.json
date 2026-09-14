@@ -10,6 +10,7 @@
     "cache-audio": "node scripts/cache-event-audio.js",
     "cache-details": "node scripts/cache-event-details-audio.js",
     "build:corpus": "tsx scripts/build-chat-corpus.ts",
+    "build:embeddings": "tsx scripts/build-chat-embeddings.ts",
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",

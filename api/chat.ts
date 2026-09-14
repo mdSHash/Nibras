@@ -1,13 +1,16 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { retrieve } from './_lib/retrieval.js';
+import { hybridRetrieve } from './_lib/retrieval.js';
 import { buildSystemPrompt, NOT_COVERED_MESSAGE, SERVICE_BUSY_MESSAGE } from './_lib/systemPrompt.js';
 import { callWithFallback } from './_lib/llmProviders.js';
 import { corsHeaders } from './_lib/cors.js';
 
-// Plain Node.js serverless function (not Edge): the bundled ~1.7MB
-// chat-corpus.json comfortably fits Node's function size limit, whereas
-// Vercel Edge Functions have a much tighter bundle-size ceiling.
+// Plain Node.js serverless function (not Edge): the bundled ~8MB of corpus +
+// embedding data comfortably fits Node's function size limit, whereas Vercel
+// Edge Functions have a much tighter bundle-size ceiling.
 const MAX_MESSAGE_LENGTH = 400;
+// How many of the retrieved chunks to always show as citations, regardless
+// of whether the model's prose happens to reference them by [n].
+const MAX_CITATIONS = 5;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const origin = (req.headers.origin as string | undefined) || null;
@@ -35,8 +38,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
-  // Primary guardrail: nothing relevant in the corpus → never call the LLM.
-  const chunks = retrieve(message);
+  // Primary guardrail: nothing relevant in the corpus (by keyword OR semantic
+  // search) → never call the LLM.
+  const chunks = await hybridRetrieve(message, process.env.GEMINI_API_KEY, process.env.OPENROUTER_API_KEY);
   if (chunks.length === 0) {
     res.status(200).json({ answer: NOT_COVERED_MESSAGE, citations: [], grounded: false });
     return;
@@ -57,25 +61,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
-  // Citations are derived server-side from the [n] markers actually present
-  // in the answer, mapped back to the real chunks that were sent — never
-  // trusted from the model's own restatement of sources/IDs.
-  const citedIndices = new Set<number>();
-  for (const match of result.text.matchAll(/\[(\d+)\]/g)) {
-    const n = Number(match[1]);
-    if (n >= 1 && n <= chunks.length) citedIndices.add(n);
-  }
-
-  const citations = [...citedIndices].map(n => {
-    const chunk = chunks[n - 1];
-    return {
-      chunkId: chunk.id,
-      sourceLabel: chunk.sourceLabel,
-      type: chunk.type,
-      era: chunk.era,
-      entityRefs: chunk.entityRefs,
-    };
-  });
+  // Citations are guaranteed from the chunks retrieval actually found —
+  // never dependent on the model choosing to reference [n] in its prose
+  // (some free models simply don't, even when they clearly used the chunk).
+  const citations = chunks.slice(0, MAX_CITATIONS).map(chunk => ({
+    chunkId: chunk.id,
+    sourceLabel: chunk.sourceLabel,
+    type: chunk.type,
+    era: chunk.era,
+    entityRefs: chunk.entityRefs,
+  }));
 
   res.status(200).json({ answer: result.text, citations, grounded: true });
 }

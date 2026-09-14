@@ -4,12 +4,15 @@
  * lineup can change (free-tier availability shifts) without a redeploy.
  *
  * LLM_PROVIDER_CHAIN env format: "platform:model,platform:model,..."
- *   e.g. "groq:allam-2-7b,groq:openai/gpt-oss-120b,openrouter:google/gemma-4-31b-it:free"
+ *   e.g. "groq:allam-2-7b,groq:openai/gpt-oss-120b,groq:qwen/qwen3.6-27b,openrouter:google/gemma-4-31b-it:free"
  *
- * Default chain picks: allam-2-7b (SDAIA's Arabic-native model, no hidden
- * reasoning-token overhead — verified to answer directly) first, gpt-oss-120b
- * (more capable, but a reasoning model — see reasoningParamsFor below) second,
- * a non-reasoning OpenRouter free model third.
+ * Default chain: allam-2-7b (SDAIA's Arabic-native model, no hidden
+ * reasoning-token overhead) first, then two reasoning-capable models with a
+ * larger token budget, then a non-reasoning OpenRouter free model last. Every
+ * response is screened for degenerate output (see isDegenerate below) before
+ * being accepted — a model that produces a repetition loop or a
+ * whitespace-flood is treated the same as a hard failure and the chain moves
+ * to the next provider.
  */
 
 export interface ChatMessage {
@@ -37,7 +40,8 @@ const ENDPOINTS: Record<ProviderSpec['platform'], string> = {
   openrouter: 'https://openrouter.ai/api/v1/chat/completions',
 };
 
-const DEFAULT_CHAIN = 'groq:allam-2-7b,groq:openai/gpt-oss-120b,openrouter:google/gemma-4-31b-it:free';
+const DEFAULT_CHAIN =
+  'groq:allam-2-7b,groq:openai/gpt-oss-120b,groq:qwen/qwen3.6-27b,openrouter:google/gemma-4-31b-it:free';
 
 function parseChain(raw: string | undefined): ProviderSpec[] {
   return (raw || DEFAULT_CHAIN)
@@ -72,9 +76,55 @@ function reasoningParamsFor(spec: ProviderSpec): Record<string, unknown> {
   return {};
 }
 
+/**
+ * Detects two failure modes observed live from small free-tier models:
+ *  1. A whitespace flood — the model answers a few real words then pads the
+ *     rest of its token budget with blank lines until cut off.
+ *  2. A repetition loop — the model gets stuck repeating the same short
+ *     phrase (measured as a low ratio of unique word-trigrams to total
+ *     trigrams over a long-enough response).
+ * Either pattern is treated as a hard failure so the chain moves on instead
+ * of showing the user garbage.
+ */
+/**
+ * Some models (e.g. Groq's qwen/qwen3.6-27b) emit their chain-of-thought
+ * inline as a <think>...</think> block ahead of the real answer, rather than
+ * in a separate API field the way gpt-oss does. Strip it so users never see
+ * raw reasoning traces, and so the emptiness/degeneracy checks below judge
+ * the actual answer, not the reasoning preamble.
+ */
+function stripThinkTags(text: string): string {
+  return text.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+}
+
+export function isDegenerate(text: string): boolean {
+  const trimmed = text.trim();
+  if (!trimmed) return true;
+
+  const nonWhitespaceRatio = trimmed.replace(/\s/g, '').length / trimmed.length;
+  if (trimmed.length > 200 && nonWhitespaceRatio < 0.5) return true;
+
+  const words = trimmed.split(/\s+/).filter(Boolean);
+  if (words.length >= 20) {
+    const trigrams = new Set<string>();
+    let total = 0;
+    for (let i = 0; i + 3 <= words.length; i++) {
+      trigrams.add(words.slice(i, i + 3).join(' '));
+      total++;
+    }
+    if (total > 0 && trigrams.size / total < 0.35) return true;
+  }
+
+  return false;
+}
+
 async function callProvider(spec: ProviderSpec, messages: ChatMessage[]): Promise<ProviderResult> {
+  const label = `${spec.platform}:${spec.model}`;
   const apiKey = apiKeyFor(spec.platform);
-  if (!apiKey) return { ok: false };
+  if (!apiKey) {
+    console.warn(`[chat] ${label}: no API key configured, skipping`);
+    return { ok: false };
+  }
 
   try {
     const res = await fetch(ENDPOINTS[spec.platform], {
@@ -87,24 +137,44 @@ async function callProvider(spec: ProviderSpec, messages: ChatMessage[]): Promis
         model: spec.model,
         messages,
         temperature: 0.25,
-        max_tokens: 900,
+        max_tokens: 1200,
         ...reasoningParamsFor(spec),
       }),
     });
 
-    if (res.status === 429) return { ok: false, rateLimited: true };
-    if (!res.ok) return { ok: false };
+    if (res.status === 429) {
+      console.warn(`[chat] ${label}: rate limited (429)`);
+      return { ok: false, rateLimited: true };
+    }
+    if (!res.ok) {
+      const body = await res.text().catch(() => '');
+      console.warn(`[chat] ${label}: HTTP ${res.status} — ${body.slice(0, 300)}`);
+      return { ok: false };
+    }
 
     const data = (await res.json()) as { choices?: { message?: { content?: string } }[] };
-    const text = data.choices?.[0]?.message?.content;
-    if (!text) return { ok: false };
+    const rawText = data.choices?.[0]?.message?.content;
+    if (!rawText) {
+      console.warn(`[chat] ${label}: empty content in response`);
+      return { ok: false };
+    }
+    const text = stripThinkTags(rawText);
+    if (!text) {
+      console.warn(`[chat] ${label}: response was only a <think> block, no real answer`);
+      return { ok: false };
+    }
+    if (isDegenerate(text)) {
+      console.warn(`[chat] ${label}: rejected degenerate output (${text.length} chars)`);
+      return { ok: false };
+    }
     return { ok: true, text };
-  } catch {
+  } catch (err) {
+    console.warn(`[chat] ${label}: request failed —`, err);
     return { ok: false };
   }
 }
 
-/** Tries each provider in the chain in order, falling through on rate-limit/error. */
+/** Tries each provider in the chain in order, falling through on rate-limit/error/degenerate output. */
 export async function callWithFallback(
   messages: ChatMessage[],
   envChain?: string
@@ -114,5 +184,6 @@ export async function callWithFallback(
     const result = await callProvider(spec, messages);
     if (result.ok) return { ...result, providerUsed: `${spec.platform}:${spec.model}` };
   }
+  console.error('[chat] all providers in the fallback chain failed');
   return { ok: false };
 }
