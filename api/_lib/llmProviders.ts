@@ -77,16 +77,6 @@ function reasoningParamsFor(spec: ProviderSpec): Record<string, unknown> {
 }
 
 /**
- * Detects two failure modes observed live from small free-tier models:
- *  1. A whitespace flood — the model answers a few real words then pads the
- *     rest of its token budget with blank lines until cut off.
- *  2. A repetition loop — the model gets stuck repeating the same short
- *     phrase (measured as a low ratio of unique word-trigrams to total
- *     trigrams over a long-enough response).
- * Either pattern is treated as a hard failure so the chain moves on instead
- * of showing the user garbage.
- */
-/**
  * Some models (e.g. Groq's qwen/qwen3.6-27b) emit their chain-of-thought
  * inline as a <think>...</think> block ahead of the real answer, rather than
  * in a separate API field the way gpt-oss does. Strip it so users never see
@@ -94,9 +84,37 @@ function reasoningParamsFor(spec: ProviderSpec): Record<string, unknown> {
  * the actual answer, not the reasoning preamble.
  */
 function stripThinkTags(text: string): string {
-  return text.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+  let result = text.replace(/<think>[\s\S]*?<\/think>/gi, '');
+  // Generation can also be cut off mid-reasoning, leaving an OPENING <think>
+  // with no closing tag — live testing showed this leaks the entire raw
+  // chain-of-thought (including a sentence trailing off mid-word) straight
+  // into the user-visible answer. Treat "no real answer was ever reached"
+  // as exactly that: drop everything from the unclosed tag onward.
+  const unclosed = result.search(/<think>/i);
+  if (unclosed !== -1) result = result.slice(0, unclosed);
+  return result.trim();
 }
 
+function trigramUniqueness(words: string[]): number | null {
+  if (words.length < 20) return null;
+  const trigrams = new Set<string>();
+  let total = 0;
+  for (let i = 0; i + 3 <= words.length; i++) {
+    trigrams.add(words.slice(i, i + 3).join(' '));
+    total++;
+  }
+  return total > 0 ? trigrams.size / total : null;
+}
+
+/**
+ * Detects failure modes observed live from small free-tier models: a
+ * whitespace flood (a few real words then blank lines until cut off), a
+ * suspiciously short/truncated fragment, or a repetition loop (checked both
+ * over the whole response and just its tail, since a loop that only starts
+ * near the end gets diluted below the threshold by good earlier content).
+ * Any of these is treated as a hard failure so the chain moves on instead of
+ * showing the user garbage.
+ */
 export function isDegenerate(text: string): boolean {
   const trimmed = text.trim();
   if (!trimmed) return true;
@@ -111,15 +129,17 @@ export function isDegenerate(text: string): boolean {
   if (trimmed.length > 200 && nonWhitespaceRatio < 0.5) return true;
 
   const words = trimmed.split(/\s+/).filter(Boolean);
-  if (words.length >= 20) {
-    const trigrams = new Set<string>();
-    let total = 0;
-    for (let i = 0; i + 3 <= words.length; i++) {
-      trigrams.add(words.slice(i, i + 3).join(' '));
-      total++;
-    }
-    if (total > 0 && trigrams.size / total < 0.35) return true;
-  }
+  const overallUniqueness = trigramUniqueness(words);
+  if (overallUniqueness !== null && overallUniqueness < 0.35) return true;
+
+  // A live test showed a genuinely good answer (a list of 11+ people)
+  // devolve into repeats of "**X**: (مذكورة مرة أخرى)." at the end — a real
+  // failure, but diluted by the good content earlier so the WHOLE-text ratio
+  // above stayed high enough to pass. A short, tighter tail window with a
+  // higher bar catches a repetition loop that only kicks in near the end,
+  // even when it's just 3-4 short repeated lines.
+  const tailUniqueness = trigramUniqueness(words.slice(-24));
+  if (tailUniqueness !== null && tailUniqueness < 0.55) return true;
 
   return false;
 }
@@ -142,7 +162,11 @@ async function callProvider(spec: ProviderSpec, messages: ChatMessage[]): Promis
       body: JSON.stringify({
         model: spec.model,
         messages,
-        temperature: 0.25,
+        // Low, not zero: some providers reject temperature:0 outright, and a
+        // tiny amount of randomness doesn't meaningfully hurt consistency
+        // once the bigger sources of variance (retrieval, prompt wording)
+        // are fixed — this mainly reduces run-to-run wording drift.
+        temperature: 0.1,
         max_tokens: 1200,
         ...reasoningParamsFor(spec),
       }),

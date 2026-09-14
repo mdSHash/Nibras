@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, MessageCircle, Send } from 'lucide-react';
 import { useFocusTrap } from '../hooks/useFocusTrap';
@@ -7,6 +7,8 @@ import { Z_INDEX } from '../constants';
 import { cn } from '../utils/cn';
 import { useChat, type ChatCitation } from '../hooks/useChat';
 import { getEraColor } from '../utils/eraColors';
+import { getMatchingSuggestions } from '../utils/chatSuggestions';
+import { useDebouncedValue } from '../hooks/useDebouncedValue';
 import { Button } from './Button';
 
 interface ChatPanelProps {
@@ -39,6 +41,31 @@ function CitationChip({ citation, onClick }: { citation: ChatCitation; onClick: 
   );
 }
 
+/**
+ * Renders the model's lightweight markdown (**bold** + blank-line-separated
+ * paragraphs) as real elements instead of showing literal asterisks — the
+ * system prompt asks for "**name**: description" list items, which needs
+ * actual bold rendering to read as the clean list it's meant to be.
+ */
+function FormattedAnswer({ text }: { text: string }) {
+  const paragraphs = text.split(/\n\s*\n/).filter(Boolean);
+  return (
+    <>
+      {paragraphs.map((para, pi) => (
+        <p key={pi} className={pi > 0 ? 'mt-2.5' : undefined}>
+          {para.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+            part.startsWith('**') && part.endsWith('**') ? (
+              <strong key={i}>{part.slice(2, -2)}</strong>
+            ) : (
+              <span key={i}>{part}</span>
+            )
+          )}
+        </p>
+      ))}
+    </>
+  );
+}
+
 function TypingIndicator() {
   return (
     <div className="flex items-center gap-1 px-4 py-3" aria-live="polite" aria-label="المساعد يكتب">
@@ -61,6 +88,10 @@ export default function ChatPanel({ isOpen, onClose, onCitationClick }: ChatPane
   const [draft, setDraft] = useState('');
   const listRef = useRef<HTMLDivElement>(null);
   const isThrottled = throttledUntil !== null && throttledUntil > Date.now();
+
+  const debouncedDraft = useDebouncedValue(draft, 150);
+  const suggestions = useMemo(() => getMatchingSuggestions(debouncedDraft), [debouncedDraft]);
+  const showSuggestions = suggestions.length > 0 && draft.trim().length >= 2 && !isLoading;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -190,7 +221,7 @@ export default function ChatPanel({ isOpen, onClose, onCitationClick }: ChatPane
                             : 'bg-[var(--color-ink)]/5 text-[var(--color-ink)] rounded-es-sm',
                       )}
                     >
-                      {m.text}
+                      {m.role === 'assistant' ? <FormattedAnswer text={m.text} /> : m.text}
                     </div>
                     {m.citations && m.citations.length > 0 && (
                       <div className="flex flex-wrap gap-1.5">
@@ -225,6 +256,30 @@ export default function ChatPanel({ isOpen, onClose, onCitationClick }: ChatPane
                   <p className="text-[11px] text-[var(--color-ink)]/60 mb-1.5 text-center">
                     الرجاء الانتظار قليلاً قبل إرسال سؤال آخر
                   </p>
+                )}
+                {showSuggestions && (
+                  <div className="flex flex-wrap gap-1.5 mb-2" role="listbox" aria-label="اقتراحات الأسئلة">
+                    {suggestions.map(s => (
+                      <button
+                        key={s}
+                        type="button"
+                        role="option"
+                        aria-selected="false"
+                        onClick={() => {
+                          setDraft('');
+                          sendMessage(s);
+                        }}
+                        className={cn(
+                          'text-[12px] px-2.5 py-1.5 rounded-full text-start',
+                          'bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] hover:text-parchment',
+                          'text-[var(--color-ink)]/80 border border-[var(--color-accent)]/25',
+                          'transition-colors',
+                        )}
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
                 )}
                 <form
                   onSubmit={e => {

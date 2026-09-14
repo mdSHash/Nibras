@@ -120,7 +120,13 @@ const SEMANTIC_RELEVANCE_MIN: Record<EmbeddingProvider, number> = {
   openrouter: 0.35,
 };
 const RRF_K = 60; // standard Reciprocal Rank Fusion constant
-const TOP_K = 10;
+// Raised from 10: a "list all X" question (e.g. "من هم أمهات المؤمنين؟",
+// 11 wives) was silently truncated at 10 candidates, so the model's answer
+// varied run to run depending on which one fell just outside the cutoff.
+// Candidacy is already gated by each method's own relevance threshold above,
+// so raising this just returns more of the chunks that already qualified —
+// it doesn't loosen what counts as relevant.
+const TOP_K = 18;
 
 /**
  * Retrieves the most relevant chunks for a query using both keyword and
@@ -188,5 +194,23 @@ export async function hybridRetrieve(
   });
 
   fused.sort((a, b) => b.score - a.score);
-  return fused.slice(0, TOP_K);
+
+  // Dedupe by person: a companion often has both their own bio chunk and
+  // incidental mentions in unrelated event chunks, which used to produce
+  // duplicate/near-duplicate people in "list everyone" answers (reported
+  // live: the same wife appearing twice, or the count varying run to run
+  // as different fragments of the same person won or lost the cutoff).
+  // Event/battle/Qur'an chunks are deliberately NOT deduped this way —
+  // multiple course-of-events steps from the same battle are the actual
+  // narrative, not duplicates.
+  const seenCompanions = new Set<string>();
+  const deduped = fused.filter(chunk => {
+    const companionId = chunk.entityRefs.companionId;
+    if (!companionId) return true;
+    if (seenCompanions.has(companionId)) return false;
+    seenCompanions.add(companionId);
+    return true;
+  });
+
+  return deduped.slice(0, TOP_K);
 }

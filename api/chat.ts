@@ -8,9 +8,11 @@ import { corsHeaders } from './_lib/cors.js';
 // embedding data comfortably fits Node's function size limit, whereas Vercel
 // Edge Functions have a much tighter bundle-size ceiling.
 const MAX_MESSAGE_LENGTH = 400;
-// How many of the retrieved chunks to always show as citations, regardless
-// of whether the model's prose happens to reference them by [n].
-const MAX_CITATIONS = 5;
+// How many of the retrieved (and already deduped) chunks to always show as
+// citations. Raised from 5 so a genuine "list everyone" answer (e.g. the 11
+// wives of the Prophet) can show a citation for each one instead of being
+// arbitrarily cut off.
+const MAX_CITATIONS = 12;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const origin = (req.headers.origin as string | undefined) || null;
