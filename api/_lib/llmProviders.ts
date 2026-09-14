@@ -101,6 +101,12 @@ export function isDegenerate(text: string): boolean {
   const trimmed = text.trim();
   if (!trimmed) return true;
 
+  // A live test produced a bare "رضي الله عنه؟" (13 chars) for a substantive
+  // question — looks like a truncated/malformed generation rather than a
+  // real answer. 25 chars stays well under any legitimate short factual
+  // answer while catching clearly-broken fragments like this.
+  if (trimmed.length < 25) return true;
+
   const nonWhitespaceRatio = trimmed.replace(/\s/g, '').length / trimmed.length;
   if (trimmed.length > 200 && nonWhitespaceRatio < 0.5) return true;
 
