@@ -76,7 +76,7 @@ const getEraTheme = (era?: string) => {
     title = "عهد النبوة";
   else if (era.includes("أبي بكر") || era.includes("أبو بكر")) title = "خلافة الصديق";
   else if (era.includes("عمر")) title = "خلافة الفاروق";
-  else if (era.includes("عثمان")) title = "خلافة ذو النورين";
+  else if (era.includes("عثمان")) title = "خلافة ذي النورين";
   else if (era.includes("علي")) title = "خلافة الإمام علي";
   return { color, scheme, title };
 };
@@ -672,7 +672,9 @@ function Hero({
             <span className="font-bold">{arNum(event.date.hijri_relative)}</span>
           </span>
           <span className="text-white/70" aria-hidden="true">·</span>
-          <span className="font-medium">{arNum(event.date.gregorian)} م</span>
+          {/* gregorian carries a fractional part purely for chronological
+              ordering (e.g. 661.07) — only the year itself is displayed. */}
+          <span className="font-medium">{arNum(Math.floor(event.date.gregorian))} م</span>
           <span className="text-white/70" aria-hidden="true">·</span>
           <span className="inline-flex items-center gap-1.5">
             <MapPin size={13} className="shrink-0" />

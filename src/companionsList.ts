@@ -1486,9 +1486,13 @@ export const companionsData: CompanionData[] = [...coreCompanionsData];
 const HONORIFICS_PATTERN =
   /رضي الله عنهما|رضي الله عنهم|رضي الله عنها|رضي الله عنه|رحمهم الله|رحمها الله|رحمه الله|صلى الله عليه وسلم|عليه السلام|ﷺ/g;
 
+// Diacritics are stripped BEFORE honorifics are removed: a fully vocalized
+// "رَضِيَ اللهُ عَنْهُ" never matches the plain-letter pattern otherwise, which
+// left names like "عُثْمَانُ بْنُ عَفَّانَ رَضِيَ اللهُ عَنْهُ" unresolved.
 const normalizeArabicName = (value: string): string =>
   value
     .normalize("NFKC")
+    .replace(/[ً-ٰٟ]/g, "")
     .replace(HONORIFICS_PATTERN, "")
     .replace(/[إأآا]/g, "ا")
     .replace(/ى/g, "ي")

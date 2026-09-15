@@ -338,7 +338,7 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
                           'bg-[var(--color-accent)]/10 text-[var(--color-accent)]',
                           'font-bold'
                         )}>
-                          {evt.date.gregorian} م
+                          {Math.floor(evt.date.gregorian)} م
                         </span>
                       </div>
                       

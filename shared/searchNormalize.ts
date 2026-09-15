@@ -3,12 +3,15 @@
 // forms so a partial or unvocalized query (e.g. "معركه بدر") still matches the
 // vocalized stored title (e.g. "مَعْرَكَةُ بَدْرٍ الْكُبْرَى").
 //
-// Lives outside src/ because both the Vite-bundled client (src/components/SearchMenu.tsx)
-// and the Node serverless chat function (api/_lib/retrieval.ts) need the identical
-// implementation, and neither side should import across the src//api boundary.
+// Used by the app's search menu and chat question suggestions. The chat
+// assistant's own retrieval uses shared/arabicText.ts (stemming, stopwords).
 export function normalizeArabic(input: string): string {
   if (!input) return '';
   return input
+    // Arabic-Indic digits (٣١٣) → Western (313). The data mixes both, and the
+    // punctuation strip below would otherwise delete Arabic-Indic digits
+    // entirely, since they fall outside the ء-ي letter range.
+    .replace(/[٠-٩]/g, d => String(d.charCodeAt(0) - 0x0660))
     .toLowerCase()
     // Tashkeel (fatha/kasra/damma/shadda/sukun/tanwin), superscript alef, tatweel
     .replace(/[ً-ْٰـ]/g, '')

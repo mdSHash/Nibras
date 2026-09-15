@@ -25,13 +25,11 @@ export const isProphetEra = (event: EventItem): boolean => {
  * Check if an event is from the Rashidun Caliphate era
  */
 export const isRashidunEra = (event: EventItem): boolean => {
-  const rashidunEras = [
-    'أبو بكر الصديق',
-    'عمر بن الخطاب',
-    'عهد عثمان بن عفان',
-    'عهد علي بن أبي طالب'
-  ];
-  return rashidunEras.includes(event.era);
+  // Same includes-based matching as getEraTitle/getRulerName: the data spells
+  // one era label two ways ("أبو بكر الصديق" and "عهد أبي بكر الصديق"), and an
+  // exact-match list silently dropped the latter from the Rashidun filter.
+  if (isProphetEra(event)) return false;
+  return getEraTitle(event.era) !== '';
 };
 
 /**
@@ -42,7 +40,7 @@ export const getEraTitle = (era: string): string => {
   if (era.includes('المدني')) return 'العهد المدني';
   if (era.includes('أبي بكر') || era.includes('أبو بكر')) return 'خلافة الصديق';
   if (era.includes('عمر')) return 'خلافة الفاروق';
-  if (era.includes('عثمان')) return 'خلافة ذو النورين';
+  if (era.includes('عثمان')) return 'خلافة ذي النورين';
   if (era.includes('علي')) return 'خلافة الإمام علي';
   return '';
 };
