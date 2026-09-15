@@ -11,6 +11,7 @@ import { cn } from '../utils/cn';
 import { useChat, type ChatCitation } from '../hooks/useChat';
 import { getEraColor } from '../utils/eraColors';
 import { getMatchingSuggestions } from '../utils/chatSuggestions';
+import { pickExampleQuestions } from '../utils/chatExamples';
 import { useDebouncedValue } from '../hooks/useDebouncedValue';
 import { Button } from './Button';
 import { AnswerBlocks, FormattedText } from './chat/AnswerBlocks';
@@ -22,11 +23,45 @@ interface ChatPanelProps {
   onCitationClick: (citation: ChatCitation) => void;
 }
 
-const EXAMPLE_QUESTIONS = [
-  'من هم أهل بدر؟',
-  'ماذا حدث في غزوة الخندق؟',
-  'من هو خالد بن الوليد؟',
-];
+const EXAMPLES_SHOWN_KEY = 'nibras.chat.examples.last';
+
+function readShownExamples(): string[] {
+  try {
+    const stored: unknown = JSON.parse(localStorage.getItem(EXAMPLES_SHOWN_KEY) || '[]');
+    return Array.isArray(stored) ? stored.filter((q): q is string => typeof q === 'string') : [];
+  } catch {
+    return [];
+  }
+}
+
+/** A fresh set of starter questions every time the empty chat appears (open, or a new conversation). */
+function ExampleQuestions({ onAsk }: { onAsk: (question: string) => void }) {
+  const [questions] = useState(() => pickExampleQuestions(readShownExamples()));
+
+  useEffect(() => {
+    try { localStorage.setItem(EXAMPLES_SHOWN_KEY, JSON.stringify(questions)); } catch {}
+  }, [questions]);
+
+  return (
+    <div className="flex flex-col gap-2">
+      {questions.map(q => (
+        <button
+          key={q}
+          onClick={() => onAsk(q)}
+          className={cn(
+            'text-sm 4xl:text-base text-start px-3 py-2 rounded-lg',
+            'pointer-coarse:min-h-11',
+            'bg-[var(--color-ink)]/5 hover:bg-[var(--color-ink)]/10',
+            'text-[var(--color-ink)]/85 border border-[var(--color-accent)]/15',
+            'transition-colors',
+          )}
+        >
+          {q}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 function CitationChip({ citation, onClick }: { citation: ChatCitation; onClick: () => void }) {
   const color = citation.era ? getEraColor(citation.era) : undefined;
@@ -99,14 +134,18 @@ export default function ChatPanel({ isOpen, onClose, onCitationClick }: ChatPane
   const suggestions = useMemo(() => getMatchingSuggestions(debouncedDraft), [debouncedDraft]);
   const showSuggestions = suggestions.length > 0 && draft.trim().length >= 2 && !isLoading;
 
+  // Subscribe once per open, not per onClose identity: App's own Escape handler re-renders App
+  // during the same keypress, and swapping this listener mid-dispatch meant it never ran.
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
   useEffect(() => {
     if (!isOpen) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') onCloseRef.current();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: 'smooth' });
@@ -280,23 +319,7 @@ export default function ChatPanel({ isOpen, onClose, onCitationClick }: ChatPane
                     <p className="text-sm 4xl:text-base text-[var(--color-ink)]/70">
                       اسأل عن أي حدث أو صحابي أو معركة موجودة في التطبيق
                     </p>
-                    <div className="flex flex-col gap-2">
-                      {EXAMPLE_QUESTIONS.map(q => (
-                        <button
-                          key={q}
-                          onClick={() => sendMessage(q)}
-                          className={cn(
-                            'text-sm 4xl:text-base text-start px-3 py-2 rounded-lg',
-                            'pointer-coarse:min-h-11',
-                            'bg-[var(--color-ink)]/5 hover:bg-[var(--color-ink)]/10',
-                            'text-[var(--color-ink)]/85 border border-[var(--color-accent)]/15',
-                            'transition-colors',
-                          )}
-                        >
-                          {q}
-                        </button>
-                      ))}
-                    </div>
+                    <ExampleQuestions onAsk={sendMessage} />
                   </div>
                 )}
 
