@@ -31,6 +31,29 @@ export interface ChatSuccessBody {
   citations: ChatCitation[];
   grounded: boolean;
   mode: AnswerMode;
+  /** What this turn was about; send `recordIds` back with the next question. */
+  context: {
+    recordIds: string[];
+    /** Records assumed from the previous question (not named in this one). */
+    carried: { recordId: string; title: string }[];
+  };
+  /** Suggested next questions, each answerable from Nibras's data. */
+  followUps: string[];
+}
+
+/** Sent with a question so a follow-up can refer to the previous answer. */
+export interface ChatRequestContext {
+  recordIds: string[];
+  previousQuestion?: string;
+}
+
+export interface FeedbackRequest {
+  rating: 'up' | 'down';
+  question: string;
+  answer?: string;
+  mode?: AnswerMode;
+  citations?: string[];
+  note?: string;
 }
 
 export interface ChatErrorBody {

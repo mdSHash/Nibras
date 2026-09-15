@@ -2,7 +2,11 @@
  * Live evaluation of the chat assistant against real model providers.
  *
  *   npm run eval:chat -- "سؤال" "سؤال آخر"      ad-hoc questions, verbose
- *   npm run eval:chat -- --golden [--limit N]   the golden set in tests/fixtures
+ *   npm run eval:chat -- --golden [--set egyptian|conversation] [--limit N]
+ *                                               a golden set in tests/fixtures
+ *
+ * In the conversation set, a case with "followUp": true is asked with the
+ * context returned by the previous case, like the chat panel does.
  *
  * Golden-set checks per question: expected records retrieved, expected
  * facts present in the answer, out-of-scope questions refused. Groq's free
@@ -19,6 +23,7 @@ config({ path: path.join(__dirname, '../.env.local'), quiet: true });
 
 interface GoldenCase {
   q: string;
+  followUp?: boolean;
   /** At least one of these record ids must be cited or retrieved. */
   records?: string[];
   /** Each fragment must appear in the answer (normalized comparison). */
@@ -37,16 +42,21 @@ async function main() {
   const limit = limitAt !== -1 ? Number(args[limitAt + 1]) : Infinity;
   const gapAt = args.indexOf('--gap');
   const gapMs = gapAt !== -1 ? Number(args[gapAt + 1]) : golden ? 9000 : 0;
+  const setAt = args.indexOf('--set');
+  const fixture = setAt !== -1 ? `chat-golden-${args[setAt + 1]}.json` : 'chat-golden.json';
 
   const cases: GoldenCase[] = golden
-    ? (JSON.parse(fs.readFileSync(path.join(__dirname, '../tests/fixtures/chat-golden.json'), 'utf8')) as GoldenCase[]).slice(0, limit)
+    ? (JSON.parse(fs.readFileSync(path.join(__dirname, '../tests/fixtures', fixture), 'utf8')) as GoldenCase[]).slice(0, limit)
     : args.filter(a => !a.startsWith('--') && Number.isNaN(Number(a))).map(q => ({ q }));
 
   const results: Record<string, unknown>[] = [];
   let pass = 0;
+  let previous: { recordIds: string[]; previousQuestion: string } | undefined;
   for (const [i, c] of cases.entries()) {
     if (i > 0 && gapMs) await sleep(gapMs);
-    const { status, body, log } = await answerQuestion(c.q);
+    const { status, body, log } = await answerQuestion(c.q, { noCache: true, context: c.followUp ? previous : undefined });
+    const ctx = (body as { context?: { recordIds: string[] } }).context;
+    if (ctx?.recordIds?.length) previous = { recordIds: ctx.recordIds, previousQuestion: c.q };
     const b = body as {
       mode?: string;
       blocks?: { type: string; text?: string; key?: string; heading?: string; items?: string[] }[];
@@ -71,7 +81,7 @@ async function main() {
 
     const rejected = (log.rejected as { reason: string }[] | undefined) ?? [];
     console.log(`\n${problems.length ? '✗' : '✓'} [${i + 1}/${cases.length}] ${c.q}`);
-    console.log(`  mode=${b.mode ?? status} provider=${log.provider ?? '-'} ms=${log.ms} confidence=${log.confidence} rejected=${rejected.length}`);
+    console.log(`  mode=${b.mode ?? status} provider=${log.provider ?? '-'} ms=${log.ms} confidence=${log.confidence} rejected=${rejected.length}${(log.carried as string[] | undefined)?.length ? ` carried=${(log.carried as string[]).join(',')}` : ''}`);
     if (!golden || problems.length) {
       console.log(`  entities: ${(log.entities as string[]).join(', ')} | intents: ${(log.intents as string[]).join(', ')}`);
       if (log.attempts) console.log(`  attempts: ${(log.attempts as string[]).join(' ; ')}`);

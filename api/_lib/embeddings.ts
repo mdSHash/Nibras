@@ -65,7 +65,15 @@ export interface EmbedOutcome {
   vectors: number[][] | null;
   /** True when the provider refused because of quota/rate limits. */
   rateLimited: boolean;
+  /** Which limit was hit, when the provider says (Gemini names its quota). */
+  quota?: 'minute' | 'day';
   error?: string;
+}
+
+function quotaWindow(body: string): EmbedOutcome['quota'] {
+  if (/PerDay/i.test(body)) return 'day';
+  if (/PerMinute/i.test(body)) return 'minute';
+  return undefined;
 }
 
 async function embedGemini(texts: string[], apiKey: string, taskType: string, timeoutMs: number): Promise<EmbedOutcome> {
@@ -90,7 +98,7 @@ async function embedGemini(texts: string[], apiKey: string, taskType: string, ti
     );
     if (!res.ok) {
       const body = await res.text().catch(() => '');
-      return { vectors: null, rateLimited: res.status === 429, error: `HTTP ${res.status} ${body.slice(0, 200)}` };
+      return { vectors: null, rateLimited: res.status === 429, quota: quotaWindow(body), error: `HTTP ${res.status} ${body.slice(0, 200)}` };
     }
     const data = (await res.json()) as { embeddings?: { values: number[] }[] };
     if (!data.embeddings || data.embeddings.length !== texts.length) return { vectors: null, rateLimited: false, error: 'bad response shape' };

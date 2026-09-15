@@ -3,7 +3,7 @@
  * the event panel shows becomes its own unit so questions like "when",
  * "where", "how many" and "what did X do" can be answered from the exact field.
  */
-import type { KbRecord } from '../../shared/chatKb';
+import type { KbRecord, MilitaryKind } from '../../shared/chatKb';
 import { eraKeyOf } from '../../shared/chatKb';
 import type { EventItem } from '../../src/data';
 import { isBattle } from '../../src/utils/eventHelpers';
@@ -30,6 +30,36 @@ export function eventAliases(title: string, reservedNames: Set<string>): string[
     if (trimmed !== remainder && !reservedNames.has(trimmed)) aliases.add(trimmed);
   }
   return [...aliases].filter(a => a.length >= 3);
+}
+
+/**
+ * Terminology rule (see project notes): غزوة only when the Prophet ﷺ took
+ * part in person during his era; expeditions he sent without taking part are
+ * سرايا; after him every battle — including conquests titled "فتح …" — is a
+ * معركة. Which events are military at all comes from the app's isBattle().
+ */
+export function militaryKind(event: EventItem): MilitaryKind | undefined {
+  // Same test the app's "المعارك فقط" filter uses, so chat and app agree.
+  if (!isBattle(event)) return undefined;
+  const title = aliasForm(event.title);
+  const head = title.split(' ')[0];
+  const era = eraKeyOf(event.era);
+  if (era !== 'meccan' && era !== 'medinan') return 'maaraka';
+  const prophetPresent = (event.entities.key_figures ?? []).some(name => /النبي|رسول الله/.test(aliasForm(name)));
+  if (head === 'سرية' || !prophetPresent) return 'sariyya';
+  if (head === 'غزوة' || head === 'فتح' || head === 'حصار' || /\(غزوة /.test(title)) return 'ghazwa';
+  return 'harb';
+}
+
+/**
+ * The chat's name for an event. Titles are narrated on the timeline (cached
+ * audio keyed by the exact text), so a title that breaks the terminology rule
+ * is not edited in the data — the chat shows "معركة" in place of "غزوة" for
+ * events the Prophet ﷺ did not lead, and both spellings stay searchable.
+ */
+export function chatTitle(title: string, military: MilitaryKind | undefined): string {
+  if (!military || military === 'ghazwa') return title;
+  return aliasForm(title).startsWith('غزوة ') ? title.replace(/^\S+/, 'مَعْرَكَةُ') : title;
 }
 
 /** hijri_relative values that are not actually dates (e.g. an age, or "0 هـ"). */
@@ -77,8 +107,12 @@ export function addEventUnits(
   for (const event of events) {
     const recordId = `event:${event.id}`;
     const refs = { eventId: event.id };
-    const title = event.title;
+    const military = militaryKind(event);
+    const title = chatTitle(event.title, military);
     const plainTitle = bare(title);
+    if (title !== event.title) {
+      ctx.issue('warning', recordId, `title "${bare(event.title)}" uses غزوة for an event the Prophet ﷺ did not lead — chat shows "${plainTitle}"; the timeline title is narrated audio, so it was left unchanged`);
+    }
     const d = event.details;
     records.push({
       id: recordId,
@@ -87,8 +121,9 @@ export function addEventUnits(
       era: event.era,
       eraKey: eraKeyOf(event.era),
       isBattle: isBattle(event),
+      military,
       refs: { eventId: event.id, ...(event.battleId ? { battleId: event.battleId } : {}) },
-      aliases: eventAliases(title, reservedNames),
+      aliases: [...new Set([...eventAliases(title, reservedNames), ...eventAliases(event.title, reservedNames)])],
       weakAliases: [],
     });
 
@@ -101,7 +136,10 @@ export function addEventUnits(
     );
 
     const year = Math.floor(event.date.gregorian);
-    if (isUsableHijriDate(event.date.hijri_relative)) {
+    if (/عمره/.test(aliasForm(event.date.hijri_relative))) {
+      // An age rather than a date ("في الرابعة من عمره ﷺ تقريبًا").
+      ctx.add({ recordId, slug: 'date', kind: 'event_date', text: `وقت ${plainTitle}: ${event.date.hijri_relative} (سنة ${year} م)`, refs });
+    } else if (isUsableHijriDate(event.date.hijri_relative)) {
       ctx.add({ recordId, slug: 'date', kind: 'event_date', text: `تاريخ ${plainTitle}: ${event.date.hijri_relative} (سنة ${year} م)`, refs });
     } else {
       ctx.issue('warning', recordId, `hijri_relative is not a date ("${event.date.hijri_relative}") — chat states only the Gregorian year`);

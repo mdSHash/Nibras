@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, MessageCircle, Send } from 'lucide-react';
+import { X, MessageCircle, Send, RotateCcw } from 'lucide-react';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../utils/scrollLock';
 import { Z_INDEX } from '../constants';
@@ -11,6 +11,7 @@ import { getMatchingSuggestions } from '../utils/chatSuggestions';
 import { useDebouncedValue } from '../hooks/useDebouncedValue';
 import { Button } from './Button';
 import { AnswerBlocks, FormattedText } from './chat/AnswerBlocks';
+import { CarriedTopic, FeedbackBar, FollowUpChips } from './chat/AnswerExtras';
 
 interface ChatPanelProps {
   isOpen: boolean;
@@ -72,7 +73,7 @@ function TypingIndicator() {
 export default function ChatPanel({ isOpen, onClose, onCitationClick }: ChatPanelProps) {
   const focusTrapRef = useFocusTrap(isOpen);
   useScrollLock(isOpen);
-  const { messages, isLoading, throttledUntil, sendMessage } = useChat();
+  const { messages, isLoading, throttledUntil, sendMessage, reset, sendFeedback } = useChat();
   const [draft, setDraft] = useState('');
   const listRef = useRef<HTMLDivElement>(null);
   const isThrottled = throttledUntil !== null && throttledUntil > Date.now();
@@ -156,6 +157,22 @@ export default function ChatPanel({ isOpen, onClose, onCitationClick }: ChatPane
                 >
                   <X size={20} />
                 </button>
+                {messages.length > 0 && (
+                  <button
+                    onClick={reset}
+                    className={cn(
+                      'absolute right-3 top-3 h-11 px-3',
+                      'flex items-center gap-1.5 rounded-full text-xs font-bold',
+                      'bg-[var(--color-ink)]/5 hover:bg-[var(--color-ink)]/10',
+                      'text-[var(--color-ink)]',
+                      'transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]',
+                    )}
+                    aria-label="بدء محادثة جديدة"
+                  >
+                    <RotateCcw size={14} aria-hidden="true" />
+                    <span className="hidden sm:inline">محادثة جديدة</span>
+                  </button>
+                )}
                 <h2
                   id="chat-panel-title"
                   className="text-lg md:text-xl font-bold text-[var(--color-ink)] text-center flex items-center justify-center gap-2"
@@ -215,12 +232,19 @@ export default function ChatPanel({ isOpen, onClose, onCitationClick }: ChatPane
                           ? <AnswerBlocks blocks={m.blocks} onVerseOpen={onCitationClick} />
                           : <FormattedText text={m.text} />}
                     </div>
+                    {m.role === 'assistant' && m.carried && <CarriedTopic titles={m.carried} />}
                     {m.citations && m.citations.length > 0 && (
                       <div className="flex flex-wrap gap-1.5">
                         {m.citations.map(c => (
                           <CitationChip key={c.chunkId} citation={c} onClick={() => onCitationClick(c)} />
                         ))}
                       </div>
+                    )}
+                    {m.role === 'assistant' && !m.isError && m.followUps && (
+                      <FollowUpChips questions={m.followUps} disabled={isLoading} onAsk={sendMessage} />
+                    )}
+                    {m.role === 'assistant' && !m.isError && m.question && (
+                      <FeedbackBar message={m} onRate={(rating, note) => sendFeedback(m.id, rating, note)} />
                     )}
                     {m.isError && (
                       <Button

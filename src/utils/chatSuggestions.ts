@@ -1,6 +1,7 @@
 import { eventsData, citiesData, companionsData } from '../data';
 import { isBattle } from './eventHelpers';
 import { normalizeArabic } from './searchNormalize';
+import { genitiveName } from '../../shared/arabicGrammar';
 
 export interface ChatSuggestion {
   /** The full question text to show/send. */
@@ -24,7 +25,7 @@ function buildSuggestions(): ChatSuggestion[] {
     // Gender-neutral on purpose: "من هو" was shown for women, and the data
     // has no reliable gender field to choose between هو and هي.
     suggestions.push({
-      question: `ماذا تعرف عن ${withoutVowelMarks(companion.name)}؟`,
+      question: `ماذا تعرف عن ${genitiveName(withoutVowelMarks(companion.name))}؟`,
       normalizedHaystack: normalizeArabic([companion.name, ...(companion.aliases || [])].join(' ')),
     });
   }

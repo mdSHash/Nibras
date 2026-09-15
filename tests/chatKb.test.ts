@@ -28,12 +28,39 @@ describe('knowledge base build', () => {
     }
   });
 
-  it('reports only the known Badr scenario misquote as an error', () => {
-    const errors = ctx.issues.filter(i => i.severity === 'error');
-    expect(errors).toHaveLength(1);
-    expect(errors[0].source).toMatch(/^battle:badr#description:/);
-    expect(errors[0].message).toContain('يَوْمُ');
-    expect(kb.units.some(u => u.id === errors[0].source)).toBe(false);
+  it('reports no errors now that the Badr scenario quote is corrected', () => {
+    expect(ctx.issues.filter(i => i.severity === 'error')).toEqual([]);
+    expect(kb.units.some(u => u.text.includes('يَوْمُ الْفُرْقانِ يَوْمَ') || u.text.includes('يَوْمُ الفُرْقَانِ يَوْمَ'))).toBe(false);
+  });
+
+  it('classifies military events by the غزوة / سرية / معركة rule', () => {
+    const kind = (id: string) => kb.records.find(r => r.id === id)?.military;
+    expect(kind('event:battle-badr')).toBe('ghazwa');
+    expect(kind('event:conquest-mecca')).toBe('ghazwa');
+    expect(kind('event:battle-mutah')).toBe('sariyya');
+    expect(kind('event:sariyyat-hamza')).toBe('sariyya');
+    expect(kind('event:fijar-war')).toBe('harb');
+    expect(kind('event:conquest-damascus')).toBe('maaraka');
+    expect(kind('event:battle-yarmouk')).toBe('maaraka');
+    expect(kind('event:boycott-hashim')).toBeUndefined();
+  });
+
+  it('never calls a post-Prophet event or list a غزوة', () => {
+    for (const record of kb.records.filter(r => r.type === 'event' && r.military && r.military !== 'ghazwa')) {
+      expect(record.title.replace(/[ً-ٰٟ]/g, ''), record.id).not.toMatch(/^غزوة/);
+    }
+    for (const unit of kb.units.filter(u => u.kind === 'list' && /abuBakr|umar|uthman|ali/.test(u.recordId))) {
+      expect(unit.list!.heading, unit.id).not.toMatch(/غزو/);
+      for (const item of unit.list!.items) expect(item, unit.id).not.toMatch(/^غزوة/);
+    }
+  });
+
+  it('lists conquests titled "فتح" among the battles of the era of Umar', () => {
+    const battles = kb.units.find(u => u.id === 'list:era:umar#battles')!.list!.items;
+    expect(battles).toContain('فتح دمشق');
+    expect(battles).toContain('معركة اليرموك');
+    const others = kb.units.find(u => u.id === 'list:era:umar#events')!.list!.items;
+    expect(others.some(t => t.startsWith('فتح') || t.startsWith('معركة'))).toBe(false);
   });
 });
 

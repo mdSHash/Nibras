@@ -3,9 +3,13 @@
  * "where is Khalid mentioned?" can be answered from one unit. Lists say
  * "من" (some of / among) and never state a total: Nibras does not cover every
  * historical event, so a count drawn from it could be historically wrong.
+ *
+ * Military lists follow the terminology rule: غزوات only for the Prophet's
+ * own campaigns, سرايا for expeditions he sent, معارك وفتوح after him.
  */
-import { ERA_LABELS, type EraKey, type KbRecord } from '../../shared/chatKb';
+import { ERA_LABELS, type EraKey, type KbRecord, type MilitaryKind } from '../../shared/chatKb';
 import type { CompanionData } from '../../src/companionsList';
+import { genitiveName } from '../../shared/arabicGrammar';
 import { bare, BuildContext } from './common';
 
 const ERA_ALIASES: Record<EraKey, string[]> = {
@@ -17,6 +21,23 @@ const ERA_ALIASES: Record<EraKey, string[]> = {
   ali: ['عهد علي', 'خلافة علي', 'عهد الإمام علي', 'خلافة الإمام علي', 'عهد علي بن أبي طالب', 'خلافة علي بن أبي طالب'],
 };
 
+/** Companion record of each era's ruler — lets "أيام عمر" / "زمن النبي" find the era. */
+const ERA_RULERS: Partial<Record<EraKey | 'prophet', string>> = {
+  prophet: 'companion:prophet-muhammad',
+  abuBakr: 'companion:abu-bakr',
+  umar: 'companion:umar',
+  uthman: 'companion:uthman',
+  ali: 'companion:ali',
+};
+
+// `label` is null for the whole Prophet's era, where "في عهد النبي ﷺ" would repeat the heading.
+const MILITARY_LISTS: { kind: MilitaryKind; slug: string; heading: (label: string | null) => string }[] = [
+  { kind: 'ghazwa', slug: 'ghazawat', heading: label => (label ? `من غزوات النبي ﷺ في ${label} في نبراس` : 'من غزوات النبي ﷺ في نبراس') },
+  { kind: 'sariyya', slug: 'saraya', heading: label => `من السرايا والبعوث التي لم يشهدها النبي ﷺ${label ? ` في ${label}` : ''} في نبراس` },
+  { kind: 'harb', slug: 'wars', heading: label => `من الحروب في ${label ?? 'حياة النبي ﷺ'} في نبراس` },
+  { kind: 'maaraka', slug: 'battles', heading: label => `من المعارك والفتوح في ${label} في نبراس` },
+];
+
 export function addListUnits(
   ctx: BuildContext,
   eventRecords: KbRecord[],
@@ -25,25 +46,37 @@ export function addListUnits(
 ): KbRecord[] {
   const records: KbRecord[] = [];
   const titleOf = new Map(eventRecords.map(r => [r.id, r.title]));
+  const companionIds = new Set(companions.map(c => `companion:${c.id}`));
 
-  const addEraList = (id: string, label: string, aliases: string[], events: KbRecord[]) => {
+  const addEraList = (id: string, eraKey: EraKey | 'prophet', label: string, aliases: string[], events: KbRecord[]) => {
     const recordId = `list:${id}`;
-    const battles = events.filter(e => e.isBattle).map(e => bare(e.title));
-    const others = events.filter(e => !e.isBattle).map(e => bare(e.title));
-    if (battles.length > 0) {
-      ctx.add({ recordId, slug: 'battles', kind: 'list', text: undefined, list: { heading: `من الغزوات والمعارك في ${label} في نبراس`, items: battles }, refs: {} });
+    for (const { kind, slug, heading } of MILITARY_LISTS) {
+      const items = events.filter(e => e.military === kind).map(e => bare(e.title));
+      if (items.length > 0) ctx.add({ recordId, slug, kind: 'list', text: undefined, list: { heading: heading(eraKey === 'prophet' ? null : label), items }, refs: {} });
     }
+    const others = events.filter(e => !e.military).map(e => bare(e.title));
     if (others.length > 0) {
       ctx.add({ recordId, slug: 'events', kind: 'list', text: undefined, list: { heading: `من الأحداث الأخرى في ${label} في نبراس`, items: others }, refs: {} });
     }
-    records.push({ id: recordId, type: 'list', title: label, refs: {}, aliases, weakAliases: [] });
+    const ruler = ERA_RULERS[eraKey];
+    if (ruler && !companionIds.has(ruler)) ctx.issue('warning', recordId, `era ruler record ${ruler} not found`);
+    records.push({
+      id: recordId,
+      type: 'list',
+      title: label,
+      refs: {},
+      aliases,
+      weakAliases: [],
+      ...(ruler && companionIds.has(ruler) && eraKey !== 'meccan' && eraKey !== 'medinan' ? { rulerRecordId: ruler } : {}),
+    });
   };
 
   for (const key of Object.keys(ERA_LABELS) as EraKey[]) {
-    addEraList(`era:${key}`, ERA_LABELS[key], ERA_ALIASES[key], eventRecords.filter(r => r.eraKey === key));
+    addEraList(`era:${key}`, key, ERA_LABELS[key], ERA_ALIASES[key], eventRecords.filter(r => r.eraKey === key));
   }
   addEraList(
     'era:prophet',
+    'prophet',
     'عهد النبي ﷺ',
     ['عهد النبي', 'العهد النبوي', 'زمن النبي', 'حياة النبي', 'عهد الرسول', 'غزوات النبي', 'غزوات الرسول'],
     eventRecords.filter(r => r.eraKey === 'meccan' || r.eraKey === 'medinan')
@@ -95,7 +128,7 @@ export function addListUnits(
       slug: 'events',
       kind: 'companion_events',
       text: undefined,
-      list: { heading: `ورد ذكر ${bare(companion.name)} في نبراس في`, items: events },
+      list: { heading: `ورد ذكر ${genitiveName(bare(companion.name))} في نبراس في`, items: events },
       refs: { companionId: companion.id },
     });
   }

@@ -29,11 +29,23 @@ export interface KbRecord {
   weakAliases: string[];
   /** For event records: whether the app classifies it as a battle. */
   isBattle?: boolean;
+  /**
+   * For event records: the kind of military event, if it is one.
+   * ghazwa  — Prophet's era with the Prophet ﷺ present;
+   * sariyya — Prophet's era without him (expeditions he sent);
+   * harb    — Prophet's era before the mission (e.g. حرب الفجار);
+   * maaraka — any battle or military conquest (فتح) after him.
+   */
+  military?: MilitaryKind;
+  /** For era list records: the companion record of that era's ruler. */
+  rulerRecordId?: string;
   /** Canonical era key, used to answer "events of era X" questions. */
   eraKey?: EraKey;
 }
 
 export type EraKey = 'meccan' | 'medinan' | 'abuBakr' | 'umar' | 'uthman' | 'ali';
+
+export type MilitaryKind = 'ghazwa' | 'sariyya' | 'harb' | 'maaraka';
 
 export type UnitKind =
   | 'event_summary'

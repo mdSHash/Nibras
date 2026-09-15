@@ -7,32 +7,43 @@
  * and returns a compact evidence pack grouped by record.
  */
 import type { KbRecord, KbUnit, UnitKind } from '../../shared/chatKb.js';
-import { normalizeForMatch, searchStems } from '../../shared/arabicText.js';
+import { analyze, normalizeForMatch, searchStems } from '../../shared/arabicText.js';
 import { embedQueryWith, type EmbeddingProvider } from './embeddings.js';
+import { carryContext, type ChatContext } from './context.js';
 import { linkEntities, type LinkedEntity } from './entityLinker.js';
 import { getKb, plainText, type LoadedKb } from './kb.js';
 import { getProviderIndex, semanticScores } from './semanticIndex.js';
 
 export type Intent =
   | 'date' | 'location' | 'quantity' | 'duration' | 'role' | 'quran' | 'hadith' | 'sources'
-  | 'list' | 'outcome' | 'reason' | 'biography' | 'death' | 'appearances';
+  | 'list' | 'outcome' | 'reason' | 'biography' | 'death' | 'birth' | 'appearances' | 'military' | 'how';
 
+// Patterns run on normalizeForMatch() text (ة→ه, ى→ي, alef variants folded),
+// in both Modern Standard Arabic and Egyptian colloquial phrasing.
 const INTENTS: [Intent, RegExp, UnitKind[]][] = [
-  ['date', /(^| )(متي|تاريخ|اي سنه|اي عام|في سنه|سنه كم)( |$)/, ['event_date']],
-  ['location', /(^| )(اين|مكان|موقع|تقع)( |$)/, ['event_location', 'city']],
-  ['quantity', /(^| )(كم|عدد|تعداد)( |$)/, ['event_army', 'event_duration']],
-  ['duration', /(^| )(مده|استمرت|استمر|دامت)( |$)/, ['event_duration']],
-  ['role', /(^| )(دور|فعل|موقف|شارك|قاد|قائد|ابلي)( |$)/, ['event_role', 'event_figures']],
-  ['quran', /(^| )(ايه|ايات|الايه|الايات|قران|القران|سوره|نزلت|نزل)( |$)/, ['event_quran', 'quran_verse']],
+  ['date', /(^| )(متي|امتي|امتا|تاريخ|اي سنه|اي عام|في سنه|سنه كم|سنه كام|في سنه كام)( |$)/, ['event_date']],
+  ['location', /(^| )(اين|فين|منين|مكان|موقع|تقع|مكانها|مكانه)( |$)/, ['event_location', 'city']],
+  ['quantity', /(^| )(كم|كام|عدد|تعداد|عددهم|قد ايه)( |$)/, ['event_army', 'event_duration']],
+  ['duration', /(^| )(مده|استمرت|استمر|دامت|قعدت)( |$)/, ['event_duration']],
+  ['role', /(^| )(دور|دوره|دورها|فعل|موقف|شارك|قاد|قائد|ابلي|عمل ايه|عملت ايه|عملوا ايه|كان بيعمل)( |$)/, ['event_role', 'event_figures']],
   ['hadith', /(^| )(حديث|الحديث|احاديث|الاحاديث)( |$)/, ['event_hadith']],
   ['sources', /(^| )(مصدر|مصادر|المصادر|مراجع|المراجع)( |$)/, ['event_sources']],
-  ['list', /(^| )(اذكر|قائمه|من هم|من هن|ما هي|جميع|كل|اهم|ابرز)( |$)/, ['list']],
-  ['outcome', /(^| )(نتيجه|نتائج|انتهت|انتصر|انتصار|هزم|هزيمه)( |$)/, ['battle_outcome', 'event_summary']],
-  ['reason', /(^| )(لماذا|سبب|اسباب|اهميه|لم)( |$)/, ['event_description', 'battle_outcome', 'companion_bio']],
-  ['biography', /(^| )(من هو|من هي|سيره|حياه|ترجمه|نسب|لقب|سمي|يلقب|لقبه)( |$)/, ['companion_profile', 'companion_bio']],
-  ['death', /(^| )(توفي|وفاه|استشهد|استشهاد|مات|مقتل|قتل)( |$)/, ['companion_profile', 'companion_bio', 'event_summary']],
-  ['appearances', /(^| )(في اي|الاحداث التي|اين ورد|ورد ذكر)( |$)/, ['companion_events']],
+  ['list', /(^| )(اذكر|قائمه|قايمه|من هم|من هن|مين هما|مين هم|ما هي|ايه هي|ايه هما|جميع|كل|اهم|ابرز)( |$)/, ['list']],
+  ['military', /(^| )(معارك|المعارك|معركه|غزوات|الغزوات|حروب|الحروب|فتوح|الفتوح|فتوحات|الفتوحات|سرايا|السرايا|قتال|حملات)( |$)/, ['list']],
+  ['outcome', /(^| )(نتيجه|نتائج|النتيجه|انتهت|خلصت|انتصر|انتصروا|انتصار|كسب|كسبوا|هزم|اتهزم|اتهزموا|هزيمه|خسر|خسروا)( |$)/, ['battle_outcome', 'event_summary']],
+  ['reason', /(^| )(لماذا|ليه|سبب|اسباب|اهميه|لم|عشان ايه|علشان ايه)( |$)/, ['event_description', 'battle_outcome', 'companion_bio']],
+  ['how', /(^| )(كيف|ازاي|ازاى)( |$)/, ['event_step', 'event_description', 'event_role']],
+  ['biography', /(^| )(من هو|من هي|مين هو|مين هي|مين|سيره|حياه|ترجمه|نسب|لقب|سمي|يلقب|لقبه|اتسمي|اسمه)( |$)/, ['companion_profile', 'companion_bio']],
+  ['death', /(^| )(توفي|اتوفي|اتوفت|وفاه|استشهد|استشهدت|استشهاد|مات|ماتت|مقتل|قتل|اتقتل|اتقتلت|قتلوه|قتله)( |$)/, ['companion_profile', 'companion_bio', 'event_summary', 'event_role']],
+  ['birth', /(^| )(ولد|ولدت|اتولد|اتولدت|مولد|ميلاد|مولده)( |$)/, ['companion_profile', 'event_date']],
+  ['appearances', /(^| )(في اي|الاحداث التي|الاحداث اللي|اين ورد|ورد ذكر|اتذكر فين)( |$)/, ['companion_events']],
 ];
+
+/**
+ * Qur'an questions are detected on letters before ة→ه folding: the Egyptian
+ * "إيه" (what) and "آية" (verse) are identical once folded.
+ */
+const QURAN_WORDS = /(^| )(اية|ايات|الاية|الايه|الايات|قران|القران|سوره|سورة|السورة|نزلت|نزل)( |$)/;
 
 export function detectIntents(question: string): { intents: Intent[]; kinds: Set<UnitKind> } {
   const normalized = ` ${normalizeForMatch(question)} `;
@@ -43,6 +54,12 @@ export function detectIntents(question: string): { intents: Intent[]; kinds: Set
       intents.push(intent);
       unitKinds.forEach(k => kinds.add(k));
     }
+  }
+  const raw = ` ${analyze(question).map(t => t.raw).join(' ')} `;
+  if (QURAN_WORDS.test(raw)) {
+    intents.push('quran');
+    kinds.add('event_quran');
+    kinds.add('quran_verse');
   }
   return { intents, kinds };
 }
@@ -62,20 +79,26 @@ const RRF_K = 60;
 
 // Same-meaning vocabulary in this domain. A question word from a group also
 // searches the other members at reduced weight, so "أسلم" finds "آمن".
+// Egyptian colloquial forms ("اتقتل", "اتولد", "كسب", "حصل") are listed with
+// the standard words the data uses, so dialect questions reach the same text.
 const SYNONYM_GROUPS = [
   'أسلم آمن إسلام إيمان',
-  'استشهد قتل توفي مات وفاة استشهاد مقتل',
+  'استشهد قتل توفي مات وفاة استشهاد مقتل اتقتل قتلوه اتوفى',
   'غزوة معركة موقعة وقعة',
   'خليفة خلافة تولى',
   'هاجر هجرة',
-  'تزوج زواج زوجة زوج',
-  'ولد مولد ميلاد',
-  'جيش جند مقاتل مقاتلين',
+  'تزوج زواج زوجة زوج اتجوز',
+  'ولد مولد ميلاد اتولد',
+  'جيش جند مقاتل مقاتلين عساكر',
   'قاد قائد قيادة',
   'نبي رسول',
   'سبب أسباب دافع',
-  'انتصر نصر انتصار',
-  'هزم هزيمة',
+  'انتصر نصر انتصار كسب فاز',
+  'هزم هزيمة خسر اتهزم انهزم',
+  'حصل وقع جرى',
+  'راح خرج ذهب توجه',
+  'دفن اتدفن مدفون',
+  'بنى بناء اتبنى',
 ];
 
 const SYNONYMS = new Map<string, string[]>();
@@ -137,9 +160,10 @@ export interface SearchOutcome {
   semanticProvider?: EmbeddingProvider;
 }
 
-export async function search(question: string, embed?: QueryEmbedder, kb: LoadedKb = getKb()): Promise<SearchOutcome> {
+export async function search(question: string, embed?: QueryEmbedder, kb: LoadedKb = getKb(), context?: ChatContext): Promise<SearchOutcome> {
   const stems = [...new Set(searchStems(question))];
-  const entities = linkEntities(question, kb);
+  const named = linkEntities(question, kb);
+  const entities = [...named, ...carryContext(question, named, context, kb).filter(c => !named.some(n => n.recordId === c.recordId))];
   const { intents, kinds } = detectIntents(question);
   if (stems.length === 0 && entities.length === 0) return { evidence: [], entities, intents, confidence: 'none' };
 
@@ -176,13 +200,26 @@ export async function search(question: string, embed?: QueryEmbedder, kb: Loaded
     if (unit.alsoAbout?.some(id => linked.has(id))) bump(i, 0);
   });
 
+  // "What did Khalid do at Uhud?": passages about the person inside the named
+  // event matter; his roles in other events are off topic.
+  const strongEvents = new Set([...strong].filter(id => ['event', 'battle'].includes(kb.recordById.get(id)?.type ?? '')));
+  const eventBattleIds = new Set([...strongEvents].map(id => kb.recordById.get(id)?.refs.battleId).filter(Boolean));
+  const inStrongEvent = (recordId: string) => strongEvents.has(recordId) || eventBattleIds.has(kb.recordById.get(recordId)?.refs.battleId);
+  const strongPeopleNames = [...strong]
+    .map(id => kb.recordById.get(id))
+    .filter(r => r?.type === 'companion')
+    .flatMap(r => r!.aliases.filter(a => a.includes(' ')).map(a => normalizeForMatch(a)));
+
   for (const [i, base] of scores) {
     const unit = kb.units[i];
     let score = base;
     if (strong.has(unit.recordId)) score += 0.04;
     else score += Math.max(weak.has(unit.recordId) ? 0.012 : 0, titleBoost.get(unit.recordId) ?? 0);
     const about = unit.alsoAbout ?? [];
-    if (about.some(id => strong.has(id))) score += 0.03;
+    const offTopicRole = strongEvents.size > 0 && about.some(id => strong.has(id)) && !inStrongEvent(unit.recordId);
+    if (about.some(id => strong.has(id)) && !offTopicRole) score += 0.03;
+    if (offTopicRole) score *= 0.5;
+    if (strongEvents.size > 0 && inStrongEvent(unit.recordId) && strongPeopleNames.some(name => normalizeForMatch(unit.text).includes(name))) score += 0.05;
     // "What did Ali do at Badr?" — the role unit tying both named records.
     if (linked.has(unit.recordId) && about.some(id => linked.has(id))) score += 0.05;
     if (kinds.has(unit.kind)) score += linked.has(unit.recordId) || about.some(id => linked.has(id)) ? 0.03 : 0.012;
@@ -205,13 +242,13 @@ export async function search(question: string, embed?: QueryEmbedder, kb: Loaded
         ? 'medium'
         : 'none';
 
-  const evidence = packEvidence(kb, ranked, intents.includes('list'), strong);
+  const evidence = packEvidence(kb, ranked, intents.includes('list') || intents.includes('military'), strong, intents.includes('military'));
   return { evidence, entities, intents, confidence, semanticProvider: semanticResult?.provider };
 }
 
 const CHAR_BUDGET = 7000;
 
-function packEvidence(kb: LoadedKb, ranked: [number, number][], listQuestion: boolean, strong: Set<string>): EvidenceRecord[] {
+function packEvidence(kb: LoadedKb, ranked: [number, number][], listQuestion: boolean, strong: Set<string>, militaryQuestion: boolean): EvidenceRecord[] {
   const maxRecords = listQuestion ? 10 : 6;
   // A question about one or two named records gets their full narrative.
   const focused = strong.size > 0 && strong.size <= 2 && !listQuestion;
@@ -220,6 +257,9 @@ function packEvidence(kb: LoadedKb, ranked: [number, number][], listQuestion: bo
   let chars = 0;
   for (const [unitIndex] of ranked) {
     const unit = kb.units[unitIndex];
+    // "Which battles…" must not get the era's non-military events list, and
+    // vice versa "what happened…" keeps both.
+    if (militaryQuestion && unit.kind === 'list' && unit.id.endsWith('#events')) continue;
     const picked = chosen.get(unit.recordId);
     if (!picked && chosen.size >= maxRecords) continue;
     if (picked && picked.length >= maxPerRecord(unit.recordId)) continue;

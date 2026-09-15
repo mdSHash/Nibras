@@ -130,7 +130,13 @@ function closestSourceUnits(kb: LoadedKb, text: string, cited: KbUnit[], evidenc
   const n = kb.units.length;
   const weight = (stem: string) => Math.log(1 + n / (1 + (kb.docFreq.get(stem) ?? 0)));
   const wanted = new Set(searchStems(text));
-  const candidates = [...cited, ...evidence.filter(u => !cited.includes(u) && !u.verbatimOnly && !u.list)];
+  // When the question is about a specific event, only that event's passages
+  // may stand in for a rejected sentence — never the person's other events.
+  const focusEvents = focus.filter(id => ['event', 'battle'].includes(kb.recordById.get(id)?.type ?? ''));
+  const focusBattles = new Set(focusEvents.map(id => kb.recordById.get(id)?.refs.battleId).filter(Boolean));
+  const onTopic = (unit: KbUnit) =>
+    focusEvents.length === 0 || focusEvents.includes(unit.recordId) || focusBattles.has(kb.recordById.get(unit.recordId)?.refs.battleId);
+  const candidates = [...cited, ...evidence.filter(u => !cited.includes(u) && !u.verbatimOnly && !u.list)].filter(onTopic);
   const ranked = candidates
     .map(unit => {
       const about = [unit.recordId, ...(unit.alsoAbout ?? [])];
@@ -142,7 +148,7 @@ function closestSourceUnits(kb: LoadedKb, text: string, cited: KbUnit[], evidenc
     })
     .sort((x, y) => y.coverage - x.coverage || y.score - x.score);
   const best = ranked[0];
-  if (!best || best.score < 2) return cited.slice(0, 1);
+  if (!best || best.score < 2) return cited.filter(onTopic).slice(0, 1);
   return ranked.filter(r => r.coverage === best.coverage && r.score >= best.score * 0.8).slice(0, 2).map(r => r.unit);
 }
 

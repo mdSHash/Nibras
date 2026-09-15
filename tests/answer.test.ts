@@ -103,3 +103,14 @@ describe('extractiveAnswer', () => {
     expect(first.type === 'quote' && first.text).toBe(kb.unitById.get('event:battle-uhud#date')!.text);
   });
 });
+
+describe('rejection fallback stays on the asked event', () => {
+  it('does not quote the person’s roles in other events', async () => {
+    const outcome = await search('وخالد بن الوليد عمل إيه فيها؟', undefined, kb, { recordIds: ['event:battle-uhud'] });
+    const prompt = buildPrompt(outcome.evidence);
+    const offTopic = [...prompt.unitByRef].find(([, u]) => u.kind === 'event_role' && u.alsoAbout?.includes('companion:khalid') && u.recordId !== 'event:battle-uhud');
+    if (!offTopic) return; // nothing off-topic reached the prompt at all — also fine
+    const composed = composeAnswer(kb, { answerable: true, intro: '', points: [{ text: 'خالد: قائد عظيم', refs: [offTopic[0]] }] }, prompt.unitByRef, ['companion:khalid', 'event:battle-uhud']);
+    expect(composed.blocks.some(b => b.type === 'quote' && kb.unitById.get(offTopic[1].id)?.text === b.text)).toBe(false);
+  });
+});

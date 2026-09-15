@@ -12,7 +12,13 @@ export interface LinkedEntity {
   /** Multi-word or distinctive match — a confident reference. */
   strong: boolean;
   phrase: string;
+  /** Not named in this question — carried over from the previous turn. */
+  carried?: boolean;
 }
+
+// "عهد / أيام / زمن … عمر" names Umar's era, not Umar himself.
+const ERA_WORDS = new Set(['عهد', 'خلافه', 'ايام', 'زمن', 'وقت', 'فتره', 'حكم', 'عصر']);
+const TITLE_WORDS = new Set(['سيدنا', 'الخليفه', 'الامام', 'النبي', 'الرسول']);
 
 /** Clitic-stripped spellings a question token may carry in front of a name. */
 function tokenVariants(raw: string): string[] {
@@ -80,6 +86,16 @@ export function linkEntities(question: string, kb: LoadedKb): LinkedEntity[] {
     for (let k = match.start; k < match.end; k++) if (taken[k]) free = false;
     if (!free) continue;
     for (let k = match.start; k < match.end; k++) taken[k] = true;
+
+    const eraRecord = match.entries.map(e => kb.eraByRuler.get(e.recordId)).find(Boolean);
+    if (eraRecord) {
+      let before = match.start - 1;
+      while (before >= 0 && TITLE_WORDS.has(aliasToken(tokens[before].folded))) before--;
+      if (before >= 0 && tokenVariants(tokens[before].raw).some(v => ERA_WORDS.has(v))) {
+        linked.set(eraRecord, { recordId: eraRecord, strong: true, phrase: tokens.slice(before, match.end).map(t => t.raw).join(' ') });
+        continue;
+      }
+    }
 
     const distinctRecords = new Set(match.entries.map(e => e.recordId));
     for (const entry of match.entries) {

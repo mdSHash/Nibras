@@ -21,6 +21,8 @@ export interface LoadedKb {
   aliasIndex: AliasIndex;
   /** Distinct search stems of each event/battle/city title (for paraphrased titles). */
   titleStems: Map<string, string[]>;
+  /** Companion record of an era's ruler → that era's list record. */
+  eraByRuler: Map<string, string>;
   quranFourGrams: Set<string>;
 }
 
@@ -115,6 +117,7 @@ function load(): LoadedKb {
         .filter(r => r.type === 'event' || r.type === 'battle' || r.type === 'city')
         .map(r => [r.id, [...new Set(searchStems(r.title))]])
     ),
+    eraByRuler: new Map(kb.records.filter(r => r.rulerRecordId).map(r => [r.rulerRecordId!, r.id])),
     quranFourGrams: new Set(kb.quranFourGrams),
   };
 }

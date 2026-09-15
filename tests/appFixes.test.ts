@@ -68,3 +68,33 @@ describe('normalizeArabic (search menu)', () => {
     expect(normalizeArabic('غَزْوَةُ بَدْرٍ')).toBe('غزوه بدر');
   });
 });
+
+describe('narration audio', () => {
+  it('has a cached recording for every narrated text (event titles and full descriptions)', async () => {
+    const crypto = await import('crypto');
+    const fs = await import('fs');
+    const path = await import('path');
+    const missing: string[] = [];
+    for (const event of eventsData) {
+      for (const text of [event.title, event.details.full_description]) {
+        const key = crypto.createHash('sha256').update(`${String(text).replace(/\s+/g, ' ').trim()}|Charon|1`).digest('hex');
+        if (!fs.existsSync(path.join(__dirname, '../public/audio', `${key}.wav`))) missing.push(`${event.id}: ${text.slice(0, 40)}`);
+      }
+    }
+    expect(missing).toEqual([]);
+  });
+});
+
+describe('"المعارك فقط" filter (isBattle)', () => {
+  it('counts conquests titled فتح as battles without renaming them', async () => {
+    const { isBattle } = await import('../src/utils/eventHelpers');
+    const byId = (id: string) => eventsData.find(e => e.id === id)!;
+    for (const id of ['conquest-damascus', 'conquest-egypt', 'conquest-mecca', 'battle-yarmouk', 'battle-badr', 'sariyyat-hamza']) {
+      expect(isBattle(byId(id)), id).toBe(true);
+    }
+    expect(byId('conquest-damascus').title.replace(/[ً-ٰٟ]/g, '')).toBe('فتح دمشق');
+    for (const id of ['boycott-hashim', 'treaty-hudaybiyyah', 'prophet-death']) {
+      expect(isBattle(byId(id)), id).toBe(false);
+    }
+  });
+});

@@ -26,6 +26,7 @@ config({ path: path.join(__dirname, '../.env.local'), quiet: true });
 const BATCH_SIZE: Record<EmbeddingProvider, number> = { gemini: 40, openrouter: 64 };
 const PAUSE_MS: Record<EmbeddingProvider, number> = { gemini: 32000, openrouter: 2000 };
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const MAX_MINUTE_RETRIES = 3;
 
 function indexPath(provider: EmbeddingProvider) {
   return path.join(__dirname, `../public/data/chat-embeddings-${provider}.json`);
@@ -79,12 +80,18 @@ export async function buildIndex(provider: EmbeddingProvider, kb: ChatKb, apiKey
   for (let i = 0; i < todo.length; i += BATCH_SIZE[provider]) {
     const batch = todo.slice(i, i + BATCH_SIZE[provider]);
     let outcome = await embedDocuments(provider, batch.map(b => b.text), apiKey);
-    if (!outcome.vectors && !outcome.rateLimited) {
-      await sleep(5000);
+    // A per-minute limit clears quickly: wait and retry. A daily limit (or an
+    // unidentified rate limit that keeps recurring) ends today's run; the
+    // saved progress is picked up by the next run.
+    for (let attempt = 1; !outcome.vectors && attempt <= MAX_MINUTE_RETRIES && outcome.quota !== 'day'; attempt++) {
+      const waitMs = outcome.rateLimited ? 65000 : 5000;
+      console.warn(`[${provider}] ${outcome.rateLimited ? 'rate limited' : 'request failed'} — retrying in ${waitMs / 1000}s (${attempt}/${MAX_MINUTE_RETRIES})`);
+      await sleep(waitMs);
       outcome = await embedDocuments(provider, batch.map(b => b.text), apiKey);
     }
     if (!outcome.vectors) {
-      console.warn(`[${provider}] stopping at ${out.ids.length}/${wanted.length}: ${outcome.error}`);
+      console.warn(`[${provider}] stopping at ${out.ids.length}/${wanted.length} (${outcome.quota === 'day' ? 'daily quota reached' : 'giving up for now'}): ${outcome.error}`);
+      process.exitCode = outcome.quota === 'day' ? 0 : 2;
       return;
     }
     batch.forEach((b, j) => {

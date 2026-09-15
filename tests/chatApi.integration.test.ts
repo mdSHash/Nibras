@@ -6,8 +6,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import handler, { answerQuestion, type ChatSuccessBody } from '../api/chat';
+import feedbackHandler from '../api/feedback';
+import { clearAnswerCache } from '../api/_lib/answerCache';
 
 type Scripted = (body: { model: string; messages: { role: string; content: string }[] }) => { status: number; json?: unknown; hang?: boolean };
+let lastUserContent = '';
 
 let llmScript: Scripted[] = [];
 let llmCalls: string[] = [];
@@ -24,6 +27,7 @@ const answerJson = (points: { text: string; refs: string[] }[], intro = '') => (
 });
 
 beforeEach(() => {
+  clearAnswerCache();
   llmScript = [];
   llmCalls = [];
   process.env.GROQ_API_KEY = 'test-groq';
@@ -34,6 +38,7 @@ beforeEach(() => {
     if (!String(url).includes('/chat/completions')) return new Response('embeddings disabled in tests', { status: 500 });
     const body = JSON.parse(String(init?.body));
     llmCalls.push(body.model);
+    lastUserContent = body.messages[1]?.content ?? '';
     const step = llmScript.shift();
     if (!step) return new Response('no scripted response', { status: 500 });
     const result = step(body);
@@ -126,6 +131,74 @@ describe('answerQuestion', () => {
     const { body } = await answerQuestion('؟؟؟');
     expect((body as ChatSuccessBody).mode).toBe('not_covered');
     expect(llmCalls).toEqual([]);
+  });
+});
+
+describe('answer cache, context and follow-ups', () => {
+  const aliAnswer: Scripted = body => {
+    const ref = refFor(body.messages[0].content, 'برز للمبارزة');
+    return { status: 200, json: answerJson([{ text: '**علي بن أبي طالب**: برز للمبارزة وقتل الوليد بن عتبة', refs: [ref] }]) };
+  };
+
+  it('serves a repeated question from the cache without calling a model', async () => {
+    llmScript.push(aliAnswer);
+    await answerQuestion(ALI_AT_BADR);
+    const second = await answerQuestion(ALI_AT_BADR);
+    expect(llmCalls).toEqual(['model-a']);
+    expect(second.log.cache).toBe('hit');
+    expect((second.body as ChatSuccessBody).mode).toBe('composed');
+  });
+
+  it('returns follow-up suggestions and the records the answer was about', async () => {
+    llmScript.push(aliAnswer);
+    const { body } = await answerQuestion(ALI_AT_BADR);
+    const ok = body as ChatSuccessBody;
+    expect(ok.context.recordIds).toEqual(expect.arrayContaining(['companion:ali', 'event:battle-badr']));
+    expect(ok.followUps.length).toBeGreaterThan(0);
+  });
+
+  it('carries the previous subject into a follow-up and tells the model the earlier question', async () => {
+    llmScript.push(body => {
+      const ref = refFor(body.messages[0].content, 'جهز');
+      return { status: 200, json: answerJson([{ text: 'تبوك', refs: [ref] }]) };
+    });
+    const { body, log } = await answerQuestion('طب عمل إيه في غزوة تبوك؟', {
+      context: { recordIds: ['companion:uthman'], previousQuestion: 'مين عثمان بن عفان؟' },
+    });
+    expect(log.carried).toEqual(['companion:uthman']);
+    expect(lastUserContent).toContain('مين عثمان بن عفان؟');
+    const ok = body as ChatSuccessBody;
+    expect(ok.context.carried.map(c => c.recordId)).toEqual(['companion:uthman']);
+  });
+});
+
+describe('feedback handler', () => {
+  function mockRes() {
+    const res = { statusCode: 0, body: undefined as unknown, headers: {} as Record<string, string> };
+    const api = {
+      setHeader: (k: string, v: string) => ((res.headers[k] = v), api),
+      status: (code: number) => ((res.statusCode = code), api),
+      json: (b: unknown) => ((res.body = b), api),
+      end: () => api,
+    };
+    return { res, api: api as unknown as VercelResponse };
+  }
+
+  it('accepts a rating and logs it when no shared store is configured', async () => {
+    const info = vi.spyOn(console, 'info').mockImplementation(() => {});
+    const { res, api } = mockRes();
+    await feedbackHandler({ method: 'POST', headers: { origin: 'https://mdshash.github.io' }, body: { rating: 'down', question: 'سؤال', note: 'الإجابة ناقصة' } } as unknown as VercelRequest, api);
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toMatchObject({ ok: true, stored: 'log' });
+    expect(info.mock.calls.some(c => String(c[0]).includes('[chat-feedback]') && String(c[0]).includes('الإجابة ناقصة'))).toBe(true);
+    info.mockRestore();
+  });
+
+  it('rejects an incomplete rating in Arabic', async () => {
+    const { res, api } = mockRes();
+    await feedbackHandler({ method: 'POST', headers: {}, body: { rating: 'meh' } } as unknown as VercelRequest, api);
+    expect(res.statusCode).toBe(400);
+    expect((res.body as { messageAr: string }).messageAr).toMatch(/[؀-ۿ]/);
   });
 });
 

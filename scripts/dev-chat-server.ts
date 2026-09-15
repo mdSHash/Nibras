@@ -13,14 +13,19 @@ config({ path: '.env.local' });
 import express from 'express';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import handler from '../api/chat';
+import feedbackHandler from '../api/feedback';
 
 const PORT = Number(process.env.CHAT_DEV_PORT) || 3002;
 
 const app = express();
 app.use(express.json());
 
+// Vercel routes every file in api/ on its own; mirror each one here.
 app.all('/api/chat', (req, res) => {
   handler(req as unknown as VercelRequest, res as unknown as VercelResponse);
+});
+app.all('/api/feedback', (req, res) => {
+  feedbackHandler(req as unknown as VercelRequest, res as unknown as VercelResponse);
 });
 
 app.listen(PORT, () => {

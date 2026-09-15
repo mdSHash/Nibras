@@ -1,0 +1,18 @@
+[
+  { "q": "مين أبو ذر الغفاري؟", "records": ["companion:abu-dharr-al-ghifari"], "kinds": ["companion_profile"] },
+  { "q": "علي بن أبي طالب عمل إيه في غزوة الخندق؟", "records": ["event:battle-khandaq"], "kinds": ["event_role"] },
+  { "q": "غزوة أحد كانت إمتى؟", "records": ["event:battle-uhud"], "kinds": ["event_date"], "facts": ["شوال"] },
+  { "q": "معركة القادسية حصلت فين؟", "records": ["event:battle-qadisiyyah"], "kinds": ["event_location"] },
+  { "q": "المسلمين كانوا كام في غزوة بدر؟", "records": ["event:battle-badr"], "kinds": ["event_army"], "facts": ["313"] },
+  { "q": "مين هما أمهات المؤمنين؟", "records": ["list:mothers-of-the-believers"], "facts": ["أم حبيبة"] },
+  { "q": "إيه الآية اللي نزلت عن غزوة بدر؟", "records": ["event:battle-badr"], "kinds": ["event_quran"] },
+  { "q": "حمزة بن عبد المطلب اتقتل إزاي؟", "records": ["companion:hamza", "event:battle-uhud"], "facts": ["وحشي"] },
+  { "q": "إيه المعارك اللي حصلت أيام عمر بن الخطاب؟", "records": ["list:era:umar"], "facts": ["اليرموك", "فتح دمشق"] },
+  { "q": "مين خديجه بنت خويلد", "records": ["companion:khadija"] },
+  { "q": "خالد بن الوليد عمل ايه في معركة اليرموك", "records": ["event:battle-yarmouk"], "kinds": ["event_role"] },
+  { "q": "فتح مكة كان امتى", "records": ["event:conquest-mecca"], "kinds": ["event_date"] },
+  { "q": "ايه غزوات النبي", "records": ["list:era:prophet"], "facts": ["غزوة بدر الكبرى"] },
+  { "q": "عمر بن الخطاب اتقتل ازاي", "records": ["companion:umar", "event:event-92-استشهاد-عمر-بن-الخطاب"] },
+  { "q": "مين كسب كاس العالم آخر مرة؟", "outOfScope": true },
+  { "q": "ازاي اعمل كيكة شوكولاتة", "outOfScope": true }
+]

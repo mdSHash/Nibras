@@ -1,0 +1,9 @@
+[
+  { "q": "مين عثمان بن عفان؟", "records": ["companion:uthman"] },
+  { "q": "طب عمل إيه في غزوة تبوك؟", "followUp": true, "records": ["event:battle-tabuk", "companion:uthman"], "facts": ["جيش"] },
+  { "q": "غزوة أحد كانت إمتى؟", "records": ["event:battle-uhud"], "facts": ["شوال"] },
+  { "q": "وكانت فين؟", "followUp": true, "records": ["event:battle-uhud"], "facts": ["أحد"] },
+  { "q": "وخالد بن الوليد عمل إيه فيها؟", "followUp": true, "records": ["event:battle-uhud"] },
+  { "q": "إيه المعارك اللي حصلت أيام عمر بن الخطاب؟", "records": ["list:era:umar"], "facts": ["اليرموك", "فتح دمشق"] },
+  { "q": "وإيه الأحداث التانية؟", "followUp": true, "records": ["list:era:umar"], "facts": ["طاعون عمواس"] }
+]
