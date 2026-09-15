@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+/* Short viewports — phones held sideways, or any touch screen with the
+   on-screen keyboard open (the chat panel sets data-short then). Used by the
+   chat panel to give the message list the height it needs. */
+@custom-variant short {
+  @media (max-height: 540px) {
+    @slot;
+  }
+  &:where([data-short], [data-short] *) {
+    @slot;
+  }
+}
+
 /* Scrollbar hide utility */
 .scrollbar-hide {
   -ms-overflow-style: none;
@@ -10,6 +22,9 @@
 }
 
 @theme {
+  /* Extra breakpoints for very wide screens (1920px and 2400px). */
+  --breakpoint-3xl: 120rem;
+  --breakpoint-4xl: 150rem;
   --color-parchment: var(--sys-parchment);
   --color-ink: var(--sys-ink);
   --color-accent: var(--sys-accent);
@@ -69,6 +84,9 @@
   /* Glassmorphism */
   --glass-bg: rgba(250, 246, 237, 0.85);
   --glass-bg-dark: rgba(30, 20, 15, 0.85);
+  /* Same colour as --glass-bg with no see-through, for phone sheets where
+     the map and timeline would otherwise show behind text. */
+  --glass-bg-solid: rgb(250, 246, 237);
   --glass-blur: blur(16px);
   --glass-border: rgba(139, 92, 46, 0.15);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
@@ -318,6 +336,7 @@
      here fixes EventPanel root, the edge tab, the desktop + mobile Timeline
      docks, every modal (Companion / Quran / Search), and Toast all at once. */
   --glass-bg: rgba(30, 20, 15, 0.88);
+  --glass-bg-solid: rgb(30, 20, 15);
   --glass-border: rgba(212, 163, 115, 0.22);
   --sys-map-center: #2b211a;
   --sys-map-edge: #18120e;

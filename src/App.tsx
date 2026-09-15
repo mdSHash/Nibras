@@ -11,7 +11,7 @@ import { Moon, Sun, Search, Compass, LocateFixed, Maximize2, Minimize2, HelpCirc
 import { FilterOptions } from './types';
 import { motion, AnimatePresence } from 'motion/react';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
-import { useIsMobile } from './hooks/useMatchMedia';
+import { useIsMobile, useMatchMedia } from './hooks/useMatchMedia';
 import { ToastContainer, ToastType } from './components/Toast';
 import { LoadingSpinner } from './components/LoadingSpinner';
 import { isBattle, isProphetEra, isRashidunEra, findEraAnchor } from './utils/eventHelpers';
@@ -69,6 +69,25 @@ export default function App() {
 
   const { startTour, state, triggerPrompt, isFirstVisit } = useTourContext();
   const isMobile = useIsMobile();
+
+  // On phones and tablets a screen opened from a source in the chat would sit
+  // under the chat, so the chat steps aside and comes back once that screen
+  // is closed.
+  const isCompactViewport = useMatchMedia('(max-width: 1023px), (hover: none) and (pointer: coarse)');
+  const [chatReturnTo, setChatReturnTo] = useState<'event' | 'companion' | 'quran' | 'battle' | null>(null);
+  useEffect(() => {
+    if (!chatReturnTo) return;
+    const stillOpen = {
+      event: !!selectedEvent && !isPanelHidden,
+      companion: !!selectedCompanion,
+      quran: !!selectedQuranRef,
+      battle: showBattlePlayer,
+    }[chatReturnTo];
+    if (!stillOpen) {
+      setChatReturnTo(null);
+      setIsChatOpen(true);
+    }
+  }, [chatReturnTo, selectedEvent, isPanelHidden, selectedCompanion, selectedQuranRef, showBattlePlayer]);
 
   // Stop autoplay when panel is hidden or closed
   const handlePanelToggle = () => {
@@ -491,6 +510,7 @@ export default function App() {
             transition={{ type: 'spring', damping: 18, stiffness: 300, delay: 0.56 }}
             onClick={() => {
               setIsChatOpen(true);
+              setChatReturnTo(null);
               if (!chatSeen) {
                 setChatSeen(true);
                 try { localStorage.setItem(CHAT_SEEN_KEY, 'true'); } catch {}
@@ -704,16 +724,28 @@ export default function App() {
           onClose={() => setIsChatOpen(false)}
           onCitationClick={(citation) => {
             const { eventId, companionId, quranKey, battleId } = citation.entityRefs;
+            let opened: typeof chatReturnTo = null;
             if (eventId) {
               const event = eventsData.find(e => e.id === eventId);
-              if (event) setSelectedEvent(event);
+              if (event) {
+                setSelectedEvent(event);
+                opened = 'event';
+              }
             } else if (companionId) {
               setSelectedCompanion(companionId);
+              opened = 'companion';
             } else if (quranKey) {
               setSelectedQuranRef(quranKey);
+              opened = 'quran';
             } else if (battleId) {
               setBattleScenarioId(resolveScenarioId(battleId));
               setShowBattlePlayer(true);
+              opened = 'battle';
+            }
+            if (opened && isCompactViewport) {
+              if (opened === 'event') setIsPanelHidden(false);
+              setIsChatOpen(false);
+              setChatReturnTo(opened);
             }
           }}
         />

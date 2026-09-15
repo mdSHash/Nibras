@@ -44,7 +44,7 @@ export function AnswerBlocks({ blocks, onVerseOpen }: AnswerBlocksProps) {
             return (
               <blockquote key={i} className="border-s-2 border-[var(--color-accent)]/50 ps-3">
                 <p>{block.text}</p>
-                {block.source && <footer className="mt-1 text-[11px] text-[var(--color-ink)]/65">— {block.source}</footer>}
+                {block.source && <footer className="mt-1 text-[length:var(--chat-tiny)] text-[var(--color-ink)]/65">— {block.source}</footer>}
               </blockquote>
             );
           case 'list':
@@ -70,7 +70,7 @@ export function AnswerBlocks({ blocks, onVerseOpen }: AnswerBlocksProps) {
                 <p className="text-lg leading-[2.1] text-center text-[var(--color-ink)]" style={{ fontFamily: "'Amiri Quran', serif" }}>
                   {block.text}
                 </p>
-                <figcaption className="mt-1.5 flex items-center justify-between gap-2 text-[11px] text-[var(--color-ink)]/75">
+                <figcaption className="mt-1.5 flex items-center justify-between gap-2 text-[length:var(--chat-tiny)] text-[var(--color-ink)]/75">
                   <span className="font-bold">{block.key}</span>
                   <button
                     type="button"
@@ -79,6 +79,7 @@ export function AnswerBlocks({ blocks, onVerseOpen }: AnswerBlocksProps) {
                     }
                     className={cn(
                       'inline-flex items-center gap-1 px-2 py-1 rounded-full',
+                      'pointer-coarse:min-h-10 pointer-coarse:px-3',
                       'hover:bg-[var(--color-accent)] hover:text-parchment transition-colors',
                       'focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]',
                     )}

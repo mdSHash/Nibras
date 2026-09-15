@@ -91,7 +91,9 @@ export const ToastContainer: React.FC<ToastContainerProps> = ({
         "bottom-[calc(64px+env(safe-area-inset-bottom)+16px)]",
         // Desktop: top (below header)
         "md:bottom-auto md:top-[80px]",
-        "flex flex-col gap-2 items-center"
+        "flex flex-col gap-2 items-center",
+        // index.css pads and shadows this container; hide it while it holds no toasts.
+        "empty:hidden"
       )}
       style={{ zIndex: Z_INDEX.toast }}
       role="alert"
