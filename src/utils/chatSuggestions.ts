@@ -21,15 +21,18 @@ function buildSuggestions(): ChatSuggestion[] {
 
   for (const companion of companionsData) {
     if (!companion.name) continue;
+    // Gender-neutral on purpose: "من هو" was shown for women, and the data
+    // has no reliable gender field to choose between هو and هي.
     suggestions.push({
-      question: `من هو ${companion.name}؟`,
+      question: `ماذا تعرف عن ${withoutVowelMarks(companion.name)}؟`,
       normalizedHaystack: normalizeArabic([companion.name, ...(companion.aliases || [])].join(' ')),
     });
   }
 
   for (const event of eventsData) {
     if (!event.title) continue;
-    const question = isBattle(event) ? `ماذا حدث في ${event.title}؟` : `ما هو ${event.title}؟`;
+    const title = withoutVowelMarks(event.title);
+    const question = isBattle(event) ? `ماذا حدث في ${title}؟` : `ما قصة ${title}؟`;
     suggestions.push({
       question,
       normalizedHaystack: normalizeArabic(event.title),
@@ -45,6 +48,14 @@ function buildSuggestions(): ChatSuggestion[] {
   }
 
   return suggestions;
+}
+
+/**
+ * Stored titles carry nominative case endings (غَزْوَةُ بَدْرٍ) that are wrong
+ * after a preposition ("في غَزْوَةُ"); unvocalized text is correct anywhere.
+ */
+function withoutVowelMarks(text: string): string {
+  return text.replace(/[ً-ٰٟ]/g, '');
 }
 
 let cached: ChatSuggestion[] | null = null;

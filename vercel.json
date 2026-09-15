@@ -1,12 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "npm run build:corpus",
+  "buildCommand": "npm run build:chat-kb",
   "outputDirectory": "public",
   "framework": null,
   "functions": {
     "api/chat.ts": {
-      "memory": 512,
-      "maxDuration": 15
+      "memory": 1024,
+      "maxDuration": 30
     }
   }
 }

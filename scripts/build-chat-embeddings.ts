@@ -1,142 +1,113 @@
 /**
- * Embeds every chunk in the pre-built chat corpus (public/data/chat-corpus.json)
- * using both embedding providers, and writes each provider's vectors to its
- * own index file for semantic retrieval:
- *   - public/data/chat-embeddings-gemini.json     (primary, 768-dim)
- *   - public/data/chat-embeddings-openrouter.json (fallback, 1024-dim)
+ * Builds the semantic-search indexes for the chat knowledge base
+ * (public/data/chat-kb.json → public/data/chat-embeddings-{provider}.json).
  *
- * Run after scripts/build-chat-corpus.ts (or whenever the corpus changes):
- *   npm run build:embeddings
+ * Vectors are keyed by unit id AND a hash of the exact embedded text, so a
+ * re-run only embeds units that are new or whose text changed, and stale
+ * vectors are dropped. Stops cleanly (keeping progress) when the provider
+ * reports a quota/rate limit instead of hammering it with retries.
  *
- * Requires GEMINI_API_KEY and/or OPENROUTER_API_KEY in .env.local. Either
- * key alone is enough to build that provider's index; missing a key just
- * skips that index (retrieval.ts degrades gracefully at runtime if an index
- * file is absent). This is a one-time/occasional offline step, not part of
- * the Vercel build — re-run manually and commit the output whenever the
- * underlying app data changes.
+ * Usage: npm run build:embeddings [gemini|openrouter]
  */
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { config } from 'dotenv';
-import {
-  embedBatchForIndexing,
-  GEMINI_EMBEDDING_MODEL,
-  GEMINI_EMBEDDING_DIMS,
-  OPENROUTER_EMBEDDING_MODEL,
-  OPENROUTER_EMBEDDING_DIMS,
-  type EmbeddingProvider,
-} from '../api/_lib/embeddings';
+import type { ChatKb } from '../shared/chatKb';
+import { embedDocuments, embeddingText, EMBEDDING_MODELS, isEmbeddable, textHash, type EmbeddingProvider } from '../api/_lib/embeddings';
+import type { EmbeddingIndexFile } from '../api/_lib/semanticIndex';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+config({ path: path.join(__dirname, '../.env.local'), quiet: true });
 
-config({ path: path.join(__dirname, '../.env.local') });
+// Gemini counts every text inside a batch request against its free-tier
+// limits (100/minute, 1,000/day), so batches are paced to ~80 texts/minute
+// and a full index takes several daily runs — progress is kept between runs.
+const BATCH_SIZE: Record<EmbeddingProvider, number> = { gemini: 40, openrouter: 64 };
+const PAUSE_MS: Record<EmbeddingProvider, number> = { gemini: 32000, openrouter: 2000 };
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-const BATCH_SIZE = 20;
-// api/_lib/embeddings.ts now paces Gemini calls internally (individual
-// embedContent calls, not the unreliable batchEmbedContents endpoint), so
-// this only needs to be a small gap between chunks of work, not a rate-limit
-// workaround.
-const DELAY_MS = 3000;
-const MAX_RETRIES = 3;
-
-function sleep(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+function indexPath(provider: EmbeddingProvider) {
+  return path.join(__dirname, `../public/data/chat-embeddings-${provider}.json`);
 }
 
-async function embedWithBackoff(
-  provider: EmbeddingProvider,
-  texts: string[],
-  apiKey: string
-): Promise<number[][] | null> {
-  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
-    const result = await embedBatchForIndexing(provider, texts, apiKey);
-    if (result) return result;
-    if (attempt < MAX_RETRIES) {
-      const backoff = 2000 * 2 ** attempt; // 2s, 4s, 8s, 16s, 32s
-      console.warn(`[${provider}] batch failed (attempt ${attempt + 1}/${MAX_RETRIES + 1}) — waiting ${backoff / 1000}s...`);
-      await sleep(backoff);
-    }
+function readIndex(provider: EmbeddingProvider): EmbeddingIndexFile {
+  const empty: EmbeddingIndexFile = { provider, model: EMBEDDING_MODELS[provider].model, dims: EMBEDDING_MODELS[provider].dims, ids: [], hashes: [], vectors: [] };
+  try {
+    const file = JSON.parse(fs.readFileSync(indexPath(provider), 'utf8')) as Partial<EmbeddingIndexFile>;
+    if (file.provider !== provider || !Array.isArray(file.hashes)) return empty; // old format → rebuild
+    return { ...empty, ...file } as EmbeddingIndexFile;
+  } catch {
+    return empty;
   }
-  return null;
 }
 
 function floatsToBase64(values: number[]): string {
   return Buffer.from(new Float32Array(values).buffer).toString('base64');
 }
 
-async function buildIndex(provider: EmbeddingProvider, apiKey: string | undefined, chunks: { id: string; text: string }[]) {
+export async function buildIndex(provider: EmbeddingProvider, kb: ChatKb, apiKey: string | undefined): Promise<void> {
+  const recordById = new Map(kb.records.map(r => [r.id, r]));
+  const wanted = kb.units
+    .filter(isEmbeddable)
+    .map(unit => {
+      const text = embeddingText(unit, recordById.get(unit.recordId), provider);
+      return { id: unit.id, text, hash: textHash(text) };
+    });
+
+  const existing = readIndex(provider);
+  const have = new Map(existing.ids.map((id, i) => [id, { hash: existing.hashes[i], vector: existing.vectors[i] }]));
+  const kept = wanted.filter(w => have.get(w.id)?.hash === w.hash);
+  const todo = wanted.filter(w => have.get(w.id)?.hash !== w.hash);
+
+  const out: EmbeddingIndexFile = { ...existing, ids: [], hashes: [], vectors: [] };
+  for (const w of kept) {
+    out.ids.push(w.id);
+    out.hashes.push(w.hash);
+    out.vectors.push(have.get(w.id)!.vector);
+  }
+  const save = () => fs.writeFileSync(indexPath(provider), JSON.stringify(out));
+  save(); // drops stale vectors even if nothing new can be embedded
+
+  console.log(`[${provider}] ${kept.length}/${wanted.length} up to date, ${todo.length} to embed`);
+  if (todo.length === 0) return;
   if (!apiKey) {
-    console.log(`\nSkipping ${provider} index — no API key in .env.local.`);
+    console.warn(`[${provider}] no API key in .env.local — index left incomplete (runtime will not use it)`);
     return;
   }
 
-  const outPath = path.join(__dirname, `../public/data/chat-embeddings-${provider}.json`);
-
-  // Resume support: skip chunks already embedded in a prior partial run
-  // rather than re-spending quota on them.
-  const existing: { model: string; dims: number; ids: string[]; vectors: string[] } =
-    fs.existsSync(outPath)
-      ? JSON.parse(fs.readFileSync(outPath, 'utf-8'))
-      : { model: '', dims: 0, ids: [], vectors: [] };
-  const alreadyDone = new Set(existing.ids);
-  const remaining = chunks.filter(c => !alreadyDone.has(c.id));
-
-  console.log(
-    `\nBuilding ${provider} index... (${existing.ids.length} already done, ${remaining.length} remaining)`
-  );
-  if (remaining.length === 0) {
-    console.log(`[${provider}] nothing to do — index already complete.`);
-    return;
-  }
-
-  const ids: string[] = [...existing.ids];
-  const vectors: string[] = [...existing.vectors];
-  let failedCount = 0;
-
-  const model = provider === 'gemini' ? GEMINI_EMBEDDING_MODEL : OPENROUTER_EMBEDDING_MODEL;
-  const dims = provider === 'gemini' ? GEMINI_EMBEDDING_DIMS : OPENROUTER_EMBEDDING_DIMS;
-
-  for (let i = 0; i < remaining.length; i += BATCH_SIZE) {
-    const batch = remaining.slice(i, i + BATCH_SIZE);
-    const texts = batch.map(c => c.text);
-    const embeddings = await embedWithBackoff(provider, texts, apiKey);
-
-    if (!embeddings) {
-      console.error(`[${provider}] batch ${i}-${i + batch.length} failed after all retries — skipping ${batch.length} chunks.`);
-      failedCount += batch.length;
-    } else {
-      batch.forEach((c, j) => {
-        ids.push(c.id);
-        vectors.push(floatsToBase64(embeddings![j]));
-      });
-      // Save after every successful batch so an interruption never loses
-      // progress — the next run resumes from here via the `alreadyDone` set.
-      fs.writeFileSync(outPath, JSON.stringify({ model, dims, ids, vectors }));
+  for (let i = 0; i < todo.length; i += BATCH_SIZE[provider]) {
+    const batch = todo.slice(i, i + BATCH_SIZE[provider]);
+    let outcome = await embedDocuments(provider, batch.map(b => b.text), apiKey);
+    if (!outcome.vectors && !outcome.rateLimited) {
+      await sleep(5000);
+      outcome = await embedDocuments(provider, batch.map(b => b.text), apiKey);
     }
-
-    console.log(`[${provider}] embedded ${Math.min(existing.ids.length + i + BATCH_SIZE, chunks.length)}/${chunks.length}`);
-    await sleep(DELAY_MS);
+    if (!outcome.vectors) {
+      console.warn(`[${provider}] stopping at ${out.ids.length}/${wanted.length}: ${outcome.error}`);
+      return;
+    }
+    batch.forEach((b, j) => {
+      out.ids.push(b.id);
+      out.hashes.push(b.hash);
+      out.vectors.push(floatsToBase64(outcome.vectors![j]));
+    });
+    save();
+    console.log(`[${provider}] ${out.ids.length}/${wanted.length}`);
+    await sleep(PAUSE_MS[provider]);
   }
-
-  console.log(`[${provider}] wrote ${ids.length} embeddings to ${path.relative(process.cwd(), outPath)}`);
-  if (failedCount > 0) {
-    console.warn(`[${provider}] ${failedCount} chunks could not be embedded for this index.`);
-  }
+  console.log(`[${provider}] index complete`);
 }
 
-async function main() {
-  const corpusPath = path.join(__dirname, '../public/data/chat-corpus.json');
-  const chunks = JSON.parse(fs.readFileSync(corpusPath, 'utf-8')) as { id: string; text: string }[];
-
-  // Optional CLI arg to rebuild just one index, e.g. `tsx scripts/build-chat-embeddings.ts gemini`
+const isMain = process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));
+if (isMain) {
+  const kb = JSON.parse(fs.readFileSync(path.join(__dirname, '../public/data/chat-kb.json'), 'utf8')) as ChatKb;
   const only = process.argv[2] as EmbeddingProvider | undefined;
-  if (!only || only === 'gemini') await buildIndex('gemini', process.env.GEMINI_API_KEY, chunks);
-  if (!only || only === 'openrouter') await buildIndex('openrouter', process.env.OPENROUTER_API_KEY, chunks);
+  (async () => {
+    if (!only || only === 'gemini') await buildIndex('gemini', kb, process.env.GEMINI_API_KEY);
+    if (!only || only === 'openrouter') await buildIndex('openrouter', kb, process.env.OPENROUTER_API_KEY);
+  })().catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
 }
-
-main().catch(e => {
-  console.error(e);
-  process.exit(1);
-});

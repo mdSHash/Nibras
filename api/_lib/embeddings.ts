@@ -1,138 +1,141 @@
 /**
- * Two independent embedding providers, each with its own matching corpus
- * index (public/data/chat-embeddings-{gemini,openrouter}.json) — vectors
- * from different models live in different spaces and can never be compared
- * against each other, so a fallback provider needs its own precomputed
- * index, not just a fallback API call.
+ * Semantic-search embeddings. Two providers, each with its own precomputed
+ * index (vectors from different models are never comparable):
+ *   - Gemini gemini-embedding-001 (primary: 1,000 free requests/day)
+ *   - OpenRouter liquid/lfm-2.5-embedding-350m:free (secondary)
  *
- * Gemini is primary: far more generous free tier (1,500 requests/day vs
- * OpenRouter's 50/day) and no awkward truncation limits on long, heavily-
- * vocalized Arabic text. OpenRouter's liquid/lfm-2.5-embedding-350m:free is
- * the fallback if Gemini is ever unavailable.
+ * Index files store a short hash of the exact text each vector was made from.
+ * A provider is only used at query time when its index covers EVERY
+ * embeddable unit of the current knowledge base with matching hashes — a
+ * partial or stale index is ignored instead of silently searching half the
+ * data (see coverage in semanticIndex.ts).
  */
-
-export const GEMINI_EMBEDDING_MODEL = 'gemini-embedding-001';
-export const OPENROUTER_EMBEDDING_MODEL = 'liquid/lfm-2.5-embedding-350m:free';
-// Unified output size for the Gemini index (it supports configurable
-// dimensionality). OpenRouter's model has a fixed native size (1024) — the
-// two indexes are never mixed, so they don't need to match each other.
-export const GEMINI_EMBEDDING_DIMS = 768;
-export const OPENROUTER_EMBEDDING_DIMS = 1024;
-
-// This OpenRouter model's tokenizer is very inefficient on heavily-
-// diacritized Arabic (tashkeel marks often tokenize almost 1:1 with
-// characters) — a 700-char vocalized chunk measured at 684 tokens against
-// this model's 512-token limit. 450 characters stayed safely under 512
-// tokens even for the most heavily-vocalized Qur'an chunks in the corpus.
-// Gemini has no such limit for our chunk sizes, so this only applies here.
-const OPENROUTER_MAX_INPUT_CHARS = 450;
+import crypto from 'crypto';
+import type { KbRecord, KbUnit, UnitKind } from '../../shared/chatKb.js';
+import { stripDiacritics } from '../../shared/arabicText.js';
 
 export type EmbeddingProvider = 'gemini' | 'openrouter';
 
-export interface QueryEmbeddingResult {
-  provider: EmbeddingProvider;
-  vector: number[];
+export const EMBEDDING_MODELS: Record<EmbeddingProvider, { model: string; dims: number; maxChars: number }> = {
+  gemini: { model: 'gemini-embedding-001', dims: 768, maxChars: 2000 },
+  // This model's tokenizer is inefficient on Arabic and caps inputs at 512
+  // tokens; diacritic-free text at 700 chars stays under it.
+  openrouter: { model: 'liquid/lfm-2.5-embedding-350m:free', dims: 1024, maxChars: 700 },
+};
+
+/** Lists and bare facts are reached by name matching and keyword search. */
+const NOT_EMBEDDED: ReadonlySet<UnitKind> = new Set([
+  'event_date',
+  'event_location',
+  'event_army',
+  'event_duration',
+  'event_figures',
+  'event_sources',
+  'event_quran',
+  'companion_events',
+  'battle_phases',
+  'battle_landmarks',
+  'list',
+]);
+
+export function isEmbeddable(unit: KbUnit): boolean {
+  return !NOT_EMBEDDED.has(unit.kind);
 }
 
-interface GeminiEmbedResponse {
-  embedding?: { values: number[] };
+export function embeddingText(unit: KbUnit, record: KbRecord | undefined, provider: EmbeddingProvider): string {
+  const text = stripDiacritics(`${record?.title ?? ''}: ${unit.text}`).replace(/\s+/g, ' ').trim();
+  return text.slice(0, EMBEDDING_MODELS[provider].maxChars);
 }
 
-/**
- * Gemini's batchEmbedContents endpoint turned out to enforce a much
- * stricter effective rate limit than single embedContent calls — likely
- * counting each item in the batch against a per-minute cap, so a 100-item
- * batch instantly exhausts it while individual calls sail through. Using
- * single calls throughout (looped, with light pacing for multi-text
- * indexing calls) is slower for bulk indexing but dramatically more
- * reliable, and query-time embedding is always a single text anyway.
- */
-async function embedOneGemini(text: string, apiKey: string): Promise<number[] | null> {
+export function textHash(text: string): string {
+  return crypto.createHash('sha1').update(text).digest('hex').slice(0, 12);
+}
+
+async function fetchWithTimeout(url: string, init: RequestInit, timeoutMs: number): Promise<Response> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_EMBEDDING_MODEL}:embedContent?key=${apiKey}`,
+    return await fetch(url, { ...init, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+export interface EmbedOutcome {
+  vectors: number[][] | null;
+  /** True when the provider refused because of quota/rate limits. */
+  rateLimited: boolean;
+  error?: string;
+}
+
+async function embedGemini(texts: string[], apiKey: string, taskType: string, timeoutMs: number): Promise<EmbedOutcome> {
+  const { model, dims } = EMBEDDING_MODELS.gemini;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:batchEmbedContents?key=${apiKey}`;
+  try {
+    const res = await fetchWithTimeout(
+      url,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          content: { parts: [{ text }] },
-          outputDimensionality: GEMINI_EMBEDDING_DIMS,
+          requests: texts.map(text => ({
+            model: `models/${model}`,
+            content: { parts: [{ text }] },
+            taskType,
+            outputDimensionality: dims,
+          })),
         }),
-      }
-    );
-    if (!res.ok) return null;
-    const data = (await res.json()) as GeminiEmbedResponse;
-    return data.embedding?.values ?? null;
-  } catch {
-    return null;
-  }
-}
-
-async function embedBatchGemini(texts: string[], apiKey: string | undefined): Promise<number[][] | null> {
-  if (!apiKey || texts.length === 0) return null;
-  const results: number[][] = [];
-  for (const text of texts) {
-    const vec = await embedOneGemini(text, apiKey);
-    if (!vec) return null;
-    results.push(vec);
-    // 1000ms/call was confirmed reliable empirically; 1500ms adds margin
-    // for longer sequences during offline indexing. Query-time embedding is
-    // always a single text, so this never affects live request latency.
-    if (texts.length > 1) await new Promise(r => setTimeout(r, 1500));
-  }
-  return results;
-}
-
-interface OpenRouterEmbeddingResponse {
-  data?: { embedding: number[] }[];
-}
-
-async function embedBatchOpenRouter(texts: string[], apiKey: string | undefined): Promise<number[][] | null> {
-  if (!apiKey || texts.length === 0) return null;
-  const truncated = texts.map(t => t.slice(0, OPENROUTER_MAX_INPUT_CHARS));
-  try {
-    const res = await fetch('https://openrouter.ai/api/v1/embeddings', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
       },
-      body: JSON.stringify({ model: OPENROUTER_EMBEDDING_MODEL, input: truncated }),
-    });
-    if (!res.ok) return null;
-    const data = (await res.json()) as OpenRouterEmbeddingResponse;
-    if (!data.data || data.data.length !== texts.length) return null;
-    return data.data.map(d => d.embedding);
-  } catch {
-    return null;
+      timeoutMs
+    );
+    if (!res.ok) {
+      const body = await res.text().catch(() => '');
+      return { vectors: null, rateLimited: res.status === 429, error: `HTTP ${res.status} ${body.slice(0, 200)}` };
+    }
+    const data = (await res.json()) as { embeddings?: { values: number[] }[] };
+    if (!data.embeddings || data.embeddings.length !== texts.length) return { vectors: null, rateLimited: false, error: 'bad response shape' };
+    return { vectors: data.embeddings.map(e => e.values), rateLimited: false };
+  } catch (err) {
+    return { vectors: null, rateLimited: false, error: String(err) };
   }
 }
 
-/** Offline corpus indexing — used only by scripts/build-chat-embeddings.ts. */
-export async function embedBatchForIndexing(
-  provider: EmbeddingProvider,
-  texts: string[],
-  apiKey: string | undefined
-): Promise<number[][] | null> {
-  return provider === 'gemini' ? embedBatchGemini(texts, apiKey) : embedBatchOpenRouter(texts, apiKey);
+async function embedOpenRouter(texts: string[], apiKey: string, timeoutMs: number): Promise<EmbedOutcome> {
+  try {
+    const res = await fetchWithTimeout(
+      'https://openrouter.ai/api/v1/embeddings',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
+        body: JSON.stringify({ model: EMBEDDING_MODELS.openrouter.model, input: texts }),
+      },
+      timeoutMs
+    );
+    if (!res.ok) {
+      const body = await res.text().catch(() => '');
+      return { vectors: null, rateLimited: res.status === 429, error: `HTTP ${res.status} ${body.slice(0, 200)}` };
+    }
+    const data = (await res.json()) as { data?: { embedding: number[] }[] };
+    if (!data.data || data.data.length !== texts.length) return { vectors: null, rateLimited: false, error: 'bad response shape' };
+    return { vectors: data.data.map(d => d.embedding), rateLimited: false };
+  } catch (err) {
+    return { vectors: null, rateLimited: false, error: String(err) };
+  }
 }
 
-/**
- * Embeds a single query, trying Gemini first and falling back to OpenRouter.
- * Returns which provider actually succeeded so the caller can match the
- * query vector against that provider's own index — never returns a vector
- * without saying which space it belongs to.
- */
-export async function embedQuery(
-  text: string,
-  geminiApiKey: string | undefined,
-  openRouterApiKey: string | undefined
-): Promise<QueryEmbeddingResult | null> {
-  const gemini = await embedBatchGemini([text], geminiApiKey);
-  if (gemini) return { provider: 'gemini', vector: gemini[0] };
+/** Offline indexing (scripts/build-chat-embeddings.ts). */
+export function embedDocuments(provider: EmbeddingProvider, texts: string[], apiKey: string): Promise<EmbedOutcome> {
+  return provider === 'gemini' ? embedGemini(texts, apiKey, 'RETRIEVAL_DOCUMENT', 60000) : embedOpenRouter(texts, apiKey, 60000);
+}
 
-  const openrouter = await embedBatchOpenRouter([text], openRouterApiKey);
-  if (openrouter) return { provider: 'openrouter', vector: openrouter[0] };
-
-  return null;
+/** Query-time embedding for one provider, with a tight timeout. */
+export async function embedQueryWith(provider: EmbeddingProvider, text: string, apiKey: string | undefined, timeoutMs = 2500): Promise<number[] | null> {
+  if (!apiKey) return null;
+  const input = stripDiacritics(text).slice(0, EMBEDDING_MODELS[provider].maxChars);
+  const outcome = provider === 'gemini' ? await embedGemini([input], apiKey, 'RETRIEVAL_QUERY', timeoutMs) : await embedOpenRouter([input], apiKey, timeoutMs);
+  if (!outcome.vectors) {
+    console.warn(`[chat] ${provider} query embedding failed: ${outcome.error ?? 'unknown'}`);
+    return null;
+  }
+  return outcome.vectors[0];
 }

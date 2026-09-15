@@ -1,23 +1,14 @@
 import { useCallback, useRef, useState } from 'react';
+import type { AnswerBlock, ChatCitation, ChatErrorBody, ChatSuccessBody } from '../../shared/chatApi';
 
-export interface ChatCitation {
-  chunkId: string;
-  sourceLabel: string;
-  type: string;
-  era?: string;
-  entityRefs: {
-    eventId?: string;
-    companionId?: string;
-    quranKey?: string;
-    battleId?: string;
-    cityId?: string;
-  };
-}
+export type { AnswerBlock, ChatCitation };
 
 export interface ChatMessage {
   id: string;
   role: 'user' | 'assistant';
   text: string;
+  /** Structured answer (verified text, source quotes, lists, verses). */
+  blocks?: AnswerBlock[];
   citations?: ChatCitation[];
   isError?: boolean;
 }
@@ -74,7 +65,7 @@ export function useChat() {
           body: JSON.stringify({ message: text }),
           signal: controller.signal,
         });
-        const data = await res.json().catch(() => null);
+        const data = (await res.json().catch(() => null)) as (Partial<ChatSuccessBody> & Partial<ChatErrorBody>) | null;
 
         if (!res.ok || !data) {
           setMessages(prev => [
@@ -86,7 +77,7 @@ export function useChat() {
 
         setMessages(prev => [
           ...prev,
-          { id: `a-${Date.now()}`, role: 'assistant', text: data.answer, citations: data.citations || [] },
+          { id: `a-${Date.now()}`, role: 'assistant', text: data.answer ?? '', blocks: data.blocks, citations: data.citations || [] },
         ]);
       } catch (err) {
         if ((err as Error).name === 'AbortError') return;

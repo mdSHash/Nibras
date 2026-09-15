@@ -4,15 +4,11 @@
  * lineup can change (free-tier availability shifts) without a redeploy.
  *
  * LLM_PROVIDER_CHAIN env format: "platform:model,platform:model,..."
- *   e.g. "groq:allam-2-7b,groq:openai/gpt-oss-120b,groq:qwen/qwen3.6-27b,openrouter:google/gemma-4-31b-it:free"
  *
- * Default chain: allam-2-7b (SDAIA's Arabic-native model, no hidden
- * reasoning-token overhead) first, then two reasoning-capable models with a
- * larger token budget, then a non-reasoning OpenRouter free model last. Every
- * response is screened for degenerate output (see isDegenerate below) before
- * being accepted — a model that produces a repetition loop or a
- * whitespace-flood is treated the same as a hard failure and the chain moves
- * to the next provider.
+ * Every response must pass the caller's `accept` check (for the chat answer:
+ * parseable JSON) before it is returned; otherwise the chain moves on. The
+ * whole chain respects a single deadline so the serverless function can
+ * always fall back to an extractive answer before it times out.
  */
 
 export interface ChatMessage {
@@ -33,6 +29,7 @@ interface ProviderResult {
 
 export interface FallbackResult extends ProviderResult {
   providerUsed?: string;
+  attempts: string[];
 }
 
 const ENDPOINTS: Record<ProviderSpec['platform'], string> = {
@@ -40,10 +37,11 @@ const ENDPOINTS: Record<ProviderSpec['platform'], string> = {
   openrouter: 'https://openrouter.ai/api/v1/chat/completions',
 };
 
-const DEFAULT_CHAIN =
-  'groq:allam-2-7b,groq:openai/gpt-oss-120b,groq:qwen/qwen3.6-27b,openrouter:google/gemma-4-31b-it:free';
+// allam-2-7b was dropped: its 4K context cannot hold the evidence pack.
+export const DEFAULT_CHAIN =
+  'groq:openai/gpt-oss-120b,groq:qwen/qwen3.6-27b,groq:openai/gpt-oss-20b,openrouter:google/gemma-4-31b-it:free';
 
-function parseChain(raw: string | undefined): ProviderSpec[] {
+export function parseChain(raw: string | undefined): ProviderSpec[] {
   return (raw || DEFAULT_CHAIN)
     .split(',')
     .map(entry => entry.trim())
@@ -62,158 +60,107 @@ function apiKeyFor(platform: ProviderSpec['platform']): string | undefined {
 }
 
 /**
- * Groq's "gpt-oss" family spends completion tokens on a hidden reasoning
- * pass before the final answer — with a capped max_tokens this can consume
- * the whole budget and leave `content` empty (finish_reason "length").
- * Capping reasoning effort avoids that. Other Groq models (e.g. allam) reject
- * this parameter with a 400, so it's only sent for the family known to need
- * and accept it.
+ * Reasoning models: gpt-oss spends completion tokens on hidden reasoning
+ * (capped with reasoning_effort), qwen3 would otherwise emit <think> blocks
+ * inline (hidden via reasoning_format, which JSON mode requires anyway).
  */
-function reasoningParamsFor(spec: ProviderSpec): Record<string, unknown> {
-  if (spec.platform === 'groq' && spec.model.startsWith('openai/gpt-oss')) {
-    return { reasoning_effort: 'low' };
-  }
-  return {};
+function modelParams(spec: ProviderSpec, jsonMode: boolean): Record<string, unknown> {
+  const params: Record<string, unknown> = {};
+  if (spec.platform === 'groq' && spec.model.startsWith('openai/gpt-oss')) params.reasoning_effort = 'low';
+  if (spec.platform === 'groq' && spec.model.startsWith('qwen/')) params.reasoning_format = 'hidden';
+  if (jsonMode && spec.platform === 'groq') params.response_format = { type: 'json_object' };
+  return params;
 }
 
-/**
- * Some models (e.g. Groq's qwen/qwen3.6-27b) emit their chain-of-thought
- * inline as a <think>...</think> block ahead of the real answer, rather than
- * in a separate API field the way gpt-oss does. Strip it so users never see
- * raw reasoning traces, and so the emptiness/degeneracy checks below judge
- * the actual answer, not the reasoning preamble.
- */
-function stripThinkTags(text: string): string {
+/** Drops <think>…</think> blocks, including one left unclosed by truncation. */
+export function stripThinkTags(text: string): string {
   let result = text.replace(/<think>[\s\S]*?<\/think>/gi, '');
-  // Generation can also be cut off mid-reasoning, leaving an OPENING <think>
-  // with no closing tag — live testing showed this leaks the entire raw
-  // chain-of-thought (including a sentence trailing off mid-word) straight
-  // into the user-visible answer. Treat "no real answer was ever reached"
-  // as exactly that: drop everything from the unclosed tag onward.
   const unclosed = result.search(/<think>/i);
   if (unclosed !== -1) result = result.slice(0, unclosed);
   return result.trim();
 }
 
-function trigramUniqueness(words: string[]): number | null {
-  if (words.length < 20) return null;
-  const trigrams = new Set<string>();
-  let total = 0;
-  for (let i = 0; i + 3 <= words.length; i++) {
-    trigrams.add(words.slice(i, i + 3).join(' '));
-    total++;
-  }
-  return total > 0 ? trigrams.size / total : null;
+export interface CallOptions {
+  /** Epoch ms by which the whole chain must finish. */
+  deadline: number;
+  /** Returns true when the text is usable; otherwise the chain continues. */
+  accept: (text: string) => boolean;
+  jsonMode?: boolean;
+  maxTokens?: number;
+  envChain?: string;
 }
 
-/**
- * Detects failure modes observed live from small free-tier models: a
- * whitespace flood (a few real words then blank lines until cut off), a
- * suspiciously short/truncated fragment, or a repetition loop (checked both
- * over the whole response and just its tail, since a loop that only starts
- * near the end gets diluted below the threshold by good earlier content).
- * Any of these is treated as a hard failure so the chain moves on instead of
- * showing the user garbage.
- */
-export function isDegenerate(text: string): boolean {
-  const trimmed = text.trim();
-  if (!trimmed) return true;
+const MAX_CALL_MS = 14000;
+const MIN_CALL_MS = 2500;
+const MAX_RETRY_WAIT_MS = 4000;
 
-  // A live test produced a bare "رضي الله عنه؟" (13 chars) for a substantive
-  // question — looks like a truncated/malformed generation rather than a
-  // real answer. 25 chars stays well under any legitimate short factual
-  // answer while catching clearly-broken fragments like this.
-  if (trimmed.length < 25) return true;
-
-  const nonWhitespaceRatio = trimmed.replace(/\s/g, '').length / trimmed.length;
-  if (trimmed.length > 200 && nonWhitespaceRatio < 0.5) return true;
-
-  const words = trimmed.split(/\s+/).filter(Boolean);
-  const overallUniqueness = trigramUniqueness(words);
-  if (overallUniqueness !== null && overallUniqueness < 0.35) return true;
-
-  // A live test showed a genuinely good answer (a list of 11+ people)
-  // devolve into repeats of "**X**: (مذكورة مرة أخرى)." at the end — a real
-  // failure, but diluted by the good content earlier so the WHOLE-text ratio
-  // above stayed high enough to pass. A short, tighter tail window with a
-  // higher bar catches a repetition loop that only kicks in near the end,
-  // even when it's just 3-4 short repeated lines.
-  const tailUniqueness = trigramUniqueness(words.slice(-24));
-  if (tailUniqueness !== null && tailUniqueness < 0.55) return true;
-
-  return false;
-}
-
-async function callProvider(spec: ProviderSpec, messages: ChatMessage[]): Promise<ProviderResult> {
+async function callProvider(spec: ProviderSpec, messages: ChatMessage[], options: CallOptions): Promise<ProviderResult & { note: string; retryAfterMs?: number }> {
   const label = `${spec.platform}:${spec.model}`;
   const apiKey = apiKeyFor(spec.platform);
-  if (!apiKey) {
-    console.warn(`[chat] ${label}: no API key configured, skipping`);
-    return { ok: false };
-  }
+  if (!apiKey) return { ok: false, note: `${label}: no API key` };
+
+  const timeoutMs = Math.min(MAX_CALL_MS, options.deadline - Date.now());
+  if (timeoutMs < MIN_CALL_MS) return { ok: false, note: `${label}: skipped, deadline` };
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
     const res = await fetch(ENDPOINTS[spec.platform], {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
+      signal: controller.signal,
       body: JSON.stringify({
         model: spec.model,
         messages,
-        // Low, not zero: some providers reject temperature:0 outright, and a
-        // tiny amount of randomness doesn't meaningfully hurt consistency
-        // once the bigger sources of variance (retrieval, prompt wording)
-        // are fixed — this mainly reduces run-to-run wording drift.
-        temperature: 0.1,
-        max_tokens: 1200,
-        ...reasoningParamsFor(spec),
+        temperature: 0,
+        max_tokens: options.maxTokens ?? 1800,
+        ...modelParams(spec, options.jsonMode ?? false),
       }),
     });
-
     if (res.status === 429) {
-      console.warn(`[chat] ${label}: rate limited (429)`);
-      return { ok: false, rateLimited: true };
+      const header = res.headers.get('retry-after');
+      const retryAfter = header === null ? NaN : Number(header);
+      return { ok: false, rateLimited: true, retryAfterMs: Number.isFinite(retryAfter) ? retryAfter * 1000 : undefined, note: `${label}: rate limited` };
     }
     if (!res.ok) {
       const body = await res.text().catch(() => '');
-      console.warn(`[chat] ${label}: HTTP ${res.status} — ${body.slice(0, 300)}`);
-      return { ok: false };
+      return { ok: false, note: `${label}: HTTP ${res.status} ${body.slice(0, 200)}` };
     }
-
-    const data = (await res.json()) as { choices?: { message?: { content?: string } }[] };
-    const rawText = data.choices?.[0]?.message?.content;
-    if (!rawText) {
-      console.warn(`[chat] ${label}: empty content in response`);
-      return { ok: false };
-    }
-    const text = stripThinkTags(rawText);
-    if (!text) {
-      console.warn(`[chat] ${label}: response was only a <think> block, no real answer`);
-      return { ok: false };
-    }
-    if (isDegenerate(text)) {
-      console.warn(`[chat] ${label}: rejected degenerate output (${text.length} chars)`);
-      return { ok: false };
-    }
-    return { ok: true, text };
+    const data = (await res.json()) as {
+      choices?: { message?: { content?: string } }[];
+      usage?: { prompt_tokens?: number; completion_tokens?: number };
+    };
+    const usage = data.usage ? ` (${data.usage.prompt_tokens ?? '?'}+${data.usage.completion_tokens ?? '?'} tokens)` : '';
+    const text = stripThinkTags(data.choices?.[0]?.message?.content ?? '');
+    if (!text) return { ok: false, note: `${label}: empty content${usage}` };
+    if (!options.accept(text)) return { ok: false, note: `${label}: output rejected (${text.length} chars)${usage}` };
+    return { ok: true, text, note: `${label}: ok${usage}` };
   } catch (err) {
-    console.warn(`[chat] ${label}: request failed —`, err);
-    return { ok: false };
+    const aborted = (err as Error).name === 'AbortError';
+    return { ok: false, note: `${label}: ${aborted ? `timed out after ${timeoutMs}ms` : String(err)}` };
+  } finally {
+    clearTimeout(timer);
   }
 }
 
-/** Tries each provider in the chain in order, falling through on rate-limit/error/degenerate output. */
-export async function callWithFallback(
-  messages: ChatMessage[],
-  envChain?: string
-): Promise<FallbackResult> {
-  const chain = parseChain(envChain);
-  for (const spec of chain) {
-    const result = await callProvider(spec, messages);
-    if (result.ok) return { ...result, providerUsed: `${spec.platform}:${spec.model}` };
+/** Tries each provider in order until one returns accepted output or the deadline passes. */
+export async function callWithFallback(messages: ChatMessage[], options: CallOptions): Promise<FallbackResult> {
+  const attempts: string[] = [];
+  let anyRateLimited = false;
+  for (const spec of parseChain(options.envChain ?? process.env.LLM_PROVIDER_CHAIN)) {
+    let result = await callProvider(spec, messages, options);
+    attempts.push(result.note);
+    // A per-minute token limit usually clears within seconds; one short wait
+    // on the stronger model beats dropping to a weaker one.
+    if (result.rateLimited && result.retryAfterMs !== undefined && result.retryAfterMs <= MAX_RETRY_WAIT_MS &&
+        options.deadline - Date.now() > result.retryAfterMs + MIN_CALL_MS + 1000) {
+      await new Promise(resolve => setTimeout(resolve, result.retryAfterMs));
+      result = await callProvider(spec, messages, options);
+      attempts.push(`${result.note} (after waiting ${result.retryAfterMs ?? 0}ms)`);
+    }
+    if (result.ok) return { ok: true, text: result.text, providerUsed: `${spec.platform}:${spec.model}`, attempts };
+    if (result.rateLimited) anyRateLimited = true;
+    console.warn(`[chat] ${result.note}`);
   }
-  console.error('[chat] all providers in the fallback chain failed');
-  return { ok: false };
+  return { ok: false, rateLimited: anyRateLimited, attempts };
 }

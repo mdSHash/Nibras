@@ -10,6 +10,7 @@ import { getEraColor } from '../utils/eraColors';
 import { getMatchingSuggestions } from '../utils/chatSuggestions';
 import { useDebouncedValue } from '../hooks/useDebouncedValue';
 import { Button } from './Button';
+import { AnswerBlocks, FormattedText } from './chat/AnswerBlocks';
 
 interface ChatPanelProps {
   isOpen: boolean;
@@ -25,6 +26,18 @@ const EXAMPLE_QUESTIONS = [
 
 function CitationChip({ citation, onClick }: { citation: ChatCitation; onClick: () => void }) {
   const color = citation.era ? getEraColor(citation.era) : undefined;
+  const { eventId, companionId, quranKey, battleId } = citation.entityRefs;
+  // Cities and cross-record lists have no screen of their own to open.
+  if (!eventId && !companionId && !quranKey && !battleId) {
+    return (
+      <span
+        className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold border border-[var(--color-accent)]/20 text-[var(--color-ink)]/75"
+        style={color ? { borderColor: `${color}55` } : undefined}
+      >
+        {citation.sourceLabel}
+      </span>
+    );
+  }
   return (
     <button
       onClick={onClick}
@@ -38,31 +51,6 @@ function CitationChip({ citation, onClick }: { citation: ChatCitation; onClick: 
     >
       {citation.sourceLabel}
     </button>
-  );
-}
-
-/**
- * Renders the model's lightweight markdown (**bold** + blank-line-separated
- * paragraphs) as real elements instead of showing literal asterisks — the
- * system prompt asks for "**name**: description" list items, which needs
- * actual bold rendering to read as the clean list it's meant to be.
- */
-function FormattedAnswer({ text }: { text: string }) {
-  const paragraphs = text.split(/\n\s*\n/).filter(Boolean);
-  return (
-    <>
-      {paragraphs.map((para, pi) => (
-        <p key={pi} className={pi > 0 ? 'mt-2.5' : undefined}>
-          {para.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
-            part.startsWith('**') && part.endsWith('**') ? (
-              <strong key={i}>{part.slice(2, -2)}</strong>
-            ) : (
-              <span key={i}>{part}</span>
-            )
-          )}
-        </p>
-      ))}
-    </>
   );
 }
 
@@ -221,7 +209,11 @@ export default function ChatPanel({ isOpen, onClose, onCitationClick }: ChatPane
                             : 'bg-[var(--color-ink)]/5 text-[var(--color-ink)] rounded-es-sm',
                       )}
                     >
-                      {m.role === 'assistant' ? <FormattedAnswer text={m.text} /> : m.text}
+                      {m.role === 'user'
+                        ? m.text
+                        : m.blocks && m.blocks.length > 0
+                          ? <AnswerBlocks blocks={m.blocks} onVerseOpen={onCitationClick} />
+                          : <FormattedText text={m.text} />}
                     </div>
                     {m.citations && m.citations.length > 0 && (
                       <div className="flex flex-wrap gap-1.5">
