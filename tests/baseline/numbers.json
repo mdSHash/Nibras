@@ -1,0 +1,87 @@
+{
+  "bundle": {
+    "chunks": {
+      "BufferResource.js": {
+        "raw": 10613,
+        "gzip": 2803
+      },
+      "CanvasRenderer.js": {
+        "raw": 17991,
+        "gzip": 6003
+      },
+      "ChatPanel.js": {
+        "raw": 25630,
+        "gzip": 8726
+      },
+      "CompanionModal.js": {
+        "raw": 4466,
+        "gzip": 1968
+      },
+      "HelpModal.js": {
+        "raw": 6377,
+        "gzip": 2274
+      },
+      "index.css": {
+        "raw": 161342,
+        "gzip": 30365
+      },
+      "index.js": {
+        "raw": 1912805,
+        "gzip": 489182
+      },
+      "QuranModal.js": {
+        "raw": 3581,
+        "gzip": 1698
+      },
+      "RenderTargetSystem.js": {
+        "raw": 46575,
+        "gzip": 12842
+      },
+      "scrollLock.js": {
+        "raw": 2000,
+        "gzip": 694
+      },
+      "SearchMenu.js": {
+        "raw": 9922,
+        "gzip": 3502
+      },
+      "useDebouncedValue.js": {
+        "raw": 197,
+        "gzip": 166
+      },
+      "useFocusTrap.js": {
+        "raw": 584,
+        "gzip": 367
+      },
+      "WebGLRenderer.js": {
+        "raw": 68622,
+        "gzip": 18835
+      },
+      "WebGPURenderer.js": {
+        "raw": 38372,
+        "gzip": 10723
+      },
+      "webworkerAll.js": {
+        "raw": 1079163,
+        "gzip": 302670
+      }
+    },
+    "totals": {
+      "js": {
+        "raw": 3226898,
+        "gzip": 862453
+      },
+      "css": {
+        "raw": 161342,
+        "gzip": 30365
+      }
+    }
+  },
+  "tests": {
+    "vitestTests": 179,
+    "playwrightFeatureTests": 68,
+    "playwrightFeatureKnownFailures": 11,
+    "playwrightVisualTests": 18,
+    "playwrightVisualKnownFailures": 0
+  }
+}
