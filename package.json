@@ -13,6 +13,7 @@
     "build:embeddings": "tsx scripts/build-chat-embeddings.ts",
     "test": "vitest run",
     "test:watch": "vitest",
+    "validate:content": "tsx scripts/validate-content.ts",
     "eval:chat": "tsx scripts/eval-chat.ts",
     "build": "vite build",
     "preview": "vite preview",
@@ -70,6 +71,7 @@
     "typescript": "~5.8.2",
     "typescript-eslint": "^8.71.2",
     "vite": "^6.2.0",
-    "vitest": "^3.2.7"
+    "vitest": "^3.2.7",
+    "zod": "^4.6.7"
   }
 }

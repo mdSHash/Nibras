@@ -63,7 +63,7 @@ const steps: Step[] = [
       return `${report.numPassedTests}/${report.numTotalTests} passed`;
     },
   },
-  { name: 'Content validation (Zod)', skip: 'not set up yet (Phase 0B)' },
+  { name: 'Content validation (Zod)', command: 'npx tsx scripts/validate-content.ts' },
   { name: 'Content snapshot', command: 'npx tsx scripts/baseline/content-snapshot.ts' },
   { name: 'Behavior map', command: 'npx tsx scripts/baseline/behavior-map.ts' },
   { name: 'Production build', command: 'npx vite build', env: { VITE_CHAT_API_URL: TEST_CHAT_API_URL } },
