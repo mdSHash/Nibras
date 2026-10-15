@@ -66,7 +66,8 @@ export async function openEventBySearch(page: Page, eventId: string, query?: str
   await header.search(page).click();
   const drawer = page.getByRole('dialog').filter({ has: page.getByRole('listbox') });
   await drawer.getByRole('searchbox').or(drawer.locator('input')).first().fill(query ?? event.title);
-  await drawer.getByRole('option', { name: event.title }).first().click();
+  // Match the title element exactly: an option's summary can mention another event's name.
+  await drawer.getByRole('option').filter({ has: page.getByText(event.title, { exact: true }) }).first().click();
   await expect(panelTitle(page)).toHaveText(event.title);
   // Escape would also close the event panel (closeAllModals in App.tsx); use the drawer's own button.
   if (await drawer.isVisible()) await drawer.getByRole('button', { name: 'إغلاق القائمة' }).click();
