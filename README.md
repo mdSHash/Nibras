@@ -244,6 +244,9 @@ For the full engine architecture, scenario format, and authoring guide see [`src
 | `npm run build` | Production build |
 | `npm run preview` | Preview production build |
 | `npm run lint` | TypeScript type checking (`tsc --noEmit`) |
+| `npm run lint:eslint` | ESLint (TypeScript + React hooks rules) |
+| `npm run validate:content` | Check every event, companion and city against the Zod schemas (`shared/contentSchema.ts`) |
+| `npm run format -- <files>` | Prettier, on demand for the files you name (the repo is not bulk-formatted) |
 | `npm run verify` | Full check against the refactor baseline — see [Verify](#verify) |
 | `npm run cache-audio` | Pre-cache title audio for every event through the TTS proxy |
 | `npm run cache-details` | Pre-cache full-description audio (chunked at 4500 chars) |
@@ -278,17 +281,18 @@ node scripts/verify-all-audio.js
 `npm run verify` is the one command that proves a change kept the site working. It runs, in order, and stops at the first failure:
 
 1. type check (`tsc --noEmit`)
-2. ESLint *(added in Phase 0B)*
+2. ESLint
 3. unit tests (Vitest)
-4. content validation with Zod *(added in Phase 0B)*
+4. content validation with Zod (`scripts/validate-content.ts`)
 5. content snapshot — every event, person, city, Quran passage, battle and territory year, compared with `tests/baseline/content.json`
 6. behavior map — timeline order, all filter combinations, era-pill anchors and fixed search queries, compared with `tests/baseline/behavior.json`
 7. production build (with the chat API pointed at a mocked host)
 8. bundle budget — per-chunk and total sizes against `tests/baseline/numbers.json`
-9. Playwright feature tests (`tests/e2e/`) on desktop 1440×900 and phone 375×812
-10. Playwright visual snapshots (`tests/baseline/visual/`)
+9. Playwright feature tests (`tests/e2e/`) on desktop 1440×900 and phone 375×812 (Chromium)
+10. the `@phone` smoke tests in WebKit (iPhone 13) and Firefox, functional only
+11. Playwright visual snapshots (`tests/baseline/visual/`, per platform; on a platform with no committed set yet — Linux in CI until it is reviewed — the images are written instead of compared)
 
-Before the first run: `npm ci` and `npx playwright install chromium`. The Playwright tests run offline against `vite preview`: map tiles, fonts, the chat API and narration audio are all stubbed.
+Before the first run: `npm ci` and `npx playwright install chromium webkit firefox`. The Playwright tests run offline against `vite preview`: map tiles, fonts, the chat API and narration audio are all stubbed.
 
 **Known failures.** Bugs that exist today are recorded as tests that expect the *correct* behavior and are marked as expected failures (`knownFailure(...)` in `tests/e2e/`). When a fix lands, that test reports "expected to fail, but passed" and must be updated as an approved change. `SHOW_KNOWN_FAILURES=1 npx playwright test` shows each one's actual error.
 
@@ -308,7 +312,7 @@ See `docs/REFACTOR_PLAN.md` and `docs/REFACTOR_PROGRESS.md` for the refactor pla
 
 ## Deployment
 
-Production is hosted at **https://mdshash.github.io/Nibras/** on GitHub Pages. Every push to `main` triggers `.github/workflows/deploy.yml`, which builds with Vite (`base: '/Nibras/'`) and publishes the `dist/` artifact via `actions/deploy-pages@v4`. Typical build-and-deploy time is ~2 minutes.
+Production is hosted at **https://mdshash.github.io/Nibras/** on GitHub Pages. `.github/workflows/deploy.yml` runs a `check` job (the full `npm run verify`, on Ubuntu) on every pull request and every push to `main`; only when it passes on `main` does it build with Vite (`base: '/Nibras/'`) and publish `dist/` via `actions/deploy-pages@v4`. The deploy build carries the Sentry settings (crash reports, source maps); see `docs/OWNER_DASHBOARD.md` for Sentry, the uptime checks and the weekly owner routine. The chat API also has `GET /api/health`.
 
 Because all audio ships as static WAVs bundled into `dist/audio/`, no separate backend is required at runtime. The TTS proxy in `server/` is only used at authoring time when regenerating narration.
 

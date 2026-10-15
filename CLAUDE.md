@@ -48,7 +48,10 @@ only after Mostafa approves the list of intentional changes; never to make a tes
 - `api/` — chat assistant (Vercel functions); `api/_lib/` its modules
 - `public/audio/` — narration WAVs (SHA-256 names); `public/data/` — chat KB and embeddings
 - `scripts/` — content, KB, audio and baseline scripts; `scripts/verify.ts` runs `npm run verify`
-- `tests/` — Vitest (`*.test.ts`); `tests/e2e/` — Playwright; `tests/baseline/` — frozen baseline
+- `tests/` — Vitest (`*.test.ts`); `tests/e2e/` — Playwright (desktop + phone in Chromium; the `@phone`
+  subset also in WebKit and Firefox); `tests/baseline/` — frozen baseline
+- `docs/OWNER_DASHBOARD.md` — Sentry, uptime checks, `/api/health`, where each secret lives
+- `src/components/ErrorBoundary.tsx` — wrap any new major section or panel in one
 
 ## Session protocol
 
