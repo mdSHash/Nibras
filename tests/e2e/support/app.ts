@@ -51,7 +51,8 @@ export const panelTitle = (page: Page): Locator => panel(page).locator('h1');
 /** Opens the app and waits until the intro has finished and the header is usable. */
 export async function openApp(page: Page): Promise<void> {
   await page.goto('./');
-  await expect(page.getByRole('button', { name: 'اسأل المساعد الذكي' })).toBeVisible({ timeout: 15_000 });
+  // The intro takes 4.2 s; leave room for a busy machine (battle replays render in parallel).
+  await expect(page.getByRole('button', { name: 'اسأل المساعد الذكي' })).toBeVisible({ timeout: 30_000 });
 }
 
 /** Opens the app and waits for the first timeline event to be selected (1 s after the intro). */

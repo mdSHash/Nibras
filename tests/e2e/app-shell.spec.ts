@@ -43,7 +43,7 @@ test('the map shows markers; clicking a single marker opens its event @phone', a
   await page.mouse.click(point!.x, point!.y);
   await expect(panelTitle(page)).toBeVisible();
   const title = (await panelTitle(page).textContent()) ?? '';
-  const event = Object.values(behavior.timelineOrder).map(eventById).find((e) => e.title === title);
+  const event = behavior.timelineOrder.map(eventById).find((e) => e.title === title);
   expect(event, 'the opened panel is one of the events').toBeDefined();
   // The selected marker carries the event's place name.
   await expect(page.locator('.leaflet-marker-pane').getByText(event!.location.name, { exact: true })).toBeVisible();

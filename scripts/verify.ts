@@ -69,8 +69,9 @@ const steps: Step[] = [
   { name: 'Production build', command: 'npx vite build', env: { VITE_CHAT_API_URL: TEST_CHAT_API_URL } },
   { name: 'Bundle budget', command: 'npx tsx scripts/baseline/bundle-report.ts' },
   {
+    // Three workers: the 12 battle replays render with WebGL and saturate a laptop CPU at four.
     name: 'Feature tests (Playwright)',
-    command: 'npx playwright test --grep-invert @visual --reporter=line,json',
+    command: 'npx playwright test --grep-invert @visual --workers=3 --reporter=line,json',
     env: { PLAYWRIGHT_JSON_OUTPUT_NAME: join(REPORT_DIR, 'playwright-features.json') },
     after: () => playwrightSummary('playwright-features.json', 'playwrightFeature'),
   },
