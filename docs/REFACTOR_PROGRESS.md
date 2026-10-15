@@ -5,7 +5,7 @@ The log for `docs/REFACTOR_PLAN.md`. Each session reads this file first and upda
 
 | Phase | Status | Branch | PR |
 | --- | --- | --- | --- |
-| 0A Baseline and `npm run verify` | done, PR open | `refactor/phase-0a-baseline` | see PR |
+| 0A Baseline and `npm run verify` | merged | `refactor/phase-0a-baseline` | #3 |
 | 0B Safety net | not started | `refactor/phase-0b-safety-net` | — |
 | 1 Content model | not started | `refactor/phase-1-content` | — |
 | 2 State, routing and pages | not started | `refactor/phase-2-routing` | — |
@@ -48,8 +48,12 @@ Pre-checks on `17b1f0a`: `tsc --noEmit` passes; Vitest 179/179 in 14 files; `vit
 - 2026-10-15: the site must work on every platform and device. The test reference screenshots are
   per platform, so Phase 0B generates the Linux set on GitHub's CI servers (Mostafa has no Linux
   machine) and he reviews them there.
-- 2026-10-15: the layout bugs found in 0A go into the fixes; scope pending Mostafa's consent after
-  reading the list.
+- 2026-10-15: **fix all 11 known failures** recorded in the 0A baseline. The new one (11, the event
+  panel covering the timeline dock on desktop) is added to Phase 2.
+- 2026-10-15: **remove the 2× and 3× timeline playback speeds** and keep 1× only (fixes known
+  failure 10; added to Phase 3). This removes a visible control, approved by Mostafa.
+- 2026-10-15: Safari and Firefox testing — Mostafa unsure; Claude recommends running the `@phone`
+  smoke tests in WebKit and Firefox (functional only). Added to Phase 0B for approval in its plan.
 
 ### Design choices made in 0A (approved with the session plan)
 
@@ -111,8 +115,8 @@ the bug makes the test "unexpectedly pass", so the fix must be listed here as an
 | 7 | A toast on every next/previous arrow press | `app-shell.spec.ts` | 3 |
 | 8 | Dark mode not remembered after reload | `app-shell.spec.ts` | 2 |
 | 9 | The 4.2 s intro can't be skipped | `app-shell.spec.ts` | 2 |
-| 10 | Autoplay at 2×/3× with narration: no audio file for those rates → 404, `console.error('[Timeline] TTS error …')`, timed fallback | `timeline.spec.ts` | 3 (audio manifest) |
-| 11 | **New, not in the plan:** at 1440×900 the open event panel covers part of the timeline dock (the "تشغيل" play button and the first era pill can't be clicked) | `timeline.spec.ts` | 2 or 3 (needs a decision) |
+| 10 | Autoplay at 2×/3× with narration: no audio file for those rates → 404, `console.error('[Timeline] TTS error …')`, timed fallback | `timeline.spec.ts` | 3 (remove 2×/3×, decided) |
+| 11 | **New, not in the plan:** at 1440×900 the open event panel covers part of the timeline dock (the "تشغيل" play button and the first era pill can't be clicked) | `timeline.spec.ts` | 2 (decided) |
 
 Other observations from writing the tests (current behavior, recorded, not failures):
 
@@ -125,8 +129,7 @@ Other observations from writing the tests (current behavior, recorded, not failu
 
 ### Open questions
 
-1. Known failure 11 (event panel covering the timeline dock on desktop) is not in the plan. Fix it in
-   Phase 2 (layout work) or Phase 3 (polish)?
+1. ~~Where to fix known failure 11~~ — decided: Phase 2.
 2. ~~Unused audio count~~ — decided: nothing is deleted; the 118 unused files are archived.
 3. ~~Linux screenshots~~ — decided: 0B generates them in CI.
 

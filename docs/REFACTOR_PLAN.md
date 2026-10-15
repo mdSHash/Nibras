@@ -339,6 +339,9 @@ Run this phase as two sessions: **0A** builds the baseline and `npm run verify` 
       `docs/REFACTOR_PROGRESS.md`.
 - [ ] Add `CLAUDE.md` (see ground rules and session protocol).
 - [ ] Add an "outdated, see docs/REFACTOR_PLAN.md" warning at the top of `ADDING_NEW_CONTENT_GUIDE.md`.
+- [ ] Playwright: also run the `@phone` smoke subset in WebKit (Safari engine; iPhone 13 profile) and
+      Firefox, functional checks only (no visual snapshots in those engines). Recommended 2026-10-15;
+      Mostafa to approve in the 0B plan.
 - [ ] CI: add a `check` job before deploy running type check, ESLint, Vitest and the build; deploy
       needs `check`. Also run `check` on pull requests.
 - [ ] Add ESLint (TypeScript + `react-hooks` rules) and Prettier. Fix or explicitly disable existing
@@ -464,6 +467,8 @@ apart from approved differences), CI fails on a bad reference, and the old data 
 - [ ] Header on small screens: keep search and chat visible, move the rest into a menu; the Phase 0
       smoke test must pass at 375 px.
 - [ ] Point the `@` alias at `src`.
+- [ ] Desktop: the open event panel must not cover the timeline dock (its play button and first era
+      pill); known failure 11 in the Phase 0A baseline. (Added 2026-10-15, Mostafa.)
 
 Done when: every panel has its own URL, Back works, shared links show a preview, main JS is roughly
 800 KB or less, and all feature tests pass (updated only for approved changes, such as routes).
@@ -496,6 +501,8 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
       cut `!important` in `src/index.css`. No visual change.
 - [ ] Remove the toast on next/previous; keep the event panel in place when search opens; dedupe the
       tour target `data-tour-id`.
+- [ ] Timeline player: remove the 2× and 3× playback speeds and keep 1× only (no narration exists
+      for other speeds; known failure 10). Approved removal of a visible control (Mostafa, 2026-10-15).
 - [ ] Add map attribution for the tile provider.
 - [ ] Add a web manifest and icons.
 - [ ] Add Umami with the custom events listed in "Owner visibility, SEO and domain"; write
