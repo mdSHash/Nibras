@@ -329,6 +329,7 @@ export const createTransition = (
   
   return {
     duration: duration / 1000,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- motion accepts several easing shapes
     ease: ease as any,
   };
 };

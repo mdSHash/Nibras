@@ -213,6 +213,7 @@ export default function App() {
       }, 1000);
       return () => clearTimeout(timer);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- runs only when the event count changes, on purpose; revisit with the Phase 2 store
   }, [filteredSortedEvents.length]);
 
   // Handle player mode changes
@@ -223,6 +224,7 @@ export default function App() {
         setSelectedEvent(filteredSortedEvents[0]);
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- runs only when player mode toggles, on purpose; revisit with the Phase 2 store
   }, [isPlayerMode]);
 
   // Handle era selection — jump to the coronation event for that era.

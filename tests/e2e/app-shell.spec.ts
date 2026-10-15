@@ -1,5 +1,5 @@
 import { test, expect, knownFailure } from './support/fixtures';
-import { behavior, eventById, header, mapState, markerCounts, openApp, openAppWithEvent, panel, panelTitle } from './support/app';
+import { behavior, eventById, header, mapState, markerCounts, openApp, openAppWithEvent, panelTitle } from './support/app';
 import { expectUiBaseline } from './support/uiBaseline';
 
 // The start view in Map.tsx: center [24.4672, 39.6112], zoom 6.

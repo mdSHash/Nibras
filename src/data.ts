@@ -56,6 +56,7 @@ const BATTLE_ID_MAP: Record<string, string> = {
   'مَعْرَكَةُ نَهَاوَنْدَ (فَتْحُ الْفُتُوحِ)': 'nahavand',
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- untyped dataList.json; replaced by the Phase 1 content model
 export const eventsData: EventItem[] = (eventsDataJson as any[]).map((e, idx) => ({
   ...e,
   id: e.id || `event-${idx}-${e.title.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-أ-ي]/g, '')}`,

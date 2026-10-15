@@ -8,17 +8,16 @@ import 'leaflet-gesture-handling/dist/leaflet-gesture-handling.css';
 // Register the gesture handler once at module load.
 // Requires two-finger pan on touch, ctrl+wheel zoom on desktop — prevents map
 // from stealing page scroll when the user is scrolling the surrounding UI.
-if (!(L.Map as any)._nibrasGestureHandlerRegistered) {
+const LeafletMapClass = L.Map as typeof L.Map & { _nibrasGestureHandlerRegistered?: boolean };
+if (!LeafletMapClass._nibrasGestureHandlerRegistered) {
   L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
-  (L.Map as any)._nibrasGestureHandlerRegistered = true;
+  LeafletMapClass._nibrasGestureHandlerRegistered = true;
 }
 import { EventItem, citiesData } from '../data';
 import { renderToStaticMarkup } from 'react-dom/server';
 import useSupercluster from 'use-supercluster';
-import { Maximize2, Minimize2, LocateFixed, SlidersHorizontal, Swords, Flag, MapPin, ScrollText, Tent, Book, Crown, Skull } from 'lucide-react';
-import { getTerritoriesForYear, TerritoryGroup } from '../territoriesData';
-import { cn } from '../utils/cn';
-import { Z_INDEX } from '../constants';
+import { Swords, Flag, MapPin, ScrollText, Tent, Book, Crown, Skull } from 'lucide-react';
+import { getTerritoriesForYear } from '../territoriesData';
 
 // Custom Map Controls, Updater etc... (Keep as is, but we'll update TerritoryRenderer)
 
@@ -299,6 +298,7 @@ const EventClusters = ({ events, selectedEvent, onSelectEvent }: Pick<MapViewPro
       {clusters.map(cluster => {
         const [lng, lat] = cluster.geometry.coordinates;
         const { cluster: isCluster } = cluster.properties;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- supercluster cluster/point property union
         const pointCount = (cluster.properties as any).point_count;
 
         if (isCluster) {
@@ -327,7 +327,7 @@ const EventClusters = ({ events, selectedEvent, onSelectEvent }: Pick<MapViewPro
                 <div className="font-sans text-right p-2 sm:p-1" dir="rtl">
                   <h3 className="popup-title font-bold mb-2 sm:mb-2 text-[15px] sm:text-[14px]">أحداث متعددة هنا</h3>
                   <ul className="flex flex-col gap-2 sm:gap-1.5 min-w-[220px] sm:min-w-[200px] max-h-[250px] sm:max-h-[200px] overflow-y-auto">
-                    {supercluster && typeof cluster.id === 'number' && supercluster.getLeaves(cluster.id, Infinity).map((leaf: any) => (
+                    {supercluster && typeof cluster.id === 'number' && supercluster.getLeaves(cluster.id, Infinity).map(leaf => (
                       <li key={leaf.properties.eventId}>
                         <button
                           onClick={() => {
@@ -378,100 +378,6 @@ const EventClusters = ({ events, selectedEvent, onSelectEvent }: Pick<MapViewPro
   );
 };
 
-// Map Controls Component - positioned in bottom-right corner
-const MapControls = ({
-  onOpenFilter,
-  onResetView,
-  onToggleFullscreen,
-  isFullscreen
-}: {
-  onOpenFilter?: () => void;
-  onResetView: () => void;
-  onToggleFullscreen: () => void;
-  isFullscreen: boolean;
-}) => {
-  return (
-    <div
-      className={cn(
-        "absolute right-2 sm:right-4",
-        "bottom-[calc(64px+env(safe-area-inset-bottom)+16px)] md:bottom-4",
-        "flex flex-col gap-1 pointer-events-auto",
-        "bg-[var(--glass-bg)] backdrop-blur-[12px]",
-        "rounded-[var(--radius-md)]",
-        "shadow-[var(--glass-shadow)]",
-        "p-1"
-      )}
-      style={{ zIndex: Z_INDEX.mapControls }}
-    >
-      {/* Control 1: Recenter Map - Returns to default Arabian Peninsula view */}
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          onResetView();
-        }}
-        className={cn(
-          "w-[44px] h-[44px] md:w-[40px] md:h-[40px]",
-          "rounded-[var(--radius-md)]",
-          "text-ink hover:bg-accent hover:text-parchment",
-          "flex justify-center items-center",
-          "transition-all duration-200 hover:scale-105 active:scale-95"
-        )}
-        title="إعادة تعيين الخريطة"
-        aria-label="إعادة تعيين الخريطة"
-      >
-        <LocateFixed size={20} strokeWidth={2.5} aria-hidden="true" />
-      </button>
-
-      {/* Control 2: Filter Events - Opens filter menu for event categories */}
-      {onOpenFilter && (
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            onOpenFilter();
-          }}
-          className={cn(
-            "w-[44px] h-[44px] md:w-[40px] md:h-[40px]",
-            "rounded-[var(--radius-md)]",
-            "bg-accent/90 text-parchment hover:bg-accent hover:brightness-110",
-            "flex justify-center items-center",
-            "transition-all duration-200 hover:scale-105 active:scale-95"
-          )}
-          title="تصفية الأحداث"
-          aria-label="تصفية الأحداث"
-        >
-          <SlidersHorizontal size={20} strokeWidth={2.5} aria-hidden="true" />
-        </button>
-      )}
-
-      {/* Control 3: Fullscreen Toggle - Expands/collapses fullscreen mode */}
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          onToggleFullscreen();
-        }}
-        className={cn(
-          "w-[44px] h-[44px] md:w-[40px] md:h-[40px]",
-          "rounded-[var(--radius-md)]",
-          "text-ink hover:bg-accent hover:text-parchment",
-          "flex justify-center items-center",
-          "transition-all duration-200 hover:scale-105 active:scale-95"
-        )}
-        title={isFullscreen ? "الخروج من وضع ملء الشاشة" : "ملء الشاشة"}
-        aria-label="ملء الشاشة"
-      >
-        {isFullscreen ? (
-          <Minimize2 size={20} strokeWidth={2.5} aria-hidden="true" />
-        ) : (
-          <Maximize2 size={20} strokeWidth={2.5} aria-hidden="true" />
-        )}
-      </button>
-    </div>
-  );
-};
-
 const TerritoryRenderer = ({ selectedEvent }: { selectedEvent: EventItem | null }) => {
   const territoryGroups = useMemo(() => {
     const currentYear = selectedEvent ? selectedEvent.date.gregorian : 610;
@@ -515,25 +421,8 @@ const TerritoryRenderer = ({ selectedEvent }: { selectedEvent: EventItem | null 
   );
 };
 
-export default function HistoricalMap({ events, selectedEvent, onSelectEvent, showCities = true, onOpenFilter }: MapViewProps) {
-  const [isFullscreen, setIsFullscreen] = useState(false);
+export default function HistoricalMap({ events, selectedEvent, onSelectEvent, showCities = true }: MapViewProps) {
   const [map, setMap] = useState<L.Map | null>(null);
-
-  useEffect(() => {
-    const handleFs = () => setIsFullscreen(!!document.fullscreenElement);
-    document.addEventListener('fullscreenchange', handleFs);
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFs);
-    };
-  }, []);
-
-  const toggleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch(e => console.error(e));
-    } else if (document.exitFullscreen) {
-      document.exitFullscreen();
-    }
-  };
 
   const resetView = useCallback(() => {
     if (map) {
