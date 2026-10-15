@@ -82,3 +82,27 @@ export async function clickAnimated(target: Locator): Promise<void> {
   await expect(target).toBeVisible();
   await target.click({ force: true });
 }
+
+/** Zoom, center and size of the Leaflet map (recorded by the fixture's init hook). */
+export async function mapState(page: Page): Promise<{ zoom: number; lat: number; lng: number; width: number; height: number }> {
+  return page.evaluate(() => {
+    type LeafletMap = { getZoom(): number; getCenter(): { lat: number; lng: number }; getSize(): { x: number; y: number } };
+    const maps = (window as unknown as { __nibrasTestMaps: LeafletMap[] }).__nibrasTestMaps;
+    const map = maps[maps.length - 1];
+    const center = map.getCenter();
+    const size = map.getSize();
+    return { zoom: map.getZoom(), lat: center.lat, lng: center.lng, width: size.x, height: size.y };
+  });
+}
+
+/** Marker icons on the map at this moment: clusters (with their point counts) and single markers. */
+export async function markerCounts(page: Page): Promise<{ icons: number; clusters: number; pointsInClusters: number }> {
+  return page.locator('.leaflet-marker-pane .leaflet-marker-icon').evaluateAll((icons) => {
+    const counts = icons.map((icon) => (/^\d+$/.test((icon.textContent ?? '').trim()) ? Number(icon.textContent) : 0));
+    return {
+      icons: icons.length,
+      clusters: counts.filter((n) => n > 0).length,
+      pointsInClusters: counts.reduce((a, b) => a + b, 0),
+    };
+  });
+}

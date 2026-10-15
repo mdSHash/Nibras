@@ -54,6 +54,21 @@ export const test = base.extend<Options & Fixtures>({
           t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
           return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
         };
+        // Leaflet assigns window.L when it loads; record each map it creates so
+        // tests can read zoom, center and size without changing the app.
+        const maps: unknown[] = [];
+        let leaflet: { Map: { addInitHook: (fn: (this: unknown) => void) => void } } | undefined;
+        Object.defineProperty(window, '__nibrasTestMaps', { value: maps });
+        Object.defineProperty(window, 'L', {
+          configurable: true,
+          get: () => leaflet,
+          set: (value: typeof leaflet) => {
+            leaflet = value;
+            value?.Map.addInitHook(function (this: unknown) {
+              maps.push(this);
+            });
+          },
+        });
         if (prompted && !sessionStorage.getItem('__nibras_test_seeded')) {
           sessionStorage.setItem('__nibras_test_seeded', '1');
           localStorage.setItem(storage.tourPrompted, 'true');
