@@ -66,7 +66,12 @@ test('choosing a result opens that event and the drawer closes on its close butt
   const badr = eventById('battle-badr');
   await drawer(page).getByRole('option').filter({ hasText: badr.title }).first().click();
   await expect(panelTitle(page)).toHaveText(badr.title);
-  if (await drawer(page).isVisible()) await drawer(page).getByRole('button', { name: 'إغلاق القائمة' }).click();
+  // Phones close the drawer by themselves after a choice (with an exit animation); desktop keeps it
+  // open. Wait for the phone case before reaching for the close button, which may be on its way out.
+  const closedByItself = await drawer(page)
+    .waitFor({ state: 'hidden', timeout: 2_000 })
+    .then(() => true, () => false);
+  if (!closedByItself) await drawer(page).getByRole('button', { name: 'إغلاق القائمة' }).click();
   await expect(drawer(page)).toBeHidden();
   await expect(panelTitle(page)).toHaveText(badr.title);
 });
