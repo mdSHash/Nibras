@@ -42,6 +42,14 @@ Pre-checks on `17b1f0a`: `tsc --noEmit` passes; Vitest 179/179 in 14 files; `vit
 ### Decisions by Mostafa
 
 - 2026-10-15: approved the Phase 0A plan (design choices below).
+- 2026-10-15: **narration audio is never deleted.** Files no current text uses (118 today) are
+  archived, not deleted; WAV originals are archived when converting (plan Phase 3 and Decision 3
+  updated to match).
+- 2026-10-15: the site must work on every platform and device. The test reference screenshots are
+  per platform, so Phase 0B generates the Linux set on GitHub's CI servers (Mostafa has no Linux
+  machine) and he reviews them there.
+- 2026-10-15: the layout bugs found in 0A go into the fixes; scope pending Mostafa's consent after
+  reading the list.
 
 ### Design choices made in 0A (approved with the session plan)
 
@@ -119,10 +127,8 @@ Other observations from writing the tests (current behavior, recorded, not failu
 
 1. Known failure 11 (event panel covering the timeline dock on desktop) is not in the plan. Fix it in
    Phase 2 (layout work) or Phase 3 (polish)?
-2. Plan-vs-code difference 1 (title narrations are in use): Phase 3 should treat only the 118 unmatched
-   WAV files as unused, not 249. Confirm before Phase 3 (relates to Decision 3).
-3. CI (Phase 0B) runs on Linux; the Windows visual snapshots won't match there. Plan: 0B generates the
-   Linux set in CI for Mostafa to review before `verify` gates deploys.
+2. ~~Unused audio count~~ — decided: nothing is deleted; the 118 unused files are archived.
+3. ~~Linux screenshots~~ — decided: 0B generates them in CI.
 
 ### Verification report (2026-10-15, Windows 11, Node 20.19.5, Playwright 1.59.1 Chromium)
 

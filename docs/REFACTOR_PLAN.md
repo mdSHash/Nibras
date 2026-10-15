@@ -477,8 +477,9 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
       writes the manifest. Delete `server/` and the old scripts once replaced. **Ask before spending
       quota.**
 - [ ] Convert narration to Opus (or AAC) at speech bitrate. **Ask Mostafa** where to host it (GitHub
-      Release, Cloudflare R2, or similar) before moving files out of git, and before deleting the 249
-      unused files or rewriting history.
+      Release, Cloudflare R2, or similar) before moving files out of git or rewriting history.
+      **No narration file is ever deleted** (Mostafa, 2026-10-15): the 118 files no current text uses
+      are archived, and the WAV originals are archived when converting.
 - [ ] Move `chat-kb.json` and the embedding files from `public/data/` to `api/_data/`; build the KB in
       CI from `content/`; move the incremental embedding build to a scheduled GitHub Action (secrets
       in repository settings) so the index reaches 100% and semantic search turns on. Fail CI if KB and
@@ -661,7 +662,8 @@ Arabic-only UI.
 
 1. Resolve the ambiguous people references the migration reports (appendix).
 2. Which figure to trust where an event and its battle scenario disagree.
-3. Audio hosting choice and permission to delete unused audio / rewrite git history.
+3. Audio hosting choice and permission to rewrite git history. (Decided 2026-10-15: audio is never
+   deleted; unused files are archived.)
 4. Embedding model: stay on Gemini free tier via scheduled Action, or switch to a model without a daily cap.
 5. Basemap: keep Esri World Imagery (modern satellite photos) or switch to a terrain-only / parchment style.
 6. Custom cursor: keep, limit to intro/header, or remove.
