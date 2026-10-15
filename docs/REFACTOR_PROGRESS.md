@@ -6,7 +6,7 @@ The log for `docs/REFACTOR_PLAN.md`. Each session reads this file first and upda
 | Phase | Status | Branch | PR |
 | --- | --- | --- | --- |
 | 0A Baseline and `npm run verify` | merged | `refactor/phase-0a-baseline` | #3 |
-| 0B Safety net | not started | `refactor/phase-0b-safety-net` | — |
+| 0B Safety net | in progress | `refactor/phase-0b-safety-net` | — |
 | 1 Content model | not started | `refactor/phase-1-content` | — |
 | 2 State, routing and pages | not started | `refactor/phase-2-routing` | — |
 | 3 Assets, chat and polish | not started | `refactor/phase-3-polish` | — |
@@ -180,3 +180,44 @@ separately after the last code commit; it found one leftover (an odd `Object.val
 `app-shell.spec.ts`), fixed in `17e2454`.
 
 Not verified here: CI on Linux (Phase 0B); the live site (no deploy in 0A).
+
+---
+
+## Phase 0B — Safety net
+
+Started 2026-10-16 from `main` at `a370b5d` (PR #3 merged). Pre-check: `npm run verify` on `a370b5d`
+passed — tsc; Vitest 179/179; content snapshot and behavior map identical; build; bundle budget;
+Playwright 68 feature (11 known failures) + 18 visual. ESLint and Zod showed as skipped.
+
+### Tasks
+
+- [ ] `CLAUDE.md`; outdated warning on `ADDING_NEW_CONTENT_GUIDE.md`
+- [ ] Remove unused files and dependencies; rename the package
+- [ ] ESLint (TypeScript + react-hooks) and Prettier (config only)
+- [ ] Zod schemas for events, companions, cities; `verify` step and Vitest test
+- [ ] Guard `MapUpdater` (known failure 1)
+- [ ] Error boundaries with an Arabic fallback
+- [ ] `@phone` smoke tests in WebKit and Firefox
+- [ ] CI `check` job (`npm run verify`) on PRs and before deploy; Linux visual snapshots
+- [ ] Sentry (frontend + chat API), `GET /api/health`, `docs/OWNER_DASHBOARD.md`
+- [ ] Docs, verification report, review pass, PR
+
+### Decisions by Mostafa
+
+- 2026-10-16: approved the Phase 0B plan.
+- 2026-10-16: **the domain is bought last**, after the other phases. Phase 2 keeps the `/Nibras/`
+  base; canonical URLs and the sitemap use `https://mdshash.github.io/Nibras/` until then. (Plan:
+  "Buy the domain before Phase 2" — superseded by this decision.)
+- 2026-10-16: Sentry account created (org `asu-ut`, EU region; projects `nibras-web` and
+  `nibras-chat-api`; GitHub integration limited to `mdSHash/Nibras`; IP storage off, default
+  scrubbers on). Keys set: GitHub secret `SENTRY_AUTH_TOKEN`, GitHub variables `VITE_SENTRY_DSN`,
+  `SENTRY_ORG`, `SENTRY_PROJECT`; Vercel `nibras-chat-api` env `SENTRY_DSN` (Production, Preview).
+  No session replay, no profiling, no PII; 10% trace sampling.
+- 2026-10-16: uptime monitoring with **UptimeRobot**.
+- 2026-10-16: **approved** running the `@phone` smoke tests in WebKit (iPhone 13) and Firefox,
+  functional only (no visual snapshots in those engines).
+- 2026-10-16: Prettier: config and `npm run format` only; no repo-wide reformat, not part of `verify`.
+
+### Intentional behavior changes
+
+(Recorded as they happen.)
