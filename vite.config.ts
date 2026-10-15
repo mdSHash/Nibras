@@ -1,16 +1,40 @@
+import { sentryVitePlugin } from '@sentry/vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import {defineConfig} from 'vite';
+import {defineConfig, loadEnv} from 'vite';
 
 export default defineConfig(({mode}) => {
+  const env = { ...loadEnv(mode, '.', ''), ...process.env };
+  // Sentry is compiled in only when the build has a DSN (the deploy build in CI);
+  // source maps are uploaded, then deleted from dist/, only when the auth token is set.
+  const sentryEnabled = Boolean(env.VITE_SENTRY_DSN);
+  const uploadSourceMaps = sentryEnabled && Boolean(env.SENTRY_AUTH_TOKEN);
   return {
     // Set base path for GitHub Pages deployment
     // Change 'Nibras' to your repository name
     base: mode === 'production' ? '/Nibras/' : '/',
-    plugins: [react(), tailwindcss()],
+    plugins: [
+      react(),
+      tailwindcss(),
+      uploadSourceMaps &&
+        sentryVitePlugin({
+          org: env.SENTRY_ORG,
+          project: env.SENTRY_PROJECT,
+          authToken: env.SENTRY_AUTH_TOKEN,
+          release: { name: env.VITE_SENTRY_RELEASE, setCommits: { auto: true, ignoreMissing: true, ignoreEmpty: true } },
+          sourcemaps: { filesToDeleteAfterUpload: ['./dist/**/*.map'] },
+          telemetry: false,
+          // A Sentry outage must not block a deploy.
+          errorHandler: err => console.warn('[sentry] source map upload failed:', err.message),
+        }),
+    ],
     define: {
       // Only expose VITE_ prefixed environment variables to client
+      __SENTRY_ENABLED__: JSON.stringify(sentryEnabled),
+    },
+    build: {
+      sourcemap: uploadSourceMaps ? 'hidden' : false,
     },
     resolve: {
       alias: {
