@@ -82,6 +82,9 @@ async function shot(page: Page, name: string): Promise<void> {
 }
 
 test.describe('visual @phone @visual', () => {
+  // Settling and stillness checks add up; leave headroom when the machine is busy.
+  test.describe.configure({ timeout: 90_000 });
+
   test('start view', async ({ page }) => {
     await openAppWithEvent(page);
     await settle(page, 3_500); // the 2.5 s flight to the first event
