@@ -15,6 +15,7 @@ import {
   SERVICE_BUSY_MESSAGE,
   TOO_LONG_MESSAGE,
 } from './_lib/messages.js';
+import { reportServerError } from './_lib/monitoring.js';
 import { buildPrompt, parseModelAnswer } from './_lib/prompt.js';
 import { defaultEmbedder, search, type QueryEmbedder, type SearchOutcome } from './_lib/search.js';
 
@@ -187,6 +188,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     res.status(status).json(body);
   } catch (err) {
     console.error('[chat] unexpected failure', err);
+    await reportServerError(err, 'chat');
     res.status(500).json({ error: 'internal_error', messageAr: SERVICE_BUSY_MESSAGE });
   }
 }
