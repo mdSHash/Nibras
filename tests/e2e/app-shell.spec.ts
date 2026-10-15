@@ -1,6 +1,6 @@
 import { test, expect, knownFailure } from './support/fixtures';
 import type { Page } from '@playwright/test';
-import { behavior, eventById, header, mapState, markerCounts, openApp, openAppWithEvent, panelTitle } from './support/app';
+import { behavior, eventById, header, mapState, markerCounts, openApp, openAppWithEvent, panelTitle, waitForMapIdle } from './support/app';
 import { expectUiBaseline } from './support/uiBaseline';
 
 // The start view in Map.tsx: center [24.4672, 39.6112], zoom 6.
@@ -24,6 +24,8 @@ test('the map shows markers; clicking a single marker opens its event @phone', a
   // Escape clears the selection (closeAllModals); on phones the panel's close button is off-screen.
   await page.keyboard.press('Escape');
   await expect(panelTitle(page)).toBeHidden();
+  // Measure markers only once the flight to the auto-selected event has ended.
+  await waitForMapIdle(page);
   const counts = await markerCounts(page);
   expect(counts.icons).toBeGreaterThan(0);
   // A single event marker (no cluster number) whose center is not covered by

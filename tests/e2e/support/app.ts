@@ -97,6 +97,22 @@ export async function mapState(page: Page): Promise<{ zoom: number; lat: number;
   });
 }
 
+/** Waits until the map has stopped moving (two equal readings 300 ms apart), e.g. after a flight. */
+export async function waitForMapIdle(page: Page): Promise<void> {
+  let previous = '';
+  await expect
+    .poll(
+      async () => {
+        const current = JSON.stringify(await mapState(page));
+        const idle = current === previous;
+        previous = current;
+        return idle;
+      },
+      { intervals: [300], timeout: 15_000 },
+    )
+    .toBe(true);
+}
+
 /** Marker icons on the map at this moment: clusters (with their point counts) and single markers. */
 export async function markerCounts(page: Page): Promise<{ icons: number; clusters: number; pointsInClusters: number }> {
   return page.locator('.leaflet-marker-pane .leaflet-marker-icon').evaluateAll((icons) => {
