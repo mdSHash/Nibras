@@ -110,7 +110,11 @@ test('a Quran chip opens the right verses @phone', async ({ page }) => {
   await expect(dialog).toBeHidden();
 });
 
-test('narration requests the event audio file and shows the playing state @phone', async ({ page, network }) => {
+test('narration requests the event audio file and shows the playing state @phone', async ({ page, network }, testInfo) => {
+  test.skip(
+    testInfo.project.name === 'phone-firefox' && process.platform === 'linux',
+    'Firefox on the Linux CI runner cannot play audio (no sound device), so the app shows its playback error; Firefox on Windows runs this in npm run verify',
+  );
   await openAppWithEvent(page);
   await openEventBySearch(page, 'battle-badr', 'بدر');
   const play = panel(page).getByRole('button', { name: 'تشغيل السرد' });
