@@ -87,7 +87,7 @@ test('the fullscreen button enters and leaves fullscreen', async ({ page }) => {
 });
 
 test('every header button is inside the viewport @phone', async ({ page }, testInfo) => {
-  if (testInfo.project.name === 'phone') knownFailure('at 375 px the dark-mode button is pushed off the left edge of the header');
+  if (testInfo.project.name.startsWith('phone')) knownFailure('at 375 px the dark-mode button is pushed off the left edge of the header');
   await openApp(page);
   // The top bar is a plain div (no <header>), so its buttons are listed by name.
   const outside: string[] = [];

@@ -5,7 +5,7 @@
 //   npm run verify                      run everything
 //   npm run verify -- --update-numbers  also record the test counts in tests/baseline/numbers.json
 import { spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { readNumbers, writeNumbers } from './baseline/bundle-report';
 import { ROOT } from './baseline/lib';
@@ -13,6 +13,18 @@ import { ROOT } from './baseline/lib';
 const REPORT_DIR = join(ROOT, 'tmp', 'verify');
 // The test build points the chat at a host the Playwright tests mock.
 const TEST_CHAT_API_URL = 'http://chat.test/api/chat';
+// CI runners have fewer cores than a dev laptop; the WebGL replays need the headroom.
+const FEATURE_WORKERS = process.env.CI ? 2 : 3;
+
+// Reference screenshots are per platform. Until this platform's set is committed
+// (Linux comes from the CI "visual-baseline" artifact), the visual step writes the
+// missing images instead of comparing, and says so in the summary.
+const VISUAL_DIR = join(ROOT, 'tests', 'baseline', 'visual');
+function hasVisualBaseline(): boolean {
+  if (!existsSync(VISUAL_DIR)) return false;
+  return readdirSync(VISUAL_DIR, { recursive: true }).some((name) => String(name).endsWith(`-${process.platform}.png`));
+}
+const visualBaselineMissing = !hasVisualBaseline();
 
 interface Step {
   name: string;
@@ -69,18 +81,30 @@ const steps: Step[] = [
   { name: 'Production build', command: 'npx vite build', env: { VITE_CHAT_API_URL: TEST_CHAT_API_URL } },
   { name: 'Bundle budget', command: 'npx tsx scripts/baseline/bundle-report.ts' },
   {
-    // Three workers: the 12 battle replays render with WebGL and saturate a laptop CPU at four.
+    // Three workers locally: the 12 battle replays render with WebGL and saturate a laptop CPU at four.
     name: 'Feature tests (Playwright)',
-    command: 'npx playwright test --grep-invert @visual --workers=3 --reporter=line,json',
+    command: `npx playwright test --project=desktop --project=phone --grep-invert @visual --workers=${FEATURE_WORKERS} --reporter=line,json`,
     env: { PLAYWRIGHT_JSON_OUTPUT_NAME: join(REPORT_DIR, 'playwright-features.json') },
     after: () => playwrightSummary('playwright-features.json', 'playwrightFeature'),
   },
   {
+    // The @phone smoke subset in the Safari (WebKit) and Firefox engines, functional only.
+    name: 'Phone smoke (WebKit, Firefox)',
+    command: 'npx playwright test --project=phone-webkit --project=phone-firefox --workers=2 --reporter=line,json',
+    env: { PLAYWRIGHT_JSON_OUTPUT_NAME: join(REPORT_DIR, 'playwright-engines.json') },
+    after: () => playwrightSummary('playwright-engines.json', 'playwrightEngines'),
+  },
+  {
     // Two workers: under heavier load the map's resting point can drift (see visual.spec.ts).
     name: 'Visual snapshots (Playwright)',
-    command: 'npx playwright test --grep @visual --workers=2 --reporter=line,json',
+    command: `npx playwright test --project=desktop --project=phone --grep @visual --workers=2 --reporter=line,json${visualBaselineMissing ? ' --update-snapshots=missing' : ''}`,
     env: { PLAYWRIGHT_JSON_OUTPUT_NAME: join(REPORT_DIR, 'playwright-visual.json') },
-    after: () => playwrightSummary('playwright-visual.json', 'playwrightVisual'),
+    after: () => {
+      const summary = playwrightSummary('playwright-visual.json', 'playwrightVisual');
+      return visualBaselineMissing
+        ? `no ${process.platform} baseline yet: wrote the images, compared nothing (${summary})`
+        : summary;
+    },
   },
 ];
 

@@ -2,7 +2,7 @@
 // "Testing and verification"). They run against the production build served by
 // `vite preview` on the /Nibras/ base, with every external host stubbed.
 // Build first with VITE_CHAT_API_URL=http://chat.test/api/chat (npm run verify does this).
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 
 const PORT = 4173;
 
@@ -39,6 +39,26 @@ export default defineConfig({
       name: 'phone',
       grep: /@phone/,
       use: { browserName: 'chromium', viewport: { width: 375, height: 812 }, isMobile: true, hasTouch: true },
+    },
+    {
+      // The @phone smoke subset in the Safari engine, functional checks only (no screenshots).
+      name: 'phone-webkit',
+      grep: /@phone/,
+      grepInvert: /@visual/,
+      use: { ...devices['iPhone 13'], browserName: 'webkit', launchOptions: {} },
+    },
+    {
+      // The same in Firefox. Firefox has no mobile emulation, so it runs a touch phone-sized window.
+      name: 'phone-firefox',
+      grep: /@phone/,
+      grepInvert: /@visual/,
+      use: {
+        browserName: 'firefox',
+        viewport: { width: 375, height: 812 },
+        hasTouch: true,
+        // The Chromium autoplay flag above doesn't apply; this is Firefox's equivalent.
+        launchOptions: { firefoxUserPrefs: { 'media.autoplay.default': 0 } },
+      },
     },
   ],
   webServer: {
