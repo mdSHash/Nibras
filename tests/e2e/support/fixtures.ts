@@ -84,3 +84,14 @@ export const test = base.extend<Options & Fixtures>({
 export function useChatResponder(page: Page, responder: ChatResponder): void {
   (page as Page & { __setChatResponder?: (r: ChatResponder) => void }).__setChatResponder?.(responder);
 }
+
+/**
+ * Marks a test as a known failure recorded in the baseline: it asserts the
+ * correct behavior and is expected to fail today. When a phase fixes the bug,
+ * the test "unexpectedly passes" and must be updated as an approved change
+ * (docs/REFACTOR_PROGRESS.md). Run with SHOW_KNOWN_FAILURES=1 to see each
+ * known failure's actual error.
+ */
+export function knownFailure(reason: string): void {
+  test.fail(!process.env.SHOW_KNOWN_FAILURES, `Known failure (baseline): ${reason}`);
+}
