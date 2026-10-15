@@ -22,6 +22,7 @@
 - [Battle Engine](#battle-engine)
 - [Available Battles](#available-battles)
 - [Configuration](#configuration)
+- [Verify](#verify)
 - [Deployment](#deployment)
 - [Contributing](#contributing)
 - [License](#license)
@@ -243,6 +244,7 @@ For the full engine architecture, scenario format, and authoring guide see [`src
 | `npm run build` | Production build |
 | `npm run preview` | Preview production build |
 | `npm run lint` | TypeScript type checking (`tsc --noEmit`) |
+| `npm run verify` | Full check against the refactor baseline — see [Verify](#verify) |
 | `npm run cache-audio` | Pre-cache title audio for every event through the TTS proxy |
 | `npm run cache-details` | Pre-cache full-description audio (chunked at 4500 chars) |
 | `node scripts/verify-all-audio.js` | Check every event has both title + description WAVs in `public/audio/` — reports missing files with expected SHA-256 hashes |
@@ -268,6 +270,39 @@ npm run cache-details
 # 4. Sanity-check coverage
 node scripts/verify-all-audio.js
 ```
+
+---
+
+## Verify
+
+`npm run verify` is the one command that proves a change kept the site working. It runs, in order, and stops at the first failure:
+
+1. type check (`tsc --noEmit`)
+2. ESLint *(added in Phase 0B)*
+3. unit tests (Vitest)
+4. content validation with Zod *(added in Phase 0B)*
+5. content snapshot — every event, person, city, Quran passage, battle and territory year, compared with `tests/baseline/content.json`
+6. behavior map — timeline order, all filter combinations, era-pill anchors and fixed search queries, compared with `tests/baseline/behavior.json`
+7. production build (with the chat API pointed at a mocked host)
+8. bundle budget — per-chunk and total sizes against `tests/baseline/numbers.json`
+9. Playwright feature tests (`tests/e2e/`) on desktop 1440×900 and phone 375×812
+10. Playwright visual snapshots (`tests/baseline/visual/`)
+
+Before the first run: `npm ci` and `npx playwright install chromium`. The Playwright tests run offline against `vite preview`: map tiles, fonts, the chat API and narration audio are all stubbed.
+
+**Known failures.** Bugs that exist today are recorded as tests that expect the *correct* behavior and are marked as expected failures (`knownFailure(...)` in `tests/e2e/`). When a fix lands, that test reports "expected to fail, but passed" and must be updated as an approved change. `SHOW_KNOWN_FAILURES=1 npx playwright test` shows each one's actual error.
+
+**Updating the baseline.** Only after the owner approves the list of differences (recorded in `docs/REFACTOR_PROGRESS.md`) — never to make a failing check pass:
+
+```bash
+npm run baseline:content -- --update
+npm run baseline:behavior -- --update
+npm run baseline:bundle -- --update                 # after a production build
+UPDATE_BASELINE=1 npx playwright test -g "first load" --workers=1
+npx playwright test --grep @visual --update-snapshots
+```
+
+See `docs/REFACTOR_PLAN.md` and `docs/REFACTOR_PROGRESS.md` for the refactor plan and its log.
 
 ---
 
