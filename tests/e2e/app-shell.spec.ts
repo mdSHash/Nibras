@@ -1,4 +1,5 @@
 import { test, expect, knownFailure } from './support/fixtures';
+import type { Page } from '@playwright/test';
 import { behavior, eventById, header, mapState, markerCounts, openApp, openAppWithEvent, panelTitle } from './support/app';
 import { expectUiBaseline } from './support/uiBaseline';
 
@@ -103,18 +104,42 @@ test('every header button is inside the viewport @phone', async ({ page }, testI
   expect(outside).toEqual([]);
 });
 
-test.describe('known failures', () => {
+test.describe('map moves to the selected event', () => {
+  // Desktop: MapUpdater centers on the event at zoom 8 (phones shift the center and use zoom 7).
+  const [eventLat, eventLng] = eventById(behavior.autoSelectedEventId).location.coordinates;
+  const roundedView = async (page: Page) => {
+    const s = await mapState(page);
+    return { zoom: s.zoom, lat: Number(s.lat.toFixed(3)), lng: Number(s.lng.toFixed(3)) };
+  };
+  const eventView = { zoom: 8, lat: Number(eventLat.toFixed(3)), lng: Number(eventLng.toFixed(3)) };
+
+  // Was known failure 1 in the Phase 0A baseline (fixed in Phase 0B).
   test('a map with no size when the first event is selected does not blank the page', async ({ page }) => {
-    knownFailure('MapUpdater calls flyTo on a zero-size map → "Invalid LatLng object: (NaN, NaN)" and a blank page');
     await page.addInitScript(() => {
       const style = document.createElement('style');
+      style.id = 'nibras-test-hide-map';
       style.textContent = '[data-tour-id="map-container"]{display:none !important}';
       document.addEventListener('DOMContentLoaded', () => document.head.appendChild(style));
     });
-    await openApp(page);
-    await page.waitForTimeout(2_500);
+    await openAppWithEvent(page);
+    await page.waitForTimeout(1_500);
     await expect(header.chat(page)).toBeVisible();
+    // Once the map is shown it jumps to the event that was selected while it was hidden.
+    await page.evaluate(() => document.getElementById('nibras-test-hide-map')?.remove());
+    await expect.poll(() => roundedView(page)).toEqual(eventView);
   });
+
+  test.describe('with reduced motion', () => {
+    test.use({ contextOptions: { reducedMotion: 'reduce' } });
+    test('the map jumps to the event without a flight', async ({ page }) => {
+      await openAppWithEvent(page);
+      // A flight takes 1 s; an instant move is already there.
+      await expect.poll(() => roundedView(page), { timeout: 400 }).toEqual(eventView);
+    });
+  });
+});
+
+test.describe('known failures', () => {
 
   test('the map shows the tile provider attribution', async ({ page }) => {
     knownFailure('attributionControl={false} hides the required Esri attribution');

@@ -221,3 +221,12 @@ Playwright 68 feature (11 known failures) + 18 visual. ESLint and Zod showed as 
 ### Intentional behavior changes
 
 (Recorded as they happen.)
+
+1. **Blank-page crash fixed (known failure 1).** `MapUpdater` (`src/components/Map.tsx`) no longer
+   calls `flyTo` while the map has no size; it waits (ResizeObserver on the map container) and then
+   jumps to the selected event with `setView`. Test: `app-shell.spec.ts` "a map with no size …" is no
+   longer a known failure, and now also checks that the map reaches the event once shown.
+2. **Map flight to an event takes 1 s instead of 2.5 s** (plan Phase 0B task). Same easing and
+   end view; only the duration changed.
+3. **With reduced motion the map jumps instantly** to the selected event (`setView`, no animation).
+   New test: `app-shell.spec.ts` "with reduced motion › the map jumps to the event without a flight".

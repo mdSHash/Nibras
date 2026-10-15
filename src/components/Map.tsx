@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, Polygon, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -18,6 +18,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import useSupercluster from 'use-supercluster';
 import { Swords, Flag, MapPin, ScrollText, Tent, Book, Crown, Skull } from 'lucide-react';
 import { getTerritoriesForYear } from '../territoriesData';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 // Custom Map Controls, Updater etc... (Keep as is, but we'll update TerritoryRenderer)
 
@@ -51,23 +52,45 @@ const MapUpdater = ({ selectedEvent }: { selectedEvent: EventItem | null }) => {
     }
   }, [map]);
 
+  // Read through a ref so toggling the OS setting doesn't re-run the flight.
+  const reducedMotion = useReducedMotion();
+  const reducedMotionRef = useRef(reducedMotion);
+  reducedMotionRef.current = reducedMotion;
+
   useEffect(() => {
-    if (selectedEvent) {
-      const [lat, lng] = selectedEvent.location.coordinates;
-      // On mobile, shift the center down slightly because the event panel covers the bottom
-      const isMobile = window.innerWidth < 640;
-      // Use dynamic offsets so the event is nicely centered in the remaining visible area
-      const latOffset = isMobile ? -1.8 : 0; 
-      
-      const zoomLevel = isMobile ? 7 : 8; // Zoom closer so the event is clearly located
-      
-      // Very smooth, immersive zoom transition for the journey effect
-      map.flyTo([lat + latOffset, lng], zoomLevel, {
-        animate: true,
-        duration: 2.5,
-        easeLinearity: 0.1
-      });
+    if (!selectedEvent) return;
+    const [lat, lng] = selectedEvent.location.coordinates;
+    // On mobile, shift the center down slightly because the event panel covers the bottom
+    const isMobile = window.innerWidth < 640;
+    // Use dynamic offsets so the event is nicely centered in the remaining visible area
+    const target: L.LatLngTuple = [lat + (isMobile ? -1.8 : 0), lng];
+    const zoomLevel = isMobile ? 7 : 8; // Zoom closer so the event is clearly located
+
+    const hasSize = () => {
+      const size = map.getSize();
+      return size.x > 0 && size.y > 0;
+    };
+
+    if (hasSize()) {
+      if (reducedMotionRef.current) {
+        map.setView(target, zoomLevel, { animate: false });
+      } else {
+        map.flyTo(target, zoomLevel, { animate: true, duration: 1, easeLinearity: 0.1 });
+      }
+      return;
     }
+
+    // flyTo on a map with no size (container hidden or not laid out yet) computes
+    // NaN coordinates and throws "Invalid LatLng object", which blanked the page.
+    // Wait until the container has a size, then jump there without animating.
+    const observer = new ResizeObserver(() => {
+      map.invalidateSize({ pan: false });
+      if (!hasSize()) return;
+      observer.disconnect();
+      map.setView(target, zoomLevel, { animate: false });
+    });
+    observer.observe(map.getContainer());
+    return () => observer.disconnect();
   }, [selectedEvent, map]);
 
   return null;
