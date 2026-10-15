@@ -35,7 +35,8 @@ export const eventById = (id: string): BaselineEvent => {
 };
 
 export const header = {
-  search: (page: Page) => page.locator('header [data-tour-id="search-button"]').or(page.getByRole('button', { name: 'فتح قائمة البحث والتصفية' })).first(),
+  // Two elements carry this tour id (one per layout); take the visible one.
+  search: (page: Page) => page.locator('[data-tour-id="search-button"]:visible').first(),
   resetMap: (page: Page) => page.getByRole('button', { name: 'إعادة تعيين الخريطة' }),
   fullscreen: (page: Page) => page.getByRole('button', { name: 'ملء الشاشة' }),
   help: (page: Page) => page.getByRole('button', { name: 'دليل الاستخدام والاختصارات' }),
