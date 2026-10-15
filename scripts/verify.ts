@@ -53,7 +53,7 @@ function playwrightSummary(file: string, label: string): string | undefined {
 
 const steps: Step[] = [
   { name: 'Type check', command: 'npx tsc --noEmit' },
-  { name: 'ESLint', skip: 'not set up yet (Phase 0B)' },
+  { name: 'ESLint', command: 'npx eslint .' },
   {
     name: 'Unit tests (Vitest)',
     command: `npx vitest run --reporter=default --reporter=json --outputFile.json=${join(REPORT_DIR, 'vitest.json')}`,
