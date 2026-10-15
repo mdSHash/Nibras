@@ -42,14 +42,16 @@ jobs:
       - name: npm run verify
         run: npm run verify
 
-      # While no Linux reference screenshots are committed, verify writes them
-      # instead of comparing; they are uploaded here for review and committing.
-      - name: Upload Linux visual baseline
+      # While no Linux reference screenshots and UI numbers are committed, verify
+      # records them instead of comparing; they are uploaded here for review.
+      - name: Upload Linux baseline
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: visual-baseline-linux
-          path: tests/baseline/visual/**/*-linux.png
+          name: baseline-linux
+          path: |
+            tests/baseline/visual/**/*-linux.png
+            tests/baseline/behavior-ui-linux.json
           if-no-files-found: ignore
           retention-days: 14
 

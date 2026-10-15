@@ -5,7 +5,7 @@
 //   npm run verify                      run everything
 //   npm run verify -- --update-numbers  also record the test counts in tests/baseline/numbers.json
 import { spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync, readdirSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { readNumbers, writeNumbers } from './baseline/bundle-report';
 import { ROOT } from './baseline/lib';
@@ -25,6 +25,24 @@ function hasVisualBaseline(): boolean {
   return readdirSync(VISUAL_DIR, { recursive: true }).some((name) => String(name).endsWith(`-${process.platform}.png`));
 }
 const visualBaselineMissing = !hasVisualBaseline();
+
+// The browser-only UI numbers are per platform too (tests/e2e/support/uiBaseline.ts).
+// Where this platform has none yet, the tests record them in UI_RECORD_DIR and they
+// are merged into this platform's file here, for review before committing.
+const UI_RECORD_DIR = join(ROOT, 'tmp', 'ui-baseline');
+const UI_BASELINE_NAME = process.platform === 'win32' ? 'behavior-ui.json' : `behavior-ui-${process.platform}.json`;
+function mergeRecordedUiBaseline(): string | undefined {
+  if (!existsSync(UI_RECORD_DIR)) return undefined;
+  const data: Record<string, Record<string, unknown>> = {};
+  for (const file of readdirSync(UI_RECORD_DIR).sort()) {
+    const [project, key] = file.replace(/.json$/, '').split('~');
+    data[project] = { ...data[project], [key]: JSON.parse(readFileSync(join(UI_RECORD_DIR, file), 'utf8')) };
+  }
+  if (Object.keys(data).length === 0) return undefined;
+  writeFileSync(join(ROOT, 'tests', 'baseline', UI_BASELINE_NAME), `${JSON.stringify(data, null, 2)}
+`);
+  return UI_BASELINE_NAME;
+}
 
 interface Step {
   name: string;
@@ -114,6 +132,7 @@ function formatSeconds(ms: number): string {
 
 function main(): void {
   mkdirSync(REPORT_DIR, { recursive: true });
+  rmSync(UI_RECORD_DIR, { recursive: true, force: true });
   const rows: string[][] = [];
   let failed = false;
   for (const step of steps) {
@@ -148,6 +167,12 @@ function main(): void {
   const widths = [0, 1, 2].map((i) => Math.max(...rows.map((r) => r[i].length)));
   console.log('\nnpm run verify — summary');
   for (const row of rows) console.log(`  ${row[0].padEnd(widths[0])}  ${row[1].padEnd(widths[1])}  ${row[2].padStart(widths[2])}  ${row[3]}`);
+
+  const recorded = mergeRecordedUiBaseline();
+  if (recorded) {
+    console.log(`
+No ${process.platform} UI baseline yet: recorded the marker and request numbers in tests/baseline/${recorded} (not compared). Review, then commit it.`);
+  }
 
   if (!failed) {
     const numbers = readNumbers();
