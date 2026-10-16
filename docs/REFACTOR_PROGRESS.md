@@ -7,7 +7,7 @@ The log for `docs/REFACTOR_PLAN.md`. Each session reads this file first and upda
 | --- | --- | --- | --- |
 | 0A Baseline and `npm run verify` | merged | `refactor/phase-0a-baseline` | #3 |
 | 0B Safety net | merged | `refactor/phase-0b-safety-net` | #4 |
-| 1 Content model | in progress (1A, 1B done; 1C next) | `refactor/phase-1-content` | #5 (draft) |
+| 1 Content model | in review (1A, 1B, 1C done) | `refactor/phase-1-content` | #5 |
 | 2 State, routing and pages | not started | `refactor/phase-2-routing` | — |
 | 3 Assets, chat and polish | not started | `refactor/phase-3-polish` | — |
 | 4 Learning paths for guests | not started | `feature/phase-4-paths` | — |
@@ -371,9 +371,9 @@ one PR at the end.
 - [x] 1B Territories: control rules in data, polygons precomputed, `@turf/turf` out of the bundle, legend row
 - [x] 1B Battle scenarios read title and date from the event; replay numbers corrected to the event figures (see Decisions)
 - [x] 1B Era, category, battle and people helpers look up IDs
-- [ ] 1C One Arabic normalization module
-- [ ] 1C Old data files removed; `docs/CONTENT_GUIDE.md`; `docs/PRD.md`
-- [ ] 1C Verification report, review pass, PR
+- [x] 1C One Arabic normalization module (`shared/arabic.ts`) — `51fef05`
+- [x] 1C Old data files removed — `824b7c9`; `docs/CONTENT_GUIDE.md` — `62eadea`; `docs/PRD.md`, CLAUDE.md rule 2 — `f7a8296`
+- [x] 1C Verification report, review pass, PR
 
 ### Decisions by Mostafa
 
@@ -398,6 +398,9 @@ one PR at the end.
   event chips showing them; the six fields removed from the 12 replays; the replay totals and day
   counts of change 8; the Tabuk unit of change 8a). `tests/baseline/content.json` updated.
 - 2026-10-16 (1B): the replay group sizes no source gives stay as they are for now (Open item 2).
+- 2026-10-16 (1C): **the Arabic normalizers keep their exact output.** One module, each existing
+  variant under its own name, byte-identical; the differences between variants are listed (below,
+  "Arabic normalization: known differences") for a later decision, not fixed now.
 - 2026-10-16 (1B): **new task, Phase 3: correct the territory borders** between empires, kingdoms and
   tribes, **and improve how the map looks** ("it looks awful"); see `docs/REFACTOR_PLAN.md`, Phase 3,
   and decision 12 (source to follow, visual direction from 3–4 options).
@@ -573,6 +576,62 @@ Made during 1A:
     and `src/companionsList.ts` (the name finder moved to `src/utils/peopleLookup.ts`, byte-identical
     normalization; 1C folds it into the shared Arabic module).
 
+11. **One Arabic module** (plan; Mostafa's decision of 1C: exact output kept). `shared/arabic.ts`
+    replaces `shared/arabicText.ts`, `shared/searchNormalize.ts` and the local copies. Variants:
+    `normalizeForSearch` and `tokenizeQuery` (search menu, chat suggestions, behavior map; was
+    `normalizeArabic`), `normalizeForMatch`, `analyze` and `searchStems` (chat assistant),
+    `normalizeName` (people lookup), `plainText` (chat model input), `bareText` and `aliasForm` (chat
+    KB), plus `stripVowelMarks`, `toArabicIndic` and `HONORIFICS`. Checked by running old and new code
+    side by side over all 14,116 content and chat KB strings: no difference. No visible change; the
+    content snapshot, the behavior map and the rebuilt chat KB (apart from its build time) are
+    unchanged. Left alone on purpose: the Qur'an check's own rules (`scripts/chat-kb/quranVerify.ts`),
+    the chat entity linker's token variants, the narration audio key (Phase 3), and the copy of the
+    panel's digit conversion in `scripts/baseline/content-snapshot.ts` (the baseline stays
+    independent of the code it checks). The follow-up suggestions keep their own shorter honorifics
+    list, built from `HONORIFICS` (difference 3 below).
+12. **Old data files removed** (plan): `src/dataList.json`, `src/companionsList.ts`,
+    `src/citiesList.ts`, `src/quranData.json`, `src/legacyData.ts`, `src/utils/quranMatch.ts`, the
+    one-off `scripts/migrate-content.ts` and `verify-companions.cjs`. They remain in git history (last
+    at `51fef05`); `docs/CONTENT_MIGRATION_REPORT.md` stays as the record. The narration scripts
+    (`cache-event-audio.js`, `cache-event-details-audio.js`, `verify-all-audio.js`) read
+    `src/generated/events.json`: same texts, so the same recordings (262 of 262 found before and
+    after); their `START_FROM` index now counts in timeline order. `findPersonIn` stays in
+    `src/utils/peopleLookup.ts`: no app code calls it any more, but its test checks that every person
+    chip label finds the person it links to, which guards new content.
+13. **Docs** (plan): `docs/CONTENT_GUIDE.md` replaces `ADDING_NEW_CONTENT_GUIDE.md` (written in
+    English like the other docs; the source list stays in Arabic). Its field reference is generated
+    from the schema fields' `.describe()` texts (`npm run docs:content`, checked by
+    `tests/contentGuide.test.ts`); the descriptions are documentation only. `PRD.md` moved to
+    `docs/PRD.md` with its data section rewritten for `content/` (its link to a `metadata.json` that
+    does not exist was dropped). CLAUDE.md rule 2 and the plan name Quran.com as the verse source, with
+    Tanzil kept as the chat KB's cross-check.
+
+### Arabic normalization: known differences (for Mostafa)
+
+The variants of `shared/arabic.ts` disagree in these ways. All are kept as they were (decision of
+1C) and pinned in `tests/arabic.test.ts`; none affects today's content (checked: no search field
+contains the characters of 1, no person name has ٱ, and 2's ؤ/ئ → ء rule is applied to both sides
+of a comparison).
+
+1. **Search** (`normalizeForSearch`) removes only the harakat U+064B–0652, the dagger alef and
+   tatweel. Other marks (maddah ٓ, hamza above ٔ, hamza below ٕ, U+0653–065F), the alefs ٲ ٳ, the
+   Persian letters ی ک and Persian digits fall into its punctuation strip and become spaces, which
+   splits the word («مسٔلة» → «مس له»). A visitor typing these would find nothing.
+2. **People lookup** (`normalizeName`) maps ؤ and ئ to ء, where the others map them to و and ي; folds
+   إ أ آ but not ٱ; has no digit or punctuation handling. Its ﷺ alternative never fires because NFKC
+   first spells ﷺ out (the result is still right: the spelled-out form is removed).
+3. **Follow-up suggestions** (`api/_lib/followUps.ts`) remove 7 of the 10 honorifics: not
+   رحمهم الله، رحمها الله، ﷺ.
+4. **Chat KB builder's duplicate-person check** (`scripts/build-chat-kb.ts`) removes honorifics with
+   its own pattern `رضي الله عنهما?|رضي الله عنها` (without عنهم), before the vowel marks are
+   stripped. It only produces build warnings.
+5. **Three sets of diacritics**: the chat set (harakat, U+0610–061A and the Uthmani marks), the vowel
+   marks U+064B–065F and the dagger alef (display, names, KB templates), and search's narrower set (1).
+   Alef folding likewise covers six forms in the chat, four in search and three in the people lookup.
+
+Unifying them would change search results and the chat KB slightly; it needs an approved list of
+differences, like any behavior change.
+
 ### 1A verification (2026-10-16, Windows 11, Node 20.19.5, Playwright 1.59.1)
 
 Before any change, `npm run verify` on `3e4a0b3` passed (all steps, as in the 0B report).
@@ -620,3 +679,46 @@ totals were captured old vs new; replay counters read the event figures (Badr 31
 700 / 3,000, Hunayn 12,000 / 20,000, Tabuk 30,000 / 690); the help legend row in light and dark mode.
 
 CI on `04b71d8` (run 38913863049): static, features, engines and visual jobs all passed.
+
+### 1C verification (2026-10-16, Windows 11, Node 20.19.5, Playwright 1.59.1)
+
+Before any change, `npm run verify` on `21535e5` passed (all steps). After 1C (`f7a8296`; the review
+fixes of `ea726a9` were then checked with the static steps, unit tests, both snapshots, the build and a
+chat KB rebuild), `npm run verify`:
+
+| Step | Result |
+| --- | --- |
+| Content build (Zod) | 131 events, 161 people, 10 cities, 51 Quran passages, 6 eras, 7 categories; no issues |
+| Type check, ESLint | passed (0 findings) |
+| Vitest | 207/207 (194 + 12 for the Arabic variants + 1 for the content guide) |
+| Content snapshot | identical to the approved baseline (no change in 1C) |
+| Behavior map | identical to the baseline |
+| Production build, bundle budget | within limits: main chunk 460.9 → 460.4 KiB gzip |
+| Playwright features | 72 passed, 9 of them known failures |
+| Phone smoke (WebKit, Firefox) | 32 passed, 2 of them known failures |
+| Visual snapshots | 18/18 identical |
+
+Also checked:
+- The old and new normalizers give the same output over all 14,116 content and chat KB strings (and
+  `normalizeName` again after the review fixes).
+- The rebuilt `public/data/chat-kb.json` equals the committed one apart from its build time (not
+  committed).
+- `node scripts/verify-all-audio.js` finds 262 of 262 recordings before and after.
+- `npm run docs:content` twice gives no change.
+- No file still imports the removed ones.
+
+Review pass over `21535e5..ea726a9`: 10 findings. Fixed in `ea726a9`:
+- the narration npm scripts failed on a fresh clone without `src/generated/`;
+- a wrong commit hash in this log;
+- the guide's anchor link;
+- two gaps in the field-reference generator;
+- two places in the module that did not reuse its own constants;
+- the `START_FROM` note.
+
+Not changed:
+- The chat KB's duplicate-person check is known difference 4 above (kept, by the 1C decision).
+- `scripts/chat-kb/quranVerify.ts` keeps its own digit conversion, so the Qur'an check stays
+  independent of the code that builds the passages, as the content snapshot does.
+
+Not verified here: CI on Linux (after the push); the narration scripts' generation runs (they spend
+Gemini quota).
