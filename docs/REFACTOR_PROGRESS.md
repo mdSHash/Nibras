@@ -8,7 +8,7 @@ The log for `docs/REFACTOR_PLAN.md`. Each session reads this file first and upda
 | 0A Baseline and `npm run verify` | merged | `refactor/phase-0a-baseline` | #3 |
 | 0B Safety net | merged | `refactor/phase-0b-safety-net` | #4 |
 | 1 Content model | merged | `refactor/phase-1-content` | #5 |
-| 2 State, routing and pages | not started | `refactor/phase-2-routing` | — |
+| 2 State, routing and pages | in progress | `refactor/phase-2-routing` | — |
 | 3 Assets, chat and polish | not started | `refactor/phase-3-polish` | — |
 | 4 Learning paths for guests | not started | `feature/phase-4-paths` | — |
 | 5 Optional accounts | not started | `feature/phase-5-accounts` | — |
@@ -731,3 +731,53 @@ Not changed:
 
 Not verified here: CI on Linux (after the push); the narration scripts' generation runs (they spend
 Gemini quota).
+
+## Phase 2 — State, routing and pages
+
+Started 2026-10-16 from `main` at `37b179a` (PR #5 merged). One branch, three sessions (2A, 2B, 2C),
+one PR at the end.
+
+- **2A**: one Zustand store and a small history-API router; routes `/event/:slug`, `/person/:id`,
+  `/battle/:id`, `/quran/:surah/:from-:to`, filters in the query (`?era=…&type=…`); one `overlay` value
+  from the route; `window.__nibrasOpenBattle` and the reset-map window event removed; `App.tsx` and
+  `EventPanel.tsx` split; the `@` alias points at `src`.
+- **2B**: event details, bios and Qur'an passages loaded on demand (with loading and retry states;
+  search reads a lazy index so its results do not change); pre-rendered pages with title, description,
+  canonical URL, Open Graph and JSON-LD; `sitemap.xml`, `robots.txt`, `404.html`; main JS about 800 KB.
+- **2C**: dark mode remembered (system default), intro skippable by tap and shown once, phone header
+  menu, the event panel no longer covering the timeline dock (known failures 2, 8, 9, 11); review,
+  report, PR.
+
+### Tasks
+
+- [ ] 2A Store and router; routes and query filters; overlay from the route; window hooks removed
+- [ ] 2A `App.tsx` → layout, `AppHeader` (one `HeaderButton`), `Overlays`; `EventPanel.tsx` split by job
+- [ ] 2A `@` alias → `src`
+- [ ] 2B Content on demand; lazy search index
+- [ ] 2B Pre-rendered pages, SEO tags, sitemap, robots, 404
+- [ ] 2C Dark mode, intro, phone header menu, panel vs timeline dock
+- [ ] 2C Review, verification report, PR
+
+### Decisions by Mostafa
+
+- 2026-10-16: base path stays `/Nibras/` (no custom domain for now).
+- 2026-10-16: **events get an ASCII `slug` for their address**: the id with `_` → `-`, and a short
+  English slug for the 23 ids that contain Arabic. Ids do not change (chat KB, audio and links between
+  records untouched); an address with the old id still opens the event.
+- 2026-10-16: **a pre-rendered page shows its text before the app loads**: title, date and text in the
+  app's colours and font, replaced by the app when it mounts (today that moment is blank).
+- 2026-10-16: **one site-wide share image** for now; per-page titles and descriptions in Phase 2,
+  per-page generated images later (Phase 3).
+- 2026-10-16: Mostafa left the phone header design to Claude. Chosen: below 640 px the header keeps
+  search and chat, and a ⋮ button opens a dropdown list under the header (icon and Arabic label per
+  row, in the header's dark glass style) with reset map, fullscreen, help, tour and dark mode.
+
+### Design choices (approved with the plan)
+
+- Event, person, battle and Qur'an passage panels have addresses; search, help and chat do not. Back
+  closes a routed panel.
+- No router library: the routes are few, and the pre-render step needs the same path parser.
+
+### Intentional behavior changes
+
+(none yet)
