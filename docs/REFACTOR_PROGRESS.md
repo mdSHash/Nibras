@@ -218,6 +218,8 @@ Playwright 68 feature (11 known failures) + 18 visual. ESLint and Zod showed as 
 - 2026-10-16: **approved** running the `@phone` smoke tests in WebKit (iPhone 13) and Firefox,
   functional only (no visual snapshots in those engines).
 - 2026-10-16: Prettier: config and `npm run format` only; no repo-wide reformat, not part of `verify`.
+- 2026-10-16: **approved** the Linux baseline (screenshots and UI numbers from CI) and recording the
+  new test counts in `numbers.json`; asked for the PR to be merged once CI is green.
 
 ### Intentional behavior changes
 
@@ -265,11 +267,17 @@ Playwright 68 feature (11 known failures) + 18 visual. ESLint and Zod showed as 
   is marked there too.
 - CI: the `check` job runs the full `npm run verify` on Ubuntu with 2 feature-test workers. On a
   platform with no committed snapshots the visual step writes them instead of comparing, and the
-  summary says so. The browser-only UI numbers (markers, first-load requests) are per platform too:
-  Linux CI counted 19 marker icons at the desktop start view where Windows counts 18 (font
-  rendering changes the map size), so Windows keeps `behavior-ui.json` and other platforms get
-  `behavior-ui-<platform>.json`, recorded on their first run. CI uploads both as the
-  `baseline-linux` artifact for review.
+  summary says so. The browser-only UI numbers (markers, first-load requests) are kept per platform
+  too (font rendering can change the map size): Windows keeps `behavior-ui.json`, other platforms
+  get `behavior-ui-<platform>.json`, recorded on their first run. CI uploads both as the
+  `baseline-linux` artifact for review. (Correction: some runs, Linux and later Windows too,
+  counted 19 marker icons at the desktop start view instead of 18. Not a font difference: Leaflet
+  keeps the container size it first measured, and depending on start-up timing that is 676, 788 or
+  the real 900 px high, which changes the markers drawn. This is an existing app quirk, noted for
+  Phase 2 (re-measure the map when its container changes size). The test now re-measures the map
+  and re-runs clustering before counting, like the visual shots, which gives the baseline values
+  every time (desktop 18, phone 18, Firefox 18, WebKit 16). The committed Linux numbers equal the
+  Windows ones.)
 - Flakiness found on the slower Linux runner and fixed in the tests (no app change): marker positions
   read while the map was still flying (now waits for the map to stop); the phone search drawer
   closing itself while the test reached for its close button; the replay clock checked after a
@@ -286,12 +294,10 @@ Playwright 68 feature (11 known failures) + 18 visual. ESLint and Zod showed as 
 
 ### Open for Mostafa
 
-1. **Review the Linux baseline** (artifact `baseline-linux` of the CI run on PR #4: 18 screenshots
-   and `behavior-ui-linux.json`). Once approved it is committed and CI compares against it instead
-   of recording. Its numbers match Windows except the desktop start view: 19 marker icons (Windows 18).
-2. Approve recording the new test counts in `tests/baseline/numbers.json` (`npm run verify --
-   --update-numbers`): Vitest 185 (was 179), Playwright feature 72 (was 68), WebKit/Firefox 32 (new).
-   Until then the "fewer tests than recorded" guard compares against the 0A counts.
+1. ~~Review the Linux baseline~~ — approved 2026-10-16; committed from CI run `38833150810`
+   (18 screenshots, `behavior-ui-linux.json`). CI now compares against it.
+2. ~~Record the new test counts~~ — approved 2026-10-16; `tests/baseline/numbers.json` updated
+   with `npm run verify -- --update-numbers`.
 3. Create the two UptimeRobot monitors (`docs/OWNER_DASHBOARD.md`). Optional: replace the Sentry
    auth token (it was pasted in chat once).
 
