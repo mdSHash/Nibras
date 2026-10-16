@@ -4,21 +4,10 @@ import { normalizeArabic } from './searchNormalize';
 export { getEraColor, getEraColorScheme, getEraKey } from './eraColors';
 
 /**
- * Check if an event is a battle/military event
+ * Check if an event is a battle/military event. Stored on each event
+ * (content/events/<id>.json, `isBattle`), no longer guessed from the title.
  */
-export const isBattle = (event: EventItem): boolean => {
-  if (BATTLE_CATEGORIES.has(event.category)) return true;
-  // Many conquests are filed under other categories ("فتح دمشق" is a
-  // landmark) but were battles all the same. Their names stay as they are —
-  // a فتح is still called فتح — they are just counted as battles.
-  const title = normalizeArabic(event.title);
-  const head = title.split(' ')[0];
-  return BATTLE_TITLE_HEADS.has(head) || /^(اعاده|اتمام|بدايه) (فتح|حروب)/.test(title);
-};
-
-const BATTLE_CATEGORIES = new Set(['battle', 'معركة', 'غزوات ومعارك', 'فتوحات']);
-// normalizeArabic forms (ة → ه). "حصار" is deliberately absent: حصار الشعب was a boycott.
-const BATTLE_TITLE_HEADS = new Set(['غزوه', 'سريه', 'معركه', 'موقعه', 'فتح']);
+export const isBattle = (event: EventItem): boolean => event.isBattle;
 
 /**
  * Check if an event is from the Prophet's era (Meccan or Medinan period)

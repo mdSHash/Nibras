@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
+import React, { useEffect, useState, useCallback, useMemo, useRef, type ReactElement } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, Polygon, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -13,7 +13,8 @@ if (!LeafletMapClass._nibrasGestureHandlerRegistered) {
   L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
   LeafletMapClass._nibrasGestureHandlerRegistered = true;
 }
-import { EventItem, citiesData } from '../data';
+import { EventItem, categories, citiesData } from '../data';
+import type { EventIcon } from '../../shared/contentSchema';
 import { renderToStaticMarkup } from 'react-dom/server';
 import useSupercluster from 'use-supercluster';
 import { Swords, Flag, MapPin, ScrollText, Tent, Book, Crown, Skull } from 'lucide-react';
@@ -96,21 +97,20 @@ const MapUpdater = ({ selectedEvent }: { selectedEvent: EventItem | null }) => {
   return null;
 };
 
-// Return meaningful Lucide icons based on event keywords
-const getCategoryIcon = (category: string, title: string) => {
-  if (title.includes('وفاة') || title.includes('استشهاد')) return <Skull size={14} color="#fff" />;
-  if (title.includes('خلافة') || title.includes('تولي') || title.includes('عاصمة')) return <Crown size={14} color="#fff" />;
-  if (category === 'battle' || title.includes('معركة') || title.includes('موقعة') || title.includes('يوم') || title.includes('غزوة') || title.includes('حروب')) return <Swords size={14} color="#fff" />;
-  if (title.includes('فتح')) return <Flag size={14} color="#fff" />;
-  if (title.includes('مصحف') || title.includes('قرآن') || title.includes('وحي')) return <Book size={14} color="#fff" />;
-  if (category === 'treaty' || title.includes('صلح') || title.includes('وثيقة') || title.includes('بيعة')) return <ScrollText size={14} color="#fff" />;
-  if (category === 'migration' || title.includes('هجرة') || title.includes('انتقال')) return <Tent size={14} color="#fff" />;
-  
-  return <MapPin size={14} color="#fff" />;
+// Marker icon per event (content/events/<id>.json, `icon`).
+const EVENT_ICONS: Record<EventIcon, ReactElement> = {
+  skull: <Skull size={14} color="#fff" />,
+  crown: <Crown size={14} color="#fff" />,
+  swords: <Swords size={14} color="#fff" />,
+  flag: <Flag size={14} color="#fff" />,
+  book: <Book size={14} color="#fff" />,
+  scroll: <ScrollText size={14} color="#fff" />,
+  tent: <Tent size={14} color="#fff" />,
+  pin: <MapPin size={14} color="#fff" />,
 };
 
 // Helper to create custom marker icons
-const createIcon = (color: string, label: string, category: string, title: string, isSelected?: boolean, isDimmed?: boolean, hasBattle?: boolean) => {
+const createIcon = (color: string, label: string, icon: EventIcon, isSelected?: boolean, isDimmed?: boolean, hasBattle?: boolean) => {
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const iconSize = isMobile ? (isSelected ? '48px' : '40px') : (isSelected ? '44px' : '36px');
   const badgeSize = isMobile ? 16 : 14;
@@ -161,7 +161,7 @@ const createIcon = (color: string, label: string, category: string, title: strin
           zIndex: isSelected ? 1000 : 'auto'
         }}
       >
-        {getCategoryIcon(category, title)}
+        {EVENT_ICONS[icon]}
       </div>
       {hasBattle && !isDimmed && (
         <div
@@ -230,16 +230,9 @@ const createIcon = (color: string, label: string, category: string, title: strin
   });
 };
 
-const iconConfig: Record<string, { color: string }> = {
-  'battle': { color: '#ef4444' },        
-  'غزوات ومعارك': { color: '#ef4444' },
-  'migration': { color: '#10b981' },  
-  'revelation': { color: '#f59e0b' },     
-  'landmark': { color: '#3b82f6' },       
-  'treaty': { color: '#8b5cf6' },
-  'politics': { color: '#6366f1' },
-  'أحداث': { color: '#06b6d4' },
-};
+// Marker colour per category (content/categories.json).
+const categoryColor = (categoryId: string): string =>
+  categories.find((c) => c.id === categoryId)?.color ?? categories.find((c) => c.id === 'events')!.color;
 
 const cityIcon = L.divIcon({
   html: `<div style="width: 20px; height: 20px; background-color: #10b981; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: transform 0.2s;"></div>`,
@@ -285,10 +278,9 @@ const EventClusters = ({ events, selectedEvent, onSelectEvent }: Pick<MapViewPro
     }
 
     return createIcon(
-      iconConfig[unclusteredSelectedEvent.category]?.color || iconConfig['أحداث'].color,
+      categoryColor(unclusteredSelectedEvent.category),
       unclusteredSelectedEvent.location?.name || unclusteredSelectedEvent.title,
-      unclusteredSelectedEvent.category,
-      unclusteredSelectedEvent.title,
+      unclusteredSelectedEvent.icon,
       true,
       false,
       !!unclusteredSelectedEvent.battleId,
@@ -371,9 +363,9 @@ const EventClusters = ({ events, selectedEvent, onSelectEvent }: Pick<MapViewPro
         }
 
         const evt = cluster.properties.event;
-        const mappedColor = iconConfig[evt.category]?.color || iconConfig['أحداث'].color;
+        const mappedColor = categoryColor(evt.category);
         const isDimmed = selectedEvent !== null;
-        const icon = createIcon(mappedColor, evt.location?.name || evt.title, evt.category, evt.title, false, isDimmed, !!evt.battleId);
+        const icon = createIcon(mappedColor, evt.location?.name || evt.title, evt.icon, false, isDimmed, !!evt.battleId);
 
         return (
           <Marker 
@@ -528,7 +520,7 @@ export default function HistoricalMap({ events, selectedEvent, onSelectEvent, sh
         {selectedEvent?.route && (
           <Polyline
             positions={selectedEvent.route}
-            color={iconConfig[selectedEvent.category as keyof typeof iconConfig]?.color || 'var(--color-battle-red)'}
+            color={categoryColor(selectedEvent.category)}
             weight={3}
             dashArray="5, 10"
             opacity={0.8}

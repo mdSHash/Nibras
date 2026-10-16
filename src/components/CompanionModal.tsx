@@ -1,7 +1,8 @@
 import React, { useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, User, Star } from 'lucide-react';
-import { findCompanion } from '../companionsList';
+import { findCompanionIn } from '../companionsList';
+import { companionsData } from '../data';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../utils/scrollLock';
 import { Z_INDEX } from '../constants';
@@ -17,7 +18,7 @@ export default function CompanionModal({ companionName, onClose }: CompanionModa
   
   const companion = useMemo(() => {
     if (!companionName) return null;
-    return findCompanion(companionName) || null;
+    return findCompanionIn(companionsData, companionName) || null;
   }, [companionName]);
 
   // Lock scroll when modal is open

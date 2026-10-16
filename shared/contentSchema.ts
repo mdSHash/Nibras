@@ -1,105 +1,135 @@
 /**
- * Zod schemas for the content as it is stored today (Phase 0B): events in
- * src/dataList.json, companions in src/companionsList.ts, cities in
- * src/citiesList.ts. The shapes are strict (an unknown or misspelled field
- * fails) but the values are permissive enough to pass on today's data.
- * Phase 1 replaces these with the schemas for the new content/ layout.
+ * Zod schemas for the content in content/ (Phase 1 layout, docs/REFACTOR_PLAN.md).
+ * One file per event, person and city; fixed lists for eras and categories.
+ * Records link to each other by id only; scripts/build-content.ts checks every
+ * link and emits the data the app loads (src/generated/).
+ *
+ * Every Arabic text field holds the reviewed text verbatim: it is moved here
+ * from the old files, never reworded (CLAUDE.md, rule 1).
  */
 import { z } from 'zod';
 
 const text = z.string().trim().min(1);
+const slug = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'lowercase-slug id');
+// Event ids are the future public URLs and are frozen as they are, including
+// the legacy ones (`event-0-ميلاد-النبي--عام-الفيل`, `battle_yamama`). They only
+// have to be usable as file names.
+const eventId = z.string().regex(/^[^\s/\\:*?"<>|.][^\s/\\:*?"<>|]*$/, 'usable as a file name, no spaces');
 const latLng = z.tuple([z.number().min(-90).max(90), z.number().min(-180).max(180)]);
 
+/** Marker icons; the map draws each with a fixed Lucide icon. */
+export const EVENT_ICONS = ['skull', 'crown', 'swords', 'flag', 'book', 'scroll', 'tent', 'pin'] as const;
+
+export const eraSchema = z.strictObject({
+  id: slug,
+  /** Era name on the timeline and in search, e.g. "خلافة الفاروق". */
+  nameAr: text,
+  /** The badge on the event panel; both prophetic eras show "عهد النبوة". */
+  panelTitleAr: text,
+  rulerAr: text,
+  /** Colour scheme in src/utils/eraColors.ts. */
+  colorKey: z.enum(['prophetic', 'abuBakr', 'umar', 'uthman', 'ali']),
+  /** The era filter: the Prophet's era or the Rashidun caliphate. */
+  group: z.enum(['prophet', 'rashidun']),
+  order: z.number().int(),
+});
+
+export const categorySchema = z.strictObject({
+  id: slug,
+  /** Same wording as the map legend in the help window. */
+  nameAr: text,
+  /** Marker colour. */
+  color: z.string().regex(/^#[0-9a-f]{6}$/),
+});
+
+/** A force size: the original text, plus numbers where the text states them plainly. */
+export const countSchema = z.strictObject({
+  textAr: text,
+  value: z.number().int().positive().optional(),
+  min: z.number().int().positive().optional(),
+  max: z.number().int().positive().optional(),
+  /** The text says "about" (حوالي، نحو، قرابة، …). */
+  approx: z.boolean().optional(),
+});
+
 export const eventSchema = z.strictObject({
-  id: text,
-  era: text,
-  category: text,
+  id: eventId,
+  eraId: slug,
+  categoryId: slug,
+  /** Counted by the "battles" filter. Stored, never guessed from the title. */
+  isBattle: z.boolean(),
+  icon: z.enum(EVENT_ICONS),
+  isMajor: z.boolean().optional(),
   title: text,
-  is_major_event: z.boolean().optional(),
   date: z.strictObject({
-    gregorian: z.number(),
-    hijri: z.number().optional(),
-    hijri_relative: text,
+    /** Orders the timeline and picks the territory map. Hand-set; keep the existing values. */
+    sortKey: z.number(),
+    /** Only on events that share a sortKey: their order on the timeline (0, 1, 2, …). */
+    tieOrder: z.number().int().min(0).optional(),
+    gregorian: z.strictObject({ year: z.number().int() }),
+    /** Hijri year (negative before the Hijra), where the old data had one. */
+    hijri: z.strictObject({ year: z.number().int() }).optional(),
+    /** The date as the panel shows it, e.g. "17 رمضان، 2 هـ". */
+    labelAr: text,
   }),
-  location: z.strictObject({
-    name: text,
-    coordinates: latLng,
-  }),
-  details: z.strictObject({
-    summary: text,
-    full_description: text,
-    army_size: text.optional(),
-    enemy_army_size: text.optional(),
-    duration_days: text.optional(),
-    course_of_events: z.array(text),
-    companion_roles: z.array(z.strictObject({ name: text, role_in_event: text })).optional(),
-  }),
-  entities: z.strictObject({
-    key_figures: z.array(text),
-    quran_refs: z.array(text).optional(),
-    hadith_refs: z.array(text).optional(),
-    sources: z.array(text),
-  }),
+  location: z.strictObject({ nameAr: text, coordinates: latLng }),
+  summary: text,
+  fullDescription: text,
+  courseOfEvents: z.array(text),
+  durationAr: text.optional(),
+  forces: z.strictObject({ army: countSchema.optional(), enemyArmy: countSchema.optional() }).optional(),
+  /** People chips; `labelAr` is the text the chip shows. */
+  keyFigures: z.array(z.strictObject({ personId: slug, labelAr: text })),
+  /** "Roles in the event" list. */
+  roles: z.array(z.strictObject({ personId: slug, labelAr: text, roleAr: text })),
+  /** Qur'an chips: the passage {surah, from, to}; `labelAr` is the text the chip shows. */
+  quran: z.array(
+    z.strictObject({
+      surah: z.number().int().min(1).max(114),
+      from: z.number().int().min(1),
+      to: z.number().int().min(1),
+      labelAr: text,
+    }),
+  ),
+  hadith: z.array(text),
+  sources: z.array(text),
+  /** Battle replay (src/battlefield/scenarios), e.g. "battle-of-badr". */
+  battleScenarioId: slug.optional(),
   route: z.array(latLng).min(2).optional(),
 });
 
-export const companionSchema = z.strictObject({
-  id: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'lowercase-slug id'),
+export const personSchema = z.strictObject({
+  id: slug,
   name: text,
   title: z.string(),
   role: z.string(),
-  description: text,
-  birth_death: z.string(),
+  bio: text,
+  birthDeath: z.string(),
+  /** Other names the chat assistant and search recognise. */
   aliases: z.array(text),
 });
 
 export const citySchema = z.strictObject({
-  id: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'lowercase-slug id'),
+  id: slug,
   name: text,
   coordinates: latLng,
   description: text,
   significance: text,
 });
 
-export interface ContentIssue {
-  collection: 'events' | 'companions' | 'cities';
-  id: string;
-  message: string;
-}
+export const quranPassageSchema = z.strictObject({
+  /** Frozen key used by the chat assistant and the Qur'an window, e.g. "سورة الفيل: 1-5". */
+  key: text,
+  surah: z.number().int().min(1).max(114),
+  from: z.number().int().min(1),
+  to: z.number().int().min(1),
+});
 
-export interface ContentInput {
-  events: unknown[];
-  companions: unknown[];
-  cities: unknown[];
-}
-
-function idOf(record: unknown, index: number): string {
-  const id = (record as { id?: unknown } | null)?.id;
-  return typeof id === 'string' && id ? id : `#${index}`;
-}
-
-function check(collection: ContentIssue['collection'], records: unknown[], schema: z.ZodType): ContentIssue[] {
-  const issues: ContentIssue[] = [];
-  const seen = new Set<string>();
-  records.forEach((record, index) => {
-    const id = idOf(record, index);
-    const result = schema.safeParse(record);
-    if (!result.success) {
-      for (const issue of result.error.issues) {
-        issues.push({ collection, id, message: `${issue.path.join('.') || '(record)'}: ${issue.message}` });
-      }
-    }
-    if (seen.has(id)) issues.push({ collection, id, message: 'duplicate id' });
-    seen.add(id);
-  });
-  return issues;
-}
-
-/** Validates every record; returns an empty list when all content is valid. */
-export function validateContent(input: ContentInput): ContentIssue[] {
-  return [
-    ...check('events', input.events, eventSchema),
-    ...check('companions', input.companions, companionSchema),
-    ...check('cities', input.cities, citySchema),
-  ];
-}
+export type Era = z.infer<typeof eraSchema>;
+export type Category = z.infer<typeof categorySchema>;
+export type Count = z.infer<typeof countSchema>;
+export type ContentEvent = z.infer<typeof eventSchema>;
+export type EventIcon = (typeof EVENT_ICONS)[number];
+export type Person = z.infer<typeof personSchema>;
+export type City = z.infer<typeof citySchema>;
+export type QuranPassage = z.infer<typeof quranPassageSchema>;

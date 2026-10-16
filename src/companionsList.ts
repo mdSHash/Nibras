@@ -1494,12 +1494,23 @@ const getCompanionSearchKeys = (companion: CompanionData): string[] => {
   return Array.from(new Set(keys));
 };
 
-export const findCompanion = (figureName: string): CompanionData | undefined => {
+/** Every companion a name matches (findCompanion returns the first). Used by the Phase 1 migration report. */
+export const findCompanionCandidates = (figureName: string): CompanionData[] => {
+  const normalizedQuery = normalizeArabicName(figureName);
+  if (!normalizedQuery) return [];
+  return companionsData.filter((companion) => getCompanionSearchKeys(companion).includes(normalizedQuery));
+};
+
+/** The first companion in `companions` that a name matches (by id, name, title or alias). */
+export const findCompanionIn = (companions: CompanionData[], figureName: string): CompanionData | undefined => {
   const normalizedQuery = normalizeArabicName(figureName);
 
   if (!normalizedQuery) return undefined;
 
-  return companionsData.find((companion) =>
+  return companions.find((companion) =>
     getCompanionSearchKeys(companion).some((key) => key === normalizedQuery)
   );
 };
+
+export const findCompanion = (figureName: string): CompanionData | undefined =>
+  findCompanionIn(companionsData, figureName);

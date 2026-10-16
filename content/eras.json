@@ -1,0 +1,56 @@
+[
+  {
+    "id": "meccan",
+    "nameAr": "العهد المكي",
+    "panelTitleAr": "عهد النبوة",
+    "rulerAr": "النبي محمد ﷺ",
+    "colorKey": "prophetic",
+    "group": "prophet",
+    "order": 1
+  },
+  {
+    "id": "medinan",
+    "nameAr": "العهد المدني",
+    "panelTitleAr": "عهد النبوة",
+    "rulerAr": "النبي محمد ﷺ",
+    "colorKey": "prophetic",
+    "group": "prophet",
+    "order": 2
+  },
+  {
+    "id": "abu-bakr",
+    "nameAr": "خلافة الصديق",
+    "panelTitleAr": "خلافة الصديق",
+    "rulerAr": "أبو بكر الصديق",
+    "colorKey": "abuBakr",
+    "group": "rashidun",
+    "order": 3
+  },
+  {
+    "id": "umar",
+    "nameAr": "خلافة الفاروق",
+    "panelTitleAr": "خلافة الفاروق",
+    "rulerAr": "عمر بن الخطاب",
+    "colorKey": "umar",
+    "group": "rashidun",
+    "order": 4
+  },
+  {
+    "id": "uthman",
+    "nameAr": "خلافة ذي النورين",
+    "panelTitleAr": "خلافة ذي النورين",
+    "rulerAr": "عثمان بن عفان",
+    "colorKey": "uthman",
+    "group": "rashidun",
+    "order": 5
+  },
+  {
+    "id": "ali",
+    "nameAr": "خلافة الإمام علي",
+    "panelTitleAr": "خلافة الإمام علي",
+    "rulerAr": "علي بن أبي طالب",
+    "colorKey": "ali",
+    "group": "rashidun",
+    "order": 6
+  }
+]

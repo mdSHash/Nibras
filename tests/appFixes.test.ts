@@ -31,8 +31,10 @@ describe('era helpers', () => {
     }
   });
 
-  it('includes the event whose era is spelled "عهد أبي بكر الصديق"', () => {
-    const death = eventsData.find(e => e.era === 'عهد أبي بكر الصديق');
+  // Its era was spelled "عهد أبي بكر الصديق" before Phase 1 and was once dropped from the filter.
+  it('counts the death of Abu Bakr in the Rashidun era', () => {
+    const death = eventsData.find(e => e.id === 'event-65-وفاة-أبي-بكر-الصديق');
+    expect(death?.eraId).toBe('abu-bakr');
     expect(death && isRashidunEra(death)).toBe(true);
   });
 
