@@ -1,6 +1,5 @@
 {
   "desktop": {
-    "firstLoadRequests": 14,
     "markersAfterAutoSelect": {
       "icons": 10,
       "clusters": 3,
@@ -8,7 +7,6 @@
     }
   },
   "phone-firefox": {
-    "firstLoadRequests": 17,
     "markersAfterAutoSelect": {
       "icons": 9,
       "clusters": 4,
@@ -16,7 +14,6 @@
     }
   },
   "phone-webkit": {
-    "firstLoadRequests": 16,
     "markersAfterAutoSelect": {
       "icons": 7,
       "clusters": 3,
@@ -24,7 +21,6 @@
     }
   },
   "phone": {
-    "firstLoadRequests": 14,
     "markersAfterAutoSelect": {
       "icons": 9,
       "clusters": 4,

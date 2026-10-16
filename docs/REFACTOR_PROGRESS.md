@@ -225,6 +225,10 @@ Playwright 68 feature (11 known failures) + 18 visual. ESLint and Zod showed as 
   random. `markersAfterAutoSelect.icons` changes from 18 to 10 (desktop), 9 (phone, Firefox) and
   7 (WebKit, was 16); `clusters` and `pointsInClusters` are unchanged. The count is taken after
   re-measuring the map and setting the event's view, as the visual shots do. No app change.
+- 2026-10-16: asked to skip checks that aren't needed and wrap up. The exact first-load request
+  count is compared on Windows only. On the Linux runner it varies by one with timing (13 or 14),
+  and the bundle budget guards the code split there. CI trimming (one replay on PRs, parallel jobs)
+  is the first task of the next session.
 
 ### Intentional behavior changes
 
