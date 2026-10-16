@@ -5,14 +5,21 @@
 // chunks) and total JS gzip at most 1% over the baseline. Shrinking always
 // passes and is reported, so later phases can show their improvement.
 //
+// Content loaded on demand (dist/assets/content/, Phase 2B) is not code: it is
+// reported by group (one line for the event details, one for the bios, …) and
+// left out of the code budget. "JS at start" is what the page loads before the
+// app renders: the entry script and the chunks index.html preloads.
+//
 //   npx tsx scripts/baseline/bundle-report.ts            check the budget
 //   npx tsx scripts/baseline/bundle-report.ts --update   record the current build (only after approval)
-import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { gzipSync } from 'node:zlib';
 import { BASELINE_DIR, ROOT, isUpdateRun } from './lib';
 
-const ASSETS = join(ROOT, 'dist', 'assets');
+const DIST = join(ROOT, 'dist');
+const ASSETS = join(DIST, 'assets');
+const CONTENT = join(ASSETS, 'content');
 const NUMBERS_FILE = join(BASELINE_DIR, 'numbers.json');
 const CHUNK_GROWTH = 0.02;
 const CHUNK_SLACK_BYTES = 512;
@@ -22,9 +29,16 @@ interface Chunk {
   raw: number;
   gzip: number;
 }
+interface ContentGroup extends Chunk {
+  files: number;
+}
 interface BundleNumbers {
   chunks: Record<string, Chunk>;
   totals: { js: Chunk; css: Chunk };
+  /** On-demand content by group (Phase 2B on). */
+  content?: Record<string, ContentGroup>;
+  /** JS loaded before the app renders (Phase 2B on). */
+  start?: Chunk;
 }
 export interface Numbers {
   bundle?: BundleNumbers;
@@ -60,7 +74,46 @@ function measure(): BundleNumbers {
     Object.entries(chunks)
       .filter(([name]) => name.endsWith(ext))
       .reduce((sum, [, c]) => ({ raw: sum.raw + c.raw, gzip: sum.gzip + c.gzip }), { raw: 0, gzip: 0 });
-  return { chunks, totals: { js: total('.js'), css: total('.css') } };
+  return { chunks, totals: { js: total('.js'), css: total('.css') }, content: measureContent(), start: measureStart() };
+}
+
+const sizeOf = (file: string): Chunk => {
+  const data = readFileSync(file);
+  return { raw: data.length, gzip: gzipSync(data).length };
+};
+
+// assets/content/eventDetails/*.js → "eventDetails"; assets/content/searchIndex-<hash>.js → "searchIndex".
+function measureContent(): Record<string, ContentGroup> {
+  const groups: Record<string, ContentGroup> = {};
+  const add = (group: string, file: string): void => {
+    const { raw, gzip } = sizeOf(file);
+    const g = (groups[group] ??= { files: 0, raw: 0, gzip: 0 });
+    g.files += 1;
+    g.raw += raw;
+    g.gzip += gzip;
+  };
+  if (!existsSync(CONTENT)) return groups;
+  for (const entry of readdirSync(CONTENT).sort()) {
+    const path = join(CONTENT, entry);
+    if (statSync(path).isDirectory()) {
+      for (const file of readdirSync(path)) if (file.endsWith('.js')) add(entry, join(path, file));
+    } else if (entry.endsWith('.js')) {
+      add(stripHash(entry).replace(/\.js$/, ''), path);
+    }
+  }
+  return groups;
+}
+
+function measureStart(): Chunk {
+  const html = readFileSync(join(DIST, 'index.html'), 'utf8');
+  const files = [...html.matchAll(/<(?:script[^>]*\bsrc|link[^>]*rel="modulepreload"[^>]*\bhref)="[^"]*\/assets\/([^"]+\.js)"/g)].map((m) => m[1]);
+  return files.reduce(
+    (sum, file) => {
+      const { raw, gzip } = sizeOf(join(ASSETS, file));
+      return { raw: sum.raw + raw, gzip: sum.gzip + gzip };
+    },
+    { raw: 0, gzip: 0 },
+  );
 }
 
 const kb = (bytes: number): string => `${(bytes / 1024).toFixed(1)} KB`;
@@ -103,6 +156,12 @@ function main(): void {
     problems.push(`total JS: ${kb(jsBefore)} → ${kb(js)} gzip (${pct(js, jsBefore)}), over the 1% budget`);
   }
   console.log(`Total JS ${kb(current.totals.js.raw)} (${kb(js)} gzip, ${pct(js, jsBefore)} vs baseline); CSS ${kb(current.totals.css.gzip)} gzip`);
+  const start = current.start!;
+  const startBefore = baseline.start ?? baseline.chunks['index.js'];
+  console.log(`JS at start ${kb(start.raw)} (${kb(start.gzip)} gzip; baseline ${kb(startBefore.raw)}, ${kb(startBefore.gzip)} gzip)`);
+  for (const [group, g] of Object.entries(current.content ?? {})) {
+    console.log(`  content ${group}: ${g.files} file(s), ${kb(g.raw)} (${kb(g.gzip)} gzip)`);
+  }
   for (const note of notes) console.log(`  ${note}`);
   if (problems.length > 0) {
     console.error('Bundle budget exceeded:');

@@ -1,5 +1,6 @@
 import { Shield, Users } from 'lucide-react';
 import type { EventItem } from '../../data';
+import type { EventDetails } from '../../../shared/contentSplit';
 import { SectionHeading } from './parts';
 import type { FontScale } from './theme';
 
@@ -10,7 +11,7 @@ export function PeopleList({
   fs,
   onCompanionClick,
 }: {
-  event: EventItem;
+  event: EventItem & EventDetails;
   eraTextColor: string;
   fs: FontScale;
   /** Called with the person's id (content/people). */

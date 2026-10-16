@@ -1,8 +1,11 @@
 // The event panel's narration: plays the recorded description (public/audio,
 // found by src/services/ttsGemini.ts), with play/pause, a progress ring and
-// an Arabic error. Stops when the event changes or the panel closes.
+// an Arabic error. Stops when the event changes or the panel closes. The file is
+// keyed by the full description, which loads with the event's details.
 import { useEffect, useRef, useState } from 'react';
 import type { EventItem } from '../../data';
+import { eventDetails } from '../../lazyContent';
+import { eventSlug } from '../../../shared/routes';
 import geminiTTS, { releaseOwner } from '../../services/ttsGemini';
 import { toArabicIndic } from '../../../shared/arabic';
 
@@ -87,12 +90,15 @@ export function useNarration(event: EventItem | null): Narration {
   };
 
   const startAudio = async (restart = false) => {
-    if (!event?.fullDescription || isAudioLoading) return;
+    if (!event || isAudioLoading) return;
     try {
       setAudioError(null);
       if (!audioRef.current) {
         setIsAudioLoading(true);
-        const { audio, duration: audioDuration } = await geminiTTS.createAudio(event.fullDescription, {
+        const { fullDescription } = await eventDetails.load(eventSlug(event)).catch(() => {
+          throw new Error('تعذّر تحميل الصوت');
+        });
+        const { audio, duration: audioDuration } = await geminiTTS.createAudio(fullDescription, {
           voice: 'Charon',
           rate: 1,
           volume: 1,

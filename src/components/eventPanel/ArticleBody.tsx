@@ -1,5 +1,8 @@
 import { BookOpen, Quote, Swords, ChevronsRight, ScrollText, Flag } from 'lucide-react';
 import type { EventItem } from '../../data';
+import type { EventDetails } from '../../../shared/contentSplit';
+import type { LazyContent } from '../../lazyContent';
+import { ContentLoadState } from '../ContentLoadState';
 import { cn } from '../../utils/cn';
 import { toArabicIndic } from '../../../shared/arabic';
 import QuranRef from '../QuranRef';
@@ -8,7 +11,8 @@ import { PeopleList } from './PeopleList';
 import { shadeHex, type EraTheme, type FontScale } from './theme';
 
 export function ArticleBody({
-  event,
+  event: summaryOnly,
+  details,
   eraTheme,
   eraTextColor,
   fs,
@@ -18,6 +22,8 @@ export function ArticleBody({
   onBattleOpen,
 }: {
   event: EventItem;
+  /** The event's long texts, loading with the panel (src/lazyContent.ts). */
+  details: LazyContent<EventDetails>;
   eraTheme: EraTheme;
   /** Mode-aware era foreground (textLight in light mode, textDark in dark
    *  mode). Use this for ALL text drawn on the article body's neutral
@@ -33,6 +39,28 @@ export function ArticleBody({
   /** Called with the replay id (e.g. "battle-of-badr"). */
   onBattleOpen?: (scenarioId: string) => void;
 }) {
+  const placeholder = (
+    <article
+      className={cn(
+        'flex flex-col gap-6',
+        isMobile ? 'px-5 py-6' : 'px-7 py-8',
+      )}
+    >
+      {/* Subhead / dek */}
+      {summaryOnly.summary && (
+        <p
+          className="text-ink/90 leading-relaxed font-medium border-b border-border-dark/15 pb-4"
+          style={{ ...fs(15), fontStyle: 'normal' }}
+        >
+          {summaryOnly.summary}
+        </p>
+      )}
+      <ContentLoadState state={details} lines={6} />
+    </article>
+  );
+  if (details.status !== 'ready') return placeholder;
+
+  const event = { ...summaryOnly, ...details.data };
   const desc = event.fullDescription;
   const firstChar = desc.slice(0, 1);
   const restOfDesc = desc.slice(1);

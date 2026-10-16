@@ -9,6 +9,8 @@ import { ArticleBody } from "./eventPanel/ArticleBody";
 import { Hero } from "./eventPanel/Hero";
 import { getEraTheme, shadeHex } from "./eventPanel/theme";
 import { useNarration } from "./eventPanel/useNarration";
+import { eventDetails, useLazyContent } from "../lazyContent";
+import { eventSlug } from "../../shared/routes";
 
 interface EventPanelProps {
   event: EventItem | null;
@@ -58,6 +60,7 @@ export default function EventPanel({
   const [mobileHeight, setMobileHeight] = useState(SNAP_HALF);
   const handleY = useMotionValue(0);
   const narration = useNarration(event);
+  const details = useLazyContent(eventDetails, event ? eventSlug(event) : null);
 
   // Detect mobile + dark mode
   useEffect(() => {
@@ -288,6 +291,7 @@ export default function EventPanel({
               {/* ARTICLE BODY */}
               <ArticleBody
                 event={event}
+                details={details}
                 eraTheme={eraTheme}
                 eraTextColor={eraTextColor}
                 fs={fs}

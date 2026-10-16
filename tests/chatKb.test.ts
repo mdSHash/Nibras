@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it } from 'vitest';
 import committedKb from '../public/data/chat-kb.json';
 import quranPassages from '../src/generated/quranPassages.json';
-import { eventsData } from '../src/data';
+import { fullEvents as eventsData } from '../scripts/content/generated';
 import type { ChatKb } from '../shared/chatKb';
 import { buildChatKb } from '../scripts/build-chat-kb';
 import { BuildContext, mentionsQuantity } from '../scripts/chat-kb/common';

@@ -76,6 +76,8 @@ async function shot(page: Page, name: string): Promise<void> {
     }
   });
   await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur());
+  // Texts that load on demand (Phase 2B) must have arrived.
+  await expect(page.getByRole('status', { name: 'جارٍ التحميل' })).toHaveCount(0);
   await waitUntilStill(page);
   await pinView(page);
   await expect(page).toHaveScreenshot(`${name}.png`, { timeout: 20_000 });

@@ -782,6 +782,16 @@ one PR at the end.
   merging it is Mostafa's step. Semantic search turns on in production once it is merged, if
   `GEMINI_API_KEY` is set on Vercel.
 
+- 2026-10-17 (2B plan approved): **share image** is a 1200×630 card (logo and name in the app's
+  colours) made by a script, shown to Mostafa before it is committed. **Home description**:
+  «خريطة تفاعلية وخط زمني لأحداث السيرة النبوية والتاريخ الإسلامي المبكر، مع سِيَر الصحابة والآيات
+  المتصلة بكل حدث.» **Page descriptions**: an event's `summary` as written; a person's first bio
+  sentence, copied exactly. **Qur'an passage pages** are pre-rendered (shared links open and preview)
+  but left out of the sitemap. **`robots.txt`** is generated although crawlers only read it at the
+  host root (`mdshash.github.io/robots.txt`); the sitemap is submitted in Search Console instead.
+- 2026-10-17: "main JS" for the ~800 KB target means the JS loaded before the app renders (the entry
+  and the chunks `index.html` preloads), as the bundle report's new "JS at start" line measures it.
+
 ### Open for Mostafa (chat, reviewed 2026-10-17)
 
 The chat design stays (plan, "Keep as is"). Recommended changes, none started:
@@ -821,6 +831,17 @@ The chat design stays (plan, "Keep as is"). Recommended changes, none started:
    going to `/`, which adds a history entry when something was open.
 5. Removed (2A): `window.__nibrasOpenBattle` (tests open `/battle/<id>/`), the `nibras:reset-map-view`
    window event (the map follows a counter in the store), and the unused `onOpenFilter` prop of the map.
+6. **Texts load on demand** (2B). The app starts with a light index; an event's details (full text,
+   course of events, people, hadith, sources), a bio and the Qur'an text load when their panel opens
+   (text-line skeletons, then the text; on failure «تعذّر تحميل المحتوى…» with «إعادة المحاولة»). The
+   summary shows at once. The narration button fetches the details itself when pressed early. The
+   search drawer loads its index when it opens; until then a typed query shows the skeleton and the
+   count «…» instead of results (the results themselves are unchanged: `contentSplit.test.ts` checks
+   the index against the old matching text, and the behavior map is identical).
+7. **First load makes one more request** (2B, approved by Mostafa 2026-10-17): the first event's
+   details file. `behavior-ui.json` `firstLoadRequests` +1 on every engine (desktop 15, phone 15,
+   Firefox 18, WebKit 17). The bio and Qur'an e2e tests and the visual `shot()` now wait for the
+   loaded text; what they check is unchanged.
 
 ### 2A verification (2026-10-16, Windows 11, Node 20.19.5, Playwright 1.59.1)
 

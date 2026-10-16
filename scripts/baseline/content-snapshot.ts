@@ -6,7 +6,8 @@
 //   npx tsx scripts/baseline/content-snapshot.ts --update   rewrite it (only after approval)
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { citiesData, companionsData, eraOf, eventsData, passageFor } from '../../src/data';
+import { citiesData, eraOf, passageFor } from '../../src/data';
+import { fullEvents as eventsData, fullPeople as companionsData } from '../content/generated';
 import generatedQuranPassages from '../../src/generated/quranPassages.json';
 import { getTerritoriesForYear } from '../../src/territories';
 import { isBattle, isProphetEra, isRashidunEra } from '../../src/utils/eventHelpers';

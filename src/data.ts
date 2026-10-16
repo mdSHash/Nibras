@@ -1,24 +1,19 @@
-// The app's content, read from src/generated/ (built from content/ by
-// scripts/build-content.ts) in the shapes of shared/contentSchema.ts, with
-// lookups by id. Records link to each other by id only.
-import generatedEvents from './generated/events.json';
-import generatedPeople from './generated/people.json';
+// The app's content index, read from src/generated/ (built from content/ by
+// scripts/build-content.ts) in the shapes of shared/contentSplit.ts, with
+// lookups by id. Records link to each other by id only. The long texts (event
+// details, bios, Qur'an text) load on demand through src/lazyContent.ts.
+import generatedEvents from './generated/eventIndex.json';
+import generatedPeople from './generated/peopleIndex.json';
 import generatedCities from './generated/cities.json';
 import generatedEras from './generated/eras.json';
 import generatedCategories from './generated/categories.json';
-import generatedQuranPassages from './generated/quranPassages.json';
-import type {
-  Category,
-  City as ContentCity,
-  ContentEvent,
-  Era,
-  GeneratedQuranPassage,
-  Person,
-} from '../shared/contentSchema';
+import generatedQuranPassages from './generated/quranIndex.json';
+import type { Category, City as ContentCity, Era } from '../shared/contentSchema';
+import type { EventSummary, PersonSummary, QuranPassageSummary } from '../shared/contentSplit';
 import { eventSlug, type Route } from '../shared/routes';
 
-export type EventItem = ContentEvent;
-export type Companion = Person;
+export type EventItem = EventSummary;
+export type Companion = PersonSummary;
 export type City = ContentCity;
 
 /** In timeline order. */
@@ -46,17 +41,18 @@ export const eraOf = (event: Pick<EventItem, 'eraId'>): Era => eraById.get(event
 export const getEra = (eraId: string): Era | undefined => eraById.get(eraId);
 export const getPerson = (personId: string): Companion | undefined => personById.get(personId);
 
-/** Qur'an passages with their Quran.com text, by key (e.g. "سورة الفيل: 1-5"). */
-export const quranPassages: Record<string, GeneratedQuranPassage> = Object.fromEntries(
-  (generatedQuranPassages as GeneratedQuranPassage[]).map(p => [p.key, p]),
+/** Qur'an passages (without their text), by key (e.g. "سورة الفيل: 1-5"). */
+export const quranPassages: Record<string, QuranPassageSummary> = Object.fromEntries(
+  (generatedQuranPassages as QuranPassageSummary[]).map(p => [p.key, p]),
 );
 const passageByRange = new Map(
-  (generatedQuranPassages as GeneratedQuranPassage[]).map(p => [`${p.surah}:${p.from}-${p.to}`, p]),
+  (generatedQuranPassages as QuranPassageSummary[]).map(p => [`${p.surah}:${p.from}-${p.to}`, p]),
 );
 /** The passage an event's Qur'an reference points to. */
-export const passageFor = (ref: { surah: number; from: number; to: number }): GeneratedQuranPassage | undefined =>
+export const passageFor = (ref: { surah: number; from: number; to: number }): QuranPassageSummary | undefined =>
   passageByRange.get(`${ref.surah}:${ref.from}-${ref.to}`);
 
 /** The event a battle replay belongs to: its title and date head the player. */
 export const eventForScenario = (scenarioId: string): EventItem | undefined =>
   eventsData.find(e => e.battleScenarioId === scenarioId);
+

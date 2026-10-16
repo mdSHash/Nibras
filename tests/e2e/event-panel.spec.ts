@@ -79,8 +79,10 @@ test('a companion card and a figure chip open the right biography', async ({ pag
     await panel(page).getByRole('button', { name: person.name }).first().click();
     const dialog = page.getByRole('dialog', { name: companion.name });
     await expect(dialog).toBeVisible();
-    const paragraphs = await dialog.locator('p').allTextContents();
-    expect(paragraphs.map((p) => hash16(p))).toContain(companion.bio);
+    // The bio loads when the window opens (Phase 2B), so wait for it.
+    await expect
+      .poll(async () => (await dialog.locator('p').allTextContents()).map((p) => hash16(p)))
+      .toContain(companion.bio);
     await dialog.getByRole('button', { name: 'إغلاق' }).click();
     await expect(dialog).toBeHidden();
     await expect(panelTitle(page)).toHaveText(badr.title);
@@ -104,8 +106,10 @@ test('a Quran chip opens the right verses @phone', async ({ page }) => {
   await panel(page).getByRole('button', { name: /عرض الآيات/ }).first().click();
   const dialog = page.getByRole('dialog', { name: ref.key });
   await expect(dialog).toBeVisible();
-  const paragraphs = await dialog.locator('p').allTextContents();
-  expect(paragraphs.map((p) => hash16(p))).toContain(passage.text);
+  // The verse text loads when the window opens (Phase 2B), so wait for it.
+  await expect
+    .poll(async () => (await dialog.locator('p').allTextContents()).map((p) => hash16(p)))
+    .toContain(passage.text);
   await dialog.getByRole('button', { name: 'إغلاق' }).click();
   await expect(dialog).toBeHidden();
 });

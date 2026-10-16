@@ -6,6 +6,8 @@ import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../utils/scrollLock';
 import { Z_INDEX } from '../constants';
 import { cn } from '../utils/cn';
+import { passageTexts, useLazyContent } from '../lazyContent';
+import { ContentLoadState } from './ContentLoadState';
 
 interface QuranModalProps {
   reference: string;
@@ -14,6 +16,7 @@ interface QuranModalProps {
 
 export default function QuranModal({ reference, onClose }: QuranModalProps) {
   const data = quranPassages[reference];
+  const text = useLazyContent(passageTexts, data ? reference : null);
   const focusTrapRef = useFocusTrap(!!reference && !!data);
 
   // Lock scroll when modal is open
@@ -108,12 +111,16 @@ export default function QuranModal({ reference, onClose }: QuranModalProps) {
               <div
                 className="p-6 md:p-10 overflow-y-auto bg-[#faf8f5] dark:bg-[#111827]"
               >
-                <p
-                  className="text-2xl md:text-3xl leading-[2] text-center text-[#1a1a2e] dark:text-[#f5f5f5]"
-                  style={{ fontFamily: "'Amiri Quran', serif" }}
-                >
-                  {data.text}
-                </p>
+                {text.status === 'ready' ? (
+                  <p
+                    className="text-2xl md:text-3xl leading-[2] text-center text-[#1a1a2e] dark:text-[#f5f5f5]"
+                    style={{ fontFamily: "'Amiri Quran', serif" }}
+                  >
+                    {text.data}
+                  </p>
+                ) : (
+                  <ContentLoadState state={text} lines={3} />
+                )}
               </div>
 
               {/* Footer with Quran.com link */}

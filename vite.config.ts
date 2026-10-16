@@ -35,6 +35,18 @@ export default defineConfig(({mode}) => {
     },
     build: {
       sourcemap: uploadSourceMaps ? 'hidden' : false,
+      rollupOptions: {
+        output: {
+          // Content loaded on demand (src/lazyContent.ts) goes to assets/content/,
+          // by folder (eventDetails/, bios/), so the bundle report can tell it from code.
+          chunkFileNames: (chunk) => {
+            const generated = chunk.facadeModuleId?.replace(/\\/g, '/').match(/\/src\/generated\/(?:(\w+)\/)?/);
+            return generated
+              ? `assets/content/${generated[1] ? `${generated[1]}/` : ''}[name]-[hash].js`
+              : 'assets/[name]-[hash].js';
+          },
+        },
+      },
     },
     resolve: {
       alias: {
