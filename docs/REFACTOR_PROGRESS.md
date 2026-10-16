@@ -774,6 +774,31 @@ one PR at the end.
   search and chat, and a ⋮ button opens a dropdown list under the header (icon and Arabic label per
   row, in the header's dark glass style) with reset map, fullscreen, help, tour and dark mode.
 
+- 2026-10-17: **the guided tour is to be redesigned** (outdated and not informative). Added to the
+  plan as the last task of Phase 4, so it can include learning paths.
+- 2026-10-17: Mostafa asked to finish the Gemini embedding index in one run (the scheduled task no
+  longer exists). Done: 156 units embedded, 3,235/3,235, the API's loader reports it usable. Committed
+  on branch `chore/chat-embeddings` (`b285075`, from `main`, separate from this phase); pushing it and
+  merging it is Mostafa's step. Semantic search turns on in production once it is merged, if
+  `GEMINI_API_KEY` is set on Vercel.
+
+### Open for Mostafa (chat, reviewed 2026-10-17)
+
+The chat design stays (plan, "Keep as is"). Recommended changes, none started:
+
+1. **Semantic search is all-or-nothing**: `api/_lib/semanticIndex.ts` uses the index only at 100%
+   coverage, and no scheduled build runs any more, so the next content edit switches it off again
+   silently. Use the index at partial coverage (missing units fall back to keyword search) and move
+   the incremental build to the scheduled GitHub Action already planned in Phase 3.
+2. **One Gemini key, one daily cap**: each chat question embeds the query (1 of the free tier's
+   1,000/day), shared with the index builder. Cache query embeddings in Upstash and/or give the
+   builder its own key, so a busy day cannot starve either.
+3. **Index size**: 13.4 MB of JSON in git and on GitHub Pages, rewritten on every rebuild. With the
+   Phase 3 move to `api/_data/`, store vectors as int8 (about 2–3 MB) and stop publishing them.
+4. The per-IP rate limit (Phase 3) matters more now that each question spends embedding quota.
+5. After merging the index: run `npm run eval:chat` once to measure answers with semantic search on
+   (spends Groq quota; ask first).
+
 ### Design choices (approved with the plan)
 
 - Event, person, battle and Qur'an passage panels have addresses; search, help and chat do not. Back

@@ -672,9 +672,27 @@ tested with real users first.
       failing and retrying a quiz, finishing a path, and progress surviving a reload. Add to the
       baseline and visual snapshots.
 - [ ] Analytics events (from Phase 3): path started, module completed, quiz passed/failed, path completed.
+- [ ] **Redesign the guided tour** (Mostafa, 2026-10-17: "not that cool and not that informative"). Today's
+      8 steps (`src/data/tourSteps.ts`: welcome, timeline, map, search, filters, dark mode, event panel,
+      tips) predate most of the app: they say nothing about the chat assistant, narration, battle
+      replays and videos, era pills and player mode, shareable addresses, or learning paths. Done last
+      in Phase 4 so it can present the paths. Steps:
+      - *Content.* Start from what a visitor can do with Nibras (follow the story on the map, open an
+        event and listen, ask the assistant, take a path), not from where the buttons are. Short Arabic
+        copy; Claude drafts, Mostafa approves every step's text.
+      - *Design.* 3–4 visual directions (for example spotlight steps, a short guided story that opens
+        a real event, a one-screen "what you can do here" card with optional deep dives) shown to
+        Mostafa before building; separate phone and desktop flows where the layout differs (the Phase
+        2 phone menu).
+      - *Behaviour.* Skippable at every step, resumable, restartable from help and the phone menu,
+        keyboard and screen-reader friendly, reduced motion respected; offered once to new visitors
+        (as today), never over a shared link's page.
+      - *Tests.* Playwright walks every step on desktop and phone; visual snapshots of two steps;
+        the tour's targets are checked to exist so a UI change cannot silently break it.
 
 Done when: a guest can finish مسار الرسالة end to end on phone and desktop, progress survives reloads,
-all questions are reviewed, and `npm run verify` passes.
+all questions are reviewed, the new tour is approved and walks the current app, and `npm run verify`
+passes.
 
 ### Phase 5 — Optional accounts, sync and certificates
 
