@@ -77,7 +77,8 @@ function playwrightSummary(file: string, label: string): string | undefined {
   };
   report.suites.forEach(walk);
   const { expected, unexpected, flaky, skipped } = report.stats;
-  counts[`${label}Tests`] = expected + unexpected + flaky;
+  // Skipped tests still exist (e.g. the Linux-only skips); the guard below is about removed tests.
+  counts[`${label}Tests`] = expected + unexpected + flaky + skipped;
   counts[`${label}KnownFailures`] = knownFailures;
   return `${expected} passed (${knownFailures} known failures), ${unexpected} failed, ${flaky} flaky, ${skipped} skipped`;
 }
