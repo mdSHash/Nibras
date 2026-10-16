@@ -110,12 +110,6 @@ const quranPassages = quranKeys.map((key) => ({
 const battles = Object.entries(battleScenarios).map(([id, s]) => ({
   id,
   scenarioId: s.id,
-  name: s.name,
-  nameAr: s.nameAr,
-  date: s.date,
-  location: s.location,
-  description: hash16(s.description),
-  descriptionAr: hash16(s.descriptionAr),
   actualDayCount: s.actualDayCount ?? null,
   forces: s.forces.map((f) => ({
     faction: f.faction,

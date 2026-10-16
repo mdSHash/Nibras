@@ -105,18 +105,10 @@ import type { BattleScenario } from '../types/scenario';
  */
 export const battleOfMutah: BattleScenario = {
   id: 'battle-of-mutah',
-  name: "Battle of Mu'tah",
-  nameAr: 'غزوة مؤتة',
-  date: 'Jumada al-Ula 8 AH (~September 629 CE)',
-  location: "Mu'tah, southern Sham — Moab plateau ~10 km south of al-Karak in modern Jordan",
-  description:
-    "Mu'tah — Jumada al-Ula 8 AH / ~September 629 CE — the first major Muslim engagement with the Byzantine Empire. The casus belli was Shurahbil ibn 'Amr al-Ghassani's killing of al-Harith ibn 'Umayr al-Azdi, the Prophet's envoy to the ruler of Bostra — a violation of envoy-immunity unprecedented in the Prophetic era. The Prophet ﷺ dispatched 3,000 — the largest detachment to that day — and named the succession at the white banner (Bukhari 4261): 'If Zayd is killed, then Ja'far; if Ja'far is killed, then 'Abdullah ibn Rawahah.' Three commanders in order, a prophecy hung over the army. The army marched the King's Highway to Ma'an and held two nights of shura when news arrived that Heraclius had massed at Ma'ab in the Balqa with reportedly tens of thousands. Ibn Rawahah rose: 'It is but one of two beautiful outcomes — victory, or martyrdom.' At al-Musharif first contact came; the Muslims withdrew south to Mu'tah for ground that denied envelopment. Zayd took the white banner first and fell to the Romans' spears. Ja'far hamstrung his chestnut mare, chanted his rajaz 'How sweet is Paradise and its nearness', took the banner — his right hand was severed; he held it with his left; his left was severed; he embraced it with his stumps until killed. Ibn 'Umar found 90+ wounds in his front (Bukhari 4260, 4261). Allah gave him in place of his arms two wings — Dhu al-Janahayn. Ibn Rawahah hesitated briefly, rebuked his soul in rajaz 'I have sworn, O my soul, you shall descend', dismounted, fought, fell. Thabit ibn Aqram caught the banner and handed it to Khalid ibn al-Walid: 'I only took it for you.' On that day nine swords broke in Khalid's hand (Bukhari 4265). By night Khalid swapped right wing with left, vanguard with rear, raised fresh banners — at dawn the Romans, suspecting reinforcements, did not pursue. Khalid extracted the army intact: only 12 Muslim martyrs from 3,000. At Madinah children threw dust — 'O runaways!' — and the Prophet ﷺ replied: 'They are not runaways; rather they are the kurrar — the ones who will charge again, if Allah wills.' The Prophet ﷺ on the minbar in that very hour announced each fall of the three commanders, then named Khalid 'a Sword among the Swords of Allah' — Sayfullah, the title that would carry him through the conquest of Sham. Mu'tah opened the Levantine theatre.",
-  descriptionAr:
-    'مُؤْتَةُ — جُمَادَى الأُولَى مِنَ السَّنَةِ الثَّامِنَةِ لِلْهِجْرَةِ — أُولَى مُوَاجَهَاتِ المُسْلِمِينَ الكُبْرَى مَعَ الإِمْبَرَاطُورِيَّةِ البِيزَنْطِيَّةِ. كَانَ سَبَبُهَا قَتْلَ شُرَحْبِيلَ بنِ عَمْرٍو الغَسَّانِيِّ لِلْحَارِثِ بنِ عُمَيْرٍ الأَزْدِيِّ سَفِيرِ النَّبِيِّ ﷺ — قَتْلُ سَفِيرٍ لَمْ يَسْبِقْ لَهُ مَثِيلٌ فِي عَهْدِ النُّبُوَّةِ. بَعَثَ النَّبِيُّ ﷺ ثَلَاثَةَ آلَافٍ — أَكْبَرَ سَرِيَّةٍ إِلَى ذَلِكَ اليَوْمِ — وَنَصَّ عَلَى الإِمْرَةِ بِالتَّرْتِيبِ (البخاري ٤٢٦١): «إِنْ قُتِلَ زَيْدٌ فَجَعْفَرٌ، وَإِنْ قُتِلَ جَعْفَرٌ فَعَبْدُ اللَّهِ بنُ رَوَاحَةَ». سَارَ الجَيْشُ شَمَالًا إِلَى مَعَانَ، وَأَقَامَ لَيْلَتَيْنِ يَتَشَاوَرُ لَمَّا بَلَغَهُ نُزُولُ هِرَقْلَ بِمَآبَ. فَقَامَ ابنُ رَوَاحَةَ مُحَرِّضًا: «إِنَّمَا هِيَ إِحْدَى الحُسْنَيَيْنِ: إِمَّا ظُهُورٌ وَإِمَّا شَهَادَةٌ». وَتَلَاقَى الجَمْعَانِ عِنْدَ المُشَارِفِ، فَانْحَازَ المُسْلِمُونَ جَنُوبًا إِلَى مُؤْتَةَ، فِي وَادٍ بَيْنَ تَلَّيْنِ يَمْنَعُهُمَا التَّطْوِيقَ. أَخَذَ زَيْدٌ الرَّايَةَ البَيْضَاءَ أَوَّلًا فَسَقَطَ شَهِيدًا فِي رِمَاحِ الرُّومِ. ثُمَّ جَعْفَرٌ، فَعَقَرَ فَرَسَهُ الشَّقْرَاءَ وَارْتَجَزَ «يَا حَبَّذَا الجَنَّةُ وَاقْتِرَابُهَا»، فَقُطِعَتْ يَمِينُهُ فَأَخَذَ الرَّايَةَ بِشِمَالِهِ، فَقُطِعَتْ شِمَالُهُ فَاحْتَضَنَهَا بِعَضُدَيْهِ حَتَّى قُتِلَ — فَوُجِدَ فِي مُقْبِلِ جَسَدِهِ بِضْعٌ وَتِسْعُونَ جِرَاحَةً. فَأَبْدَلَهُ اللَّهُ بِيَدَيْهِ جَنَاحَيْنِ يَطِيرُ بِهِمَا فِي الجَنَّةِ — فَكَانَ ذَا الجَنَاحَيْنِ. ثُمَّ ابنُ رَوَاحَةَ، تَرَدَّدَ ثُمَّ ارْتَجَزَ «أَقْسَمْتُ يَا نَفْسُ لَتَنْزِلِنَّهْ» وَنَزَلَ فَقَاتَلَ حَتَّى قُتِلَ. فَأَخَذَ الرَّايَةَ ثَابِتُ بنُ أَرْقَمَ ثُمَّ سَلَّمَهَا لِخَالِدِ بنِ الوَلِيدِ، فَانْكَسَرَتْ فِي يَدِهِ يَوْمَئِذٍ تِسْعَةُ أَسْيَافٍ. ثُمَّ بَيَّتَ خُدْعَتَهُ لَيْلًا: قَدَّمَ السَّاقَةَ، وَأَخَّرَ المُقَدِّمَةَ، وَجَعَلَ المَيْمَنَةَ مَيْسَرَةً وَالمَيْسَرَةَ مَيْمَنَةً، وَأَعْلَامًا جُدُدًا — فَتَهَيَّبَ الرُّومُ وَلَمْ يَتْبَعُوا. وَانْحَازَ بِالجَيْشِ سَالِمًا، فَلَمْ يَسْقُطْ إِلَّا اثْنَا عَشَرَ شَهِيدًا مِنْ ثَلَاثَةِ آلَافٍ. وَلَمَّا تَلَقَّاهُمْ صِبْيَانُ المَدِينَةِ بِالحَثْيِ وَالصِّيَاحِ «يَا فُرَّارَ»، قَالَ النَّبِيُّ ﷺ: «لَيْسُوا بِالفُرَّارِ، وَلَكِنَّهُمُ الكُرَّارُ إِنْ شَاءَ اللَّهُ». وَوُلِدَ يَوْمَئِذٍ لَقَبُ خَالِدٍ — سَيْفُ اللَّهِ المَسْلُولُ.',
 
   dayPhase: 'day',
   weather: 'clear',
-  actualDayCount: 1,
+  actualDayCount: 6,
 
   map: {
     width: 1600,
@@ -390,7 +382,7 @@ export const battleOfMutah: BattleScenario = {
       faction: 'byzantine',
       label: 'Byzantine & Ghassanid Coalition',
       labelAr: 'جَيْشُ الرُّومِ وَالغَسَاسِنَةِ',
-      totalStrength: 19500,
+      totalStrength: 200000,
       units: [
         {
           // Theodore the Patrician — actual Byzantine field commander (Kaegi 1992)
@@ -398,7 +390,7 @@ export const battleOfMutah: BattleScenario = {
           name: 'Roman Centre under Theodore',
           nameAr: 'كَتِيبَةُ الرُّومِ تَحْتَ ثِيُودُور',
           troopType: 'heavy_cavalry',
-          soldierCount: 4000,
+          soldierCount: 40000,
           commander: 'ثِيُودُور البَطْرِيق (السَّكِلَّارِيُوس)',
           startPosition: { x: 800, y: 200 },
           startFormation: 'line',
@@ -411,7 +403,7 @@ export const battleOfMutah: BattleScenario = {
           name: "Ghassanid Cavalry under Shurahbil",
           nameAr: 'كَتِيبَةُ الغَسَاسِنَةِ تَحْتَ شُرَحْبِيل',
           troopType: 'cavalry',
-          soldierCount: 3500,
+          soldierCount: 35000,
           commander: 'شُرَحْبِيلُ بنُ عَمْرٍو الغَسَّانِيُّ',
           startPosition: { x: 1100, y: 250 },
           startFormation: 'wedge',
@@ -424,7 +416,7 @@ export const battleOfMutah: BattleScenario = {
           name: "Christian-Arab Tribes under Malik ibn Zafila",
           nameAr: 'كَتِيبَةُ القَبَائِلِ المُتَنَصِّرَة',
           troopType: 'cavalry',
-          soldierCount: 4500,
+          soldierCount: 45000,
           commander: 'مَالِكُ بنُ زَافِلَة',
           startPosition: { x: 500, y: 250 },
           startFormation: 'wedge',
@@ -437,7 +429,7 @@ export const battleOfMutah: BattleScenario = {
           name: 'Roman Archers (Western Heights)',
           nameAr: 'رُمَاةُ الرُّومِ',
           troopType: 'archers',
-          soldierCount: 1500,
+          soldierCount: 15000,
           commander: 'ضُبَّاطٌ تَابِعُونَ لِثِيُودُور',
           startPosition: { x: 300, y: 460 },
           startFormation: 'line',
@@ -450,7 +442,7 @@ export const battleOfMutah: BattleScenario = {
           name: 'Heavy Roman Infantry',
           nameAr: 'مُشَاةُ الرُّومِ المُدَرَّعَة',
           troopType: 'infantry',
-          soldierCount: 6500,
+          soldierCount: 65000,
           commander: 'ضُبَّاطٌ تَابِعُونَ لِثِيُودُور',
           startPosition: { x: 800, y: 320 },
           startFormation: 'line',

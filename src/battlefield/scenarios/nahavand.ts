@@ -71,14 +71,6 @@ import type { BattleScenario } from '../types/scenario';
  */
 export const battleOfNahavand: BattleScenario = {
   id: 'battle-of-nahavand',
-  name: 'Battle of Nahavand',
-  nameAr: 'معركة نهاوند',
-  date: '21 AH (642 CE)',
-  location: 'Nahavand, northern Zagros — Hamadan province, modern western Iran',
-  description:
-    "The decisive battle of the Caliph Umar's Persian campaign. Yazdegird III mustered a final coalition of ~100,000–150,000 from the mountain provinces under Firuzan, entrenched at Nahavand behind iron caltrops with the front rank chained against flight. Umar named An-Nu'man ibn Muqarrin commander and wrote a sealed succession beginning with Hudhayfah ibn al-Yaman. After a two-day stalemate, Tulayha al-Asadi proposed the famous feigned retreat; al-Qa'qa' ibn Amr executed it, drawing the Persians off the caltrop belt. Nu'man prayed for first-martyrdom on Friday after zawal, signalled the assault by three takbirs, and was killed at the moment of breakthrough. Hudhayfah took the standard per Umar's letter, the death was concealed until victory was sealed, and the Persians routed. Firuzan was overtaken at a narrow pass blocked by a honey-laden caravan and killed climbing the mountain on foot — Thaniyyat al-Asal. The Companions named it Fath al-Futuh; no Sasanian field army assembled after it.",
-  descriptionAr:
-    'الوَقْعَةُ الفَاصِلَةُ مِنْ غَزَوَاتِ عُمَرَ بنِ الخَطَّابِ رَضِيَ اللهُ عَنْهُ فِي بِلَادِ فَارِسَ. حَشَدَ يَزْدَجِرْدُ الثَّالِثُ آخِرَ جَمْعٍ نِظَامِيٍّ مِنْ مَرَازِبَةِ الجِبَالِ وَهَمَذَانَ وَالرَّيِّ وَأَصْبَهَانَ وَأَذْرَبِيجَانَ تَحْتَ إِمْرَةِ الفَيْرُزَانِ، فَتَحَصَّنُوا بِنَهَاوَنْدَ خَلْفَ الخَنَادِقِ، وَنَثَرُوا حَسَكَ الحَدِيدِ فِي المَدَاخِلِ، وَتَوَاصَوْا بِالسَّلَاسِلِ أَلَّا يَفِرَّ مِنْهُمْ أَحَدٌ. أَمَّرَ عُمَرُ النُّعْمَانَ بْنَ مُقَرِّنٍ المُزَنِيَّ، وَنَصَّ السَّلْسِلَةَ كِتَابَةً: فَإِنْ أُصِيبَ فَحُذَيْفَةُ بنُ اليَمَانِ، ثُمَّ مَنْ بَعْدَهُ. وَلَمَّا طَالَ المُقَامُ يَوْمَيْنِ، أَشَارَ طُلَيْحَةُ الأَسَدِيُّ بِالكَرِّ بَعْدَ الفَرِّ، فَنَفَّذَهُ القَعْقَاعُ بنُ عَمْرٍو حَتَّى انْكَشَفَ الفُرْسُ مِنْ خَنَادِقِهِمْ. وَلَمَّا زَالَتْ شَمْسُ الجُمُعَةِ دَعَا النُّعْمَانُ أَنْ يَكُونَ أَوَّلَ شَهِيدٍ، وَأَمَرَ بِثَلَاثِ تَكْبِيرَاتٍ. عِنْدَ الثَّالِثَةِ حَمَلَ الجَيْشُ، فَتَكَسَّرَتْ صَدْمَةُ السَّاوَرَانِ عَلَى صَبْرِ المُهَاجِرِينَ، وَزَلَّتْ فَرَسُ النُّعْمَانِ فِي الدِّمَاءِ فَخَرَّ شَهِيداً. سَتَرَ مَوْتَهُ أَخُوهُ، وَأَخَذَ الرَّايَةَ حُذَيْفَةُ قَبْلَ أَنْ تَمَسَّ الأَرْضَ، فَحُسِمَ الأَمْرُ. وَفَرَّ الفَيْرُزَانُ صَاعِداً فِي طَرِيقِ هَمَذَانَ، فَأَدْرَكَهُ القَعْقَاعُ وَنُعَيْمُ بنُ مُقَرِّنٍ فِي ثَنِيَّةٍ ضَيِّقَةٍ سَدَّتْهَا قَافِلَةُ بِغَالٍ مُحَمَّلَةٌ عَسَلاً، فَنَزَلَ عَنْ دَابَّتِهِ يَتَسَلَّقُ الجَبَلَ، فَقُتِلَ هُنَاكَ، وَسُمِّيَتِ الثَّنِيَّةُ ثَنِيَّةَ العَسَلِ. سَمَّاهَا الصَّحَابَةُ فَتْحَ الفُتُوحِ، فَلَمْ يَقُمْ لِيَزْدَجِرْدَ بَعْدَهَا جَيْشٌ.',
 
   // Cold dawn in the Zagros highlands; the historical battle joined
   // on a Friday after zawal, but the campaign opens at first light.
@@ -434,7 +426,7 @@ export const battleOfNahavand: BattleScenario = {
       faction: 'sasanian',
       label: 'Sasanian Forces',
       labelAr: 'جَيْشُ الفُرْسِ السَّاسَانِيِّينَ',
-      totalStrength: 100000,
+      totalStrength: 150000,
       units: [
         {
           // Firuzan and his royal guard — behind the trench, will flee
@@ -443,7 +435,7 @@ export const battleOfNahavand: BattleScenario = {
           name: "Firuzan's Command",
           nameAr: 'قَلْبُ الفَيْرُزَانِ',
           troopType: 'command',
-          soldierCount: 3000,
+          soldierCount: 4500,
           commander: 'Firuzan (al-Fayruzan)',
           startPosition: { x: 1160, y: 480 },
           startFormation: 'defensive_circle',
@@ -456,7 +448,7 @@ export const battleOfNahavand: BattleScenario = {
           name: "Mardanshah's Savaran (Right)",
           nameAr: 'السَّاوَرَانُ — مَيْمَنَةُ مَرْدَانْشَاهَ',
           troopType: 'heavy_cavalry',
-          soldierCount: 15000,
+          soldierCount: 22500,
           commander: "Mardanshah Dhu'l-Hajib",
           startPosition: { x: 970, y: 320 },
           startFormation: 'wedge',
@@ -470,7 +462,7 @@ export const battleOfNahavand: BattleScenario = {
           name: "Bundar's Savaran (Left)",
           nameAr: 'السَّاوَرَانُ — مَيْسَرَةُ بُنْدَارَ',
           troopType: 'heavy_cavalry',
-          soldierCount: 12000,
+          soldierCount: 18000,
           commander: 'Bundar',
           startPosition: { x: 970, y: 660 },
           startFormation: 'wedge',
@@ -484,7 +476,7 @@ export const battleOfNahavand: BattleScenario = {
           name: 'Chained Infantry',
           nameAr: 'الرَّجَّالَةُ المُتَسَلْسِلَةُ بِالحَدِيدِ',
           troopType: 'infantry',
-          soldierCount: 45000,
+          soldierCount: 67500,
           commander: 'Mountain Marzbans',
           startPosition: { x: 920, y: 490 },
           startFormation: 'line',
@@ -497,7 +489,7 @@ export const battleOfNahavand: BattleScenario = {
           name: 'Mountain Archers',
           nameAr: 'رُمَاةُ الجِبَالِ',
           troopType: 'archers',
-          soldierCount: 12000,
+          soldierCount: 18000,
           commander: 'Hamadan and Rayy Captains',
           startPosition: { x: 1020, y: 280 },
           startFormation: 'line',
@@ -511,7 +503,7 @@ export const battleOfNahavand: BattleScenario = {
           name: 'Caltrop Engineers',
           nameAr: 'نَاشِرُو حَسَكِ الحَدِيدِ',
           troopType: 'siege_engineer',
-          soldierCount: 1500,
+          soldierCount: 2250,
           commander: 'Persian Smiths',
           startPosition: { x: 815, y: 490 },
           startFormation: 'scattered',
@@ -525,7 +517,7 @@ export const battleOfNahavand: BattleScenario = {
           name: 'Fortress Reserves',
           nameAr: 'احْتِيَاطُ نَهَاوَنْدَ',
           troopType: 'reserves',
-          soldierCount: 11500,
+          soldierCount: 17250,
           commander: 'Mountain Marzbans',
           startPosition: { x: 1160, y: 380 },
           startFormation: 'column',

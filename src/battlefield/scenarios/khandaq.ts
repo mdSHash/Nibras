@@ -98,21 +98,13 @@ import type { BattleScenario } from '../types/scenario';
  */
 export const battleOfKhandaq: BattleScenario = {
   id: 'battle-of-khandaq',
-  name: 'Battle of the Trench (Khandaq)',
-  nameAr: 'غزوة الخندق',
-  date: 'Shawwal 5 AH (March 627 CE)',
-  location: "Northern flank of Medina — between the harras of Waqim and al-Wabara, with Mount Sal' at the rear",
-  description:
-    "The largest coalition the Hejaz raised against the Prophet ﷺ — ~10,000 men with ~600 horse — besieged Medina for some twenty-seven days. On Salman al-Farisi's counsel a Persian-style trench was cut across the only cavalry-passable face of the city. The Prophet ﷺ dug with his own hand and, striking a stubborn rock, saw in three flashes the keys of Sham, Persia and Yemen (Bukhari 4101). The trench halted the Confederate cavalry; arrow exchanges followed; Hibban ibn al-'Ariqa wounded Sa'd ibn Mu'adh in the akhal. Banu Qurayza tore up the treaty after Huyayy ibn Akhtab entered Ka'b ibn Asad's fortress; ﴿إِذْ جَاءُوكُم مِّن فَوْقِكُمْ وَمِنْ أَسْفَلَ مِنكُمْ﴾ (Q 33:10). The two Sa'ds rejected the Ghatafan date-bribe; 'Ali killed 'Amr ibn 'Abd Wudd at the narrow crossing. The 'Asr prayer was missed and the Prophet ﷺ pronounced the imprecation against the Confederates. Nu'aym ibn Mas'ud's secret conversion — \"al-harb khud'a\" (Bukhari 3030) — fractured the coalition. Then Allah sent the saba wind on a freezing night; tents overturned, fires guttered. Hudhayfa ibn al-Yaman alone answered the Prophet's three-time call (Muslim 1788) and brought back word of Abu Sufyan's order to depart. The Confederates dispersed without a decisive engagement. The Prophet ﷺ said: \"Now we shall raid them, and they shall not raid us\" (Bukhari 4109). Six Muslims were martyred including Sa'd ibn Mu'adh; three named Confederates fell. Surat al-Ahzab was revealed in connection with this day.",
-  descriptionAr:
-    'أَكْبَرُ تَحَالُفٍ عَسْكَرِيٍّ ثَارَ عَلَى النَّبِيِّ ﷺ فِي الجَزِيرَةِ — نَحْوُ عَشَرَةِ آلَافٍ وَفِيهِمْ سِتُّ مِئَةِ فَارِسٍ — حَاصَرَ المَدِينَةَ نَحْوًا مِنْ سَبْعٍ وَعِشْرِينَ لَيْلَةً. أَشَارَ سَلْمَانُ الفَارِسِيُّ بِحَفْرِ خَنْدَقٍ عَلَى الجِهَةِ الشَّمَالِيَّةِ، وَهِيَ الوَجْهُ الوَحِيدُ المَكْشُوفُ لِخَيْلِ المُغِيرِينَ. حَفَرَ النَّبِيُّ ﷺ بِنَفْسِهِ حَتَّى وَارَى التُّرَابُ جِلْدَةَ بَطْنِهِ، وَلَمَّا اعْتَرَضَتْهُمْ كُدْيَةٌ ضَرَبَهَا ثَلَاثًا، فَرَأَى فِي كُلِّ ضَرْبَةٍ بَرْقَةً: مَفَاتِحَ الشَّامِ، ثُمَّ مَفَاتِحَ فَارِسَ مَعَ قَصْرِ المَدَائِنِ الأَبْيَضِ، ثُمَّ مَفَاتِحَ اليَمَنِ مَعَ أَبْوَابِ صَنْعَاءَ. صَدَّ الخَنْدَقُ خَيْلَ الأَحْزَابِ، فَدَامَتِ النِّبَالُ تَتَطَايَرُ فَوْقَهُ، فَرَمَى حِبَّانُ بنُ العَرِقَةِ سَعْدَ بنَ مُعَاذٍ فَقَطَعَ أَكْحَلَهُ. وَدَخَلَ حُيَيُّ بنُ أَخْطَبَ حِصْنَ كَعْبِ بنِ أَسَدٍ فَنَقَضَ بَنُو قُرَيْظَةَ العَهْدَ مِنْ خَلْفِ المَدِينَةِ ﴿إِذْ جَاءُوكُم مِّن فَوْقِكُمْ وَمِنْ أَسْفَلَ مِنكُمْ﴾. وَهَمَّ النَّبِيُّ ﷺ أَنْ يُعْطِيَ غَطَفَانَ ثُلُثَ ثِمَارِ المَدِينَةِ فَأَبَى السَّعْدَانِ، فَمَزَّقَ الصَّحِيفَةَ. وَوَثَبَ عَمْرُو بنُ عَبْدِ وُدٍّ مِنْ مَضِيقِ الخَنْدَقِ فَنَادَى لِلْمُبَارَزَةِ، فَقَتَلَهُ عَلِيُّ بنُ أَبِي طَالِبٍ. وَشَغَلَتْهُمُ الأَحْزَابُ عَنِ العَصْرِ حَتَّى غَابَتِ الشَّمْسُ، فَدَعَا النَّبِيُّ ﷺ عَلَيْهِمْ. وَأَسْلَمَ نُعَيْمُ بنُ مَسْعُودٍ سِرًّا فَخَذَّلَ بَيْنَ قُرَيْشٍ وَغَطَفَانَ وَقُرَيْظَةَ. ثُمَّ أَرْسَلَ اللَّهُ عَلَيْهِمْ رِيحَ الصَّبَا فِي لَيْلَةٍ ذَاتِ بَرْدٍ شَدِيدٍ، فَأَكْفَأَتْ خِيَامَهُمْ، وَأَطْفَأَتْ نِيرَانَهُمْ، وَهَلَكَتْ خَيْلُهُمْ. وَقَامَ حُذَيْفَةُ بنُ اليَمَانِ وَحْدَهُ بَعْدَ الثَّلَاثَةِ فَدَخَلَ مُعَسْكَرَ أَبِي سُفْيَانَ، فَجَاءَ بِخَبَرِ الِارْتِحَالِ. تَفَرَّقَتِ الأَحْزَابُ قَبْلَ الفَجْرِ. اسْتُشْهِدَ مِنَ المُسْلِمِينَ سِتَّةٌ مِنْهُمْ سَعْدُ بنُ مُعَاذٍ بَعْدَ قَضَائِهِ فِي بَنِي قُرَيْظَةَ، وَقُتِلَ مِنَ الأَحْزَابِ ثَلَاثَةٌ أَشْهَرُهُمْ عَمْرُو بنُ عَبْدِ وُدٍّ. وَقَالَ ﷺ يَوْمَ انْصَرَفَتْ: «الآنَ نَغْزُوهُمْ وَلَا يَغْزُونَنَا». وَنَزَلَتْ سُورَةُ الأَحْزَابِ فِي شَأْنِهَا.',
 
   // A wet, freezing dusk turning to night through the climactic phases —
   // the saba wind comes after dark on the storm-night.
   dayPhase: 'dusk',
   weather: 'storm',
   // ~27 days of siege compressed into 68 simulation seconds.
-  actualDayCount: 27,
+  actualDayCount: 24,
 
   // ─── Map ───────────────────────────────────────────────────────────────────
   // North-up. The northern half is open ground — the only cavalry-passable
@@ -361,7 +353,7 @@ export const battleOfKhandaq: BattleScenario = {
           name: "The Prophet's Command at Mount Sal'",
           nameAr: 'كَتِيبَةُ قِيَادَةِ النَّبِيِّ ﷺ بِسَلْعٍ',
           troopType: 'command',
-          soldierCount: 200,
+          soldierCount: 180,
           commander: 'النَّبِيُّ مُحَمَّدٌ ﷺ',
           startPosition: { x: 800, y: 720 },
           startFormation: 'defensive_circle',
@@ -374,7 +366,7 @@ export const battleOfKhandaq: BattleScenario = {
           name: 'Muhajirun on the Trench',
           nameAr: 'كَتِيبَةُ المُهَاجِرِينَ عَلَى الخَنْدَقِ',
           troopType: 'infantry',
-          soldierCount: 700,
+          soldierCount: 640,
           commander: 'أَبُو بَكْرٍ الصِّدِّيقُ',
           startPosition: { x: 700, y: 480 },
           startFormation: 'line',
@@ -387,7 +379,7 @@ export const battleOfKhandaq: BattleScenario = {
           name: "Aws Contingent under Sa'd ibn Mu'adh",
           nameAr: 'كَتِيبَةُ الأَوْسِ مَعَ سَعْدِ بنِ مُعَاذٍ',
           troopType: 'infantry',
-          soldierCount: 800,
+          soldierCount: 730,
           commander: 'سَعْدُ بنُ مُعَاذٍ',
           startPosition: { x: 1000, y: 480 },
           startFormation: 'line',
@@ -400,7 +392,7 @@ export const battleOfKhandaq: BattleScenario = {
           name: "Khazraj Contingent under Sa'd ibn 'Ubada",
           nameAr: 'كَتِيبَةُ الخَزْرَجِ مَعَ سَعْدِ بنِ عُبَادَةَ',
           troopType: 'infantry',
-          soldierCount: 900,
+          soldierCount: 817,
           commander: 'سَعْدُ بنُ عُبَادَةَ',
           startPosition: { x: 450, y: 480 },
           startFormation: 'line',
@@ -413,7 +405,7 @@ export const battleOfKhandaq: BattleScenario = {
           name: 'Archers on the Embankment',
           nameAr: 'كَتِيبَةُ الرُّمَاةِ عَلَى الرَّدْمِ',
           troopType: 'archers',
-          soldierCount: 250,
+          soldierCount: 230,
           commander: 'سَعْدُ بنُ أَبِي وَقَّاصٍ',
           startPosition: { x: 800, y: 460 },
           startFormation: 'line',
@@ -452,7 +444,7 @@ export const battleOfKhandaq: BattleScenario = {
           name: "Salama ibn Aslam's Fortress Guard",
           nameAr: 'كَتِيبَةُ سَلَمَةَ بنِ أَسْلَمَ بِالأُطُمِ',
           troopType: 'infantry',
-          soldierCount: 200,
+          soldierCount: 180,
           commander: 'سَلَمَةُ بنُ أَسْلَمَ بنِ حُرَيْسٍ',
           startPosition: { x: 445, y: 865 },
           startFormation: 'defensive_circle',
@@ -465,7 +457,7 @@ export const battleOfKhandaq: BattleScenario = {
           name: "Zayd's Inner-City Patrol",
           nameAr: 'كَتِيبَةُ حِرَاسَةِ شَوَارِعِ المَدِينَةِ',
           troopType: 'cavalry',
-          soldierCount: 100,
+          soldierCount: 90,
           commander: 'زَيْدُ بنُ حَارِثَةَ',
           startPosition: { x: 800, y: 920 },
           startFormation: 'scattered',
@@ -478,7 +470,7 @@ export const battleOfKhandaq: BattleScenario = {
           name: "Salman's Engineer Detachment",
           nameAr: 'كَتِيبَةُ سَلْمَانَ لِحَفْرِ الخَنْدَقِ',
           troopType: 'siege_engineer',
-          soldierCount: 100,
+          soldierCount: 90,
           commander: 'سَلْمَانُ الفَارِسِيُّ',
           startPosition: { x: 1100, y: 480 },
           startFormation: 'scattered',

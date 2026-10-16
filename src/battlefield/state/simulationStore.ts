@@ -25,7 +25,6 @@ export interface UnitSnapshot {
 export interface SimulationState {
   // State
   scenarioId: string | null;
-  scenarioName: string | null;
   units: UnitSnapshot[];
   muslimStrength: number;
   enemyStrength: number;
@@ -34,7 +33,7 @@ export interface SimulationState {
   activePhaseId: string | null;
 
   // Actions
-  setScenario: (id: string | null, name: string | null) => void;
+  setScenario: (id: string | null) => void;
   updateUnits: (units: UnitSnapshot[]) => void;
   updateStrengths: (muslim: number, enemy: number) => void;
   updateMorale: (muslim: number, enemy: number) => void;
@@ -44,7 +43,6 @@ export interface SimulationState {
 
 const initialState = {
   scenarioId: null as string | null,
-  scenarioName: null as string | null,
   units: [] as UnitSnapshot[],
   muslimStrength: 0,
   enemyStrength: 0,
@@ -56,7 +54,7 @@ const initialState = {
 export const useSimulationStore = create<SimulationState>()((set) => ({
   ...initialState,
 
-  setScenario: (id, name) => set({ scenarioId: id, scenarioName: name }),
+  setScenario: (id) => set({ scenarioId: id }),
 
   updateUnits: (units) => set({ units }),
 

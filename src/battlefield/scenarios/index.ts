@@ -233,7 +233,7 @@ export class ScenarioLoader {
     const store = useSimulationStore.getState();
 
     // Set scenario info
-    store.setScenario(scenario.id, scenario.name);
+    store.setScenario(scenario.id);
 
     // Build unit snapshots from all entities
     const snapshots: UnitSnapshot[] = [];
@@ -331,15 +331,6 @@ export const scenarios: Record<string, BattleScenario> = {
   'battle-of-yamama': battleOfYamama,
   'battle-of-nahavand': battleOfNahavand,
 };
-
-// Get available scenario IDs
-export function getAvailableScenarios(): Array<{ id: string; name: string; nameAr: string }> {
-  return Object.values(scenarios).map(s => ({
-    id: s.id,
-    name: s.name,
-    nameAr: s.nameAr,
-  }));
-}
 
 // Get a scenario by ID
 export function getScenario(id: string): BattleScenario | undefined {

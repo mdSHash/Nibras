@@ -20,7 +20,7 @@ export interface BaselineEvent {
 export const content = JSON.parse(readFileSync(join(ROOT, 'tests', 'baseline', 'content.json'), 'utf8')) as {
   events: BaselineEvent[];
   companions: { id: string; name: string }[];
-  battles: { id: string; nameAr: string }[];
+  battles: { id: string }[];
 };
 export const behavior = JSON.parse(readFileSync(join(ROOT, 'tests', 'baseline', 'behavior.json'), 'utf8')) as {
   timelineOrder: string[];

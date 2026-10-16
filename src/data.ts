@@ -119,6 +119,10 @@ const toCompanion = (p: Person): Companion => ({
 export const eventsData: EventItem[] = (generatedEvents as unknown as ContentEvent[]).map(toEventItem);
 export const companionsData: Companion[] = (generatedPeople as unknown as Person[]).map(toCompanion);
 export const citiesData: City[] = generatedCities as unknown as City[];
+
+/** The event a battle replay belongs to: its title and date head the player. */
+export const eventForScenario = (scenarioId: string): ContentEvent | undefined =>
+  (generatedEvents as unknown as ContentEvent[]).find(e => e.battleScenarioId === scenarioId);
 export const categories: Category[] = generatedCategories;
 /** Qur'an passages with their Quran.com text, by key (e.g. "سورة الفيل: 1-5"). */
 export const quranPassages: Record<string, GeneratedQuranPassage> = Object.fromEntries(

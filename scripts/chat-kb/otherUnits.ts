@@ -111,9 +111,6 @@ export function addBattleUnits(
     const refs = { battleId };
     const eventRecord = eventRecordForBattle(battleId);
     if (!eventRecord) ctx.issue('warning', recordId, 'no event record carries this battleId');
-    // The simulation's short name ("غزوة بدر") must find the event record too,
-    // not only the simulation.
-    else if (!eventRecord.aliases.includes(aliasForm(scenario.nameAr))) eventRecord.aliases.push(aliasForm(scenario.nameAr));
     const keep = (text: string | undefined): text is string => {
       if (!text) return false;
       if (eventRecord && mentionsQuantity(text)) {
@@ -122,12 +119,10 @@ export function addBattleUnits(
       }
       return true;
     };
-    const name = scenario.nameAr;
+    // The replay takes its title from the linked event.
+    const name = eventRecord?.title ?? scenario.id;
     const secondary = { trust: 'secondary' as const, refs };
 
-    splitSentences(scenario.descriptionAr).filter(keep).forEach((s, i) =>
-      ctx.add({ recordId, slug: `description:${i}`, kind: 'battle_description', text: `${bare(name)}: ${s}`, ...secondary })
-    );
     const phases = scenario.phases.map(p => p.nameAr).filter(keep);
     if (phases.length > 0) {
       ctx.add({ recordId, slug: 'phases', kind: 'battle_phases', text: undefined, list: { heading: `مراحل ${bare(name)} في المحاكاة`, items: phases }, ...secondary });

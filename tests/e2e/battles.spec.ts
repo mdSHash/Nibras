@@ -2,7 +2,7 @@ import { test, expect, knownFailure } from './support/fixtures';
 import { content, openAppWithEvent, openEventBySearch, panel, panelTitle } from './support/app';
 import type { Page } from '@playwright/test';
 
-const battles = content.battles as { id: string; nameAr: string; date: string }[];
+const battles = content.battles as { id: string }[];
 const replayEvents = content.events.filter((e) => e.battle?.available);
 
 const player = {
@@ -42,7 +42,8 @@ for (const event of replayEvents) {
     );
     await openAppWithEvent(page);
     await openReplay(page, event.id);
-    await expect(player.title(page)).toHaveText(scenario.nameAr, { timeout: 30_000 });
+    // The replay is headed by its event's title (Phase 1B).
+    await expect(player.title(page)).toHaveText(event.title, { timeout: 30_000 });
     await expect(page.getByText('جارٍ تحميل المعركة...')).toBeHidden({ timeout: 30_000 });
     await expect(page.getByText('تعذّر تحميل المعركة')).toHaveCount(0);
     await expect(page.locator('canvas').first()).toBeVisible();
@@ -70,13 +71,14 @@ test.describe('known failures', () => {
     await expect(page.getByText('جارٍ تحميل المعركة...')).toBeHidden({ timeout: 30_000 });
     expect(await player.time(page).evaluate((el) => getComputedStyle(el).direction)).toBe('ltr');
   });
+});
 
-  test('the replay subtitle shows the date in Arabic', async ({ page }) => {
-    knownFailure('the subtitle shows the English scenario date inside the Arabic UI');
-    await openAppWithEvent(page);
-    await openReplay(page, 'battle-badr');
-    const subtitle = player.title(page).locator('xpath=following-sibling::p');
-    await expect(subtitle).toBeVisible({ timeout: 30_000 });
-    expect(await subtitle.textContent()).not.toMatch(/[A-Za-z]/);
-  });
+// Known failure 4 of the baseline, fixed in Phase 1B: the subtitle is the event's date label.
+test('the replay subtitle shows the event date in Arabic', async ({ page }) => {
+  await openAppWithEvent(page);
+  await openReplay(page, 'battle-badr');
+  const subtitle = player.title(page).locator('xpath=following-sibling::p');
+  await expect(subtitle).toBeVisible({ timeout: 30_000 });
+  await expect(subtitle).toHaveText(content.events.find((e) => e.id === 'battle-badr')!.date.hijriDisplay);
+  expect(await subtitle.textContent()).not.toMatch(/[A-Za-z]/);
 });

@@ -12,12 +12,15 @@ import { aliasForm, bare, BuildContext, splitSentences } from './common';
 
 const TITLE_HEADS = ['غزوة', 'معركة', 'موقعة', 'سرية', 'فتح', 'حصار', 'بيعة', 'صلح', 'حادثة', 'حلف', 'عمرة', 'وثيقة'];
 
-/** Linking phrases for an event title: full title, title without its head word, parenthetical names. */
+/** Linking phrases for an event title: full title, title without its epithet or head word, parenthetical names. */
 export function eventAliases(title: string, reservedNames: Set<string>): string[] {
   const plain = aliasForm(title);
   const aliases = new Set<string>([plain]);
   const withoutParens = aliasForm(title.replace(/\([^)]*\)/g, ' '));
   aliases.add(withoutParens);
+  // The everyday name without its epithet: "غزوة بدر الكبرى" → "غزوة بدر", "فتح مكة المكرمة" → "فتح مكة".
+  const withoutEpithet = withoutParens.replace(/\s+(الكبرى|المكرمة)$/, '');
+  if (withoutEpithet !== withoutParens && !reservedNames.has(withoutEpithet)) aliases.add(withoutEpithet);
   for (const inner of title.matchAll(/\(([^)]*)\)/g)) {
     const innerPlain = aliasForm(inner[1]);
     if (innerPlain.split(' ').length <= 3) aliases.add(innerPlain);

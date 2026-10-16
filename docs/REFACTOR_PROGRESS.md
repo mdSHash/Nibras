@@ -367,9 +367,9 @@ one PR at the end.
 - [x] 1A Migration script and report (`scripts/migrate-content.ts`, `docs/CONTENT_MIGRATION_REPORT.md`) — `3328e8b`
 - [x] 1A Content build step (`scripts/build-content.ts` → `src/generated/`, checks in `scripts/content/store.ts`) — `3328e8b`
 - [x] 1A App, chat KB builder and baseline scripts read the generated content — `3328e8b`
-- [ ] 1B Quran passages generated from the Quran.com text
+- [x] 1B Quran passages generated from the Quran.com text — `08c3130`
 - [ ] 1B Territories: control rules in data, polygons precomputed, `@turf/turf` out of the bundle, legend row
-- [ ] 1B Battle scenarios read title and date from the event; replay numbers corrected to the event figures (see Decisions)
+- [x] 1B Battle scenarios read title and date from the event; replay numbers corrected to the event figures (see Decisions)
 - [ ] 1B Era, category, battle and people helpers look up IDs
 - [ ] 1C One Arabic normalization module
 - [ ] 1C Old data files removed; `docs/CONTENT_GUIDE.md`; `docs/PRD.md`
@@ -422,6 +422,19 @@ one PR at the end.
 
      Caveat recorded for Mostafa: modern historians consider the classical army sizes inflated; if he
      prefers modern estimates, the event texts would change instead.
+
+### Open for Mostafa (1B)
+
+1. **Yamama**: the event text says Musaylimah's army was "described by the historians as 100,000"
+   (`وَصَفَهُ الْمُؤَرِّخُونَ بِمِائَةِ أَلْفٍ`); the replay has 40,000 (units 41,000) against 13,000
+   Muslims. The event has no `forces` figure, so the replay is unchanged. Keep 40,000, or follow the text?
+2. **Numbers with no event figure** (unchanged): Fath Makkah, Quraysh 1,200 (Khandama group 200, "the
+   people of Mecca" 1,000, Abu Sufyan's party 3; sources give no size for the Khandama group);
+   Tabuk, Romans 690 (Ukaydir's garrison 600, the Ayla and Jarba/Adhruh delegations 50 and 40) and a
+   "Medina garrison" of 750 under Ali (sources: Ali stayed in Medina over the Prophet's family; no
+   garrison size); Uhud Quraysh units 1,745 of 3,000, Khandaq Ahzab 8,414 of 10,000, Khaybar 2,700 of
+   10,000 (only the forces on the map; the counter starts below its maximum).
+3. The 1A table said Tabuk had no event figure; it has one (30,000), which the replay already used.
 
 ### Design choices (approved with the plan)
 
@@ -481,6 +494,48 @@ Made during 1A:
    assistant; ibn al-Harith still matches by his full name. Snapshot: one alias; chat KB rebuilt.
    `scripts/migrate-content.ts` now refuses to overwrite `content/` without `--force`, since `content/`
    has been edited since the migration.
+6. **Quran text from Quran.com** (approved 2026-10-16). `scripts/fetch-quran.ts` (`npm run fetch:quran`)
+   writes the 95 passage verses to `content/quran/verses.json`; the content build joins them into
+   `src/generated/quranPassages.json` (text and link), which the Quran window, the chip, the chat API,
+   the KB builder and the snapshot read. Correction to the 1A description of the 46 differing passages:
+   the differences are tatweel before dagger alef (85 places), hamza `ء` → `ٔ` (3), and the small
+   meem signs `ۢ`/`ۭ` on tanween, which Quran.com's `text_uthmani` mostly leaves out (101); there are no
+   pause-mark differences. All 51 still pass the Tanzil check. Chat KB: the 46 verse units and the
+   Quran four-grams (`والءاخرة` → `والاخرة`) changed. Snapshot: 46 passage texts and the 48 event chips
+   showing them.
+7. **Replays take title and date from the event** (approved). The six fields are gone from the
+   scenarios and the type; the player header and summary show the event title, the subtitle its Hijri
+   label with Arabic-Indic digits, as the panel does (`dir="rtl"`). Known failure 4 is fixed: its test
+   is now a regular test that also checks the label. The unused `getAvailableScenarios` and the store's
+   `scenarioName` are removed. Chat KB: the 96 scenario-description units are gone (the event's own
+   units cover the battle); battle records and their citations carry the event title; the outcome,
+   phase and landmark units are prefixed with it. Event aliases gain the title without its epithet
+   (`غزوة بدر`, `فتح مكة`, and also `الهجرة النبوية`, `بداية الفتنة`); `غزوة مؤتة` is no longer an
+   alias (`مؤتة` still is).
+8. **Replay numbers follow the events** (approved rule, see Decisions). Applied as: (a) `totalStrength`
+   is the event figure; (b) units scale by the same factor (rounded to tens; units of named people, under
+   20 men, and Qadisiyyah's 33 elephants keep their count); (c) where the units still added up to more
+   than an event-backed total, they are scaled down to it, so the strength counter never starts above
+   its maximum. Results (total; units before → after):
+
+   | Replay | Force | Total | Units |
+   | --- | --- | --- | --- |
+   | Badr | Muslims | 313 | 329 → 313 |
+   | Khandaq | Muslims | 3,000 | 3,293 → 3,000; days 27 → 24 |
+   | Khaybar | Muslims | 1,600 → 1,400 | 1,850 → 1,400 |
+   | Hunayn | Muslims | 12,000 | 14,080 → 12,000 |
+   | Hunayn | Hawazin | 6,000 → 20,000 | 4,000 → 13,330 |
+   | Mu'tah | Romans | 19,500 → 200,000 | 20,000 → 200,000; days 1 → 6 |
+   | Yarmouk | Muslims | 36,400 → 36,000 | 35,400 → 35,010 |
+   | Yarmouk | Romans | 110,000 → 240,000 | 120,000 → 240,000 |
+   | Qadisiyyah | Muslims | 30,000 | 36,600 → 30,000 |
+   | Qadisiyyah | Persians | 60,000 → 120,000 | 74,333 → 120,000 |
+   | Nahavand | Persians | 100,000 → 150,000 | 100,000 → 150,000 |
+   | Tabuk | Muslims | 30,000 | 40,000 → 30,000 |
+
+   No narration sentence states a figure that conflicts (Mu'tah's already says 200,000, Khaybar's
+   1,400). Checked visually: the nine changed replays captured old vs new at 4 %, 35 % and 70 %
+   of their time: same layout and unit shapes, only the counters, day counters and header differ.
 
 ### 1A verification (2026-10-16, Windows 11, Node 20.19.5, Playwright 1.59.1)
 

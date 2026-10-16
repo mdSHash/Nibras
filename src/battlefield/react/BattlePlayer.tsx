@@ -15,6 +15,7 @@ import { FACTION_NAME_AR } from '../types/components';
 import type { Faction } from '../types/components';
 import type { BattleScenario } from '../types/scenario';
 import { AtmosphereOverlay } from './AtmosphereOverlay';
+import { eventForScenario } from '../../data';
 
 // ─── Props ───────────────────────────────────────────────────────────────────
 
@@ -67,6 +68,8 @@ function cnVerdict(verdict: string): string {
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePlayerProps) {
+  const battleEvent = useMemo(() => eventForScenario(scenarioId), [scenarioId]);
+
   // Refs
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -144,7 +147,7 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
       setIsLoading(false);
       return;
     }
-    if (import.meta.env.DEV) console.log('[BattlePlayer] scenario resolved:', loadedScenario.name);
+    if (import.meta.env.DEV) console.log('[BattlePlayer] scenario resolved:', loadedScenario.id);
 
     setScenario(loadedScenario);
 
@@ -523,10 +526,13 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
               )}
               <div className="min-w-0">
                 <h1 className="text-white font-semibold text-base sm:text-lg leading-tight truncate" dir="rtl" lang="ar">
-                  {scenario?.nameAr ?? scenario?.name ?? 'معركة'}
+                  {battleEvent?.title ?? 'معركة'}
                 </h1>
-                {scenario?.date && (
-                  <p className="text-gray-400 text-xs truncate">{scenario.date}</p>
+                {battleEvent && (
+                  <p className="text-gray-400 text-xs truncate" dir="rtl" lang="ar">
+                    {/* As the event panel shows it, with Arabic-Indic digits. */}
+                    {battleEvent.date.labelAr.replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[Number(d)])}
+                  </p>
                 )}
               </div>
             </div>
@@ -624,7 +630,7 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
             {/* Verdict badge */}
             <div className="flex items-center justify-between gap-3 flex-wrap">
               <h2 className="text-amber-300 text-xl sm:text-2xl font-bold">
-                {scenario.nameAr}
+                {battleEvent?.title}
               </h2>
               <span
                 className={cnVerdict(scenario.outcome.verdict)}
