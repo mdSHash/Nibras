@@ -282,6 +282,15 @@ export class ScenarioLoader {
       }
     }
 
+    // The header counters start at each side's force total and drain in
+    // proportion to the units' losses.
+    const forceTotal = (muslimSide: boolean) =>
+      scenario.forces.filter((f) => isMuslimSide(f.faction) === muslimSide).reduce((sum, f) => sum + f.totalStrength, 0);
+    store.setStrengthScale({
+      muslim: muslimStrength > 0 ? forceTotal(true) / muslimStrength : 1,
+      enemy: enemyStrength > 0 ? forceTotal(false) / enemyStrength : 1,
+    });
+
     // Update store
     store.updateUnits(snapshots);
     store.updateStrengths(muslimStrength, enemyStrength);

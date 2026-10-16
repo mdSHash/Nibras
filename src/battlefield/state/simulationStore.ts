@@ -26,8 +26,15 @@ export interface SimulationState {
   // State
   scenarioId: string | null;
   units: UnitSnapshot[];
+  /** Each side's strength as the header shows it: its force total (the event figure), drained in proportion. */
   muslimStrength: number;
   enemyStrength: number;
+  /**
+   * Force total ÷ the units' starting soldier count, per side. The units keep
+   * their own sizes (often the sources' figures for each contingent, which need
+   * not add up to the army's total), so the counters are scaled instead.
+   */
+  strengthScale: { muslim: number; enemy: number };
   muslimMorale: number;
   enemyMorale: number;
   activePhaseId: string | null;
@@ -35,6 +42,8 @@ export interface SimulationState {
   // Actions
   setScenario: (id: string | null) => void;
   updateUnits: (units: UnitSnapshot[]) => void;
+  setStrengthScale: (scale: { muslim: number; enemy: number }) => void;
+  /** Takes the units' live soldier counts per side. */
   updateStrengths: (muslim: number, enemy: number) => void;
   updateMorale: (muslim: number, enemy: number) => void;
   setActivePhase: (phaseId: string | null) => void;
@@ -46,6 +55,7 @@ const initialState = {
   units: [] as UnitSnapshot[],
   muslimStrength: 0,
   enemyStrength: 0,
+  strengthScale: { muslim: 1, enemy: 1 },
   muslimMorale: 100,
   enemyMorale: 100,
   activePhaseId: null as string | null,
@@ -58,8 +68,13 @@ export const useSimulationStore = create<SimulationState>()((set) => ({
 
   updateUnits: (units) => set({ units }),
 
+  setStrengthScale: (strengthScale) => set({ strengthScale }),
+
   updateStrengths: (muslim, enemy) =>
-    set({ muslimStrength: muslim, enemyStrength: enemy }),
+    set((s) => ({
+      muslimStrength: Math.round(muslim * s.strengthScale.muslim),
+      enemyStrength: Math.round(enemy * s.strengthScale.enemy),
+    })),
 
   updateMorale: (muslim, enemy) =>
     set({ muslimMorale: muslim, enemyMorale: enemy }),

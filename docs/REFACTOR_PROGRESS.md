@@ -425,15 +425,20 @@ one PR at the end.
 
 ### Open for Mostafa (1B)
 
-1. **Yamama**: the event text says Musaylimah's army was "described by the historians as 100,000"
-   (`وَصَفَهُ الْمُؤَرِّخُونَ بِمِائَةِ أَلْفٍ`); the replay has 40,000 (units 41,000) against 13,000
-   Muslims. The event has no `forces` figure, so the replay is unchanged. Keep 40,000, or follow the text?
-2. **Numbers with no event figure** (unchanged): Fath Makkah, Quraysh 1,200 (Khandama group 200, "the
-   people of Mecca" 1,000, Abu Sufyan's party 3; sources give no size for the Khandama group);
-   Tabuk, Romans 690 (Ukaydir's garrison 600, the Ayla and Jarba/Adhruh delegations 50 and 40) and a
-   "Medina garrison" of 750 under Ali (sources: Ali stayed in Medina over the Prophet's family; no
-   garrison size); Uhud Quraysh units 1,745 of 3,000, Khandaq Ahzab 8,414 of 10,000, Khaybar 2,700 of
-   10,000 (only the forces on the map; the counter starts below its maximum).
+Checked against the sources on Mostafa's request (2026-10-16):
+
+1. **Yamama**: no conflict. Ibn Kathir (al-Bidaya, «مقتل مسيلمة») gives both figures: Banu Hanifa were
+   «نحو أربعين ألفا من المقاتلة» (fighters) and, at the battle, «قريب من مائة ألف أو يزيدون» against
+   «بضعة عشر ألفا» Muslims. The event text's 100,000 is the host, the replay's 40,000 the fighters,
+   its 13,000 Muslims within «بضعة عشر ألفا». Unchanged. One difference remains: the replay's summary
+   says about 1,200 Muslims were martyred; Ibn Kathir gives 600 («وقيل: خمسمائة»), and the 1,200 of
+   other accounts was not confirmed in a primary text. Open.
+2. **Numbers no source gives** (sizes of groups the sources name without a count): Fath Makkah, the
+   Khandama group (200) and "the people of Mecca" (1,000), total 1,200; Tabuk, Ukaydir's garrison
+   (600) and the Ayla and Jarba/Adhruh delegations (50, 40), total 690. Confirmed: Abu Sufyan's party
+   of 3 (Abu Sufyan, Hakim ibn Hizam, Budayl ibn Warqa'), the 12–13 Quraysh and 2 Muslims killed at
+   Khandama (Kurz ibn Jabir, Khunays/Hubaysh ibn Khalid), Khalid's 420 riders. How the replay should
+   show a side with no known size is Mostafa's call (see the summary of 1B).
 3. The 1A table said Tabuk had no event figure; it has one (30,000), which the replay already used.
 
 ### Design choices (approved with the plan)
@@ -512,30 +517,27 @@ Made during 1A:
    phase and landmark units are prefixed with it. Event aliases gain the title without its epithet
    (`غزوة بدر`, `فتح مكة`, and also `الهجرة النبوية`, `بداية الفتنة`); `غزوة مؤتة` is no longer an
    alias (`مؤتة` still is).
-8. **Replay numbers follow the events** (approved rule, see Decisions). Applied as: (a) `totalStrength`
-   is the event figure; (b) units scale by the same factor (rounded to tens; units of named people, under
-   20 men, and Qadisiyyah's 33 elephants keep their count); (c) where the units still added up to more
-   than an event-backed total, they are scaled down to it, so the strength counter never starts above
-   its maximum. Results (total; units before → after):
-
-   | Replay | Force | Total | Units |
-   | --- | --- | --- | --- |
-   | Badr | Muslims | 313 | 329 → 313 |
-   | Khandaq | Muslims | 3,000 | 3,293 → 3,000; days 27 → 24 |
-   | Khaybar | Muslims | 1,600 → 1,400 | 1,850 → 1,400 |
-   | Hunayn | Muslims | 12,000 | 14,080 → 12,000 |
-   | Hunayn | Hawazin | 6,000 → 20,000 | 4,000 → 13,330 |
-   | Mu'tah | Romans | 19,500 → 200,000 | 20,000 → 200,000; days 1 → 6 |
-   | Yarmouk | Muslims | 36,400 → 36,000 | 35,400 → 35,010 |
-   | Yarmouk | Romans | 110,000 → 240,000 | 120,000 → 240,000 |
-   | Qadisiyyah | Muslims | 30,000 | 36,600 → 30,000 |
-   | Qadisiyyah | Persians | 60,000 → 120,000 | 74,333 → 120,000 |
-   | Nahavand | Persians | 100,000 → 150,000 | 100,000 → 150,000 |
-   | Tabuk | Muslims | 30,000 | 40,000 → 30,000 |
-
-   No narration sentence states a figure that conflicts (Mu'tah's already says 200,000, Khaybar's
-   1,400). Checked visually: the nine changed replays captured old vs new at 4 %, 35 % and 70 %
-   of their time: same layout and unit shapes, only the counters, day counters and header differ.
+8. **Replay numbers follow the events** (approved rule, see Decisions). `totalStrength` is the event
+   figure (Khaybar Muslims 1,600 → 1,400; Hunayn Hawazin 6,000 → 20,000; Mu'tah Romans 19,500 →
+   200,000; Yarmouk 36,400 → 36,000 Muslims and 110,000 → 240,000 Romans; Qadisiyyah Persians
+   60,000 → 120,000; Nahavand Persians 100,000 → 150,000), and the day counter too (Khandaq 27 → 24,
+   Mu'tah 1 → 6). Where the enemy total grew, its units grow with it (rounded to tens; Qadisiyyah's 33
+   elephants unchanged), so the counts on the map match. **Units are otherwise left as they were**:
+   many carry the sources' figure for one contingent (Badr's 82 Muhajirun, 61 Aws and 170 Khazraj;
+   Hunayn's 2,000 Tulaqa; Khalid's 420 riders to Dumat al-Jandal; Uhud's 200 Quraysh horse), and those
+   need not add up to the army's total (some count men twice, some leave forces off the map,
+   Qadisiyyah's include the reinforcements from Syria). Instead, **the header counters show the force
+   total and drain in proportion** to the units' losses (`strengthScale` in the simulation store), so
+   every replay starts at its event figure (before: Badr 329 / 313, Hunayn 14,080 / 12,000, Uhud
+   1,745 / 3,000, Tabuk 40,000 / 30,000). A first version scaled the units to the totals instead; it
+   was reverted (2026-10-16) because it changed sourced contingent sizes. Checked visually: the nine
+   replays with changed totals, captured old vs new at 4 %, 35 % and 70 % of their time.
+8a. **Tabuk: the "Medina garrison" of 1,000 under Ali is corrected** (Mostafa asked Claude to check
+   and correct, 2026-10-16). Ibn Ishaq: the Prophet ﷺ left Ali over his family; Medina was left to
+   Muhammad ibn Maslama (or Siba' ibn 'Urfuta, al-Darawardi); no garrison is reported. The unit is now
+   Ali alone, «عَلِيُّ بْنُ أَبِي طَالِبٍ — عَلَى أَهْلِ النَّبِيِّ ﷺ بِالْمَدِينَةِ» (was «حَامِيَةُ الْمَدِينَةِ —
+   وِلَايَةُ عَلِيٍّ»), which the Hadith al-Manzilah phase still focuses on. Narration 3 («خَلَّفَ … عَلِيَّ
+   بْنَ أَبِي طَالِبٍ عَلَى المَدِينَةِ وَأَهْلِهِ») is unchanged: al-Bukhari's «استخلف عليا» supports it.
 9. **Territories precomputed** (plan). `content/territories/regions.json` holds the 46 seed points
    and the land outline; `control.json` the owners of every land region in 11 periods (the old
    `if` chain, with its inner conditions at 628, 633.8 and 645.3–645.7 as periods of their own),
