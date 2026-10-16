@@ -9,6 +9,9 @@
  */
 import { z } from 'zod';
 
+// Field descriptions (`.describe()`) are documentation only: they feed the
+// field reference in docs/CONTENT_GUIDE.md (npm run docs:content) and never
+// change what validates.
 const text = z.string().trim().min(1);
 const slug = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'lowercase-slug id');
 // Event ids are the future public URLs and are frozen as they are, including
@@ -21,114 +24,129 @@ const latLng = z.tuple([z.number().min(-90).max(90), z.number().min(-180).max(18
 export const EVENT_ICONS = ['skull', 'crown', 'swords', 'flag', 'book', 'scroll', 'tent', 'pin'] as const;
 
 export const eraSchema = z.strictObject({
-  id: slug,
-  /** Era name on the timeline and in search, e.g. "خلافة الفاروق". */
-  nameAr: text,
-  /** The badge on the event panel; both prophetic eras show "عهد النبوة". */
-  panelTitleAr: text,
-  rulerAr: text,
-  /** Colour scheme in src/utils/eraColors.ts. */
-  colorKey: z.enum(['prophetic', 'abuBakr', 'umar', 'uthman', 'ali']),
-  /** The era filter: the Prophet's era or the Rashidun caliphate. */
-  group: z.enum(['prophet', 'rashidun']),
-  order: z.number().int(),
-  /**
-   * The event the timeline's era button jumps to (the era's start: the first
-   * revelation, each caliph's accession). When a filter hides it, the button
-   * goes to the first shown event of the era from this date on.
-   */
-  anchorEventId: eventId.optional(),
+  id: slug.describe('Permanent id, e.g. `medinan`. Events point to it with `eraId`.'),
+  nameAr: text.describe('Era name on the timeline and in search, e.g. «خلافة الفاروق».'),
+  panelTitleAr: text.describe('The badge on the event panel; both prophetic eras show «عهد النبوة».'),
+  rulerAr: text.describe('The ruler the event panel names for this era.'),
+  colorKey: z.enum(['prophetic', 'abuBakr', 'umar', 'uthman', 'ali']).describe('Colour scheme in `src/utils/eraColors.ts`.'),
+  group: z.enum(['prophet', 'rashidun']).describe("The era filter: the Prophet's era or the Rashidun caliphate."),
+  order: z.number().int().describe('Position on the timeline (ascending).'),
+  anchorEventId: eventId
+    .optional()
+    .describe(
+      "The event the timeline's era button jumps to (the era's start). When a filter hides it, the button goes to the first shown event of the era from this date on.",
+    ),
 });
 
 export const categorySchema = z.strictObject({
-  id: slug,
-  /** Same wording as the map legend in the help window. */
-  nameAr: text,
-  /** Marker colour. */
-  color: z.string().regex(/^#[0-9a-f]{6}$/),
+  id: slug.describe('Permanent id, e.g. `battle`. Events point to it with `categoryId`.'),
+  nameAr: text.describe('Same wording as the map legend in the help window.'),
+  color: z.string().regex(/^#[0-9a-f]{6}$/).describe('Marker colour (lowercase hex).'),
 });
 
 /** A force size: the original text, plus numbers where the text states them plainly. */
 export const countSchema = z.strictObject({
-  textAr: text,
-  value: z.number().int().positive().optional(),
-  min: z.number().int().positive().optional(),
-  max: z.number().int().positive().optional(),
-  /** The text says "about" (حوالي، نحو، قرابة، …). */
-  approx: z.boolean().optional(),
+  textAr: text.describe('The size as the text gives it, verbatim, e.g. «حوالي ٣١٣ مقاتلا».'),
+  value: z.number().int().positive().optional().describe('The number, when the text states one plainly.'),
+  min: z.number().int().positive().optional().describe('Lower bound, when the text gives a range.'),
+  max: z.number().int().positive().optional().describe('Upper bound, when the text gives a range.'),
+  approx: z.boolean().optional().describe('The text says "about" (حوالي، نحو، قرابة، …).'),
 });
 
 export const eventSchema = z.strictObject({
-  id: eventId,
-  eraId: slug,
-  categoryId: slug,
-  /** Counted by the "battles" filter. Stored, never guessed from the title. */
-  isBattle: z.boolean(),
-  icon: z.enum(EVENT_ICONS),
-  isMajor: z.boolean().optional(),
-  title: text,
+  id: eventId.describe('Permanent id and file name (`content/events/<id>.json`); becomes the public URL. Never rename.'),
+  eraId: slug.describe('An `id` from `content/eras.json`.'),
+  categoryId: slug.describe('An `id` from `content/categories.json`; sets the marker colour.'),
+  isBattle: z.boolean().describe('Counted by the "battles" filter. Stored, never guessed from the title.'),
+  icon: z.enum(EVENT_ICONS).describe('Marker icon.'),
+  isMajor: z.boolean().optional().describe('Drawn as a larger diamond on the timeline.'),
+  title: text.describe('Title as the panel and the timeline show it.'),
   date: z.strictObject({
-    /** Orders the timeline and picks the territory map. Hand-set; keep the existing values. */
-    sortKey: z.number(),
-    /** Only on events that share a sortKey: their order on the timeline (0, 1, 2, …). */
-    tieOrder: z.number().int().min(0).optional(),
-    gregorian: z.strictObject({ year: z.number().int() }),
-    /** Hijri year (negative before the Hijra), where the old data had one. */
-    hijri: z.strictObject({ year: z.number().int() }).optional(),
-    /** The date as the panel shows it, e.g. "17 رمضان، 2 هـ". */
-    labelAr: text,
-  }),
-  location: z.strictObject({ nameAr: text, coordinates: latLng }),
-  summary: text,
-  fullDescription: text,
-  courseOfEvents: z.array(text),
-  durationAr: text.optional(),
-  forces: z.strictObject({ army: countSchema.optional(), enemyArmy: countSchema.optional() }).optional(),
-  /** People chips; `labelAr` is the text the chip shows. */
-  keyFigures: z.array(z.strictObject({ personId: slug, labelAr: text })),
-  /** "Roles in the event" list. */
-  roles: z.array(z.strictObject({ personId: slug, labelAr: text, roleAr: text })),
-  /** Qur'an chips: the passage {surah, from, to}; `labelAr` is the text the chip shows. */
-  quran: z.array(
-    z.strictObject({
-      surah: z.number().int().min(1).max(114),
-      from: z.number().int().min(1),
-      to: z.number().int().min(1),
-      labelAr: text,
-    }),
-  ),
-  hadith: z.array(text),
-  sources: z.array(text),
-  /** Battle replay (src/battlefield/scenarios), e.g. "battle-of-badr". */
-  battleScenarioId: slug.optional(),
-  route: z.array(latLng).min(2).optional(),
+    sortKey: z.number().describe('Orders the timeline and picks the territory map (Gregorian year with a fraction). Keep the existing values.'),
+    tieOrder: z
+      .number()
+      .int()
+      .min(0)
+      .optional()
+      .describe('Only on events that share a `sortKey`: their order on the timeline (0, 1, 2, …).'),
+    gregorian: z.strictObject({ year: z.number().int().describe('Gregorian year; must be the whole-number part of `sortKey`.') }),
+    hijri: z
+      .strictObject({ year: z.number().int().describe('Hijri year, negative before the Hijra.') })
+      .optional()
+      .describe('Only where the sources give a Hijri year.'),
+    labelAr: text.describe('The date as the panel shows it, e.g. «17 رمضان، 2 هـ».'),
+  }).describe('When it happened.'),
+  location: z.strictObject({
+    nameAr: text.describe('Place name as the panel shows it.'),
+    coordinates: latLng.describe('Marker position, `[latitude, longitude]`.'),
+  }).describe('Where it happened.'),
+  summary: text.describe('Short text on the panel; searched with the title and full description.'),
+  fullDescription: text.describe('The narrated text (its audio file is keyed by this text).'),
+  courseOfEvents: z.array(text).describe('"Course of events" list, one entry per step.'),
+  durationAr: text.optional().describe('Duration, as the sources give it (used by the chat assistant; not shown on the panel).'),
+  forces: z
+    .strictObject({
+      army: countSchema.optional().describe("The Muslims' force."),
+      enemyArmy: countSchema.optional().describe("The opponents' force."),
+    })
+    .optional()
+    .describe('Force sizes for the panel.'),
+  keyFigures: z
+    .array(
+      z.strictObject({
+        personId: slug.describe('An `id` from `content/people/`.'),
+        labelAr: text.describe('The text the chip shows.'),
+      }),
+    )
+    .describe('People chips.'),
+  roles: z
+    .array(
+      z.strictObject({
+        personId: slug.describe('An `id` from `content/people/`.'),
+        labelAr: text.describe('The name as the list shows it.'),
+        roleAr: text.describe("The person's role in the event."),
+      }),
+    )
+    .describe('"Roles in the event" list.'),
+  quran: z
+    .array(
+      z.strictObject({
+        surah: z.number().int().min(1).max(114).describe('Surah number.'),
+        from: z.number().int().min(1).describe('First ayah.'),
+        to: z.number().int().min(1).describe('Last ayah.'),
+        labelAr: text.describe('The text the chip shows.'),
+      }),
+    )
+    .describe("Qur'an chips; each needs a passage in `content/quran/passages.json`."),
+  hadith: z.array(text).describe('Hadith references, as shown.'),
+  sources: z.array(text).describe('Sources, as shown.'),
+  battleScenarioId: slug.optional().describe('Battle replay (`src/battlefield/scenarios`), e.g. `battle-of-badr`.'),
+  route: z.array(latLng).min(2).optional().describe('A route drawn on the map, `[latitude, longitude]` points.'),
 });
 
 export const personSchema = z.strictObject({
-  id: slug,
-  name: text,
-  title: z.string(),
-  role: z.string(),
-  bio: text,
-  birthDeath: z.string(),
-  /** Other names the chat assistant and search recognise. */
-  aliases: z.array(text),
+  id: slug.describe('Permanent id and file name (`content/people/<id>.json`).'),
+  name: text.describe('Full name, the heading of the person window.'),
+  title: z.string().describe('Title or kunya.'),
+  role: z.string().describe('Main role.'),
+  bio: text.describe('Biography in the person window.'),
+  birthDeath: z.string().describe('Birth and death, as shown.'),
+  aliases: z.array(text).describe('Other names the chat assistant and the person lookup recognise.'),
 });
 
 export const citySchema = z.strictObject({
-  id: slug,
-  name: text,
-  coordinates: latLng,
-  description: text,
-  significance: text,
+  id: slug.describe('Permanent id and file name (`content/cities/<id>.json`).'),
+  name: text.describe('City name.'),
+  coordinates: latLng.describe('`[latitude, longitude]`.'),
+  description: text.describe('Description.'),
+  significance: text.describe('Why the city matters.'),
 });
 
 export const quranPassageSchema = z.strictObject({
-  /** Frozen key used by the chat assistant and the Qur'an window, e.g. "سورة الفيل: 1-5". */
-  key: text,
-  surah: z.number().int().min(1).max(114),
-  from: z.number().int().min(1),
-  to: z.number().int().min(1),
+  key: text.describe("Frozen key used by the chat assistant and the Qur'an window, e.g. «سورة الفيل: 1-5»."),
+  surah: z.number().int().min(1).max(114).describe('Surah number.'),
+  from: z.number().int().min(1).describe('First ayah.'),
+  to: z.number().int().min(1).describe('Last ayah.'),
 });
 
 const regionId = z.string().regex(/^[a-z0-9_]+$/, 'lowercase id with underscores');
@@ -140,10 +158,16 @@ const lngLat = z.tuple([z.number().min(-180).max(180), z.number().min(-90).max(9
  * as [lng, lat]. Sea points only keep cells from crossing the seas.
  */
 export const territoryRegionsSchema = z.strictObject({
-  landOutline: z.array(lngLat).min(4),
+  landOutline: z.array(lngLat).min(4).describe('Land outline the cells are clipped to, `[longitude, latitude]` points.'),
   regions: z.array(
-    z.strictObject({ id: regionId, titleAr: text, lng: z.number(), lat: z.number(), sea: z.literal(true).optional() }),
-  ),
+    z.strictObject({
+      id: regionId.describe('Region id; control.json lists it under its owner.'),
+      titleAr: text.describe("Region name (the map label of a group that isn't an empire)."),
+      lng: z.number().describe('Seed point longitude.'),
+      lat: z.number().describe('Seed point latitude.'),
+      sea: z.literal(true).optional().describe('A sea point: keeps cells from crossing the sea; has no owner.'),
+    }),
+  ).describe('Seed points, one map cell each.'),
 });
 
 /**
@@ -153,31 +177,33 @@ export const territoryRegionsSchema = z.strictObject({
  * region has exactly one owner per period.
  */
 export const territoryControlSchema = z.strictObject({
-  /** Groups whose map label is the group name; others show the region's name. */
-  empireGroups: z.array(regionId),
-  periods: z.array(
-    z.strictObject({
-      from: z.number().optional(),
-      to: z.number().optional(),
-      owners: z.array(
-        z.strictObject({
-          group: regionId,
-          nameAr: text,
-          color: z.string().regex(/^#[0-9a-f]{6}$/),
-          regions: z.array(regionId).min(1),
-        }),
-      ),
-    }),
-  ).min(1),
+  empireGroups: z.array(regionId).describe("Groups whose map label is the group name; others show the region's name."),
+  periods: z
+    .array(
+      z.strictObject({
+        from: z.number().optional().describe('Start, inclusive, on the `date.sortKey` scale (absent on the first period).'),
+        to: z.number().optional().describe('End, exclusive (absent on the last period).'),
+        owners: z.array(
+          z.strictObject({
+            group: regionId.describe('Owner id.'),
+            nameAr: text.describe('Owner name on the map.'),
+            color: z.string().regex(/^#[0-9a-f]{6}$/).describe('Shading colour (lowercase hex).'),
+            regions: z.array(regionId).min(1).describe('The regions it holds in this period.'),
+          }),
+        ).describe('Who holds what; every land region exactly once.'),
+      }),
+    )
+    .min(1)
+    .describe('Periods in date order, joining up with no gap.'),
 });
 
 /** content/quran/verses.json, written by scripts/fetch-quran.ts; never edited by hand. */
 export const quranVersesSchema = z.strictObject({
-  source: text,
-  fetchedOn: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  /** "surah:ayah" → Uthmani text as Quran.com serves it. */
-  verses: z.record(z.string().regex(/^\d+:\d+$/), text),
+  source: text.describe('Where the text was fetched from.'),
+  fetchedOn: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).describe('The day the text was fetched.'),
+  verses: z.record(z.string().regex(/^\d+:\d+$/), text).describe('"surah:ayah" → Uthmani text as Quran.com serves it.'),
 });
+
 
 export type Era = z.infer<typeof eraSchema>;
 export type Category = z.infer<typeof categorySchema>;

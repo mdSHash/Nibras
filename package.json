@@ -13,6 +13,7 @@
     "build:content": "tsx scripts/build-content.ts",
     "build:chat-kb": "npm run build:content && tsx scripts/build-chat-kb.ts",
     "fetch:quran": "tsx scripts/fetch-quran.ts",
+    "docs:content": "tsx scripts/docs/content-guide.ts",
     "build:embeddings": "tsx scripts/build-chat-embeddings.ts",
     "pretest": "npm run build:content",
     "test": "vitest run",
