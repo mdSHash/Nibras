@@ -1,3 +1,7 @@
+> **⚠️ Outdated — do not follow.** This guide describes an older data format (for example `companion_roles` as `{companion_id, role}`; the data uses `{name, role_in_event}`) and omits narration audio, the chat KB rebuild and battle links. See `docs/REFACTOR_PLAN.md`; Phase 1 replaces this file with `docs/CONTENT_GUIDE.md`.
+>
+> **⚠️ هذا الدليل قديم ولا يطابق البيانات الحالية.** راجع `docs/REFACTOR_PLAN.md`.
+
 # دليل إضافة محتوى جديد لبرنامج نبراس
 
 هذا الدليل الشامل يشرح كيفية إضافة محتوى جديد لبرنامج نبراس، بما في ذلك الأحداث التاريخية، الصحابة والشخصيات، والمدن.

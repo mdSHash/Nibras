@@ -20,6 +20,7 @@ export interface EventBusOptions {
 }
 
 export class EventBus {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- listeners of different event types share one map; typed when systems are split in Phase 3
   private listeners: Map<string, Set<(event: any) => void>>;
   private wildcardListeners: Set<(event: EngineEvent) => void>;
   private history: EngineEvent[];

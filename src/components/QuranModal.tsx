@@ -13,6 +13,7 @@ interface QuranModalProps {
 }
 
 export default function QuranModal({ reference, onClose }: QuranModalProps) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- quranData.json is replaced by the Phase 1 content model
   const data = (quranData as any)[reference];
   const focusTrapRef = useFocusTrap(!!reference && !!data);
 

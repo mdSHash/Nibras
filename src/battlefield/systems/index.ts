@@ -10,17 +10,13 @@ import { Container, Graphics, Text, TextStyle } from 'pixi.js';
 import type { Entity } from '../types/entities';
 import type {
   Vector2D,
-  MovementComponent,
-  TransformComponent,
-  VisualComponent,
   UnitComponent,
   UnitVisualState,
   CombatComponent,
-  FormationComponent,
   FormationType,
   Faction,
 } from '../types/components';
-import type { BattleScenario, MapConfig, TerrainZone, Landmark } from '../types/scenario';
+import type { MapConfig, TerrainZone, Landmark } from '../types/scenario';
 import { EntityManager } from '../entities';
 import { EventBus } from '../core/EventBus';
 import { PixiRenderer } from '../renderer/PixiRenderer';
@@ -530,7 +526,6 @@ const TERRAIN_PALETTE = {
  */
 const FIGURE_SPACING = 16;
 const MAX_FIGURES_PER_UNIT = 24;
-const FIGURE_HEIGHT = 14;
 
 /** Backwards-compatibility aliases for the older renderer. */
 const DOT_SPACING = FIGURE_SPACING;

@@ -199,6 +199,7 @@ export class EntityManager {
     component: NonNullable<ComponentMap[K]>
   ): void {
     const entity = this.getOrThrow(entityId);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- dynamic component key; typed when systems are split in Phase 3
     (entity.components as any)[componentType] = component;
 
     this.eventBus.emit({

@@ -49,7 +49,7 @@ interface Word {
 }
 
 const WORD = /[ء-غـ-ٰٟٱ٠-٩۰-۹0-9]+/g;
-const CLAUSE_BREAK = /[.,،؛;:!?؟()«»\[\]"—–﴿﴾]/;
+const CLAUSE_BREAK = /[.,،؛;:!?؟()«»[\]"—–﴿﴾]/;
 
 // Standalone particles that begin a new clause: "قاتل بشجاعة حتى استشهد…"
 // may be shortened to "استشهد…" without breaking the grammar of either part.

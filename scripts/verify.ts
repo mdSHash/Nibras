@@ -5,7 +5,7 @@
 //   npm run verify                      run everything
 //   npm run verify -- --update-numbers  also record the test counts in tests/baseline/numbers.json
 import { spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { readNumbers, writeNumbers } from './baseline/bundle-report';
 import { ROOT } from './baseline/lib';
@@ -13,6 +13,37 @@ import { ROOT } from './baseline/lib';
 const REPORT_DIR = join(ROOT, 'tmp', 'verify');
 // The test build points the chat at a host the Playwright tests mock.
 const TEST_CHAT_API_URL = 'http://chat.test/api/chat';
+// CI runners have fewer cores than a dev laptop; the WebGL replays need the headroom.
+const FEATURE_WORKERS = process.env.CI ? 2 : 3;
+
+// Reference screenshots are per platform. Until this platform's set is committed
+// (Linux comes from the CI "baseline-linux" artifact), the visual step writes the
+// images instead of comparing, and says so in the summary. (It uses --update-snapshots=all:
+// in this Playwright version "missing" writes the image but still fails the test.)
+const VISUAL_DIR = join(ROOT, 'tests', 'baseline', 'visual');
+function hasVisualBaseline(): boolean {
+  if (!existsSync(VISUAL_DIR)) return false;
+  return readdirSync(VISUAL_DIR, { recursive: true }).some((name) => String(name).endsWith(`-${process.platform}.png`));
+}
+const visualBaselineMissing = !hasVisualBaseline();
+
+// The browser-only UI numbers are per platform too (tests/e2e/support/uiBaseline.ts).
+// Where this platform has none yet, the tests record them in UI_RECORD_DIR and they
+// are merged into this platform's file here, for review before committing.
+const UI_RECORD_DIR = join(ROOT, 'tmp', 'ui-baseline');
+const UI_BASELINE_NAME = process.platform === 'win32' ? 'behavior-ui.json' : `behavior-ui-${process.platform}.json`;
+function mergeRecordedUiBaseline(): string | undefined {
+  if (!existsSync(UI_RECORD_DIR)) return undefined;
+  const data: Record<string, Record<string, unknown>> = {};
+  for (const file of readdirSync(UI_RECORD_DIR).sort()) {
+    const [project, key] = file.replace(/.json$/, '').split('~');
+    data[project] = { ...data[project], [key]: JSON.parse(readFileSync(join(UI_RECORD_DIR, file), 'utf8')) };
+  }
+  if (Object.keys(data).length === 0) return undefined;
+  writeFileSync(join(ROOT, 'tests', 'baseline', UI_BASELINE_NAME), `${JSON.stringify(data, null, 2)}
+`);
+  return UI_BASELINE_NAME;
+}
 
 interface Step {
   name: string;
@@ -46,14 +77,15 @@ function playwrightSummary(file: string, label: string): string | undefined {
   };
   report.suites.forEach(walk);
   const { expected, unexpected, flaky, skipped } = report.stats;
-  counts[`${label}Tests`] = expected + unexpected + flaky;
+  // Skipped tests still exist (e.g. the Linux-only skips); the guard below is about removed tests.
+  counts[`${label}Tests`] = expected + unexpected + flaky + skipped;
   counts[`${label}KnownFailures`] = knownFailures;
   return `${expected} passed (${knownFailures} known failures), ${unexpected} failed, ${flaky} flaky, ${skipped} skipped`;
 }
 
 const steps: Step[] = [
   { name: 'Type check', command: 'npx tsc --noEmit' },
-  { name: 'ESLint', skip: 'not set up yet (Phase 0B)' },
+  { name: 'ESLint', command: 'npx eslint .' },
   {
     name: 'Unit tests (Vitest)',
     command: `npx vitest run --reporter=default --reporter=json --outputFile.json=${join(REPORT_DIR, 'vitest.json')}`,
@@ -63,24 +95,36 @@ const steps: Step[] = [
       return `${report.numPassedTests}/${report.numTotalTests} passed`;
     },
   },
-  { name: 'Content validation (Zod)', skip: 'not set up yet (Phase 0B)' },
+  { name: 'Content validation (Zod)', command: 'npx tsx scripts/validate-content.ts' },
   { name: 'Content snapshot', command: 'npx tsx scripts/baseline/content-snapshot.ts' },
   { name: 'Behavior map', command: 'npx tsx scripts/baseline/behavior-map.ts' },
   { name: 'Production build', command: 'npx vite build', env: { VITE_CHAT_API_URL: TEST_CHAT_API_URL } },
   { name: 'Bundle budget', command: 'npx tsx scripts/baseline/bundle-report.ts' },
   {
-    // Three workers: the 12 battle replays render with WebGL and saturate a laptop CPU at four.
+    // Three workers locally: the 12 battle replays render with WebGL and saturate a laptop CPU at four.
     name: 'Feature tests (Playwright)',
-    command: 'npx playwright test --grep-invert @visual --workers=3 --reporter=line,json',
+    command: `npx playwright test --project=desktop --project=phone --grep-invert @visual --workers=${FEATURE_WORKERS} --reporter=line,json`,
     env: { PLAYWRIGHT_JSON_OUTPUT_NAME: join(REPORT_DIR, 'playwright-features.json') },
     after: () => playwrightSummary('playwright-features.json', 'playwrightFeature'),
   },
   {
+    // The @phone smoke subset in the Safari (WebKit) and Firefox engines, functional only.
+    name: 'Phone smoke (WebKit, Firefox)',
+    command: 'npx playwright test --project=phone-webkit --project=phone-firefox --workers=2 --reporter=line,json',
+    env: { PLAYWRIGHT_JSON_OUTPUT_NAME: join(REPORT_DIR, 'playwright-engines.json') },
+    after: () => playwrightSummary('playwright-engines.json', 'playwrightEngines'),
+  },
+  {
     // Two workers: under heavier load the map's resting point can drift (see visual.spec.ts).
     name: 'Visual snapshots (Playwright)',
-    command: 'npx playwright test --grep @visual --workers=2 --reporter=line,json',
+    command: `npx playwright test --project=desktop --project=phone --grep @visual --workers=2 --reporter=line,json${visualBaselineMissing ? ' --update-snapshots=all' : ''}`,
     env: { PLAYWRIGHT_JSON_OUTPUT_NAME: join(REPORT_DIR, 'playwright-visual.json') },
-    after: () => playwrightSummary('playwright-visual.json', 'playwrightVisual'),
+    after: () => {
+      const summary = playwrightSummary('playwright-visual.json', 'playwrightVisual');
+      return visualBaselineMissing
+        ? `no ${process.platform} baseline yet: wrote the images, compared nothing (${summary})`
+        : summary;
+    },
   },
 ];
 
@@ -90,6 +134,7 @@ function formatSeconds(ms: number): string {
 
 function main(): void {
   mkdirSync(REPORT_DIR, { recursive: true });
+  rmSync(UI_RECORD_DIR, { recursive: true, force: true });
   const rows: string[][] = [];
   let failed = false;
   for (const step of steps) {
@@ -124,6 +169,12 @@ function main(): void {
   const widths = [0, 1, 2].map((i) => Math.max(...rows.map((r) => r[i].length)));
   console.log('\nnpm run verify — summary');
   for (const row of rows) console.log(`  ${row[0].padEnd(widths[0])}  ${row[1].padEnd(widths[1])}  ${row[2].padStart(widths[2])}  ${row[3]}`);
+
+  const recorded = mergeRecordedUiBaseline();
+  if (recorded) {
+    console.log(`
+No ${process.platform} UI baseline yet: recorded the marker and request numbers in tests/baseline/${recorded} (not compared). Review, then commit it.`);
+  }
 
   if (!failed) {
     const numbers = readNumbers();

@@ -6,7 +6,6 @@ import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../utils/scrollLock';
 import { Z_INDEX } from '../constants';
 import { cn } from '../utils/cn';
-import { scaleIn, slideUp } from '../utils/motionVariants';
 
 interface CompanionModalProps {
   companionName: string | null;

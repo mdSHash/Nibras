@@ -1,0 +1,14 @@
+# Prettier runs on demand only (npm run format -- <files>); no repo-wide reformat.
+dist/
+public/
+node_modules/
+server/node_modules/
+server/audio-cache/
+tmp/
+test-results/
+playwright-report/
+tests/baseline/
+package-lock.json
+src/dataList.json
+src/quranData.json
+scripts/data/

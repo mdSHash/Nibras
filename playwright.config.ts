@@ -2,7 +2,7 @@
 // "Testing and verification"). They run against the production build served by
 // `vite preview` on the /Nibras/ base, with every external host stubbed.
 // Build first with VITE_CHAT_API_URL=http://chat.test/api/chat (npm run verify does this).
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 
 const PORT = 4173;
 
@@ -12,7 +12,9 @@ export default defineConfig({
   snapshotPathTemplate: 'tests/baseline/visual/{projectName}/{arg}-{platform}{ext}',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: 0,
+  // One retry on CI only: the runner draws WebGL in software and is far slower than a laptop.
+  // A test that needs it is still reported as "flaky" in the verify summary.
+  retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? 2 : 4,
   timeout: 60_000,
   expect: {
@@ -39,6 +41,26 @@ export default defineConfig({
       name: 'phone',
       grep: /@phone/,
       use: { browserName: 'chromium', viewport: { width: 375, height: 812 }, isMobile: true, hasTouch: true },
+    },
+    {
+      // The @phone smoke subset in the Safari engine, functional checks only (no screenshots).
+      name: 'phone-webkit',
+      grep: /@phone/,
+      grepInvert: /@visual/,
+      use: { ...devices['iPhone 13'], browserName: 'webkit', launchOptions: {} },
+    },
+    {
+      // The same in Firefox. Firefox has no mobile emulation, so it runs a touch phone-sized window.
+      name: 'phone-firefox',
+      grep: /@phone/,
+      grepInvert: /@visual/,
+      use: {
+        browserName: 'firefox',
+        viewport: { width: 375, height: 812 },
+        hasTouch: true,
+        // The Chromium autoplay flag above doesn't apply; this is Firefox's equivalent.
+        launchOptions: { firefoxUserPrefs: { 'media.autoplay.default': 0 } },
+      },
     },
   ],
   webServer: {

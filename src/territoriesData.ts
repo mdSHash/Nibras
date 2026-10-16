@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- turf geometry; this file is replaced by the Phase 1 content model (territories/control.json + GeoJSON) */
 import * as turf from "@turf/turf";
 
 export interface TerritoryPolygon {
@@ -23,8 +24,6 @@ const C_ISLAM = "#10b981"; // Emerald Green
 const C_REBEL = "#dc2626"; // Red (Ridda)
 const C_TRIBE = "#a3a3a3"; // Neutral Gray
 const C_QUR = "#fbbf24"; // Gold
-const C_YEMEN = "#0ea5e9"; // Cyan
-const C_LAKH = "#fdba74";
 const C_GHAS = "#c084fc";
 
 // Highly granular seed points representing exact historical regions

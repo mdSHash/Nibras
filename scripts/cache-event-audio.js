@@ -266,7 +266,7 @@ async function main() {
       
       // Retry the same event
       console.log(`\n   Retrying event #${i + 1}...`);
-      const retryResult = await cacheEventAudio(eventTitle, eventId, i);
+      const retryResult = await cacheEventAudio(eventDescription, eventId, i);
       
       if (retryResult.quotaExceeded) {
         console.log(`\n✗ Still quota exceeded after retry. Please wait and run:`);

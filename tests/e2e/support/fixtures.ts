@@ -29,10 +29,12 @@ export const test = base.extend<Options & Fixtures>({
   allowedConsoleErrors: [[], { option: true }],
   firstVisit: [false, { option: true }],
 
+  // eslint-disable-next-line no-empty-pattern -- Playwright requires a destructured first argument
   network: async ({}, use) => {
     await use({ audioRequests: [], chatRequests: [], unexpected: [] });
   },
 
+  // eslint-disable-next-line no-empty-pattern -- Playwright requires a destructured first argument
   errors: async ({}, use) => {
     await use([]);
   },

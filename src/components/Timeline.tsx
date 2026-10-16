@@ -223,7 +223,6 @@ export default function Timeline({
   useEffect(() => {
     if (!selectedEvent) return;
     scrollEventIntoView(selectedEvent.id, !prefersReducedMotion);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedEvent, prefersReducedMotion]);
 
   // Autoplay loop with optional TTS narration.
@@ -324,7 +323,6 @@ export default function Timeline({
     if (!jump?.target) return;
     onSelectEvent(jump.target);
     scrollEventIntoView(jump.target.id, true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedEra, onEraSelect, onSelectEvent, quickJumps]);
 
   const dockProps = useMemo(() => ({

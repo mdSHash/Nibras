@@ -14,6 +14,7 @@ import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useIsMobile, useMatchMedia } from './hooks/useMatchMedia';
 import { ToastContainer, ToastType } from './components/Toast';
 import { LoadingSpinner } from './components/LoadingSpinner';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { isBattle, isProphetEra, isRashidunEra, findEraAnchor } from './utils/eventHelpers';
 import { Z_INDEX } from './constants';
 import { cn } from './utils/cn';
@@ -213,6 +214,7 @@ export default function App() {
       }, 1000);
       return () => clearTimeout(timer);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- runs only when the event count changes, on purpose; revisit with the Phase 2 store
   }, [filteredSortedEvents.length]);
 
   // Handle player mode changes
@@ -223,6 +225,7 @@ export default function App() {
         setSelectedEvent(filteredSortedEvents[0]);
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- runs only when player mode toggles, on purpose; revisit with the Phase 2 store
   }, [isPlayerMode]);
 
   // Handle era selection — jump to the coronation event for that era.
@@ -645,125 +648,141 @@ export default function App() {
 
       {/* Main Map Layer */}
       <main id="main-content" className="flex-1 relative z-0">
-        <HistoricalMap
-          events={displayedEvents}
-          selectedEvent={selectedEvent}
-          onSelectEvent={(event) => {
-            setSelectedEvent(event);
-            setIsMenuOpen(false); // Close search menu when selecting event
-          }}
-          showCities={filters.type === 'all'}
-          onOpenFilter={() => setIsMenuOpen(true)}
-        />
+        <ErrorBoundary area="map" variant="fill">
+          <HistoricalMap
+            events={displayedEvents}
+            selectedEvent={selectedEvent}
+            onSelectEvent={(event) => {
+              setSelectedEvent(event);
+              setIsMenuOpen(false); // Close search menu when selecting event
+            }}
+            showCities={filters.type === 'all'}
+            onOpenFilter={() => setIsMenuOpen(true)}
+          />
+        </ErrorBoundary>
       </main>
 
       {/* Side Information Panel */}
       <div>
-        <EventPanel
-          event={selectedEvent}
-          onClose={handlePanelClose}
-          onCompanionClick={(name) => setSelectedCompanion(name)}
-          onQuranClick={(ref) => setSelectedQuranRef(ref)}
-          onBattleOpen={(battleId) => {
-            setBattleScenarioId(resolveScenarioId(battleId));
-            setShowBattlePlayer(true);
-          }}
-          isHidden={isPanelHidden}
-          onToggleHidden={handlePanelToggle}
-          isDrawerOpen={isMenuOpen}
-        />
+        <ErrorBoundary area="event-panel" hidden={!selectedEvent} resetKey={selectedEvent?.id} onDismiss={handlePanelClose}>
+          <EventPanel
+            event={selectedEvent}
+            onClose={handlePanelClose}
+            onCompanionClick={(name) => setSelectedCompanion(name)}
+            onQuranClick={(ref) => setSelectedQuranRef(ref)}
+            onBattleOpen={(battleId) => {
+              setBattleScenarioId(resolveScenarioId(battleId));
+              setShowBattlePlayer(true);
+            }}
+            isHidden={isPanelHidden}
+            onToggleHidden={handlePanelToggle}
+            isDrawerOpen={isMenuOpen}
+          />
+        </ErrorBoundary>
       </div>
 
       {/* Companion Details Modal */}
-      <Suspense fallback={<LoadingSpinner />}>
-        <CompanionModal
-          companionName={selectedCompanion}
-          onClose={() => setSelectedCompanion(null)}
-        />
-      </Suspense>
+      <ErrorBoundary area="companion" hidden={!selectedCompanion} resetKey={selectedCompanion} onDismiss={() => setSelectedCompanion(null)}>
+        <Suspense fallback={<LoadingSpinner />}>
+          <CompanionModal
+            companionName={selectedCompanion}
+            onClose={() => setSelectedCompanion(null)}
+          />
+        </Suspense>
+      </ErrorBoundary>
 
       {/* Quran Display Modal */}
       {selectedQuranRef && (
-        <Suspense fallback={<LoadingSpinner />}>
-          <QuranModal
-            reference={selectedQuranRef}
-            onClose={() => setSelectedQuranRef(null)}
-          />
-        </Suspense>
+        <ErrorBoundary area="quran" resetKey={selectedQuranRef} onDismiss={() => setSelectedQuranRef(null)}>
+          <Suspense fallback={<LoadingSpinner />}>
+            <QuranModal
+              reference={selectedQuranRef}
+              onClose={() => setSelectedQuranRef(null)}
+            />
+          </Suspense>
+        </ErrorBoundary>
       )}
 
       {/* Global Search and Navigation Menu */}
-      <Suspense fallback={<LoadingSpinner />}>
-        <SearchMenu
-          isOpen={isMenuOpen}
-          onClose={() => setIsMenuOpen(false)}
-          events={filteredSortedEvents}
-          onSelectEvent={(event) => {
-            setSelectedEvent(event);
-            // Desktop: keep the drawer open so the user retains filter context
-            // and can pick another event. Mobile: close, since the drawer is a
-            // full-screen overlay and would otherwise hide the detail panel.
-            if (isMobile) setIsMenuOpen(false);
-          }}
-          filters={filters}
-          setFilters={setFilters}
-        />
-      </Suspense>
+      <ErrorBoundary area="search" hidden={!isMenuOpen} resetKey={isMenuOpen} onDismiss={() => setIsMenuOpen(false)}>
+        <Suspense fallback={<LoadingSpinner />}>
+          <SearchMenu
+            isOpen={isMenuOpen}
+            onClose={() => setIsMenuOpen(false)}
+            events={filteredSortedEvents}
+            onSelectEvent={(event) => {
+              setSelectedEvent(event);
+              // Desktop: keep the drawer open so the user retains filter context
+              // and can pick another event. Mobile: close, since the drawer is a
+              // full-screen overlay and would otherwise hide the detail panel.
+              if (isMobile) setIsMenuOpen(false);
+            }}
+            filters={filters}
+            setFilters={setFilters}
+          />
+        </Suspense>
+      </ErrorBoundary>
 
       {/* Help modal — map legend + keyboard shortcuts / touch hints */}
-      <Suspense fallback={null}>
-        <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
-      </Suspense>
+      <ErrorBoundary area="help" hidden={!isHelpOpen} resetKey={isHelpOpen} onDismiss={() => setIsHelpOpen(false)}>
+        <Suspense fallback={null}>
+          <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
+        </Suspense>
+      </ErrorBoundary>
 
       {/* Chat assistant — grounded Arabic Q&A over the app's own content.
           Citation chips reopen the same surfaces the rest of the app uses
           (EventPanel, CompanionModal, QuranModal, BattlePlayer). */}
-      <Suspense fallback={null}>
-        <ChatPanel
-          isOpen={isChatOpen}
-          onClose={() => setIsChatOpen(false)}
-          onCitationClick={(citation) => {
-            const { eventId, companionId, quranKey, battleId } = citation.entityRefs;
-            let opened: typeof chatReturnTo = null;
-            if (eventId) {
-              const event = eventsData.find(e => e.id === eventId);
-              if (event) {
-                setSelectedEvent(event);
-                opened = 'event';
+      <ErrorBoundary area="chat" hidden={!isChatOpen} resetKey={isChatOpen} onDismiss={() => setIsChatOpen(false)}>
+        <Suspense fallback={null}>
+          <ChatPanel
+            isOpen={isChatOpen}
+            onClose={() => setIsChatOpen(false)}
+            onCitationClick={(citation) => {
+              const { eventId, companionId, quranKey, battleId } = citation.entityRefs;
+              let opened: typeof chatReturnTo = null;
+              if (eventId) {
+                const event = eventsData.find(e => e.id === eventId);
+                if (event) {
+                  setSelectedEvent(event);
+                  opened = 'event';
+                }
+              } else if (companionId) {
+                setSelectedCompanion(companionId);
+                opened = 'companion';
+              } else if (quranKey) {
+                setSelectedQuranRef(quranKey);
+                opened = 'quran';
+              } else if (battleId) {
+                setBattleScenarioId(resolveScenarioId(battleId));
+                setShowBattlePlayer(true);
+                opened = 'battle';
               }
-            } else if (companionId) {
-              setSelectedCompanion(companionId);
-              opened = 'companion';
-            } else if (quranKey) {
-              setSelectedQuranRef(quranKey);
-              opened = 'quran';
-            } else if (battleId) {
-              setBattleScenarioId(resolveScenarioId(battleId));
-              setShowBattlePlayer(true);
-              opened = 'battle';
-            }
-            if (opened && isCompactViewport) {
-              if (opened === 'event') setIsPanelHidden(false);
-              setIsChatOpen(false);
-              setChatReturnTo(opened);
-            }
-          }}
-        />
-      </Suspense>
+              if (opened && isCompactViewport) {
+                if (opened === 'event') setIsPanelHidden(false);
+                setIsChatOpen(false);
+                setChatReturnTo(opened);
+              }
+            }}
+          />
+        </Suspense>
+      </ErrorBoundary>
 
       <div>
-        <Timeline
-          events={displayedEvents}
-          allEvents={filteredSortedEvents}
-          selectedEvent={selectedEvent}
-          onSelectEvent={setSelectedEvent}
-          isAutoPlaying={isAutoPlaying}
-          onAutoPlayChange={setIsAutoPlaying}
-          isPlayerMode={isPlayerMode}
-          onPlayerModeChange={setIsPlayerMode}
-          selectedEra={selectedEra}
-          onEraSelect={handleEraSelect}
-        />
+        <ErrorBoundary area="timeline">
+          <Timeline
+            events={displayedEvents}
+            allEvents={filteredSortedEvents}
+            selectedEvent={selectedEvent}
+            onSelectEvent={setSelectedEvent}
+            isAutoPlaying={isAutoPlaying}
+            onAutoPlayChange={setIsAutoPlaying}
+            isPlayerMode={isPlayerMode}
+            onPlayerModeChange={setIsPlayerMode}
+            selectedEra={selectedEra}
+            onEraSelect={handleEraSelect}
+          />
+        </ErrorBoundary>
       </div>
 
       {/* Battle Player Overlay */}
@@ -777,16 +796,18 @@ export default function App() {
             className="fixed inset-0"
             style={{ zIndex: 9999 }}
           >
-            <Suspense fallback={
-              <div className="w-full h-full flex items-center justify-center bg-ink">
-                <LoadingSpinner />
-              </div>
-            }>
-              <BattlePlayer
-                scenarioId={battleScenarioId}
-                onBack={() => setShowBattlePlayer(false)}
-              />
-            </Suspense>
+            <ErrorBoundary area="battle" variant="fill" resetKey={battleScenarioId} onDismiss={() => setShowBattlePlayer(false)}>
+              <Suspense fallback={
+                <div className="w-full h-full flex items-center justify-center bg-ink">
+                  <LoadingSpinner />
+                </div>
+              }>
+                <BattlePlayer
+                  scenarioId={battleScenarioId}
+                  onBack={() => setShowBattlePlayer(false)}
+                />
+              </Suspense>
+            </ErrorBoundary>
           </motion.div>
         )}
       </AnimatePresence>

@@ -25,6 +25,7 @@ export function loadTanzil(filePath: string): VerseMap {
   return verses;
 }
 
+// eslint-disable-next-line no-misleading-character-class -- the class lists Quranic annotation marks one by one, on purpose
 const ANNOTATION_MARKS = /[ـۖ-ۭ]/g;
 const HARAKAT = /[ً-ْٰ]/;
 const ARABIC_LETTER = /[ء-غف-يٱ]/;

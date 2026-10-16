@@ -8,9 +8,11 @@
  * @param fn Function to memoize
  * @returns Memoized function
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- generic function constraint
 export const memoize = <T extends (...args: any[]) => any>(fn: T): T => {
   const cache = new Map();
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- generic function constraint
   return ((...args: any[]) => {
     const key = JSON.stringify(args);
     
@@ -37,6 +39,7 @@ export const memoize = <T extends (...args: any[]) => any>(fn: T): T => {
  * @param delay Delay in milliseconds
  * @returns Throttled function
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- generic function constraint
 export const throttle = <T extends (...args: any[]) => any>(
   fn: T,
   delay: number
