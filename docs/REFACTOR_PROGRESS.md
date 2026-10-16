@@ -612,9 +612,11 @@ content baseline), `npm run verify`:
 | Production build, bundle budget | within limits: main chunk 477.7 → 460.9 KiB gzip (−3.5%, `@turf/turf` out), replay chunk 295.6 → 279.0 KiB (−5.6%) |
 | Playwright features | 72 passed, 9 of them known failures (known failure 4 fixed, now a regular test) |
 | Phone smoke (WebKit, Firefox) | 32 passed, 2 of them known failures |
-| Visual snapshots | 17/18 identical; **"help" on phone differs** by the new legend row (change 9; the sheet is one row taller) and by the close button's focus ring, which the old snapshot kept although the test blurs focus before capturing. Awaiting Mostafa's approval to update. |
+| Visual snapshots | 17/18 identical; **"help" on phone differs** by the new legend row (change 9; the sheet is one row taller) and by the close button's focus ring, which the old snapshot kept although the test blurs focus before capturing. **Approved by Mostafa (2026-10-16)**; Windows snapshot updated, Linux one recorded by CI run 38912580598, reviewed and committed. |
 
 Also checked: the rebuilt chat KB equals the committed one except for the changes listed (6, 7);
 territory polygons equal the old in-browser result for all 113 map dates; the 9 replays with changed
 totals were captured old vs new; replay counters read the event figures (Badr 313 / 950, Uhud
 700 / 3,000, Hunayn 12,000 / 20,000, Tabuk 30,000 / 690); the help legend row in light and dark mode.
+
+CI on `04b71d8` (run 38913863049): static, features, engines and visual jobs all passed.
