@@ -86,8 +86,8 @@ describe('verbatim guarantees', () => {
   it('copies each companion role from the event record verbatim', () => {
     const byId = new Map(kb.units.map(u => [u.id, u]));
     for (const event of eventsData) {
-      (event.details.companion_roles ?? []).forEach((role, i) => {
-        expect(byId.get(`event:${event.id}#role:${i}`)?.text).toContain(role.role_in_event.replace(/\s+/g, ' ').trim());
+      event.roles.forEach((role, i) => {
+        expect(byId.get(`event:${event.id}#role:${i}`)?.text).toContain(role.roleAr.replace(/\s+/g, ' ').trim());
       });
     }
   });

@@ -148,8 +148,8 @@ export const DesktopDock = memo(function DesktopDock(props: DesktopDockProps) {
                         <EraPill
                           key={`jump-${i}`}
                           jump={jump}
-                          isSelected={selectedEra === jump.label}
-                          onClick={() => onEraClick(jump.label)}
+                          isSelected={selectedEra === jump.id}
+                          onClick={() => onEraClick(jump.id)}
                           variant="desktop"
                         />
                       ) : null,

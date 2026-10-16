@@ -6,7 +6,8 @@
     "rulerAr": "النبي محمد ﷺ",
     "colorKey": "prophetic",
     "group": "prophet",
-    "order": 1
+    "order": 1,
+    "anchorEventId": "revelation-hira"
   },
   {
     "id": "medinan",
@@ -24,7 +25,8 @@
     "rulerAr": "أبو بكر الصديق",
     "colorKey": "abuBakr",
     "group": "rashidun",
-    "order": 3
+    "order": 3,
+    "anchorEventId": "event-49-تولي-أبي-بكر-الخلافة-السقيفة"
   },
   {
     "id": "umar",
@@ -33,7 +35,8 @@
     "rulerAr": "عمر بن الخطاب",
     "colorKey": "umar",
     "group": "rashidun",
-    "order": 4
+    "order": 4,
+    "anchorEventId": "event-66-تولي-عمر-بن-الخطاب-الخلافة"
   },
   {
     "id": "uthman",
@@ -42,7 +45,8 @@
     "rulerAr": "عثمان بن عفان",
     "colorKey": "uthman",
     "group": "rashidun",
-    "order": 5
+    "order": 5,
+    "anchorEventId": "event-93-تولي-عثمان-بن-عفان-الخلافة-الشورى"
   },
   {
     "id": "ali",
@@ -51,6 +55,7 @@
     "rulerAr": "علي بن أبي طالب",
     "colorKey": "ali",
     "group": "rashidun",
-    "order": 6
+    "order": 6,
+    "anchorEventId": "event-106-تولي-علي-بن-أبي-طالب-الخلافة"
   }
 ]

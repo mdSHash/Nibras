@@ -32,6 +32,12 @@ export const eraSchema = z.strictObject({
   /** The era filter: the Prophet's era or the Rashidun caliphate. */
   group: z.enum(['prophet', 'rashidun']),
   order: z.number().int(),
+  /**
+   * The event the timeline's era button jumps to (the era's start: the first
+   * revelation, each caliph's accession). When a filter hides it, the button
+   * goes to the first shown event of the era from this date on.
+   */
+  anchorEventId: eventId.optional(),
 });
 
 export const categorySchema = z.strictObject({

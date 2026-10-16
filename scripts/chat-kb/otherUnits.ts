@@ -3,12 +3,12 @@
  */
 import type { KbRecord } from '../../shared/chatKb';
 import type { CityData } from '../../src/citiesList';
-import type { CompanionData } from '../../src/companionsList';
+import type { Person } from '../../shared/contentSchema';
 import type { BattleScenario } from '../../src/battlefield/types/scenario';
 import { aliasForm, bare, BuildContext, mentionsQuantity, splitSentences } from './common';
 import { verifyQuranEntry, type QuranEntry } from './quranVerify';
 
-export function addCompanionUnits(ctx: BuildContext, companions: CompanionData[]): KbRecord[] {
+export function addCompanionUnits(ctx: BuildContext, companions: Person[]): KbRecord[] {
   const titleCount = new Map<string, number>();
   for (const c of companions) titleCount.set(c.title, (titleCount.get(c.title) ?? 0) + 1);
 
@@ -32,9 +32,9 @@ export function addCompanionUnits(ctx: BuildContext, companions: CompanionData[]
     }
 
     const profile = [companion.title, companion.role].filter(Boolean).join(' — ');
-    const lifespan = companion.birth_death ? ` (${companion.birth_death})` : '';
+    const lifespan = companion.birthDeath ? ` (${companion.birthDeath})` : '';
     ctx.add({ recordId, slug: 'profile', kind: 'companion_profile', text: `${companion.name}: ${profile}${lifespan}`, refs });
-    splitSentences(companion.description).forEach((sentence, i) =>
+    splitSentences(companion.bio).forEach((sentence, i) =>
       ctx.add({ recordId, slug: `bio:${i}`, kind: 'companion_bio', text: sentence, refs })
     );
 

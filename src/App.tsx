@@ -186,7 +186,7 @@ export default function App() {
         
         return true;
       })
-      .sort((a, b) => a.date.gregorian - b.date.gregorian);
+      .sort((a, b) => a.date.sortKey - b.date.sortKey);
 
     // selectedEra is a cosmetic highlight on the era pill — it does NOT filter
     // the timeline. Clicking a pill jumps to that era's anchor event and marks
@@ -668,10 +668,10 @@ export default function App() {
           <EventPanel
             event={selectedEvent}
             onClose={handlePanelClose}
-            onCompanionClick={(name) => setSelectedCompanion(name)}
+            onCompanionClick={(personId) => setSelectedCompanion(personId)}
             onQuranClick={(ref) => setSelectedQuranRef(ref)}
-            onBattleOpen={(battleId) => {
-              setBattleScenarioId(resolveScenarioId(battleId));
+            onBattleOpen={(scenarioId) => {
+              setBattleScenarioId(scenarioId);
               setShowBattlePlayer(true);
             }}
             isHidden={isPanelHidden}
@@ -685,7 +685,7 @@ export default function App() {
       <ErrorBoundary area="companion" hidden={!selectedCompanion} resetKey={selectedCompanion} onDismiss={() => setSelectedCompanion(null)}>
         <Suspense fallback={<LoadingSpinner />}>
           <CompanionModal
-            companionName={selectedCompanion}
+            personId={selectedCompanion}
             onClose={() => setSelectedCompanion(null)}
           />
         </Suspense>

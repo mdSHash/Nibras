@@ -1,8 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import dataList from '../src/dataList.json';
-import { eventsData } from '../src/data';
-import { findCompanion } from '../src/companionsList';
-import { getEraTitle, isProphetEra, isRashidunEra } from '../src/utils/eventHelpers';
+import { companionsData, eventsData, getEra } from '../src/data';
+import { findPersonIn } from '../src/utils/peopleLookup';
+import { isProphetEra, isRashidunEra } from '../src/utils/eventHelpers';
+
+const findCompanion = (name: string) => findPersonIn(companionsData, name);
 import { normalizeArabic } from '../shared/searchNormalize';
 
 describe('findCompanion', () => {
@@ -17,17 +19,17 @@ describe('findCompanion', () => {
     expect(findCompanion('شخص غير موجود')).toBeUndefined();
   });
 
-  it('resolves every companion named in event records', () => {
-    const names = new Set(eventsData.flatMap(e => [...(e.entities.key_figures ?? []), ...(e.details.companion_roles ?? []).map(r => r.name)]));
-    const unresolved = [...names].filter(n => !findCompanion(n));
-    expect(unresolved).toEqual([]);
+  it('finds, for every person chip in the events, the person the chip links to', () => {
+    const links = eventsData.flatMap(e => [...e.keyFigures, ...e.roles]);
+    const mismatched = links.filter(l => findCompanion(l.labelAr)?.id !== l.personId).map(l => `${l.labelAr} → ${l.personId}`);
+    expect(mismatched).toEqual([]);
   });
 });
 
 describe('era helpers', () => {
   it('puts every event in exactly one of the two era filters', () => {
     for (const event of eventsData) {
-      expect(isProphetEra(event) !== isRashidunEra(event), `${event.id} (${event.era})`).toBe(true);
+      expect(isProphetEra(event) !== isRashidunEra(event), `${event.id} (${event.eraId})`).toBe(true);
     }
   });
 
@@ -39,7 +41,7 @@ describe('era helpers', () => {
   });
 
   it('uses the correct genitive in era titles', () => {
-    expect(getEraTitle('عهد عثمان بن عفان')).toBe('خلافة ذي النورين');
+    expect(getEra('uthman')?.nameAr).toBe('خلافة ذي النورين');
   });
 });
 
@@ -78,7 +80,7 @@ describe('narration audio', () => {
     const path = await import('path');
     const missing: string[] = [];
     for (const event of eventsData) {
-      for (const text of [event.title, event.details.full_description]) {
+      for (const text of [event.title, event.fullDescription]) {
         const key = crypto.createHash('sha256').update(`${String(text).replace(/\s+/g, ' ').trim()}|Charon|1`).digest('hex');
         if (!fs.existsSync(path.join(__dirname, '../public/audio', `${key}.wav`))) missing.push(`${event.id}: ${text.slice(0, 40)}`);
       }

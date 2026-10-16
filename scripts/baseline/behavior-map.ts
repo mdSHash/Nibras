@@ -7,7 +7,7 @@
 //   npx tsx scripts/baseline/behavior-map.ts --update   rewrite it (only after approval)
 import { eventsData, type EventItem } from '../../src/data';
 import type { FilterOptions } from '../../src/types';
-import { findEraAnchor, isBattle, isProphetEra, isRashidunEra } from '../../src/utils/eventHelpers';
+import { ERA_PILLS as APP_ERA_PILLS, findEraAnchor, isBattle, isProphetEra, isRashidunEra } from '../../src/utils/eventHelpers';
 import { normalizeArabic, tokenizeQuery } from '../../src/utils/searchNormalize';
 import { writeOrCompare } from './lib';
 
@@ -27,7 +27,7 @@ export function filterAndSort(filters: FilterOptions): EventItem[] {
       }
       return true;
     })
-    .sort((a, b) => a.date.gregorian - b.date.gregorian);
+    .sort((a, b) => a.date.sortKey - b.date.sortKey);
 }
 
 // Copy of eventHaystacks + filteredEvents in src/components/SearchMenu.tsx:42–67.
@@ -38,19 +38,20 @@ function search(events: EventItem[], query: string): EventItem[] {
     const haystack = normalizeArabic(
       [
         e.title,
-        e.details?.summary ?? '',
-        e.details?.full_description ?? '',
-        e.location?.name ?? '',
-        String(e.date.gregorian),
-        e.date.hijri_relative ?? '',
+        e.summary,
+        e.fullDescription,
+        e.location.nameAr,
+        String(e.date.sortKey),
+        e.date.labelAr,
       ].join(' '),
     );
     return tokens.every((t) => haystack.includes(t));
   });
 }
 
-// Era pills, in the order of quickJumps in src/components/Timeline.tsx:132.
-export const ERA_PILLS = ['العهد النبوي', 'أبو بكر الصديق', 'عمر بن الخطاب', 'عثمان بن عفان', 'علي بن أبي طالب'];
+// Era pill labels (src/utils/eventHelpers.ts, ERA_PILLS); the baseline keys anchors by label.
+export const ERA_PILLS = APP_ERA_PILLS.map((pill) => pill.labelAr);
+const pillId = (label: string): string => APP_ERA_PILLS.find((pill) => pill.labelAr === label)!.id;
 
 // Fixed search queries: with and without diacritics, ة/ه and أ/ا variants,
 // people, places and battles.
@@ -84,7 +85,7 @@ const filterCombinations = TYPES.flatMap((type) =>
       era,
       count: events.length,
       eventIds: events.map((e) => e.id),
-      eraAnchors: Object.fromEntries(ERA_PILLS.map((pill) => [pill, findEraAnchor(events, pill)?.id ?? null])),
+      eraAnchors: Object.fromEntries(ERA_PILLS.map((pill) => [pill, findEraAnchor(events, pillId(pill))?.id ?? null])),
     };
   }),
 );

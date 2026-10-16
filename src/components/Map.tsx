@@ -278,12 +278,12 @@ const EventClusters = ({ events, selectedEvent, onSelectEvent }: Pick<MapViewPro
     }
 
     return createIcon(
-      categoryColor(unclusteredSelectedEvent.category),
-      unclusteredSelectedEvent.location?.name || unclusteredSelectedEvent.title,
+      categoryColor(unclusteredSelectedEvent.categoryId),
+      unclusteredSelectedEvent.location.nameAr || unclusteredSelectedEvent.title,
       unclusteredSelectedEvent.icon,
       true,
       false,
-      !!unclusteredSelectedEvent.battleId,
+      !!unclusteredSelectedEvent.battleScenarioId,
     );
   }, [unclusteredSelectedEvent]);
 
@@ -291,7 +291,7 @@ const EventClusters = ({ events, selectedEvent, onSelectEvent }: Pick<MapViewPro
     .filter(evt => evt.id !== unclusteredSelectedEvent?.id)
     .map(evt => ({
       type: 'Feature' as const,
-      properties: { cluster: false, eventId: evt.id, event: evt, category: evt.category },
+      properties: { cluster: false, eventId: evt.id, event: evt, category: evt.categoryId },
       geometry: {
         type: 'Point' as const,
         coordinates: [
@@ -363,9 +363,9 @@ const EventClusters = ({ events, selectedEvent, onSelectEvent }: Pick<MapViewPro
         }
 
         const evt = cluster.properties.event;
-        const mappedColor = categoryColor(evt.category);
+        const mappedColor = categoryColor(evt.categoryId);
         const isDimmed = selectedEvent !== null;
-        const icon = createIcon(mappedColor, evt.location?.name || evt.title, evt.icon, false, isDimmed, !!evt.battleId);
+        const icon = createIcon(mappedColor, evt.location.nameAr || evt.title, evt.icon, false, isDimmed, !!evt.battleScenarioId);
 
         return (
           <Marker 
@@ -395,7 +395,7 @@ const EventClusters = ({ events, selectedEvent, onSelectEvent }: Pick<MapViewPro
 
 const TerritoryRenderer = ({ selectedEvent }: { selectedEvent: EventItem | null }) => {
   const territoryGroups = useMemo(() => {
-    const currentYear = selectedEvent ? selectedEvent.date.gregorian : 610;
+    const currentYear = selectedEvent ? selectedEvent.date.sortKey : 610;
     return getTerritoriesForYear(currentYear);
   }, [selectedEvent]);
 
@@ -520,7 +520,7 @@ export default function HistoricalMap({ events, selectedEvent, onSelectEvent, sh
         {selectedEvent?.route && (
           <Polyline
             positions={selectedEvent.route}
-            color={categoryColor(selectedEvent.category)}
+            color={categoryColor(selectedEvent.categoryId)}
             weight={3}
             dashArray="5, 10"
             opacity={0.8}

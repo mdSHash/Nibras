@@ -67,3 +67,36 @@ export const eventsData: EventItem[] = (eventsDataJson as any[]).map((e, idx) =>
 })) as EventItem[];
 export const citiesData: City[] = importedCities;
 export const companionsData: Companion[] = importedCompanions;
+
+// The era helpers the app used before Phase 1B, when events carried an era
+// label instead of an era id (title matching). The migration derives
+// content/eras.json from them. Removed in Phase 1C with this file.
+export const getEraTitle = (era: string): string => {
+  if (era.includes('المكي')) return 'العهد المكي';
+  if (era.includes('المدني')) return 'العهد المدني';
+  if (era.includes('أبي بكر') || era.includes('أبو بكر')) return 'خلافة الصديق';
+  if (era.includes('عمر')) return 'خلافة الفاروق';
+  if (era.includes('عثمان')) return 'خلافة ذي النورين';
+  if (era.includes('علي')) return 'خلافة الإمام علي';
+  return '';
+};
+
+export const getRulerName = (era: string): string => {
+  if (era.includes('المكي') || era.includes('المدني')) return 'النبي محمد ﷺ';
+  if (era.includes('أبي بكر') || era.includes('أبو بكر')) return 'أبو بكر الصديق';
+  if (era.includes('عمر')) return 'عمر بن الخطاب';
+  if (era.includes('عثمان')) return 'عثمان بن عفان';
+  if (era.includes('علي')) return 'علي بن أبي طالب';
+  return '';
+};
+
+export function getEraKey(era?: string): 'prophetic' | 'abuBakr' | 'umar' | 'uthman' | 'ali' {
+  if (!era) return 'prophetic';
+  if (['المكي', 'قبل البعثة', 'البعثة', 'المدني', 'الوحي'].some(s => era.includes(s))) return 'prophetic';
+  if (era.includes('أبي بكر') || era.includes('أبو بكر')) return 'abuBakr';
+  if (era.includes('عمر')) return 'umar';
+  if (era.includes('عثمان')) return 'uthman';
+  if (era.includes('علي')) return 'ali';
+  if (era.includes('الراشدة')) return 'abuBakr';
+  return 'prophetic';
+}

@@ -8,7 +8,7 @@
  * own campaigns, سرايا for expeditions he sent, معارك وفتوح after him.
  */
 import { ERA_LABELS, type EraKey, type KbRecord, type MilitaryKind } from '../../shared/chatKb';
-import type { CompanionData } from '../../src/companionsList';
+import type { Person } from '../../shared/contentSchema';
 import { genitiveName } from '../../shared/arabicGrammar';
 import { bare, BuildContext } from './common';
 
@@ -41,7 +41,7 @@ const MILITARY_LISTS: { kind: MilitaryKind; slug: string; heading: (label: strin
 export function addListUnits(
   ctx: BuildContext,
   eventRecords: KbRecord[],
-  companions: CompanionData[],
+  companions: Person[],
   companionEvents: Map<string, Set<string>>
 ): KbRecord[] {
   const records: KbRecord[] = [];

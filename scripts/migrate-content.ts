@@ -15,13 +15,11 @@
 import { existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import rawEvents from '../src/dataList.json';
-import { eventsData, type EventItem } from '../src/legacyData';
+import { eventsData, getEraKey, getEraTitle, getRulerName, type EventItem } from '../src/legacyData';
 import { companionsData, findCompanion, findCompanionCandidates } from '../src/companionsList';
 import { citiesData } from '../src/citiesList';
 import quranData from '../src/quranData.json';
-import { getEraTitle, getRulerName } from '../src/utils/eventHelpers';
 import { normalizeArabic } from '../shared/searchNormalize';
-import { getEraKey } from '../src/utils/eraColors';
 import { matchQuranKey } from '../src/utils/quranMatch';
 import { resolveScenarioId } from '../src/utils/battleScenario';
 import { battleScenarios } from './baseline/scenarios';

@@ -5,7 +5,8 @@ import { requestSpeak, releaseOwner } from '../services/ttsGemini';
 import { cn } from '../utils/cn';
 import { Z_INDEX } from '../constants';
 import { getEraColor } from '../utils/eraColors';
-import { getEraTitle, findEraAnchor } from '../utils/eventHelpers';
+import { ERA_PILLS, findEraAnchor } from '../utils/eventHelpers';
+import { eraOf } from '../data';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { throttle } from '../utils/performance';
 import { DesktopDock } from './timeline/DesktopDock';
@@ -111,7 +112,7 @@ export default function Timeline({
     };
   }, []);
 
-  const eraTitle = getEraTitle(selectedEvent?.era ?? '');
+  const eraTitle = selectedEvent ? eraOf(selectedEvent).nameAr : '';
 
   // "البداية" pill — visible while scrolled through the rail. Simply jumps
   // selection to the first event; autoplay (if running) resyncs on its next
@@ -129,13 +130,16 @@ export default function Timeline({
     if (events.length > 0) onSelectEvent(events[0]);
   }, [events, onSelectEvent]);
 
-  const quickJumps = useMemo<QuickJump[]>(() => [
-    { label: 'العهد النبوي',   color: getEraColor('الوحي'),    target: findEraAnchor(events, 'العهد النبوي') },
-    { label: 'أبو بكر الصديق', color: getEraColor('أبي بكر'), target: findEraAnchor(events, 'أبو بكر الصديق') },
-    { label: 'عمر بن الخطاب',  color: getEraColor('عمر'),      target: findEraAnchor(events, 'عمر بن الخطاب') },
-    { label: 'عثمان بن عفان',  color: getEraColor('عثمان'),    target: findEraAnchor(events, 'عثمان بن عفان') },
-    { label: 'علي بن أبي طالب', color: getEraColor('علي'),    target: findEraAnchor(events, 'علي بن أبي طالب') },
-  ], [events]);
+  const quickJumps = useMemo<QuickJump[]>(
+    () =>
+      ERA_PILLS.map(pill => ({
+        id: pill.id,
+        label: pill.labelAr,
+        color: getEraColor(pill.colorKey),
+        target: findEraAnchor(events, pill.id),
+      })),
+    [events],
+  );
 
   // Throttled wheel handler for smooth horizontal scroll with kinetic decay.
   const throttledWheelHandler = useMemo(
@@ -313,13 +317,13 @@ export default function Timeline({
     setPlaybackSpeed(prev => (prev === 1 ? 2 : prev === 2 ? 3 : 1));
   }, []);
 
-  const handleEraClick = useCallback((eraLabel: string) => {
-    const isDeselect = selectedEra === eraLabel;
-    onEraSelect?.(isDeselect ? null : eraLabel);
+  const handleEraClick = useCallback((pillId: string) => {
+    const isDeselect = selectedEra === pillId;
+    onEraSelect?.(isDeselect ? null : pillId);
     // A toggle-off click ONLY deselects the pill — it does not re-navigate the
     // user back to the era's anchor event.
     if (isDeselect) return;
-    const jump = quickJumps.find(j => j.label === eraLabel);
+    const jump = quickJumps.find(j => j.id === pillId);
     if (!jump?.target) return;
     onSelectEvent(jump.target);
     scrollEventIntoView(jump.target.id, true);

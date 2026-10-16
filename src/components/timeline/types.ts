@@ -2,6 +2,8 @@ import type { EventItem } from '../../data';
 
 /** One era chip: the label, its dot color, and the anchor event to jump to. */
 export interface QuickJump {
+  /** Era pill id (src/utils/eventHelpers.ts, ERA_PILLS). */
+  id: string;
   label: string;
   color: string;
   target: EventItem | undefined;
@@ -22,5 +24,5 @@ export interface DockProps {
   onCycleSpeed: () => void;
   onStartOver: () => void;
   onExitPlayerMode: () => void;
-  onEraClick: (label: string) => void;
+  onEraClick: (pillId: string) => void;
 }

@@ -16,8 +16,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import type { ChatKb, KbRecord } from '../shared/chatKb';
 import { normalizeForMatch } from '../shared/arabicText';
-import { citiesData, companionsData, eventsData } from '../src/data';
-import { findCompanion } from '../src/companionsList';
+import { citiesData, companionsData, eventsData, passageFor } from '../src/data';
 import quranPassages from '../src/generated/quranPassages.json';
 import { scenarios } from '../src/battlefield/scenarios/index';
 import { aliasForm, BuildContext } from './chat-kb/common';
@@ -39,7 +38,7 @@ export function buildChatKb(): { kb: ChatKb; ctx: BuildContext } {
     ...cityRecords.flatMap(r => r.aliases),
     ...companionsData.flatMap(c => [c.name, ...c.aliases]).map(aliasForm),
   ]);
-  const events = addEventUnits(ctx, eventsData, Object.keys(verses), name => findCompanion(name)?.id, reservedNames);
+  const events = addEventUnits(ctx, eventsData, ref => passageFor(ref)?.key, reservedNames);
   const titleOf = new Map(events.records.map(r => [r.id, r.title]));
   const companionRecords = addCompanionUnits(ctx, companionsData);
   const quranRecords = addQuranUnits(ctx, verses, events.quranEvents, id => titleOf.get(id) ?? id);

@@ -6,18 +6,15 @@
 //   npx tsx scripts/baseline/content-snapshot.ts --update   rewrite it (only after approval)
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { citiesData, companionsData, eventsData } from '../../src/data';
-import { findCompanion } from '../../src/companionsList';
+import { citiesData, companionsData, eraOf, eventsData, passageFor } from '../../src/data';
 import generatedQuranPassages from '../../src/generated/quranPassages.json';
 import { getTerritoriesForYear } from '../../src/territories';
-import { getEraTitle, getRulerName, isBattle, isProphetEra, isRashidunEra } from '../../src/utils/eventHelpers';
-import { matchQuranKey } from '../../src/utils/quranMatch';
-import { resolveScenarioId } from '../../src/utils/battleScenario';
+import { isBattle, isProphetEra, isRashidunEra } from '../../src/utils/eventHelpers';
+import { KB_ERA_LABEL, kbBattleId } from '../chat-kb/kbNames';
 import { PANEL_BATTLE_SCENARIOS, battleScenarios } from './scenarios';
 import { ROOT, hash16, sha256Hex, writeOrCompare } from './lib';
 
 const quran = Object.fromEntries(generatedQuranPassages.map((p) => [p.key, p]));
-const quranKeys = Object.keys(quran);
 
 // Copy of EventPanel.tsx:96 (arNum), used for the dates the panel displays.
 const arNum = (n: number | string): string => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[Number(d)]);
@@ -30,52 +27,51 @@ const audioFile = (text: string, rate: number): string =>
   `${sha256Hex(`${String(text || '').replace(/\s+/g, ' ').trim()}|Charon|${rate}`)}.wav`;
 const audioExists = (file: string): boolean => existsSync(join(ROOT, 'public', 'audio', file));
 
-const person = (name: string) => ({ name, companionId: findCompanion(name)?.id ?? 'unresolved' });
 
 const events = eventsData.map((e) => {
-  const descriptionAudio = audioFile(e.details.full_description, 1);
+  const descriptionAudio = audioFile(e.fullDescription, 1);
   const titleAudio = audioFile(e.title, 1);
-  const raw = e as typeof e & { date: { hijri?: unknown } };
   return {
     id: e.id,
     title: e.title,
-    era: e.era,
-    eraLabel: getEraTitle(e.era),
-    ruler: getRulerName(e.era),
-    category: e.category,
+    // The era label events carried before Phase 1B (also the chat KB's era name).
+    era: KB_ERA_LABEL[e.eraId],
+    eraLabel: eraOf(e).nameAr,
+    ruler: eraOf(e).rulerAr,
+    category: e.categoryId,
     isBattle: isBattle(e),
     isProphetEra: isProphetEra(e),
     isRashidunEra: isRashidunEra(e),
-    isMajor: e.is_major_event ?? null,
+    isMajor: e.isMajor ?? null,
     date: {
-      gregorian: e.date.gregorian,
-      hijri: raw.date.hijri ?? null,
-      hijriRelative: e.date.hijri_relative,
-      hijriDisplay: arNum(e.date.hijri_relative),
-      gregorianDisplay: `${arNum(Math.floor(e.date.gregorian))} م`,
+      gregorian: e.date.sortKey,
+      hijri: e.date.hijri?.year ?? null,
+      hijriRelative: e.date.labelAr,
+      hijriDisplay: arNum(e.date.labelAr),
+      gregorianDisplay: `${arNum(e.date.gregorian.year)} م`,
     },
-    location: { name: e.location.name, coordinates: e.location.coordinates },
+    location: { name: e.location.nameAr, coordinates: e.location.coordinates },
     text: {
-      summary: hash16(e.details.summary),
-      fullDescription: hash16(e.details.full_description),
-      courseOfEvents: (e.details.course_of_events ?? []).map((step) => hash16(step)),
-      durationDays: e.details.duration_days ?? null,
+      summary: hash16(e.summary),
+      fullDescription: hash16(e.fullDescription),
+      courseOfEvents: e.courseOfEvents.map((step) => hash16(step)),
+      durationDays: e.durationAr ?? null,
     },
-    armySize: e.details.army_size ?? null,
-    enemyArmySize: e.details.enemy_army_size ?? null,
-    keyFigures: (e.entities.key_figures ?? []).map(person),
-    companionRoles: (e.details.companion_roles ?? []).map((r) => ({ ...person(r.name), role: hash16(r.role_in_event) })),
-    quran: (e.entities.quran_refs ?? []).map((ref) => {
-      const key = matchQuranKey(ref, quranKeys);
-      return { ref, key: key ?? 'unmatched', verseText: key ? hash16(quran[key].text) : null };
+    armySize: e.forces?.army?.textAr ?? null,
+    enemyArmySize: e.forces?.enemyArmy?.textAr ?? null,
+    keyFigures: e.keyFigures.map((k) => ({ name: k.labelAr, companionId: k.personId })),
+    companionRoles: e.roles.map((r) => ({ name: r.labelAr, companionId: r.personId, role: hash16(r.roleAr) })),
+    quran: e.quran.map((q) => {
+      const key = passageFor(q)?.key;
+      return { ref: q.labelAr, key: key ?? 'unmatched', verseText: key ? hash16(quran[key].text) : null };
     }),
-    hadith: (e.entities.hadith_refs ?? []).map((h) => hash16(h)),
-    sources: (e.entities.sources ?? []).map((s) => hash16(s)),
-    battle: e.battleId
+    hadith: e.hadith.map((h) => hash16(h)),
+    sources: e.sources.map((s) => hash16(s)),
+    battle: e.battleScenarioId
       ? {
-          battleId: e.battleId,
-          scenarioId: resolveScenarioId(e.battleId),
-          available: AVAILABLE_BATTLE_SCENARIOS.has(resolveScenarioId(e.battleId)),
+          battleId: kbBattleId(e.battleScenarioId),
+          scenarioId: e.battleScenarioId,
+          available: AVAILABLE_BATTLE_SCENARIOS.has(e.battleScenarioId),
         }
       : null,
     route: e.route ?? null,
@@ -93,12 +89,12 @@ const companions = companionsData.map((c) => ({
   name: c.name,
   title: c.title,
   role: hash16(c.role),
-  birthDeath: c.birth_death,
+  birthDeath: c.birthDeath,
   aliases: c.aliases,
-  bio: hash16(c.description),
+  bio: hash16(c.bio),
 }));
 
-const quranPassages = quranKeys.map((key) => ({
+const quranPassages = Object.keys(quran).map((key) => ({
   id: key,
   surah: quran[key].surah,
   from: quran[key].from,
@@ -129,7 +125,7 @@ const battles = Object.entries(battleScenarios).map(([id, s]) => ({
 // build-time precompute (Phase 1) can match it.
 const round = (value: unknown): unknown =>
   typeof value === 'number' ? Math.round(value * 1e4) / 1e4 : Array.isArray(value) ? value.map(round) : value;
-const territoryYears = [...new Set([610, ...eventsData.map((e) => e.date.gregorian)])].sort((a, b) => a - b);
+const territoryYears = [...new Set([610, ...eventsData.map((e) => e.date.sortKey)])].sort((a, b) => a - b);
 const territories = territoryYears.map((year) => ({
   id: String(year),
   groups: getTerritoriesForYear(year).map((g) => ({

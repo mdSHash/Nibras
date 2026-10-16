@@ -132,3 +132,14 @@ describe('the territory check fails', () => {
     expect(messages(copy)).toContain(`${file}: period 1 (623–628): "from" must equal the previous period's "to"`);
   });
 });
+
+describe('the era check fails', () => {
+  it('on an anchor event that is unknown or in another era', () => {
+    const copy = structuredClone(raw);
+    const eras = copy.eras.data as { id: string; anchorEventId?: string }[];
+    eras.find(e => e.id === 'umar')!.anchorEventId = 'no-such-event';
+    eras.find(e => e.id === 'ali')!.anchorEventId = 'battle-badr';
+    expect(messages(copy)).toContain('eras.json: umar: unknown anchorEventId "no-such-event"');
+    expect(messages(copy)).toContain('eras.json: ali: anchorEventId "battle-badr" belongs to era "medinan"');
+  });
+});

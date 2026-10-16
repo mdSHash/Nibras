@@ -1,3 +1,5 @@
+import { findPersonCandidatesIn, findPersonIn } from './utils/peopleLookup';
+
 export interface CompanionData {
   id: string;
   name: string;
@@ -1463,54 +1465,10 @@ const coreCompanionsData: CompanionData[] = [
 
 export const companionsData: CompanionData[] = [...coreCompanionsData];
 
-// Longest alternative FIRST so the regex engine doesn't match a prefix (e.g. عنهم
-// as a prefix of عنهما) and leave a stray letter behind.
-const HONORIFICS_PATTERN =
-  /رضي الله عنهما|رضي الله عنهم|رضي الله عنها|رضي الله عنه|رحمهم الله|رحمها الله|رحمه الله|صلى الله عليه وسلم|عليه السلام|ﷺ/g;
-
-// Diacritics are stripped BEFORE honorifics are removed: a fully vocalized
-// "رَضِيَ اللهُ عَنْهُ" never matches the plain-letter pattern otherwise, which
-// left names like "عُثْمَانُ بْنُ عَفَّانَ رَضِيَ اللهُ عَنْهُ" unresolved.
-const normalizeArabicName = (value: string): string =>
-  value
-    .normalize("NFKC")
-    .replace(/[ً-ٰٟ]/g, "")
-    .replace(HONORIFICS_PATTERN, "")
-    .replace(/[إأآا]/g, "ا")
-    .replace(/ى/g, "ي")
-    .replace(/ة/g, "ه")
-    .replace(/[ؤئ]/g, "ء")
-    .replace(/ـ/g, "")
-    .replace(/[ً-ٟ]/g, "")
-    .replace(/\s+/g, " ")
-    .trim()
-    .toLowerCase();
-
-const getCompanionSearchKeys = (companion: CompanionData): string[] => {
-  const keys = [companion.id, companion.name, companion.title, ...companion.aliases]
-    .filter(Boolean)
-    .map((value) => normalizeArabicName(value));
-
-  return Array.from(new Set(keys));
-};
-
 /** Every companion a name matches (findCompanion returns the first). Used by the Phase 1 migration report. */
-export const findCompanionCandidates = (figureName: string): CompanionData[] => {
-  const normalizedQuery = normalizeArabicName(figureName);
-  if (!normalizedQuery) return [];
-  return companionsData.filter((companion) => getCompanionSearchKeys(companion).includes(normalizedQuery));
-};
+export const findCompanionCandidates = (figureName: string): CompanionData[] =>
+  findPersonCandidatesIn(companionsData, figureName);
 
-/** The first companion in `companions` that a name matches (by id, name, title or alias). */
-export const findCompanionIn = (companions: CompanionData[], figureName: string): CompanionData | undefined => {
-  const normalizedQuery = normalizeArabicName(figureName);
-
-  if (!normalizedQuery) return undefined;
-
-  return companions.find((companion) =>
-    getCompanionSearchKeys(companion).some((key) => key === normalizedQuery)
-  );
-};
-
+/** The first companion of the old list that a name matches. Used by the Phase 1 migration only. */
 export const findCompanion = (figureName: string): CompanionData | undefined =>
-  findCompanionIn(companionsData, figureName);
+  findPersonIn(companionsData, figureName);

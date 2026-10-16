@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Play, Pause, ChevronUp, X } from 'lucide-react';
 import type { EventItem } from '../../data';
 import { cn } from '../../utils/cn';
-import { getEraColor } from '../../utils/eraColors';
+import { eraColorOf } from '../../utils/eventHelpers';
 import { formatGregorianDate } from '../../utils/formatters';
 import { useIsMobile } from '../../hooks/useMatchMedia';
 import { Diamond } from './Diamond';
@@ -52,7 +52,7 @@ export const TimelineRail = memo(function TimelineRail(props: RailProps) {
     () => buildProgressGradient(events, selectedIdx),
     [events, selectedIdx],
   );
-  const eraColor = getEraColor(selectedEvent?.era);
+  const eraColor = eraColorOf(selectedEvent);
   const progressWidth = events.length ? ((selectedIdx + 1) / events.length) * 100 : 0;
 
   return (
@@ -171,9 +171,9 @@ function MobileCollapsedView(props: MobileCollapsedProps) {
     isAutoPlaying, onToggleAutoPlay, eraTitle, eraColor,
     progressWidth, prefersReducedMotion, mobileCollapsedContainerRef,
   } = props;
-  const first = events[0]?.era;
-  const mid = events[Math.floor(events.length / 2)]?.era;
-  const last = events[events.length - 1]?.era;
+  const first = events[0];
+  const mid = events[Math.floor(events.length / 2)];
+  const last = events[events.length - 1];
   return (
     <div className="absolute inset-0 flex flex-col justify-center px-3" dir="rtl">
       <div className="flex items-center justify-between mb-1.5">
@@ -207,7 +207,7 @@ function MobileCollapsedView(props: MobileCollapsedProps) {
         <div
           className="absolute top-1/2 right-0 left-0 h-[2px] -translate-y-1/2 pointer-events-none"
           style={{
-            background: `linear-gradient(to left, ${getEraColor(first)}80, ${getEraColor(mid)}80, ${getEraColor(last)}80)`,
+            background: `linear-gradient(to left, ${eraColorOf(first)}80, ${eraColorOf(mid)}80, ${eraColorOf(last)}80)`,
             boxShadow: `0 0 8px ${eraColor}40`,
           }}
         />
@@ -215,7 +215,7 @@ function MobileCollapsedView(props: MobileCollapsedProps) {
           <motion.div
             className="absolute top-1/2 right-0 h-[2px] -translate-y-1/2 pointer-events-none"
             style={{
-              background: `linear-gradient(to left, ${getEraColor(first)}, ${eraColor})`,
+              background: `linear-gradient(to left, ${eraColorOf(first)}, ${eraColor})`,
               boxShadow: `0 0 12px ${eraColor}60`,
             }}
             animate={{ width: `${progressWidth}%` }}
@@ -225,7 +225,7 @@ function MobileCollapsedView(props: MobileCollapsedProps) {
         <div className="flex items-center gap-2 min-w-max px-2 h-full relative z-10">
           {events.map(evt => {
             const isSel = selectedEvent?.id === evt.id;
-            const c = getEraColor(evt.era);
+            const c = eraColorOf(evt);
             return (
               <motion.button
                 key={`dot-${evt.id}`}
@@ -241,7 +241,7 @@ function MobileCollapsedView(props: MobileCollapsedProps) {
                 style={{ touchAction: 'manipulation' }}
                 aria-label={evt.title}
               >
-                <Diamond variant="dot" color={c} isSelected={isSel} isMajor={!!evt.is_major_event} prefersReducedMotion={prefersReducedMotion} hasBattle={!!evt.battleId} />
+                <Diamond variant="dot" color={c} isSelected={isSel} isMajor={!!evt.isMajor} prefersReducedMotion={prefersReducedMotion} hasBattle={!!evt.battleScenarioId} />
                 <span
                   className="leading-tight max-w-[56px] sm:max-w-[72px] truncate text-center"
                   style={{
@@ -294,8 +294,8 @@ function MobileExpandedView(props: MobileExpandedProps) {
         <div className="flex flex-col gap-1.5">
           {events.map(evt => {
             const isSel = selectedEvent?.id === evt.id;
-            const isMajor = !!evt.is_major_event;
-            const c = getEraColor(evt.era);
+            const isMajor = !!evt.isMajor;
+            const c = eraColorOf(evt);
             return (
               <motion.button
                 key={evt.id}
@@ -315,7 +315,7 @@ function MobileExpandedView(props: MobileExpandedProps) {
                 }}
               >
                 <div className="shrink-0 flex items-center justify-center w-5 h-5">
-                  <Diamond variant="row" color={c} isSelected={isSel} isMajor={isMajor} prefersReducedMotion={prefersReducedMotion} hasBattle={!!evt.battleId} />
+                  <Diamond variant="row" color={c} isSelected={isSel} isMajor={isMajor} prefersReducedMotion={prefersReducedMotion} hasBattle={!!evt.battleScenarioId} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div
@@ -325,7 +325,7 @@ function MobileExpandedView(props: MobileExpandedProps) {
                     {evt.title}
                   </div>
                   <div className="text-[11px] text-white/70 mt-0.5">
-                    {formatGregorianDate(Math.floor(evt.date.gregorian))}
+                    {formatGregorianDate(evt.date.gregorian.year)}
                   </div>
                 </div>
                 {isSel && (
@@ -398,8 +398,8 @@ function DesktopView(props: DesktopViewProps) {
         <div className={cn('flex items-center relative z-10', isExpanded ? 'flex-col md:flex-row w-full md:w-max gap-4 md:gap-10 lg:gap-14 pt-8 md:pt-0' : 'w-max gap-10 lg:gap-14')}>
           {events.map(evt => {
             const isSel = selectedEvent?.id === evt.id;
-            const isMajor = !!evt.is_major_event;
-            const c = getEraColor(evt.era);
+            const isMajor = !!evt.isMajor;
+            const c = eraColorOf(evt);
             return (
               <div
                 key={evt.id}
@@ -434,7 +434,7 @@ function DesktopView(props: DesktopViewProps) {
                     border: isSel ? `1px solid ${c}30` : 'none',
                   }}
                 >
-                  {formatGregorianDate(Math.floor(evt.date.gregorian))}
+                  {formatGregorianDate(evt.date.gregorian.year)}
                 </motion.div>
 
                 <motion.div
@@ -446,7 +446,7 @@ function DesktopView(props: DesktopViewProps) {
                     isExpanded && 'relative md:absolute md:top-[calc(50%-2px)] md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2',
                   )}
                 >
-                  <Diamond variant="desktop" color={c} isSelected={isSel} isMajor={isMajor} prefersReducedMotion={prefersReducedMotion} hasBattle={!!evt.battleId} />
+                  <Diamond variant="desktop" color={c} isSelected={isSel} isMajor={isMajor} prefersReducedMotion={prefersReducedMotion} hasBattle={!!evt.battleScenarioId} />
                 </motion.div>
 
                 <motion.div

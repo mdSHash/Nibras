@@ -275,6 +275,14 @@ export function checkContent(
     }
   }
   checkUnique(events, e => e.id, eventFile, 'event id', issues);
+  const eventsById = new Map(events.map(e => [e.id, e]));
+  for (const era of eras) {
+    if (era.anchorEventId === undefined) continue;
+    const anchor = eventsById.get(era.anchorEventId);
+    if (!anchor) issues.push({ file: raw.eras.file, message: `${era.id}: unknown anchorEventId "${era.anchorEventId}"` });
+    else if (anchor.eraId !== era.id)
+      issues.push({ file: raw.eras.file, message: `${era.id}: anchorEventId "${anchor.id}" belongs to era "${anchor.eraId}"` });
+  }
 
   // Events that share a sortKey need distinct tieOrder values; others need none.
   const bySortKey = new Map<number, ContentEvent[]>();

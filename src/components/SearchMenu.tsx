@@ -44,11 +44,11 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
     events.forEach(e => {
       const parts = [
         e.title,
-        e.details?.summary ?? '',
-        e.details?.full_description ?? '',
-        e.location?.name ?? '',
-        String(e.date.gregorian),
-        e.date.hijri_relative ?? '',
+        e.summary,
+        e.fullDescription,
+        e.location.nameAr,
+        String(e.date.sortKey),
+        e.date.labelAr,
       ].join(' ');
       map.set(e.id, normalizeArabic(parts));
     });
@@ -322,7 +322,7 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
                     >
                       <div className="flex justify-between items-start w-full gap-2">
                         <span className="font-bold text-[var(--color-ink)] group-hover:text-[var(--color-accent)] transition-colors flex items-center gap-1.5 min-w-0">
-                          {evt.battleId && (
+                          {evt.battleScenarioId && (
                             <span
                               className="shrink-0 inline-flex items-center justify-center w-5 h-5 rounded-full bg-[var(--color-accent)] shadow-[0_1px_3px_rgba(0,0,0,0.3)]"
                               aria-label="معركة قابلة للمشاهدة"
@@ -338,16 +338,16 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
                           'bg-[var(--color-accent)]/10 text-[var(--color-accent)]',
                           'font-bold'
                         )}>
-                          {Math.floor(evt.date.gregorian)} م
+                          {evt.date.gregorian.year} م
                         </span>
                       </div>
                       
                       <div className="flex items-center text-xs mt-1 gap-1 text-[var(--color-ink)]/80">
                         <MapPin size={12} className="shrink-0" />
-                        <span className="truncate">{evt.location.name}</span>
+                        <span className="truncate">{evt.location.nameAr}</span>
                       </div>
                       <div className="text-xs mt-1 leading-relaxed line-clamp-1 text-[var(--color-ink)]/70">
-                        {evt.details.summary}
+                        {evt.summary}
                       </div>
                     </motion.button>
                   ))}

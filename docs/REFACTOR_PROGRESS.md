@@ -370,7 +370,7 @@ one PR at the end.
 - [x] 1B Quran passages generated from the Quran.com text — `08c3130`
 - [x] 1B Territories: control rules in data, polygons precomputed, `@turf/turf` out of the bundle, legend row
 - [x] 1B Battle scenarios read title and date from the event; replay numbers corrected to the event figures (see Decisions)
-- [ ] 1B Era, category, battle and people helpers look up IDs
+- [x] 1B Era, category, battle and people helpers look up IDs
 - [ ] 1C One Arabic normalization module
 - [ ] 1C Old data files removed; `docs/CONTENT_GUIDE.md`; `docs/PRD.md`
 - [ ] 1C Verification report, review pass, PR
@@ -546,6 +546,22 @@ Made during 1A:
    map dates (snapshot unchanged). `@turf/turf` is now a dev dependency: main chunk 477.7 → 460.9 KiB
    gzip. The help window's legend gains one row, «حدود الدول على الخريطة تقريبية», with a swatch like
    the map's shading (checked in light and dark mode).
+10. **Helpers look up ids; the `src/data.ts` adapter is gone** (plan). The app reads the content
+    shapes (`src/data.ts` now exports them with `eraOf`, `getPerson`, `passageFor`,
+    `eventForScenario`). Era badge, ruler, timeline title and colours come from the event's era
+    (`content/eras.json`); the era filter uses the era `group`; replays open by `battleScenarioId`;
+    people chips open the bio by `personId` (the bio window takes an id; its "not found" text is now
+    its heading, since it can no longer show a name); Qur'an chips find their passage by
+    `{surah, from, to}`; the help legend lists `content/categories.json`. Era buttons: each era has an
+    `anchorEventId` (the first revelation, each caliph's accession), checked at build; the button
+    goes to it, or, when a filter hides it, to the first shown event of the era from that date on.
+    The behavior map (timeline order, 9 filter combinations with their era anchors, 15 searches)
+    and the content snapshot are unchanged by this step. Left for later, on purpose: the chat KB and
+    API keep their era labels and battle keys (`scripts/chat-kb/kbNames.ts`; Phase 3), and the chat
+    citation colour maps that label through `eraKeyOf`; the old helpers live on in
+    `src/legacyData.ts` for the migration script and go with it in 1C, as do `src/utils/quranMatch.ts`
+    and `src/companionsList.ts` (the name finder moved to `src/utils/peopleLookup.ts`, byte-identical
+    normalization; 1C folds it into the shared Arabic module).
 
 ### 1A verification (2026-10-16, Windows 11, Node 20.19.5, Playwright 1.59.1)
 
