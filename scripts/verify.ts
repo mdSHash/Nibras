@@ -17,8 +17,9 @@ const TEST_CHAT_API_URL = 'http://chat.test/api/chat';
 const FEATURE_WORKERS = process.env.CI ? 2 : 3;
 
 // Reference screenshots are per platform. Until this platform's set is committed
-// (Linux comes from the CI "visual-baseline" artifact), the visual step writes the
-// missing images instead of comparing, and says so in the summary.
+// (Linux comes from the CI "baseline-linux" artifact), the visual step writes the
+// images instead of comparing, and says so in the summary. (It uses --update-snapshots=all:
+// in this Playwright version "missing" writes the image but still fails the test.)
 const VISUAL_DIR = join(ROOT, 'tests', 'baseline', 'visual');
 function hasVisualBaseline(): boolean {
   if (!existsSync(VISUAL_DIR)) return false;
@@ -115,7 +116,7 @@ const steps: Step[] = [
   {
     // Two workers: under heavier load the map's resting point can drift (see visual.spec.ts).
     name: 'Visual snapshots (Playwright)',
-    command: `npx playwright test --project=desktop --project=phone --grep @visual --workers=2 --reporter=line,json${visualBaselineMissing ? ' --update-snapshots=missing' : ''}`,
+    command: `npx playwright test --project=desktop --project=phone --grep @visual --workers=2 --reporter=line,json${visualBaselineMissing ? ' --update-snapshots=all' : ''}`,
     env: { PLAYWRIGHT_JSON_OUTPUT_NAME: join(REPORT_DIR, 'playwright-visual.json') },
     after: () => {
       const summary = playwrightSummary('playwright-visual.json', 'playwrightVisual');

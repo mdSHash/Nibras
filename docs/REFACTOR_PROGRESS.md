@@ -274,7 +274,10 @@ Playwright 68 feature (11 known failures) + 18 visual. ESLint and Zod showed as 
   read while the map was still flying (now waits for the map to stop); the phone search drawer
   closing itself while the test reached for its close button; the replay clock checked after a
   fixed 3 s (software WebGL can take several seconds to draw the first frames; now polls up to 20 s).
-- One check is skipped on Linux only: narration playback in Firefox (the runner has no sound device,
-  so the app shows its playback error). It still runs in Firefox on Windows in `npm run verify`.
+- Two checks are skipped on Linux only, in one engine each: narration playback in Firefox (the
+  runner has no sound device, so the app shows its playback error) and the Badr replay in WebKit
+  (WebKit for Linux, the GTK port, never starts the replay clock headless, even after 20 s). Both
+  still run in that engine on Windows in `npm run verify`. Real iPhones and Macs use Apple's WebKit,
+  which the Windows WebKit build is closer to.
 - Playwright fixture options: a list of several patterns must be passed to `test.use` as
   `[value, { scope: 'test' }]` (Playwright reads any array whose second item is an object as that pair).
