@@ -461,6 +461,7 @@ apart from approved differences), CI fails on a bad reference, and the old data 
 - [ ] Move UI state into one Zustand store; replace overlay booleans with one `overlay` value derived
       from the route. Remove the `window` event and `window.__nibrasOpenBattle` (Playwright can now
       navigate to `/battle/:id`).
+      A battle's page shows its video where it has one, its replay otherwise (Phase 3, battle videos).
 - [ ] Split `App.tsx` into layout, `AppHeader` (with one `HeaderButton` component) and `Overlays`;
       split `EventPanel.tsx` by job (audio player, header, people list, sections).
 - [ ] Load full event text, bios and Quran passages on demand from the files emitted in Phase 1.
@@ -492,10 +493,35 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
       index fall out of sync. **Ask before using quota.**
 - [ ] Per-IP rate limit on `api/chat.ts` using the Upstash Redis the API already supports, with a
       friendly Arabic 429 message.
-- [ ] Lazy-load each battle scenario by ID; move `ScenarioLoader` out of `scenarios/index.ts` into
-      `core/`; split `systems/index.ts` into one file per system.
-- [ ] Battle readability: hide or de-collide unit labels at low zoom; `dir="ltr"` on the timer; show
-      the Arabic date from the linked event in the subtitle.
+- [ ] **Battle videos replace the battle engine** (Mostafa, 2026-10-16). Mostafa is producing one
+      narrated video per battle (roughly 100–200 MB each at full quality), better than the Pixi.js
+      replay. The engine stays as it is, untouched, until every battle has its video, then it is
+      archived (not deleted). Until then each battle opens its video if it has one, else the replay.
+      Steps, one battle at a time as videos arrive (Badr first):
+      - *Hosting.* Not in git or GitHub Pages: git rejects files over 100 MB and Pages sites are capped
+        at 1 GB, while 12 videos come to 1–2.5 GB. Host them with the narration audio (same question,
+        same answer; **ask Mostafa**: Cloudflare R2, Bunny Stream, YouTube unlisted, or similar). The
+        original file is kept as delivered (archived like the narration WAVs).
+      - *Encoding.* Two or three renditions (e.g. 1080p, 720p, 480p) with adaptive streaming (HLS) or
+        at least a phone-sized MP4, a poster image, `preload="none"`, so a visitor on a phone does not
+        download 200 MB. Original quality stays available.
+      - *Content.* The video's Arabic narration is reviewed content (CLAUDE.md rule 1): its script is
+        stored in `content/` as Arabic captions (WebVTT), shown as subtitles and read by the chat KB,
+        which today takes battle units from the replay narration. Every figure the video states
+        (army sizes, days, casualties) is checked against the event, as in Phase 1B; differences go
+        to Mostafa.
+      - *App.* The event gets a `battleVideo` reference (validated at build); the panel's replay button
+        and the Phase 2 `/battle/:id` page open an accessible video player (Arabic controls labels,
+        keyboard, captions on by default, loading/error/retry states). Tests: the player opens, plays,
+        shows captions; one visual snapshot per battle replaces the replay snapshot.
+      - *After the last battle.* Archive `src/battlefield/` (git tag plus a note in this plan), drop
+        Pixi.js, GSAP, XState and the replay tests and CI jobs, and record the bundle saving.
+- [ ] ~~Lazy-load each battle scenario by ID; move `ScenarioLoader` out of `scenarios/index.ts` into
+      `core/`; split `systems/index.ts` into one file per system.~~ On hold: superseded by the battle
+      videos (Mostafa, 2026-10-16).
+- [ ] ~~Battle readability: hide or de-collide unit labels at low zoom; `dir="ltr"` on the timer.~~ On
+      hold: superseded by the battle videos (Mostafa, 2026-10-16). The event's Arabic date in the
+      subtitle was done in Phase 1B.
 - [ ] Self-host the Arabic fonts (subset, only weights in use); remove the second font link injected
       by `IntroScreen.tsx`.
 - [ ] Styling: colors only through theme tokens; move inline `style={{}}` colors into tokens/classes;
@@ -533,8 +559,8 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
 - [ ] Archive or delete the one-off scripts; document the remaining ones in `scripts/README.md`.
 - [ ] Update the PRD with a "target vs today" view.
 
-Done when: `npm run verify` passes, the 12 battle replays and narration still work, and the live-site
-check passes after deploy.
+Done when: `npm run verify` passes, every battle opens (its video where one exists, its replay
+otherwise), narration still works, and the live-site check passes after deploy.
 
 ---
 

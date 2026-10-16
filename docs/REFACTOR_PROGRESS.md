@@ -7,7 +7,7 @@ The log for `docs/REFACTOR_PLAN.md`. Each session reads this file first and upda
 | --- | --- | --- | --- |
 | 0A Baseline and `npm run verify` | merged | `refactor/phase-0a-baseline` | #3 |
 | 0B Safety net | merged | `refactor/phase-0b-safety-net` | #4 |
-| 1 Content model | in review (1A, 1B, 1C done) | `refactor/phase-1-content` | #5 |
+| 1 Content model | merged | `refactor/phase-1-content` | #5 |
 | 2 State, routing and pages | not started | `refactor/phase-2-routing` | — |
 | 3 Assets, chat and polish | not started | `refactor/phase-3-polish` | — |
 | 4 Learning paths for guests | not started | `feature/phase-4-paths` | — |
@@ -398,6 +398,15 @@ one PR at the end.
   event chips showing them; the six fields removed from the 12 replays; the replay totals and day
   counts of change 8; the Tabuk unit of change 8a). `tests/baseline/content.json` updated.
 - 2026-10-16 (1B): the replay group sizes no source gives stay as they are for now (Open item 2).
+- 2026-10-16 (end of 1C): **Phase 1 approved and merged.** Mostafa checked the manual list (event panel,
+  searches «معركه بدر» and «٣١٣», person and Quran chips, help legend in both modes, Badr replay
+  header, chat): all as expected.
+- 2026-10-16 (end of 1C): **battle videos will replace the battle engine.** Mostafa is producing one
+  narrated video per battle (about 100–200 MB each), better than the Pixi.js replay; Badr is done and
+  will be handed over. The engine is left as it is and archived once every battle has a video; the
+  engine tasks of Phase 3 are on hold. Plan: Phase 3, "Battle videos replace the battle engine"
+  (hosting outside git, smaller renditions for phones, the narration stored as reviewed Arabic
+  captions, figures checked against the events).
 - 2026-10-16 (1C): **the Arabic normalizers keep their exact output.** One module, each existing
   variant under its own name, byte-identical; the differences between variants are listed (below,
   "Arabic normalization: known differences") for a later decision, not fixed now.
