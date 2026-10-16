@@ -15,6 +15,7 @@ import type {
   GeneratedQuranPassage,
   Person,
 } from '../shared/contentSchema';
+import { eventSlug, type Route } from '../shared/routes';
 
 export type EventItem = ContentEvent;
 export type Companion = Person;
@@ -31,6 +32,14 @@ export const categories: Category[] = generatedCategories;
 
 const eraById = new Map(eras.map(e => [e.id, e]));
 const personById = new Map(companionsData.map(p => [p.id, p]));
+const eventById = new Map(eventsData.map(e => [e.id, e]));
+const eventBySlug = new Map(eventsData.map(e => [eventSlug(e), e]));
+
+export const getEvent = (eventId: string): EventItem | undefined => eventById.get(eventId);
+/** The event an address names: by its slug, or by its id (old links). */
+export const eventByKey = (key: string): EventItem | undefined => eventBySlug.get(key) ?? eventById.get(key);
+/** The route of an event's page. */
+export const eventRoute = (event: Pick<EventItem, 'id' | 'slug'>): Route => ({ kind: 'event', key: eventSlug(event) });
 
 /** The era an event belongs to (its id is checked at build time). */
 export const eraOf = (event: Pick<EventItem, 'eraId'>): Era => eraById.get(event.eraId) as Era;

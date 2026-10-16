@@ -780,4 +780,17 @@ one PR at the end.
 
 ### Intentional behavior changes
 
-(none yet)
+1. **Addresses** (2A). The address bar follows what is open: `/event/<slug>/`, `/person/<id>/`,
+   `/quran/<surah>/<from>-<to>/`, `/battle/<id>/`, and `?era=…&type=…` for filters. Opening an
+   event (map, timeline, search, arrow keys, era pill, chat) adds a history entry; autoplay steps,
+   filter changes and the first-event auto-select replace the current one, so `/` becomes
+   `/event/birth-of-the-prophet/` after a second without adding an entry.
+2. **Back and Forward** (2A) move between opened events and close or reopen a person, a passage or a
+   replay. The close button of those three goes Back when they were opened in the app, so the two
+   agree; opened from a link, closing shows the page under them (the map, or for a replay its event).
+3. **Shared links** (2A): an address opens its page after the intro. An old link by event id moves to
+   the slug. An unknown address shows the map with «لم نجد هذه الصفحة، فعدنا بك إلى الخريطة».
+4. **Escape** (2A) still closes everything and clears the event (as recorded in 0A); it now does so by
+   going to `/`, which adds a history entry when something was open.
+5. Removed (2A): `window.__nibrasOpenBattle` (tests open `/battle/<id>/`), the `nibras:reset-map-view`
+   window event (the map follows a counter in the store), and the unused `onOpenFilter` prop of the map.

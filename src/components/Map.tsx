@@ -20,6 +20,7 @@ import useSupercluster from 'use-supercluster';
 import { Swords, Flag, MapPin, ScrollText, Tent, Book, Crown, Skull } from 'lucide-react';
 import { getTerritoriesForYear } from '../territories';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { useAppStore } from '../store/appStore';
 
 // Custom Map Controls, Updater etc... (Keep as is, but we'll update TerritoryRenderer)
 
@@ -29,7 +30,6 @@ interface MapViewProps {
   selectedEvent: EventItem | null;
   onSelectEvent: (event: EventItem) => void;
   showCities?: boolean;
-  onOpenFilter?: () => void;
 }
 
 // Map Updater Component to center map on selected event
@@ -445,12 +445,14 @@ export default function HistoricalMap({ events, selectedEvent, onSelectEvent, sh
     }
   }, [map]);
 
-  // Listen for custom event from header to reset map view
+  // The header's reset button bumps mapResetCount in the store.
+  const mapResetCount = useAppStore(s => s.mapResetCount);
+  const lastReset = useRef(mapResetCount);
   useEffect(() => {
-    const handleResetView = () => resetView();
-    window.addEventListener('nibras:reset-map-view', handleResetView);
-    return () => window.removeEventListener('nibras:reset-map-view', handleResetView);
-  }, [resetView]);
+    if (mapResetCount === lastReset.current) return;
+    lastReset.current = mapResetCount;
+    resetView();
+  }, [mapResetCount, resetView]);
 
   return (
     <div className="relative w-full h-full z-0" data-tour-id="map-container">
