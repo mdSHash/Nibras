@@ -104,3 +104,31 @@ describe('the content check fails', () => {
     expect(messages(copy)).toContain('events/battle-badr.json: duplicate event id "battle-badr"');
   });
 });
+
+describe('the territory check fails', () => {
+  type Control = { periods: { from?: number; to?: number; owners: { group: string; regions: string[] }[] }[] };
+  const withControl = (change: (control: Control) => void): RawContent => {
+    const copy = structuredClone(raw);
+    change(copy.territoryControl.data as Control);
+    return copy;
+  };
+  const file = 'territories/control.json';
+
+  it('on an unknown region or a sea point', () => {
+    const copy = withControl(c => c.periods[0].owners[0].regions.push('atlantis', 'sea_med'));
+    expect(messages(copy)).toContain(`${file}: period 0 (…–622): unknown region "atlantis"`);
+    expect(messages(copy)).toContain(`${file}: period 0 (…–622): "sea_med" is a sea point`);
+  });
+
+  it('when a region has two owners or none', () => {
+    const twice = withControl(c => c.periods[0].owners[1].regions.push(c.periods[0].owners[0].regions[0]));
+    expect(messages(twice).some(m => m.includes('"b_egypt1" has two owners'))).toBe(true);
+    const none = withControl(c => c.periods[0].owners[0].regions.shift());
+    expect(messages(none)).toContain(`${file}: period 0 (…–622): region "b_egypt1" has no owner`);
+  });
+
+  it('when the periods leave a gap', () => {
+    const copy = withControl(c => (c.periods[1].from = 623));
+    expect(messages(copy)).toContain(`${file}: period 1 (623–628): "from" must equal the previous period's "to"`);
+  });
+});

@@ -125,6 +125,46 @@ export const quranPassageSchema = z.strictObject({
   to: z.number().int().min(1),
 });
 
+const regionId = z.string().regex(/^[a-z0-9_]+$/, 'lowercase id with underscores');
+const lngLat = z.tuple([z.number().min(-180).max(180), z.number().min(-90).max(90)]);
+
+/**
+ * content/territories/regions.json: the seed points of the territory map (one
+ * Voronoi cell each, clipped to the land outline) and the outline itself, both
+ * as [lng, lat]. Sea points only keep cells from crossing the seas.
+ */
+export const territoryRegionsSchema = z.strictObject({
+  landOutline: z.array(lngLat).min(4),
+  regions: z.array(
+    z.strictObject({ id: regionId, titleAr: text, lng: z.number(), lat: z.number(), sea: z.literal(true).optional() }),
+  ),
+});
+
+/**
+ * content/territories/control.json: who holds each region, period by period.
+ * A period runs from `from` (inclusive) to `to` (exclusive) on the event
+ * date.sortKey scale; the first has no `from`, the last no `to`. Every land
+ * region has exactly one owner per period.
+ */
+export const territoryControlSchema = z.strictObject({
+  /** Groups whose map label is the group name; others show the region's name. */
+  empireGroups: z.array(regionId),
+  periods: z.array(
+    z.strictObject({
+      from: z.number().optional(),
+      to: z.number().optional(),
+      owners: z.array(
+        z.strictObject({
+          group: regionId,
+          nameAr: text,
+          color: z.string().regex(/^#[0-9a-f]{6}$/),
+          regions: z.array(regionId).min(1),
+        }),
+      ),
+    }),
+  ).min(1),
+});
+
 /** content/quran/verses.json, written by scripts/fetch-quran.ts; never edited by hand. */
 export const quranVersesSchema = z.strictObject({
   source: text,
@@ -142,5 +182,29 @@ export type Person = z.infer<typeof personSchema>;
 export type City = z.infer<typeof citySchema>;
 export type QuranPassage = z.infer<typeof quranPassageSchema>;
 export type QuranVerses = z.infer<typeof quranVersesSchema>;
+export type TerritoryRegions = z.infer<typeof territoryRegionsSchema>;
+export type TerritoryControl = z.infer<typeof territoryControlSchema>;
+
+/** A territory polygon as the map draws it: rings of [lat, lng]. */
+export interface TerritoryPolygon {
+  name: string;
+  color: string;
+  coordinates: [number, number][][];
+}
+export interface TerritoryGroup {
+  id: string;
+  name: string;
+  color: string;
+  isEmpire: boolean;
+  /** Name of the group's last region (the label of non-empire groups). */
+  specificName: string;
+  polygons: TerritoryPolygon[];
+}
+/** src/generated/territories.json: the map for each control period, precomputed at build. */
+export interface GeneratedTerritoryPeriod {
+  from?: number;
+  to?: number;
+  groups: TerritoryGroup[];
+}
 /** A passage as src/generated/quranPassages.json carries it (scripts/build-content.ts). */
 export type GeneratedQuranPassage = QuranPassage & { text: string; link: string };

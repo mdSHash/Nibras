@@ -368,7 +368,7 @@ one PR at the end.
 - [x] 1A Content build step (`scripts/build-content.ts` → `src/generated/`, checks in `scripts/content/store.ts`) — `3328e8b`
 - [x] 1A App, chat KB builder and baseline scripts read the generated content — `3328e8b`
 - [x] 1B Quran passages generated from the Quran.com text — `08c3130`
-- [ ] 1B Territories: control rules in data, polygons precomputed, `@turf/turf` out of the bundle, legend row
+- [x] 1B Territories: control rules in data, polygons precomputed, `@turf/turf` out of the bundle, legend row
 - [x] 1B Battle scenarios read title and date from the event; replay numbers corrected to the event figures (see Decisions)
 - [ ] 1B Era, category, battle and people helpers look up IDs
 - [ ] 1C One Arabic normalization module
@@ -536,6 +536,16 @@ Made during 1A:
    No narration sentence states a figure that conflicts (Mu'tah's already says 200,000, Khaybar's
    1,400). Checked visually: the nine changed replays captured old vs new at 4 %, 35 % and 70 %
    of their time: same layout and unit shapes, only the counters, day counters and header differ.
+9. **Territories precomputed** (plan). `content/territories/regions.json` holds the 46 seed points
+   and the land outline; `control.json` the owners of every land region in 11 periods (the old
+   `if` chain, with its inner conditions at 628, 633.8 and 645.3–645.7 as periods of their own),
+   generated from the old function so no value was retyped. The content build checks that the
+   periods join up and that every land region has exactly one owner, and writes
+   `src/generated/territories.json` (42 KB, 2.8 KB gzip) with the same turf steps as before;
+   `src/territories.ts` only picks the period. Polygons, names and colours are identical for all 113
+   map dates (snapshot unchanged). `@turf/turf` is now a dev dependency: main chunk 477.7 → 460.9 KiB
+   gzip. The help window's legend gains one row, «حدود الدول على الخريطة تقريبية», with a swatch like
+   the map's shading (checked in light and dark mode).
 
 ### 1A verification (2026-10-16, Windows 11, Node 20.19.5, Playwright 1.59.1)
 

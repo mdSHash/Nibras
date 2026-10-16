@@ -42,7 +42,8 @@ only after Mostafa approves the list of intentional changes; never to make a tes
 
 - `src/App.tsx` — app shell and state; `src/components/` — map, event panel, timeline, modals, chat
 - `src/battlefield/` — Pixi.js battle engine and the 12 scenarios
-- `src/dataList.json` (events), `src/companionsList.ts`, `src/citiesList.ts`, `src/territoriesData.ts`
+- `src/dataList.json` (events), `src/companionsList.ts`, `src/citiesList.ts`; territories in
+  `content/territories/` (precomputed at build, read through `src/territories.ts`)
 - `shared/` — code shared by the app, the chat API and scripts (Arabic normalization, chat types,
   content schemas)
 - `api/` — chat assistant (Vercel functions); `api/_lib/` its modules

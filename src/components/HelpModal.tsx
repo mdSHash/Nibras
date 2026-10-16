@@ -209,6 +209,21 @@ export default function HelpModal({ isOpen, onClose }: HelpModalProps) {
                       </span>
                       <span>معركة قابلة للمشاهدة</span>
                     </li>
+                    {/* Territory shading — a swatch like the map's polygons
+                        (emerald fill at 30 %, solid border). */}
+                    <li className="flex items-center gap-3 text-[13px] md:text-sm text-[var(--color-ink)]/85">
+                      <span
+                        className="inline-block shrink-0 rounded-sm"
+                        style={{
+                          width: 22,
+                          height: 16,
+                          backgroundColor: 'rgba(16,185,129,0.3)',
+                          border: '2px solid rgba(16,185,129,0.7)',
+                        }}
+                        aria-hidden="true"
+                      />
+                      <span>حدود الدول على الخريطة تقريبية</span>
+                    </li>
                   </ul>
                 </section>
 

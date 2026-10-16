@@ -15,13 +15,18 @@ import {
   personSchema,
   quranPassageSchema,
   quranVersesSchema,
+  territoryControlSchema,
+  territoryRegionsSchema,
   type Category,
   type City,
   type ContentEvent,
   type Era,
   type Person,
   type GeneratedQuranPassage,
+  type TerritoryControl,
+  type TerritoryRegions,
 } from '../../shared/contentSchema';
+import { checkTerritories } from './territories';
 import { passageLink, passageText, passageVerseKeys } from '../../shared/quranText';
 
 export interface ContentSet {
@@ -58,6 +63,14 @@ export interface RawContent {
   cities: RawFile[];
   quranPassages: RawFile;
   quranVerses: RawFile;
+  territoryRegions: RawFile;
+  territoryControl: RawFile;
+}
+
+/** The territory files, validated; scripts/content/territories.ts turns them into polygons. */
+export interface TerritorySource {
+  regions: TerritoryRegions;
+  control: TerritoryControl;
 }
 
 export const passageRange = (p: { surah: number; from: number; to: number }): string => `${p.surah}:${p.from}-${p.to}`;
@@ -100,6 +113,8 @@ export function readContent(dir: string): { raw: RawContent; issues: ContentIssu
     cities: readJsonDir(dir, 'cities', issues),
     quranPassages: readJson(dir, 'quran/passages.json', issues),
     quranVerses: readJson(dir, 'quran/verses.json', issues),
+    territoryRegions: readJson(dir, 'territories/regions.json', issues),
+    territoryControl: readJson(dir, 'territories/control.json', issues),
   };
   return { raw, issues };
 }
@@ -157,7 +172,7 @@ function checkUnique<T>(
 export function checkContent(
   raw: RawContent,
   scenarioIds: ReadonlySet<string>,
-): { content: ContentSet; issues: ContentIssue[] } {
+): { content: ContentSet; territories: TerritorySource | undefined; issues: ContentIssue[] } {
   const issues: ContentIssue[] = [];
   const eras = parseList(eraSchema, raw.eras, issues).sort((a, b) => a.order - b.order);
   const categories = parseList(categorySchema, raw.categories, issues);
@@ -301,5 +316,19 @@ export function checkContent(
     return person ? [person] : [];
   });
 
-  return { content: { eras, categories, events, people: orderedPeople, cities, quranPassages: generatedPassages }, issues };
+  // Territories: every land region has one owner in each period.
+  const territoryRegions = parse(territoryRegionsSchema, raw.territoryRegions, issues);
+  const territoryControl = parse(territoryControlSchema, raw.territoryControl, issues);
+  let territories: TerritorySource | undefined;
+  if (territoryRegions && territoryControl) {
+    const territoryIssues = checkTerritories(territoryRegions, territoryControl, raw.territoryControl.file);
+    issues.push(...territoryIssues);
+    if (territoryIssues.length === 0) territories = { regions: territoryRegions, control: territoryControl };
+  }
+
+  return {
+    content: { eras, categories, events, people: orderedPeople, cities, quranPassages: generatedPassages },
+    territories,
+    issues,
+  };
 }

@@ -9,7 +9,7 @@ import { join } from 'node:path';
 import { citiesData, companionsData, eventsData } from '../../src/data';
 import { findCompanion } from '../../src/companionsList';
 import generatedQuranPassages from '../../src/generated/quranPassages.json';
-import { getTerritoriesForYear } from '../../src/territoriesData';
+import { getTerritoriesForYear } from '../../src/territories';
 import { getEraTitle, getRulerName, isBattle, isProphetEra, isRashidunEra } from '../../src/utils/eventHelpers';
 import { matchQuranKey } from '../../src/utils/quranMatch';
 import { resolveScenarioId } from '../../src/utils/battleScenario';

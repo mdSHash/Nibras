@@ -18,7 +18,7 @@ import type { EventIcon } from '../../shared/contentSchema';
 import { renderToStaticMarkup } from 'react-dom/server';
 import useSupercluster from 'use-supercluster';
 import { Swords, Flag, MapPin, ScrollText, Tent, Book, Crown, Skull } from 'lucide-react';
-import { getTerritoriesForYear } from '../territoriesData';
+import { getTerritoriesForYear } from '../territories';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 
 // Custom Map Controls, Updater etc... (Keep as is, but we'll update TerritoryRenderer)

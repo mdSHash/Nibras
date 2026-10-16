@@ -7,11 +7,14 @@
  *   npx tsx scripts/build-content.ts           validate and write src/generated/
  *   npx tsx scripts/build-content.ts --check   validate only (npm run validate:content)
  *
+ * Also precomputes the territory polygons (scripts/content/territories.ts).
+ *
  * Fails, listing every problem, on an invalid file, an unknown id or a missing field.
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { checkContent, readContent } from './content/store';
+import { buildTerritories } from './content/territories';
 import { battleScenarios } from './baseline/scenarios';
 import { ROOT } from './baseline/lib';
 
@@ -19,7 +22,7 @@ const CONTENT_DIR = join(ROOT, 'content');
 const GENERATED_DIR = join(ROOT, 'src', 'generated');
 
 const { raw, issues: readIssues } = readContent(CONTENT_DIR);
-const { content, issues } = checkContent(raw, new Set(Object.keys(battleScenarios)));
+const { content, territories, issues } = checkContent(raw, new Set(Object.keys(battleScenarios)));
 const allIssues = [...readIssues, ...issues];
 
 if (allIssues.length > 0) {
@@ -39,5 +42,8 @@ if (process.argv.includes('--check')) {
   for (const [name, data] of Object.entries(content)) {
     writeFileSync(join(GENERATED_DIR, `${name}.json`), `${JSON.stringify(data)}\n`);
   }
+  // checkContent returns the territory files whenever it reports no issues.
+  const periods = buildTerritories(territories!.regions, territories!.control);
+  writeFileSync(join(GENERATED_DIR, 'territories.json'), `${JSON.stringify(periods)}\n`);
   console.log(`Content is valid; wrote src/generated/: ${summary}.`);
 }

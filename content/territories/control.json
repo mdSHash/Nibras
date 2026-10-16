@@ -1,0 +1,147 @@
+{
+  "empireGroups": ["isl","umayyad","byz","sas","ridda","qur","axum"],
+  "periods": [
+    {
+      "to": 622,
+      "owners": [
+        { "group": "byz", "nameAr": "الإمبراطورية البيزنطية (الروم)", "color": "#8b5cf6", "regions": ["b_egypt1","b_egypt2","b_egypt3","b_barqa","b_ifriqiya","b_cyprus","b_levant1","b_levant2","b_anatolia1","b_anatolia2","b_anatolia3"] },
+        { "group": "sas", "nameAr": "الإمبراطورية الساسانية (الفرس)", "color": "#f97316", "regions": ["s_iraq1","s_iraq2","s_prs_w","s_prs_c","s_prs_s","s_khur","s_makran","lakhmid"] },
+        { "group": "ghassan", "nameAr": "مملكة الغساسنة", "color": "#c084fc", "regions": ["ghassan"] },
+        { "group": "qur", "nameAr": "قريش والحجاز", "color": "#fbbf24", "regions": ["makkah","taif","kinana"] },
+        { "group": "mad", "nameAr": "يثرب (الأوس والخزرج)", "color": "#10b981", "regions": ["madinah"] },
+        { "group": "tabuk", "nameAr": "القبائل العربية المستقلة", "color": "#a3a3a3", "regions": ["tabuk"] },
+        { "group": "khuzaa", "nameAr": "القبائل العربية المستقلة", "color": "#a3a3a3", "regions": ["khuzaa"] },
+        { "group": "yamama", "nameAr": "القبائل العربية المستقلة", "color": "#a3a3a3", "regions": ["yamama"] },
+        { "group": "najd_n", "nameAr": "القبائل العربية المستقلة", "color": "#a3a3a3", "regions": ["najd_n"] },
+        { "group": "najd_e", "nameAr": "القبائل العربية المستقلة", "color": "#a3a3a3", "regions": ["najd_e"] },
+        { "group": "sas_inf", "nameAr": "الإمبراطورية الساسانية والنفوذ التابع", "color": "#4b5563", "regions": ["bahrain","oman","yemen_n","yemen_s"] },
+        { "group": "mehri", "nameAr": "القبائل العربية المستقلة", "color": "#a3a3a3", "regions": ["mehri"] },
+        { "group": "hadramaut", "nameAr": "القبائل العربية المستقلة", "color": "#a3a3a3", "regions": ["hadramaut"] },
+        { "group": "nubia", "nameAr": "ممالك النوبة والبجة", "color": "#a0522d", "regions": ["b_nubia","b_beja"] },
+        { "group": "axum", "nameAr": "مملكة أكسوم (الحبشة)", "color": "#0284c7", "regions": ["axum_core","axum_north","axum_south"] }
+      ]
+    },
+    {
+      "from": 622,
+      "to": 628,
+      "owners": [
+        { "group": "byz", "nameAr": "الإمبراطورية البيزنطية", "color": "#8b5cf6", "regions": ["b_egypt1","b_egypt2","b_egypt3","b_barqa","b_ifriqiya","b_cyprus","b_levant1","b_levant2","b_anatolia1","b_anatolia2","b_anatolia3"] },
+        { "group": "sas", "nameAr": "الإمبراطورية الساسانية", "color": "#f97316", "regions": ["s_iraq1","s_iraq2","s_prs_w","s_prs_c","s_prs_s","s_khur","s_makran","lakhmid"] },
+        { "group": "ghassan", "nameAr": "الغساسنة", "color": "#c084fc", "regions": ["ghassan"] },
+        { "group": "qur", "nameAr": "قريش", "color": "#fbbf24", "regions": ["makkah","taif","kinana"] },
+        { "group": "isl", "nameAr": "الدولة الإسلامية", "color": "#10b981", "regions": ["madinah","tabuk","khuzaa"] },
+        { "group": "yamama", "nameAr": "القبائل العربية", "color": "#a3a3a3", "regions": ["yamama"] },
+        { "group": "najd_n", "nameAr": "القبائل العربية", "color": "#a3a3a3", "regions": ["najd_n"] },
+        { "group": "najd_e", "nameAr": "القبائل العربية", "color": "#a3a3a3", "regions": ["najd_e"] },
+        { "group": "sas_inf", "nameAr": "الإمبراطورية الساسانية والنفوذ التابع", "color": "#4b5563", "regions": ["bahrain","oman","yemen_n","yemen_s"] },
+        { "group": "mehri", "nameAr": "القبائل العربية", "color": "#a3a3a3", "regions": ["mehri"] },
+        { "group": "hadramaut", "nameAr": "القبائل العربية", "color": "#a3a3a3", "regions": ["hadramaut"] },
+        { "group": "nubia", "nameAr": "ممالك النوبة والبجة", "color": "#a0522d", "regions": ["b_nubia","b_beja"] },
+        { "group": "axum", "nameAr": "مملكة أكسوم", "color": "#0284c7", "regions": ["axum_core","axum_north","axum_south"] }
+      ]
+    },
+    {
+      "from": 628,
+      "to": 630,
+      "owners": [
+        { "group": "byz", "nameAr": "الإمبراطورية البيزنطية", "color": "#8b5cf6", "regions": ["b_egypt1","b_egypt2","b_egypt3","b_barqa","b_ifriqiya","b_cyprus","b_levant1","b_levant2","b_anatolia1","b_anatolia2","b_anatolia3"] },
+        { "group": "sas", "nameAr": "الإمبراطورية الساسانية", "color": "#f97316", "regions": ["s_iraq1","s_iraq2","s_prs_w","s_prs_c","s_prs_s","s_khur","s_makran","lakhmid"] },
+        { "group": "ghassan", "nameAr": "الغساسنة", "color": "#c084fc", "regions": ["ghassan"] },
+        { "group": "isl", "nameAr": "الدولة الإسلامية", "color": "#10b981", "regions": ["makkah","madinah","tabuk","taif","kinana","khuzaa"] },
+        { "group": "yamama", "nameAr": "القبائل العربية", "color": "#a3a3a3", "regions": ["yamama"] },
+        { "group": "najd_n", "nameAr": "القبائل العربية", "color": "#a3a3a3", "regions": ["najd_n"] },
+        { "group": "najd_e", "nameAr": "القبائل العربية", "color": "#a3a3a3", "regions": ["najd_e"] },
+        { "group": "sas_inf", "nameAr": "الإمبراطورية الساسانية والنفوذ التابع", "color": "#4b5563", "regions": ["bahrain","oman","yemen_n","yemen_s"] },
+        { "group": "mehri", "nameAr": "القبائل العربية", "color": "#a3a3a3", "regions": ["mehri"] },
+        { "group": "hadramaut", "nameAr": "القبائل العربية", "color": "#a3a3a3", "regions": ["hadramaut"] },
+        { "group": "nubia", "nameAr": "ممالك النوبة والبجة", "color": "#a0522d", "regions": ["b_nubia","b_beja"] },
+        { "group": "axum", "nameAr": "مملكة أكسوم", "color": "#0284c7", "regions": ["axum_core","axum_north","axum_south"] }
+      ]
+    },
+    {
+      "from": 630,
+      "to": 632.4,
+      "owners": [
+        { "group": "byz", "nameAr": "الإمبراطورية البيزنطية", "color": "#8b5cf6", "regions": ["b_egypt1","b_egypt2","b_egypt3","b_barqa","b_ifriqiya","b_cyprus","b_levant1","b_levant2","b_anatolia1","b_anatolia2","b_anatolia3"] },
+        { "group": "sas", "nameAr": "الإمبراطورية الساسانية", "color": "#f97316", "regions": ["s_iraq1","s_iraq2","s_prs_w","s_prs_c","s_prs_s","s_khur","s_makran","lakhmid"] },
+        { "group": "ghassan", "nameAr": "الغساسنة", "color": "#c084fc", "regions": ["ghassan"] },
+        { "group": "isl", "nameAr": "الدولة الإسلامية", "color": "#10b981", "regions": ["makkah","madinah","tabuk","taif","kinana","khuzaa","yamama","najd_n","najd_e","bahrain","oman","mehri","hadramaut","yemen_n","yemen_s"] },
+        { "group": "nubia", "nameAr": "ممالك النوبة والبجة", "color": "#a0522d", "regions": ["b_nubia","b_beja"] },
+        { "group": "axum", "nameAr": "مملكة أكسوم", "color": "#0284c7", "regions": ["axum_core","axum_north","axum_south"] }
+      ]
+    },
+    {
+      "from": 632.4,
+      "to": 633.8,
+      "owners": [
+        { "group": "byz", "nameAr": "الإمبراطورية البيزنطية", "color": "#8b5cf6", "regions": ["b_egypt1","b_egypt2","b_egypt3","b_barqa","b_ifriqiya","b_cyprus","b_levant2","b_anatolia1","b_anatolia2","b_anatolia3"] },
+        { "group": "isl", "nameAr": "دولة الخلفاء الراشدين (أبو بكر الصديق)", "color": "#10b981", "regions": ["b_levant1","ghassan","lakhmid","makkah","madinah","tabuk","taif","kinana","khuzaa"] },
+        { "group": "sas", "nameAr": "الإمبراطورية الساسانية", "color": "#f97316", "regions": ["s_iraq1","s_iraq2","s_prs_w","s_prs_c","s_prs_s","s_khur","s_makran"] },
+        { "group": "ridda", "nameAr": "مرتدون (حروب الردة)", "color": "#dc2626", "regions": ["yamama","najd_n","najd_e","bahrain","oman","mehri","hadramaut","yemen_n","yemen_s"] },
+        { "group": "nubia", "nameAr": "ممالك النوبة والبجة", "color": "#a0522d", "regions": ["b_nubia","b_beja"] },
+        { "group": "axum", "nameAr": "مملكة أكسوم (الحبشة)", "color": "#0284c7", "regions": ["axum_core","axum_north","axum_south"] }
+      ]
+    },
+    {
+      "from": 633.8,
+      "to": 634,
+      "owners": [
+        { "group": "byz", "nameAr": "الإمبراطورية البيزنطية", "color": "#8b5cf6", "regions": ["b_egypt1","b_egypt2","b_egypt3","b_barqa","b_ifriqiya","b_cyprus","b_levant2","b_anatolia1","b_anatolia2","b_anatolia3"] },
+        { "group": "isl", "nameAr": "دولة الخلفاء الراشدين (أبو بكر الصديق)", "color": "#10b981", "regions": ["b_levant1","ghassan","lakhmid","makkah","madinah","tabuk","taif","kinana","khuzaa","yamama","najd_n","najd_e","bahrain","oman","mehri","hadramaut","yemen_n","yemen_s"] },
+        { "group": "sas", "nameAr": "الإمبراطورية الساسانية", "color": "#f97316", "regions": ["s_iraq1","s_iraq2","s_prs_w","s_prs_c","s_prs_s","s_khur","s_makran"] },
+        { "group": "nubia", "nameAr": "ممالك النوبة والبجة", "color": "#a0522d", "regions": ["b_nubia","b_beja"] },
+        { "group": "axum", "nameAr": "مملكة أكسوم (الحبشة)", "color": "#0284c7", "regions": ["axum_core","axum_north","axum_south"] }
+      ]
+    },
+    {
+      "from": 634,
+      "to": 644,
+      "owners": [
+        { "group": "isl", "nameAr": "دولة الخلفاء الراشدين (عمر بن الخطاب)", "color": "#10b981", "regions": ["b_egypt1","b_egypt2","b_egypt3","b_barqa","b_levant1","b_levant2","s_iraq1","s_iraq2","s_prs_w","ghassan","lakhmid","makkah","madinah","tabuk","taif","kinana","khuzaa","yamama","najd_n","najd_e","bahrain","oman","mehri","hadramaut","yemen_n","yemen_s"] },
+        { "group": "byz", "nameAr": "الإمبراطورية البيزنطية", "color": "#8b5cf6", "regions": ["b_ifriqiya","b_cyprus","b_anatolia1","b_anatolia2","b_anatolia3"] },
+        { "group": "sas", "nameAr": "الإمبراطورية الساسانية (المتقهقرة)", "color": "#4b5563", "regions": ["s_prs_c","s_prs_s","s_khur","s_makran"] },
+        { "group": "nubia", "nameAr": "ممالك النوبة والبجة", "color": "#a0522d", "regions": ["b_nubia","b_beja"] },
+        { "group": "axum", "nameAr": "مملكة أكسوم (الحبشة)", "color": "#0284c7", "regions": ["axum_core","axum_north","axum_south"] }
+      ]
+    },
+    {
+      "from": 644,
+      "to": 645.3,
+      "owners": [
+        { "group": "isl", "nameAr": "دولة الخلفاء الراشدين", "color": "#10b981", "regions": ["b_egypt1","b_egypt2","b_egypt3","b_barqa","b_ifriqiya","b_cyprus","b_levant1","b_levant2","b_anatolia3","s_iraq1","s_iraq2","s_prs_w","s_prs_c","s_prs_s","s_khur","s_makran","ghassan","lakhmid","makkah","madinah","tabuk","taif","kinana","khuzaa","yamama","najd_n","najd_e","bahrain","oman","mehri","hadramaut","yemen_n","yemen_s"] },
+        { "group": "byz", "nameAr": "الإمبراطورية البيزنطية", "color": "#8b5cf6", "regions": ["b_anatolia1","b_anatolia2"] },
+        { "group": "nubia", "nameAr": "ممالك النوبة والبجة", "color": "#a0522d", "regions": ["b_nubia","b_beja"] },
+        { "group": "axum", "nameAr": "مملكة أكسوم (الحبشة)", "color": "#0284c7", "regions": ["axum_core","axum_north","axum_south"] }
+      ]
+    },
+    {
+      "from": 645.3,
+      "to": 645.7,
+      "owners": [
+        { "group": "isl", "nameAr": "دولة الخلفاء الراشدين", "color": "#10b981", "regions": ["b_egypt1","b_egypt2","b_barqa","b_ifriqiya","b_cyprus","b_levant1","b_levant2","b_anatolia3","s_iraq1","s_iraq2","s_prs_w","s_prs_c","s_prs_s","s_khur","s_makran","ghassan","lakhmid","makkah","madinah","tabuk","taif","kinana","khuzaa","yamama","najd_n","najd_e","bahrain","oman","mehri","hadramaut","yemen_n","yemen_s"] },
+        { "group": "byz", "nameAr": "الإمبراطورية البيزنطية", "color": "#8b5cf6", "regions": ["b_egypt3","b_anatolia1","b_anatolia2"] },
+        { "group": "nubia", "nameAr": "ممالك النوبة والبجة", "color": "#a0522d", "regions": ["b_nubia","b_beja"] },
+        { "group": "axum", "nameAr": "مملكة أكسوم (الحبشة)", "color": "#0284c7", "regions": ["axum_core","axum_north","axum_south"] }
+      ]
+    },
+    {
+      "from": 645.7,
+      "to": 661.5,
+      "owners": [
+        { "group": "isl", "nameAr": "دولة الخلفاء الراشدين", "color": "#10b981", "regions": ["b_egypt1","b_egypt2","b_egypt3","b_barqa","b_ifriqiya","b_cyprus","b_levant1","b_levant2","b_anatolia3","s_iraq1","s_iraq2","s_prs_w","s_prs_c","s_prs_s","s_khur","s_makran","ghassan","lakhmid","makkah","madinah","tabuk","taif","kinana","khuzaa","yamama","najd_n","najd_e","bahrain","oman","mehri","hadramaut","yemen_n","yemen_s"] },
+        { "group": "byz", "nameAr": "الإمبراطورية البيزنطية", "color": "#8b5cf6", "regions": ["b_anatolia1","b_anatolia2"] },
+        { "group": "nubia", "nameAr": "ممالك النوبة والبجة", "color": "#a0522d", "regions": ["b_nubia","b_beja"] },
+        { "group": "axum", "nameAr": "مملكة أكسوم (الحبشة)", "color": "#0284c7", "regions": ["axum_core","axum_north","axum_south"] }
+      ]
+    },
+    {
+      "from": 661.5,
+      "owners": [
+        { "group": "umayyad", "nameAr": "الدولة الأموية", "color": "#10b981", "regions": ["b_egypt1","b_egypt2","b_egypt3","b_barqa","b_ifriqiya","b_cyprus","b_levant1","b_levant2","b_anatolia3","s_iraq1","s_iraq2","s_prs_w","s_prs_c","s_prs_s","s_khur","s_makran","ghassan","lakhmid","makkah","madinah","tabuk","taif","kinana","khuzaa","yamama","najd_n","najd_e","bahrain","oman","mehri","hadramaut","yemen_n","yemen_s"] },
+        { "group": "byz", "nameAr": "الإمبراطورية البيزنطية", "color": "#8b5cf6", "regions": ["b_anatolia1","b_anatolia2"] },
+        { "group": "nubia", "nameAr": "ممالك النوبة والبجة", "color": "#a0522d", "regions": ["b_nubia","b_beja"] },
+        { "group": "axum", "nameAr": "مملكة أكسوم (الحبشة)", "color": "#0284c7", "regions": ["axum_core","axum_north","axum_south"] }
+      ]
+    }
+  ]
+}
