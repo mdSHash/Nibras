@@ -6,8 +6,8 @@ The log for `docs/REFACTOR_PLAN.md`. Each session reads this file first and upda
 | Phase | Status | Branch | PR |
 | --- | --- | --- | --- |
 | 0A Baseline and `npm run verify` | merged | `refactor/phase-0a-baseline` | #3 |
-| 0B Safety net | done, in review | `refactor/phase-0b-safety-net` | #4 |
-| 1 Content model | not started | `refactor/phase-1-content` | — |
+| 0B Safety net | merged | `refactor/phase-0b-safety-net` | #4 |
+| 1 Content model | in progress (1A) | `refactor/phase-1-content` | — |
 | 2 State, routing and pages | not started | `refactor/phase-2-routing` | — |
 | 3 Assets, chat and polish | not started | `refactor/phase-3-polish` | — |
 | 4 Learning paths for guests | not started | `feature/phase-4-paths` | — |
@@ -346,3 +346,132 @@ found the test races above.
 
 Not verified here: Sentry receiving real events and source maps (needs the deploy build on `main`);
 the live site after deploy (to run after merge).
+
+---
+
+## Phase 1 — Content model
+
+Started 2026-10-16 from `main` at `3e4a0b3` (PR #4 merged). One branch, three sessions (1A, 1B, 1C),
+one PR at the end.
+
+- **1A**: CI trimming, migration to `content/`, the content build step, app reading the generated data
+  with an identical content snapshot.
+- **1B**: Quran from Quran.com, territories precomputed, battle scenarios deduplicated, ID-based
+  helpers.
+- **1C**: one Arabic normalization module, docs, old data files removed, review, PR.
+
+### Tasks
+
+- [x] 1A CI trimming: `verify --only`, one replay on PRs, parallel CI jobs — `3328e8b` (`--only`), `a67de83`
+- [x] 1A Zod schemas for the `content/` layout (`shared/contentSchema.ts`) — `3328e8b`
+- [x] 1A Migration script and report (`scripts/migrate-content.ts`, `docs/CONTENT_MIGRATION_REPORT.md`) — `3328e8b`
+- [x] 1A Content build step (`scripts/build-content.ts` → `src/generated/`, checks in `scripts/content/store.ts`) — `3328e8b`
+- [x] 1A App, chat KB builder and baseline scripts read the generated content — `3328e8b`
+- [ ] 1B Quran passages generated from the Quran.com text
+- [ ] 1B Territories: control rules in data, polygons precomputed, `@turf/turf` out of the bundle, legend row
+- [ ] 1B Battle scenarios read title and date from the event; number differences listed
+- [ ] 1B Era, category, battle and people helpers look up IDs
+- [ ] 1C One Arabic normalization module
+- [ ] 1C Old data files removed; `docs/CONTENT_GUIDE.md`; `docs/PRD.md`
+- [ ] 1C Verification report, review pass, PR
+
+### Decisions by Mostafa
+
+- 2026-10-16: approved the Phase 1 plan below.
+- 2026-10-16: **the Quran reference is Quran.com** (not Tanzil). Verse text comes from the Quran.com
+  API (`api.quran.com/api/v4`, public), fetched once into a committed file so builds and CI stay
+  offline. Its Uthmani text equals Tanzil's: 5 of the 51 passages are byte-identical to today's, the
+  other 46 differ only in pause marks, the dagger alef after tatweel, and one hamza form. These 46 are
+  an approved difference. CLAUDE.md rule 2 and the plan change from Tanzil to Quran.com in 1C.
+- 2026-10-16: **categories keep what users see.** Each event file stores `isBattle` and `icon` with the
+  values today's title matching computes; the title-matching code is deleted. No visible change.
+- 2026-10-16: **battle replays take title and date from the event.** Scenarios lose `name`, `nameAr`,
+  `date`, `location`, `description`, `descriptionAr`; the player shows the event title and Hijri label
+  (fixes known failure 4 in Phase 1 instead of Phase 3). Strengths, day counts and casualties stay in
+  the scenarios for now; every number that differs from the event is listed for Mostafa.
+- 2026-10-16: one branch, three sessions, one PR; the branch is pushed once at the end of 1A so CI runs
+  early.
+- 2026-10-16: **approved the 1A content-snapshot differences** (all representation only, see
+  "Intentional behavior changes" 1–2) and the chronological order of 19 chat list answers (3).
+  `tests/baseline/content.json` updated.
+
+### Design choices (approved with the plan)
+
+- Event files keep every text verbatim. Two people lists instead of the plan's one, because the panel
+  shows them separately and with their own display labels: `keyFigures: {personId, labelAr}[]` and
+  `roles: {personId, labelAr, roleAr}[]`. Quran refs are `{surah, from, to, labelAr}`, where `labelAr`
+  is the exact text the chip shows today. Hadith stay as strings.
+- `date.sortKey` keeps today's exact `gregorian` value: it orders the timeline and picks the territory
+  map (thresholds such as 632.4 and 645.3). Events that share a `sortKey` carry `tieOrder`, which keeps
+  today's order. Months and a date precision are not invented; the migration report lists what is
+  missing.
+- Generated data lives in `src/generated/` (not in git), built by `scripts/build-content.ts` before
+  dev, build, type check and tests, and before the chat KB build (Vercel).
+
+Made during 1A:
+
+- **Categories**: 7 ids, one per marker colour today (`battle`, `migration`, `revelation`, `landmark`,
+  `treaty`, `politics`, `events`); names from the help-window legend. `غزوات ومعارك` joins `battle`
+  (same red); `فتوحات`, `إنجازات حضارية`, `أحداث سياسية` join `events` (they were drawn in its colour).
+  The map now takes the colour from the category id and the icon from the event's `icon`.
+- **Eras**: 6 ids (`meccan`, `medinan`, `abu-bakr`, `umar`, `uthman`, `ali`) with the names, panel
+  badge, ruler and colour scheme the helpers computed. Era-pill anchors stay title-matched until 1B.
+- **People order**: the old companion list is curated (Abu Bakr, Umar, Uthman, Ali, Khalid, …) and the
+  chat question suggestions follow it, so `content/people-order.json` keeps it. Events follow the
+  timeline; cities are ordered by id.
+- **Force sizes**: `{textAr, value | min/max, approx}`. A number is added only when the text states one
+  plainly; 11 sizes stay text only (report section 3). The unit is not recorded (a few count ships).
+- `src/data.ts` is a temporary adapter that serves the content in the old shapes (plus `eraId`,
+  `isBattle`, `icon`), so 1A changes only the map and the person window. Removed in 1B.
+- The old schemas (`shared/contentSchema.ts` of 0B) and `scripts/validate-content.ts` are removed now
+  rather than in 1C: nothing reads the old files' shapes any more except the migration.
+  `npm run validate:content` runs `build-content.ts --check`.
+- CI: a `static` job and three browser jobs (`features`, `engines`, `visual`) run in parallel, each
+  calling `npm run verify -- --only=…`. Each browser job makes its own test build: `dist/` carries
+  420 MB of narration audio, slower to pass between jobs than to rebuild. Pull requests set
+  `REPLAYS=badr`: the other 11 replays are registered as skipped, so the test-count guard still counts
+  them. Pushes to `main` run all 12. `verify --update-numbers` now merges counts, so a partial run
+  keeps the other steps' numbers.
+
+### Intentional behavior changes
+
+1. **Content snapshot records category ids** (approved 2026-10-16). 37 events: `أحداث` → `events` (31),
+   `أحداث سياسية` → `events` (3), `إنجازات حضارية` → `events` (2), `فتوحات` → `events` (1),
+   `غزوات ومعارك` → `battle` (1). The English labels were already the ids. Marker colours and icons
+   are unchanged (visual and marker tests).
+2. **One era spelling unified** (approved): `event-65-وفاة-أبي-بكر-الصديق` was `عهد أبي بكر الصديق`,
+   now era `abu-bakr` (shown and filtered as before). The snapshot lists events in timeline order and
+   cities by id. Every other field of every record is identical to the baseline.
+3. **Chat list answers in timeline order** (approved): 19 KB units that list events (an era's events
+   and battles, a companion's events, the events of a Quran passage) name them chronologically instead
+   of in the old file order. Same names, same unit ids; `public/data/chat-kb.json` rebuilt. Their 19
+   embeddings are stale until the daily index task re-embeds them (semantic search is off anyway).
+4. Unit test `era helpers › includes the event whose era is spelled "عهد أبي بكر الصديق"` now checks
+   that event by id (the spelling no longer exists).
+
+### 1A verification (2026-10-16, Windows 11, Node 20.19.5, Playwright 1.59.1)
+
+Before any change, `npm run verify` on `3e4a0b3` passed (all steps, as in the 0B report).
+
+After 1A (`a67de83` + the approved baseline), `npm run verify`:
+
+| Step | Result |
+| --- | --- |
+| Content build (Zod) | 131 events, 161 people, 10 cities, 51 Quran passages, 6 eras, 7 categories; no issues |
+| Type check, ESLint | passed (0 findings) |
+| Vitest | 190/190 (185 + 5 new content-check tests: unknown links, ties, people order, file names) |
+| Content snapshot | identical to the approved baseline (differences 1–2 above) |
+| Behavior map | identical to the baseline (timeline order, 9 filter combinations, era anchors, 15 searches) |
+| Production build, bundle budget | within limits: main chunk 477.7 → 483.6 KiB gzip (+1.2%; the event records carry ids beside each label), total JS +0.7% |
+| Playwright features | 72 passed, 10 of them known failures |
+| Phone smoke (WebKit, Firefox) | 32 passed, 2 of them known failures |
+| Visual snapshots | 18/18 identical |
+
+Also checked: `scripts/migrate-content.ts` run twice gives byte-identical `content/`; the rebuilt chat KB
+differs from the committed one only in the order of names inside 19 list units.
+
+Open for Mostafa (from `docs/CONTENT_MIGRATION_REPORT.md`, nothing changed until decided):
+
+1. `أبو سفيان` in `ghazwat_sawiq` and `ghazwat_badr_mawuid` opens `abu-sufyan` (Abu Sufyan ibn Harb);
+   it also matches `abu-sufyan-ibn-al-harith`. Confirm.
+2. Event vs replay numbers (12 battles, report section 2): which figure to trust (plan, Decision 2).

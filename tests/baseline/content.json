@@ -13,7 +13,7 @@
       "era": "العهد المكي",
       "eraLabel": "العهد المكي",
       "ruler": "النبي محمد ﷺ",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": true,
       "isRashidunEra": false,
@@ -90,7 +90,7 @@
       "era": "العهد المكي",
       "eraLabel": "العهد المكي",
       "ruler": "النبي محمد ﷺ",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": true,
       "isRashidunEra": false,
@@ -4218,7 +4218,7 @@
       "era": "أبو بكر الصديق",
       "eraLabel": "خلافة الصديق",
       "ruler": "أبو بكر الصديق",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -4295,7 +4295,7 @@
       "era": "أبو بكر الصديق",
       "eraLabel": "خلافة الصديق",
       "ruler": "أبو بكر الصديق",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -4681,7 +4681,7 @@
       "era": "أبو بكر الصديق",
       "eraLabel": "خلافة الصديق",
       "ruler": "أبو بكر الصديق",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -5402,10 +5402,10 @@
     {
       "id": "event-65-وفاة-أبي-بكر-الصديق",
       "title": "وَفَاةُ أَبِي بَكْرٍ الصِّدِّيقِ",
-      "era": "عهد أبي بكر الصديق",
+      "era": "أبو بكر الصديق",
       "eraLabel": "خلافة الصديق",
       "ruler": "أبو بكر الصديق",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -5480,7 +5480,7 @@
       "era": "عمر بن الخطاب",
       "eraLabel": "خلافة الفاروق",
       "ruler": "عمر بن الخطاب",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -6203,7 +6203,7 @@
       "era": "عمر بن الخطاب",
       "eraLabel": "خلافة الفاروق",
       "ruler": "عمر بن الخطاب",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": true,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -6675,7 +6675,7 @@
       "era": "عمر بن الخطاب",
       "eraLabel": "خلافة الفاروق",
       "ruler": "عمر بن الخطاب",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -7525,7 +7525,7 @@
       "era": "عمر بن الخطاب",
       "eraLabel": "خلافة الفاروق",
       "ruler": "عمر بن الخطاب",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -7596,7 +7596,7 @@
       "era": "عهد عثمان بن عفان",
       "eraLabel": "خلافة ذي النورين",
       "ruler": "عثمان بن عفان",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -7826,7 +7826,7 @@
       "era": "عهد عثمان بن عفان",
       "eraLabel": "خلافة ذي النورين",
       "ruler": "عثمان بن عفان",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -7898,6 +7898,113 @@
         "descriptionFile": "a774b802bb459f6eed959b7cbc3d0ac780da9ff3a87abcacb4d76f82795da858.wav",
         "descriptionExists": true,
         "titleFile": "04e81beeae463cd2850c374d57e23a16996f98a53895e9d77876d4a41f805f71.wav",
+        "titleExists": true
+      }
+    },
+    {
+      "id": "conquest-rayy-jurjan",
+      "title": "إِتْمَامُ فَتْحِ فَارِسَ (الرَّيُّ وَجُرْجَانُ وَأَذْرَبِيجَانُ)",
+      "era": "عهد عثمان بن عفان",
+      "eraLabel": "خلافة ذي النورين",
+      "ruler": "عثمان بن عفان",
+      "category": "battle",
+      "isBattle": true,
+      "isProphetEra": false,
+      "isRashidunEra": true,
+      "isMajor": true,
+      "date": {
+        "gregorian": 646.5,
+        "hijri": 30,
+        "hijriRelative": "25-30 هـ",
+        "hijriDisplay": "٢٥-٣٠ هـ",
+        "gregorianDisplay": "٦٤٦ م"
+      },
+      "location": {
+        "name": "الرَّيُّ وَجُرْجَانُ (شَمَالَ إِيرَانَ الْيَوْمَ)",
+        "coordinates": [
+          35.5943,
+          51.431
+        ]
+      },
+      "text": {
+        "summary": "578a3d25bc9e6137",
+        "fullDescription": "e69da36283f3866f",
+        "courseOfEvents": [
+          "ca774c9abe0c0774",
+          "4b31696e6830acfa",
+          "764548974486d985",
+          "184405df076033a4",
+          "25b98987fbbd8837",
+          "05c6b3e3c6f6ac36",
+          "49fbf405b00ce7ed"
+        ],
+        "durationDays": "حَمْلَاتٌ مُتَتَابِعَةٌ عَلَى مَدَى سَنَوَاتٍ (25-30 هـ)"
+      },
+      "armySize": "جَيْشُ الْكُوفَةِ وَجَيْشُ الْبَصْرَةِ (بِضْعَةُ عَشَرَ أَلْفًا)",
+      "enemyArmySize": "مَرَازِبَةُ الْجِبَالِ وَبَقَايَا السَّاسَانِيِّينَ",
+      "keyFigures": [
+        {
+          "name": "عثمان بن عفان رضي الله عنه",
+          "companionId": "uthman"
+        },
+        {
+          "name": "سعيد بن العاص رضي الله عنه",
+          "companionId": "saeed-ibn-al-as"
+        },
+        {
+          "name": "سلمان بن ربيعة الباهلي رضي الله عنه",
+          "companionId": "salman-ibn-rabiah"
+        },
+        {
+          "name": "حذيفة بن اليمان رضي الله عنه",
+          "companionId": "hudhayfah-ibn-al-yaman"
+        },
+        {
+          "name": "الحسن بن علي رضي الله عنه",
+          "companionId": "al-hasan-ibn-ali"
+        },
+        {
+          "name": "الحسين بن علي رضي الله عنه",
+          "companionId": "al-husayn-ibn-ali"
+        }
+      ],
+      "companionRoles": [
+        {
+          "name": "سَعِيدُ بْنُ الْعَاصِ بْنِ أُمَيَّةَ رضي الله عنه",
+          "companionId": "saeed-ibn-al-as",
+          "role": "88f2e1bc1204a357"
+        },
+        {
+          "name": "سَلْمَانُ بْنُ رَبِيعَةَ الْبَاهِلِيُّ رضي الله عنه",
+          "companionId": "salman-ibn-rabiah",
+          "role": "ca9eb59adafd2bb8"
+        },
+        {
+          "name": "حُذَيْفَةُ بْنُ الْيَمَانِ رضي الله عنه",
+          "companionId": "hudhayfah-ibn-al-yaman",
+          "role": "99a71b92eef7d05c"
+        }
+      ],
+      "quran": [
+        {
+          "ref": "سورة التوبة: 33 (هُوَ الَّذِي أَرْسَلَ رَسُولَهُ بِالْهُدَىٰ وَدِينِ الْحَقِّ لِيُظْهِرَهُ عَلَى الدِّينِ كُلِّهِ)",
+          "key": "سورة التوبة: 33",
+          "verseText": "748a9bafd63e1d63"
+        }
+      ],
+      "hadith": [],
+      "sources": [
+        "1a830c64a9f5e68e",
+        "6a5cced81d340a6a",
+        "a212c46eb4c100e8",
+        "8016c3c2d67862e5"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": "2d04bd2f23b61be7f69a2cba196c8b63ad817202e7af8a6c35a6c80a5ea84b4e.wav",
+        "descriptionExists": true,
+        "titleFile": "f6595fbe062fd1b9daf1e409438a70d37c6e65bec66517f4dbbf2c2763b7288f.wav",
         "titleExists": true
       }
     },
@@ -7982,7 +8089,7 @@
       "era": "عهد عثمان بن عفان",
       "eraLabel": "خلافة ذي النورين",
       "ruler": "عثمان بن عفان",
-      "category": "إنجازات حضارية",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -8039,6 +8146,112 @@
         "descriptionFile": "bdd31748418e06f3037041424b10e60efa807949d1d7b0d81346a02b17f783c8.wav",
         "descriptionExists": true,
         "titleFile": "a9180e6414e270f45ac2282a91cf018cfe660315b03dfba00307c3aeef8bd362.wav",
+        "titleExists": true
+      }
+    },
+    {
+      "id": "first-muslim-fleet",
+      "title": "بِنَاءُ الْأُسْطُولِ الْإِسْلَامِيِّ الْأَوَّلِ",
+      "era": "عهد عثمان بن عفان",
+      "eraLabel": "خلافة ذي النورين",
+      "ruler": "عثمان بن عفان",
+      "category": "events",
+      "isBattle": false,
+      "isProphetEra": false,
+      "isRashidunEra": true,
+      "isMajor": true,
+      "date": {
+        "gregorian": 648.5,
+        "hijri": 28,
+        "hijriRelative": "28 هـ",
+        "hijriDisplay": "٢٨ هـ",
+        "gregorianDisplay": "٦٤٨ م"
+      },
+      "location": {
+        "name": "سَاحِلُ الشَّامِ (عَكَّا وَصُورُ)",
+        "coordinates": [
+          32.9236,
+          35.0866
+        ]
+      },
+      "text": {
+        "summary": "0fcd7f4ec762302c",
+        "fullDescription": "af0ffbec4e2bd82a",
+        "courseOfEvents": [
+          "c72778c63b931955",
+          "3e15f9ef62823d0f",
+          "e39327c67d7a27ed",
+          "6c045f5540bddbce",
+          "d2f1d73bf519aeaa",
+          "96f58d2634a0ae73",
+          "207e41bfd8a0b7a0",
+          "29c3464d46e3fa76"
+        ],
+        "durationDays": null
+      },
+      "armySize": null,
+      "enemyArmySize": null,
+      "keyFigures": [
+        {
+          "name": "معاوية بن أبي سفيان رضي الله عنه",
+          "companionId": "muawiyah-ibn-abi-sufyan"
+        },
+        {
+          "name": "عثمان بن عفان رضي الله عنه",
+          "companionId": "uthman"
+        },
+        {
+          "name": "عبادة بن الصامت رضي الله عنه",
+          "companionId": "ubadah-ibn-al-samit"
+        },
+        {
+          "name": "أم حرام بنت ملحان رضي الله عنها",
+          "companionId": "umm-haram-bint-milhan"
+        },
+        {
+          "name": "أبو ذر الغفاري رضي الله عنه",
+          "companionId": "abu-dharr-al-ghifari"
+        }
+      ],
+      "companionRoles": [
+        {
+          "name": "مُعَاوِيَةُ بْنُ أَبِي سُفْيَانَ رضي الله عنه",
+          "companionId": "muawiyah-ibn-abi-sufyan",
+          "role": "10da64f4dc7a619e"
+        },
+        {
+          "name": "عُثْمَانُ بْنُ عَفَّانَ رضي الله عنه",
+          "companionId": "uthman",
+          "role": "892fd68678865b22"
+        },
+        {
+          "name": "عُبَادَةُ بْنُ الصَّامِتِ رضي الله عنه",
+          "companionId": "ubadah-ibn-al-samit",
+          "role": "37d1d9b1b66f4990"
+        },
+        {
+          "name": "أُمُّ حَرَامٍ بِنْتُ مِلْحَانَ رضي الله عنها",
+          "companionId": "umm-haram-bint-milhan",
+          "role": "eac97b6c1761a1b9"
+        }
+      ],
+      "quran": [],
+      "hadith": [
+        "152d05c92f5d65f5",
+        "fbf67b92c1f1ff19"
+      ],
+      "sources": [
+        "042045d69a70494c",
+        "8653045900aaea3c",
+        "3c67ac16d759eda9",
+        "8016c3c2d67862e5"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": "9fe87699cb03d3b338e4ae6ee47045483e61d86d1317e302329e9126e21a0670.wav",
+        "descriptionExists": true,
+        "titleFile": "b8093b762914cdc1724336d3b791b2809f2946fd01ae94dd38bd6f80d45f1ce6.wav",
         "titleExists": true
       }
     },
@@ -8137,7 +8350,7 @@
       "era": "عهد عثمان بن عفان",
       "eraLabel": "خلافة ذي النورين",
       "ruler": "عثمان بن عفان",
-      "category": "إنجازات حضارية",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -8204,7 +8417,7 @@
       "era": "عهد عثمان بن عفان",
       "eraLabel": "خلافة ذي النورين",
       "ruler": "عثمان بن عفان",
-      "category": "فتوحات",
+      "category": "events",
       "isBattle": true,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -8340,1089 +8553,6 @@
         "descriptionFile": "22710f5d6853a6ebedbe0dbb178cb16a017518ba871ab5df9f0edcbd66bdcb4e.wav",
         "descriptionExists": true,
         "titleFile": "7f240e1756a05f3970cbe7df87e03ca8bd7b2a5c398917e0198abe7500e74658.wav",
-        "titleExists": true
-      }
-    },
-    {
-      "id": "battle-masts",
-      "title": "مَعْرَكَةُ ذَاتِ الصَّوَارِي",
-      "era": "عهد عثمان بن عفان",
-      "eraLabel": "خلافة ذي النورين",
-      "ruler": "عثمان بن عفان",
-      "category": "battle",
-      "isBattle": true,
-      "isProphetEra": false,
-      "isRashidunEra": true,
-      "isMajor": null,
-      "date": {
-        "gregorian": 655,
-        "hijri": null,
-        "hijriRelative": "34 هـ",
-        "hijriDisplay": "٣٤ هـ",
-        "gregorianDisplay": "٦٥٥ م"
-      },
-      "location": {
-        "name": "البحر المتوسط، قبالة ساحل ليكيا",
-        "coordinates": [
-          36.2,
-          30.2
-        ]
-      },
-      "text": {
-        "summary": "74998341e4d92200",
-        "fullDescription": "7407452f6925dbb2",
-        "courseOfEvents": [
-          "62422497e4fb209b",
-          "acb37f0647409aae",
-          "ccb362ef8b1b8439",
-          "f3fee494a0edaf65",
-          "4072bdc3efd39158",
-          "8f67e44ec82cbdcf"
-        ],
-        "durationDays": "يَوْمَانِ"
-      },
-      "armySize": "حَوَالَيْ 200 سَفِينَةٍ",
-      "enemyArmySize": "حَوَالَيْ 500 إِلَى 600 سَفِينَةٍ (الْأُسْطُولُ الْبِيزَنْطِيُّ)",
-      "keyFigures": [
-        {
-          "name": "عَبْدُ اللهِ بْنُ سَعْدِ بْنِ أَبِي السَّرْحِ رضي الله عنه",
-          "companionId": "abdullah-ibn-saad-ibn-abi-sarh"
-        },
-        {
-          "name": "قُسْطَنْطِينُ الثَّانِي",
-          "companionId": "constantine-ii"
-        }
-      ],
-      "companionRoles": [
-        {
-          "name": "عَبْدُ اللهِ بْنُ سَعْدِ بْنِ أَبِي السَّرْحِ",
-          "companionId": "abdullah-ibn-saad-ibn-abi-sarh",
-          "role": "11e0bfee648ce7db"
-        }
-      ],
-      "quran": [],
-      "hadith": [
-        "bf89b1951e2fc600"
-      ],
-      "sources": [
-        "bf89b1951e2fc600",
-        "e1d446fd214ae4d9",
-        "1caa1246e96d2ee4"
-      ],
-      "battle": null,
-      "route": null,
-      "narration": {
-        "descriptionFile": "5094a355b68078563cdeb0cf23b5b60406c4e0ae9c6239bea1abda3324c7e5f7.wav",
-        "descriptionExists": true,
-        "titleFile": "d2ced8fbde3e2bb4e6602e8e3327c145d646bf576bb56592e07583bbd1401a05.wav",
-        "titleExists": true
-      }
-    },
-    {
-      "id": "event-104-بداية-الفتنة-الكبرى",
-      "title": "بِدَايَةُ الْفِتْنَةِ الْكُبْرَى",
-      "era": "عهد عثمان بن عفان",
-      "eraLabel": "خلافة ذي النورين",
-      "ruler": "عثمان بن عفان",
-      "category": "أحداث سياسية",
-      "isBattle": false,
-      "isProphetEra": false,
-      "isRashidunEra": true,
-      "isMajor": true,
-      "date": {
-        "gregorian": 656.3,
-        "hijri": 35,
-        "hijriRelative": "35 هـ",
-        "hijriDisplay": "٣٥ هـ",
-        "gregorianDisplay": "٦٥٦ م"
-      },
-      "location": {
-        "name": "المدينة المنورة",
-        "coordinates": [
-          24.4672,
-          39.6111
-        ]
-      },
-      "text": {
-        "summary": "84c8f61eff3fbab0",
-        "fullDescription": "adfc8dddc8638e17",
-        "courseOfEvents": [
-          "2b3dc0de8752ab78",
-          "a494838c5cbdf274",
-          "29d591779f77f89f",
-          "0536c03b4c48ac4a"
-        ],
-        "durationDays": null
-      },
-      "armySize": null,
-      "enemyArmySize": null,
-      "keyFigures": [
-        {
-          "name": "عُثْمَانُ بْنُ عَفَّانَ رضي الله عنه",
-          "companionId": "uthman"
-        }
-      ],
-      "companionRoles": [
-        {
-          "name": "عُثْمَانُ بْنُ عَفَّانَ رضي الله عنه",
-          "companionId": "uthman",
-          "role": "d5fa3eca32a8fa73"
-        }
-      ],
-      "quran": [],
-      "hadith": [],
-      "sources": [
-        "bf89b1951e2fc600",
-        "1caa1246e96d2ee4",
-        "9b2b4c39e9edc4ca"
-      ],
-      "battle": null,
-      "route": null,
-      "narration": {
-        "descriptionFile": "84c17597905ef9b4d1ce56f631d8356535cafa85704c5d8fdf3de374630ef77f.wav",
-        "descriptionExists": true,
-        "titleFile": "0212a9b46d79bef7186a562c41a7e8fff37b9308ec61daf3cc09614d76dd1a87.wav",
-        "titleExists": true
-      }
-    },
-    {
-      "id": "event-105-استشهاد-عثمان-بن-عفان-يوم-الدار",
-      "title": "اسْتِشْهَادُ عُثْمَانَ بْنِ عَفَّانَ (يَوْمُ الدَّارِ)",
-      "era": "عهد عثمان بن عفان",
-      "eraLabel": "خلافة ذي النورين",
-      "ruler": "عثمان بن عفان",
-      "category": "أحداث",
-      "isBattle": false,
-      "isProphetEra": false,
-      "isRashidunEra": true,
-      "isMajor": true,
-      "date": {
-        "gregorian": 656.46,
-        "hijri": 35,
-        "hijriRelative": "18 ذو الحجة 35 هـ",
-        "hijriDisplay": "١٨ ذو الحجة ٣٥ هـ",
-        "gregorianDisplay": "٦٥٦ م"
-      },
-      "location": {
-        "name": "المدينة المنورة",
-        "coordinates": [
-          24.4672,
-          39.6112
-        ]
-      },
-      "text": {
-        "summary": "b3d485da8e3088da",
-        "fullDescription": "43fa63436f4a0745",
-        "courseOfEvents": [
-          "c32474a5d6e660e2",
-          "24faf99c36cd9ca4",
-          "fe91e6668564cb8e",
-          "54be4f4d1e5e8489",
-          "f4bd2f835a3bb776"
-        ],
-        "durationDays": null
-      },
-      "armySize": null,
-      "enemyArmySize": null,
-      "keyFigures": [
-        {
-          "name": "عُثْمَانُ بْنُ عَفَّانَ رضي الله عنه",
-          "companionId": "uthman"
-        },
-        {
-          "name": "نَائِلَةُ بِنْتُ الْفَرَافِصَةِ رضي الله عنها",
-          "companionId": "nailah-bint-al-farafisah"
-        }
-      ],
-      "companionRoles": [],
-      "quran": [
-        {
-          "ref": "سُورَةُ الْبَقَرَةِ: 137",
-          "key": "سورة البقرة: 137",
-          "verseText": "a82475d19284d360"
-        }
-      ],
-      "hadith": [],
-      "sources": [
-        "bf89b1951e2fc600",
-        "1caa1246e96d2ee4",
-        "4cb8dd688248a577"
-      ],
-      "battle": null,
-      "route": null,
-      "narration": {
-        "descriptionFile": "bd4a6c77e3a6e6c61086bb854414294c42c5fa23d3cc3ec6c8ad0dc033d1bb7b.wav",
-        "descriptionExists": true,
-        "titleFile": "4d3fe52c6ed820916905a39fd63842a2b19be1be9bb8e6f57bee5b9579bf4be0.wav",
-        "titleExists": true
-      }
-    },
-    {
-      "id": "event-106-تولي-علي-بن-أبي-طالب-الخلافة",
-      "title": "تَوَلِّي عَلِيِّ بْنِ أَبِي طَالِبٍ الْخِلَافَةَ",
-      "era": "عهد علي بن أبي طالب",
-      "eraLabel": "خلافة الإمام علي",
-      "ruler": "علي بن أبي طالب",
-      "category": "أحداث",
-      "isBattle": false,
-      "isProphetEra": false,
-      "isRashidunEra": true,
-      "isMajor": true,
-      "date": {
-        "gregorian": 656.47,
-        "hijri": 35,
-        "hijriRelative": "19 ذو الحجة 35 هـ",
-        "hijriDisplay": "١٩ ذو الحجة ٣٥ هـ",
-        "gregorianDisplay": "٦٥٦ م"
-      },
-      "location": {
-        "name": "المدينة المنورة",
-        "coordinates": [
-          24.4672,
-          39.6112
-        ]
-      },
-      "text": {
-        "summary": "e201b2b04cd791ed",
-        "fullDescription": "c788c9a3b1b26256",
-        "courseOfEvents": [
-          "dc407283aa5ba015",
-          "64d72bbc6adeb1dd",
-          "1883dcf287976e91",
-          "04e3c74d8c8d86e4"
-        ],
-        "durationDays": null
-      },
-      "armySize": null,
-      "enemyArmySize": null,
-      "keyFigures": [
-        {
-          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
-          "companionId": "ali"
-        },
-        {
-          "name": "طَلْحَةُ بْنُ عُبَيْدِ اللهِ رضي الله عنه",
-          "companionId": "talhah-ibn-ubaydullah"
-        },
-        {
-          "name": "الزُّبَيْرُ بْنُ الْعَوَّامِ رضي الله عنه",
-          "companionId": "al-zubayr-ibn-al-awwam"
-        }
-      ],
-      "companionRoles": [],
-      "quran": [],
-      "hadith": [],
-      "sources": [
-        "bf89b1951e2fc600",
-        "1caa1246e96d2ee4",
-        "ec59d4b722e116d0"
-      ],
-      "battle": null,
-      "route": null,
-      "narration": {
-        "descriptionFile": "a53fae979442138b9946994886527af9bb6a4dcda2224b8940c91c1a19d5e15d.wav",
-        "descriptionExists": true,
-        "titleFile": "bcbbc837a6496cfaca31009112c72192e7536fc1a8f2b275026f8acec7b080ed.wav",
-        "titleExists": true
-      }
-    },
-    {
-      "id": "battle-camel",
-      "title": "مَوْقِعَةُ الْجَمَلِ",
-      "era": "عهد علي بن أبي طالب",
-      "eraLabel": "خلافة الإمام علي",
-      "ruler": "علي بن أبي طالب",
-      "category": "battle",
-      "isBattle": true,
-      "isProphetEra": false,
-      "isRashidunEra": true,
-      "isMajor": null,
-      "date": {
-        "gregorian": 656.9,
-        "hijri": null,
-        "hijriRelative": "36 هـ",
-        "hijriDisplay": "٣٦ هـ",
-        "gregorianDisplay": "٦٥٦ م"
-      },
-      "location": {
-        "name": "البصرة، العراق",
-        "coordinates": [
-          30.5,
-          47.8167
-        ]
-      },
-      "text": {
-        "summary": "7901ea384d4690dc",
-        "fullDescription": "2e824d0203567a28",
-        "courseOfEvents": [
-          "a3d47281b1a34242",
-          "271ca484bfe1f5e5",
-          "1872ecf077904ccd",
-          "1f900a028b257613",
-          "643b2a7b88f403df",
-          "067c3a539220be50",
-          "684bb39065278ad4",
-          "9020e9bffb6dd931"
-        ],
-        "durationDays": "يَوْمٌ وَاحِدٌ"
-      },
-      "armySize": null,
-      "enemyArmySize": null,
-      "keyFigures": [
-        {
-          "name": "علي بن أبي طالب رضي الله عنه",
-          "companionId": "ali"
-        },
-        {
-          "name": "عائشة بنت أبي بكر رضي الله عنها",
-          "companionId": "aisha"
-        },
-        {
-          "name": "طلحة بن عبيد الله رضي الله عنه",
-          "companionId": "talhah-ibn-ubaydullah"
-        },
-        {
-          "name": "الزبير بن العوام رضي الله عنه",
-          "companionId": "al-zubayr-ibn-al-awwam"
-        },
-        {
-          "name": "الْحَسَنُ بْنُ عَلِيٍّ رضي الله عنه",
-          "companionId": "al-hasan-ibn-ali"
-        },
-        {
-          "name": "الْحُسَيْنُ بْنُ عَلِيٍّ رضي الله عنه",
-          "companionId": "al-husayn-ibn-ali"
-        }
-      ],
-      "companionRoles": [
-        {
-          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
-          "companionId": "ali",
-          "role": "8c6b26215b9a194f"
-        },
-        {
-          "name": "عَائِشَةُ بِنْتُ أَبِي بَكْرٍ رضي الله عنها",
-          "companionId": "aisha",
-          "role": "236a598e96324129"
-        },
-        {
-          "name": "الزُّبَيْرُ بْنُ الْعَوَّامِ رضي الله عنه",
-          "companionId": "al-zubayr-ibn-al-awwam",
-          "role": "551432f71f242293"
-        },
-        {
-          "name": "طَلْحَةُ بْنُ عُبَيْدِ اللهِ رضي الله عنه",
-          "companionId": "talhah-ibn-ubaydullah",
-          "role": "d41ff57593f55f8c"
-        }
-      ],
-      "quran": [],
-      "hadith": [
-        "bf89b1951e2fc600"
-      ],
-      "sources": [
-        "bf89b1951e2fc600",
-        "9b2b4c39e9edc4ca",
-        "1caa1246e96d2ee4"
-      ],
-      "battle": null,
-      "route": null,
-      "narration": {
-        "descriptionFile": "690b1e8b4f164f1b7d65e295eb1fa7cf6b024c7f9ef5d746537309b3a5573488.wav",
-        "descriptionExists": true,
-        "titleFile": "47401a82cdb7dcafe3246e2e9465791ea6a56f179198dbbca8716afa46e6c6ef.wav",
-        "titleExists": true
-      }
-    },
-    {
-      "id": "event-108-نقل-العاصمة-إلى-الكوفة",
-      "title": "نَقْلُ الْعَاصِمَةِ إِلَى الْكُوفَةِ",
-      "era": "عهد علي بن أبي طالب",
-      "eraLabel": "خلافة الإمام علي",
-      "ruler": "علي بن أبي طالب",
-      "category": "أحداث",
-      "isBattle": false,
-      "isProphetEra": false,
-      "isRashidunEra": true,
-      "isMajor": true,
-      "date": {
-        "gregorian": 656.95,
-        "hijri": 36,
-        "hijriRelative": "36 هـ",
-        "hijriDisplay": "٣٦ هـ",
-        "gregorianDisplay": "٦٥٦ م"
-      },
-      "location": {
-        "name": "الكوفة",
-        "coordinates": [
-          32.0333,
-          44.4
-        ]
-      },
-      "text": {
-        "summary": "520cda3cb069fec4",
-        "fullDescription": "f5eb941354b452fb",
-        "courseOfEvents": [
-          "4d2014d6e28676a7",
-          "85e947bc3a18803b",
-          "001ed641a61e2b44",
-          "8d185d7809120105"
-        ],
-        "durationDays": null
-      },
-      "armySize": null,
-      "enemyArmySize": null,
-      "keyFigures": [
-        {
-          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
-          "companionId": "ali"
-        }
-      ],
-      "companionRoles": [],
-      "quran": [],
-      "hadith": [],
-      "sources": [
-        "bf89b1951e2fc600",
-        "f336523485259d3b"
-      ],
-      "battle": null,
-      "route": null,
-      "narration": {
-        "descriptionFile": "a3231a880e2c5d1ba3a14d6bfd9cc48cca4ac6c5ef070da028d945ba808bdcf2.wav",
-        "descriptionExists": true,
-        "titleFile": "7f88b40569e9d20a17e5e5cc200c7c85f4388ff3220e50f12145f1e709a418e5.wav",
-        "titleExists": true
-      }
-    },
-    {
-      "id": "event-109-معركة-صفين",
-      "title": "مَعْرَكَةُ صِفِّينَ",
-      "era": "عهد علي بن أبي طالب",
-      "eraLabel": "خلافة الإمام علي",
-      "ruler": "علي بن أبي طالب",
-      "category": "غزوات ومعارك",
-      "isBattle": true,
-      "isProphetEra": false,
-      "isRashidunEra": true,
-      "isMajor": true,
-      "date": {
-        "gregorian": 657,
-        "hijri": 37,
-        "hijriRelative": "صفر 37 هـ",
-        "hijriDisplay": "صفر ٣٧ هـ",
-        "gregorianDisplay": "٦٥٧ م"
-      },
-      "location": {
-        "name": "صفين (على الفرات في سوريا)",
-        "coordinates": [
-          35.95,
-          39.0167
-        ]
-      },
-      "text": {
-        "summary": "27d71e698bb93abd",
-        "fullDescription": "d2a30c301718a660",
-        "courseOfEvents": [
-          "0cd25cfbb71888f5",
-          "c9663aa6db0c92ca",
-          "506b25d221d1f7bf",
-          "024e2e8a0c94e085",
-          "ba69614e0681b84d"
-        ],
-        "durationDays": null
-      },
-      "armySize": null,
-      "enemyArmySize": null,
-      "keyFigures": [
-        {
-          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
-          "companionId": "ali"
-        },
-        {
-          "name": "مُعَاوِيَةُ بْنُ أَبِي سُفْيَانَ رضي الله عنه",
-          "companionId": "muawiyah-ibn-abi-sufyan"
-        },
-        {
-          "name": "عَمَّارُ بْنُ يَاسِرٍ رضي الله عنه",
-          "companionId": "ammar-ibn-yasir"
-        },
-        {
-          "name": "عَمْرُو بْنُ الْعَاصِ رضي الله عنه",
-          "companionId": "amr"
-        },
-        {
-          "name": "أَبُو مُوسَى الْأَشْعَرِيُّ رضي الله عنه",
-          "companionId": "abu-musa-al-ashari"
-        },
-        {
-          "name": "الْحَسَنُ بْنُ عَلِيٍّ رضي الله عنه",
-          "companionId": "al-hasan-ibn-ali"
-        },
-        {
-          "name": "الْحُسَيْنُ بْنُ عَلِيٍّ رضي الله عنه",
-          "companionId": "al-husayn-ibn-ali"
-        }
-      ],
-      "companionRoles": [],
-      "quran": [
-        {
-          "ref": "سُورَةُ الْحُجُرَاتِ: 9",
-          "key": "سورة الحجرات: 9",
-          "verseText": "5522df468b14e610"
-        }
-      ],
-      "hadith": [
-        "098ce40985b2284a"
-      ],
-      "sources": [
-        "bf89b1951e2fc600",
-        "528abe5c9d1f0f81",
-        "1caa1246e96d2ee4"
-      ],
-      "battle": null,
-      "route": null,
-      "narration": {
-        "descriptionFile": "11de3e81cea2e2dff3cd9c2d4f624f8870ca8bb658e82b7ad17beb3dab11a2b3.wav",
-        "descriptionExists": true,
-        "titleFile": "5bc818ccf5bab3f077d413ed9f425cec41da36e817f1059e83c6d64997ba5f57.wav",
-        "titleExists": true
-      }
-    },
-    {
-      "id": "event-110-ظهور-الخوارج",
-      "title": "ظُهُورُ الْخَوَارِجِ",
-      "era": "عهد علي بن أبي طالب",
-      "eraLabel": "خلافة الإمام علي",
-      "ruler": "علي بن أبي طالب",
-      "category": "أحداث سياسية",
-      "isBattle": false,
-      "isProphetEra": false,
-      "isRashidunEra": true,
-      "isMajor": true,
-      "date": {
-        "gregorian": 657.8,
-        "hijri": 37,
-        "hijriRelative": "37 هـ",
-        "hijriDisplay": "٣٧ هـ",
-        "gregorianDisplay": "٦٥٧ م"
-      },
-      "location": {
-        "name": "حروراء",
-        "coordinates": [
-          33.3,
-          44.4
-        ]
-      },
-      "text": {
-        "summary": "7802c79cc854c3fe",
-        "fullDescription": "b7b3a82e875e4978",
-        "courseOfEvents": [
-          "fe6464a6f6f61f53",
-          "e63b9a5f3f0391fa",
-          "234958da5f739e8e",
-          "9d6e30077dab2726",
-          "01e230463edb12dc",
-          "b3915ba540e28f72"
-        ],
-        "durationDays": null
-      },
-      "armySize": null,
-      "enemyArmySize": null,
-      "keyFigures": [
-        {
-          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
-          "companionId": "ali"
-        },
-        {
-          "name": "عَبْدُ اللهِ بْنُ عَبَّاسٍ رضي الله عنهما",
-          "companionId": "abdullah-ibn-abbas"
-        }
-      ],
-      "companionRoles": [
-        {
-          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
-          "companionId": "ali",
-          "role": "24c41175199fae36"
-        },
-        {
-          "name": "عَبْدُ اللهِ بْنُ عَبَّاسٍ رضي الله عنهما",
-          "companionId": "abdullah-ibn-abbas",
-          "role": "39fe29809ff4e0e5"
-        }
-      ],
-      "quran": [],
-      "hadith": [],
-      "sources": [
-        "bf89b1951e2fc600",
-        "1caa1246e96d2ee4",
-        "58ff690f8d54ca16"
-      ],
-      "battle": null,
-      "route": null,
-      "narration": {
-        "descriptionFile": "d874e91ed4f30a1a9118d879bf45dbfa88ca0a5ab56da7749eaa6194e311e823.wav",
-        "descriptionExists": true,
-        "titleFile": "24ab6fa5ff19d9b2a86aae816c53ada59bfd186fcfe3caaac88c3c75671bddf4.wav",
-        "titleExists": true
-      }
-    },
-    {
-      "id": "battle-nahrawan",
-      "title": "مَعْرَكَةُ النَّهْرَوَانِ",
-      "era": "عهد علي بن أبي طالب",
-      "eraLabel": "خلافة الإمام علي",
-      "ruler": "علي بن أبي طالب",
-      "category": "battle",
-      "isBattle": true,
-      "isProphetEra": false,
-      "isRashidunEra": true,
-      "isMajor": null,
-      "date": {
-        "gregorian": 658,
-        "hijri": null,
-        "hijriRelative": "38 هـ",
-        "hijriDisplay": "٣٨ هـ",
-        "gregorianDisplay": "٦٥٨ م"
-      },
-      "location": {
-        "name": "النهروان، العراق",
-        "coordinates": [
-          33.2,
-          44.8
-        ]
-      },
-      "text": {
-        "summary": "ea189acf6e258be2",
-        "fullDescription": "ef36781a39e45155",
-        "courseOfEvents": [
-          "59df876d2684a342",
-          "484fefdb7dbaeabe",
-          "87604d96a87707f7",
-          "8852ce8ac719491a",
-          "643de5beb1eae041",
-          "48b1d38cd515592b"
-        ],
-        "durationDays": "يَوْمٌ وَاحِدٌ"
-      },
-      "armySize": "حَوَالَيْ 14,000 (جَيْشُ عَلِيٍّ رضي الله عنه)",
-      "enemyArmySize": "حَوَالَيْ 4,000 (الْخَوَارِجُ)",
-      "keyFigures": [
-        {
-          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
-          "companionId": "ali"
-        }
-      ],
-      "companionRoles": [
-        {
-          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
-          "companionId": "ali",
-          "role": "aa989003b7bd332d"
-        },
-        {
-          "name": "عَبْدُ اللهِ بْنُ عَبَّاسٍ رضي الله عنهما",
-          "companionId": "abdullah-ibn-abbas",
-          "role": "9ad1d7276c718a41"
-        }
-      ],
-      "quran": [],
-      "hadith": [
-        "bf89b1951e2fc600"
-      ],
-      "sources": [
-        "bf89b1951e2fc600",
-        "e998a5ba1d2fcef2",
-        "1caa1246e96d2ee4"
-      ],
-      "battle": null,
-      "route": null,
-      "narration": {
-        "descriptionFile": "1ce518ba82440f17c74cbe8ae08dc5eb082395f97e8c44fc69a12d2583059731.wav",
-        "descriptionExists": true,
-        "titleFile": "98cb317ed9254274e0305b7ba5dd1b8d45f89801b12c7e7f778488de48bdac1f.wav",
-        "titleExists": true
-      }
-    },
-    {
-      "id": "event-112-التحكيم-بين-علي-ومعاوية",
-      "title": "التَّحْكِيمُ بَيْنَ عَلِيٍّ وَمُعَاوِيَةَ",
-      "era": "عهد علي بن أبي طالب",
-      "eraLabel": "خلافة الإمام علي",
-      "ruler": "علي بن أبي طالب",
-      "category": "أحداث سياسية",
-      "isBattle": false,
-      "isProphetEra": false,
-      "isRashidunEra": true,
-      "isMajor": true,
-      "date": {
-        "gregorian": 658,
-        "hijri": 37,
-        "hijriRelative": "رمضان 37 هـ",
-        "hijriDisplay": "رمضان ٣٧ هـ",
-        "gregorianDisplay": "٦٥٨ م"
-      },
-      "location": {
-        "name": "دومة الجندل",
-        "coordinates": [
-          29.8,
-          39.9
-        ]
-      },
-      "text": {
-        "summary": "420aa58cb2490141",
-        "fullDescription": "28570819dbda131e",
-        "courseOfEvents": [
-          "665c89d877c10ec7",
-          "39ad038b880425c6",
-          "4d5ed52e87ae40dc",
-          "dc2f7c6ded26d5c5",
-          "7f8440e36eecf25a",
-          "9b2803087c7e53cd"
-        ],
-        "durationDays": null
-      },
-      "armySize": null,
-      "enemyArmySize": null,
-      "keyFigures": [
-        {
-          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
-          "companionId": "ali"
-        },
-        {
-          "name": "مُعَاوِيَةُ بْنُ أَبِي سُفْيَانَ رضي الله عنه",
-          "companionId": "muawiyah-ibn-abi-sufyan"
-        },
-        {
-          "name": "أَبُو مُوسَى الْأَشْعَرِيُّ رضي الله عنه",
-          "companionId": "abu-musa-al-ashari"
-        },
-        {
-          "name": "عَمْرُو بْنُ الْعَاصِ رضي الله عنه",
-          "companionId": "amr"
-        }
-      ],
-      "companionRoles": [
-        {
-          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
-          "companionId": "ali",
-          "role": "9fad3758b653b597"
-        },
-        {
-          "name": "مُعَاوِيَةُ بْنُ أَبِي سُفْيَانَ رضي الله عنه",
-          "companionId": "muawiyah-ibn-abi-sufyan",
-          "role": "8d99ea6c08f17d96"
-        },
-        {
-          "name": "أَبُو مُوسَى الْأَشْعَرِيُّ رضي الله عنه",
-          "companionId": "abu-musa-al-ashari",
-          "role": "9165e306cc766902"
-        },
-        {
-          "name": "عَمْرُو بْنُ الْعَاصِ رضي الله عنه",
-          "companionId": "amr",
-          "role": "43931cfd14c18c73"
-        }
-      ],
-      "quran": [],
-      "hadith": [],
-      "sources": [
-        "bf89b1951e2fc600",
-        "1caa1246e96d2ee4",
-        "f336523485259d3b"
-      ],
-      "battle": null,
-      "route": null,
-      "narration": {
-        "descriptionFile": "43041d7b3efa9c7b1d46b96737daec17d85a44e793cc469215cbbc32369d78c5.wav",
-        "descriptionExists": true,
-        "titleFile": "43b9c918ae34c27b10a5892b58612f4cc6e3d582394a0e34afc4e5aa3c698d8f.wav",
-        "titleExists": true
-      }
-    },
-    {
-      "id": "event-113-استشهاد-الإمام-علي-بن-أبي-طالب",
-      "title": "اسْتِشْهَادُ الْإِمَامِ عَلِيِّ بْنِ أَبِي طَالِبٍ",
-      "era": "عهد علي بن أبي طالب",
-      "eraLabel": "خلافة الإمام علي",
-      "ruler": "علي بن أبي طالب",
-      "category": "أحداث",
-      "isBattle": false,
-      "isProphetEra": false,
-      "isRashidunEra": true,
-      "isMajor": true,
-      "date": {
-        "gregorian": 661.07,
-        "hijri": 40,
-        "hijriRelative": "21 رمضان 40 هـ",
-        "hijriDisplay": "٢١ رمضان ٤٠ هـ",
-        "gregorianDisplay": "٦٦١ م"
-      },
-      "location": {
-        "name": "الكوفة - العراق",
-        "coordinates": [
-          32.0333,
-          44.4
-        ]
-      },
-      "text": {
-        "summary": "b36f152c13683766",
-        "fullDescription": "dc5598bde9b5e033",
-        "courseOfEvents": [
-          "805a6d9618362842",
-          "9a73c2ba593b8393",
-          "046fa47bfbacc67d",
-          "c064febd08bdcd01",
-          "08d4c93e491da9bf"
-        ],
-        "durationDays": null
-      },
-      "armySize": null,
-      "enemyArmySize": null,
-      "keyFigures": [
-        {
-          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
-          "companionId": "ali"
-        },
-        {
-          "name": "عَبْدُ الرَّحْمَنِ بْنُ مُلْجَمٍ",
-          "companionId": "abd-al-rahman-ibn-muljam"
-        },
-        {
-          "name": "الْحَسَنُ بْنُ عَلِيٍّ رضي الله عنه",
-          "companionId": "al-hasan-ibn-ali"
-        },
-        {
-          "name": "الْحُسَيْنُ بْنُ عَلِيٍّ رضي الله عنه",
-          "companionId": "al-husayn-ibn-ali"
-        }
-      ],
-      "companionRoles": [],
-      "quran": [],
-      "hadith": [],
-      "sources": [
-        "bf89b1951e2fc600",
-        "1bfa4d9bd145bfd9",
-        "8ff849d5aab836cd",
-        "1caa1246e96d2ee4"
-      ],
-      "battle": null,
-      "route": null,
-      "narration": {
-        "descriptionFile": "f7b7749b4ca95a99d1cd17470e39e74711f3237e99040a8620c1042cf64322a9.wav",
-        "descriptionExists": true,
-        "titleFile": "19fbf5989d52ff235e524a070c5dab829529fec3fbeec702bed57edfa8a88491.wav",
-        "titleExists": true
-      }
-    },
-    {
-      "id": "conquest-rayy-jurjan",
-      "title": "إِتْمَامُ فَتْحِ فَارِسَ (الرَّيُّ وَجُرْجَانُ وَأَذْرَبِيجَانُ)",
-      "era": "عهد عثمان بن عفان",
-      "eraLabel": "خلافة ذي النورين",
-      "ruler": "عثمان بن عفان",
-      "category": "battle",
-      "isBattle": true,
-      "isProphetEra": false,
-      "isRashidunEra": true,
-      "isMajor": true,
-      "date": {
-        "gregorian": 646.5,
-        "hijri": 30,
-        "hijriRelative": "25-30 هـ",
-        "hijriDisplay": "٢٥-٣٠ هـ",
-        "gregorianDisplay": "٦٤٦ م"
-      },
-      "location": {
-        "name": "الرَّيُّ وَجُرْجَانُ (شَمَالَ إِيرَانَ الْيَوْمَ)",
-        "coordinates": [
-          35.5943,
-          51.431
-        ]
-      },
-      "text": {
-        "summary": "578a3d25bc9e6137",
-        "fullDescription": "e69da36283f3866f",
-        "courseOfEvents": [
-          "ca774c9abe0c0774",
-          "4b31696e6830acfa",
-          "764548974486d985",
-          "184405df076033a4",
-          "25b98987fbbd8837",
-          "05c6b3e3c6f6ac36",
-          "49fbf405b00ce7ed"
-        ],
-        "durationDays": "حَمْلَاتٌ مُتَتَابِعَةٌ عَلَى مَدَى سَنَوَاتٍ (25-30 هـ)"
-      },
-      "armySize": "جَيْشُ الْكُوفَةِ وَجَيْشُ الْبَصْرَةِ (بِضْعَةُ عَشَرَ أَلْفًا)",
-      "enemyArmySize": "مَرَازِبَةُ الْجِبَالِ وَبَقَايَا السَّاسَانِيِّينَ",
-      "keyFigures": [
-        {
-          "name": "عثمان بن عفان رضي الله عنه",
-          "companionId": "uthman"
-        },
-        {
-          "name": "سعيد بن العاص رضي الله عنه",
-          "companionId": "saeed-ibn-al-as"
-        },
-        {
-          "name": "سلمان بن ربيعة الباهلي رضي الله عنه",
-          "companionId": "salman-ibn-rabiah"
-        },
-        {
-          "name": "حذيفة بن اليمان رضي الله عنه",
-          "companionId": "hudhayfah-ibn-al-yaman"
-        },
-        {
-          "name": "الحسن بن علي رضي الله عنه",
-          "companionId": "al-hasan-ibn-ali"
-        },
-        {
-          "name": "الحسين بن علي رضي الله عنه",
-          "companionId": "al-husayn-ibn-ali"
-        }
-      ],
-      "companionRoles": [
-        {
-          "name": "سَعِيدُ بْنُ الْعَاصِ بْنِ أُمَيَّةَ رضي الله عنه",
-          "companionId": "saeed-ibn-al-as",
-          "role": "88f2e1bc1204a357"
-        },
-        {
-          "name": "سَلْمَانُ بْنُ رَبِيعَةَ الْبَاهِلِيُّ رضي الله عنه",
-          "companionId": "salman-ibn-rabiah",
-          "role": "ca9eb59adafd2bb8"
-        },
-        {
-          "name": "حُذَيْفَةُ بْنُ الْيَمَانِ رضي الله عنه",
-          "companionId": "hudhayfah-ibn-al-yaman",
-          "role": "99a71b92eef7d05c"
-        }
-      ],
-      "quran": [
-        {
-          "ref": "سورة التوبة: 33 (هُوَ الَّذِي أَرْسَلَ رَسُولَهُ بِالْهُدَىٰ وَدِينِ الْحَقِّ لِيُظْهِرَهُ عَلَى الدِّينِ كُلِّهِ)",
-          "key": "سورة التوبة: 33",
-          "verseText": "748a9bafd63e1d63"
-        }
-      ],
-      "hadith": [],
-      "sources": [
-        "1a830c64a9f5e68e",
-        "6a5cced81d340a6a",
-        "a212c46eb4c100e8",
-        "8016c3c2d67862e5"
-      ],
-      "battle": null,
-      "route": null,
-      "narration": {
-        "descriptionFile": "2d04bd2f23b61be7f69a2cba196c8b63ad817202e7af8a6c35a6c80a5ea84b4e.wav",
-        "descriptionExists": true,
-        "titleFile": "f6595fbe062fd1b9daf1e409438a70d37c6e65bec66517f4dbbf2c2763b7288f.wav",
-        "titleExists": true
-      }
-    },
-    {
-      "id": "first-muslim-fleet",
-      "title": "بِنَاءُ الْأُسْطُولِ الْإِسْلَامِيِّ الْأَوَّلِ",
-      "era": "عهد عثمان بن عفان",
-      "eraLabel": "خلافة ذي النورين",
-      "ruler": "عثمان بن عفان",
-      "category": "أحداث",
-      "isBattle": false,
-      "isProphetEra": false,
-      "isRashidunEra": true,
-      "isMajor": true,
-      "date": {
-        "gregorian": 648.5,
-        "hijri": 28,
-        "hijriRelative": "28 هـ",
-        "hijriDisplay": "٢٨ هـ",
-        "gregorianDisplay": "٦٤٨ م"
-      },
-      "location": {
-        "name": "سَاحِلُ الشَّامِ (عَكَّا وَصُورُ)",
-        "coordinates": [
-          32.9236,
-          35.0866
-        ]
-      },
-      "text": {
-        "summary": "0fcd7f4ec762302c",
-        "fullDescription": "af0ffbec4e2bd82a",
-        "courseOfEvents": [
-          "c72778c63b931955",
-          "3e15f9ef62823d0f",
-          "e39327c67d7a27ed",
-          "6c045f5540bddbce",
-          "d2f1d73bf519aeaa",
-          "96f58d2634a0ae73",
-          "207e41bfd8a0b7a0",
-          "29c3464d46e3fa76"
-        ],
-        "durationDays": null
-      },
-      "armySize": null,
-      "enemyArmySize": null,
-      "keyFigures": [
-        {
-          "name": "معاوية بن أبي سفيان رضي الله عنه",
-          "companionId": "muawiyah-ibn-abi-sufyan"
-        },
-        {
-          "name": "عثمان بن عفان رضي الله عنه",
-          "companionId": "uthman"
-        },
-        {
-          "name": "عبادة بن الصامت رضي الله عنه",
-          "companionId": "ubadah-ibn-al-samit"
-        },
-        {
-          "name": "أم حرام بنت ملحان رضي الله عنها",
-          "companionId": "umm-haram-bint-milhan"
-        },
-        {
-          "name": "أبو ذر الغفاري رضي الله عنه",
-          "companionId": "abu-dharr-al-ghifari"
-        }
-      ],
-      "companionRoles": [
-        {
-          "name": "مُعَاوِيَةُ بْنُ أَبِي سُفْيَانَ رضي الله عنه",
-          "companionId": "muawiyah-ibn-abi-sufyan",
-          "role": "10da64f4dc7a619e"
-        },
-        {
-          "name": "عُثْمَانُ بْنُ عَفَّانَ رضي الله عنه",
-          "companionId": "uthman",
-          "role": "892fd68678865b22"
-        },
-        {
-          "name": "عُبَادَةُ بْنُ الصَّامِتِ رضي الله عنه",
-          "companionId": "ubadah-ibn-al-samit",
-          "role": "37d1d9b1b66f4990"
-        },
-        {
-          "name": "أُمُّ حَرَامٍ بِنْتُ مِلْحَانَ رضي الله عنها",
-          "companionId": "umm-haram-bint-milhan",
-          "role": "eac97b6c1761a1b9"
-        }
-      ],
-      "quran": [],
-      "hadith": [
-        "152d05c92f5d65f5",
-        "fbf67b92c1f1ff19"
-      ],
-      "sources": [
-        "042045d69a70494c",
-        "8653045900aaea3c",
-        "3c67ac16d759eda9",
-        "8016c3c2d67862e5"
-      ],
-      "battle": null,
-      "route": null,
-      "narration": {
-        "descriptionFile": "9fe87699cb03d3b338e4ae6ee47045483e61d86d1317e302329e9126e21a0670.wav",
-        "descriptionExists": true,
-        "titleFile": "b8093b762914cdc1724336d3b791b2809f2946fd01ae94dd38bd6f80d45f1ce6.wav",
         "titleExists": true
       }
     },
@@ -9608,7 +8738,7 @@
       "era": "عهد عثمان بن عفان",
       "eraLabel": "خلافة ذي النورين",
       "ruler": "عثمان بن عفان",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -9720,7 +8850,7 @@
       "era": "عهد عثمان بن عفان",
       "eraLabel": "خلافة ذي النورين",
       "ruler": "عثمان بن عفان",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -9835,12 +8965,87 @@
       }
     },
     {
+      "id": "battle-masts",
+      "title": "مَعْرَكَةُ ذَاتِ الصَّوَارِي",
+      "era": "عهد عثمان بن عفان",
+      "eraLabel": "خلافة ذي النورين",
+      "ruler": "عثمان بن عفان",
+      "category": "battle",
+      "isBattle": true,
+      "isProphetEra": false,
+      "isRashidunEra": true,
+      "isMajor": null,
+      "date": {
+        "gregorian": 655,
+        "hijri": null,
+        "hijriRelative": "34 هـ",
+        "hijriDisplay": "٣٤ هـ",
+        "gregorianDisplay": "٦٥٥ م"
+      },
+      "location": {
+        "name": "البحر المتوسط، قبالة ساحل ليكيا",
+        "coordinates": [
+          36.2,
+          30.2
+        ]
+      },
+      "text": {
+        "summary": "74998341e4d92200",
+        "fullDescription": "7407452f6925dbb2",
+        "courseOfEvents": [
+          "62422497e4fb209b",
+          "acb37f0647409aae",
+          "ccb362ef8b1b8439",
+          "f3fee494a0edaf65",
+          "4072bdc3efd39158",
+          "8f67e44ec82cbdcf"
+        ],
+        "durationDays": "يَوْمَانِ"
+      },
+      "armySize": "حَوَالَيْ 200 سَفِينَةٍ",
+      "enemyArmySize": "حَوَالَيْ 500 إِلَى 600 سَفِينَةٍ (الْأُسْطُولُ الْبِيزَنْطِيُّ)",
+      "keyFigures": [
+        {
+          "name": "عَبْدُ اللهِ بْنُ سَعْدِ بْنِ أَبِي السَّرْحِ رضي الله عنه",
+          "companionId": "abdullah-ibn-saad-ibn-abi-sarh"
+        },
+        {
+          "name": "قُسْطَنْطِينُ الثَّانِي",
+          "companionId": "constantine-ii"
+        }
+      ],
+      "companionRoles": [
+        {
+          "name": "عَبْدُ اللهِ بْنُ سَعْدِ بْنِ أَبِي السَّرْحِ",
+          "companionId": "abdullah-ibn-saad-ibn-abi-sarh",
+          "role": "11e0bfee648ce7db"
+        }
+      ],
+      "quran": [],
+      "hadith": [
+        "bf89b1951e2fc600"
+      ],
+      "sources": [
+        "bf89b1951e2fc600",
+        "e1d446fd214ae4d9",
+        "1caa1246e96d2ee4"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": "5094a355b68078563cdeb0cf23b5b60406c4e0ae9c6239bea1abda3324c7e5f7.wav",
+        "descriptionExists": true,
+        "titleFile": "d2ced8fbde3e2bb4e6602e8e3327c145d646bf576bb56592e07583bbd1401a05.wav",
+        "titleExists": true
+      }
+    },
+    {
       "id": "wufud-amsar-complaints",
       "title": "قُدُومُ وُفُودِ الْأَمْصَارِ وَتَفَاقُمُ الشَّكَاوَى مِنَ الْوُلَاةِ",
       "era": "عهد عثمان بن عفان",
       "eraLabel": "خلافة ذي النورين",
       "ruler": "عثمان بن عفان",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -9954,12 +9159,79 @@
       }
     },
     {
+      "id": "event-104-بداية-الفتنة-الكبرى",
+      "title": "بِدَايَةُ الْفِتْنَةِ الْكُبْرَى",
+      "era": "عهد عثمان بن عفان",
+      "eraLabel": "خلافة ذي النورين",
+      "ruler": "عثمان بن عفان",
+      "category": "events",
+      "isBattle": false,
+      "isProphetEra": false,
+      "isRashidunEra": true,
+      "isMajor": true,
+      "date": {
+        "gregorian": 656.3,
+        "hijri": 35,
+        "hijriRelative": "35 هـ",
+        "hijriDisplay": "٣٥ هـ",
+        "gregorianDisplay": "٦٥٦ م"
+      },
+      "location": {
+        "name": "المدينة المنورة",
+        "coordinates": [
+          24.4672,
+          39.6111
+        ]
+      },
+      "text": {
+        "summary": "84c8f61eff3fbab0",
+        "fullDescription": "adfc8dddc8638e17",
+        "courseOfEvents": [
+          "2b3dc0de8752ab78",
+          "a494838c5cbdf274",
+          "29d591779f77f89f",
+          "0536c03b4c48ac4a"
+        ],
+        "durationDays": null
+      },
+      "armySize": null,
+      "enemyArmySize": null,
+      "keyFigures": [
+        {
+          "name": "عُثْمَانُ بْنُ عَفَّانَ رضي الله عنه",
+          "companionId": "uthman"
+        }
+      ],
+      "companionRoles": [
+        {
+          "name": "عُثْمَانُ بْنُ عَفَّانَ رضي الله عنه",
+          "companionId": "uthman",
+          "role": "d5fa3eca32a8fa73"
+        }
+      ],
+      "quran": [],
+      "hadith": [],
+      "sources": [
+        "bf89b1951e2fc600",
+        "1caa1246e96d2ee4",
+        "9b2b4c39e9edc4ca"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": "84c17597905ef9b4d1ce56f631d8356535cafa85704c5d8fdf3de374630ef77f.wav",
+        "descriptionExists": true,
+        "titleFile": "0212a9b46d79bef7186a562c41a7e8fff37b9308ec61daf3cc09614d76dd1a87.wav",
+        "titleExists": true
+      }
+    },
+    {
       "id": "siege-of-uthman-house",
       "title": "الْحِصَارُ الْأَكْبَرُ لِدَارِ عُثْمَانَ رضي الله عنه",
       "era": "عهد عثمان بن عفان",
       "eraLabel": "خلافة ذي النورين",
       "ruler": "عثمان بن عفان",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -10091,12 +9363,153 @@
       }
     },
     {
+      "id": "event-105-استشهاد-عثمان-بن-عفان-يوم-الدار",
+      "title": "اسْتِشْهَادُ عُثْمَانَ بْنِ عَفَّانَ (يَوْمُ الدَّارِ)",
+      "era": "عهد عثمان بن عفان",
+      "eraLabel": "خلافة ذي النورين",
+      "ruler": "عثمان بن عفان",
+      "category": "events",
+      "isBattle": false,
+      "isProphetEra": false,
+      "isRashidunEra": true,
+      "isMajor": true,
+      "date": {
+        "gregorian": 656.46,
+        "hijri": 35,
+        "hijriRelative": "18 ذو الحجة 35 هـ",
+        "hijriDisplay": "١٨ ذو الحجة ٣٥ هـ",
+        "gregorianDisplay": "٦٥٦ م"
+      },
+      "location": {
+        "name": "المدينة المنورة",
+        "coordinates": [
+          24.4672,
+          39.6112
+        ]
+      },
+      "text": {
+        "summary": "b3d485da8e3088da",
+        "fullDescription": "43fa63436f4a0745",
+        "courseOfEvents": [
+          "c32474a5d6e660e2",
+          "24faf99c36cd9ca4",
+          "fe91e6668564cb8e",
+          "54be4f4d1e5e8489",
+          "f4bd2f835a3bb776"
+        ],
+        "durationDays": null
+      },
+      "armySize": null,
+      "enemyArmySize": null,
+      "keyFigures": [
+        {
+          "name": "عُثْمَانُ بْنُ عَفَّانَ رضي الله عنه",
+          "companionId": "uthman"
+        },
+        {
+          "name": "نَائِلَةُ بِنْتُ الْفَرَافِصَةِ رضي الله عنها",
+          "companionId": "nailah-bint-al-farafisah"
+        }
+      ],
+      "companionRoles": [],
+      "quran": [
+        {
+          "ref": "سُورَةُ الْبَقَرَةِ: 137",
+          "key": "سورة البقرة: 137",
+          "verseText": "a82475d19284d360"
+        }
+      ],
+      "hadith": [],
+      "sources": [
+        "bf89b1951e2fc600",
+        "1caa1246e96d2ee4",
+        "4cb8dd688248a577"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": "bd4a6c77e3a6e6c61086bb854414294c42c5fa23d3cc3ec6c8ad0dc033d1bb7b.wav",
+        "descriptionExists": true,
+        "titleFile": "4d3fe52c6ed820916905a39fd63842a2b19be1be9bb8e6f57bee5b9579bf4be0.wav",
+        "titleExists": true
+      }
+    },
+    {
+      "id": "event-106-تولي-علي-بن-أبي-طالب-الخلافة",
+      "title": "تَوَلِّي عَلِيِّ بْنِ أَبِي طَالِبٍ الْخِلَافَةَ",
+      "era": "عهد علي بن أبي طالب",
+      "eraLabel": "خلافة الإمام علي",
+      "ruler": "علي بن أبي طالب",
+      "category": "events",
+      "isBattle": false,
+      "isProphetEra": false,
+      "isRashidunEra": true,
+      "isMajor": true,
+      "date": {
+        "gregorian": 656.47,
+        "hijri": 35,
+        "hijriRelative": "19 ذو الحجة 35 هـ",
+        "hijriDisplay": "١٩ ذو الحجة ٣٥ هـ",
+        "gregorianDisplay": "٦٥٦ م"
+      },
+      "location": {
+        "name": "المدينة المنورة",
+        "coordinates": [
+          24.4672,
+          39.6112
+        ]
+      },
+      "text": {
+        "summary": "e201b2b04cd791ed",
+        "fullDescription": "c788c9a3b1b26256",
+        "courseOfEvents": [
+          "dc407283aa5ba015",
+          "64d72bbc6adeb1dd",
+          "1883dcf287976e91",
+          "04e3c74d8c8d86e4"
+        ],
+        "durationDays": null
+      },
+      "armySize": null,
+      "enemyArmySize": null,
+      "keyFigures": [
+        {
+          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
+          "companionId": "ali"
+        },
+        {
+          "name": "طَلْحَةُ بْنُ عُبَيْدِ اللهِ رضي الله عنه",
+          "companionId": "talhah-ibn-ubaydullah"
+        },
+        {
+          "name": "الزُّبَيْرُ بْنُ الْعَوَّامِ رضي الله عنه",
+          "companionId": "al-zubayr-ibn-al-awwam"
+        }
+      ],
+      "companionRoles": [],
+      "quran": [],
+      "hadith": [],
+      "sources": [
+        "bf89b1951e2fc600",
+        "1caa1246e96d2ee4",
+        "ec59d4b722e116d0"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": "a53fae979442138b9946994886527af9bb6a4dcda2224b8940c91c1a19d5e15d.wav",
+        "descriptionExists": true,
+        "titleFile": "bcbbc837a6496cfaca31009112c72192e7536fc1a8f2b275026f8acec7b080ed.wav",
+        "titleExists": true
+      }
+    },
+    {
       "id": "march-to-basra-pre-jamal",
       "title": "مَسِيرُ أُمِّ الْمُؤْمِنِينَ عَائِشَةَ إِلَى الْبَصْرَةِ وَحَادِثَةُ الْحَوْأَبِ",
       "era": "عهد علي بن أبي طالب",
       "eraLabel": "خلافة الإمام علي",
       "ruler": "علي بن أبي طالب",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -10207,12 +9620,180 @@
       }
     },
     {
+      "id": "battle-camel",
+      "title": "مَوْقِعَةُ الْجَمَلِ",
+      "era": "عهد علي بن أبي طالب",
+      "eraLabel": "خلافة الإمام علي",
+      "ruler": "علي بن أبي طالب",
+      "category": "battle",
+      "isBattle": true,
+      "isProphetEra": false,
+      "isRashidunEra": true,
+      "isMajor": null,
+      "date": {
+        "gregorian": 656.9,
+        "hijri": null,
+        "hijriRelative": "36 هـ",
+        "hijriDisplay": "٣٦ هـ",
+        "gregorianDisplay": "٦٥٦ م"
+      },
+      "location": {
+        "name": "البصرة، العراق",
+        "coordinates": [
+          30.5,
+          47.8167
+        ]
+      },
+      "text": {
+        "summary": "7901ea384d4690dc",
+        "fullDescription": "2e824d0203567a28",
+        "courseOfEvents": [
+          "a3d47281b1a34242",
+          "271ca484bfe1f5e5",
+          "1872ecf077904ccd",
+          "1f900a028b257613",
+          "643b2a7b88f403df",
+          "067c3a539220be50",
+          "684bb39065278ad4",
+          "9020e9bffb6dd931"
+        ],
+        "durationDays": "يَوْمٌ وَاحِدٌ"
+      },
+      "armySize": null,
+      "enemyArmySize": null,
+      "keyFigures": [
+        {
+          "name": "علي بن أبي طالب رضي الله عنه",
+          "companionId": "ali"
+        },
+        {
+          "name": "عائشة بنت أبي بكر رضي الله عنها",
+          "companionId": "aisha"
+        },
+        {
+          "name": "طلحة بن عبيد الله رضي الله عنه",
+          "companionId": "talhah-ibn-ubaydullah"
+        },
+        {
+          "name": "الزبير بن العوام رضي الله عنه",
+          "companionId": "al-zubayr-ibn-al-awwam"
+        },
+        {
+          "name": "الْحَسَنُ بْنُ عَلِيٍّ رضي الله عنه",
+          "companionId": "al-hasan-ibn-ali"
+        },
+        {
+          "name": "الْحُسَيْنُ بْنُ عَلِيٍّ رضي الله عنه",
+          "companionId": "al-husayn-ibn-ali"
+        }
+      ],
+      "companionRoles": [
+        {
+          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
+          "companionId": "ali",
+          "role": "8c6b26215b9a194f"
+        },
+        {
+          "name": "عَائِشَةُ بِنْتُ أَبِي بَكْرٍ رضي الله عنها",
+          "companionId": "aisha",
+          "role": "236a598e96324129"
+        },
+        {
+          "name": "الزُّبَيْرُ بْنُ الْعَوَّامِ رضي الله عنه",
+          "companionId": "al-zubayr-ibn-al-awwam",
+          "role": "551432f71f242293"
+        },
+        {
+          "name": "طَلْحَةُ بْنُ عُبَيْدِ اللهِ رضي الله عنه",
+          "companionId": "talhah-ibn-ubaydullah",
+          "role": "d41ff57593f55f8c"
+        }
+      ],
+      "quran": [],
+      "hadith": [
+        "bf89b1951e2fc600"
+      ],
+      "sources": [
+        "bf89b1951e2fc600",
+        "9b2b4c39e9edc4ca",
+        "1caa1246e96d2ee4"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": "690b1e8b4f164f1b7d65e295eb1fa7cf6b024c7f9ef5d746537309b3a5573488.wav",
+        "descriptionExists": true,
+        "titleFile": "47401a82cdb7dcafe3246e2e9465791ea6a56f179198dbbca8716afa46e6c6ef.wav",
+        "titleExists": true
+      }
+    },
+    {
+      "id": "event-108-نقل-العاصمة-إلى-الكوفة",
+      "title": "نَقْلُ الْعَاصِمَةِ إِلَى الْكُوفَةِ",
+      "era": "عهد علي بن أبي طالب",
+      "eraLabel": "خلافة الإمام علي",
+      "ruler": "علي بن أبي طالب",
+      "category": "events",
+      "isBattle": false,
+      "isProphetEra": false,
+      "isRashidunEra": true,
+      "isMajor": true,
+      "date": {
+        "gregorian": 656.95,
+        "hijri": 36,
+        "hijriRelative": "36 هـ",
+        "hijriDisplay": "٣٦ هـ",
+        "gregorianDisplay": "٦٥٦ م"
+      },
+      "location": {
+        "name": "الكوفة",
+        "coordinates": [
+          32.0333,
+          44.4
+        ]
+      },
+      "text": {
+        "summary": "520cda3cb069fec4",
+        "fullDescription": "f5eb941354b452fb",
+        "courseOfEvents": [
+          "4d2014d6e28676a7",
+          "85e947bc3a18803b",
+          "001ed641a61e2b44",
+          "8d185d7809120105"
+        ],
+        "durationDays": null
+      },
+      "armySize": null,
+      "enemyArmySize": null,
+      "keyFigures": [
+        {
+          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
+          "companionId": "ali"
+        }
+      ],
+      "companionRoles": [],
+      "quran": [],
+      "hadith": [],
+      "sources": [
+        "bf89b1951e2fc600",
+        "f336523485259d3b"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": "a3231a880e2c5d1ba3a14d6bfd9cc48cca4ac6c5ef070da028d945ba808bdcf2.wav",
+        "descriptionExists": true,
+        "titleFile": "7f88b40569e9d20a17e5e5cc200c7c85f4388ff3220e50f12145f1e709a418e5.wav",
+        "titleExists": true
+      }
+    },
+    {
       "id": "muawiyah-refuses-bayah",
       "title": "رَفْضُ مُعَاوِيَةَ الْبَيْعَةَ وَالْمُطَالَبَةُ بِدَمِ عُثْمَانَ",
       "era": "عهد علي بن أبي طالب",
       "eraLabel": "خلافة الإمام علي",
       "ruler": "علي بن أبي طالب",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -10322,12 +9903,106 @@
       }
     },
     {
+      "id": "event-109-معركة-صفين",
+      "title": "مَعْرَكَةُ صِفِّينَ",
+      "era": "عهد علي بن أبي طالب",
+      "eraLabel": "خلافة الإمام علي",
+      "ruler": "علي بن أبي طالب",
+      "category": "battle",
+      "isBattle": true,
+      "isProphetEra": false,
+      "isRashidunEra": true,
+      "isMajor": true,
+      "date": {
+        "gregorian": 657,
+        "hijri": 37,
+        "hijriRelative": "صفر 37 هـ",
+        "hijriDisplay": "صفر ٣٧ هـ",
+        "gregorianDisplay": "٦٥٧ م"
+      },
+      "location": {
+        "name": "صفين (على الفرات في سوريا)",
+        "coordinates": [
+          35.95,
+          39.0167
+        ]
+      },
+      "text": {
+        "summary": "27d71e698bb93abd",
+        "fullDescription": "d2a30c301718a660",
+        "courseOfEvents": [
+          "0cd25cfbb71888f5",
+          "c9663aa6db0c92ca",
+          "506b25d221d1f7bf",
+          "024e2e8a0c94e085",
+          "ba69614e0681b84d"
+        ],
+        "durationDays": null
+      },
+      "armySize": null,
+      "enemyArmySize": null,
+      "keyFigures": [
+        {
+          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
+          "companionId": "ali"
+        },
+        {
+          "name": "مُعَاوِيَةُ بْنُ أَبِي سُفْيَانَ رضي الله عنه",
+          "companionId": "muawiyah-ibn-abi-sufyan"
+        },
+        {
+          "name": "عَمَّارُ بْنُ يَاسِرٍ رضي الله عنه",
+          "companionId": "ammar-ibn-yasir"
+        },
+        {
+          "name": "عَمْرُو بْنُ الْعَاصِ رضي الله عنه",
+          "companionId": "amr"
+        },
+        {
+          "name": "أَبُو مُوسَى الْأَشْعَرِيُّ رضي الله عنه",
+          "companionId": "abu-musa-al-ashari"
+        },
+        {
+          "name": "الْحَسَنُ بْنُ عَلِيٍّ رضي الله عنه",
+          "companionId": "al-hasan-ibn-ali"
+        },
+        {
+          "name": "الْحُسَيْنُ بْنُ عَلِيٍّ رضي الله عنه",
+          "companionId": "al-husayn-ibn-ali"
+        }
+      ],
+      "companionRoles": [],
+      "quran": [
+        {
+          "ref": "سُورَةُ الْحُجُرَاتِ: 9",
+          "key": "سورة الحجرات: 9",
+          "verseText": "5522df468b14e610"
+        }
+      ],
+      "hadith": [
+        "098ce40985b2284a"
+      ],
+      "sources": [
+        "bf89b1951e2fc600",
+        "528abe5c9d1f0f81",
+        "1caa1246e96d2ee4"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": "11de3e81cea2e2dff3cd9c2d4f624f8870ca8bb658e82b7ad17beb3dab11a2b3.wav",
+        "descriptionExists": true,
+        "titleFile": "5bc818ccf5bab3f077d413ed9f425cec41da36e817f1059e83c6d64997ba5f57.wav",
+        "titleExists": true
+      }
+    },
+    {
       "id": "ammar-martyrdom-siffin",
       "title": "اسْتِشْهَادُ عَمَّارِ بْنِ يَاسِرٍ رضي الله عنه فِي صِفِّينَ",
       "era": "عهد علي بن أبي طالب",
       "eraLabel": "خلافة الإمام علي",
       "ruler": "علي بن أبي طالب",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -10428,7 +10103,7 @@
       "era": "عهد علي بن أبي طالب",
       "eraLabel": "خلافة الإمام علي",
       "ruler": "علي بن أبي طالب",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -10542,12 +10217,262 @@
       }
     },
     {
+      "id": "event-110-ظهور-الخوارج",
+      "title": "ظُهُورُ الْخَوَارِجِ",
+      "era": "عهد علي بن أبي طالب",
+      "eraLabel": "خلافة الإمام علي",
+      "ruler": "علي بن أبي طالب",
+      "category": "events",
+      "isBattle": false,
+      "isProphetEra": false,
+      "isRashidunEra": true,
+      "isMajor": true,
+      "date": {
+        "gregorian": 657.8,
+        "hijri": 37,
+        "hijriRelative": "37 هـ",
+        "hijriDisplay": "٣٧ هـ",
+        "gregorianDisplay": "٦٥٧ م"
+      },
+      "location": {
+        "name": "حروراء",
+        "coordinates": [
+          33.3,
+          44.4
+        ]
+      },
+      "text": {
+        "summary": "7802c79cc854c3fe",
+        "fullDescription": "b7b3a82e875e4978",
+        "courseOfEvents": [
+          "fe6464a6f6f61f53",
+          "e63b9a5f3f0391fa",
+          "234958da5f739e8e",
+          "9d6e30077dab2726",
+          "01e230463edb12dc",
+          "b3915ba540e28f72"
+        ],
+        "durationDays": null
+      },
+      "armySize": null,
+      "enemyArmySize": null,
+      "keyFigures": [
+        {
+          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
+          "companionId": "ali"
+        },
+        {
+          "name": "عَبْدُ اللهِ بْنُ عَبَّاسٍ رضي الله عنهما",
+          "companionId": "abdullah-ibn-abbas"
+        }
+      ],
+      "companionRoles": [
+        {
+          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
+          "companionId": "ali",
+          "role": "24c41175199fae36"
+        },
+        {
+          "name": "عَبْدُ اللهِ بْنُ عَبَّاسٍ رضي الله عنهما",
+          "companionId": "abdullah-ibn-abbas",
+          "role": "39fe29809ff4e0e5"
+        }
+      ],
+      "quran": [],
+      "hadith": [],
+      "sources": [
+        "bf89b1951e2fc600",
+        "1caa1246e96d2ee4",
+        "58ff690f8d54ca16"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": "d874e91ed4f30a1a9118d879bf45dbfa88ca0a5ab56da7749eaa6194e311e823.wav",
+        "descriptionExists": true,
+        "titleFile": "24ab6fa5ff19d9b2a86aae816c53ada59bfd186fcfe3caaac88c3c75671bddf4.wav",
+        "titleExists": true
+      }
+    },
+    {
+      "id": "battle-nahrawan",
+      "title": "مَعْرَكَةُ النَّهْرَوَانِ",
+      "era": "عهد علي بن أبي طالب",
+      "eraLabel": "خلافة الإمام علي",
+      "ruler": "علي بن أبي طالب",
+      "category": "battle",
+      "isBattle": true,
+      "isProphetEra": false,
+      "isRashidunEra": true,
+      "isMajor": null,
+      "date": {
+        "gregorian": 658,
+        "hijri": null,
+        "hijriRelative": "38 هـ",
+        "hijriDisplay": "٣٨ هـ",
+        "gregorianDisplay": "٦٥٨ م"
+      },
+      "location": {
+        "name": "النهروان، العراق",
+        "coordinates": [
+          33.2,
+          44.8
+        ]
+      },
+      "text": {
+        "summary": "ea189acf6e258be2",
+        "fullDescription": "ef36781a39e45155",
+        "courseOfEvents": [
+          "59df876d2684a342",
+          "484fefdb7dbaeabe",
+          "87604d96a87707f7",
+          "8852ce8ac719491a",
+          "643de5beb1eae041",
+          "48b1d38cd515592b"
+        ],
+        "durationDays": "يَوْمٌ وَاحِدٌ"
+      },
+      "armySize": "حَوَالَيْ 14,000 (جَيْشُ عَلِيٍّ رضي الله عنه)",
+      "enemyArmySize": "حَوَالَيْ 4,000 (الْخَوَارِجُ)",
+      "keyFigures": [
+        {
+          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
+          "companionId": "ali"
+        }
+      ],
+      "companionRoles": [
+        {
+          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
+          "companionId": "ali",
+          "role": "aa989003b7bd332d"
+        },
+        {
+          "name": "عَبْدُ اللهِ بْنُ عَبَّاسٍ رضي الله عنهما",
+          "companionId": "abdullah-ibn-abbas",
+          "role": "9ad1d7276c718a41"
+        }
+      ],
+      "quran": [],
+      "hadith": [
+        "bf89b1951e2fc600"
+      ],
+      "sources": [
+        "bf89b1951e2fc600",
+        "e998a5ba1d2fcef2",
+        "1caa1246e96d2ee4"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": "1ce518ba82440f17c74cbe8ae08dc5eb082395f97e8c44fc69a12d2583059731.wav",
+        "descriptionExists": true,
+        "titleFile": "98cb317ed9254274e0305b7ba5dd1b8d45f89801b12c7e7f778488de48bdac1f.wav",
+        "titleExists": true
+      }
+    },
+    {
+      "id": "event-112-التحكيم-بين-علي-ومعاوية",
+      "title": "التَّحْكِيمُ بَيْنَ عَلِيٍّ وَمُعَاوِيَةَ",
+      "era": "عهد علي بن أبي طالب",
+      "eraLabel": "خلافة الإمام علي",
+      "ruler": "علي بن أبي طالب",
+      "category": "events",
+      "isBattle": false,
+      "isProphetEra": false,
+      "isRashidunEra": true,
+      "isMajor": true,
+      "date": {
+        "gregorian": 658,
+        "hijri": 37,
+        "hijriRelative": "رمضان 37 هـ",
+        "hijriDisplay": "رمضان ٣٧ هـ",
+        "gregorianDisplay": "٦٥٨ م"
+      },
+      "location": {
+        "name": "دومة الجندل",
+        "coordinates": [
+          29.8,
+          39.9
+        ]
+      },
+      "text": {
+        "summary": "420aa58cb2490141",
+        "fullDescription": "28570819dbda131e",
+        "courseOfEvents": [
+          "665c89d877c10ec7",
+          "39ad038b880425c6",
+          "4d5ed52e87ae40dc",
+          "dc2f7c6ded26d5c5",
+          "7f8440e36eecf25a",
+          "9b2803087c7e53cd"
+        ],
+        "durationDays": null
+      },
+      "armySize": null,
+      "enemyArmySize": null,
+      "keyFigures": [
+        {
+          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
+          "companionId": "ali"
+        },
+        {
+          "name": "مُعَاوِيَةُ بْنُ أَبِي سُفْيَانَ رضي الله عنه",
+          "companionId": "muawiyah-ibn-abi-sufyan"
+        },
+        {
+          "name": "أَبُو مُوسَى الْأَشْعَرِيُّ رضي الله عنه",
+          "companionId": "abu-musa-al-ashari"
+        },
+        {
+          "name": "عَمْرُو بْنُ الْعَاصِ رضي الله عنه",
+          "companionId": "amr"
+        }
+      ],
+      "companionRoles": [
+        {
+          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
+          "companionId": "ali",
+          "role": "9fad3758b653b597"
+        },
+        {
+          "name": "مُعَاوِيَةُ بْنُ أَبِي سُفْيَانَ رضي الله عنه",
+          "companionId": "muawiyah-ibn-abi-sufyan",
+          "role": "8d99ea6c08f17d96"
+        },
+        {
+          "name": "أَبُو مُوسَى الْأَشْعَرِيُّ رضي الله عنه",
+          "companionId": "abu-musa-al-ashari",
+          "role": "9165e306cc766902"
+        },
+        {
+          "name": "عَمْرُو بْنُ الْعَاصِ رضي الله عنه",
+          "companionId": "amr",
+          "role": "43931cfd14c18c73"
+        }
+      ],
+      "quran": [],
+      "hadith": [],
+      "sources": [
+        "bf89b1951e2fc600",
+        "1caa1246e96d2ee4",
+        "f336523485259d3b"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": "43041d7b3efa9c7b1d46b96737daec17d85a44e793cc469215cbbc32369d78c5.wav",
+        "descriptionExists": true,
+        "titleFile": "43b9c918ae34c27b10a5892b58612f4cc6e3d582394a0e34afc4e5aa3c698d8f.wav",
+        "titleExists": true
+      }
+    },
+    {
       "id": "ibn-abbas-debates-khawarij",
       "title": "مُنَاظَرَةُ ابْنِ عَبَّاسٍ لِلْخَوَارِجِ بِحَرُورَاءَ",
       "era": "عهد علي بن أبي طالب",
       "eraLabel": "خلافة الإمام علي",
       "ruler": "علي بن أبي طالب",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -10655,7 +10580,7 @@
       "era": "عهد علي بن أبي طالب",
       "eraLabel": "خلافة الإمام علي",
       "ruler": "علي بن أبي طالب",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -10778,7 +10703,7 @@
       "era": "عهد علي بن أبي طالب",
       "eraLabel": "خلافة الإمام علي",
       "ruler": "علي بن أبي طالب",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -10909,7 +10834,7 @@
       "era": "عهد علي بن أبي طالب",
       "eraLabel": "خلافة الإمام علي",
       "ruler": "علي بن أبي طالب",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -11018,12 +10943,87 @@
       }
     },
     {
+      "id": "event-113-استشهاد-الإمام-علي-بن-أبي-طالب",
+      "title": "اسْتِشْهَادُ الْإِمَامِ عَلِيِّ بْنِ أَبِي طَالِبٍ",
+      "era": "عهد علي بن أبي طالب",
+      "eraLabel": "خلافة الإمام علي",
+      "ruler": "علي بن أبي طالب",
+      "category": "events",
+      "isBattle": false,
+      "isProphetEra": false,
+      "isRashidunEra": true,
+      "isMajor": true,
+      "date": {
+        "gregorian": 661.07,
+        "hijri": 40,
+        "hijriRelative": "21 رمضان 40 هـ",
+        "hijriDisplay": "٢١ رمضان ٤٠ هـ",
+        "gregorianDisplay": "٦٦١ م"
+      },
+      "location": {
+        "name": "الكوفة - العراق",
+        "coordinates": [
+          32.0333,
+          44.4
+        ]
+      },
+      "text": {
+        "summary": "b36f152c13683766",
+        "fullDescription": "dc5598bde9b5e033",
+        "courseOfEvents": [
+          "805a6d9618362842",
+          "9a73c2ba593b8393",
+          "046fa47bfbacc67d",
+          "c064febd08bdcd01",
+          "08d4c93e491da9bf"
+        ],
+        "durationDays": null
+      },
+      "armySize": null,
+      "enemyArmySize": null,
+      "keyFigures": [
+        {
+          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
+          "companionId": "ali"
+        },
+        {
+          "name": "عَبْدُ الرَّحْمَنِ بْنُ مُلْجَمٍ",
+          "companionId": "abd-al-rahman-ibn-muljam"
+        },
+        {
+          "name": "الْحَسَنُ بْنُ عَلِيٍّ رضي الله عنه",
+          "companionId": "al-hasan-ibn-ali"
+        },
+        {
+          "name": "الْحُسَيْنُ بْنُ عَلِيٍّ رضي الله عنه",
+          "companionId": "al-husayn-ibn-ali"
+        }
+      ],
+      "companionRoles": [],
+      "quran": [],
+      "hadith": [],
+      "sources": [
+        "bf89b1951e2fc600",
+        "1bfa4d9bd145bfd9",
+        "8ff849d5aab836cd",
+        "1caa1246e96d2ee4"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": "f7b7749b4ca95a99d1cd17470e39e74711f3237e99040a8620c1042cf64322a9.wav",
+        "descriptionExists": true,
+        "titleFile": "19fbf5989d52ff235e524a070c5dab829529fec3fbeec702bed57edfa8a88491.wav",
+        "titleExists": true
+      }
+    },
+    {
       "id": "year-of-reconciliation",
       "title": "صُلْحُ الْحَسَنِ وَمُعَاوِيَةَ — عَامُ الْجَمَاعَةِ",
       "era": "عهد علي بن أبي طالب",
       "eraLabel": "خلافة الإمام علي",
       "ruler": "علي بن أبي طالب",
-      "category": "أحداث",
+      "category": "events",
       "isBattle": false,
       "isProphetEra": false,
       "isRashidunEra": true,
@@ -13475,6 +13475,86 @@
   ],
   "cities": [
     {
+      "id": "baghdad",
+      "name": "بغداد",
+      "coordinates": [
+        33.3152,
+        44.3661
+      ],
+      "description": "بناها الخليفة العباسي أبو جعفر المنصور على ضفاف نهر دجلة.",
+      "significance": "عاصمة الخلافة العباسية، ومركز العلم والمعرفة في العصر الذهبي للإسلام (بيت الحكمة)."
+    },
+    {
+      "id": "basra",
+      "name": "البصرة",
+      "coordinates": [
+        30.5081,
+        47.7835
+      ],
+      "description": "مدينة عراقية أسسها عتبة بن غزوان في عهد عمر بن الخطاب.",
+      "significance": "أول مدينة إسلامية بنيت خارج شبه الجزيرة العربية، ومركز علمي وتجاري هام."
+    },
+    {
+      "id": "cordoba",
+      "name": "قرطبة",
+      "coordinates": [
+        37.8882,
+        -4.7794
+      ],
+      "description": "مدينة في الأندلس (إسبانيا حالياً) على ضفاف نهر الوادي الكبير.",
+      "significance": "عاصمة الخلافة الأموية في الأندلس، ومنارة العلم والحضارة في أوروبا خلال العصور الوسطى."
+    },
+    {
+      "id": "damascus",
+      "name": "دمشق",
+      "coordinates": [
+        33.5138,
+        36.2765
+      ],
+      "description": "من أقدم المدن المأهولة في العالم، تقع في بلاد الشام.",
+      "significance": "عاصمة الخلافة الأموية، ومركز إشعاع حضاري وثقافي إسلامي كبير."
+    },
+    {
+      "id": "fustat",
+      "name": "الفسطاط",
+      "coordinates": [
+        30.0055,
+        31.2296
+      ],
+      "description": "أول عاصمة إسلامية في مصر، أسسها عمرو بن العاص.",
+      "significance": "مركز انطلاق الفتوحات الإسلامية نحو شمال أفريقيا، وبها أول مسجد في أفريقيا (جامع عمرو بن العاص)."
+    },
+    {
+      "id": "jerusalem",
+      "name": "القدس (بيت المقدس)",
+      "coordinates": [
+        31.7767,
+        35.2345
+      ],
+      "description": "ثالث أقدس المدن في الإسلام، تقع في فلسطين. تضم المسجد الأقصى وقبة الصخرة.",
+      "significance": "القبلة الأولى للمسلمين، ومسرى النبي ﷺ في رحلة الإسراء والمعراج."
+    },
+    {
+      "id": "kairouan",
+      "name": "القيروان",
+      "coordinates": [
+        35.6781,
+        10.0963
+      ],
+      "description": "مدينة تونسية أسسها عقبة بن نافع.",
+      "significance": "أول مدينة إسلامية في المغرب العربي، وقاعدة الفتوحات الإسلامية في شمال أفريقيا والأندلس."
+    },
+    {
+      "id": "kufa",
+      "name": "الكوفة",
+      "coordinates": [
+        32.0333,
+        44.4
+      ],
+      "description": "مدينة عراقية أسسها سعد بن أبي وقاص بأمر من عمر بن الخطاب.",
+      "significance": "عاصمة الخلافة في عهد علي بن أبي طالب، ومركز مهم للمدارس النحوية والفقهية."
+    },
+    {
       "id": "mecca",
       "name": "مكة المكرمة",
       "coordinates": [
@@ -13493,86 +13573,6 @@
       ],
       "description": "ثاني أقدس المدن الإسلامية، كانت تُعرف بيثرب قبل الهجرة النبوية.",
       "significance": "مهاجر النبي ﷺ وعاصمة الدولة الإسلامية الأولى. فيها المسجد النبوي وقبر النبي ﷺ."
-    },
-    {
-      "id": "jerusalem",
-      "name": "القدس (بيت المقدس)",
-      "coordinates": [
-        31.7767,
-        35.2345
-      ],
-      "description": "ثالث أقدس المدن في الإسلام، تقع في فلسطين. تضم المسجد الأقصى وقبة الصخرة.",
-      "significance": "القبلة الأولى للمسلمين، ومسرى النبي ﷺ في رحلة الإسراء والمعراج."
-    },
-    {
-      "id": "damascus",
-      "name": "دمشق",
-      "coordinates": [
-        33.5138,
-        36.2765
-      ],
-      "description": "من أقدم المدن المأهولة في العالم، تقع في بلاد الشام.",
-      "significance": "عاصمة الخلافة الأموية، ومركز إشعاع حضاري وثقافي إسلامي كبير."
-    },
-    {
-      "id": "baghdad",
-      "name": "بغداد",
-      "coordinates": [
-        33.3152,
-        44.3661
-      ],
-      "description": "بناها الخليفة العباسي أبو جعفر المنصور على ضفاف نهر دجلة.",
-      "significance": "عاصمة الخلافة العباسية، ومركز العلم والمعرفة في العصر الذهبي للإسلام (بيت الحكمة)."
-    },
-    {
-      "id": "kufa",
-      "name": "الكوفة",
-      "coordinates": [
-        32.0333,
-        44.4
-      ],
-      "description": "مدينة عراقية أسسها سعد بن أبي وقاص بأمر من عمر بن الخطاب.",
-      "significance": "عاصمة الخلافة في عهد علي بن أبي طالب، ومركز مهم للمدارس النحوية والفقهية."
-    },
-    {
-      "id": "basra",
-      "name": "البصرة",
-      "coordinates": [
-        30.5081,
-        47.7835
-      ],
-      "description": "مدينة عراقية أسسها عتبة بن غزوان في عهد عمر بن الخطاب.",
-      "significance": "أول مدينة إسلامية بنيت خارج شبه الجزيرة العربية، ومركز علمي وتجاري هام."
-    },
-    {
-      "id": "fustat",
-      "name": "الفسطاط",
-      "coordinates": [
-        30.0055,
-        31.2296
-      ],
-      "description": "أول عاصمة إسلامية في مصر، أسسها عمرو بن العاص.",
-      "significance": "مركز انطلاق الفتوحات الإسلامية نحو شمال أفريقيا، وبها أول مسجد في أفريقيا (جامع عمرو بن العاص)."
-    },
-    {
-      "id": "kairouan",
-      "name": "القيروان",
-      "coordinates": [
-        35.6781,
-        10.0963
-      ],
-      "description": "مدينة تونسية أسسها عقبة بن نافع.",
-      "significance": "أول مدينة إسلامية في المغرب العربي، وقاعدة الفتوحات الإسلامية في شمال أفريقيا والأندلس."
-    },
-    {
-      "id": "cordoba",
-      "name": "قرطبة",
-      "coordinates": [
-        37.8882,
-        -4.7794
-      ],
-      "description": "مدينة في الأندلس (إسبانيا حالياً) على ضفاف نهر الوادي الكبير.",
-      "significance": "عاصمة الخلافة الأموية في الأندلس، ومنارة العلم والحضارة في أوروبا خلال العصور الوسطى."
     }
   ],
   "quranPassages": [
