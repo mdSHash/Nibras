@@ -2,6 +2,7 @@
 
 Written by `scripts/migrate-content.ts`. Lists what the migration could not decide on its own.
 Nothing here was guessed: each record keeps what the app showed before the migration.
+This is the record as of the migration (1A); decisions taken since are in `docs/REFACTOR_PROGRESS.md`.
 
 Migrated 131 events, 161 people, 10 cities, 51 Quran passages, 6 eras, 7 categories.
 

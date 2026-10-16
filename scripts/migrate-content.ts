@@ -7,8 +7,12 @@
  * fixed lists from the old files each time. Text is copied verbatim. Anything it
  * cannot map with certainty goes into docs/CONTENT_MIGRATION_REPORT.md for
  * Mostafa instead of being guessed. Removed in Phase 1C with the old files.
+ *
+ * content/ has been the source of truth since Phase 1A and has been edited since
+ * (see docs/REFACTOR_PROGRESS.md), so the script refuses to overwrite it unless
+ * run with --force.
  */
-import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import rawEvents from '../src/dataList.json';
 import { eventsData, type EventItem } from '../src/legacyData';
@@ -25,6 +29,10 @@ import { ROOT } from './baseline/lib';
 import type { Category, ContentEvent, Count, Era, EventIcon, Person, QuranPassage } from '../shared/contentSchema';
 
 const CONTENT = join(ROOT, 'content');
+if (existsSync(join(CONTENT, 'events')) && !process.argv.includes('--force')) {
+  console.error('content/ exists and is the source of truth; edits made there would be lost. Run with --force to overwrite.');
+  process.exit(1);
+}
 const report: string[] = [];
 const fail = (message: string): never => {
   throw new Error(message);
@@ -296,6 +304,7 @@ report.push(
   '',
   'Written by `scripts/migrate-content.ts`. Lists what the migration could not decide on its own.',
   'Nothing here was guessed: each record keeps what the app showed before the migration.',
+  'This is the record as of the migration (1A); decisions taken since are in `docs/REFACTOR_PROGRESS.md`.',
   '',
   `Migrated ${events.length} events, ${people.length} people, ${citiesData.length} cities, ` +
     `${passages.length} Quran passages, ${eras.length} eras, ${categories.length} categories.`,

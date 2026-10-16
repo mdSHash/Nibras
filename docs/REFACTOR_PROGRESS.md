@@ -369,7 +369,7 @@ one PR at the end.
 - [x] 1A App, chat KB builder and baseline scripts read the generated content — `3328e8b`
 - [ ] 1B Quran passages generated from the Quran.com text
 - [ ] 1B Territories: control rules in data, polygons precomputed, `@turf/turf` out of the bundle, legend row
-- [ ] 1B Battle scenarios read title and date from the event; number differences listed
+- [ ] 1B Battle scenarios read title and date from the event; replay numbers corrected to the event figures (see Decisions)
 - [ ] 1B Era, category, battle and people helpers look up IDs
 - [ ] 1C One Arabic normalization module
 - [ ] 1C Old data files removed; `docs/CONTENT_GUIDE.md`; `docs/PRD.md`
@@ -394,6 +394,34 @@ one PR at the end.
 - 2026-10-16: **approved the 1A content-snapshot differences** (all representation only, see
   "Intentional behavior changes" 1–2) and the chronological order of 19 chat list answers (3).
   `tests/baseline/content.json` updated.
+- 2026-10-16: on the two open items of the migration report, Mostafa asked Claude to **check the
+  historical sources and correct**:
+  1. **`أبو سفيان` in `ghazwat_sawiq` and `ghazwat_badr_mawuid`**: both events describe the Quraysh
+     leader (his vow after Badr; the meeting he set at Uhud), i.e. Abu Sufyan ibn Harb (Ibn Hisham,
+     Sirah: Ghazwat al-Sawiq, Ghazwat Badr al-Akhira). Both links to `abu-sufyan` were already right.
+     The ambiguity came from the bare alias `أبو سفيان` on `abu-sufyan-ibn-al-harith`, who is always
+     named in full; that alias is removed (change 5 below).
+  2. **Event vs replay numbers**: the event texts follow the classical sources the app cites (Ibn
+     Ishaq via Ibn Hisham, al-Tabari); the replays mostly used modern estimates. Rule: **the replays
+     are corrected to the event figures** where the event gives one. Done in 1B with the other replay
+     work (it rescales units and casualties, so each replay is checked visually). Per battle:
+
+     | Battle | Event | Replay | Finding and correction |
+     | --- | --- | --- | --- |
+     | Badr, Quraysh | about 1,000 | 950 | Ibn Ishaq: between 900 and 1,000. Both correct; unchanged. |
+     | Khandaq, siege | about 24 days | 27 | Sa'id ibn al-Musayyib: 24 nights. Replay → 24 days. |
+     | Khaybar, Muslims | about 1,400 | 1,600 | 1,400 men with 200 horses (the replay counted the horses). Replay → 1,400. |
+     | Khaybar, siege | about a month | 22 days | Reports range from ten-odd to twenty-odd nights; 22 fits. Unchanged. |
+     | Mu'tah, enemy | about 200,000 | 19,500 | Ibn Ishaq: 100,000 Romans and 100,000 Arab allies at Ma'ab. Replay → 200,000. |
+     | Mu'tah, duration | 6 days | 1 | Common account: six days of fighting, Khalid's withdrawal on the seventh. Replay → 6. |
+     | Hunayn, enemy | about 20,000 | 6,000 | Ibn Ishaq gives no number; 20,000 is the sirah works' figure. Replay → 20,000. |
+     | Yarmouk, enemy | about 240,000 | 110,000 | Al-Tabari. Replay → 240,000 (Muslims 36,400 → 36,000). |
+     | Qadisiyyah, enemy | about 120,000 | 60,000 | Al-Tabari (with 33 elephants). Replay → 120,000. |
+     | Nahavand, enemy | about 150,000 | 100,000 | Al-Tabari. Replay → 150,000. |
+     | Fath Makkah, Tabuk, Yamama | no figure | 1,200 / 690 / 13,000 vs 40,000 | No event figure to follow; 1B checks what the replay's forces represent and lists any unsupported number. Yamama's date conflict (11 هـ vs "12 AH") goes away when the replay shows the event's date label. |
+
+     Caveat recorded for Mostafa: modern historians consider the classical army sizes inflated; if he
+     prefers modern estimates, the event texts would change instead.
 
 ### Design choices (approved with the plan)
 
@@ -448,6 +476,11 @@ Made during 1A:
    embeddings are stale until the daily index task re-embeds them (semantic search is off anyway).
 4. Unit test `era helpers › includes the event whose era is spelled "عهد أبي بكر الصديق"` now checks
    that event by id (the spelling no longer exists).
+5. **Alias `أبو سفيان` removed from `abu-sufyan-ibn-al-harith`** (Mostafa's request to correct, see
+   Decisions). The name now matches only Abu Sufyan ibn Harb, in the person window and in the chat
+   assistant; ibn al-Harith still matches by his full name. Snapshot: one alias; chat KB rebuilt.
+   `scripts/migrate-content.ts` now refuses to overwrite `content/` without `--force`, since `content/`
+   has been edited since the migration.
 
 ### 1A verification (2026-10-16, Windows 11, Node 20.19.5, Playwright 1.59.1)
 
@@ -470,8 +503,5 @@ After 1A (`a67de83` + the approved baseline), `npm run verify`:
 Also checked: `scripts/migrate-content.ts` run twice gives byte-identical `content/`; the rebuilt chat KB
 differs from the committed one only in the order of names inside 19 list units.
 
-Open for Mostafa (from `docs/CONTENT_MIGRATION_REPORT.md`, nothing changed until decided):
-
-1. `أبو سفيان` in `ghazwat_sawiq` and `ghazwat_badr_mawuid` opens `abu-sufyan` (Abu Sufyan ibn Harb);
-   it also matches `abu-sufyan-ibn-al-harith`. Confirm.
-2. Event vs replay numbers (12 battles, report section 2): which figure to trust (plan, Decision 2).
+Open items from `docs/CONTENT_MIGRATION_REPORT.md`: both decided 2026-10-16 (see Decisions); the
+replay numbers are corrected in 1B.
