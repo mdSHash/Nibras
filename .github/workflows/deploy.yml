@@ -1,8 +1,9 @@
 name: Check and deploy
 
-# `check` runs the full `npm run verify` (type check, ESLint, Vitest, content
-# validation, baseline comparisons, build, bundle budget, Playwright) on every
-# pull request and every push to main. The site deploys only when it passes.
+# `static` and `e2e` together run the full `npm run verify` (type check, ESLint,
+# Vitest, content validation, baseline comparisons, build, bundle budget,
+# Playwright) on every pull request and every push to main, split into parallel
+# jobs. The site deploys only when all of them pass.
 
 on:
   push:
@@ -20,9 +21,46 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  check:
+  # Content build, type check, ESLint, Vitest, baseline comparisons, the test build
+  # and the bundle budget. Runs in parallel with the browser jobs below.
+  static:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: npm run verify (static steps and build)
+        run: npm run verify -- --only=content,tsc,eslint,vitest,snapshot,behavior,build,bundle
+
+  # Playwright against the test build: Chromium features, the WebKit/Firefox phone
+  # smoke tests, and the visual snapshots. Each job makes its own test build (about
+  # 30 s; dist/ holds 420 MB of narration audio, slower to pass between jobs).
+  # Pull requests run the Badr replay only (REPLAYS=badr); pushes to main run all 12.
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - step: features
+            browsers: chromium
+          - step: engines
+            browsers: webkit firefox
+          - step: visual
+            browsers: chromium
+    env:
+      REPLAYS: ${{ github.event_name == 'pull_request' && 'badr' || 'all' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,10 +75,10 @@ jobs:
         run: npm ci
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium webkit firefox
+        run: npx playwright install --with-deps ${{ matrix.browsers }}
 
-      - name: npm run verify
-        run: npm run verify
+      - name: npm run verify (test build and ${{ matrix.step }})
+        run: npm run verify -- --only=content,build,${{ matrix.step }}
 
       # While no Linux reference screenshots and UI numbers are committed, verify
       # records them instead of comparing; they are uploaded here for review.
@@ -48,7 +86,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: baseline-linux
+          name: baseline-linux-${{ matrix.step }}
           path: |
             tests/baseline/visual/**/*-linux.png
             tests/baseline/behavior-ui-linux.json
@@ -59,14 +97,14 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.step }}
           path: |
             playwright-report/
             test-results/
           retention-days: 14
 
   build:
-    needs: check
+    needs: [static, e2e]
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:

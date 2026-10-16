@@ -25,11 +25,17 @@ test('the event data links 12 replays, one per scenario', () => {
   expect(replayEvents.map((e) => e.battle!.scenarioId).sort()).toEqual(battles.map((b) => b.id).sort());
 });
 
+// REPLAYS=badr (set by CI on pull requests) keeps only the Badr replay; the other 11 are registered
+// as skipped, so they still count as existing tests. Pushes to main and `npm run verify` run all 12.
+const onlyBadr = process.env.REPLAYS === 'badr';
+
 for (const event of replayEvents) {
   const scenario = battles.find((b) => b.id === event.battle!.scenarioId)!;
-  const tag = scenario.id === 'battle-of-badr' ? ' @phone' : '';
+  const isBadr = scenario.id === 'battle-of-badr';
+  const tag = isBadr ? ' @phone' : '';
+  const replayTest = onlyBadr && !isBadr ? test.skip : test;
 
-  test(`replay ${scenario.id} loads, plays and closes${tag}`, async ({ page }, testInfo) => {
+  replayTest(`replay ${scenario.id} loads, plays and closes${tag}`, async ({ page }, testInfo) => {
     test.skip(
       testInfo.project.name === 'phone-webkit' && process.platform === 'linux',
       'WebKit for Linux (GTK, headless on the CI runner) loads the replay but its clock never starts, even after 20 s; WebKit on Windows runs this in npm run verify',
