@@ -106,7 +106,7 @@ the bug makes the test "unexpectedly pass", so the fix must be listed here as an
 
 | # | Bug | Test | Phase that fixes it |
 | --- | --- | --- | --- |
-| 1 | Blank page: `MapUpdater` calls `flyTo` on a map with no size → `Invalid LatLng object: (NaN, NaN)` (reproduced by hiding the map container during the 1 s auto-select) | `app-shell.spec.ts` | 0B |
+| 1 | Blank page: `MapUpdater` calls `flyTo` on a map with no size → `Invalid LatLng object: (NaN, NaN)` (reproduced by hiding the map container during the 1 s auto-select) | `app-shell.spec.ts` | 0B — **fixed** (`d469bff`) |
 | 2 | Phone 375 px: the dark-mode button is pushed off the left of the header | `app-shell.spec.ts` (phone) | 2 |
 | 3 | Battle timer has no `dir="ltr"`, reads "01:08 / 00:27" in RTL | `battles.spec.ts` | 3 |
 | 4 | Battle subtitle shows the English date ("17 Ramadan 2 AH (13 March 624 CE)") | `battles.spec.ts` | 3 |
@@ -265,6 +265,16 @@ Playwright 68 feature (11 known failures) + 18 visual. ESLint and Zod showed as 
   is marked there too.
 - CI: the `check` job runs the full `npm run verify` on Ubuntu with 2 feature-test workers. On a
   platform with no committed snapshots the visual step writes them instead of comparing, and the
-  summary says so; CI uploads them as the `visual-baseline-linux` artifact for review.
+  summary says so. The browser-only UI numbers (markers, first-load requests) are per platform too:
+  Linux CI counted 19 marker icons at the desktop start view where Windows counts 18 (font
+  rendering changes the map size), so Windows keeps `behavior-ui.json` and other platforms get
+  `behavior-ui-<platform>.json`, recorded on their first run. CI uploads both as the
+  `baseline-linux` artifact for review.
+- Flakiness found on the slower Linux runner and fixed in the tests (no app change): marker positions
+  read while the map was still flying (now waits for the map to stop); the phone search drawer
+  closing itself while the test reached for its close button; the replay clock checked after a
+  fixed 3 s (software WebGL can take several seconds to draw the first frames; now polls up to 20 s).
+- One check is skipped on Linux only: narration playback in Firefox (the runner has no sound device,
+  so the app shows its playback error). It still runs in Firefox on Windows in `npm run verify`.
 - Playwright fixture options: a list of several patterns must be passed to `test.use` as
   `[value, { scope: 'test' }]` (Playwright reads any array whose second item is an object as that pair).
