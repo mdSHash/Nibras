@@ -16,3 +16,8 @@ interface ImportMeta {
 
 /** True when the build has a Sentry DSN (vite.config.ts); false compiles Sentry out. */
 declare const __SENTRY_ENABLED__: boolean;
+
+/** A lucide icon's shapes (src/components/map/markerIcons.ts draws markers from them). */
+declare module 'lucide-react/dist/esm/icons/*.js' {
+  export const __iconNode: [tag: string, attrs: Record<string, string>][];
+}
