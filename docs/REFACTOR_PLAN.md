@@ -503,6 +503,26 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
       tour target `data-tour-id`.
 - [ ] Timeline player: remove the 2× and 3× playback speeds and keep 1× only (no narration exists
       for other speeds; known failure 10). Approved removal of a visible control (Mostafa, 2026-10-15).
+- [ ] **Territory map: correct borders and a better look** (Mostafa, 2026-10-16: the borders between
+      empires, kingdoms and tribes need correcting, and the map "looks awful"). Two parts, content
+      first:
+      - *Accuracy.* Today's map is 46 seed points split into Voronoi cells and clipped to a 41-point
+        hand-drawn coastline, so borders are straight cuts that follow no river, mountain or desert and
+        cross seas and gulfs. Review every region and every control period against the sources the app
+        cites (Ibn Hisham, al-Tabari, al-Baladhuri's *Futuh al-Buldan*, Ibn Kathir) and a historical
+        atlas: which empire, kingdom (Ghassanids, Lakhmids, Aksum, Himyar/Yemen under Persia, Nubia) or
+        tribe (Quraysh, Hawazin/Thaqif, Ghatafan, Tamim, Banu Hanifa, ʿAbd al-Qays, Kinda, …) held which
+        land, from when. Tie each change of control to the event that caused it (event id instead of a
+        bare `sortKey` threshold), add the tribal regions that are missing, and list every border that
+        stays uncertain for Mostafa instead of guessing. The help legend already says borders are
+        approximate.
+      - *Look.* Replace the Voronoi cells with drawn region shapes on a real coastline (e.g. Natural
+        Earth, public domain), simplified for the browser at build time; smooth borders, a clear style
+        for empires vs tribal areas vs contested/approximate borders, readable labels, a legend, and
+        good contrast in light and dark mode over the satellite basemap. **Show Mostafa 3–4 visual
+        directions and let him pick before building** (he rejected a solo redesign before).
+      Polygons stay precomputed at build (`scripts/content/territories.ts`); the content snapshot
+      records every changed period for approval.
 - [ ] Add map attribution for the tile provider.
 - [ ] Add a web manifest and icons.
 - [ ] Add Umami with the custom events listed in "Owner visibility, SEO and domain"; write
@@ -681,6 +701,8 @@ Arabic-only UI.
     (default 70%); certificate wording and design.
 11. Accounts: Supabase (recommended), sign-in methods (Google and email magic link recommended), and
     whether learners can be under 13 (affects what may be collected).
+12. Territory map: which atlas or source to follow for the borders, and the visual direction (from
+    3–4 options), before the Phase 3 territory task starts.
 
 ## Appendix: ambiguous person keys
 

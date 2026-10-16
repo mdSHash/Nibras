@@ -7,7 +7,7 @@ The log for `docs/REFACTOR_PLAN.md`. Each session reads this file first and upda
 | --- | --- | --- | --- |
 | 0A Baseline and `npm run verify` | merged | `refactor/phase-0a-baseline` | #3 |
 | 0B Safety net | merged | `refactor/phase-0b-safety-net` | #4 |
-| 1 Content model | in progress (1A done; 1B next) | `refactor/phase-1-content` | #5 (draft) |
+| 1 Content model | in progress (1A, 1B done; 1C next) | `refactor/phase-1-content` | #5 (draft) |
 | 2 State, routing and pages | not started | `refactor/phase-2-routing` | — |
 | 3 Assets, chat and polish | not started | `refactor/phase-3-polish` | — |
 | 4 Learning paths for guests | not started | `feature/phase-4-paths` | — |
@@ -394,6 +394,13 @@ one PR at the end.
 - 2026-10-16: **approved the 1A content-snapshot differences** (all representation only, see
   "Intentional behavior changes" 1–2) and the chronological order of 19 chat list answers (3).
   `tests/baseline/content.json` updated.
+- 2026-10-16 (1B): **approved the 1B content-snapshot differences** (46 Quran passage texts and the 48
+  event chips showing them; the six fields removed from the 12 replays; the replay totals and day
+  counts of change 8; the Tabuk unit of change 8a). `tests/baseline/content.json` updated.
+- 2026-10-16 (1B): the replay group sizes no source gives stay as they are for now (Open item 2).
+- 2026-10-16 (1B): **new task, Phase 3: correct the territory borders** between empires, kingdoms and
+  tribes, **and improve how the map looks** ("it looks awful"); see `docs/REFACTOR_PLAN.md`, Phase 3,
+  and decision 12 (source to follow, visual direction from 3–4 options).
 - 2026-10-16: on the two open items of the migration report, Mostafa asked Claude to **check the
   historical sources and correct**:
   1. **`أبو سفيان` in `ghazwat_sawiq` and `ghazwat_badr_mawuid`**: both events describe the Quraysh
@@ -437,8 +444,9 @@ Checked against the sources on Mostafa's request (2026-10-16):
    Khandama group (200) and "the people of Mecca" (1,000), total 1,200; Tabuk, Ukaydir's garrison
    (600) and the Ayla and Jarba/Adhruh delegations (50, 40), total 690. Confirmed: Abu Sufyan's party
    of 3 (Abu Sufyan, Hakim ibn Hizam, Budayl ibn Warqa'), the 12–13 Quraysh and 2 Muslims killed at
-   Khandama (Kurz ibn Jabir, Khunays/Hubaysh ibn Khalid), Khalid's 420 riders. How the replay should
-   show a side with no known size is Mostafa's call (see the summary of 1B).
+   Khandama (Kurz ibn Jabir, Khunays/Hubaysh ibn Khalid), Khalid's 420 riders. **Decided
+   2026-10-16: left as they are for now.** These sizes are illustrative, not sourced; the replay
+   counters show them like any other figure. Revisit with the Phase 3 battle-readability task.
 3. The 1A table said Tabuk had no event figure; it has one (30,000), which the replay already used.
 
 ### Design choices (approved with the plan)
@@ -588,3 +596,25 @@ differs from the committed one only in the order of names inside 19 list units.
 
 Open items from `docs/CONTENT_MIGRATION_REPORT.md`: both decided 2026-10-16 (see Decisions); the
 replay numbers are corrected in 1B.
+
+### 1B verification (2026-10-16, Windows 11, Node 20.19.5, Playwright 1.59.1)
+
+Before any change, `npm run verify` on `bd8ac5d` passed (all steps). After 1B (`979df6a` + the approved
+content baseline), `npm run verify`:
+
+| Step | Result |
+| --- | --- |
+| Content build (Zod) | 131 events, 161 people, 10 cities, 51 Quran passages (95 verses), 6 eras, 7 categories, 11 territory periods; no issues |
+| Type check, ESLint | passed (0 findings) |
+| Vitest | 194/194 (190 + 4 new: territory checks ×3, era anchors) |
+| Content snapshot | identical to the approved baseline (changes 6–8a) |
+| Behavior map | identical to the baseline (timeline order, 9 filter combinations with era anchors, 15 searches) |
+| Production build, bundle budget | within limits: main chunk 477.7 → 460.9 KiB gzip (−3.5%, `@turf/turf` out), replay chunk 295.6 → 279.0 KiB (−5.6%) |
+| Playwright features | 72 passed, 9 of them known failures (known failure 4 fixed, now a regular test) |
+| Phone smoke (WebKit, Firefox) | 32 passed, 2 of them known failures |
+| Visual snapshots | 17/18 identical; **"help" on phone differs** by the new legend row (change 9; the sheet is one row taller) and by the close button's focus ring, which the old snapshot kept although the test blurs focus before capturing. Awaiting Mostafa's approval to update. |
+
+Also checked: the rebuilt chat KB equals the committed one except for the changes listed (6, 7);
+territory polygons equal the old in-browser result for all 113 map dates; the 9 replays with changed
+totals were captured old vs new; replay counters read the event figures (Badr 313 / 950, Uhud
+700 / 3,000, Hunayn 12,000 / 20,000, Tabuk 30,000 / 690); the help legend row in light and dark mode.
