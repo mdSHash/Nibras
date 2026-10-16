@@ -28,6 +28,7 @@ import {
 } from '../../shared/contentSchema';
 import { checkTerritories } from './territories';
 import { passageLink, passageText, passageVerseKeys } from '../../shared/quranText';
+import { eventSlug, isLowerSlug } from '../../shared/routes';
 
 export interface ContentSet {
   eras: Era[];
@@ -275,6 +276,21 @@ export function checkContent(
     }
   }
   checkUnique(events, e => e.id, eventFile, 'event id', issues);
+  // Addresses (/event/<slug>/): lowercase ASCII, one per event, and never
+  // another event's id (an old link by id must reach that event).
+  for (const event of events) {
+    if (event.slug === undefined && !isLowerSlug(eventSlug(event))) {
+      issues.push({ file: eventFile(event), message: 'the id is not a lowercase ASCII slug: set slug' });
+    }
+  }
+  checkUnique(events, eventSlug, eventFile, 'event slug', issues);
+  const idOwners = new Map(events.map(e => [e.id, e]));
+  for (const event of events) {
+    const owner = idOwners.get(eventSlug(event));
+    if (owner && owner !== event) {
+      issues.push({ file: eventFile(event), message: `slug "${eventSlug(event)}" is the id of ${owner.id}` });
+    }
+  }
   const eventsById = new Map(events.map(e => [e.id, e]));
   for (const era of eras) {
     if (era.anchorEventId === undefined) continue;

@@ -103,6 +103,19 @@ describe('the content check fails', () => {
     copy.events.push({ file: 'events/battle-badr.json', data: badr });
     expect(messages(copy)).toContain('events/battle-badr.json: duplicate event id "battle-badr"');
   });
+
+  it('on an event address that is missing, taken or another event\'s id', () => {
+    const arabicId = 'event-109-معركة-صفين';
+    expect(messages(withEvent(arabicId, ({ slug: _slug, ...e }) => e))).toContain(
+      `events/${arabicId}.json: the id is not a lowercase ASCII slug: set slug`,
+    );
+    expect(messages(withEvent('battle-uhud', e => ({ ...e, slug: 'battle-of-siffin' }))).join('\n')).toContain(
+      'duplicate event slug "battle-of-siffin"',
+    );
+    expect(messages(withEvent('battle-uhud', e => ({ ...e, slug: 'battle-badr' })))).toContain(
+      'events/battle-uhud.json: slug "battle-badr" is the id of battle-badr',
+    );
+  });
 });
 
 describe('the territory check fails', () => {
