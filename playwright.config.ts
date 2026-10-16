@@ -12,7 +12,9 @@ export default defineConfig({
   snapshotPathTemplate: 'tests/baseline/visual/{projectName}/{arg}-{platform}{ext}',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: 0,
+  // One retry on CI only: the runner draws WebGL in software and is far slower than a laptop.
+  // A test that needs it is still reported as "flaky" in the verify summary.
+  retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? 2 : 4,
   timeout: 60_000,
   expect: {

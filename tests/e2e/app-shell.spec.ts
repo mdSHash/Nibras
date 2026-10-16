@@ -14,8 +14,9 @@ test('first load: request count and markers at the start view match the UI basel
   });
   await openAppWithEvent(page);
   await page.waitForLoadState('networkidle');
-  // Count once the map has stopped and been re-measured (see settledMarkerCounts).
-  expectUiBaseline(testInfo, 'markersAfterAutoSelect', await settledMarkerCounts(page));
+  // Count what a visitor sees once the map is re-measured and on the event's view (see settledMarkerCounts).
+  const { coordinates } = eventById(behavior.autoSelectedEventId).location;
+  expectUiBaseline(testInfo, 'markersAfterAutoSelect', await settledMarkerCounts(page, coordinates));
   expectUiBaseline(testInfo, 'firstLoadRequests', requests);
 });
 

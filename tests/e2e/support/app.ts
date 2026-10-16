@@ -113,26 +113,35 @@ export async function waitForMapIdle(page: Page): Promise<void> {
     .toBe(true);
 }
 
+type MarkerCounts = { icons: number; clusters: number; pointsInClusters: number };
+
 /**
- * Marker counts at the start view, independent of load timing. Leaflet keeps the container size it
- * first measured, and depending on when that happened during start-up it is 676, 788 or the real
- * 900 px high on desktop (an existing app quirk), which changes which markers are drawn. So, like the
- * visual shots, re-measure the map and re-run clustering first, then wait for two equal readings.
+ * The markers a visitor sees at the start view, independent of load timing. The marker pane also
+ * holds icons far off-screen, left from whatever area was clustered last, and how many depends on
+ * timing (Leaflet keeps the container size it first measured: 676, 788 or the real 900 px high on
+ * desktop, an existing app quirk), and the flight centres the event in that stale size. So, like the
+ * visual shots (pinView), re-measure the map and set the view MapUpdater flies to for
+ * `coordinates` (which also re-runs clustering), count only icons whose centre is on screen, and
+ * wait for two equal readings.
  */
-export async function settledMarkerCounts(page: Page): Promise<{ icons: number; clusters: number; pointsInClusters: number }> {
+export async function settledMarkerCounts(page: Page, coordinates: [number, number]): Promise<MarkerCounts> {
   await waitForMapIdle(page);
-  await page.evaluate(() => {
-    type LeafletMap = { invalidateSize(options?: { pan?: boolean }): void; fire(type: string): void };
+  await page.evaluate(([lat, lng]) => {
+    type LeafletMap = {
+      invalidateSize(animate: boolean): void;
+      setView(center: [number, number], zoom: number, options: { animate: boolean }): void;
+    };
     const maps = (window as unknown as { __nibrasTestMaps: LeafletMap[] }).__nibrasTestMaps;
     const map = maps[maps.length - 1];
-    map.invalidateSize({ pan: false });
-    map.fire('moveend');
-  });
+    const isMobile = window.innerWidth < 640;
+    map.invalidateSize(false);
+    map.setView([lat + (isMobile ? -1.8 : 0), lng], isMobile ? 7 : 8, { animate: false });
+  }, coordinates);
   let previous = '';
   await expect
     .poll(
       async () => {
-        const current = JSON.stringify(await markerCounts(page));
+        const current = JSON.stringify(await markerCounts(page, { onScreenOnly: true }));
         const settled = current === previous;
         previous = current;
         return settled;
@@ -140,17 +149,25 @@ export async function settledMarkerCounts(page: Page): Promise<{ icons: number; 
       { intervals: [500], timeout: 15_000 },
     )
     .toBe(true);
-  return JSON.parse(previous) as { icons: number; clusters: number; pointsInClusters: number };
+  return JSON.parse(previous) as MarkerCounts;
 }
 
 /** Marker icons on the map at this moment: clusters (with their point counts) and single markers. */
-export async function markerCounts(page: Page): Promise<{ icons: number; clusters: number; pointsInClusters: number }> {
-  return page.locator('.leaflet-marker-pane .leaflet-marker-icon').evaluateAll((icons) => {
+export async function markerCounts(page: Page, options: { onScreenOnly?: boolean } = {}): Promise<MarkerCounts> {
+  return page.locator('.leaflet-marker-pane .leaflet-marker-icon').evaluateAll((all, onScreenOnly) => {
+    const icons = onScreenOnly
+      ? all.filter((icon) => {
+          const r = icon.getBoundingClientRect();
+          const x = r.x + r.width / 2;
+          const y = r.y + r.height / 2;
+          return x >= 0 && y >= 0 && x <= innerWidth && y <= innerHeight;
+        })
+      : all;
     const counts = icons.map((icon) => (/^\d+$/.test((icon.textContent ?? '').trim()) ? Number(icon.textContent) : 0));
     return {
       icons: icons.length,
       clusters: counts.filter((n) => n > 0).length,
       pointsInClusters: counts.reduce((a, b) => a + b, 0),
     };
-  });
+  }, options.onScreenOnly ?? false);
 }

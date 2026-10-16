@@ -220,6 +220,11 @@ Playwright 68 feature (11 known failures) + 18 visual. ESLint and Zod showed as 
 - 2026-10-16: Prettier: config and `npm run format` only; no repo-wide reformat, not part of `verify`.
 - 2026-10-16: **approved** the Linux baseline (screenshots and UI numbers from CI) and recording the
   new test counts in `numbers.json`; asked for the PR to be merged once CI is green.
+- 2026-10-16: **approved** counting only on-screen markers in the start-view check. The marker
+  pane also holds about 9 off-screen icons whose number depends on timing, which made CI fail at
+  random. `markersAfterAutoSelect.icons` changes from 18 to 10 (desktop), 9 (phone, Firefox) and
+  7 (WebKit, was 16); `clusters` and `pointsInClusters` are unchanged. The count is taken after
+  re-measuring the map and setting the event's view, as the visual shots do. No app change.
 
 ### Intentional behavior changes
 
@@ -274,10 +279,10 @@ Playwright 68 feature (11 known failures) + 18 visual. ESLint and Zod showed as 
   counted 19 marker icons at the desktop start view instead of 18. Not a font difference: Leaflet
   keeps the container size it first measured, and depending on start-up timing that is 676, 788 or
   the real 900 px high, which changes the markers drawn. This is an existing app quirk, noted for
-  Phase 2 (re-measure the map when its container changes size). The test now re-measures the map
-  and re-runs clustering before counting, like the visual shots, which gives the baseline values
-  every time (desktop 18, phone 18, Firefox 18, WebKit 16). The committed Linux numbers equal the
-  Windows ones.)
+  Phase 2 (re-measure the map when its container changes size; visitors with a stale size see the
+  event centred in the smaller area). The test now re-measures the map, sets the event's view and
+  counts only on-screen icons (approved change, see Decisions), which is stable on every run. The
+  committed Linux numbers equal the Windows ones.)
 - Flakiness found on the slower Linux runner and fixed in the tests (no app change): marker positions
   read while the map was still flying (now waits for the map to stop); the phone search drawer
   closing itself while the test reached for its close button; the replay clock checked after a
