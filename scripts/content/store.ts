@@ -14,13 +14,15 @@ import {
   eventSchema,
   personSchema,
   quranPassageSchema,
+  quranVersesSchema,
   type Category,
   type City,
   type ContentEvent,
   type Era,
   type Person,
-  type QuranPassage,
+  type GeneratedQuranPassage,
 } from '../../shared/contentSchema';
+import { passageLink, passageText, passageVerseKeys } from '../../shared/quranText';
 
 export interface ContentSet {
   eras: Era[];
@@ -31,7 +33,8 @@ export interface ContentSet {
   people: Person[];
   /** By id. */
   cities: City[];
-  quranPassages: QuranPassage[];
+  /** With the verse text from content/quran/verses.json. */
+  quranPassages: GeneratedQuranPassage[];
 }
 
 export interface ContentIssue {
@@ -54,6 +57,7 @@ export interface RawContent {
   peopleOrder: RawFile;
   cities: RawFile[];
   quranPassages: RawFile;
+  quranVerses: RawFile;
 }
 
 export const passageRange = (p: { surah: number; from: number; to: number }): string => `${p.surah}:${p.from}-${p.to}`;
@@ -95,6 +99,7 @@ export function readContent(dir: string): { raw: RawContent; issues: ContentIssu
     peopleOrder: readJson(dir, 'people-order.json', issues),
     cities: readJsonDir(dir, 'cities', issues),
     quranPassages: readJson(dir, 'quran/passages.json', issues),
+    quranVerses: readJson(dir, 'quran/verses.json', issues),
   };
   return { raw, issues };
 }
@@ -196,6 +201,22 @@ export function checkContent(
       issues.push({ file: raw.quranPassages.file, message: `${p.key}: verse range ends before it starts` });
   }
 
+  // Verse text: every passage verse fetched from Quran.com (scripts/fetch-quran.ts).
+  const verses = parse(quranVersesSchema, raw.quranVerses, issues)?.verses ?? {};
+  const generatedPassages: GeneratedQuranPassage[] = quranPassages.flatMap(p => {
+    const missing = passageVerseKeys(p).filter(key => verses[key] === undefined);
+    if (missing.length > 0) {
+      if (raw.quranVerses.data !== undefined) {
+        issues.push({
+          file: raw.quranVerses.file,
+          message: `${p.key}: no text for verse ${missing.join(', ')}; run npm run fetch:quran`,
+        });
+      }
+      return [];
+    }
+    return [{ ...p, text: passageText(p, verses) as string, link: passageLink(p) }];
+  });
+
   // People order: every person exactly once.
   const peopleById = new Map(people.map(p => [p.id, p]));
   const order = Array.isArray(raw.peopleOrder.data) ? (raw.peopleOrder.data as unknown[]) : [];
@@ -280,5 +301,5 @@ export function checkContent(
     return person ? [person] : [];
   });
 
-  return { content: { eras, categories, events, people: orderedPeople, cities, quranPassages }, issues };
+  return { content: { eras, categories, events, people: orderedPeople, cities, quranPassages: generatedPassages }, issues };
 }

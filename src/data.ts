@@ -6,7 +6,8 @@ import generatedEvents from './generated/events.json';
 import generatedPeople from './generated/people.json';
 import generatedCities from './generated/cities.json';
 import generatedCategories from './generated/categories.json';
-import type { Category, City as ContentCity, ContentEvent, EventIcon, Person } from '../shared/contentSchema';
+import generatedQuranPassages from './generated/quranPassages.json';
+import type { Category, City as ContentCity, ContentEvent, EventIcon, GeneratedQuranPassage, Person } from '../shared/contentSchema';
 import type { CompanionData } from './companionsList';
 
 export type EventItem = {
@@ -119,3 +120,7 @@ export const eventsData: EventItem[] = (generatedEvents as unknown as ContentEve
 export const companionsData: Companion[] = (generatedPeople as unknown as Person[]).map(toCompanion);
 export const citiesData: City[] = generatedCities as unknown as City[];
 export const categories: Category[] = generatedCategories;
+/** Qur'an passages with their Quran.com text, by key (e.g. "سورة الفيل: 1-5"). */
+export const quranPassages: Record<string, GeneratedQuranPassage> = Object.fromEntries(
+  (generatedQuranPassages as GeneratedQuranPassage[]).map(p => [p.key, p]),
+);

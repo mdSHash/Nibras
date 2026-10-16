@@ -125,6 +125,14 @@ export const quranPassageSchema = z.strictObject({
   to: z.number().int().min(1),
 });
 
+/** content/quran/verses.json, written by scripts/fetch-quran.ts; never edited by hand. */
+export const quranVersesSchema = z.strictObject({
+  source: text,
+  fetchedOn: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  /** "surah:ayah" → Uthmani text as Quran.com serves it. */
+  verses: z.record(z.string().regex(/^\d+:\d+$/), text),
+});
+
 export type Era = z.infer<typeof eraSchema>;
 export type Category = z.infer<typeof categorySchema>;
 export type Count = z.infer<typeof countSchema>;
@@ -133,3 +141,6 @@ export type EventIcon = (typeof EVENT_ICONS)[number];
 export type Person = z.infer<typeof personSchema>;
 export type City = z.infer<typeof citySchema>;
 export type QuranPassage = z.infer<typeof quranPassageSchema>;
+export type QuranVerses = z.infer<typeof quranVersesSchema>;
+/** A passage as src/generated/quranPassages.json carries it (scripts/build-content.ts). */
+export type GeneratedQuranPassage = QuranPassage & { text: string; link: string };

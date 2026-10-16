@@ -1,7 +1,7 @@
 /**
  * Builds the chat assistant's knowledge base from every Nibras data source:
  *   events (src/dataList.json), companions, cities, Qur'an verses
- *   (src/quranData.json) and battle scenarios.
+ *   (src/generated/quranPassages.json) and battle scenarios.
  *
  * Every verse and inline Qur'an quote is verified against the Tanzil text
  * first; anything that fails is excluded and reported. Writes:
@@ -18,7 +18,7 @@ import type { ChatKb, KbRecord } from '../shared/chatKb';
 import { normalizeForMatch } from '../shared/arabicText';
 import { citiesData, companionsData, eventsData } from '../src/data';
 import { findCompanion } from '../src/companionsList';
-import quranData from '../src/quranData.json';
+import quranPassages from '../src/generated/quranPassages.json';
 import { scenarios } from '../src/battlefield/scenarios/index';
 import { aliasForm, BuildContext } from './chat-kb/common';
 import { addEventUnits } from './chat-kb/eventUnits';
@@ -30,7 +30,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export function buildChatKb(): { kb: ChatKb; ctx: BuildContext } {
   const ctx = new BuildContext();
-  const verses = quranData as Record<string, QuranEntry>;
+  const verses: Record<string, QuranEntry> = Object.fromEntries(quranPassages.map(p => [p.key, p]));
 
   const cityRecords = addCityUnits(ctx, citiesData);
   // A shortened event title must never equal a place or person name:

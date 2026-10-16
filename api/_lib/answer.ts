@@ -3,7 +3,7 @@
  * validated model sentences, verbatim source quotes, and verbatim verses.
  * Also builds the extractive fallback used when no model answer is available.
  */
-import quranData from '../../src/quranData.json' with { type: 'json' };
+import quranPassages from '../../src/generated/quranPassages.json' with { type: 'json' };
 import type { AnswerBlock, ChatCitation } from '../../shared/chatApi.js';
 import type { KbRecord, KbUnit } from '../../shared/chatKb.js';
 import type { LoadedKb } from './kb.js';
@@ -21,7 +21,7 @@ export interface ComposedAnswer {
   rejected: { text: string; reason: string }[];
 }
 
-const verses = quranData as Record<string, { text: string; link?: string }>;
+const verses: Record<string, { text: string; link?: string }> = Object.fromEntries(quranPassages.map(p => [p.key, p]));
 
 class Composer {
   readonly blocks: AnswerBlock[] = [];

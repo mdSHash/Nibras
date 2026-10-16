@@ -3,7 +3,7 @@
  * (scripts/data/tanzil, © Tanzil Project, CC BY 3.0, distributed unchanged).
  *
  * Two checks:
- *  1. quranData.json entries must equal the Tanzil Uthmani verses exactly in
+ *  1. Qur'an passages (Quran.com text) must equal the Tanzil Uthmani verses exactly in
  *     letters and vowel marks. Only edition-level annotation marks (small
  *     pause/pronunciation signs, U+06D6–U+06ED) and tatweel are ignored, and
  *     the two Unicode encodings of hamza-on-kursi are treated as one.
@@ -49,22 +49,23 @@ function stripBasmala(verseOne: string): string {
   return firstFour === 'بسم الله الرحمن الرحيم' ? words.slice(4).join(' ') : verseOne;
 }
 
+/** A passage with its text (src/generated/quranPassages.json). */
 export interface QuranEntry {
   text: string;
-  surahNum: number;
-  start: number;
-  end: number;
+  surah: number;
+  from: number;
+  to: number;
 }
 
-/** The exact text a quranData.json entry must have, built from Tanzil. */
+/** The exact text a passage must have, built from Tanzil. */
 export function expectedEntryText(entry: QuranEntry, uthmani: VerseMap): string | null {
   const parts: string[] = [];
-  for (let ayah = entry.start; ayah <= entry.end; ayah++) {
-    let verse = uthmani.get(`${entry.surahNum}:${ayah}`);
+  for (let ayah = entry.from; ayah <= entry.to; ayah++) {
+    let verse = uthmani.get(`${entry.surah}:${ayah}`);
     if (verse === undefined) return null;
     // Tanzil prefixes verse 1 with the basmala; it is not part of the ayah
     // except in Al-Fatiha (and At-Tawbah has none).
-    if (ayah === 1 && entry.surahNum !== 1 && entry.surahNum !== 9) verse = stripBasmala(verse);
+    if (ayah === 1 && entry.surah !== 1 && entry.surah !== 9) verse = stripBasmala(verse);
     parts.push(`${verse} ﴿${toArabicIndic(ayah)}﴾`);
   }
   return parts.join(' ');

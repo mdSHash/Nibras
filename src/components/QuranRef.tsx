@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { BookOpen } from 'lucide-react';
-import quranData from '../quranData.json';
+import { quranPassages } from '../data';
 import { matchQuranKey } from '../utils/quranMatch';
 
 interface QuranRefProps {
@@ -9,10 +9,9 @@ interface QuranRefProps {
 }
 
 export default function QuranRef({ reference, onClick }: QuranRefProps) {
-  const mappedKey = useMemo(() => matchQuranKey(reference, Object.keys(quranData)), [reference]);
+  const mappedKey = useMemo(() => matchQuranKey(reference, Object.keys(quranPassages)), [reference]);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- quranData.json is replaced by the Phase 1 content model
-  const data = mappedKey ? (quranData as any)[mappedKey] : null;
+  const data = mappedKey ? quranPassages[mappedKey] : null;
 
   if (!data) return null;
 

@@ -8,7 +8,7 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { citiesData, companionsData, eventsData } from '../../src/data';
 import { findCompanion } from '../../src/companionsList';
-import quranData from '../../src/quranData.json';
+import generatedQuranPassages from '../../src/generated/quranPassages.json';
 import { getTerritoriesForYear } from '../../src/territoriesData';
 import { getEraTitle, getRulerName, isBattle, isProphetEra, isRashidunEra } from '../../src/utils/eventHelpers';
 import { matchQuranKey } from '../../src/utils/quranMatch';
@@ -16,8 +16,7 @@ import { resolveScenarioId } from '../../src/utils/battleScenario';
 import { PANEL_BATTLE_SCENARIOS, battleScenarios } from './scenarios';
 import { ROOT, hash16, sha256Hex, writeOrCompare } from './lib';
 
-type QuranEntry = { text: string; link: string; surahNum: number; start: number; end: number };
-const quran = quranData as Record<string, QuranEntry>;
+const quran = Object.fromEntries(generatedQuranPassages.map((p) => [p.key, p]));
 const quranKeys = Object.keys(quran);
 
 // Copy of EventPanel.tsx:96 (arNum), used for the dates the panel displays.
@@ -101,9 +100,9 @@ const companions = companionsData.map((c) => ({
 
 const quranPassages = quranKeys.map((key) => ({
   id: key,
-  surah: quran[key].surahNum,
-  from: quran[key].start,
-  to: quran[key].end,
+  surah: quran[key].surah,
+  from: quran[key].from,
+  to: quran[key].to,
   link: quran[key].link,
   text: hash16(quran[key].text),
 }));

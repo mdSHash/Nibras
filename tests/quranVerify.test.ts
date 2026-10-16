@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import path from 'path';
-import quranData from '../src/quranData.json';
+import quranPassages from '../src/generated/quranPassages.json';
 import { buildSurahIndex, loadTanzil, verifyInlineQuote, verifyQuranEntry } from '../scripts/chat-kb/quranVerify';
 
 const TANZIL = path.join(__dirname, '../scripts/data/tanzil');
@@ -15,22 +15,22 @@ describe('Tanzil text files', () => {
 });
 
 describe('verifyQuranEntry', () => {
-  it('accepts every entry in src/quranData.json', () => {
-    for (const [key, entry] of Object.entries(quranData as Record<string, { text: string; surahNum: number; start: number; end: number }>)) {
+  it('accepts every passage in src/generated/quranPassages.json (the Quran.com text)', () => {
+    for (const { key, ...entry } of quranPassages) {
       const verdict = verifyQuranEntry(entry, uthmani);
       expect(verdict.ok, `${key}: ${verdict.detail}`).toBe(true);
     }
   });
 
   it('rejects a single changed vowel', () => {
-    const entry = (quranData as Record<string, { text: string; surahNum: number; start: number; end: number }>)['سورة الحجر: 94'];
+    const entry = quranPassages.find(p => p.key === 'سورة الحجر: 94')!;
     const tampered = { ...entry, text: entry.text.replace('تُؤْمَرُ', 'تُؤْمَرَ') };
     expect(verifyQuranEntry(tampered, uthmani).ok).toBe(false);
   });
 
   it('rejects a wrong ayah range', () => {
-    const entry = (quranData as Record<string, { text: string; surahNum: number; start: number; end: number }>)['سورة الحجر: 94'];
-    expect(verifyQuranEntry({ ...entry, start: 95, end: 95 }, uthmani).ok).toBe(false);
+    const entry = quranPassages.find(p => p.key === 'سورة الحجر: 94')!;
+    expect(verifyQuranEntry({ ...entry, from: 95, to: 95 }, uthmani).ok).toBe(false);
   });
 });
 

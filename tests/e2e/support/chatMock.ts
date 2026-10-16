@@ -13,10 +13,15 @@ const events = JSON.parse(readFileSync(join(ROOT, 'src', 'dataList.json'), 'utf8
   era: string;
   details: { summary: string };
 }[];
-const quran = JSON.parse(readFileSync(join(ROOT, 'src', 'quranData.json'), 'utf8')) as Record<
-  string,
-  { text: string; link: string }
->;
+const quran = Object.fromEntries(
+  (
+    JSON.parse(readFileSync(join(ROOT, 'src', 'generated', 'quranPassages.json'), 'utf8')) as {
+      key: string;
+      text: string;
+      link: string;
+    }[]
+  ).map((p) => [p.key, p]),
+);
 
 const badr = events.find((e) => e.id === 'battle-badr')!;
 export const MOCK_QURAN_KEY = 'سورة الأنفال: 9';
