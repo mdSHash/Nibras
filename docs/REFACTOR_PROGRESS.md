@@ -750,9 +750,11 @@ one PR at the end.
 
 ### Tasks
 
-- [ ] 2A Store and router; routes and query filters; overlay from the route; window hooks removed
-- [ ] 2A `App.tsx` → layout, `AppHeader` (one `HeaderButton`), `Overlays`; `EventPanel.tsx` split by job
-- [ ] 2A `@` alias → `src`
+- [x] 2A Event slugs and the shared route parser (`shared/routes.ts`) — `8c34d4b`
+- [x] 2A Store and router; routes and query filters; overlay from the route; window hooks removed — `cf3d418`
+- [x] 2A `App.tsx` → layout, `AppHeader` (one `HeaderButton`), `Overlays` — `cf3d418`; `EventPanel.tsx`
+      split by job (`eventPanel/`: Hero, useNarration, ArticleBody, PeopleList) — `6958f30`
+- [x] 2A `@` alias → `src` — `7e8b11f`
 - [ ] 2B Content on demand; lazy search index
 - [ ] 2B Pre-rendered pages, SEO tags, sitemap, robots, 404
 - [ ] 2C Dark mode, intro, phone header menu, panel vs timeline dock
@@ -794,3 +796,34 @@ one PR at the end.
    going to `/`, which adds a history entry when something was open.
 5. Removed (2A): `window.__nibrasOpenBattle` (tests open `/battle/<id>/`), the `nibras:reset-map-view`
    window event (the map follows a counter in the store), and the unused `onOpenFilter` prop of the map.
+
+### 2A verification (2026-10-16, Windows 11, Node 20.19.5, Playwright 1.59.1)
+
+Before any change, `npm run verify` on `37b179a` passed (all steps, the numbers of 1C). After 2A
+(`6958f30`), `npm run verify`:
+
+| Step | Result |
+| --- | --- |
+| Content build (Zod) | 131 events, 161 people, 10 cities, 51 Quran passages; no issues (slug checks included) |
+| Type check, ESLint | passed (0 findings) |
+| Vitest | 214/214 (207 + 6 route tests + 1 slug check) |
+| Content snapshot, behavior map | identical to the baseline |
+| Production build, bundle budget | within limits: main chunk 477.7 → 463.5 KiB gzip |
+| Playwright features | 83 passed (72 + 11 new `routing.spec.ts` runs), 9 of them known failures |
+| Phone smoke (WebKit, Firefox) | 34 passed (32 + the shared-link test on each), 2 of them known failures |
+| Visual snapshots | 18/18 identical |
+
+The test counts grew by the new routing tests; `tests/baseline/numbers.json` is updated at the end
+of the phase with Mostafa's approval.
+
+### Notes for 2B
+
+- Main JS is 1.9 MB raw (463.5 KiB gzip); the target is about 800 KB raw. The generated event and
+  people JSON (686 KB + 264 KB, mostly `fullDescription`, `courseOfEvents`, `roles`, `keyFigures` and
+  `bio`) are bundled whole.
+- Search matches `summary` and `fullDescription` (`SearchMenu.tsx`), so the search drawer needs the
+  full text (a lazy index) to keep the behavior map identical.
+- Narration hashes `fullDescription` to find its file (`eventPanel/useNarration.ts`), so the play
+  button waits for the details.
+- `Map.tsx` imports `react-dom/server` (`renderToStaticMarkup`) into the main chunk to draw marker
+  icons.

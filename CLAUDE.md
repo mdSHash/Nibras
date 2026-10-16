@@ -43,7 +43,11 @@ only after Mostafa approves the list of intentional changes; never to make a tes
 
 ## Project map
 
-- `src/App.tsx` — app shell and state; `src/components/` — map, event panel, timeline, modals, chat
+- `src/App.tsx` — layout; `src/store/` — the Zustand store (UI state) and its selectors;
+  `src/router.ts` — keeps the store's location in step with the address (paths in `shared/routes.ts`);
+  every navigation goes through it
+- `src/components/` — map, timeline, modals, chat; `header/` (AppHeader, HeaderButton),
+  `Overlays.tsx` (search, person, Quran, help, chat, replay), `eventPanel/` (the event panel's parts)
 - `src/battlefield/` — Pixi.js battle engine and the 12 scenarios
 - `content/` — all content as JSON (events, people, cities, eras, categories, Quran passages,
   territories), validated and built into `src/generated/` by `scripts/build-content.ts`; read
