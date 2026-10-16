@@ -4,14 +4,15 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { ChatSuccessBody } from '../../../shared/chatApi';
+import { KB_ERA_LABEL } from '../../../scripts/chat-kb/kbNames';
 import type { ChatResponder } from './stubs';
 
 const ROOT = join(import.meta.dirname, '..', '..', '..');
-const events = JSON.parse(readFileSync(join(ROOT, 'src', 'dataList.json'), 'utf8')) as {
+const events = JSON.parse(readFileSync(join(ROOT, 'src', 'generated', 'events.json'), 'utf8')) as {
   id: string;
   title: string;
-  era: string;
-  details: { summary: string };
+  eraId: string;
+  summary: string;
 }[];
 const quran = Object.fromEntries(
   (
@@ -36,9 +37,9 @@ export const CITATION_LABELS = {
 };
 
 export const mockChatAnswer: ChatSuccessBody = {
-  answer: badr.details.summary,
+  answer: badr.summary,
   blocks: [
-    { type: 'text', text: badr.details.summary, citations: ['event:battle-badr'] },
+    { type: 'text', text: badr.summary, citations: ['event:battle-badr'] },
     {
       type: 'quran',
       key: MOCK_QURAN_KEY,
@@ -48,7 +49,7 @@ export const mockChatAnswer: ChatSuccessBody = {
     },
   ],
   citations: [
-    { chunkId: 'event:battle-badr', sourceLabel: CITATION_LABELS.event, type: 'event', era: badr.era, entityRefs: { eventId: 'battle-badr' } },
+    { chunkId: 'event:battle-badr', sourceLabel: CITATION_LABELS.event, type: 'event', era: KB_ERA_LABEL[badr.eraId], entityRefs: { eventId: 'battle-badr' } },
     { chunkId: `companion:${MOCK_COMPANION_ID}`, sourceLabel: CITATION_LABELS.companion, type: 'companion', entityRefs: { companionId: MOCK_COMPANION_ID } },
     { chunkId: `quran:${MOCK_QURAN_KEY}`, sourceLabel: CITATION_LABELS.quran, type: 'quran', entityRefs: { quranKey: MOCK_QURAN_KEY } },
     { chunkId: `battle:${MOCK_BATTLE_ID}`, sourceLabel: CITATION_LABELS.battle, type: 'battle', entityRefs: { battleId: MOCK_BATTLE_ID } },

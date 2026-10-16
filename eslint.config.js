@@ -48,7 +48,7 @@ export default tseslint.config(
   {
     // One-off and legacy scripts that Phase 3 archives or replaces (plan, "Phase 3"):
     // unused leftovers there are not worth editing before they go.
-    files: ['server/index.js', 'scripts/capture-*.mjs', 'scripts/migrate-to-cloudflare-r2.js', 'verify-companions.cjs'],
+    files: ['server/index.js', 'scripts/capture-*.mjs', 'scripts/migrate-to-cloudflare-r2.js'],
     rules: { '@typescript-eslint/no-unused-vars': 'off' },
   },
   {

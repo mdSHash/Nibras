@@ -1,6 +1,6 @@
 /**
  * Builds the chat assistant's knowledge base from every Nibras data source:
- *   events (src/dataList.json), companions, cities, Qur'an verses
+ *   events, people and cities (src/generated/, built from content/), Qur'an verses
  *   (src/generated/quranPassages.json) and battle scenarios.
  *
  * Every verse and inline Qur'an quote is verified against the Tanzil text
