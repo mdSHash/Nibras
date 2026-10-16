@@ -49,6 +49,9 @@ interface JsonSchema {
   maximum?: number;
   exclusiveMinimum?: number;
   minItems?: number;
+  anyOf?: JsonSchema[];
+  oneOf?: JsonSchema[];
+  allOf?: JsonSchema[];
 }
 
 // The id patterns of shared/contentSchema.ts, by name.
@@ -63,17 +66,22 @@ const PATTERN_NAMES: Record<string, string> = {
 const SAFE_INT = Number.MAX_SAFE_INTEGER;
 
 function range(s: JsonSchema): string {
-  const low = s.exclusiveMinimum !== undefined ? s.exclusiveMinimum + 1 : s.minimum;
+  // An exclusive minimum reads as "≥ n + 1" for integers, "> n" otherwise.
+  const exclusive = s.exclusiveMinimum !== undefined && s.type !== 'integer';
+  const low = s.exclusiveMinimum !== undefined ? s.exclusiveMinimum + (exclusive ? 0 : 1) : s.minimum;
   const high = s.maximum;
   const hasLow = low !== undefined && low !== -SAFE_INT;
   const hasHigh = high !== undefined && high !== SAFE_INT;
-  if (hasLow && hasHigh) return ` ${low}–${high}`;
-  if (hasLow) return ` ≥ ${low}`;
+  if (hasLow && hasHigh) return ` ${exclusive ? '>' : ''}${low}–${high}`;
+  if (hasLow) return ` ${exclusive ? '>' : '≥'} ${low}`;
   if (hasHigh) return ` ≤ ${high}`;
   return '';
 }
 
 function typeLabel(s: JsonSchema): string {
+  // Unions and nullable fields have no rendering yet: fail rather than document them wrongly.
+  if (s.anyOf || s.oneOf || s.allOf)
+    throw new Error('scripts/docs/fieldReference.ts: add a rendering for union (anyOf/oneOf/allOf) fields');
   if (s.const !== undefined) return `\`${JSON.stringify(s.const)}\``;
   if (s.enum) return `one of ${s.enum.map(v => `\`${v}\``).join(', ')}`;
   switch (s.type) {

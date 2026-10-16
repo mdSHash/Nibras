@@ -55,7 +55,7 @@ content/
 
 1. Create `content/events/<id>.json`, or edit the existing file. New ids are lowercase words joined by
    hyphens (`battle-of-badr`); some older ids contain Arabic or underscores and stay as they are.
-2. Fill in the fields in the [field reference](#event-contentevents-idjson). Things to watch:
+2. Fill in the fields in the [field reference](#event-contenteventsidjson). Things to watch:
    - **Coordinates are `[latitude, longitude]`**: Mecca is `[21.4225, 39.8262]`, not
      `[39.8262, 21.4225]`. Take them from OpenStreetMap or Google Maps (right-click the place) with
      four decimals.

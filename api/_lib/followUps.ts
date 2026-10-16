@@ -5,16 +5,24 @@
  * wording avoids gendered verbs (the data has no gender field).
  */
 import type { KbRecord } from '../../shared/chatKb.js';
-import { HONORIFICS, normalizeForMatch, stripVowelMarks } from '../../shared/arabic.js';
+import { normalizeForMatch, stripVowelMarks } from '../../shared/arabic.js';
 import { genitiveName } from '../../shared/arabicGrammar.js';
 import type { LoadedKb } from './kb.js';
 import { search, type Intent } from './search.js';
 
 const MAX_FOLLOW_UPS = 3;
-// Seven of the ten honorifics: رحمهم الله, رحمها الله and ﷺ are not removed
-// here (a known difference, docs/REFACTOR_PROGRESS.md, Phase 1).
+// Seven of the ten shared HONORIFICS, in the same order: رحمهم الله, رحمها الله
+// and ﷺ are not removed here (a known difference, docs/REFACTOR_PROGRESS.md, Phase 1).
 const FOLLOW_UP_HONORIFICS = new RegExp(
-  String.raw`\s*(${HONORIFICS.filter(h => !['رحمهم الله', 'رحمها الله', 'ﷺ'].includes(h)).join('|')})\s*`,
+  String.raw`\s*(${[
+    'رضي الله عنهما',
+    'رضي الله عنهم',
+    'رضي الله عنها',
+    'رضي الله عنه',
+    'رحمه الله',
+    'صلى الله عليه وسلم',
+    'عليه السلام',
+  ].join('|')})\s*`,
   'g',
 );
 

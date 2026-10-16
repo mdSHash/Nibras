@@ -263,15 +263,13 @@ const NAME_HONORIFICS = /* @__PURE__ */ new RegExp(HONORIFICS.join('|'), 'g');
  * left names like "عُثْمَانُ بْنُ عَفَّانَ رَضِيَ اللهُ عَنْهُ" unresolved.
  */
 export function normalizeName(value: string): string {
-  return value
-    .normalize('NFKC')
-    .replace(/[ً-ٰٟ]/g, '')
+  return stripVowelMarks(value.normalize('NFKC'))
     .replace(NAME_HONORIFICS, '')
     .replace(/[إأآا]/g, 'ا')
     .replace(/ى/g, 'ي')
     .replace(/ة/g, 'ه')
     .replace(/[ؤئ]/g, 'ء')
-    .replace(/ـ/g, '')
+    .replace(TATWEEL, '')
     .replace(/[ً-ٟ]/g, '')
     .replace(/\s+/g, ' ')
     .trim()

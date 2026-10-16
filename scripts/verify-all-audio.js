@@ -10,8 +10,13 @@ const __dirname = path.dirname(__filename);
 const VOICE = 'Charon';
 const RATE = 1.0;
 const AUDIO_DIR = path.join(__dirname, '../public/audio');
-// Built from content/ by npm run build:content (in timeline order).
+// Built from content/ by npm run build:content (in timeline order; the npm scripts
+// run it first).
 const DATA_PATH = path.join(__dirname, '../src/generated/events.json');
+if (!fs.existsSync(DATA_PATH)) {
+  console.error('src/generated/events.json not found: run npm run build:content first.');
+  process.exit(1);
+}
 
 // Normalize text function (matches server-side)
 function normalizeText(text) {
