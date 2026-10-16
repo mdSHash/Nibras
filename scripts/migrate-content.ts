@@ -19,7 +19,7 @@ import { eventsData, getEraKey, getEraTitle, getRulerName, type EventItem } from
 import { companionsData, findCompanion, findCompanionCandidates } from '../src/companionsList';
 import { citiesData } from '../src/citiesList';
 import quranData from '../src/quranData.json';
-import { normalizeArabic } from '../shared/searchNormalize';
+import { normalizeForSearch } from '../shared/arabic';
 import { matchQuranKey } from '../src/utils/quranMatch';
 import { resolveScenarioId } from '../src/utils/battleScenario';
 import { battleScenarios } from './baseline/scenarios';
@@ -106,7 +106,7 @@ const BATTLE_CATEGORIES = new Set(['battle', 'معركة', 'غزوات ومعا�
 const BATTLE_TITLE_HEADS = new Set(['غزوه', 'سريه', 'معركه', 'موقعه', 'فتح']);
 function isBattle(event: EventItem): boolean {
   if (BATTLE_CATEGORIES.has(event.category)) return true;
-  const title = normalizeArabic(event.title);
+  const title = normalizeForSearch(event.title);
   return BATTLE_TITLE_HEADS.has(title.split(' ')[0]) || /^(اعاده|اتمام|بدايه) (فتح|حروب)/.test(title);
 }
 

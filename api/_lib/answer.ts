@@ -9,7 +9,7 @@ import type { KbRecord, KbUnit } from '../../shared/chatKb.js';
 import type { LoadedKb } from './kb.js';
 import type { ModelAnswer } from './prompt.js';
 import type { EvidenceRecord, Intent } from './search.js';
-import { searchStems } from '../../shared/arabicText.js';
+import { searchStems } from '../../shared/arabic.js';
 import { validatePoint } from './validator.js';
 
 export type { AnswerBlock, ChatCitation };

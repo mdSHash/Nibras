@@ -6,7 +6,8 @@
 import type { KbRecord, MilitaryKind } from '../../shared/chatKb';
 import type { ContentEvent } from '../../shared/contentSchema';
 import { KB_ERA_KEY, KB_ERA_LABEL, kbBattleId } from './kbNames';
-import { aliasForm, bare, BuildContext, splitSentences } from './common';
+import { aliasForm, bareText, stripVowelMarks } from '../../shared/arabic';
+import { BuildContext, splitSentences } from './common';
 
 const TITLE_HEADS = ['غزوة', 'معركة', 'موقعة', 'سرية', 'فتح', 'حصار', 'بيعة', 'صلح', 'حادثة', 'حلف', 'عمرة', 'وثيقة'];
 
@@ -66,7 +67,7 @@ export function chatTitle(title: string, military: MilitaryKind | undefined): st
 /** Date labels that are not actually dates (e.g. an age, or "0 هـ"). */
 function isUsableHijriDate(value: string): boolean {
   // Tatweel is kept on purpose: it is part of the "هـ" abbreviation.
-  const plain = value.replace(/[ً-ٰٟ]/g, '').trim();
+  const plain = stripVowelMarks(value).trim();
   if (/^0\s*هـ/.test(plain)) return false;
   return /[\d٠-٩]\s*(ق\.\s*)?هـ|الهجرة|البعثة|عام الفيل/.test(plain);
 }
@@ -110,9 +111,9 @@ export function addEventUnits(
     const refs = { eventId: event.id };
     const military = militaryKind(event);
     const title = chatTitle(event.title, military);
-    const plainTitle = bare(title);
+    const plainTitle = bareText(title);
     if (title !== event.title) {
-      ctx.issue('warning', recordId, `title "${bare(event.title)}" uses غزوة for an event the Prophet ﷺ did not lead — chat shows "${plainTitle}"; the timeline title is narrated audio, so it was left unchanged`);
+      ctx.issue('warning', recordId, `title "${bareText(event.title)}" uses غزوة for an event the Prophet ﷺ did not lead — chat shows "${plainTitle}"; the timeline title is narrated audio, so it was left unchanged`);
     }
     records.push({
       id: recordId,
@@ -170,7 +171,7 @@ export function addEventUnits(
         recordId,
         slug: `role:${i}`,
         kind: 'event_role',
-        text: `${bare(role.labelAr)} في ${plainTitle}: ${role.roleAr}`,
+        text: `${bareText(role.labelAr)} في ${plainTitle}: ${role.roleAr}`,
         refs: { eventId: event.id, companionId },
         alsoAbout: [`companion:${companionId}`],
       });

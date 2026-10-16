@@ -16,6 +16,7 @@ import type { Faction } from '../types/components';
 import type { BattleScenario } from '../types/scenario';
 import { AtmosphereOverlay } from './AtmosphereOverlay';
 import { eventForScenario } from '../../data';
+import { toArabicIndic } from '../../../shared/arabic';
 
 // ─── Props ───────────────────────────────────────────────────────────────────
 
@@ -531,7 +532,7 @@ export function BattlePlayer({ scenarioId = 'battle-of-badr', onBack }: BattlePl
                 {battleEvent && (
                   <p className="text-gray-400 text-xs truncate" dir="rtl" lang="ar">
                     {/* As the event panel shows it, with Arabic-Indic digits. */}
-                    {battleEvent.date.labelAr.replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[Number(d)])}
+                    {toArabicIndic(battleEvent.date.labelAr)}
                   </p>
                 )}
               </div>

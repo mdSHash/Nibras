@@ -22,7 +22,7 @@ describe('retrieval on the golden question set (keyword + entity signals, no emb
 
       // Every expected fact must be present in the evidence handed to the model.
       const evidenceText = outcome.evidence.flatMap(e => e.units.map(u => u.text)).join(' ');
-      const { normalizeForMatch } = await import('../shared/arabicText');
+      const { normalizeForMatch } = await import('../shared/arabic');
       for (const fact of c.facts ?? []) {
         expect(normalizeForMatch(evidenceText), `fact «${fact}»`).toContain(normalizeForMatch(fact));
       }

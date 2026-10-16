@@ -4,7 +4,7 @@
  * exact (no fuzzy scoring), so a named entity is found no matter how the rest
  * of the question is phrased.
  */
-import { analyze, foldLetters } from '../../shared/arabicText.js';
+import { analyze, foldLetters } from '../../shared/arabic.js';
 import { aliasToken, type AliasEntry, type LoadedKb } from './kb.js';
 
 export interface LinkedEntity {

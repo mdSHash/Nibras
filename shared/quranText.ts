@@ -4,8 +4,7 @@
  * parenthesis, e.g. "… ﴿١﴾ … ﴿٢﴾". Used by scripts/content/store.ts at build time.
  */
 import type { QuranPassage } from './contentSchema';
-
-export const toArabicIndic = (n: number): string => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[Number(d)]);
+import { toArabicIndic } from './arabic';
 
 /** The verse keys ("surah:ayah") a passage needs, in order. */
 export function passageVerseKeys(p: Pick<QuranPassage, 'surah' | 'from' | 'to'>): string[] {

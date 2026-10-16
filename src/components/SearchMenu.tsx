@@ -10,7 +10,7 @@ import { slideInRight, staggerContainer, staggerItem } from '../utils/motionVari
 import { Z_INDEX } from '../constants';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useSwipeGesture } from '../hooks/useSwipeGesture';
-import { normalizeArabic, tokenizeQuery } from '../utils/searchNormalize';
+import { normalizeForSearch, tokenizeQuery } from '../../shared/arabic';
 
 interface SearchMenuProps {
   isOpen: boolean;
@@ -50,7 +50,7 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
         String(e.date.sortKey),
         e.date.labelAr,
       ].join(' ');
-      map.set(e.id, normalizeArabic(parts));
+      map.set(e.id, normalizeForSearch(parts));
     });
     return map;
   }, [events]);

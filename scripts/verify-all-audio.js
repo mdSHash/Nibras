@@ -10,7 +10,8 @@ const __dirname = path.dirname(__filename);
 const VOICE = 'Charon';
 const RATE = 1.0;
 const AUDIO_DIR = path.join(__dirname, '../public/audio');
-const DATA_PATH = path.join(__dirname, '../src/dataList.json');
+// Built from content/ by npm run build:content (in timeline order).
+const DATA_PATH = path.join(__dirname, '../src/generated/events.json');
 
 // Normalize text function (matches server-side)
 function normalizeText(text) {
@@ -66,7 +67,7 @@ eventsData.forEach((event, index) => {
   }
   
   // Check details audio (full_description)
-  const fullDescription = event.details?.full_description;
+  const fullDescription = event.fullDescription;
   
   if (fullDescription && fullDescription.trim()) {
     const detailsHash = generateCacheKey(fullDescription, VOICE, RATE);

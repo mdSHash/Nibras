@@ -30,7 +30,8 @@ const START_FROM_INDEX = parseInt(process.env.START_FROM || '0'); // Resume from
 const MAX_TEXT_LENGTH = 4500;
 
 // Load events data
-const dataPath = path.join(__dirname, '../src/dataList.json');
+// Built from content/ by npm run build:content (in timeline order).
+const dataPath = path.join(__dirname, '../src/generated/events.json');
 const eventsData = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
 
 // Statistics
@@ -245,7 +246,7 @@ async function main() {
   for (let i = START_FROM_INDEX; i < eventsData.length; i++) {
     const event = eventsData[i];
     const eventId = event.id || `event-${i}`;
-    const eventDescription = event.details?.full_description;
+    const eventDescription = event.fullDescription;
 
     if (!eventDescription || normalizeText(eventDescription).length === 0) {
       console.log(`\n[${i + 1}/${eventsData.length}] Skipping: Empty full description`);

@@ -30,6 +30,7 @@ import { Z_INDEX } from "../constants";
 import { cn } from "../utils/cn";
 import { slideUp, slideInRight, slideInLeft } from "../utils/motionVariants";
 import geminiTTS, { releaseOwner } from "../services/ttsGemini";
+import { toArabicIndic } from "../../shared/arabic";
 
 interface EventPanelProps {
   event: EventItem | null;
@@ -55,10 +56,6 @@ const getEraTheme = (event: EventItem | null) => {
   const scheme = getEraColorScheme(era?.colorKey);
   return { color, scheme, title: era?.panelTitleAr ?? "", ruler: era?.rulerAr ?? "" };
 };
-
-/** Format integers using Arabic-Eastern numerals (٠١٢٣٤٥٦٧٨٩). */
-const arNum = (n: number | string): string =>
-  String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[Number(d)]);
 
 /**
  * Lighten or darken a hex color by an amount in [-1, 1]. Used to compute
@@ -220,7 +217,7 @@ export default function EventPanel({
     const safe = Number.isFinite(time) ? Math.max(0, Math.floor(time)) : 0;
     const m = Math.floor(safe / 60);
     const s = safe % 60;
-    return arNum(`${m}:${s.toString().padStart(2, "0")}`);
+    return toArabicIndic(`${m}:${s.toString().padStart(2, "0")}`);
   };
   const setupAudioListeners = (audio: HTMLAudioElement, initialDuration = 0) => {
     audio.onloadedmetadata = () => setDuration(audio.duration || initialDuration || 0);
@@ -631,12 +628,12 @@ function Hero({
         >
           <span className="inline-flex items-center gap-1.5">
             <Calendar size={13} className="shrink-0" />
-            <span className="font-bold">{arNum(event.date.labelAr)}</span>
+            <span className="font-bold">{toArabicIndic(event.date.labelAr)}</span>
           </span>
           <span className="text-white/70" aria-hidden="true">·</span>
           {/* gregorian carries a fractional part purely for chronological
               ordering (e.g. 661.07) — only the year itself is displayed. */}
-          <span className="font-medium">{arNum(event.date.gregorian.year)} م</span>
+          <span className="font-medium">{toArabicIndic(event.date.gregorian.year)} م</span>
           <span className="text-white/70" aria-hidden="true">·</span>
           <span className="inline-flex items-center gap-1.5">
             <MapPin size={13} className="shrink-0" />
@@ -869,7 +866,7 @@ function ArticleBody({
                     color: eraTheme.scheme.textLight,
                   }}
                 >
-                  {arNum(idx + 1)}
+                  {toArabicIndic(idx + 1)}
                 </span>
                 <p className="text-ink/90 leading-relaxed pt-0.5" style={fs(14)}>
                   {step}

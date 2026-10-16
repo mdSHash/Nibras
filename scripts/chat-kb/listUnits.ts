@@ -10,7 +10,8 @@
 import { ERA_LABELS, type EraKey, type KbRecord, type MilitaryKind } from '../../shared/chatKb';
 import type { Person } from '../../shared/contentSchema';
 import { genitiveName } from '../../shared/arabicGrammar';
-import { bare, BuildContext } from './common';
+import { bareText } from '../../shared/arabic';
+import { BuildContext } from './common';
 
 const ERA_ALIASES: Record<EraKey, string[]> = {
   meccan: ['العهد المكي', 'الفترة المكية', 'المرحلة المكية'],
@@ -51,10 +52,10 @@ export function addListUnits(
   const addEraList = (id: string, eraKey: EraKey | 'prophet', label: string, aliases: string[], events: KbRecord[]) => {
     const recordId = `list:${id}`;
     for (const { kind, slug, heading } of MILITARY_LISTS) {
-      const items = events.filter(e => e.military === kind).map(e => bare(e.title));
+      const items = events.filter(e => e.military === kind).map(e => bareText(e.title));
       if (items.length > 0) ctx.add({ recordId, slug, kind: 'list', text: undefined, list: { heading: heading(eraKey === 'prophet' ? null : label), items }, refs: {} });
     }
-    const others = events.filter(e => !e.military).map(e => bare(e.title));
+    const others = events.filter(e => !e.military).map(e => bareText(e.title));
     if (others.length > 0) {
       ctx.add({ recordId, slug: 'events', kind: 'list', text: undefined, list: { heading: `من الأحداث الأخرى في ${label} في نبراس`, items: others }, refs: {} });
     }
@@ -121,14 +122,14 @@ export function addListUnits(
     const events = [...(companionEvents.get(companion.id) ?? [])]
       .map(id => titleOf.get(id))
       .filter((title): title is string => !!title)
-      .map(bare);
+      .map(bareText);
     if (events.length === 0) continue;
     ctx.add({
       recordId: `companion:${companion.id}`,
       slug: 'events',
       kind: 'companion_events',
       text: undefined,
-      list: { heading: `ورد ذكر ${genitiveName(bare(companion.name))} في نبراس في`, items: events },
+      list: { heading: `ورد ذكر ${genitiveName(bareText(companion.name))} في نبراس في`, items: events },
       refs: { companionId: companion.id },
     });
   }

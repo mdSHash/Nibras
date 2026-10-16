@@ -1,6 +1,6 @@
 import { eventsData, citiesData, companionsData } from '../data';
 import { isBattle } from './eventHelpers';
-import { normalizeArabic } from './searchNormalize';
+import { normalizeForSearch, stripVowelMarks } from '../../shared/arabic';
 import { genitiveName } from '../../shared/arabicGrammar';
 
 export interface ChatSuggestion {
@@ -17,6 +17,9 @@ export interface ChatSuggestion {
  * client-side pattern matching, no API calls, so it can't add to the chat
  * backend's free-tier request pressure.
  */
+// Names and titles go into the questions without vowel marks: the stored forms
+// carry nominative case endings (غَزْوَةُ بَدْرٍ) that are wrong after a
+// preposition ("في غَزْوَةُ"); unvocalized text is correct anywhere.
 function buildSuggestions(): ChatSuggestion[] {
   const suggestions: ChatSuggestion[] = [];
 
@@ -25,18 +28,18 @@ function buildSuggestions(): ChatSuggestion[] {
     // Gender-neutral on purpose: "من هو" was shown for women, and the data
     // has no reliable gender field to choose between هو and هي.
     suggestions.push({
-      question: `ماذا تعرف عن ${genitiveName(withoutVowelMarks(companion.name))}؟`,
-      normalizedHaystack: normalizeArabic([companion.name, ...(companion.aliases || [])].join(' ')),
+      question: `ماذا تعرف عن ${genitiveName(stripVowelMarks(companion.name))}؟`,
+      normalizedHaystack: normalizeForSearch([companion.name, ...(companion.aliases || [])].join(' ')),
     });
   }
 
   for (const event of eventsData) {
     if (!event.title) continue;
-    const title = withoutVowelMarks(event.title);
+    const title = stripVowelMarks(event.title);
     const question = isBattle(event) ? `ماذا حدث في ${title}؟` : `ما قصة ${title}؟`;
     suggestions.push({
       question,
-      normalizedHaystack: normalizeArabic(event.title),
+      normalizedHaystack: normalizeForSearch(event.title),
     });
   }
 
@@ -44,19 +47,11 @@ function buildSuggestions(): ChatSuggestion[] {
     if (!city.name) continue;
     suggestions.push({
       question: `ما هي مدينة ${city.name}؟`,
-      normalizedHaystack: normalizeArabic(city.name),
+      normalizedHaystack: normalizeForSearch(city.name),
     });
   }
 
   return suggestions;
-}
-
-/**
- * Stored titles carry nominative case endings (غَزْوَةُ بَدْرٍ) that are wrong
- * after a preposition ("في غَزْوَةُ"); unvocalized text is correct anywhere.
- */
-function withoutVowelMarks(text: string): string {
-  return text.replace(/[ً-ٰٟ]/g, '');
 }
 
 let cached: ChatSuggestion[] | null = null;
@@ -71,7 +66,7 @@ const MAX_RESULTS = 4;
 
 /** Returns up to MAX_RESULTS question suggestions whose source name matches the current draft text. */
 export function getMatchingSuggestions(draft: string): string[] {
-  const query = normalizeArabic(draft);
+  const query = normalizeForSearch(draft);
   if (query.length < MIN_QUERY_CHARS) return [];
 
   const seen = new Set<string>();

@@ -16,7 +16,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { config } from 'dotenv';
-import { normalizeForMatch } from '../shared/arabicText';
+import { normalizeForMatch, stripVowelMarks } from '../shared/arabic';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 config({ path: path.join(__dirname, '../.env.local'), quiet: true });
@@ -31,7 +31,6 @@ interface GoldenCase {
   outOfScope?: boolean;
 }
 
-const strip = (s: string) => s.replace(/[ً-ٰٟ]/g, '');
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 async function main() {
@@ -86,8 +85,8 @@ async function main() {
       console.log(`  entities: ${(log.entities as string[]).join(', ')} | intents: ${(log.intents as string[]).join(', ')}`);
       if (log.attempts) console.log(`  attempts: ${(log.attempts as string[]).join(' ; ')}`);
       for (const r of rejected) console.log(`  rejected: ${r.reason}`);
-      for (const block of b.blocks ?? []) console.log(`  [${block.type}] ${block.key ? `${block.key}: ` : ''}${strip(blockText(block)).slice(0, 260)}`);
-      console.log(`  citations: ${(b.citations ?? []).map(x => strip(x.sourceLabel)).join(' | ')}`);
+      for (const block of b.blocks ?? []) console.log(`  [${block.type}] ${block.key ? `${block.key}: ` : ''}${stripVowelMarks(blockText(block)).slice(0, 260)}`);
+      console.log(`  citations: ${(b.citations ?? []).map(x => stripVowelMarks(x.sourceLabel)).join(' | ')}`);
     }
     for (const p of problems) console.log(`  problem: ${p}`);
     results.push({ q: c.q, status, mode: b.mode, problems, log, blocks: b.blocks });

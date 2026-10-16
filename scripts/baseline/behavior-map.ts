@@ -8,7 +8,7 @@
 import { eventsData, type EventItem } from '../../src/data';
 import type { FilterOptions } from '../../src/types';
 import { ERA_PILLS as APP_ERA_PILLS, findEraAnchor, isBattle, isProphetEra, isRashidunEra } from '../../src/utils/eventHelpers';
-import { normalizeArabic, tokenizeQuery } from '../../src/utils/searchNormalize';
+import { normalizeForSearch, tokenizeQuery } from '../../shared/arabic';
 import { writeOrCompare } from './lib';
 
 // Copy of filteredSortedEvents in src/App.tsx:169–194.
@@ -35,7 +35,7 @@ function search(events: EventItem[], query: string): EventItem[] {
   const tokens = tokenizeQuery(query);
   if (!tokens.length) return events;
   return events.filter((e) => {
-    const haystack = normalizeArabic(
+    const haystack = normalizeForSearch(
       [
         e.title,
         e.summary,

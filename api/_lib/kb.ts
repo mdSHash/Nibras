@@ -5,7 +5,7 @@
  */
 import kbJson from '../../public/data/chat-kb.json' with { type: 'json' };
 import type { ChatKb, KbRecord, KbUnit } from '../../shared/chatKb.js';
-import { analyze, foldLetters, searchStems, stripDiacritics } from '../../shared/arabicText.js';
+import { analyze, searchStems, stripDiacritics } from '../../shared/arabic.js';
 
 export interface LoadedKb {
   kb: ChatKb;
@@ -128,10 +128,3 @@ export function getKb(): LoadedKb {
   cached ??= load();
   return cached;
 }
-
-/** Diacritic-free text given to the model — fewer tokens, same letters. */
-export function plainText(text: string): string {
-  return stripDiacritics(text).replace(/\s+/g, ' ').trim();
-}
-
-export { foldLetters };

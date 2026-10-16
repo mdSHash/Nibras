@@ -40,7 +40,8 @@ const MAX_TEXT_LENGTH = 4500;
 const CACHE_DIR = path.join(__dirname, '../server/audio-cache');
 
 // Load events data
-const dataPath = path.join(__dirname, '../src/dataList.json');
+// Built from content/ by npm run build:content (in timeline order).
+const dataPath = path.join(__dirname, '../src/generated/events.json');
 const eventsData = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
 
 // Statistics
@@ -253,7 +254,7 @@ async function cacheAudioChunk(text, eventId, eventIndex, chunkIndex, chunkCount
  */
 async function cacheEventAudio(event, eventIndex, genAI) {
   const eventId = event.id || `event-${eventIndex}`;
-  const eventDescription = event.details?.full_description;
+  const eventDescription = event.fullDescription;
 
   if (!eventDescription || normalizeText(eventDescription).length === 0) {
     console.log(`\n[${eventIndex + 1}/${eventsData.length}] Skipping: Empty full description`);

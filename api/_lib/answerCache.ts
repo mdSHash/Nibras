@@ -7,7 +7,7 @@
  */
 import crypto from 'crypto';
 import type { ChatSuccessBody } from '../../shared/chatApi.js';
-import { normalizeForMatch } from '../../shared/arabicText.js';
+import { normalizeForMatch } from '../../shared/arabic.js';
 import { storeGet, storeSet } from './store.js';
 
 const MEMORY_LIMIT = 300;

@@ -1,11 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import dataList from '../src/dataList.json';
 import { companionsData, eventsData, getEra } from '../src/data';
 import { findPersonIn } from '../src/utils/peopleLookup';
 import { isProphetEra, isRashidunEra } from '../src/utils/eventHelpers';
 
 const findCompanion = (name: string) => findPersonIn(companionsData, name);
-import { normalizeArabic } from '../shared/searchNormalize';
 
 describe('findCompanion', () => {
   it('resolves fully vocalized names that carry a vocalized honorific', () => {
@@ -46,11 +44,10 @@ describe('era helpers', () => {
 });
 
 describe('event ids', () => {
-  it('are stored in the data file, unique, and identical to the ids the app generated before', () => {
-    const raw = dataList as { id?: string; title: string }[];
-    expect(raw.every(e => typeof e.id === 'string' && e.id.length > 0)).toBe(true);
-    expect(new Set(raw.map(e => e.id)).size).toBe(raw.length);
-    expect(raw[0].id).toBe('event-0-ميلاد-النبي--عام-الفيل');
+  it('are stored in the content, unique, and identical to the ids the app generated before', () => {
+    expect(eventsData.every(e => typeof e.id === 'string' && e.id.length > 0)).toBe(true);
+    expect(new Set(eventsData.map(e => e.id)).size).toBe(eventsData.length);
+    expect(eventsData[0].id).toBe('event-0-ميلاد-النبي--عام-الفيل');
   });
 });
 
@@ -63,13 +60,6 @@ describe('chat question suggestions', () => {
       expect(question).not.toMatch(/^من هو /);
       expect(question).not.toMatch(/[ً-ْ]/);
     }
-  });
-});
-
-describe('normalizeArabic (search menu)', () => {
-  it('keeps Arabic-Indic digits as numbers instead of deleting them', () => {
-    expect(normalizeArabic('حوالي ٣١٣ مقاتلا')).toBe('حوالي 313 مقاتلا');
-    expect(normalizeArabic('غَزْوَةُ بَدْرٍ')).toBe('غزوه بدر');
   });
 });
 
