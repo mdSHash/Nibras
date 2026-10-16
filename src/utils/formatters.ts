@@ -27,15 +27,3 @@ export const truncateText = (text: string, maxLength: number): string => {
   return text.substring(0, maxLength) + '...';
 };
 
-/**
- * Format number with Arabic numerals
- */
-export const formatArabicNumber = (num: number): string => {
-  const arabicNumerals = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-  return num
-    .toString()
-    .split('')
-    .map(digit => arabicNumerals[parseInt(digit)] || digit)
-    .join('');
-};
-

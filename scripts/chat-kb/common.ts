@@ -4,7 +4,7 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import type { EntityRefs, KbUnit, UnitKind } from '../../shared/chatKb';
-import { analyze } from '../../shared/arabicText';
+import { analyze, stripVowelMarks } from '../../shared/arabic';
 import { buildSurahIndex, loadTanzil, verifyInlineQuote, type VerseMap } from './quranVerify';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -94,16 +94,6 @@ export class BuildContext {
   }
 }
 
-/**
- * Titles and names inserted into template sentences are written without
- * vowel marks: the stored forms carry a nominative case ending that becomes
- * a grammatical error after "تاريخ" or "في" (تاريخ غَزْوَةُ أُحُدٍ).
- * Unvocalized text is correct in any position.
- */
-export function bare(title: string): string {
-  return title.replace(/[ً-ٰٟ]/g, '').replace(/\s+/g, ' ').trim();
-}
-
 const OPENERS: Record<string, string> = { '«': '»', '﴿': '﴾', '(': ')', '[': ']', '"': '"' };
 
 /**
@@ -133,23 +123,11 @@ export function splitSentences(text: string | undefined): string[] {
 
   const merged: string[] = [];
   for (const part of parts) {
-    const plainLength = part.replace(/[ً-ٰٟ]/g, '').length;
+    const plainLength = stripVowelMarks(part).length;
     if (merged.length > 0 && (plainLength < 30 || /^[[(«]/.test(part))) merged[merged.length - 1] += ` ${part}`;
     else merged.push(part);
   }
   return merged;
-}
-
-const HONORIFICS = /\s*(رضي الله عنهما|رضي الله عنهم|رضي الله عنها|رضي الله عنه|رحمهم الله|رحمها الله|رحمه الله|صلى الله عليه وسلم|عليه السلام|ﷺ)\s*/g;
-
-/** Plain alias form: no diacritics, no honorifics, no parentheses. */
-export function aliasForm(name: string): string {
-  return name
-    .replace(/[ً-ٰٟـ]/g, '')
-    .replace(HONORIFICS, ' ')
-    .replace(/[()«»"]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
 }
 
 // Number words (letter-folded) — used to keep scenario sentences that state

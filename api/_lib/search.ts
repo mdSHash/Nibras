@@ -7,11 +7,11 @@
  * and returns a compact evidence pack grouped by record.
  */
 import type { KbRecord, KbUnit, UnitKind } from '../../shared/chatKb.js';
-import { analyze, normalizeForMatch, searchStems } from '../../shared/arabicText.js';
+import { analyze, normalizeForMatch, plainText, searchStems } from '../../shared/arabic.js';
 import { embedQueryWith, type EmbeddingProvider } from './embeddings.js';
 import { carryContext, type ChatContext } from './context.js';
 import { linkEntities, type LinkedEntity } from './entityLinker.js';
-import { getKb, plainText, type LoadedKb } from './kb.js';
+import { getKb, type LoadedKb } from './kb.js';
 import { getProviderIndex, semanticScores } from './semanticIndex.js';
 
 export type Intent =

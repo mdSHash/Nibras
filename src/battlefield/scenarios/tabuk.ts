@@ -119,14 +119,6 @@ import type { BattleScenario } from '../types/scenario';
  */
 export const expeditionOfTabuk: BattleScenario = {
   id: 'battle-of-tabuk',
-  name: 'Expedition of Tabuk',
-  nameAr: 'غزوة تبوك',
-  date: 'Rajab 9 AH (~October 630 CE)',
-  location: 'The 700 km caravan corridor from Madinah north to Tabuk oasis (Ayn Sukkrah), with auxiliary operations at Aylah on the Gulf of Aqaba and Dumat al-Jandal in the eastern desert.',
-  description:
-    "Rajab 9 AH / October 630 CE — the last expedition the Prophet ﷺ ever led, and the only one whose destination he announced openly beforehand (Bukhari 4418). Roused by reports that Heraclius was massing a field army at al-Balqa, the Prophet ﷺ called every Muslim to march at the height of a brutal summer, with the date harvest standing ripe on the trees and water scarce on the route. 'Uthman ibn 'Affan equipped fully a third of the army; Abu Bakr brought the whole of his wealth. Thirty thousand men with ten thousand horse — the largest force the Prophet ﷺ ever fielded — set out on the 700 km road north to the oasis of Tabuk. The hypocrites under Ibn Ubayy peeled away at Dhu Jadd; the Three Who Stayed Behind (Ka'b ibn Malik and his two companions) became the subject of one of the longest hadiths of repentance in the Sahih. The army passed al-Hijr — the cursed dwellings of Thamud — under cloak, drank from a miraculous trickle at Ayn Sukkrah, and waited twenty nights at Tabuk. The Roman army never appeared. Khalid ibn al-Walid was detached east with a flying column to Dumat al-Jandal where he captured King Ukaydir alive; Yuhanna ibn Ru'ba of Aylah came south bearing the first jizyah-treaty in Islamic history; Jarba and Adhruh sued for terms. On the return Masjid al-Dirar was burned at Dhu Awan and Surah al-Tawbah revealed in its great Tabuki cluster. No pitched battle was fought, no casualties on either side — yet the writ of Madinah now reached the very threshold of Sham.",
-  descriptionAr:
-    'فِي رَجَبَ مِنَ السَّنَةِ التَّاسِعَةِ لِلْهِجْرَةِ — تِشْرِينَ الأَوَّلِ ٦٣٠م — كَانَتْ آخِرَ غَزْوَةٍ قَادَهَا رَسُولُ اللَّهِ ﷺ، وَالوَحِيدَةَ الَّتِي صَرَّحَ فِيهَا بِالوَجْهَةِ قَبْلَ الخُرُوجِ (البُخَارِيُّ ٤٤١٨). بَلَغَ النَّبِيَّ ﷺ أَنَّ هِرَقْلَ يَجْمَعُ بِالبَلْقَاءِ جَمْعًا عَظِيمًا لِغَزْوِ المَدِينَةِ، فَنَدَبَ النَّاسَ فِي حَرٍّ شَدِيدٍ، وَالثِّمَارُ قَدْ طَابَتْ، وَالظِّلَالُ مَطْلُوبَةٌ، وَالمَاءُ قَلِيلٌ. جَهَّزَ عُثْمَانُ بنُ عَفَّانَ ثُلُثَ الجَيْشِ، وَأَتَى أَبُو بَكْرٍ بِمَالِهِ كُلِّهِ. ثَلَاثُونَ أَلْفًا فِيهِمْ عَشَرَةُ آلَافِ فَرَسٍ — أَكْبَرُ جَيْشٍ خَرَجَ بِهِ النَّبِيُّ ﷺ قَطُّ — قَطَعُوا سَبْعَمِائَةَ كِيلُومِتْرٍ شَمَالًا إِلَى وَاحَةِ تَبُوكَ. تَخَلَّفَ المُنَافِقُونَ عِنْدَ ذِي جَدٍّ مَعَ ابْنِ أُبَيٍّ، وَتَخَلَّفَ الثَّلَاثَةُ الَّذِينَ خُلِّفُوا — كَعْبُ بنُ مَالِكٍ وَصَاحِبَاهُ — فِي أَطْوَلِ حَدِيثِ تَوْبَةٍ فِي الصَّحِيحِ. مَرَّ الجَيْشُ بِالحِجْرِ — مَدَائِنِ ثَمُودَ — مُتَقَنِّعِينَ، وَنَزَلُوا بِعَيْنِ السُّكَّرِ بِتَبُوكَ فَفَاضَتْ بِبَرَكَتِهِ ﷺ، وَأَقَامُوا عِشْرِينَ لَيْلَةً. لَمْ يَأْتِ الرُّومُ. بَعَثَ النَّبِيُّ ﷺ خَالِدَ بنَ الوَلِيدِ بِسَرِيَّةٍ إِلَى دُومَةِ الجَنْدَلِ فَأَسَرَ مَلِكَهَا أُكَيْدِرًا، وَجَاءَ يُوحَنَّا بنُ رُؤْبَةَ صَاحِبُ أَيْلَةَ بِأَوَّلِ مُعَاهَدَةِ جِزْيَةٍ فِي الإِسْلَامِ، وَصَالَحَ أَهْلُ جَرْبَاءَ وَأَذْرُحَ. وَفِي طَرِيقِ العَوْدَةِ هُدِمَ مَسْجِدُ الضِّرَارِ بِذِي أَوَانَ وَنَزَلَتْ سُورَةُ التَّوْبَةِ بِعُنْقُودِهَا التَّبُوكِيِّ. لَمْ يَكُنْ قِتَالٌ، وَلَا قَتِيلٌ مِنَ الفَرِيقَيْنِ — وَمَعَ ذَلِكَ بَلَغَ سُلْطَانُ المَدِينَةِ تُخُومَ الشَّامِ.',
   dayPhase: 'day',
   weather: 'clear',
   actualDayCount: 50,
@@ -579,12 +571,14 @@ export const expeditionOfTabuk: BattleScenario = {
           stats: { attack: 6, defense: 7, speed: 7, morale: 10 },
         },
         {
-          // Garrison of Madinah under Ali — context of Hadith al-Manzilah
+          // Ali, left over the Prophet's ﷺ family (Ibn Ishaq) — context of
+          // Hadith al-Manzilah. Medina itself was left to Muhammad ibn Maslama
+          // (or Siba' ibn 'Urfuta); no garrison stayed behind.
           id: 'muslim-medina-garrison',
-          name: "Madinah Garrison under Ali",
-          nameAr: 'حَامِيَةُ الْمَدِينَةِ — وِلَايَةُ عَلِيٍّ',
+          name: "Ali, left over the Prophet's family in Madinah",
+          nameAr: 'عَلِيُّ بْنُ أَبِي طَالِبٍ — عَلَى أَهْلِ النَّبِيِّ ﷺ بِالْمَدِينَةِ',
           troopType: 'reserves',
-          soldierCount: 1000,
+          soldierCount: 1,
           commander: 'عَلِيُّ بْنُ أَبِي طَالِبٍ',
           startPosition: { x: 810, y: 1010 },
           startFormation: 'defensive_circle',

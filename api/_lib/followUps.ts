@@ -5,16 +5,29 @@
  * wording avoids gendered verbs (the data has no gender field).
  */
 import type { KbRecord } from '../../shared/chatKb.js';
-import { normalizeForMatch } from '../../shared/arabicText.js';
+import { normalizeForMatch, stripVowelMarks } from '../../shared/arabic.js';
 import { genitiveName } from '../../shared/arabicGrammar.js';
 import type { LoadedKb } from './kb.js';
 import { search, type Intent } from './search.js';
 
 const MAX_FOLLOW_UPS = 3;
-const HONORIFICS = /\s*(رضي الله عنهما|رضي الله عنهم|رضي الله عنها|رضي الله عنه|رحمه الله|صلى الله عليه وسلم|عليه السلام)\s*/g;
+// Seven of the ten shared HONORIFICS, in the same order: رحمهم الله, رحمها الله
+// and ﷺ are not removed here (a known difference, docs/REFACTOR_PROGRESS.md, Phase 1).
+const FOLLOW_UP_HONORIFICS = new RegExp(
+  String.raw`\s*(${[
+    'رضي الله عنهما',
+    'رضي الله عنهم',
+    'رضي الله عنها',
+    'رضي الله عنه',
+    'رحمه الله',
+    'صلى الله عليه وسلم',
+    'عليه السلام',
+  ].join('|')})\s*`,
+  'g',
+);
 
 function plainName(text: string): string {
-  return text.replace(/[ً-ٰٟ]/g, '').replace(HONORIFICS, ' ').replace(/\s+/g, ' ').trim();
+  return stripVowelMarks(text).replace(FOLLOW_UP_HONORIFICS, ' ').replace(/\s+/g, ' ').trim();
 }
 
 function hasUnit(kb: LoadedKb, recordId: string, slugPrefix: string): boolean {

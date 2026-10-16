@@ -137,14 +137,6 @@ import type { BattleScenario } from '../types/scenario';
  */
 export const battleOfHunayn: BattleScenario = {
   id: 'battle-of-hunayn',
-  name: 'Battle of Hunayn',
-  nameAr: 'غزوة حنين',
-  date: '10 Shawwal 8 AH (~31 January 630 CE)',
-  location: "Wadi Hunayn, Sarawat highlands between Makkah and al-Ta'if",
-  description:
-    "Hunayn — victory after a near-defeat, the only battle named in the Qur'an by name. Two weeks after Fath Makkah, the Hawazin and Thaqif coalition under Malik ibn 'Awf an-Nasri massed at Wadi Hunayn, ~16 miles east-southeast of Makkah, with women, children, and livestock at the rear as a psychological commitment device that the aged poet Durayd ibn al-Simma had warned against. The Prophet ﷺ marched with 12,000 — 10,000 from Madinah and 2,000 fresh tulaqa' from Quraysh. Some boasted: 'we will not be defeated today from fewness.' Q 9:25 was revealed in rebuke. In the pre-dawn ghalas of Wednesday 10 Shawwal 8 AH, Khalid's Banu Sulaym vanguard descended into the throat of the wadi and was met by archery from both ridges and a downhill charge of spearmen and cavalry. The vanguard collapsed; the column buckled; most of the army fled. The Prophet ﷺ on his white mule Duldul, with Abu Sufyan ibn al-Harith holding the bridle and al-Abbas at the stirrup, did not move — declaring 'I am the Prophet, no lie; I am the son of 'Abd al-Muttalib' (Bukhari 4315). At his command al-Abbas — a man of mighty voice — called out three nested rallies: 'O Companions of the Tree! O Ansar! O Banu al-Harith ibn al-Khazraj!' (Muslim 1775); the Ansar returned crying 'labbayk, labbayk' like cattle to their young. Then the Prophet ﷺ scooped a handful of dust from the wadi floor, threw it toward the enemy saying 'shahat al-wujuh' — and Allah filled every Hawazin's eyes with that single throw (Muslim 1777). 'They are routed, by the Lord of Muhammad.' Q 9:26 followed: sakina and unseen armies. As the counter-attack rolled forward he ﷺ declared 'al-aana hamiya al-watis' — now the furnace is hot. The Hawazin shattered. Durayd was overtaken in his litter and killed by Rabi'a ibn Rufay'. ~70 of Hawazin fell; 4 Muslims, including Ayman ibn 'Ubayd. The 6,000 captives were held at al-Ji'rana over ten nights; when the Hawazin came as Muslims, the Prophet ﷺ offered them captives or property — they chose captives, and all 6,000 were returned including his foster-sister Shayma bint al-Harith. The mu'allafat qulubihim distribution gave 100 camels each to recent Quraysh converts; the Ansar grieved, and the Prophet ﷺ delivered the famous khutba in the leather qubba: 'are you not pleased that the people go off with worldly things while you go off with the Messenger of Allah?' (Bukhari 4337). They wept until their beards were wet.",
-  descriptionAr:
-    'حُنَيْنٌ — نَصْرٌ بَعْدَ هَزِيمَةٍ كَادَتْ تَكُونُ، وَهِيَ المَعْرَكَةُ الوَحِيدَةُ المُسَمَّاةُ بِاسْمِهَا فِي القُرْآنِ. بَعْدَ أُسْبُوعَيْنِ مِنْ فَتْحِ مَكَّةَ، حَشَدَ مَالِكُ بنُ عَوْفٍ النَّصْرِيُّ هَوَازِنَ وَثَقِيفَ فِي وَادِي حُنَيْنٍ، وَسَاقَ مَعَهُ النِّسَاءَ وَالأَبْنَاءَ وَالأَنْعَامَ — وَأَنْكَرَ عَلَيْهِ الشَّيْخُ دُرَيْدُ بنُ الصِّمَّةِ. خَرَجَ النَّبِيُّ ﷺ فِي اثْنَيْ عَشَرَ أَلْفًا — عَشَرَةُ آلَافٍ مِنْ أَهْلِ المَدِينَةِ، وَأَلْفَانِ مِنَ الطُّلَقَاءِ. قَالَ بَعْضُهُمْ: «لَنْ نُغْلَبَ اليَوْمَ مِنْ قِلَّةٍ»، فَأَنْزَلَ اللَّهُ ﴿وَيَوْمَ حُنَيْنٍ ۙ إِذْ أَعْجَبَتْكُمْ كَثْرَتُكُمْ﴾. وَلَمَّا انْحَدَرَتْ مُقَدِّمَةُ خَالِدٍ فِي غَلَسِ الفَجْرِ، انْفَجَرَ الكَمِينُ — سِهَامٌ مِنَ الشِّعَابِ، رِمَاحٌ مِنَ السَّفْحِ، وَوَلَّى أَكْثَرُ النَّاسِ مُدْبِرِينَ. وَثَبَتَ رَسُولُ اللَّهِ ﷺ عَلَى بَغْلَتِهِ البَيْضَاءِ، يَقُولُ: «أَنَا النَّبِيُّ لَا كَذِبْ، أَنَا ابْنُ عَبْدِ المُطَّلِبْ». فَنَادَى العَبَّاسُ — وَكَانَ صَيِّتًا — ثَلَاثَ نِدَاءَاتٍ: «يَا أَصْحَابَ السَّمُرَةِ! يَا مَعْشَرَ الأَنْصَارِ! يَا بَنِي الحَارِثِ بنِ الخَزْرَجِ!» فَأَقْبَلُوا كَعَطْفَةِ البَقَرِ. ثُمَّ أَخَذَ ﷺ كَفًّا مِنْ تُرَابٍ فَرَمَى بِهِ وُجُوهَ المُشْرِكِينَ وَقَالَ «شَاهَتِ الوُجُوهُ»، ثُمَّ قَالَ «انْهَزَمُوا وَرَبِّ مُحَمَّدٍ». وَلَمَّا اشْتَدَّ القِتَالُ قَالَ: «الآنَ حَمِيَ الوَطِيسُ». فَتَشَتَّتَتْ هَوَازِنُ بَيْنَ أَوْطَاسٍ وَالطَّائِفِ، وَقُتِلَ دُرَيْدُ فِي شِجَارِهِ. اسْتُشْهِدَ أَرْبَعَةٌ — مِنْهُمْ أَيْمَنُ بنُ عُبَيْدٍ — وَقُتِلَ مِنْ هَوَازِنَ نَحْوُ سَبْعِينَ. وَأُمْسِكَ السَّبْيُ — سِتَّةُ آلَافٍ — بِالجِعْرَانَةِ بِضْعَ عَشْرَةَ لَيْلَةً، حَتَّى قَدِمَ وَفْدُ هَوَازِنَ مُسْلِمِينَ، فَقَالَ: «فَاخْتَارُوا إِحْدَى الطَّائِفَتَيْنِ: إِمَّا السَّبْيَ، وَإِمَّا المَالَ»، فَاخْتَارُوا السَّبْيَ، فَرَدَّ السِّتَّةَ آلَافٍ، فِيهِمْ أُخْتُهُ مِنَ الرَّضَاعَةِ الشَّيْمَاءُ. ثُمَّ أَعْطَى المُؤَلَّفَةَ قُلُوبُهُمْ مِنْ قُرَيْشٍ مِئَةَ مِئَةٍ، فَوَجَدَ الأَنْصَارُ، فَجَمَعَهُمْ ﷺ فِي قُبَّةٍ وَقَالَ: «أَلَا تَرْضَوْنَ أَنْ يَذْهَبَ النَّاسُ بِالدُّنْيَا، وَتَذْهَبُونَ بِرَسُولِ اللَّهِ؟»، فَبَكَوْا حَتَّى أَخْضَلُوا لِحَاهُمْ.',
 
   // Pre-dawn ghalas — battle joined just before fajr per Ibn Hisham.
   dayPhase: 'dawn',
@@ -486,7 +478,7 @@ export const battleOfHunayn: BattleScenario = {
       faction: 'hawazin',
       label: 'Hawazin & Thaqif Coalition',
       labelAr: 'جَيْشُ هَوَازِنَ وَثَقِيفَ',
-      totalStrength: 6000,
+      totalStrength: 20000,
       units: [
         {
           // Hawazin archers on the north ridge — open the battle
@@ -494,7 +486,7 @@ export const battleOfHunayn: BattleScenario = {
           name: 'Hawazin Archers — Northern Ridge',
           nameAr: 'كَتِيبَةُ رُمَاةِ هَوَازِنَ — الشِّعْبُ الشَّمَالِيُّ',
           troopType: 'archers',
-          soldierCount: 800,
+          soldierCount: 2670,
           commander: 'مَالِكُ بنُ عَوْفٍ النَّصْرِيُّ',
           startPosition: { x: 1500, y: 540 },
           startFormation: 'line',
@@ -507,7 +499,7 @@ export const battleOfHunayn: BattleScenario = {
           name: 'Banu Nasr Spearmen — Southern Ridge',
           nameAr: 'كَتِيبَةُ بَنِي نَصْرٍ — الشِّعْبُ الجَنُوبِيُّ',
           troopType: 'infantry',
-          soldierCount: 900,
+          soldierCount: 3000,
           commander: 'قَائِدُ بَنِي نَصْرٍ',
           startPosition: { x: 1500, y: 1160 },
           startFormation: 'scattered',
@@ -520,7 +512,7 @@ export const battleOfHunayn: BattleScenario = {
           name: "Banu Jusham Cavalry (Durayd's tribe)",
           nameAr: 'خَيْلُ بَنِي جُشَمَ',
           troopType: 'cavalry',
-          soldierCount: 600,
+          soldierCount: 2000,
           commander: 'دُرَيْدُ بنُ الصِّمَّةِ (مُسْتَشَارٌ)',
           startPosition: { x: 1700, y: 850 },
           startFormation: 'wedge',
@@ -533,7 +525,7 @@ export const battleOfHunayn: BattleScenario = {
           name: 'Thaqif of al-Ta\'if',
           nameAr: 'كَتِيبَةُ ثَقِيفَ مِنَ الطَّائِفِ',
           troopType: 'infantry',
-          soldierCount: 1000,
+          soldierCount: 3330,
           commander: 'قَارِبُ بنُ الأَسْوَدِ، وَذُو الخِمَارِ',
           startPosition: { x: 1800, y: 900 },
           startFormation: 'line',
@@ -546,7 +538,7 @@ export const battleOfHunayn: BattleScenario = {
           name: "Banu Sa'd ibn Bakr (the Prophet's foster-tribe)",
           nameAr: 'كَتِيبَةُ بَنِي سَعْدِ بنِ بَكْرٍ',
           troopType: 'infantry',
-          soldierCount: 400,
+          soldierCount: 1330,
           commander: 'قَائِدُ بَنِي سَعْدٍ',
           startPosition: { x: 1700, y: 780 },
           startFormation: 'line',
@@ -559,7 +551,7 @@ export const battleOfHunayn: BattleScenario = {
           name: 'The Rear Camp — Captives, Camels, Sheep',
           nameAr: 'الظَّعَائِنُ وَالأَنْعَامُ — مُعَسْكَرُ المُؤَخِّرَةِ',
           troopType: 'reserves',
-          soldierCount: 300,
+          soldierCount: 1000,
           commander: 'حُرَّاسُ المُعَسْكَرِ',
           startPosition: { x: 2120, y: 870 },
           startFormation: 'defensive_circle',

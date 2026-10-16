@@ -2,7 +2,7 @@ import { test, expect, knownFailure } from './support/fixtures';
 import { content, openAppWithEvent, openEventBySearch, panel, panelTitle } from './support/app';
 import type { Page } from '@playwright/test';
 
-const battles = content.battles as { id: string; nameAr: string; date: string }[];
+const battles = content.battles as { id: string }[];
 const replayEvents = content.events.filter((e) => e.battle?.available);
 
 const player = {
@@ -25,18 +25,25 @@ test('the event data links 12 replays, one per scenario', () => {
   expect(replayEvents.map((e) => e.battle!.scenarioId).sort()).toEqual(battles.map((b) => b.id).sort());
 });
 
+// REPLAYS=badr (set by CI on pull requests) keeps only the Badr replay; the other 11 are registered
+// as skipped, so they still count as existing tests. Pushes to main and `npm run verify` run all 12.
+const onlyBadr = process.env.REPLAYS === 'badr';
+
 for (const event of replayEvents) {
   const scenario = battles.find((b) => b.id === event.battle!.scenarioId)!;
-  const tag = scenario.id === 'battle-of-badr' ? ' @phone' : '';
+  const isBadr = scenario.id === 'battle-of-badr';
+  const tag = isBadr ? ' @phone' : '';
+  const replayTest = onlyBadr && !isBadr ? test.skip : test;
 
-  test(`replay ${scenario.id} loads, plays and closes${tag}`, async ({ page }, testInfo) => {
+  replayTest(`replay ${scenario.id} loads, plays and closes${tag}`, async ({ page }, testInfo) => {
     test.skip(
       testInfo.project.name === 'phone-webkit' && process.platform === 'linux',
       'WebKit for Linux (GTK, headless on the CI runner) loads the replay but its clock never starts, even after 20 s; WebKit on Windows runs this in npm run verify',
     );
     await openAppWithEvent(page);
     await openReplay(page, event.id);
-    await expect(player.title(page)).toHaveText(scenario.nameAr, { timeout: 30_000 });
+    // The replay is headed by its event's title (Phase 1B).
+    await expect(player.title(page)).toHaveText(event.title, { timeout: 30_000 });
     await expect(page.getByText('جارٍ تحميل المعركة...')).toBeHidden({ timeout: 30_000 });
     await expect(page.getByText('تعذّر تحميل المعركة')).toHaveCount(0);
     await expect(page.locator('canvas').first()).toBeVisible();
@@ -64,13 +71,14 @@ test.describe('known failures', () => {
     await expect(page.getByText('جارٍ تحميل المعركة...')).toBeHidden({ timeout: 30_000 });
     expect(await player.time(page).evaluate((el) => getComputedStyle(el).direction)).toBe('ltr');
   });
+});
 
-  test('the replay subtitle shows the date in Arabic', async ({ page }) => {
-    knownFailure('the subtitle shows the English scenario date inside the Arabic UI');
-    await openAppWithEvent(page);
-    await openReplay(page, 'battle-badr');
-    const subtitle = player.title(page).locator('xpath=following-sibling::p');
-    await expect(subtitle).toBeVisible({ timeout: 30_000 });
-    expect(await subtitle.textContent()).not.toMatch(/[A-Za-z]/);
-  });
+// Known failure 4 of the baseline, fixed in Phase 1B: the subtitle is the event's date label.
+test('the replay subtitle shows the event date in Arabic', async ({ page }) => {
+  await openAppWithEvent(page);
+  await openReplay(page, 'battle-badr');
+  const subtitle = player.title(page).locator('xpath=following-sibling::p');
+  await expect(subtitle).toBeVisible({ timeout: 30_000 });
+  await expect(subtitle).toHaveText(content.events.find((e) => e.id === 'battle-badr')!.date.hijriDisplay);
+  expect(await subtitle.textContent()).not.toMatch(/[A-Za-z]/);
 });

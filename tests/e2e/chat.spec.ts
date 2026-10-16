@@ -77,8 +77,8 @@ test('citations open the right event, person, Quran passage and battle', async (
   await test.step('battle', async () => {
     await openChat(page);
     await chatDialog(page).getByRole('button', { name: CITATION_LABELS.battle, exact: true }).click();
-    const nameAr = (content.battles as { id: string; nameAr: string }[]).find((b) => b.id === 'battle-of-badr')!.nameAr;
-    await expect(page.locator('h1[lang="ar"]')).toHaveText(nameAr, { timeout: 30_000 });
+    const badrTitle = content.events.find((e) => e.id === 'battle-badr')!.title;
+    await expect(page.locator('h1[lang="ar"]')).toHaveText(badrTitle, { timeout: 30_000 });
     await page.getByRole('button', { name: 'رجوع' }).click();
     await expect(page.locator('h1[lang="ar"]')).toBeHidden();
   });

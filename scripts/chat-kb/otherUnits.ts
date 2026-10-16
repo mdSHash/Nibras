@@ -2,13 +2,13 @@
  * Companion, city, Qur'an verse and battle-scenario records.
  */
 import type { KbRecord } from '../../shared/chatKb';
-import type { CityData } from '../../src/citiesList';
-import type { CompanionData } from '../../src/companionsList';
+import type { City, Person } from '../../shared/contentSchema';
 import type { BattleScenario } from '../../src/battlefield/types/scenario';
-import { aliasForm, bare, BuildContext, mentionsQuantity, splitSentences } from './common';
+import { aliasForm, bareText } from '../../shared/arabic';
+import { BuildContext, mentionsQuantity, splitSentences } from './common';
 import { verifyQuranEntry, type QuranEntry } from './quranVerify';
 
-export function addCompanionUnits(ctx: BuildContext, companions: CompanionData[]): KbRecord[] {
+export function addCompanionUnits(ctx: BuildContext, companions: Person[]): KbRecord[] {
   const titleCount = new Map<string, number>();
   for (const c of companions) titleCount.set(c.title, (titleCount.get(c.title) ?? 0) + 1);
 
@@ -32,9 +32,9 @@ export function addCompanionUnits(ctx: BuildContext, companions: CompanionData[]
     }
 
     const profile = [companion.title, companion.role].filter(Boolean).join(' — ');
-    const lifespan = companion.birth_death ? ` (${companion.birth_death})` : '';
+    const lifespan = companion.birthDeath ? ` (${companion.birthDeath})` : '';
     ctx.add({ recordId, slug: 'profile', kind: 'companion_profile', text: `${companion.name}: ${profile}${lifespan}`, refs });
-    splitSentences(companion.description).forEach((sentence, i) =>
+    splitSentences(companion.bio).forEach((sentence, i) =>
       ctx.add({ recordId, slug: `bio:${i}`, kind: 'companion_bio', text: sentence, refs })
     );
 
@@ -51,7 +51,7 @@ export function addCompanionUnits(ctx: BuildContext, companions: CompanionData[]
 
 const GENERIC_REFERENCES = new Set(['النبي', 'الرسول', 'رسول الله', 'محمد', 'المصطفى']);
 
-export function addCityUnits(ctx: BuildContext, cities: CityData[]): KbRecord[] {
+export function addCityUnits(ctx: BuildContext, cities: City[]): KbRecord[] {
   return cities.map(city => {
     const recordId = `city:${city.id}`;
     const refs = { cityId: city.id };
@@ -81,7 +81,7 @@ export function addQuranUnits(
     ctx.add({ recordId, slug: 'text', kind: 'quran_verse', text: entry.text, refs, verbatimOnly: true });
     const events = [...(quranEvents.get(key) ?? [])].map(eventTitle);
     if (events.length > 0) {
-      ctx.add({ recordId, slug: 'events', kind: 'event_quran', text: undefined, list: { heading: `الأحداث المرتبطة بـ«${key}»`, items: events.map(bare) }, refs });
+      ctx.add({ recordId, slug: 'events', kind: 'event_quran', text: undefined, list: { heading: `الأحداث المرتبطة بـ«${key}»`, items: events.map(bareText) }, refs });
     }
     const surah = aliasForm(key.split(':')[0]);
     records.push({ id: recordId, type: 'quran', title: key, refs, aliases: [aliasForm(key)], weakAliases: [surah] });
@@ -111,9 +111,6 @@ export function addBattleUnits(
     const refs = { battleId };
     const eventRecord = eventRecordForBattle(battleId);
     if (!eventRecord) ctx.issue('warning', recordId, 'no event record carries this battleId');
-    // The simulation's short name ("غزوة بدر") must find the event record too,
-    // not only the simulation.
-    else if (!eventRecord.aliases.includes(aliasForm(scenario.nameAr))) eventRecord.aliases.push(aliasForm(scenario.nameAr));
     const keep = (text: string | undefined): text is string => {
       if (!text) return false;
       if (eventRecord && mentionsQuantity(text)) {
@@ -122,15 +119,13 @@ export function addBattleUnits(
       }
       return true;
     };
-    const name = scenario.nameAr;
+    // The replay takes its title from the linked event.
+    const name = eventRecord?.title ?? scenario.id;
     const secondary = { trust: 'secondary' as const, refs };
 
-    splitSentences(scenario.descriptionAr).filter(keep).forEach((s, i) =>
-      ctx.add({ recordId, slug: `description:${i}`, kind: 'battle_description', text: `${bare(name)}: ${s}`, ...secondary })
-    );
     const phases = scenario.phases.map(p => p.nameAr).filter(keep);
     if (phases.length > 0) {
-      ctx.add({ recordId, slug: 'phases', kind: 'battle_phases', text: undefined, list: { heading: `مراحل ${bare(name)} في المحاكاة`, items: phases }, ...secondary });
+      ctx.add({ recordId, slug: 'phases', kind: 'battle_phases', text: undefined, list: { heading: `مراحل ${bareText(name)} في المحاكاة`, items: phases }, ...secondary });
     }
     scenario.narration.forEach((point, i) => {
       splitSentences(point.textAr).filter(keep).forEach((s, j) =>
@@ -138,14 +133,14 @@ export function addBattleUnits(
       );
     });
     splitSentences(scenario.outcome.summaryAr).filter(keep).forEach((s, i) =>
-      ctx.add({ recordId, slug: `outcome:${i}`, kind: 'battle_outcome', text: `نتيجة ${bare(name)}: ${s}`, ...secondary })
+      ctx.add({ recordId, slug: `outcome:${i}`, kind: 'battle_outcome', text: `نتيجة ${bareText(name)}: ${s}`, ...secondary })
     );
     splitSentences(scenario.outcome.significanceAr).filter(keep).forEach((s, i) =>
-      ctx.add({ recordId, slug: `significance:${i}`, kind: 'battle_outcome', text: `أهمية ${bare(name)}: ${s}`, ...secondary })
+      ctx.add({ recordId, slug: `significance:${i}`, kind: 'battle_outcome', text: `أهمية ${bareText(name)}: ${s}`, ...secondary })
     );
     const landmarks = scenario.map.landmarks.map(l => l.labelAr).filter(keep);
     if (landmarks.length > 0) {
-      ctx.add({ recordId, slug: 'landmarks', kind: 'battle_landmarks', text: undefined, list: { heading: `من مواقع ${bare(name)}`, items: landmarks }, ...secondary });
+      ctx.add({ recordId, slug: 'landmarks', kind: 'battle_landmarks', text: undefined, list: { heading: `من مواقع ${bareText(name)}`, items: landmarks }, ...secondary });
     }
 
     records.push({

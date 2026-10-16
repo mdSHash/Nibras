@@ -1,8 +1,6 @@
-// Maps an EventItem.battleId (e.g. "badr", set via data.ts's BATTLE_ID_MAP)
-// to the battlefield scenario registry key (e.g. "battle-of-badr"), used by
-// both EventPanel's battle-open handler and ChatPanel's citation clicks so
-// there's one place that knows the "fath-makkah" -> "conquest-of-mecca"
-// exception.
+// Maps a chat citation's battleId (e.g. "badr", the chat KB's battle key) to
+// the replay id (e.g. "battle-of-badr"). Events link replays by id
+// (content/events, `battleScenarioId`); only the chat still uses battleIds.
 const BATTLE_ID_TO_SCENARIO: Record<string, string> = { 'fath-makkah': 'conquest-of-mecca' };
 
 export function resolveScenarioId(battleId: string): string {

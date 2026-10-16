@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { ThumbsDown, ThumbsUp } from 'lucide-react';
 import type { ChatMessage } from '../../hooks/useChat';
 import { cn } from '../../utils/cn';
+import { stripVowelMarks } from '../../../shared/arabic';
 
 /** "متابعةً للحديث عن: …" — tells the reader which earlier topic the answer assumed. */
 export function CarriedTopic({ titles }: { titles: string[] }) {
   if (titles.length === 0) return null;
   return (
     <p className="text-[length:var(--chat-tiny)] text-[var(--color-ink)]/70">
-      متابعةً للحديث عن: {titles.map(t => t.replace(/[ً-ٰٟ]/g, '')).join('، ')}
+      متابعةً للحديث عن: {titles.map(stripVowelMarks).join('، ')}
     </p>
   );
 }

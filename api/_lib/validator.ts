@@ -16,7 +16,7 @@
  *  - Qur'an: no ﴿﴾ and no four-word run from verified Qur'an text anywhere.
  */
 import type { KbUnit } from '../../shared/chatKb.js';
-import { analyze, foldLetters, normalizeForMatch, stemVariants, stripDiacritics, toLatinDigits } from '../../shared/arabicText.js';
+import { analyze, foldLetters, normalizeForMatch, stemVariants, stripDiacritics, toLatinDigits } from '../../shared/arabic.js';
 
 const FUNCTION_WORDS_SOURCE = `
 و ف ثم أو أم بل لكن إلا حيث إذ إذا لما عندما حين بعد قبل كما مثل أيضا كذلك

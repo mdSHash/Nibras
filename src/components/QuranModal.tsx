@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ExternalLink } from 'lucide-react';
-import quranData from '../quranData.json';
+import { quranPassages } from '../data';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../utils/scrollLock';
 import { Z_INDEX } from '../constants';
@@ -13,8 +13,7 @@ interface QuranModalProps {
 }
 
 export default function QuranModal({ reference, onClose }: QuranModalProps) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- quranData.json is replaced by the Phase 1 content model
-  const data = (quranData as any)[reference];
+  const data = quranPassages[reference];
   const focusTrapRef = useFocusTrap(!!reference && !!data);
 
   // Lock scroll when modal is open
@@ -100,7 +99,7 @@ export default function QuranModal({ reference, onClose }: QuranModalProps) {
                 <div className="text-center">
                   <h2 id="quran-modal-title" className="text-2xl font-bold text-[#2d5a27] dark:text-[#8bc77f] mb-1">{reference}</h2>
                   <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                    سورة رقم {data.surahNum} • الآيات ({data.start} {data.end ? `- ${data.end}` : ''})
+                    سورة رقم {data.surah} • الآيات ({data.from} {data.to ? `- ${data.to}` : ''})
                   </p>
                 </div>
               </div>

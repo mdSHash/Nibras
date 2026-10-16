@@ -1,5 +1,5 @@
 import { EventItem } from '../../data';
-import { getEraColor } from '../../utils/eraColors';
+import { eraColorOf } from '../../utils/eventHelpers';
 
 /**
  * Build a `linear-gradient(to left, ...)` that transitions between era colors
@@ -11,10 +11,10 @@ export function buildEraGradient(events: EventItem[]): string {
     return 'linear-gradient(to left, #D4A853, #10B981)';
   }
   if (events.length === 1) {
-    return `linear-gradient(to left, ${getEraColor(events[0].era)}, ${getEraColor(events[0].era)})`;
+    return `linear-gradient(to left, ${eraColorOf(events[0])}, ${eraColorOf(events[0])})`;
   }
   const stops = events
-    .map((evt, i) => `${getEraColor(evt.era)} ${(i / (events.length - 1)) * 100}%`)
+    .map((evt, i) => `${eraColorOf(evt)} ${(i / (events.length - 1)) * 100}%`)
     .join(', ');
   return `linear-gradient(to left, ${stops})`;
 }
@@ -27,9 +27,9 @@ export function buildEraGradient(events: EventItem[]): string {
 export function buildProgressGradient(events: EventItem[], selectedIndex: number): string {
   if (selectedIndex < 0) return 'transparent';
   const progress = events.slice(0, selectedIndex + 1);
-  if (progress.length < 2) return getEraColor(progress[0]?.era);
+  if (progress.length < 2) return eraColorOf(progress[0]);
   const stops = progress
-    .map((evt, i) => `${getEraColor(evt.era)} ${(i / (progress.length - 1)) * 100}%`)
+    .map((evt, i) => `${eraColorOf(evt)} ${(i / (progress.length - 1)) * 100}%`)
     .join(', ');
   return `linear-gradient(to left, ${stops})`;
 }

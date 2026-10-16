@@ -12,7 +12,7 @@
  */
 import crypto from 'crypto';
 import type { KbRecord, KbUnit, UnitKind } from '../../shared/chatKb.js';
-import { stripDiacritics } from '../../shared/arabicText.js';
+import { stripDiacritics } from '../../shared/arabic.js';
 
 export type EmbeddingProvider = 'gemini' | 'openrouter';
 

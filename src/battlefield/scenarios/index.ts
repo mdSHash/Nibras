@@ -233,7 +233,7 @@ export class ScenarioLoader {
     const store = useSimulationStore.getState();
 
     // Set scenario info
-    store.setScenario(scenario.id, scenario.name);
+    store.setScenario(scenario.id);
 
     // Build unit snapshots from all entities
     const snapshots: UnitSnapshot[] = [];
@@ -281,6 +281,15 @@ export class ScenarioLoader {
         }
       }
     }
+
+    // The header counters start at each side's force total and drain in
+    // proportion to the units' losses.
+    const forceTotal = (muslimSide: boolean) =>
+      scenario.forces.filter((f) => isMuslimSide(f.faction) === muslimSide).reduce((sum, f) => sum + f.totalStrength, 0);
+    store.setStrengthScale({
+      muslim: muslimStrength > 0 ? forceTotal(true) / muslimStrength : 1,
+      enemy: enemyStrength > 0 ? forceTotal(false) / enemyStrength : 1,
+    });
 
     // Update store
     store.updateUnits(snapshots);
@@ -331,15 +340,6 @@ export const scenarios: Record<string, BattleScenario> = {
   'battle-of-yamama': battleOfYamama,
   'battle-of-nahavand': battleOfNahavand,
 };
-
-// Get available scenario IDs
-export function getAvailableScenarios(): Array<{ id: string; name: string; nameAr: string }> {
-  return Object.values(scenarios).map(s => ({
-    id: s.id,
-    name: s.name,
-    nameAr: s.nameAr,
-  }));
-}
 
 // Get a scenario by ID
 export function getScenario(id: string): BattleScenario | undefined {

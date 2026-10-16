@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import golden from './fixtures/chat-golden-egyptian.json';
-import { analyze } from '../shared/arabicText';
+import { analyze } from '../shared/arabic';
 import { linkEntities } from '../api/_lib/entityLinker';
 import { getKb } from '../api/_lib/kb';
 import { detectIntents, search } from '../api/_lib/search';

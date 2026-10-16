@@ -78,9 +78,8 @@ BattlePlayer mounts → Engine.init(canvas) → loadScenario()   │
 
 1. Create `src/battlefield/scenarios/{name}.ts` exporting a
    `BattleScenario` const. Required top-level fields:
-   - `id`, `name`, `nameAr`, `date`, `location`,
-   - `description`, `descriptionAr` (always pair English + Arabic; the UI
-     prefers Arabic),
+   - `id` (title, date and description come from the linked event, not the
+     scenario),
    - `map: { width, height, terrain[], landmarks[], backgroundColor }`,
    - `forces: ForceConfig[]` — each force has a `faction`, units (each
      with `id`, `nameAr`, `troopType`, `soldierCount`, `commander?`,
@@ -109,11 +108,11 @@ BattlePlayer mounts → Engine.init(canvas) → loadScenario()   │
    };
    ```
 
-3. Wire the event into the UI:
-   - Add the title → battleId mapping to `src/data.ts` `BATTLE_ID_MAP`.
-   - Add the scenario id to `AVAILABLE_BATTLE_SCENARIOS` in
-     `src/components/EventPanel.tsx` so the "شاهد المعركة" button
-     appears on the event panel.
+3. Link the event to it: set `battleScenarioId` to the scenario id in the
+   event's file in `content/events/` (docs/CONTENT_GUIDE.md); the
+   "شاهد المعركة" button then appears on the event panel. Also add the
+   scenario to `scripts/baseline/scenarios.ts`, the registry the content
+   build checks `battleScenarioId` against.
 
 4. Verify with the Playwright capture pattern in
    `scripts/capture-yamama.mjs` — duplicate it pointing at the new

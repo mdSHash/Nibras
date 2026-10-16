@@ -98,21 +98,13 @@ import type { BattleScenario } from '../types/scenario';
  */
 export const battleOfKhandaq: BattleScenario = {
   id: 'battle-of-khandaq',
-  name: 'Battle of the Trench (Khandaq)',
-  nameAr: 'غزوة الخندق',
-  date: 'Shawwal 5 AH (March 627 CE)',
-  location: "Northern flank of Medina — between the harras of Waqim and al-Wabara, with Mount Sal' at the rear",
-  description:
-    "The largest coalition the Hejaz raised against the Prophet ﷺ — ~10,000 men with ~600 horse — besieged Medina for some twenty-seven days. On Salman al-Farisi's counsel a Persian-style trench was cut across the only cavalry-passable face of the city. The Prophet ﷺ dug with his own hand and, striking a stubborn rock, saw in three flashes the keys of Sham, Persia and Yemen (Bukhari 4101). The trench halted the Confederate cavalry; arrow exchanges followed; Hibban ibn al-'Ariqa wounded Sa'd ibn Mu'adh in the akhal. Banu Qurayza tore up the treaty after Huyayy ibn Akhtab entered Ka'b ibn Asad's fortress; ﴿إِذْ جَاءُوكُم مِّن فَوْقِكُمْ وَمِنْ أَسْفَلَ مِنكُمْ﴾ (Q 33:10). The two Sa'ds rejected the Ghatafan date-bribe; 'Ali killed 'Amr ibn 'Abd Wudd at the narrow crossing. The 'Asr prayer was missed and the Prophet ﷺ pronounced the imprecation against the Confederates. Nu'aym ibn Mas'ud's secret conversion — \"al-harb khud'a\" (Bukhari 3030) — fractured the coalition. Then Allah sent the saba wind on a freezing night; tents overturned, fires guttered. Hudhayfa ibn al-Yaman alone answered the Prophet's three-time call (Muslim 1788) and brought back word of Abu Sufyan's order to depart. The Confederates dispersed without a decisive engagement. The Prophet ﷺ said: \"Now we shall raid them, and they shall not raid us\" (Bukhari 4109). Six Muslims were martyred including Sa'd ibn Mu'adh; three named Confederates fell. Surat al-Ahzab was revealed in connection with this day.",
-  descriptionAr:
-    'أَكْبَرُ تَحَالُفٍ عَسْكَرِيٍّ ثَارَ عَلَى النَّبِيِّ ﷺ فِي الجَزِيرَةِ — نَحْوُ عَشَرَةِ آلَافٍ وَفِيهِمْ سِتُّ مِئَةِ فَارِسٍ — حَاصَرَ المَدِينَةَ نَحْوًا مِنْ سَبْعٍ وَعِشْرِينَ لَيْلَةً. أَشَارَ سَلْمَانُ الفَارِسِيُّ بِحَفْرِ خَنْدَقٍ عَلَى الجِهَةِ الشَّمَالِيَّةِ، وَهِيَ الوَجْهُ الوَحِيدُ المَكْشُوفُ لِخَيْلِ المُغِيرِينَ. حَفَرَ النَّبِيُّ ﷺ بِنَفْسِهِ حَتَّى وَارَى التُّرَابُ جِلْدَةَ بَطْنِهِ، وَلَمَّا اعْتَرَضَتْهُمْ كُدْيَةٌ ضَرَبَهَا ثَلَاثًا، فَرَأَى فِي كُلِّ ضَرْبَةٍ بَرْقَةً: مَفَاتِحَ الشَّامِ، ثُمَّ مَفَاتِحَ فَارِسَ مَعَ قَصْرِ المَدَائِنِ الأَبْيَضِ، ثُمَّ مَفَاتِحَ اليَمَنِ مَعَ أَبْوَابِ صَنْعَاءَ. صَدَّ الخَنْدَقُ خَيْلَ الأَحْزَابِ، فَدَامَتِ النِّبَالُ تَتَطَايَرُ فَوْقَهُ، فَرَمَى حِبَّانُ بنُ العَرِقَةِ سَعْدَ بنَ مُعَاذٍ فَقَطَعَ أَكْحَلَهُ. وَدَخَلَ حُيَيُّ بنُ أَخْطَبَ حِصْنَ كَعْبِ بنِ أَسَدٍ فَنَقَضَ بَنُو قُرَيْظَةَ العَهْدَ مِنْ خَلْفِ المَدِينَةِ ﴿إِذْ جَاءُوكُم مِّن فَوْقِكُمْ وَمِنْ أَسْفَلَ مِنكُمْ﴾. وَهَمَّ النَّبِيُّ ﷺ أَنْ يُعْطِيَ غَطَفَانَ ثُلُثَ ثِمَارِ المَدِينَةِ فَأَبَى السَّعْدَانِ، فَمَزَّقَ الصَّحِيفَةَ. وَوَثَبَ عَمْرُو بنُ عَبْدِ وُدٍّ مِنْ مَضِيقِ الخَنْدَقِ فَنَادَى لِلْمُبَارَزَةِ، فَقَتَلَهُ عَلِيُّ بنُ أَبِي طَالِبٍ. وَشَغَلَتْهُمُ الأَحْزَابُ عَنِ العَصْرِ حَتَّى غَابَتِ الشَّمْسُ، فَدَعَا النَّبِيُّ ﷺ عَلَيْهِمْ. وَأَسْلَمَ نُعَيْمُ بنُ مَسْعُودٍ سِرًّا فَخَذَّلَ بَيْنَ قُرَيْشٍ وَغَطَفَانَ وَقُرَيْظَةَ. ثُمَّ أَرْسَلَ اللَّهُ عَلَيْهِمْ رِيحَ الصَّبَا فِي لَيْلَةٍ ذَاتِ بَرْدٍ شَدِيدٍ، فَأَكْفَأَتْ خِيَامَهُمْ، وَأَطْفَأَتْ نِيرَانَهُمْ، وَهَلَكَتْ خَيْلُهُمْ. وَقَامَ حُذَيْفَةُ بنُ اليَمَانِ وَحْدَهُ بَعْدَ الثَّلَاثَةِ فَدَخَلَ مُعَسْكَرَ أَبِي سُفْيَانَ، فَجَاءَ بِخَبَرِ الِارْتِحَالِ. تَفَرَّقَتِ الأَحْزَابُ قَبْلَ الفَجْرِ. اسْتُشْهِدَ مِنَ المُسْلِمِينَ سِتَّةٌ مِنْهُمْ سَعْدُ بنُ مُعَاذٍ بَعْدَ قَضَائِهِ فِي بَنِي قُرَيْظَةَ، وَقُتِلَ مِنَ الأَحْزَابِ ثَلَاثَةٌ أَشْهَرُهُمْ عَمْرُو بنُ عَبْدِ وُدٍّ. وَقَالَ ﷺ يَوْمَ انْصَرَفَتْ: «الآنَ نَغْزُوهُمْ وَلَا يَغْزُونَنَا». وَنَزَلَتْ سُورَةُ الأَحْزَابِ فِي شَأْنِهَا.',
 
   // A wet, freezing dusk turning to night through the climactic phases —
   // the saba wind comes after dark on the storm-night.
   dayPhase: 'dusk',
   weather: 'storm',
   // ~27 days of siege compressed into 68 simulation seconds.
-  actualDayCount: 27,
+  actualDayCount: 24,
 
   // ─── Map ───────────────────────────────────────────────────────────────────
   // North-up. The northern half is open ground — the only cavalry-passable

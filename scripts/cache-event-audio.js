@@ -7,6 +7,8 @@
  * Usage:
  *   node scripts/cache-event-audio.js
  *   START_FROM=37 node scripts/cache-event-audio.js  (resume from specific index)
+ *   The index counts events in timeline order (src/generated/events.json) since
+ *   Phase 1C; a resume hint printed before then counted in the old file's order.
  *
  * Requirements:
  *   - Backend TTS server must be running (npm run dev:server)
@@ -30,7 +32,13 @@ const START_FROM_INDEX = parseInt(process.env.START_FROM || '0'); // Resume from
 const MAX_TEXT_LENGTH = 4500;
 
 // Load events data
-const dataPath = path.join(__dirname, '../src/dataList.json');
+// Built from content/ by npm run build:content (in timeline order; the npm scripts
+// run it first).
+const dataPath = path.join(__dirname, '../src/generated/events.json');
+if (!fs.existsSync(dataPath)) {
+  console.error('src/generated/events.json not found: run npm run build:content first.');
+  process.exit(1);
+}
 const eventsData = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
 
 // Statistics
@@ -245,7 +253,7 @@ async function main() {
   for (let i = START_FROM_INDEX; i < eventsData.length; i++) {
     const event = eventsData[i];
     const eventId = event.id || `event-${i}`;
-    const eventDescription = event.details?.full_description;
+    const eventDescription = event.fullDescription;
 
     if (!eventDescription || normalizeText(eventDescription).length === 0) {
       console.log(`\n[${i + 1}/${eventsData.length}] Skipping: Empty full description`);

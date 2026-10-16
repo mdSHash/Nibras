@@ -74,7 +74,8 @@ session or tool trusts outdated instructions:
    Quran passages is reviewed historical and religious content. You may move it, re-key it and
    restructure it, but do not reword, re-vocalize, translate, shorten or "fix" it. If you find a
    factual conflict (two numbers disagree), list it for Mostafa; do not pick one yourself.
-2. **Never hand-type Quran text.** Verse text comes from `scripts/data/tanzil/` only.
+2. **Never hand-type Quran text.** Verse text comes only from Quran.com, fetched by `npm run fetch:quran`
+   into `content/quran/verses.json`; `scripts/data/tanzil/` stays as a cross-check.
 3. **One phase per branch and pull request**, in the order below. Within a phase, small commits.
    Stop at the end of each phase and summarize: what changed, what was verified, what is open.
 4. **Every commit leaves the app working**: `npm run lint` (tsc), `npm test`, `npm run build` green,
@@ -425,7 +426,7 @@ Tasks:
       Quran refs by parsing surah and ayah range; map `BATTLE_ID_MAP` + `battleScenario.ts` into
       `battleScenarioId`. Freeze current event IDs as they are (they will be URLs; do not rename).
 - [ ] Ambiguous or unresolved references go into the report, not guesses. Mostafa resolves them.
-- [ ] Generate verse text from Tanzil at build time from `{surah, from, to}`; the Quran modal and the
+- [ ] Generate verse text from Quran.com (decided 2026-10-16; was Tanzil) at build time from `{surah, from, to}`; the Quran modal and the
       chat use the generated data. Remove `src/quranData.json` once nothing reads it.
 - [ ] Move territory control out of the `if` branches into `territories/control.json`; precompute
       the Voronoi polygons at build into a GeoJSON file; drop `@turf/turf` from the client bundle.
@@ -460,6 +461,7 @@ apart from approved differences), CI fails on a bad reference, and the old data 
 - [ ] Move UI state into one Zustand store; replace overlay booleans with one `overlay` value derived
       from the route. Remove the `window` event and `window.__nibrasOpenBattle` (Playwright can now
       navigate to `/battle/:id`).
+      A battle's page shows its video where it has one, its replay otherwise (Phase 3, battle videos).
 - [ ] Split `App.tsx` into layout, `AppHeader` (with one `HeaderButton` component) and `Overlays`;
       split `EventPanel.tsx` by job (audio player, header, people list, sections).
 - [ ] Load full event text, bios and Quran passages on demand from the files emitted in Phase 1.
@@ -491,10 +493,35 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
       index fall out of sync. **Ask before using quota.**
 - [ ] Per-IP rate limit on `api/chat.ts` using the Upstash Redis the API already supports, with a
       friendly Arabic 429 message.
-- [ ] Lazy-load each battle scenario by ID; move `ScenarioLoader` out of `scenarios/index.ts` into
-      `core/`; split `systems/index.ts` into one file per system.
-- [ ] Battle readability: hide or de-collide unit labels at low zoom; `dir="ltr"` on the timer; show
-      the Arabic date from the linked event in the subtitle.
+- [ ] **Battle videos replace the battle engine** (Mostafa, 2026-10-16). Mostafa is producing one
+      narrated video per battle (roughly 100–200 MB each at full quality), better than the Pixi.js
+      replay. The engine stays as it is, untouched, until every battle has its video, then it is
+      archived (not deleted). Until then each battle opens its video if it has one, else the replay.
+      Steps, one battle at a time as videos arrive (Badr first):
+      - *Hosting.* Not in git or GitHub Pages: git rejects files over 100 MB and Pages sites are capped
+        at 1 GB, while 12 videos come to 1–2.5 GB. Host them with the narration audio (same question,
+        same answer; **ask Mostafa**: Cloudflare R2, Bunny Stream, YouTube unlisted, or similar). The
+        original file is kept as delivered (archived like the narration WAVs).
+      - *Encoding.* Two or three renditions (e.g. 1080p, 720p, 480p) with adaptive streaming (HLS) or
+        at least a phone-sized MP4, a poster image, `preload="none"`, so a visitor on a phone does not
+        download 200 MB. Original quality stays available.
+      - *Content.* The video's Arabic narration is reviewed content (CLAUDE.md rule 1): its script is
+        stored in `content/` as Arabic captions (WebVTT), shown as subtitles and read by the chat KB,
+        which today takes battle units from the replay narration. Every figure the video states
+        (army sizes, days, casualties) is checked against the event, as in Phase 1B; differences go
+        to Mostafa.
+      - *App.* The event gets a `battleVideo` reference (validated at build); the panel's replay button
+        and the Phase 2 `/battle/:id` page open an accessible video player (Arabic controls labels,
+        keyboard, captions on by default, loading/error/retry states). Tests: the player opens, plays,
+        shows captions; one visual snapshot per battle replaces the replay snapshot.
+      - *After the last battle.* Archive `src/battlefield/` (git tag plus a note in this plan), drop
+        Pixi.js, GSAP, XState and the replay tests and CI jobs, and record the bundle saving.
+- [ ] ~~Lazy-load each battle scenario by ID; move `ScenarioLoader` out of `scenarios/index.ts` into
+      `core/`; split `systems/index.ts` into one file per system.~~ On hold: superseded by the battle
+      videos (Mostafa, 2026-10-16).
+- [ ] ~~Battle readability: hide or de-collide unit labels at low zoom; `dir="ltr"` on the timer.~~ On
+      hold: superseded by the battle videos (Mostafa, 2026-10-16). The event's Arabic date in the
+      subtitle was done in Phase 1B.
 - [ ] Self-host the Arabic fonts (subset, only weights in use); remove the second font link injected
       by `IntroScreen.tsx`.
 - [ ] Styling: colors only through theme tokens; move inline `style={{}}` colors into tokens/classes;
@@ -503,6 +530,26 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
       tour target `data-tour-id`.
 - [ ] Timeline player: remove the 2× and 3× playback speeds and keep 1× only (no narration exists
       for other speeds; known failure 10). Approved removal of a visible control (Mostafa, 2026-10-15).
+- [ ] **Territory map: correct borders and a better look** (Mostafa, 2026-10-16: the borders between
+      empires, kingdoms and tribes need correcting, and the map "looks awful"). Two parts, content
+      first:
+      - *Accuracy.* Today's map is 46 seed points split into Voronoi cells and clipped to a 41-point
+        hand-drawn coastline, so borders are straight cuts that follow no river, mountain or desert and
+        cross seas and gulfs. Review every region and every control period against the sources the app
+        cites (Ibn Hisham, al-Tabari, al-Baladhuri's *Futuh al-Buldan*, Ibn Kathir) and a historical
+        atlas: which empire, kingdom (Ghassanids, Lakhmids, Aksum, Himyar/Yemen under Persia, Nubia) or
+        tribe (Quraysh, Hawazin/Thaqif, Ghatafan, Tamim, Banu Hanifa, ʿAbd al-Qays, Kinda, …) held which
+        land, from when. Tie each change of control to the event that caused it (event id instead of a
+        bare `sortKey` threshold), add the tribal regions that are missing, and list every border that
+        stays uncertain for Mostafa instead of guessing. The help legend already says borders are
+        approximate.
+      - *Look.* Replace the Voronoi cells with drawn region shapes on a real coastline (e.g. Natural
+        Earth, public domain), simplified for the browser at build time; smooth borders, a clear style
+        for empires vs tribal areas vs contested/approximate borders, readable labels, a legend, and
+        good contrast in light and dark mode over the satellite basemap. **Show Mostafa 3–4 visual
+        directions and let him pick before building** (he rejected a solo redesign before).
+      Polygons stay precomputed at build (`scripts/content/territories.ts`); the content snapshot
+      records every changed period for approval.
 - [ ] Add map attribution for the tile provider.
 - [ ] Add a web manifest and icons.
 - [ ] Add Umami with the custom events listed in "Owner visibility, SEO and domain"; write
@@ -512,8 +559,8 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
 - [ ] Archive or delete the one-off scripts; document the remaining ones in `scripts/README.md`.
 - [ ] Update the PRD with a "target vs today" view.
 
-Done when: `npm run verify` passes, the 12 battle replays and narration still work, and the live-site
-check passes after deploy.
+Done when: `npm run verify` passes, every battle opens (its video where one exists, its replay
+otherwise), narration still works, and the live-site check passes after deploy.
 
 ---
 
@@ -681,6 +728,8 @@ Arabic-only UI.
     (default 70%); certificate wording and design.
 11. Accounts: Supabase (recommended), sign-in methods (Google and email magic link recommended), and
     whether learners can be under 13 (affects what may be collected).
+12. Territory map: which atlas or source to follow for the borders, and the visual direction (from
+    3–4 options), before the Phase 3 territory task starts.
 
 ## Appendix: ambiguous person keys
 

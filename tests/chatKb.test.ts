@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, it } from 'vitest';
 import committedKb from '../public/data/chat-kb.json';
-import quranData from '../src/quranData.json';
+import quranPassages from '../src/generated/quranPassages.json';
 import { eventsData } from '../src/data';
 import type { ChatKb } from '../shared/chatKb';
 import { buildChatKb } from '../scripts/build-chat-kb';
@@ -65,11 +65,11 @@ describe('knowledge base build', () => {
 });
 
 describe('verbatim guarantees', () => {
-  it('stores every verse exactly as src/quranData.json has it', () => {
+  it('stores every verse exactly as src/generated/quranPassages.json has it', () => {
     const verses = kb.units.filter(u => u.kind === 'quran_verse');
-    expect(verses).toHaveLength(Object.keys(quranData).length);
+    expect(verses).toHaveLength(quranPassages.length);
     for (const unit of verses) {
-      expect(unit.text).toBe((quranData as Record<string, { text: string }>)[unit.refs.quranKey!].text);
+      expect(unit.text).toBe(quranPassages.find(p => p.key === unit.refs.quranKey)!.text);
       expect(unit.verbatimOnly).toBe(true);
     }
   });
@@ -86,8 +86,8 @@ describe('verbatim guarantees', () => {
   it('copies each companion role from the event record verbatim', () => {
     const byId = new Map(kb.units.map(u => [u.id, u]));
     for (const event of eventsData) {
-      (event.details.companion_roles ?? []).forEach((role, i) => {
-        expect(byId.get(`event:${event.id}#role:${i}`)?.text).toContain(role.role_in_event.replace(/\s+/g, ' ').trim());
+      event.roles.forEach((role, i) => {
+        expect(byId.get(`event:${event.id}#role:${i}`)?.text).toContain(role.roleAr.replace(/\s+/g, ' ').trim());
       });
     }
   });

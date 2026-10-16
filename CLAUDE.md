@@ -12,7 +12,8 @@ assistant (`api/`) is a separate Vercel project.
 1. **Never change the meaning of content.** Arabic text in events, companions, cities, battles and
    Quran passages is reviewed historical and religious content. Move, re-key or restructure it, but
    never reword, re-vocalize, translate, shorten or "fix" it. List factual conflicts for Mostafa.
-2. **Never hand-type Quran text.** Verse text comes from `scripts/data/tanzil/` only.
+2. **Never hand-type Quran text.** Verse text comes only from Quran.com, fetched by `npm run fetch:quran`
+   into `content/quran/verses.json`; `scripts/data/tanzil/` stays as a cross-check.
 3. **Every commit leaves the app working**: `npm run lint`, `npm test` and `npm run build` pass, and
    the app loads and opens an event.
 4. **Preserve the look.** No change to layout, colors, fonts or animation unless a task says so.
@@ -30,7 +31,9 @@ assistant (`api/`) is a separate Vercel project.
 | `npm run lint` | Type check (`tsc --noEmit`) |
 | `npm run lint:eslint` | ESLint |
 | `npm test` | Vitest unit tests |
-| `npm run validate:content` | Zod validation of events, companions, cities |
+| `npm run validate:content` | Zod validation of everything in `content/` and every link between records |
+| `npm run fetch:quran` | Fetch verse text from Quran.com into `content/quran/verses.json` (network) |
+| `npm run docs:content` | Rewrite the field reference in `docs/CONTENT_GUIDE.md` from the schemas |
 | `npm run build` | Production build (`dist/`, base `/Nibras/`) |
 | `npm run format` | Prettier, on demand only (no repo-wide reformat) |
 | `npx playwright test` | Feature + visual tests (build first with `VITE_CHAT_API_URL=http://chat.test/api/chat`) |
@@ -42,15 +45,18 @@ only after Mostafa approves the list of intentional changes; never to make a tes
 
 - `src/App.tsx` — app shell and state; `src/components/` — map, event panel, timeline, modals, chat
 - `src/battlefield/` — Pixi.js battle engine and the 12 scenarios
-- `src/dataList.json` (events), `src/companionsList.ts`, `src/citiesList.ts`, `src/territoriesData.ts`
-- `shared/` — code shared by the app, the chat API and scripts (Arabic normalization, chat types,
-  content schemas)
+- `content/` — all content as JSON (events, people, cities, eras, categories, Quran passages,
+  territories), validated and built into `src/generated/` by `scripts/build-content.ts`; read
+  through `src/data.ts` and `src/territories.ts`. How to edit it: `docs/CONTENT_GUIDE.md`
+- `shared/` — code shared by the app, the chat API and scripts (Arabic text in `shared/arabic.ts`,
+  chat types, content schemas)
 - `api/` — chat assistant (Vercel functions); `api/_lib/` its modules
 - `public/audio/` — narration WAVs (SHA-256 names); `public/data/` — chat KB and embeddings
 - `scripts/` — content, KB, audio and baseline scripts; `scripts/verify.ts` runs `npm run verify`
 - `tests/` — Vitest (`*.test.ts`); `tests/e2e/` — Playwright (desktop + phone in Chromium; the `@phone`
   subset also in WebKit and Firefox); `tests/baseline/` — frozen baseline
 - `docs/OWNER_DASHBOARD.md` — Sentry, uptime checks, `/api/health`, where each secret lives
+- `docs/PRD.md` — product requirements; `docs/CONTENT_GUIDE.md` — adding and editing content
 - `src/components/ErrorBoundary.tsx` — wrap any new major section or panel in one
 
 ## Session protocol

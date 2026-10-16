@@ -65,7 +65,6 @@ export type UnitKind =
   | 'companion_events'
   | 'city'
   | 'quran_verse'
-  | 'battle_description'
   | 'battle_phases'
   | 'battle_narration'
   | 'battle_outcome'

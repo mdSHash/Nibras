@@ -3,7 +3,7 @@
  * JSON that cites passage ids — it composes, the server verifies and renders.
  */
 import type { KbUnit } from '../../shared/chatKb.js';
-import { plainText } from './kb.js';
+import { plainText } from '../../shared/arabic.js';
 import type { EvidenceRecord } from './search.js';
 
 const RECORD_TYPE_LABEL: Record<string, string> = {

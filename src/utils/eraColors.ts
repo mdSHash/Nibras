@@ -4,6 +4,7 @@
  * Canonical era colors used across Timeline, EventPanel, and other components.
  * These 5 era colors are the single source of truth for the entire app.
  */
+import type { EraKey } from '../../shared/chatKb';
 
 export interface EraColorScheme {
   /** Primary era color (used for accents, borders, badges) */
@@ -21,7 +22,7 @@ export interface EraColorScheme {
 /**
  * The 5 canonical era colors matching the timeline scrubber.
  */
-const ERA_COLORS: Record<string, EraColorScheme> = {
+const ERA_COLORS: Record<EraColorKey, EraColorScheme> = {
   prophetic: {
     primary: '#D4A853',    // warm gold
     bgLight: 'rgba(212, 168, 83, 0.12)',
@@ -59,56 +60,26 @@ const ERA_COLORS: Record<string, EraColorScheme> = {
   },
 };
 
-/** Default fallback color scheme (prophetic era) */
-const DEFAULT_ERA = ERA_COLORS.prophetic;
+/** An era's colour scheme key (content/eras.json, `colorKey`). */
+export type EraColorKey = 'prophetic' | 'abuBakr' | 'umar' | 'uthman' | 'ali';
 
-/**
- * Determine which era key an event belongs to based on its `era` string field.
- */
-export function getEraKey(era?: string): keyof typeof ERA_COLORS {
-  if (!era) return 'prophetic';
-  if (
-    era.includes('المكي') ||
-    era.includes('قبل البعثة') ||
-    era.includes('البعثة') ||
-    era.includes('المدني') ||
-    era.includes('الوحي')
-  )
-    return 'prophetic';
-  if (era.includes('أبي بكر') || era.includes('أبو بكر'))
-    return 'abuBakr';
-  if (era.includes('عمر'))
-    return 'umar';
-  if (era.includes('عثمان'))
-    return 'uthman';
-  if (era.includes('علي'))
-    return 'ali';
-  if (era.includes('الراشدة'))
-    return 'abuBakr'; // Rashidun default maps to Abu Bakr (emerald)
-  return 'prophetic';
+/** The colour key of a chat citation's era (the chat KB carries era labels and keys). */
+export function chatEraColorKey(eraKey: EraKey | undefined): EraColorKey {
+  return eraKey === undefined || eraKey === 'meccan' || eraKey === 'medinan' ? 'prophetic' : eraKey;
 }
 
 /**
  * Get the primary accent color for an era (matches timeline scrubber).
  * This is the main function used by Timeline and EventPanel for accent colors.
  */
-export function getEraColor(era?: string): string {
-  const key = getEraKey(era);
-  return ERA_COLORS[key]?.primary ?? DEFAULT_ERA.primary;
+export function getEraColor(key: EraColorKey = 'prophetic'): string {
+  return ERA_COLORS[key].primary;
 }
 
 /**
  * Get the full color scheme for an era (primary + background + text variants).
  * Use this when you need light/dark mode aware colors.
  */
-export function getEraColorScheme(era?: string): EraColorScheme {
-  const key = getEraKey(era);
-  return ERA_COLORS[key] ?? DEFAULT_ERA;
-}
-
-/**
- * Get all era color definitions (for iteration, legends, etc.)
- */
-export function getAllEraColors(): Record<string, EraColorScheme> {
-  return ERA_COLORS;
+export function getEraColorScheme(key: EraColorKey = 'prophetic'): EraColorScheme {
+  return ERA_COLORS[key];
 }

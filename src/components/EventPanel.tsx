@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
-import { EventItem } from "../data";
+import { eraOf, type EventItem } from "../data";
 import { motion, AnimatePresence, useMotionValue, PanInfo } from "motion/react";
 import {
   X,
@@ -30,35 +30,17 @@ import { Z_INDEX } from "../constants";
 import { cn } from "../utils/cn";
 import { slideUp, slideInRight, slideInLeft } from "../utils/motionVariants";
 import geminiTTS, { releaseOwner } from "../services/ttsGemini";
-
-// ─── Battle scenario availability map (unchanged) ─────────────────────────
-const AVAILABLE_BATTLE_SCENARIOS = [
-  'battle-of-badr',
-  'battle-of-uhud',
-  'battle-of-khandaq',
-  'battle-of-khaybar',
-  'conquest-of-mecca',
-  'battle-of-hunayn',
-  'battle-of-yarmouk',
-  'battle-of-qadisiyyah',
-  'battle-of-mutah',
-  'battle-of-tabuk',
-  'battle-of-yamama',
-  'battle-of-nahavand',
-];
-const BATTLE_ID_TO_SCENARIO: Record<string, string> = {
-  'fath-makkah': 'conquest-of-mecca',
-};
-function getScenarioIdFromBattleId(battleId: string): string {
-  return BATTLE_ID_TO_SCENARIO[battleId] || `battle-of-${battleId}`;
-}
+import { toArabicIndic } from "../../shared/arabic";
 
 interface EventPanelProps {
   event: EventItem | null;
   onClose: () => void;
-  onCompanionClick?: (name: string) => void;
-  onQuranClick?: (ref: string) => void;
-  onBattleOpen?: (battleId: string) => void;
+  /** Called with the person's id (content/people). */
+  onCompanionClick?: (personId: string) => void;
+  /** Called with the passage key (e.g. "سورة الأنفال: 9"). */
+  onQuranClick?: (key: string) => void;
+  /** Called with the replay id (e.g. "battle-of-badr"). */
+  onBattleOpen?: (scenarioId: string) => void;
   isHidden?: boolean;
   onToggleHidden?: () => void;
   /** When the SearchMenu drawer is open on desktop, the panel slides to the
@@ -67,34 +49,13 @@ interface EventPanelProps {
   isDrawerOpen?: boolean;
 }
 
-const getEraTheme = (era?: string) => {
-  const color = getEraColor(era);
-  const scheme = getEraColorScheme(era);
-  let title = "";
-  if (!era) return { color, scheme, title };
-  if (era.includes("المكي") || era.includes("المدني") || era.includes("الوحي") || era.includes("البعثة"))
-    title = "عهد النبوة";
-  else if (era.includes("أبي بكر") || era.includes("أبو بكر")) title = "خلافة الصديق";
-  else if (era.includes("عمر")) title = "خلافة الفاروق";
-  else if (era.includes("عثمان")) title = "خلافة ذي النورين";
-  else if (era.includes("علي")) title = "خلافة الإمام علي";
-  return { color, scheme, title };
+/** The era's colours, panel badge and ruler (content/eras.json). */
+const getEraTheme = (event: EventItem | null) => {
+  const era = event ? eraOf(event) : undefined;
+  const color = getEraColor(era?.colorKey);
+  const scheme = getEraColorScheme(era?.colorKey);
+  return { color, scheme, title: era?.panelTitleAr ?? "", ruler: era?.rulerAr ?? "" };
 };
-
-const getRuler = (era?: string) => {
-  if (!era) return "";
-  if (era.includes("المكي") || era.includes("المدني") || era.includes("الوحي") || era.includes("البعثة"))
-    return "النبي محمد ﷺ";
-  if (era.includes("أبي بكر") || era.includes("أبو بكر")) return "أبو بكر الصديق";
-  if (era.includes("عمر")) return "عمر بن الخطاب";
-  if (era.includes("عثمان")) return "عثمان بن عفان";
-  if (era.includes("علي")) return "علي بن أبي طالب";
-  return "";
-};
-
-/** Format integers using Arabic-Eastern numerals (٠١٢٣٤٥٦٧٨٩). */
-const arNum = (n: number | string): string =>
-  String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[Number(d)]);
 
 /**
  * Lighten or darken a hex color by an amount in [-1, 1]. Used to compute
@@ -246,17 +207,17 @@ export default function EventPanel({
   const decreaseFont = () => setFontSizeStep((prev) => Math.max(prev - 1, 0));
   const fs = (base: number) => ({ fontSize: `${base + fontSizeStep * 2}px` });
 
-  const eraTheme = getEraTheme(event?.era);
+  const eraTheme = getEraTheme(event);
   const eraTextColor = isDark ? eraTheme.scheme.textDark : eraTheme.scheme.textLight;
   const eraBgColor = isDark ? eraTheme.scheme.bgDark : eraTheme.scheme.bgLight;
-  const ruler = getRuler(event?.era);
+  const ruler = eraTheme.ruler;
 
   // ─── Audio (unchanged behavior) ─────────────────────────────────────────
   const formatAudioTime = (time: number) => {
     const safe = Number.isFinite(time) ? Math.max(0, Math.floor(time)) : 0;
     const m = Math.floor(safe / 60);
     const s = safe % 60;
-    return arNum(`${m}:${s.toString().padStart(2, "0")}`);
+    return toArabicIndic(`${m}:${s.toString().padStart(2, "0")}`);
   };
   const setupAudioListeners = (audio: HTMLAudioElement, initialDuration = 0) => {
     audio.onloadedmetadata = () => setDuration(audio.duration || initialDuration || 0);
@@ -280,13 +241,13 @@ export default function EventPanel({
     };
   };
   const startAudio = async (restart = false) => {
-    if (!event?.details?.full_description || isAudioLoading) return;
+    if (!event?.fullDescription || isAudioLoading) return;
     try {
       setAudioError(null);
       if (!audioRef.current) {
         setIsAudioLoading(true);
         const { audio, duration: audioDuration } = await geminiTTS.createAudio(
-          event.details.full_description,
+          event.fullDescription,
           { voice: "Charon", rate: 1, volume: 1 },
         );
         audioRef.current = audio;
@@ -326,10 +287,8 @@ export default function EventPanel({
 
   if (!event) return null;
 
-  const hasBattleCTA =
-    !!event.battleId &&
-    !!onBattleOpen &&
-    AVAILABLE_BATTLE_SCENARIOS.includes(getScenarioIdFromBattleId(event.battleId));
+  // Every battleScenarioId names a replay (checked at build).
+  const hasBattleCTA = !!event.battleScenarioId && !!onBattleOpen;
 
   return (
     <>
@@ -648,7 +607,7 @@ function Hero({
             style={fs(12)}
           >
             <Crown size={13} className="shrink-0" />
-            {eraTheme.title || event.era}
+            {eraTheme.title}
           </span>
         </div>
 
@@ -669,16 +628,16 @@ function Hero({
         >
           <span className="inline-flex items-center gap-1.5">
             <Calendar size={13} className="shrink-0" />
-            <span className="font-bold">{arNum(event.date.hijri_relative)}</span>
+            <span className="font-bold">{toArabicIndic(event.date.labelAr)}</span>
           </span>
           <span className="text-white/70" aria-hidden="true">·</span>
           {/* gregorian carries a fractional part purely for chronological
               ordering (e.g. 661.07) — only the year itself is displayed. */}
-          <span className="font-medium">{arNum(Math.floor(event.date.gregorian))} م</span>
+          <span className="font-medium">{toArabicIndic(event.date.gregorian.year)} م</span>
           <span className="text-white/70" aria-hidden="true">·</span>
           <span className="inline-flex items-center gap-1.5">
             <MapPin size={13} className="shrink-0" />
-            <span className="font-bold truncate max-w-[180px]">{event.location.name}</span>
+            <span className="font-bold truncate max-w-[180px]">{event.location.nameAr}</span>
           </span>
           {ruler && (
             <>
@@ -690,18 +649,18 @@ function Hero({
 
         {/* Army sizes — opaquer pill backgrounds so they carry their own
             weight regardless of era gradient underneath. */}
-        {(event.details.army_size || event.details.enemy_army_size) && (
+        {(event.forces?.army || event.forces?.enemyArmy) && (
           <div className="flex items-center gap-3 text-white mb-4" style={fs(13)}>
-            {event.details.army_size && (
+            {event.forces?.army && (
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-900/75 backdrop-blur-md border border-emerald-300/25 font-bold ring-1 ring-white/10">
                 <Users size={12} className="shrink-0" />
-                {event.details.army_size}
+                {event.forces.army.textAr}
               </span>
             )}
-            {event.details.enemy_army_size && (
+            {event.forces?.enemyArmy && (
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-red-950/75 backdrop-blur-md border border-red-300/25 font-bold ring-1 ring-white/10">
                 <Swords size={12} className="shrink-0" />
-                {event.details.enemy_army_size}
+                {event.forces.enemyArmy.textAr}
               </span>
             )}
           </div>
@@ -814,11 +773,14 @@ function ArticleBody({
   eraTextColor: string;
   fs: (n: number) => { fontSize: string };
   isMobile: boolean;
-  onCompanionClick?: (name: string) => void;
-  onQuranClick?: (ref: string) => void;
-  onBattleOpen?: (battleId: string) => void;
+  /** Called with the person's id (content/people). */
+  onCompanionClick?: (personId: string) => void;
+  /** Called with the passage key (e.g. "سورة الأنفال: 9"). */
+  onQuranClick?: (key: string) => void;
+  /** Called with the replay id (e.g. "battle-of-badr"). */
+  onBattleOpen?: (scenarioId: string) => void;
 }) {
-  const desc = event.details.full_description ?? '';
+  const desc = event.fullDescription;
   const firstChar = desc.slice(0, 1);
   const restOfDesc = desc.slice(1);
 
@@ -830,12 +792,12 @@ function ArticleBody({
       )}
     >
       {/* Subhead / dek */}
-      {event.details.summary && (
+      {event.summary && (
         <p
           className="text-ink/90 leading-relaxed font-medium border-b border-border-dark/15 pb-4"
           style={{ ...fs(15), fontStyle: 'normal' }}
         >
-          {event.details.summary}
+          {event.summary}
         </p>
       )}
 
@@ -862,18 +824,18 @@ function ArticleBody({
       {/* Quran refs as pull-quote callouts (split across mid-article). The
           first ref appears here just after the lead; further refs flow with
           course of events / hadith below. */}
-      {event.entities?.quran_refs && event.entities.quran_refs.length > 0 && (
+      {event.quran.length > 0 && (
         <PullQuote color={eraTheme.color} variant="quran">
-          {event.entities.quran_refs.slice(0, 1).map((ref, idx) => (
+          {event.quran.slice(0, 1).map((ref, idx) => (
             <div key={idx} style={fs(15)}>
-              <QuranRef reference={ref} onClick={onQuranClick} />
+              <QuranRef quranRef={ref} onClick={onQuranClick} />
             </div>
           ))}
         </PullQuote>
       )}
 
       {/* Course of events */}
-      {event.details.course_of_events && event.details.course_of_events.length > 0 && (
+      {event.courseOfEvents.length > 0 && (
         <section data-tour-id="course-section">
           <SectionHeading
             icon={<Flag size={16} />}
@@ -890,7 +852,7 @@ function ArticleBody({
               }}
               aria-hidden="true"
             />
-            {event.details.course_of_events.map((step, idx) => (
+            {event.courseOfEvents.map((step, idx) => (
               <li key={idx} className="relative flex gap-3 items-start">
                 <span
                   className="shrink-0 relative z-10 w-7 h-7 rounded-full flex items-center justify-center font-bold tabular-nums shadow-sm"
@@ -904,7 +866,7 @@ function ArticleBody({
                     color: eraTheme.scheme.textLight,
                   }}
                 >
-                  {arNum(idx + 1)}
+                  {toArabicIndic(idx + 1)}
                 </span>
                 <p className="text-ink/90 leading-relaxed pt-0.5" style={fs(14)}>
                   {step}
@@ -917,20 +879,20 @@ function ArticleBody({
 
       {/* Remaining Quran refs (if more than one) — folded between events
           and hadith for visual rhythm. */}
-      {event.entities?.quran_refs && event.entities.quran_refs.length > 1 && (
+      {event.quran.length > 1 && (
         <PullQuote color={eraTheme.color} variant="quran">
-          {event.entities.quran_refs.slice(1).map((ref, idx) => (
+          {event.quran.slice(1).map((ref, idx) => (
             <div key={idx} style={fs(15)}>
-              <QuranRef reference={ref} onClick={onQuranClick} />
+              <QuranRef quranRef={ref} onClick={onQuranClick} />
             </div>
           ))}
         </PullQuote>
       )}
 
       {/* Hadith refs as italic callouts */}
-      {event.entities?.hadith_refs && event.entities.hadith_refs.length > 0 && (
+      {event.hadith.length > 0 && (
         <PullQuote color={eraTheme.color} variant="hadith">
-          {event.entities.hadith_refs.map((ref, idx) => (
+          {event.hadith.map((ref, idx) => (
             <div key={idx} className="flex items-start gap-2 text-ink/90 italic">
               <Quote size={14} className="shrink-0 mt-1.5 opacity-50" style={{ color: eraTheme.color }} />
               <span style={fs(14)}>{ref}</span>
@@ -940,7 +902,7 @@ function ArticleBody({
       )}
 
       {/* Companions — horizontal scroll cards */}
-      {event.details.companion_roles && event.details.companion_roles.length > 0 && (
+      {event.roles.length > 0 && (
         <section data-tour-id="companions-section">
           <SectionHeading
             icon={<Shield size={16} />}
@@ -953,10 +915,10 @@ function ArticleBody({
               className="flex gap-3 overflow-x-auto pb-3 ps-5 pe-5"
               style={{ scrollbarWidth: 'thin' }}
             >
-              {event.details.companion_roles.map((comp, idx) => (
+              {event.roles.map((comp, idx) => (
                 <button
                   key={idx}
-                  onClick={() => onCompanionClick && onCompanionClick(comp.name)}
+                  onClick={() => onCompanionClick && onCompanionClick(comp.personId)}
                   className="shrink-0 w-56 sm:w-64 text-right rounded-xl border border-border-dark/15 bg-card-bg shadow-sm hover:shadow-md hover:border-islamic-green/40 active:scale-[0.98] transition-all p-3 flex flex-col gap-2"
                 >
                   <div className="flex items-center gap-2">
@@ -965,14 +927,14 @@ function ArticleBody({
                       style={fs(14)}
                       aria-hidden="true"
                     >
-                      {comp.name.split(' ')[0]?.slice(0, 1) ?? '·'}
+                      {comp.labelAr.split(' ')[0]?.slice(0, 1) ?? '·'}
                     </span>
                     <span className="font-bold text-islamic-green truncate flex-1" style={fs(13)}>
-                      {comp.name}
+                      {comp.labelAr}
                     </span>
                   </div>
                   <p className="text-ink/85 leading-relaxed text-right line-clamp-3" style={fs(12)}>
-                    {comp.role_in_event}
+                    {comp.roleAr}
                   </p>
                 </button>
               ))}
@@ -982,7 +944,7 @@ function ArticleBody({
       )}
 
       {/* Other key figures as chips */}
-      {event.entities?.key_figures && event.entities.key_figures.length > 0 && (
+      {event.keyFigures.length > 0 && (
         <section>
           <SectionHeading
             icon={<Users size={16} />}
@@ -991,14 +953,14 @@ function ArticleBody({
             fs={fs}
           />
           <div className="flex flex-wrap gap-2 mt-2">
-            {event.entities.key_figures.map((fig, idx) => (
+            {event.keyFigures.map((fig, idx) => (
               <button
                 key={idx}
-                onClick={() => onCompanionClick && onCompanionClick(fig)}
+                onClick={() => onCompanionClick && onCompanionClick(fig.personId)}
                 className="inline-flex rounded-full px-3 py-1.5 bg-ink/5 text-ink hover:bg-accent hover:text-parchment border border-border-dark/15 active:scale-95 transition-all font-bold"
                 style={fs(13)}
               >
-                {fig}
+                {fig.labelAr}
               </button>
             ))}
           </div>
@@ -1006,9 +968,9 @@ function ArticleBody({
       )}
 
       {/* Battle CTA — full-width, era-gradient */}
-      {event.battleId && onBattleOpen && (
+      {event.battleScenarioId && onBattleOpen && (
         <button
-          onClick={() => onBattleOpen(event.battleId!)}
+          onClick={() => onBattleOpen(event.battleScenarioId!)}
           className="w-full flex items-center justify-center gap-2.5 px-5 py-4 rounded-xl text-white font-bold shadow-lg active:scale-[0.98] transition-all"
           style={{
             ...fs(15),
@@ -1023,7 +985,7 @@ function ArticleBody({
       )}
 
       {/* Footer: sources */}
-      {event.entities?.sources && event.entities.sources.length > 0 && (
+      {event.sources.length > 0 && (
         <section
           data-tour-id="quran-section"
           className="rounded-xl border border-border-dark/20 p-4 mt-2 relative overflow-hidden"
@@ -1039,7 +1001,7 @@ function ArticleBody({
             </h3>
           </div>
           <ul className="space-y-2 list-none">
-            {event.entities.sources.map((src, idx) => (
+            {event.sources.map((src, idx) => (
               <li key={idx} className="flex items-start gap-2">
                 <ScrollText
                   size={13}

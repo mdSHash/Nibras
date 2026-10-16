@@ -30,8 +30,9 @@ export const battleScenarios: Record<string, BattleScenario> = {
   'battle-of-nahavand': battleOfNahavand,
 };
 
-// Copy of AVAILABLE_BATTLE_SCENARIOS in src/components/EventPanel.tsx:33 — the
-// scenarios the event panel offers a replay button for.
+// The scenarios the event panel offered a replay button for when the baseline was
+// recorded (AVAILABLE_BATTLE_SCENARIOS in EventPanel.tsx before Phase 1B). Since
+// 1B the panel offers one for every event with a battleScenarioId.
 export const PANEL_BATTLE_SCENARIOS = [
   'battle-of-badr',
   'battle-of-uhud',

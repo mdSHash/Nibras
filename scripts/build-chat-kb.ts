@@ -1,7 +1,7 @@
 /**
  * Builds the chat assistant's knowledge base from every Nibras data source:
- *   events (src/dataList.json), companions, cities, Qur'an verses
- *   (src/quranData.json) and battle scenarios.
+ *   events, people and cities (src/generated/, built from content/), Qur'an verses
+ *   (src/generated/quranPassages.json) and battle scenarios.
  *
  * Every verse and inline Qur'an quote is verified against the Tanzil text
  * first; anything that fails is excluded and reported. Writes:
@@ -15,12 +15,11 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import type { ChatKb, KbRecord } from '../shared/chatKb';
-import { normalizeForMatch } from '../shared/arabicText';
-import { citiesData, companionsData, eventsData } from '../src/data';
-import { findCompanion } from '../src/companionsList';
-import quranData from '../src/quranData.json';
+import { aliasForm, normalizeForMatch } from '../shared/arabic';
+import { citiesData, companionsData, eventsData, passageFor } from '../src/data';
+import quranPassages from '../src/generated/quranPassages.json';
 import { scenarios } from '../src/battlefield/scenarios/index';
-import { aliasForm, BuildContext } from './chat-kb/common';
+import { BuildContext } from './chat-kb/common';
 import { addEventUnits } from './chat-kb/eventUnits';
 import { addBattleUnits, addCityUnits, addCompanionUnits, addQuranUnits } from './chat-kb/otherUnits';
 import { addListUnits } from './chat-kb/listUnits';
@@ -30,7 +29,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export function buildChatKb(): { kb: ChatKb; ctx: BuildContext } {
   const ctx = new BuildContext();
-  const verses = quranData as Record<string, QuranEntry>;
+  const verses: Record<string, QuranEntry> = Object.fromEntries(quranPassages.map(p => [p.key, p]));
 
   const cityRecords = addCityUnits(ctx, citiesData);
   // A shortened event title must never equal a place or person name:
@@ -39,7 +38,7 @@ export function buildChatKb(): { kb: ChatKb; ctx: BuildContext } {
     ...cityRecords.flatMap(r => r.aliases),
     ...companionsData.flatMap(c => [c.name, ...c.aliases]).map(aliasForm),
   ]);
-  const events = addEventUnits(ctx, eventsData, Object.keys(verses), name => findCompanion(name)?.id, reservedNames);
+  const events = addEventUnits(ctx, eventsData, ref => passageFor(ref)?.key, reservedNames);
   const titleOf = new Map(events.records.map(r => [r.id, r.title]));
   const companionRecords = addCompanionUnits(ctx, companionsData);
   const quranRecords = addQuranUnits(ctx, verses, events.quranEvents, id => titleOf.get(id) ?? id);

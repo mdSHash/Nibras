@@ -25,17 +25,25 @@ export interface UnitSnapshot {
 export interface SimulationState {
   // State
   scenarioId: string | null;
-  scenarioName: string | null;
   units: UnitSnapshot[];
+  /** Each side's strength as the header shows it: its force total (the event figure), drained in proportion. */
   muslimStrength: number;
   enemyStrength: number;
+  /**
+   * Force total ÷ the units' starting soldier count, per side. The units keep
+   * their own sizes (often the sources' figures for each contingent, which need
+   * not add up to the army's total), so the counters are scaled instead.
+   */
+  strengthScale: { muslim: number; enemy: number };
   muslimMorale: number;
   enemyMorale: number;
   activePhaseId: string | null;
 
   // Actions
-  setScenario: (id: string | null, name: string | null) => void;
+  setScenario: (id: string | null) => void;
   updateUnits: (units: UnitSnapshot[]) => void;
+  setStrengthScale: (scale: { muslim: number; enemy: number }) => void;
+  /** Takes the units' live soldier counts per side. */
   updateStrengths: (muslim: number, enemy: number) => void;
   updateMorale: (muslim: number, enemy: number) => void;
   setActivePhase: (phaseId: string | null) => void;
@@ -44,10 +52,10 @@ export interface SimulationState {
 
 const initialState = {
   scenarioId: null as string | null,
-  scenarioName: null as string | null,
   units: [] as UnitSnapshot[],
   muslimStrength: 0,
   enemyStrength: 0,
+  strengthScale: { muslim: 1, enemy: 1 },
   muslimMorale: 100,
   enemyMorale: 100,
   activePhaseId: null as string | null,
@@ -56,12 +64,17 @@ const initialState = {
 export const useSimulationStore = create<SimulationState>()((set) => ({
   ...initialState,
 
-  setScenario: (id, name) => set({ scenarioId: id, scenarioName: name }),
+  setScenario: (id) => set({ scenarioId: id }),
 
   updateUnits: (units) => set({ units }),
 
+  setStrengthScale: (strengthScale) => set({ strengthScale }),
+
   updateStrengths: (muslim, enemy) =>
-    set({ muslimStrength: muslim, enemyStrength: enemy }),
+    set((s) => ({
+      muslimStrength: Math.round(muslim * s.strengthScale.muslim),
+      enemyStrength: Math.round(enemy * s.strengthScale.enemy),
+    })),
 
   updateMorale: (muslim, enemy) =>
     set({ muslimMorale: muslim, enemyMorale: enemy }),

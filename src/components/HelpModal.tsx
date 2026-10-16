@@ -5,25 +5,19 @@ import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../utils/scrollLock';
 import { Z_INDEX } from '../constants';
 import { cn } from '../utils/cn';
+import { categories } from '../data';
 
 interface HelpModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-// Legend rows mirror the marker colors in Map.tsx's `iconConfig` so a token
-// change in one place is easy to reflect here. Every category the current
-// event data uses is represented; less-common categories (treaty, politics)
-// stay in case scenarios that use them ship in the future.
-const LEGEND: Array<{ color: string; ring?: string; labelAr: string }> = [
-  { color: '#ef4444', labelAr: 'المعارك والغزوات' },
-  { color: '#10b981', labelAr: 'الهجرات والانتقالات' },
-  { color: '#f59e0b', labelAr: 'الوحي والبعثة' },
-  { color: '#3b82f6', labelAr: 'المعالم والأماكن' },
-  { color: '#8b5cf6', labelAr: 'المعاهدات والصلح' },
-  { color: '#6366f1', labelAr: 'الأحداث السياسية' },
-  { color: '#06b6d4', labelAr: 'الأحداث العامة' },
-];
+// Legend rows: the event categories (content/categories.json), whose colours
+// the map markers use.
+const LEGEND: Array<{ color: string; ring?: string; labelAr: string }> = categories.map(c => ({
+  color: c.color,
+  labelAr: c.nameAr,
+}));
 
 // Shortcuts are keyboard-only, so the section is hidden on mobile via CSS.
 const SHORTCUTS: Array<{ keys: string[]; labelAr: string }> = [
@@ -208,6 +202,21 @@ export default function HelpModal({ isOpen, onClose }: HelpModalProps) {
                         />
                       </span>
                       <span>معركة قابلة للمشاهدة</span>
+                    </li>
+                    {/* Territory shading — a swatch like the map's polygons
+                        (emerald fill at 30 %, solid border). */}
+                    <li className="flex items-center gap-3 text-[13px] md:text-sm text-[var(--color-ink)]/85">
+                      <span
+                        className="inline-block shrink-0 rounded-sm"
+                        style={{
+                          width: 22,
+                          height: 16,
+                          backgroundColor: 'rgba(16,185,129,0.3)',
+                          border: '2px solid rgba(16,185,129,0.7)',
+                        }}
+                        aria-hidden="true"
+                      />
+                      <span>حدود الدول على الخريطة تقريبية</span>
                     </li>
                   </ul>
                 </section>

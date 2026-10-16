@@ -9,7 +9,8 @@ import { useScrollLock } from '../utils/scrollLock';
 import { Z_INDEX } from '../constants';
 import { cn } from '../utils/cn';
 import { useChat, type ChatCitation } from '../hooks/useChat';
-import { getEraColor } from '../utils/eraColors';
+import { chatEraColorKey, getEraColor } from '../utils/eraColors';
+import { eraKeyOf } from '../../shared/chatKb';
 import { getMatchingSuggestions } from '../utils/chatSuggestions';
 import { pickExampleQuestions } from '../utils/chatExamples';
 import { useDebouncedValue } from '../hooks/useDebouncedValue';
@@ -64,7 +65,8 @@ function ExampleQuestions({ onAsk }: { onAsk: (question: string) => void }) {
 }
 
 function CitationChip({ citation, onClick }: { citation: ChatCitation; onClick: () => void }) {
-  const color = citation.era ? getEraColor(citation.era) : undefined;
+  // The chat API names the era by its label (Phase 3 moves the chat to era ids).
+  const color = citation.era ? getEraColor(chatEraColorKey(eraKeyOf(citation.era))) : undefined;
   const { eventId, companionId, quranKey, battleId } = citation.entityRefs;
   // Cities and cross-record lists have no screen of their own to open.
   if (!eventId && !companionId && !quranKey && !battleId) {

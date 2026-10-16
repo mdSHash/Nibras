@@ -75,14 +75,6 @@ import type { BattleScenario } from '../types/scenario';
  */
 export const battleOfYamama: BattleScenario = {
   id: 'battle-of-yamama',
-  name: 'Battle of al-Yamamah',
-  nameAr: 'معركة اليمامة',
-  date: '12 AH (December 632 – January 633 CE)',
-  location: 'Aqraba plain, al-Yamamah, central Arabia',
-  description:
-    "The decisive battle of the Ridda Wars under Caliph Abu Bakr al-Siddiq. Khalid ibn al-Walid led ~13,000 Muslims against ~40,000 of Banu Hanifa under the false prophet Musaylimah al-Kadhdhab. After early Muslim setbacks — the line broken, the camp overrun, the Hanafi taunt 'O people of Surat al-Baqara, today al-Baqara has failed!' — Khalid's tribal-banner reorganization on Thabit ibn Qays's advice turned the field. The named Reciters fell holding their standards: Salim mawla Abi Hudhayfa, Zayd ibn al-Khattab, Thabit ibn Qays, Abu Hudhayfa, Abu Dujana. The survivors made their last stand inside Hadiqat al-Rahman, which al-Bara ibn Malik stormed by being hoisted on shields and dropped over the wall to fight to the gate alone. Wahshi ibn Harb killed Musaylimah with the same javelin he had once thrown at Hamza at Uhud. Roughly 1,200 Muslims fell, of whom traditional sources count 360–700 huffaz — the loss that prompted Abu Bakr's first compilation of the Qur'an into a single mushaf.",
-  descriptionAr:
-    'الْمَعْرَكَةُ الْفَاصِلَةُ مِنْ حُرُوبِ الرِّدَّةِ فِي خِلَافَةِ أَبِي بَكْرٍ الصِّدِّيقِ رَضِيَ اللهُ عَنْه. قَادَ خَالِدُ بْنُ الْوَلِيدِ نَحْوَ ثَلَاثَةَ عَشَرَ أَلْفًا مِنَ الْمُسْلِمِينَ فِي مُوَاجَهَةِ قُرَابَةِ أَرْبَعِينَ أَلْفًا مِنْ بَنِي حَنِيفَةَ بِقِيَادَةِ مُسَيْلِمَةَ الْكَذَّاب. اِنْكَسَرَ الصَّفُّ الْأَوَّل، وَبَلَغَ الْعَدُوُّ خِيَامَ النِّسَاء، وَتَنَادَى بَنُو حَنِيفَةَ سَاخِرِينَ: «يَا أَهْلَ سُورَةِ الْبَقَرَةِ، بَطَلَتِ الْبَقَرَةُ الْيَوْم!» فَأَمَرَ خَالِدٌ بِنَصِيحَةِ ثَابِتِ بْنِ قَيْسٍ بِتَنْظِيمِ الْقَبَائِلِ تَحْتَ رَايَاتِهَا — الْمُهَاجِرُونَ تَحْتَ رَايَةِ سَالِمٍ، وَالْأَنْصَارُ تَحْتَ رَايَةِ ثَابِتٍ — فَتَحَوَّلَتِ الْكِفَّة. اِسْتُشْهِدَ الْقُرَّاءُ الْأَرْبَعَة، وَلَجَأَ مَنْ بَقِيَ مِنْ بَنِي حَنِيفَةَ إِلَى حَدِيقَةِ الرَّحْمَنِ الْمَسْوُورَة. اِقْتَحَمَهَا الْبَرَاءُ بْنُ مَالِكٍ بَعْدَ أَنْ حُمِلَ عَلَى التُّرُسِ وَقُذِفَ مِنْ فَوْقِ الْجِدَار، فَفَتَحَ الْبَابَ مِنْ دَاخِلِه. وَقَتَلَ وَحْشِيُّ بْنُ حَرْبٍ مُسَيْلِمَةَ بِالْحَرْبَةِ ذَاتِهَا الَّتِي قَتَلَ بِهَا حَمْزَةَ يَوْمَ أُحُد. اِسْتُشْهِدَ قُرَابَةَ أَلْفٍ وَمِئَتَيْ مُسْلِم، مِنْهُمْ مَا بَيْنَ ثَلَاثِمِئَةٍ وَسِتِّينَ وَسَبْعِمِئَةٍ مِنْ حُفَّاظِ كِتَابِ الله — وَكَانَ ذَلِكَ السَّبَبَ فِي جَمْعِ الْمُصْحَفِ عَلَى عَهْدِ الصِّدِّيق.',
 
   dayPhase: 'day',
   weather: 'dust',

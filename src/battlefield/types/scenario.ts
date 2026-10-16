@@ -26,15 +26,13 @@ export type DayPhase = 'dawn' | 'day' | 'dusk' | 'night';
  */
 export type WeatherCondition = 'clear' | 'sandstorm' | 'storm' | 'rain' | 'dust';
 
-/** Complete battle scenario definition — the top-level config for a replay */
+/**
+ * Complete battle scenario definition — the top-level config for a replay.
+ * Title, date and description come from the linked event (content/events,
+ * `battleScenarioId`); the scenario holds the choreography only.
+ */
 export interface BattleScenario {
   id: string;
-  name: string; // e.g. "Battle of Badr"
-  nameAr: string; // Arabic name
-  date: string; // e.g. "17 Ramadan 2 AH (13 March 624 CE)"
-  location: string;
-  description: string;
-  descriptionAr: string;
 
   /** Map configuration */
   map: MapConfig;
@@ -53,7 +51,7 @@ export interface BattleScenario {
   /**
    * Real-world duration of the historical battle, in days. When set, the
    * BattlePlayer shows a day counter that maps simulation time to real days
-   * (e.g. Khandaq compressed 27 days into 50 simulation seconds).
+   * (e.g. Khandaq compressed 24 days into 50 simulation seconds).
    * Omit for engagements that took less than a day.
    */
   actualDayCount?: number;

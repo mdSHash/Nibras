@@ -1,66 +1,53 @@
-import eventsDataJson from './dataList.json';
-import { citiesData as importedCities, CityData } from './citiesList';
-import { companionsData as importedCompanions, CompanionData } from './companionsList';
+// The app's content, read from src/generated/ (built from content/ by
+// scripts/build-content.ts) in the shapes of shared/contentSchema.ts, with
+// lookups by id. Records link to each other by id only.
+import generatedEvents from './generated/events.json';
+import generatedPeople from './generated/people.json';
+import generatedCities from './generated/cities.json';
+import generatedEras from './generated/eras.json';
+import generatedCategories from './generated/categories.json';
+import generatedQuranPassages from './generated/quranPassages.json';
+import type {
+  Category,
+  City as ContentCity,
+  ContentEvent,
+  Era,
+  GeneratedQuranPassage,
+  Person,
+} from '../shared/contentSchema';
 
-export type EventItem = {
-  id: string;
-  era: string;
-  category: string;
-  title: string;
-  is_major_event?: boolean;
-  battleId?: string;
-  date: {
-    gregorian: number;
-    hijri_relative: string;
-  };
-  location: {
-    name: string;
-    coordinates: [number, number];
-  };
-  details: {
-    summary: string;
-    full_description: string;
-    army_size?: string;
-    enemy_army_size?: string;
-    duration_days?: string;
-    course_of_events?: string[];
-    companion_roles?: {
-      name: string;
-      role_in_event: string;
-    }[];
-  };
-  entities: {
-    key_figures?: string[];
-    quran_refs?: string[];
-    hadith_refs?: string[];
-    sources?: string[];
-  };
-  route?: [number, number][];
-};
+export type EventItem = ContentEvent;
+export type Companion = Person;
+export type City = ContentCity;
 
-export type Companion = CompanionData;
-export type City = CityData;
+/** In timeline order. */
+export const eventsData: EventItem[] = generatedEvents as unknown as EventItem[];
+/** In the curated order of content/people-order.json. */
+export const companionsData: Companion[] = generatedPeople as unknown as Companion[];
+export const citiesData: City[] = generatedCities as unknown as City[];
+/** In era order. */
+export const eras: Era[] = generatedEras as unknown as Era[];
+export const categories: Category[] = generatedCategories;
 
-const BATTLE_ID_MAP: Record<string, string> = {
-  'غَزْوَةُ بَدْرٍ الْكُبْرَى': 'badr',
-  'غَزْوَةُ أُحُدٍ': 'uhud',
-  'غَزْوَةُ الْخَنْدَقِ (الْأَحْزَابُ)': 'khandaq',
-  'غَزْوَةُ خَيْبَرَ': 'khaybar',
-  'فَتْحُ مَكَّةَ الْمُكَرَّمَةِ': 'fath-makkah',
-  'غَزْوَةُ حُنَيْنٍ': 'hunayn',
-  'مَعْرَكَةُ الْيَرْمُوكِ': 'yarmouk',
-  'مَعْرَكَةُ الْقَادِسِيَّةِ': 'qadisiyyah',
-  'مَعْرَكَةُ مُؤْتَةَ': 'mutah',
-  'غَزْوَةُ تَبُوكَ (جَيْشُ الْعُسْرَةِ)': 'tabuk',
-  'مَعْرَكَةُ الْيَمَامَةِ (حَدِيقَةُ الْمَوْتِ)': 'yamama',
-  'مَعْرَكَةُ نَهَاوَنْدَ (فَتْحُ الْفُتُوحِ)': 'nahavand',
-};
+const eraById = new Map(eras.map(e => [e.id, e]));
+const personById = new Map(companionsData.map(p => [p.id, p]));
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- untyped dataList.json; replaced by the Phase 1 content model
-export const eventsData: EventItem[] = (eventsDataJson as any[]).map((e, idx) => ({
-  ...e,
-  id: e.id || `event-${idx}-${e.title.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-أ-ي]/g, '')}`,
-  ...(BATTLE_ID_MAP[e.title] ? { battleId: BATTLE_ID_MAP[e.title] } : {}),
-})) as EventItem[];
-export const citiesData: City[] = importedCities;
-export const companionsData: Companion[] = importedCompanions;
+/** The era an event belongs to (its id is checked at build time). */
+export const eraOf = (event: Pick<EventItem, 'eraId'>): Era => eraById.get(event.eraId) as Era;
+export const getEra = (eraId: string): Era | undefined => eraById.get(eraId);
+export const getPerson = (personId: string): Companion | undefined => personById.get(personId);
+
+/** Qur'an passages with their Quran.com text, by key (e.g. "سورة الفيل: 1-5"). */
+export const quranPassages: Record<string, GeneratedQuranPassage> = Object.fromEntries(
+  (generatedQuranPassages as GeneratedQuranPassage[]).map(p => [p.key, p]),
+);
+const passageByRange = new Map(
+  (generatedQuranPassages as GeneratedQuranPassage[]).map(p => [`${p.surah}:${p.from}-${p.to}`, p]),
+);
+/** The passage an event's Qur'an reference points to. */
+export const passageFor = (ref: { surah: number; from: number; to: number }): GeneratedQuranPassage | undefined =>
+  passageByRange.get(`${ref.surah}:${ref.from}-${ref.to}`);
+
+/** The event a battle replay belongs to: its title and date head the player. */
+export const eventForScenario = (scenarioId: string): EventItem | undefined =>
+  eventsData.find(e => e.battleScenarioId === scenarioId);

@@ -83,8 +83,8 @@ export const MobileDock = memo(function MobileDock(props: DockProps) {
                       <EraPill
                         key={`mobile-jump-${i}`}
                         jump={jump}
-                        isSelected={selectedEra === jump.label}
-                        onClick={() => onEraClick(jump.label)}
+                        isSelected={selectedEra === jump.id}
+                        onClick={() => onEraClick(jump.id)}
                         variant="mobile"
                       />
                     ) : null,

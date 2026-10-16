@@ -2,8 +2,10 @@
 // baseline says (docs/REFACTOR_PLAN.md, "Testing and verification"). Runs every
 // check in order and stops at the first failure.
 //
-//   npm run verify                      run everything
-//   npm run verify -- --update-numbers  also record the test counts in tests/baseline/numbers.json
+//   npm run verify                         run everything
+//   npm run verify -- --update-numbers     also record the test counts in tests/baseline/numbers.json
+//   npm run verify -- --only=tsc,eslint    run only these steps (ids below); CI splits the steps into
+//                                          parallel jobs this way
 import { spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -46,6 +48,7 @@ function mergeRecordedUiBaseline(): string | undefined {
 }
 
 interface Step {
+  id: string;
   name: string;
   command?: string;
   env?: Record<string, string>;
@@ -84,9 +87,12 @@ function playwrightSummary(file: string, label: string): string | undefined {
 }
 
 const steps: Step[] = [
-  { name: 'Type check', command: 'npx tsc --noEmit' },
-  { name: 'ESLint', command: 'npx eslint .' },
+  // Validates content/ (Zod, every link) and writes src/generated/, which everything below reads.
+  { id: 'content', name: 'Content build (Zod)', command: 'npx tsx scripts/build-content.ts' },
+  { id: 'tsc', name: 'Type check', command: 'npx tsc --noEmit' },
+  { id: 'eslint', name: 'ESLint', command: 'npx eslint .' },
   {
+    id: 'vitest',
     name: 'Unit tests (Vitest)',
     command: `npx vitest run --reporter=default --reporter=json --outputFile.json=${join(REPORT_DIR, 'vitest.json')}`,
     after: () => {
@@ -95,13 +101,13 @@ const steps: Step[] = [
       return `${report.numPassedTests}/${report.numTotalTests} passed`;
     },
   },
-  { name: 'Content validation (Zod)', command: 'npx tsx scripts/validate-content.ts' },
-  { name: 'Content snapshot', command: 'npx tsx scripts/baseline/content-snapshot.ts' },
-  { name: 'Behavior map', command: 'npx tsx scripts/baseline/behavior-map.ts' },
-  { name: 'Production build', command: 'npx vite build', env: { VITE_CHAT_API_URL: TEST_CHAT_API_URL } },
-  { name: 'Bundle budget', command: 'npx tsx scripts/baseline/bundle-report.ts' },
+  { id: 'snapshot', name: 'Content snapshot', command: 'npx tsx scripts/baseline/content-snapshot.ts' },
+  { id: 'behavior', name: 'Behavior map', command: 'npx tsx scripts/baseline/behavior-map.ts' },
+  { id: 'build', name: 'Production build', command: 'npx vite build', env: { VITE_CHAT_API_URL: TEST_CHAT_API_URL } },
+  { id: 'bundle', name: 'Bundle budget', command: 'npx tsx scripts/baseline/bundle-report.ts' },
   {
     // Three workers locally: the 12 battle replays render with WebGL and saturate a laptop CPU at four.
+    id: 'features',
     name: 'Feature tests (Playwright)',
     command: `npx playwright test --project=desktop --project=phone --grep-invert @visual --workers=${FEATURE_WORKERS} --reporter=line,json`,
     env: { PLAYWRIGHT_JSON_OUTPUT_NAME: join(REPORT_DIR, 'playwright-features.json') },
@@ -109,6 +115,7 @@ const steps: Step[] = [
   },
   {
     // The @phone smoke subset in the Safari (WebKit) and Firefox engines, functional only.
+    id: 'engines',
     name: 'Phone smoke (WebKit, Firefox)',
     command: 'npx playwright test --project=phone-webkit --project=phone-firefox --workers=2 --reporter=line,json',
     env: { PLAYWRIGHT_JSON_OUTPUT_NAME: join(REPORT_DIR, 'playwright-engines.json') },
@@ -116,6 +123,7 @@ const steps: Step[] = [
   },
   {
     // Two workers: under heavier load the map's resting point can drift (see visual.spec.ts).
+    id: 'visual',
     name: 'Visual snapshots (Playwright)',
     command: `npx playwright test --project=desktop --project=phone --grep @visual --workers=2 --reporter=line,json${visualBaselineMissing ? ' --update-snapshots=all' : ''}`,
     env: { PLAYWRIGHT_JSON_OUTPUT_NAME: join(REPORT_DIR, 'playwright-visual.json') },
@@ -132,12 +140,30 @@ function formatSeconds(ms: number): string {
   return `${(ms / 1000).toFixed(1)} s`;
 }
 
+// --only=a,b runs just those steps (in the usual order); the rest show as "not selected".
+function selectedStepIds(): Set<string> | undefined {
+  const arg = process.argv.find((a) => a.startsWith('--only='));
+  if (!arg) return undefined;
+  const ids = new Set(arg.slice('--only='.length).split(',').map((id) => id.trim()).filter(Boolean));
+  const unknown = [...ids].filter((id) => !steps.some((step) => step.id === id));
+  if (unknown.length > 0) {
+    console.error(`Unknown step id(s): ${unknown.join(', ')}. Known: ${steps.map((step) => step.id).join(', ')}`);
+    process.exit(2);
+  }
+  return ids;
+}
+
 function main(): void {
+  const only = selectedStepIds();
   mkdirSync(REPORT_DIR, { recursive: true });
   rmSync(UI_RECORD_DIR, { recursive: true, force: true });
   const rows: string[][] = [];
   let failed = false;
   for (const step of steps) {
+    if (only && !only.has(step.id)) {
+      rows.push([step.name, 'not selected', '', '']);
+      continue;
+    }
     if (failed) {
       rows.push([step.name, 'not run', '', '']);
       continue;
@@ -186,7 +212,8 @@ No ${process.platform} UI baseline yet: recorded the marker and request numbers 
       }
     }
     if (process.argv.includes('--update-numbers')) {
-      writeNumbers({ ...numbers, tests: counts });
+      // Merge, so a run of some steps (--only) keeps the other steps' counts.
+      writeNumbers({ ...numbers, tests: { ...recorded, ...counts } });
       console.log('\nRecorded the test counts in tests/baseline/numbers.json');
     }
   }

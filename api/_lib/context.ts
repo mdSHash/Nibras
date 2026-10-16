@@ -6,7 +6,7 @@
  * is stored on the server. Carrying is deliberately conservative: a question
  * that names its own subject is treated as a new topic.
  */
-import { normalizeForMatch, searchStems } from '../../shared/arabicText.js';
+import { normalizeForMatch, searchStems } from '../../shared/arabic.js';
 import type { LinkedEntity } from './entityLinker.js';
 import type { LoadedKb } from './kb.js';
 
