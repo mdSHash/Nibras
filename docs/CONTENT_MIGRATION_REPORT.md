@@ -1,6 +1,7 @@
 # Content migration report (Phase 1)
 
-Written by `scripts/migrate-content.ts`. Lists what the migration could not decide on its own.
+Written by `scripts/migrate-content.ts` (removed in Phase 1C with the old data files it read; both
+remain in git history, last at `51fef05`). Lists what the migration could not decide on its own.
 Nothing here was guessed: each record keeps what the app showed before the migration.
 This is the record as of the migration (1A); decisions taken since are in `docs/REFACTOR_PROGRESS.md`.
 

@@ -131,13 +131,15 @@ The app will be available at `http://localhost:3000`.
 
 ```
 nibras/
+├── content/                   # All content as JSON files: events, people, cities, eras, categories,
+│                              #   Qur'an passages, territories (see docs/CONTENT_GUIDE.md)
+├── shared/                    # Code shared by the app, the chat API and scripts (content schemas, Arabic text)
 ├── public/                    # Static assets — includes public/audio/*.wav (262 SHA-256-hashed narration files)
-├── scripts/                   # Build/utility scripts (audio caching, Playwright captures)
+├── scripts/                   # Content build, chat KB, audio, baseline and verify scripts
 ├── server/                    # Express TTS proxy server (build-time only)
 ├── src/
 │   ├── App.tsx                # Root application component
-│   ├── data.ts                # Event data loader and type definitions
-│   ├── dataList.json          # Full event dataset (JSON)
+│   ├── data.ts                # Loads the generated content (src/generated/, built from content/)
 │   ├── types.ts               # Shared TypeScript types
 │   ├── battlefield/           # Battle replay engine (see below)
 │   │   ├── README.md          # Engine architecture + scenario authoring guide
@@ -170,10 +172,10 @@ nibras/
 │   ├── services/              # TTS service layer (Gemini)
 │   ├── constants/             # App-wide constants (z-index, etc.)
 │   ├── data/                  # Tour step definitions
-│   └── utils/                 # Utilities (animations, formatting, era colors, Arabic-search normalization)
+│   └── utils/                 # Utilities (animations, formatting, era colors, people lookup)
 ├── .env.example               # Environment variable template
 ├── package.json               # Dependencies and scripts
-├── PRD.md                     # Product Requirements Document
+├── docs/                      # PRD, content guide, refactor plan and log, owner dashboard
 └── index.html                 # Entry HTML
 ```
 
@@ -245,7 +247,9 @@ For the full engine architecture, scenario format, and authoring guide see [`src
 | `npm run preview` | Preview production build |
 | `npm run lint` | TypeScript type checking (`tsc --noEmit`) |
 | `npm run lint:eslint` | ESLint (TypeScript + React hooks rules) |
-| `npm run validate:content` | Check every event, companion and city against the Zod schemas (`shared/contentSchema.ts`) |
+| `npm run validate:content` | Check everything in `content/` against the Zod schemas (`shared/contentSchema.ts`) and every link between records |
+| `npm run fetch:quran` | Fetch the verse text of every passage in `content/quran/passages.json` from Quran.com |
+| `npm run docs:content` | Rewrite the field reference in `docs/CONTENT_GUIDE.md` from the schemas |
 | `npm run format -- <files>` | Prettier, on demand for the files you name (the repo is not bulk-formatted) |
 | `npm run verify` | Full check against the refactor baseline — see [Verify](#verify) |
 | `npm run cache-audio` | Pre-cache title audio for every event through the TTS proxy |
@@ -319,14 +323,15 @@ Because all audio ships as static WAVs bundled into `dist/audio/`, no separate b
 To publish new content:
 
 ```bash
-# 1. Add events / companions, generate audio locally
-# 2. Verify
+# 1. Add or edit files in content/ (see docs/CONTENT_GUIDE.md), generate audio locally
+# 2. Check the content, the chat KB and the narration
+npm run validate:content
+npm run build:chat-kb
 node scripts/verify-all-audio.js
 
-# 3. Commit + push
-git add src/dataList.json src/companionsList.ts public/audio/
+# 3. Commit on a branch and open a pull request; merging to main deploys
+git add content/ public/data/chat-kb.json public/audio/
 git commit -m "…"
-git push origin main    # GitHub Actions handles the deploy
 ```
 
 ---

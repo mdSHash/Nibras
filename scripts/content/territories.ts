@@ -2,8 +2,9 @@
  * Precomputes the territory map (content/territories) at build time, so the
  * app ships polygons instead of @turf/turf: one Voronoi cell per seed region,
  * clipped to the land outline, then the cells of each owner unioned, for every
- * control period. The geometry steps are the ones src/territoriesData.ts ran in
- * the browser before Phase 1B, in the same order, so the polygons are the same.
+ * control period. The geometry steps are the ones the app ran in the browser
+ * before Phase 1B (src/territoriesData.ts), in the same order, so the polygons
+ * are the same.
  */
 import * as turf from '@turf/turf';
 import type { Feature, MultiPolygon, Polygon } from 'geojson';

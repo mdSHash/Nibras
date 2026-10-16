@@ -317,66 +317,24 @@ To employ cutting-edge interactive mapping technologies to document events of th
 
 ### 8.1 Data Structure Specifications
 
-**EventItem Interface:**
-```typescript
-interface EventItem {
-  id: string;
-  era: string;
-  category: string;
-  title: string;
-  is_major_event?: boolean;
-  date: {
-    gregorian: number;
-    hijri_relative: string;
-  };
-  location: {
-    name: string;
-    coordinates: [number, number];
-  };
-  details: {
-    summary: string;
-    full_description: string;
-    army_size?: string;
-    enemy_army_size?: string;
-    duration_days?: string;
-    course_of_events?: string[];
-    companion_roles?: {
-      name: string;
-      role_in_event: string;
-    }[];
-  };
-  entities: {
-    key_figures?: string[];
-    quran_refs?: string[];
-    hadith_refs?: string[];
-    sources?: string[];
-  };
-  route?: [number, number][];
-}
-```
+Content is stored as JSON files in git under `content/`, one file per record, and validated with Zod
+schemas (`shared/contentSchema.ts`) by the content build, which also checks every link between
+records. Records link to each other by permanent ids only:
 
-**CompanionData Interface:**
-```typescript
-interface CompanionData {
-  id: string;
-  name: string;
-  title: string;
-  role: string;
-  description: string;
-  birth_death: string;
-  aliases: string[];
-}
-```
+- **Events** (`content/events/<id>.json`): era and category ids, title, date (`sortKey` for ordering,
+  Gregorian and Hijri years, the date label as shown), location with coordinates, summary, full
+  description, course of events, force sizes (original text plus numbers), people chips and roles
+  (by person id), Qur'an references (`{surah, from, to}`), hadith, sources, an optional battle replay
+  id and route.
+- **People** (`content/people/<id>.json`): name, title, role, biography, birth and death, aliases.
+- **Cities** (`content/cities/<id>.json`): name, coordinates, description, significance.
+- **Fixed lists**: eras (`content/eras.json`) and categories (`content/categories.json`).
+- **Qur'an**: the cited passages (`content/quran/passages.json`); verse text from Quran.com
+  (`content/quran/verses.json`, fetched by a script, never typed).
+- **Territories**: map regions and who controls them in each period (`content/territories/`); the
+  map polygons are precomputed at build.
 
-**CityData Interface:**
-```typescript
-interface CityData {
-  name: string;
-  coordinates: [number, number];
-  description: string;
-  significance: string;
-}
-```
+The full field reference, generated from the schemas, is in `docs/CONTENT_GUIDE.md`.
 
 ### 8.2 Content Addition Workflow
 
@@ -384,7 +342,7 @@ interface CityData {
 2. Verify dates and coordinates
 3. Write comprehensive descriptions
 4. Add references and citations
-5. Validate data structure
+5. Validate the content (`npm run validate:content`)
 6. Test in application
 7. Submit for review
 
@@ -691,9 +649,8 @@ interface CityData {
 
 ### B. Reference Documents
 
-- [`README.md`](./README.md) - Project overview and setup
-- [`ADDING_NEW_CONTENT_GUIDE.md`](./ADDING_NEW_CONTENT_GUIDE.md) - Content addition guide
-- [`metadata.json`](./metadata.json) - Project metadata
+- [`README.md`](../README.md) - Project overview and setup
+- [`CONTENT_GUIDE.md`](./CONTENT_GUIDE.md) - Content addition guide and field reference
 
 ### C. Contact Information
 

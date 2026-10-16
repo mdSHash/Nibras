@@ -74,7 +74,8 @@ session or tool trusts outdated instructions:
    Quran passages is reviewed historical and religious content. You may move it, re-key it and
    restructure it, but do not reword, re-vocalize, translate, shorten or "fix" it. If you find a
    factual conflict (two numbers disagree), list it for Mostafa; do not pick one yourself.
-2. **Never hand-type Quran text.** Verse text comes from `scripts/data/tanzil/` only.
+2. **Never hand-type Quran text.** Verse text comes only from Quran.com, fetched by `npm run fetch:quran`
+   into `content/quran/verses.json`; `scripts/data/tanzil/` stays as a cross-check.
 3. **One phase per branch and pull request**, in the order below. Within a phase, small commits.
    Stop at the end of each phase and summarize: what changed, what was verified, what is open.
 4. **Every commit leaves the app working**: `npm run lint` (tsc), `npm test`, `npm run build` green,
@@ -425,7 +426,7 @@ Tasks:
       Quran refs by parsing surah and ayah range; map `BATTLE_ID_MAP` + `battleScenario.ts` into
       `battleScenarioId`. Freeze current event IDs as they are (they will be URLs; do not rename).
 - [ ] Ambiguous or unresolved references go into the report, not guesses. Mostafa resolves them.
-- [ ] Generate verse text from Tanzil at build time from `{surah, from, to}`; the Quran modal and the
+- [ ] Generate verse text from Quran.com (decided 2026-10-16; was Tanzil) at build time from `{surah, from, to}`; the Quran modal and the
       chat use the generated data. Remove `src/quranData.json` once nothing reads it.
 - [ ] Move territory control out of the `if` branches into `territories/control.json`; precompute
       the Voronoi polygons at build into a GeoJSON file; drop `@turf/turf` from the client bundle.
