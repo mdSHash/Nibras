@@ -113,6 +113,36 @@ export async function waitForMapIdle(page: Page): Promise<void> {
     .toBe(true);
 }
 
+/**
+ * Marker counts at the start view, independent of load timing. Leaflet keeps the container size it
+ * first measured, and depending on when that happened during start-up it is 676, 788 or the real
+ * 900 px high on desktop (an existing app quirk), which changes which markers are drawn. So, like the
+ * visual shots, re-measure the map and re-run clustering first, then wait for two equal readings.
+ */
+export async function settledMarkerCounts(page: Page): Promise<{ icons: number; clusters: number; pointsInClusters: number }> {
+  await waitForMapIdle(page);
+  await page.evaluate(() => {
+    type LeafletMap = { invalidateSize(options?: { pan?: boolean }): void; fire(type: string): void };
+    const maps = (window as unknown as { __nibrasTestMaps: LeafletMap[] }).__nibrasTestMaps;
+    const map = maps[maps.length - 1];
+    map.invalidateSize({ pan: false });
+    map.fire('moveend');
+  });
+  let previous = '';
+  await expect
+    .poll(
+      async () => {
+        const current = JSON.stringify(await markerCounts(page));
+        const settled = current === previous;
+        previous = current;
+        return settled;
+      },
+      { intervals: [500], timeout: 15_000 },
+    )
+    .toBe(true);
+  return JSON.parse(previous) as { icons: number; clusters: number; pointsInClusters: number };
+}
+
 /** Marker icons on the map at this moment: clusters (with their point counts) and single markers. */
 export async function markerCounts(page: Page): Promise<{ icons: number; clusters: number; pointsInClusters: number }> {
   return page.locator('.leaflet-marker-pane .leaflet-marker-icon').evaluateAll((icons) => {

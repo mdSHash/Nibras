@@ -1,6 +1,6 @@
 import { test, expect, knownFailure } from './support/fixtures';
 import type { Page } from '@playwright/test';
-import { behavior, eventById, header, mapState, markerCounts, openApp, openAppWithEvent, panelTitle, waitForMapIdle } from './support/app';
+import { behavior, eventById, header, mapState, markerCounts, openApp, openAppWithEvent, panelTitle, settledMarkerCounts, waitForMapIdle } from './support/app';
 import { expectUiBaseline } from './support/uiBaseline';
 
 // The start view in Map.tsx: center [24.4672, 39.6112], zoom 6.
@@ -14,8 +14,8 @@ test('first load: request count and markers at the start view match the UI basel
   });
   await openAppWithEvent(page);
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(3_000); // let the 2.5 s flight to the first event and its tiles finish
-  expectUiBaseline(testInfo, 'markersAfterAutoSelect', await markerCounts(page));
+  // Count once the map has stopped and been re-measured (see settledMarkerCounts).
+  expectUiBaseline(testInfo, 'markersAfterAutoSelect', await settledMarkerCounts(page));
   expectUiBaseline(testInfo, 'firstLoadRequests', requests);
 });
 
