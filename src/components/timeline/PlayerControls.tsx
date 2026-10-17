@@ -38,7 +38,7 @@ export function PlayerControls(props: PlayerControlsProps) {
             isAutoPlaying ? 'bg-battle-red/20 border-battle-red/40' : 'bg-islamic-green/20 border-islamic-green/40')}
           style={{
             touchAction: 'manipulation',
-            boxShadow: isAutoPlaying ? '0 0 20px rgba(163, 59, 32, 0.4)' : '0 0 20px rgba(45, 90, 39, 0.4)',
+            boxShadow: isAutoPlaying ? '0 0 20px rgb(var(--sys-glow-red-rgb) / 0.4)' : '0 0 20px rgb(var(--sys-glow-green-rgb) / 0.4)',
           }}
           title={isAutoPlaying ? 'إيقاف التشغيل التلقائي' : 'تشغيل تلقائي للأحداث'}
         >
@@ -51,10 +51,10 @@ export function PlayerControls(props: PlayerControlsProps) {
           whileTap={{ scale: 0.95 }}
           aria-label={isTTSEnabled ? 'إيقاف الصوت' : 'تشغيل الصوت'}
           className={cn(pill, 'px-3 py-2',
-            isTTSEnabled ? 'bg-islamic-green/20 border-islamic-green/40' : 'bg-gray-500/20 border-gray-500/40')}
+            isTTSEnabled ? 'bg-islamic-green/20 border-islamic-green/40' : 'bg-muted-gray/20 border-muted-gray/40')}
           style={{
             touchAction: 'manipulation',
-            boxShadow: isTTSEnabled ? '0 0 20px rgba(45, 90, 39, 0.4)' : '0 0 20px rgba(107, 114, 128, 0.4)',
+            boxShadow: isTTSEnabled ? '0 0 20px rgb(var(--sys-glow-green-rgb) / 0.4)' : '0 0 20px rgb(var(--sys-glow-gray-rgb) / 0.4)',
           }}
           title={isTTSEnabled ? 'إيقاف الصوت' : 'تشغيل الصوت'}
         >
@@ -65,7 +65,7 @@ export function PlayerControls(props: PlayerControlsProps) {
           onClick={onStartOver}
           whileTap={{ scale: 0.95 }}
           className={cn(pill, 'px-4 py-2 bg-islamic-green/20 border-islamic-green/40')}
-          style={{ touchAction: 'manipulation', boxShadow: '0 0 20px rgba(45, 90, 39, 0.4)' }}
+          style={{ touchAction: 'manipulation', boxShadow: '0 0 20px rgb(var(--sys-glow-green-rgb) / 0.4)' }}
           title="البدء من جديد"
         >
           <SkipBack size={16} />
@@ -76,7 +76,7 @@ export function PlayerControls(props: PlayerControlsProps) {
           onClick={onExitPlayerMode}
           whileTap={{ scale: 0.95 }}
           className={cn(pill, 'px-4 py-2 bg-parchment/20 border-parchment/40')}
-          style={{ touchAction: 'manipulation', boxShadow: '0 0 20px rgba(244, 236, 225, 0.4)' }}
+          style={{ touchAction: 'manipulation', boxShadow: '0 0 20px rgb(var(--sys-chrome-ink-rgb) / 0.4)' }}
           title="الخروج من وضع التشغيل"
         >
           <X size={16} />
@@ -99,7 +99,7 @@ export function PlayerControls(props: PlayerControlsProps) {
         className={cn(
           isRail ? ICON_BTN : 'flex items-center gap-1 rounded-full transition-all border shrink-0 min-h-[44px] min-w-[44px] px-2.5 py-1.5 text-ink text-[10px] font-bold',
           !isRail && (isAutoPlaying ? 'bg-battle-red/20 border-battle-red/40' : 'bg-islamic-green/20 border-islamic-green/40'),
-          isRail && (isAutoPlaying ? 'text-red-400' : 'text-emerald-400'),
+          isRail && (isAutoPlaying ? 'text-stop-soft' : 'text-play-soft'),
           !isRail && FOCUS_RING,
         )}
         style={{ touchAction: 'manipulation' }}

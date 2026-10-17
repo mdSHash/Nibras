@@ -68,7 +68,7 @@ export const TimelineRail = memo(function TimelineRail(props: RailProps) {
       )}
       transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       style={{
-        background: 'linear-gradient(180deg, rgba(15, 10, 5, 0.75) 0%, rgba(10, 8, 4, 0.92) 100%)',
+        background: 'linear-gradient(180deg, rgb(var(--sys-rail-top-rgb) / 0.75) 0%, rgb(var(--sys-rail-bottom-rgb) / 0.92) 100%)',
         backdropFilter: 'blur(24px) saturate(1.8)',
         WebkitBackdropFilter: 'blur(24px) saturate(1.8)',
         borderTop: '1px solid rgba(255, 255, 255, 0.08)',
@@ -182,7 +182,7 @@ function MobileCollapsedView(props: MobileCollapsedProps) {
             onClick={onToggleAutoPlay}
             whileTap={{ scale: 0.9 }}
             className={ICON_BTN}
-            style={{ touchAction: 'manipulation', color: isAutoPlaying ? '#ef4444' : '#10B981' }}
+            style={{ touchAction: 'manipulation', color: isAutoPlaying ? 'var(--sys-stop)' : 'rgb(var(--sys-go-rgb))' }}
             title={isAutoPlaying ? 'إيقاف' : 'تشغيل'}
             aria-label={isAutoPlaying ? 'إيقاف التشغيل التلقائي' : 'تشغيل تلقائي'}
           >

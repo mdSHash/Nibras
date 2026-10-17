@@ -1,5 +1,6 @@
 import { EventItem } from '../../data';
 import { eraColorOf } from '../../utils/eventHelpers';
+import { getEraColor } from '../../utils/eraColors';
 
 /**
  * Build a `linear-gradient(to left, ...)` that transitions between era colors
@@ -8,7 +9,7 @@ import { eraColorOf } from '../../utils/eventHelpers';
  */
 export function buildEraGradient(events: EventItem[]): string {
   if (events.length === 0) {
-    return 'linear-gradient(to left, #D4A853, #10B981)';
+    return `linear-gradient(to left, ${getEraColor('prophetic')}, ${getEraColor('abuBakr')})`;
   }
   if (events.length === 1) {
     return `linear-gradient(to left, ${eraColorOf(events[0])}, ${eraColorOf(events[0])})`;

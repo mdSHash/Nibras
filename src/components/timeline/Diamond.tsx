@@ -35,11 +35,11 @@ function BattleBadge({ variant }: { variant: Variant }) {
         top: -Math.round(badge / 2.4),
         right: -Math.round(badge / 2.4),
         background: 'var(--color-accent)',
-        boxShadow: '0 0 0 1.5px rgba(20,15,10,0.85), 0 1px 3px rgba(0,0,0,0.4)',
+        boxShadow: '0 0 0 1.5px rgb(var(--sys-chrome-rgb) / 0.85), 0 1px 3px rgba(0,0,0,0.4)',
       }}
       aria-hidden="true"
     >
-      <svg width={triangle} height={triangle} viewBox="0 0 8 8" fill="rgba(20,15,10,0.95)">
+      <svg width={triangle} height={triangle} viewBox="0 0 8 8" style={{ fill: 'rgb(var(--sys-chrome-rgb) / 0.95)' }}>
         {/* Right-pointing filled triangle, optically centered inside the badge. */}
         <path d="M2 1.2 L6.6 4 L2 6.8 Z" />
       </svg>
