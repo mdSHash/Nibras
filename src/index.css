@@ -33,7 +33,6 @@
   --color-ink: var(--sys-ink);
   --color-accent: var(--sys-accent);
   --color-primary: var(--sys-accent);
-  --color-primary-light: var(--sys-accent-light);
   --color-primary-dark: var(--sys-accent-dark);
   --color-islamic-green: var(--sys-islamic-green);
   --color-battle-red: var(--sys-battle-red);
@@ -42,9 +41,6 @@
   --color-card-bg: var(--sys-card-bg);
   --color-map-center: var(--sys-map-center);
   --color-map-edge: var(--sys-map-edge);
-  --color-ink-light: var(--sys-ink-300);
-  --color-parchment-dark: var(--sys-parchment-200);
-  --color-ink-dark: var(--sys-ink-900);
   --color-chrome: rgb(var(--sys-chrome-rgb));
   --color-chrome-raised: rgb(var(--sys-chrome-raised-rgb));
   --color-chrome-ink: rgb(var(--sys-chrome-ink-rgb));
@@ -123,7 +119,6 @@
 
   /* Glassmorphism */
   --glass-bg: rgba(250, 246, 237, 0.85);
-  --glass-bg-dark: rgba(30, 20, 15, 0.85);
   /* Same colour as --glass-bg with no see-through, for phone sheets where
      the map and timeline would otherwise show behind text. */
   --glass-bg-solid: rgb(250, 246, 237);
@@ -138,47 +133,19 @@
   --radius-xl: 24px;
 
   /* Base Colors - Enhanced warmth and depth */
-  --sys-parchment-50: #faf7f2;
   --sys-parchment: #f4ece1;
-  --sys-parchment-200: #e8dfd0;
-  --sys-parchment-300: #dccfb8;
   
-  --sys-ink-900: #2c241e;
-  --sys-ink-700: #4a3d32;
-  --sys-ink-500: #6b5a47;
-  --sys-ink-300: #8b7a67;
   --sys-ink: #2c241e;
   
   /* Accent Colors - Richer golden tones */
-  --sys-accent-light: #c4a57b;
   --sys-accent: #8b6b4a;
   --sys-accent-dark: #6d5438;
-  --sys-accent-glow: rgba(139, 107, 74, 0.3);
   
   /* Islamic Green - More vibrant */
-  --sys-islamic-green-light: #4a8040;
   --sys-islamic-green: #2d5a27;
-  --sys-islamic-green-dark: #1f3d1b;
-  --sys-islamic-green-glow: rgba(45, 90, 39, 0.25);
   
   /* Battle Red - Enhanced contrast */
-  --sys-battle-red-light: #c74d2e;
   --sys-battle-red: #a33b20;
-  --sys-battle-red-dark: #7d2d18;
-  --sys-battle-red-glow: rgba(163, 59, 32, 0.25);
-  
-  /* Era-Specific Colors */
-  --sys-prophet-era: #10b981;
-  --sys-abu-bakr: #fbbf24;
-  --sys-umar: #ef4444;
-  --sys-uthman: #06b6d4;
-  --sys-ali: #818cf8;
-  
-  /* Semantic Colors */
-  --sys-success: #059669;
-  --sys-warning: #d97706;
-  --sys-error: #dc2626;
-  --sys-info: #0284c7;
   
   /* Legacy support */
   --sys-border-dark: #3d2b1f;
@@ -281,37 +248,10 @@
   --timeline-text-primary: #1a1410;        /* Dark text for light backgrounds */
   --timeline-text-secondary: #2c241e;      /* Darker secondary text */
   --timeline-text-date: #1a1410;           /* Dark text for dates */
-  --timeline-date-bg: rgba(252, 211, 77, 0.95); /* Light yellow background for dates */
-  --timeline-event-bg: rgba(244, 236, 225, 0.95); /* Light parchment background for event labels */
-  --timeline-event-bg-major: rgba(255, 248, 240, 0.98); /* Nearly white for major events */
-  --timeline-event-bg-selected: rgba(255, 255, 255, 1); /* Pure white for selected events */
   --timeline-spacing-item: 1.5rem;         /* 24px between items */
   --timeline-spacing-category: 2rem;       /* 32px between categories */
   --timeline-marker-size: 0.5rem;          /* 8px default marker */
   --timeline-marker-size-major: 0.75rem;   /* 12px major event marker */
-  
-  /* Era-Specific Timeline Backgrounds - Light Mode */
-  --timeline-bg-meccan: #d4f1e8;           /* Light green for Meccan period */
-  --timeline-bg-medinan: #e8f5f0;          /* Very light green for Medinan period */
-  --timeline-bg-rashidun: #fef3e2;         /* Light warm beige for Rashidun Caliphate */
-  --timeline-bg-default: #f4ece1;          /* Default light background */
-  
-  /* Era-Specific Text Colors for Contrast - Light Mode */
-  --timeline-text-meccan: #1a1410;         /* Dark text for light backgrounds */
-  --timeline-text-medinan: #1a1410;        /* Dark text for light backgrounds */
-  --timeline-text-rashidun: #1a1410;       /* Dark text for light backgrounds */
-  --timeline-text-default: #1a1410;        /* Dark text for light backgrounds */
-  
-  /* Gradients */
-  --sys-gradient-parchment: radial-gradient(circle at center, #faf7f2 0%, #f4ece1 50%, #e8dfd0 100%);
-  --sys-gradient-header: linear-gradient(180deg, rgba(44, 36, 30, 0.95) 0%, rgba(44, 36, 30, 0.6) 60%, transparent 100%);
-  --sys-gradient-panel: linear-gradient(135deg, #f4ece1 0%, #e8dfd0 100%);
-  --sys-gradient-accent-glow: radial-gradient(circle at center, rgba(139, 107, 74, 0.3) 0%, transparent 70%);
-  --sys-gradient-prophet: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  --sys-gradient-abu-bakr: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-  --sys-gradient-umar: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  --sys-gradient-uthman: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
-  --sys-gradient-ali: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
   
   /* Animation Timing */
   --duration-instant: 100ms;
@@ -375,42 +315,19 @@
 
 .dark {
   /* Base Colors - Warmer, less harsh */
-  --sys-parchment-50: #2d231c;
   --sys-parchment: #221a15;
-  --sys-parchment-200: #1a140f;
-  --sys-parchment-300: #120d09;
   
-  --sys-ink-900: #f0e6d8;
-  --sys-ink-700: #e0d0b8;
-  --sys-ink-500: #c4b39a;
-  --sys-ink-300: #a89a82;
   --sys-ink: #e0d0b8;
   
   /* Accent Colors - Richer in dark mode */
-  --sys-accent-light: #e8c89a;
   --sys-accent: #d4a373;
   --sys-accent-dark: #b8895f;
-  --sys-accent-glow: rgba(212, 163, 115, 0.4);
   
   /* Islamic Green - Softer but visible */
-  --sys-islamic-green-light: #8bc77f;
   --sys-islamic-green: #6da561;
   
-  --sys-islamic-green-dark: #558a4a;
-  --sys-islamic-green-glow: rgba(109, 165, 97, 0.3);
-  
   /* Battle Red - Warm and legible */
-  --sys-battle-red-light: #f28d6f;
   --sys-battle-red: #e57256;
-  --sys-battle-red-dark: #c85a3f;
-  --sys-battle-red-glow: rgba(229, 114, 86, 0.3);
-  
-  /* Era Colors - Adjusted for dark mode */
-  --sys-prophet-era: #34d399;
-  --sys-abu-bakr: #fcd34d;
-  --sys-umar: #f87171;
-  --sys-uthman: #22d3ee;
-  --sys-ali: #a5b4fc;
   
   /* Legacy support */
   --sys-border-dark: #4a382b;
@@ -449,23 +366,6 @@
   --sys-popup-edge: rgba(255, 255, 255, 0.15);
   --sys-hero-ink: #0a0a0a;
 
-  /* Era-Specific Timeline Backgrounds - Dark Mode */
-  --timeline-bg-meccan: #1a3a2e;           /* Deep forest green for Meccan period */
-  --timeline-bg-medinan: #2d4a3e;          /* Medium green for Medinan period */
-  --timeline-bg-rashidun: #3d2e1a;         /* Warm brown for Rashidun Caliphate */
-  --timeline-bg-default: #2c241e;          /* Default dark background */
-  
-  /* Era-Specific Text Colors for Contrast - Dark Mode */
-  --timeline-text-meccan: #e8f5e9;         /* Light text for dark backgrounds */
-  --timeline-text-medinan: #f1f8f4;        /* Light text for dark backgrounds */
-  --timeline-text-rashidun: #fef3e2;       /* Light text for dark backgrounds */
-  --timeline-text-default: #f4ece1;        /* Light text for dark backgrounds */
-  
-  /* Gradients for dark mode */
-  --sys-gradient-parchment: radial-gradient(circle at center, #2d231c 0%, #221a15 50%, #1a140f 100%);
-  --sys-gradient-header: linear-gradient(180deg, rgba(34, 26, 21, 0.95) 0%, rgba(34, 26, 21, 0.6) 60%, transparent 100%);
-  --sys-gradient-panel: linear-gradient(135deg, #221a15 0%, #1a140f 100%);
-  
   /* Dark Mode Shadow System - Enhanced for visibility */
   --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.4);
   --shadow-modal: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -477,10 +377,6 @@
   --timeline-text-primary: #f4ece1;        /* Light text for dark backgrounds */
   --timeline-text-secondary: #e0d0b8;      /* Lighter secondary text */
   --timeline-text-date: #fde68a;           /* Bright yellow for dates in dark mode */
-  --timeline-date-bg: rgba(44, 36, 30, 0.95); /* Dark background for dates */
-  --timeline-event-bg: rgba(44, 36, 30, 0.95); /* Dark background for event labels */
-  --timeline-event-bg-major: rgba(34, 26, 21, 0.98); /* Darker for major events */
-  --timeline-event-bg-selected: rgba(26, 20, 15, 1); /* Darkest for selected events */
 }
 
 body {
@@ -1769,8 +1665,6 @@ border-color: rgb(var(--sys-accent-rgb) / 0.3);
 .dark .bg-gradient-to-r {
 background: linear-gradient(to right, rgb(var(--sys-night-panel-rgb) / 0.95), rgb(var(--sys-night-panel-rgb) / 0.9), rgb(var(--sys-night-panel-rgb) / 0.95));
 }
-
-
 
 /* Timeline Component Specific Fixes */
 
