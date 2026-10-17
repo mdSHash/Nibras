@@ -1193,8 +1193,7 @@ skipped, phone smoke 42/42, visual 16/16.
   sources from `facts.md`.
 - 2026-10-17, Badr's facts:
   1. «معاهم فرسين بس» (two horses) stays as narrated (Ibn Hisham), although Musnad Ahmad 1023 says
-     al-Miqdad was the only horseman. *(Recorded from a message whose Arabic arrived garbled; Mostafa
-     to confirm this reading.)*
+     al-Miqdad was the only horseman. (Confirmed by Mostafa, 2026-10-17.)
   2. Al-Hubab's advice stays (sira report, broken chain).
   3. **The Badr event is not changed**: facts only the video states (14 martyrs, two horses,
      al-Hubab, ʿUmayr ibn al-Humam, Bilal and Umayya, the qalib) stay in the video's captions and
@@ -1283,8 +1282,8 @@ skipped, phone smoke 42/42, visual 16/16.
 
 - 2026-10-17: Mostafa renamed the YouTube video to Arabic and removed YouTube's own captions in
   YouTube Studio (the player also unloads them, as a fallback).
-- Still open for Mostafa: the reading of Badr fact 1 (garbled message); a GitHub Release copy of
-  `battle-badr.mp4`.
+- Still open for Mostafa: a GitHub Release copy of `battle-badr.mp4` (a backup of the original
+  outside this computer, as planned for the narration WAVs).
 
 #### 3H verification (2026-10-17, Windows 11, Node 20.19.5, Playwright 1.59.1)
 
