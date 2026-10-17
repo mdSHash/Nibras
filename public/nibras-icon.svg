@@ -1,63 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <defs>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&display=swap');
-      .text {
-        font-family: 'Amiri Quran', 'Traditional Arabic', 'Sakkal Majalla', serif;
-        fill: url(#goldGradient);
-        font-size: 135px;
-        font-weight: bold;
-        text-anchor: middle;
-        dominant-baseline: central;
-        filter: drop-shadow(0px 8px 12px rgba(0,0,0,0.8));
-      }
-      .bg {
-        fill: #1C1512;
-      }
-      .star-border {
-        fill: none;
-        stroke: url(#goldGradient);
-        stroke-width: 16;
-        stroke-linejoin: round;
-        filter: drop-shadow(0px 6px 12px rgba(0,0,0,0.6));
-      }
-      .star-inner {
-        fill: none;
-        stroke: url(#goldGradient);
-        stroke-width: 3;
-        stroke-dasharray: 8, 8;
-        opacity: 0.6;
-      }
-      .star-filled {
-        fill: #2A201A;
-      }
-    </style>
-    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#C59E47" />
-      <stop offset="25%" stop-color="#FCF6BA" />
-      <stop offset="50%" stop-color="#B38728" />
-      <stop offset="75%" stop-color="#FBF5B7" />
-      <stop offset="100%" stop-color="#8A5A19" />
-    </linearGradient>
-  </defs>
-
-  <rect width="512" height="512" rx="100" class="bg" />
-
-  <!-- The 8-pointed star base (Rub el Hizb) -->
-  <g transform="translate(256, 256)">
-    <!-- Filled backgrounds -->
-    <rect x="-160" y="-160" width="320" height="320" rx="30" class="star-filled" />
-    <rect x="-160" y="-160" width="320" height="320" rx="30" class="star-filled" transform="rotate(45)" />
-
-    <!-- Borders -->
-    <rect x="-160" y="-160" width="320" height="320" rx="30" class="star-border" />
-    <rect x="-160" y="-160" width="320" height="320" rx="30" class="star-border" transform="rotate(45)" />
-    
-    <!-- Inner dashed decorative borders -->
-    <rect x="-130" y="-130" width="260" height="260" rx="20" class="star-inner" />
-    <rect x="-130" y="-130" width="260" height="260" rx="20" class="star-inner" transform="rotate(45)" />
-
-    <!-- Core Text -->
-    <text x="0" y="5" class="text">نِبْرَاس</text>
-  </g>
-</svg>
+<!-- Nibras icon, direction A (golden star), chosen 2026-10-17. The word is outlined from Amiri Bold (OFL), so it needs no font. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#E9C977"></stop><stop offset=".45" stop-color="#F7E3A6"></stop><stop offset=".7" stop-color="#C99A45"></stop><stop offset="1" stop-color="#9C6F27"></stop></linearGradient><radialGradient id="glow" cx=".5" cy=".55" r=".6">
+  <stop offset="0" stop-color="#FFF4C9"></stop><stop offset=".45" stop-color="#F2C46B"></stop><stop offset="1" stop-color="#B9772B"></stop></radialGradient></defs><rect width="512" height="512" rx="112" fill="#1C1512"></rect>
+      <g transform="translate(256 256)">
+        <g fill="#2A201A"><rect x="-150" y="-150" width="300" height="300" rx="22"></rect><g transform="rotate(45)"><rect x="-150" y="-150" width="300" height="300" rx="22"></rect></g></g>
+        <g fill="none" stroke="url(#gold)" stroke-width="14" stroke-linejoin="round"><rect x="-150" y="-150" width="300" height="300" rx="22"></rect><g transform="rotate(45)"><rect x="-150" y="-150" width="300" height="300" rx="22"></rect></g></g>
+        <g fill="none" stroke="#E9C977" stroke-opacity=".35" stroke-width="3"><rect x="-128" y="-128" width="256" height="256" rx="16"></rect><g transform="rotate(45)"><rect x="-128" y="-128" width="256" height="256" rx="16"></rect></g></g>
+        <path fill="url(#gold)" d="M828.0 675.0Q835.0 649.0 856.0 671.0Q877.0 693.0 877.0 743.0Q877.0 840.0 840.0 898.0Q828.0 917.0 806.0 923.0Q762.0 935.0 707.0 894.0Q659.0 971.0 579.0 965.0Q576.0 1004.0 569.0 1039.5Q562.0 1075.0 551.0 1107.0Q530.0 1169.0 474.0 1213.0Q357.0 1305.0 222.0 1302.0Q54.0 1298.0 12.0 1148.0Q0.0 1106.0 15.0 1033.0Q23.0 996.0 37.5 956.5Q52.0 917.0 74.0 876.0Q81.0 863.0 91.0 868.0Q101.0 874.0 95.0 888.0Q46.0 1004.0 57.0 1042.0Q90.0 1166.0 233.0 1166.0Q441.0 1167.0 524.0 1042.0Q527.0 977.0 476.0 880.0Q467.0 863.0 473.0 850.0L515.0 772.0Q524.0 755.0 542.0 779.0Q551.0 791.0 559.5 805.0Q568.0 819.0 575.0 836.0Q684.0 852.0 714.0 724.0Q720.0 702.0 733.0 703.0Q755.0 706.0 744.0 765.0Q778.0 786.0 819.0 785.0Q819.0 780.0 809.0 764.0Q806.0 758.0 810.0 743.0L828.0 675.0ZM1034.0 365.0Q1054.0 322.0 1060.0 385.0L1084.0 629.0Q1114.0 957.0 1070.0 1042.0Q1060.0 1060.0 1051.0 1057.0Q1041.0 1054.0 1042.0 1009.0Q1043.0 971.0 1034.0 883.5Q1025.0 796.0 1007.0 661.0L986.0 495.0Q983.0 474.0 992.0 454.0L1034.0 365.0ZM1404.0 29.0Q1416.0 21.0 1428.0 24.0Q1438.0 27.0 1432.0 48.0L1423.0 80.0Q1418.0 95.0 1398.0 108.0L1203.0 221.0Q1196.0 225.0 1190.0 225.0Q1177.0 224.0 1175.0 205.0L1175.0 188.0Q1177.0 172.0 1196.0 159.0L1404.0 29.0ZM1072.0 1210.0Q1057.0 1199.0 1061.0 1186.0Q1065.0 1173.0 1086.0 1178.0Q1183.0 1198.0 1247.0 1173.0Q1378.0 1123.0 1432.0 1024.0Q1431.0 1006.0 1380.0 935.0Q1373.0 927.0 1376.0 916.0L1404.0 814.0Q1421.0 754.0 1456.0 829.0Q1502.0 931.0 1477.0 1046.0Q1462.0 1115.0 1401.0 1189.0Q1340.0 1263.0 1277.0 1271.0Q1174.0 1283.0 1072.0 1210.0ZM1486.0 69.0Q1489.0 64.0 1492.0 59.0Q1495.0 54.0 1498.0 50.0Q1535.0 0.0 1591.0 36.0Q1597.0 40.0 1599.0 42.0Q1642.0 75.0 1645.0 122.0Q1648.0 179.0 1609.0 207.0Q1581.0 226.0 1541.0 223.0Q1538.0 223.0 1534.5 222.5Q1531.0 222.0 1528.0 222.0Q1461.0 211.0 1468.0 132.0Q1468.0 128.0 1468.5 124.0Q1469.0 120.0 1470.0 116.0Q1474.0 89.0 1486.0 69.0ZM1598.0 147.0Q1627.0 139.0 1597.0 109.0Q1575.0 87.0 1544.0 87.0Q1507.0 86.0 1505.0 119.0Q1505.0 141.0 1521.0 147.0Q1556.0 159.0 1598.0 147.0ZM1631.0 757.0Q1633.0 767.0 1635.0 788.5Q1637.0 810.0 1641.0 842.0Q1649.0 906.0 1663.0 926.0Q1678.0 947.0 1707.0 953.0Q1735.0 959.0 1741.0 984.0Q1743.0 990.0 1741.5 999.0Q1740.0 1008.0 1737.0 1022.0Q1725.0 1072.0 1702.0 1072.0Q1590.0 1072.0 1590.0 881.0Q1551.0 959.0 1467.0 958.0Q1414.0 958.0 1404.0 908.0Q1397.0 867.0 1413.0 849.0Q1437.0 822.0 1458.0 837.0Q1464.0 841.0 1467.0 843.0Q1524.0 847.0 1547.0 829.0Q1570.0 811.0 1589.0 753.0Q1596.0 731.0 1612.0 734.0Q1628.0 737.0 1631.0 757.0ZM1553.0 1180.0Q1559.0 1172.0 1570.0 1175.0Q1590.0 1182.0 1608.5 1193.0Q1627.0 1204.0 1643.0 1218.0Q1651.0 1226.0 1646.0 1236.0L1598.0 1312.0Q1591.0 1322.0 1580.0 1314.0Q1570.0 1306.0 1508.0 1269.0Q1497.0 1262.0 1504.0 1252.0L1553.0 1180.0ZM1873.0 1367.0Q1885.0 1359.0 1897.0 1362.0Q1907.0 1365.0 1901.0 1386.0L1892.0 1418.0Q1887.0 1433.0 1867.0 1446.0L1672.0 1559.0Q1665.0 1563.0 1659.0 1563.0Q1646.0 1562.0 1644.0 1543.0L1644.0 1526.0Q1646.0 1510.0 1665.0 1497.0L1873.0 1367.0ZM1752.0 844.0L1781.0 782.0Q1796.0 749.0 1807.0 769.0Q1856.0 852.0 1830.0 963.0Q1805.0 1072.0 1701.0 1072.0Q1681.0 1072.0 1672.0 1038.0Q1668.0 1021.0 1666.0 1007.5Q1664.0 994.0 1664.0 984.0Q1664.0 964.0 1685.0 955.0Q1693.0 952.0 1701.0 952.0Q1757.0 953.0 1785.0 929.0Q1779.0 902.0 1762.0 884.0Q1743.0 863.0 1752.0 844.0ZM1764.0 555.0Q1770.0 547.0 1781.0 550.0Q1801.0 557.0 1819.5 568.0Q1838.0 579.0 1854.0 593.0Q1862.0 601.0 1857.0 611.0L1809.0 687.0Q1802.0 697.0 1791.0 689.0Q1781.0 681.0 1719.0 644.0Q1708.0 637.0 1715.0 627.0L1764.0 555.0Z" transform="translate(-95.37 -79.09) scale(0.09987)"></path>
+      </g></svg>
