@@ -45,6 +45,41 @@
   --color-ink-light: var(--sys-ink-300);
   --color-parchment-dark: var(--sys-parchment-200);
   --color-ink-dark: var(--sys-ink-900);
+  --color-chrome: rgb(var(--sys-chrome-rgb));
+  --color-chrome-raised: rgb(var(--sys-chrome-raised-rgb));
+  --color-chrome-ink: rgb(var(--sys-chrome-ink-rgb));
+  --color-chrome-ink-warm: var(--sys-chrome-ink-warm);
+  --color-umber: rgb(var(--sys-umber-rgb));
+  --color-gold: rgb(var(--sys-gold-rgb));
+  --color-gold-bright: rgb(var(--sys-gold-bright-rgb));
+  --color-gold-pale: var(--sys-gold-pale);
+  --color-night: var(--sys-night);
+  --color-night-deep: var(--sys-night-deep);
+  --color-go: rgb(var(--sys-go-rgb));
+  --color-stop: var(--sys-stop);
+  --color-ridda: var(--sys-ridda);
+  --color-glow-green: rgb(var(--sys-glow-green-rgb));
+  --color-glow-red: rgb(var(--sys-glow-red-rgb));
+  --color-glow-gray: rgb(var(--sys-glow-gray-rgb));
+  --color-glow-forest: rgb(var(--sys-glow-forest-rgb));
+  --color-ally-deep: var(--sys-ally-deep);
+  --color-ally-light: var(--sys-ally-light);
+  --color-enemy-deeper: var(--sys-enemy-deeper);
+  --color-enemy-light: var(--sys-enemy-light);
+  --color-hero-error: var(--sys-hero-error);
+  --color-play-soft: var(--sys-play-soft);
+  --color-stop-soft: var(--sys-stop-soft);
+  --color-muted-gray: var(--sys-muted-gray);
+  --color-paper: var(--sys-paper);
+  --color-paper-ink: var(--sys-paper-ink);
+  --color-paper-title: var(--sys-paper-title);
+  --color-paper-control: var(--sys-paper-control);
+  --color-quran-head: var(--sys-quran-head);
+  --color-quran-body: var(--sys-quran-body);
+  --color-quran-title: var(--sys-quran-title);
+  --color-quran-muted: var(--sys-quran-muted);
+  --color-quran-close: var(--sys-quran-close);
+  --color-quran-foot: var(--sys-quran-foot);
 }
 
 :root {
@@ -152,7 +187,59 @@
   --sys-map-center: #e8dfd0;
   --sys-map-edge: #dccfb8;
   --sys-map-filter: sepia(0.3) grayscale(0.5) contrast(1.1) brightness(1.1) opacity(0.4);
-  
+
+  /* Fixed colors: the same in light and dark mode. "-rgb" tokens hold the
+     channels for alpha in CSS and inline styles: rgb(var(--sys-gold-rgb) / 0.3).
+     Neutral black and white (shadows, scrims) stay literal. JS-only users
+     (framer-motion keyframes, Leaflet options) take them from src/themeColors.ts. */
+  --sys-chrome-rgb: 20 15 10;                 /* the always-dark header, ⋮ menu, map badges */
+  --sys-chrome-raised-rgb: 44 36 30;          /* cluster badges, popups, the companion window's tints */
+  --sys-chrome-ink-rgb: 244 236 225;          /* text and glows on the dark chrome */
+  --sys-chrome-ink-warm: #f5e6c8;             /* the title's shimmer */
+  --sys-rail-top-rgb: 15 10 5;                /* the timeline rail's gradient */
+  --sys-rail-bottom-rgb: 10 8 4;
+  --sys-umber-rgb: 61 43 31;                  /* the companion window's lines */
+  --sys-gold-rgb: 212 168 83;                 /* the tour, the cursor, the ⋮ menu */
+  --sys-gold-bright-rgb: 212 175 55;          /* the intro and the tour prompt */
+  --sys-gold-pale: #e8c872;                   /* the cursor's inner star */
+  --sys-night: #1a1a2e;                       /* the intro, the tour prompt, the cursor's outline */
+  --sys-night-deep: #0d0d1a;
+  --sys-go-rgb: 16 185 129;                   /* play, the current place, the legend's route */
+  --sys-stop: #ef4444;
+  --sys-ridda: #f87171;                       /* the Ridda wars' borders */
+  --sys-glow-green-rgb: 45 90 39;             /* the player's glows (light mode's greens, in both modes) */
+  --sys-glow-red-rgb: 163 59 32;
+  --sys-glow-gray-rgb: 107 114 128;
+  --sys-glow-forest-rgb: 34 139 34;           /* the tour button's shadow */
+  --sys-ally-deep: oklch(37.8% 0.077 168.94);  /* the hero's army badges — Tailwind emerald-900 */
+  --sys-ally-light: oklch(84.5% 0.143 164.978); /* Tailwind emerald-300 */
+  --sys-enemy-deeper: oklch(25.8% 0.092 26.042); /* Tailwind red-950 */
+  --sys-enemy-light: oklch(80.8% 0.114 19.571); /* Tailwind red-300 */
+  --sys-hero-error: oklch(88.5% 0.062 18.334); /* the narration's error on the hero — Tailwind red-200 */
+  --sys-play-soft: oklch(76.5% 0.177 163.223); /* the rail's play icon — Tailwind emerald-400 */
+  --sys-stop-soft: oklch(70.4% 0.191 22.216); /* and its stop icon — Tailwind red-400 */
+  --sys-muted-gray: oklch(55.1% 0.027 264.364);    /* narration off — Tailwind gray-500 */
+
+  --sys-night-panel-rgb: 34 26 21;            /* dark mode's panels, in rules that apply only in dark mode */
+  --sys-lightning-rgb: 220 230 255;           /* the storm's flash */
+  --sys-lightning-dim-rgb: 180 200 255;
+
+  /* Light and dark: the accent's channels, the Quran window and the tour step ("paper"), the hero's shade. */
+  --sys-accent-rgb: 139 107 74;               /* --sys-accent */
+  --sys-paper: #faf8f5;
+  --sys-paper-ink: #1a1a2e;
+  --sys-paper-title: #1a1a2e;
+  --sys-paper-control: #1a1a2e;
+  --sys-quran-head: #f0ecd6;
+  --sys-quran-body: #faf8f5;
+  --sys-quran-title: #2d5a27;
+  --sys-quran-muted: oklch(37.3% 0.034 259.733); /* Tailwind gray-700 */
+  --sys-quran-close: oklch(21% 0.034 264.665); /* Tailwind gray-900 */
+  --sys-quran-foot: oklch(96.7% 0.003 264.542); /* Tailwind gray-100 */
+  --sys-popup-bg: rgba(44, 36, 30, 0.95);
+  --sys-popup-edge: rgba(255, 255, 255, 0.2);
+  --sys-hero-ink: #1a1a1a;
+
   /* Standardized Design System */
   
   /* Shadow System - Consistent depth hierarchy */
@@ -346,7 +433,22 @@
   --sys-map-center: #2b211a;
   --sys-map-edge: #18120e;
   --sys-map-filter: sepia(0.4) grayscale(0.6) brightness(0.4) contrast(1.3) opacity(0.4);
-  
+
+  --sys-accent-rgb: 212 163 115;
+  --sys-paper: #1a1a2e;
+  --sys-paper-ink: #f5f5f5;
+  --sys-paper-title: #d4a853;
+  --sys-paper-control: #faf8f5;
+  --sys-quran-head: #1f2937;
+  --sys-quran-body: #111827;
+  --sys-quran-title: #8bc77f;
+  --sys-quran-muted: oklch(87.2% 0.01 258.338); /* Tailwind gray-300 */
+  --sys-quran-close: oklch(96.7% 0.003 264.542); /* Tailwind gray-100 */
+  --sys-quran-foot: oklch(27.8% 0.033 256.848); /* Tailwind gray-800 */
+  --sys-popup-bg: rgba(34, 26, 21, 0.95);
+  --sys-popup-edge: rgba(255, 255, 255, 0.15);
+  --sys-hero-ink: #0a0a0a;
+
   /* Era-Specific Timeline Backgrounds - Dark Mode */
   --timeline-bg-meccan: #1a3a2e;           /* Deep forest green for Meccan period */
   --timeline-bg-medinan: #2d4a3e;          /* Medium green for Medinan period */
@@ -436,7 +538,7 @@ textarea,
 [role="button"],
 [tabindex]:not([tabindex="-1"]) {
   touch-action: manipulation;
-  -webkit-tap-highlight-color: rgba(139, 107, 74, 0.2);
+  -webkit-tap-highlight-color: rgb(var(--sys-accent-rgb) / 0.2);
 }
 
 .dark a,
@@ -446,7 +548,7 @@ textarea,
 .dark textarea,
 .dark [role="button"],
 .dark [tabindex]:not([tabindex="-1"]) {
-  -webkit-tap-highlight-color: rgba(212, 163, 115, 0.2);
+  -webkit-tap-highlight-color: rgb(var(--sys-accent-rgb) / 0.2);
 }
 
 /* Momentum Scrolling for iOS */
@@ -1197,7 +1299,7 @@ a:focus-visible,
 [role="button"]:focus-visible {
   outline: 3px solid var(--color-accent);
   outline-offset: 2px;
-  box-shadow: 0 0 0 6px rgba(139, 107, 74, 0.2);
+  box-shadow: 0 0 0 6px rgb(var(--sys-accent-rgb) / 0.2);
 }
 
 .dark button:focus-visible,
@@ -1205,7 +1307,7 @@ a:focus-visible,
 .dark [role="button"]:focus-visible {
   outline: 3px solid var(--color-accent);
   outline-offset: 2px;
-  box-shadow: 0 0 0 6px rgba(212, 163, 115, 0.3);
+  box-shadow: 0 0 0 6px rgb(var(--sys-accent-rgb) / 0.3);
 }
 
 /* Button Cursor Styles - High specificity to override all other styles */
@@ -1248,16 +1350,16 @@ button[disabled],
 
 /* Leaflet popup improvements - Using standardized system */
 .leaflet-popup-content-wrapper {
-  background: rgba(44, 36, 30, 0.95) !important;
+  background: var(--sys-popup-bg) !important;
   backdrop-filter: blur(8px);
-  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+  border: 2px solid var(--sys-popup-edge) !important;
   border-radius: var(--radius-lg) !important;
   box-shadow: var(--shadow-modal) !important;
 }
 
 .dark .leaflet-popup-content-wrapper {
-  background: rgba(34, 26, 21, 0.95) !important;
-  border: 2px solid rgba(255, 255, 255, 0.15) !important;
+  background: var(--sys-popup-bg) !important;
+  border: 2px solid var(--sys-popup-edge) !important;
 }
 
 .leaflet-popup-content {
@@ -1279,11 +1381,11 @@ button[disabled],
 }
 
 .historical-popup .popup-text {
-  color: rgba(244, 236, 225, 0.92);
+  color: rgb(var(--sys-chrome-ink-rgb) / 0.92);
 }
 
 .historical-popup .popup-muted {
-  color: rgba(244, 236, 225, 0.78);
+  color: rgb(var(--sys-chrome-ink-rgb) / 0.78);
 }
 
 .historical-popup .popup-accent {
@@ -1305,11 +1407,11 @@ button[disabled],
 }
 
 .dark .historical-popup .popup-text {
-  color: rgba(244, 236, 225, 0.92);
+  color: rgb(var(--sys-chrome-ink-rgb) / 0.92);
 }
 
 .dark .historical-popup .popup-muted {
-  color: rgba(244, 236, 225, 0.78);
+  color: rgb(var(--sys-chrome-ink-rgb) / 0.78);
 }
 
 .dark .historical-popup .popup-accent {
@@ -1322,14 +1424,14 @@ button[disabled],
 }
 
 .leaflet-popup-tip {
-  background: rgba(44, 36, 30, 0.95) !important;
+  background: var(--sys-popup-bg) !important;
   border: 2px solid rgba(255, 255, 255, 0.2) !important;
   border-top: none !important;
   border-right: none !important;
 }
 
 .dark .leaflet-popup-tip {
-  background: rgba(34, 26, 21, 0.95) !important;
+  background: var(--sys-popup-bg) !important;
 }
 
 /* Improve cluster marker visibility - Using standardized system */
@@ -1520,7 +1622,7 @@ button[disabled],
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
-    scrollbar-color: rgba(139, 107, 74, 0.5) transparent;
+    scrollbar-color: rgb(var(--sys-accent-rgb) / 0.5) transparent;
   }
 
   .legend-scroll::-webkit-scrollbar {
@@ -1532,24 +1634,24 @@ button[disabled],
   }
 
   .legend-scroll::-webkit-scrollbar-thumb {
-    background-color: rgba(139, 107, 74, 0.5);
+    background-color: rgb(var(--sys-accent-rgb) / 0.5);
     border-radius: 3px;
   }
 
   .legend-scroll::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(139, 107, 74, 0.7);
+    background-color: rgb(var(--sys-accent-rgb) / 0.7);
   }
 
   .dark .legend-scroll {
-    scrollbar-color: rgba(212, 163, 115, 0.5) transparent;
+    scrollbar-color: rgb(var(--sys-accent-rgb) / 0.5) transparent;
   }
 
   .dark .legend-scroll::-webkit-scrollbar-thumb {
-    background-color: rgba(212, 163, 115, 0.5);
+    background-color: rgb(var(--sys-accent-rgb) / 0.5);
   }
 
   .dark .legend-scroll::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(212, 163, 115, 0.7);
+    background-color: rgb(var(--sys-accent-rgb) / 0.7);
   }
 
 }
@@ -1588,10 +1690,10 @@ transform: translateX(-4px);
 }
 
 @keyframes nibras-storm-flash {
-  0%, 92%, 100% { background-color: rgba(180,200,255,0); }
-  93%           { background-color: rgba(220,230,255,0.35); }
-  95%           { background-color: rgba(180,200,255,0.10); }
-  97%           { background-color: rgba(220,230,255,0.25); }
+  0%, 92%, 100% { background-color: rgb(var(--sys-lightning-dim-rgb) / 0); }
+  93%           { background-color: rgb(var(--sys-lightning-rgb) / 0.35); }
+  95%           { background-color: rgb(var(--sys-lightning-dim-rgb) / 0.10); }
+  97%           { background-color: rgb(var(--sys-lightning-rgb) / 0.25); }
 }
 .nibras-weather-flash {
   animation: nibras-storm-flash 7s ease-in-out infinite;
@@ -1616,8 +1718,8 @@ transform: translateX(-4px);
 }
 
 .dark .panel-toggle-button {
-background-color: rgba(34, 26, 21, 0.95);
-border-color: rgba(212, 163, 115, 0.3);
+background-color: rgb(var(--sys-night-panel-rgb) / 0.95);
+border-color: rgb(var(--sys-accent-rgb) / 0.3);
 }
 
 /* Era Navigation Dock Enhancements */
@@ -1665,7 +1767,7 @@ border-color: rgba(212, 163, 115, 0.3);
 
 /* Dark mode enhancements for era dock */
 .dark .bg-gradient-to-r {
-background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0.9), rgba(34, 26, 21, 0.95));
+background: linear-gradient(to right, rgb(var(--sys-night-panel-rgb) / 0.95), rgb(var(--sys-night-panel-rgb) / 0.9), rgb(var(--sys-night-panel-rgb) / 0.95));
 }
 
 
@@ -1883,13 +1985,13 @@ background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0
   
   /* Mobile button improvements */
   button {
-    -webkit-tap-highlight-color: rgba(139, 107, 74, 0.2);
-    tap-highlight-color: rgba(139, 107, 74, 0.2);
+    -webkit-tap-highlight-color: rgb(var(--sys-accent-rgb) / 0.2);
+    tap-highlight-color: rgb(var(--sys-accent-rgb) / 0.2);
   }
   
   .dark button {
-    -webkit-tap-highlight-color: rgba(212, 163, 115, 0.2);
-    tap-highlight-color: rgba(212, 163, 115, 0.2);
+    -webkit-tap-highlight-color: rgb(var(--sys-accent-rgb) / 0.2);
+    tap-highlight-color: rgb(var(--sys-accent-rgb) / 0.2);
   }
 }
 
@@ -2488,7 +2590,7 @@ background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0
   
   .mobile-panel-controls button:active {
     transform: scale(0.95);
-    background: rgba(44, 36, 30, 0.2);
+    background: rgb(var(--sys-chrome-raised-rgb) / 0.2);
   }
 }
 
@@ -2579,10 +2681,10 @@ background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0
 /* Custom cursor glow pulse animation */
 @keyframes cursor-glow-pulse {
   0%, 100% {
-    box-shadow: 0 0 6px rgba(212, 168, 83, 0.5);
+    box-shadow: 0 0 6px rgb(var(--sys-gold-rgb) / 0.5);
   }
   50% {
-    box-shadow: 0 0 12px rgba(212, 168, 83, 0.9);
+    box-shadow: 0 0 12px rgb(var(--sys-gold-rgb) / 0.9);
   }
 }
 
