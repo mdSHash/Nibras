@@ -100,9 +100,23 @@ describe('verbatim guarantees', () => {
   });
 
   it('keeps quantities from battle scenarios out when an event record covers the battle', () => {
-    const battleUnits = kb.units.filter(u => u.trust === 'secondary' && !u.list);
+    // A battle video's captions keep their figures (Mostafa, 2026-10-17: facts only the video states
+    // stay in its captions); the replays' text does not.
+    const battleUnits = kb.units.filter(u => u.trust === 'secondary' && !u.list && u.kind !== 'battle_video');
     expect(battleUnits.length).toBeGreaterThan(100);
     for (const unit of battleUnits) expect(mentionsQuantity(unit.text), unit.id).toBe(false);
+  });
+
+  it("tells Badr by its video's captions, each line with its Arabic references, instead of the replay", () => {
+    const badr = kb.units.filter(u => u.recordId === 'battle:badr');
+    expect(new Set(badr.map(u => u.kind))).toEqual(new Set(['battle_video']));
+    expect(badr).toHaveLength(42);
+    expect(badr.filter(u => u.sources?.length).length).toBeGreaterThan(30);
+    for (const unit of badr) for (const source of unit.sources ?? []) expect(source, unit.id).not.toMatch(/[A-Za-z]/);
+    // Recitation-only lines are cited, never restated.
+    expect(badr.filter(u => u.verbatimOnly).map(u => u.id)).toEqual(['battle:badr#video:22', 'battle:badr#video:31', 'battle:badr#video:41']);
+    // Other battles keep their replay text.
+    expect(kb.units.some(u => u.recordId === 'battle:uhud' && u.kind === 'battle_narration')).toBe(true);
   });
 
   it('contains no Latin-script words', () => {

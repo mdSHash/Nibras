@@ -3,6 +3,7 @@
  */
 import type { KbRecord } from '../../shared/chatKb';
 import type { City, Person } from '../../shared/contentSchema';
+import type { GeneratedBattleVideo } from '../../shared/battleVideo';
 import type { BattleScenario } from '../../src/battlefield/types/scenario';
 import { aliasForm, bareText } from '../../shared/arabic';
 import { BuildContext, mentionsQuantity, splitSentences } from './common';
@@ -90,6 +91,21 @@ export function addQuranUnits(
 }
 
 /**
+ * A battle with a video (Phase 3H) is told by the video's reviewed captions,
+ * which replace the replay's text (Mostafa, 2026-10-17): one unit per script
+ * line, with the line's Arabic book references. Its figures stay (decision 3:
+ * facts only the video states live in its captions), as secondary text; any
+ * ﴿…﴾ recitation is Quran.com's text and is checked like every inline quote.
+ */
+function addVideoUnits(ctx: BuildContext, recordId: string, refs: { battleId: string }, video: GeneratedBattleVideo): void {
+  for (const line of video.lines) {
+    // A line that is only a recitation is cited, never restated: the server shows its stored text.
+    const recitation = /^﴿[^﴾]*﴾$/.test(line.text);
+    ctx.add({ recordId, slug: `video:${line.line}`, kind: 'battle_video', text: line.text, trust: 'secondary', verbatimOnly: recitation, refs, sources: line.sources });
+  }
+}
+
+/**
  * Battle scenarios are narrative companions to the event records. Per the
  * project's data-trust rule, event details win: any scenario sentence that
  * states a quantity (troop counts, casualties, dates as numbers) is left out
@@ -100,7 +116,8 @@ export function addQuranUnits(
 export function addBattleUnits(
   ctx: BuildContext,
   scenarios: BattleScenario[],
-  eventRecordForBattle: (battleId: string) => KbRecord | undefined
+  eventRecordForBattle: (battleId: string) => KbRecord | undefined,
+  videos: GeneratedBattleVideo[] = []
 ): KbRecord[] {
   const records: KbRecord[] = [];
   let droppedForQuantity = 0;
@@ -122,6 +139,12 @@ export function addBattleUnits(
     // The replay takes its title from the linked event.
     const name = eventRecord?.title ?? scenario.id;
     const secondary = { trust: 'secondary' as const, refs };
+    const video = videos.find(v => v.eventId === eventRecord?.refs.eventId);
+    if (video) {
+      addVideoUnits(ctx, recordId, refs, video);
+      records.push(battleRecord(recordId, name, eventRecord, refs));
+      continue;
+    }
 
     const phases = scenario.phases.map(p => p.nameAr).filter(keep);
     if (phases.length > 0) {
@@ -143,17 +166,21 @@ export function addBattleUnits(
       ctx.add({ recordId, slug: 'landmarks', kind: 'battle_landmarks', text: undefined, list: { heading: `من مواقع ${bareText(name)}`, items: landmarks }, ...secondary });
     }
 
-    records.push({
-      id: recordId,
-      type: 'battle',
-      title: name,
-      era: eventRecord?.era,
-      eraKey: eventRecord?.eraKey,
-      refs,
-      aliases: [...new Set([aliasForm(name), ...(eventRecord?.aliases ?? [])])],
-      weakAliases: [],
-    });
+    records.push(battleRecord(recordId, name, eventRecord, refs));
   }
   ctx.issue('warning', 'battle-scenarios', `${droppedForQuantity} scenario sentences stating quantities were left out (event records are authoritative for figures)`);
   return records;
+}
+
+function battleRecord(id: string, name: string, eventRecord: KbRecord | undefined, refs: { battleId: string }): KbRecord {
+  return {
+    id,
+    type: 'battle',
+    title: name,
+    era: eventRecord?.era,
+    eraKey: eventRecord?.eraKey,
+    refs,
+    aliases: [...new Set([aliasForm(name), ...(eventRecord?.aliases ?? [])])],
+    weakAliases: [],
+  };
 }

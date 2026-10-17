@@ -36,6 +36,17 @@ describe('buildPrompt', () => {
 });
 
 describe('composeAnswer', () => {
+  it("shows a battle video line's Arabic references under the text that quotes it", () => {
+    const unit = kb.units.find(u => u.id === 'battle:badr#video:36')!;
+    expect(unit.sources?.length).toBeGreaterThan(0);
+    const sentence = unit.text.split(/[،.]/)[0].trim();
+    const answer = composeAnswer(kb, { answerable: true, intro: '', points: [{ text: sentence, refs: ['s1'] }] }, new Map([['s1', unit]]));
+    const block = answer.blocks[0];
+    expect(block.type === 'text' || block.type === 'quote').toBe(true);
+    expect('sources' in block && block.sources).toEqual(unit.sources);
+  });
+
+
   it('keeps a faithful sentence as model text with citations', async () => {
     const { prompt, refOf } = await pack('ماذا فعل علي بن أبي طالب في غزوة بدر؟');
     const ref = refOf('event:battle-badr#role:0');

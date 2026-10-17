@@ -1,7 +1,8 @@
 /**
  * Builds the chat assistant's knowledge base from every Nibras data source:
  *   events, people and cities (src/generated/, built from content/), Qur'an verses
- *   (src/generated/quranPassages.json) and battle scenarios.
+ *   (src/generated/quranPassages.json), battle videos' captions (src/generated/battleVideos.json)
+ *   and, for battles without a video, battle scenarios.
  *
  * Every verse and inline Qur'an quote is verified against the Tanzil text
  * first; anything that fails is excluded and reported. Writes:
@@ -19,6 +20,7 @@ import { aliasForm, normalizeForMatch } from '../shared/arabic';
 import { citiesData, passageFor } from '../src/data';
 import { fullEvents as eventsData, fullPeople as companionsData } from './content/generated';
 import quranPassages from '../src/generated/quranPassages.json';
+import battleVideos from '../src/generated/battleVideos.json';
 import { scenarios } from '../src/battlefield/scenarios/index';
 import { BuildContext } from './chat-kb/common';
 import { addEventUnits } from './chat-kb/eventUnits';
@@ -43,8 +45,11 @@ export function buildChatKb(): { kb: ChatKb; ctx: BuildContext } {
   const titleOf = new Map(events.records.map(r => [r.id, r.title]));
   const companionRecords = addCompanionUnits(ctx, companionsData);
   const quranRecords = addQuranUnits(ctx, verses, events.quranEvents, id => titleOf.get(id) ?? id);
-  const battleRecords = addBattleUnits(ctx, Object.values(scenarios), battleId =>
-    events.records.find(r => r.refs.battleId === battleId)
+  const battleRecords = addBattleUnits(
+    ctx,
+    Object.values(scenarios),
+    battleId => events.records.find(r => r.refs.battleId === battleId),
+    battleVideos
   );
   const listRecords = addListUnits(ctx, events.records, companionsData, events.companionEvents);
 

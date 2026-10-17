@@ -38,7 +38,8 @@ class Composer {
   }
 
   text(text: string, units: KbUnit[]) {
-    this.blocks.push({ type: 'text', text, citations: [...new Set(units.flatMap(u => this.cite(u)))] });
+    const sources = [...new Set(units.flatMap(u => u.sources ?? []))];
+    this.blocks.push({ type: 'text', text, citations: [...new Set(units.flatMap(u => this.cite(u)))], ...(sources.length > 0 ? { sources } : {}) });
   }
 
   quote(unit: KbUnit) {
@@ -53,7 +54,13 @@ class Composer {
       return;
     }
     const record = this.kb.recordById.get(unit.recordId);
-    this.blocks.push({ type: 'quote', text: unit.text, source: record?.title ?? '', citations: this.cite(unit) });
+    this.blocks.push({
+      type: 'quote',
+      text: unit.text,
+      source: record?.title ?? '',
+      citations: this.cite(unit),
+      ...(unit.sources?.length ? { sources: unit.sources } : {}),
+    });
   }
 
   verse(key: string, citingUnit: KbUnit) {

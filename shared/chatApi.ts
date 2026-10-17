@@ -6,9 +6,9 @@ import type { EntityRefs } from './chatKb.js';
 
 export type AnswerBlock =
   /** Validated answer text (may contain **bold** labels); body text is verbatim source. */
-  | { type: 'text'; text: string; citations: string[] }
+  | { type: 'text'; text: string; citations: string[]; sources?: string[] }
   /** A source passage shown verbatim. */
-  | { type: 'quote'; text: string; source: string; citations: string[] }
+  | { type: 'quote'; text: string; source: string; citations: string[]; sources?: string[] }
   /** A stored list shown in full. */
   | { type: 'list'; heading: string; items: string[]; citations: string[] }
   /** A verse shown from the app's verified Qur'an text. */

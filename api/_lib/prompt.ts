@@ -27,7 +27,9 @@ export function buildPrompt(evidence: EvidenceRecord[]): PromptPack {
   let n = 0;
   for (const { record, units } of evidence) {
     const era = record.era ? ` — ${plainText(record.era)}` : '';
-    const lines = [`[${plainText(record.title)}] (${RECORD_TYPE_LABEL[record.type] ?? ''}${era})`];
+    // A battle's units come from its video's captions when it has one (3H), else from its replay.
+    const label = record.type === 'battle' && units.some(u => u.kind === 'battle_video') ? 'فيديو المعركة' : RECORD_TYPE_LABEL[record.type];
+    const lines = [`[${plainText(record.title)}] (${label ?? ''}${era})`];
     for (const unit of units) {
       const ref = `s${++n}`;
       unitByRef.set(ref, unit);
