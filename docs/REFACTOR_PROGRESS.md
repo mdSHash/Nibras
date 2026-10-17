@@ -107,22 +107,23 @@ the bug makes the test "unexpectedly pass", so the fix must be listed here as an
 | # | Bug | Test | Phase that fixes it |
 | --- | --- | --- | --- |
 | 1 | Blank page: `MapUpdater` calls `flyTo` on a map with no size → `Invalid LatLng object: (NaN, NaN)` (reproduced by hiding the map container during the 1 s auto-select) | `app-shell.spec.ts` | 0B — **fixed** (`d469bff`) |
-| 2 | Phone 375 px: the dark-mode button is pushed off the left of the header | `app-shell.spec.ts` (phone) | 2 |
+| 2 | Phone 375 px: the dark-mode button is pushed off the left of the header | `app-shell.spec.ts` (phone) | 2C — **fixed** (`4297c74`) |
 | 3 | Battle timer has no `dir="ltr"`, reads "01:08 / 00:27" in RTL | `battles.spec.ts` | 3 |
 | 4 | Battle subtitle shows the English date ("17 Ramadan 2 AH (13 March 624 CE)") | `battles.spec.ts` | 3 |
 | 5 | Map tile attribution hidden (`attributionControl={false}`) | `app-shell.spec.ts` | 3 |
 | 6 | Two elements carry `data-tour-id="search-button"` | `app-shell.spec.ts` | 3 |
 | 7 | A toast on every next/previous arrow press | `app-shell.spec.ts` | 3 |
-| 8 | Dark mode not remembered after reload | `app-shell.spec.ts` | 2 |
-| 9 | The 4.2 s intro can't be skipped | `app-shell.spec.ts` | 2 |
+| 8 | Dark mode not remembered after reload | `app-shell.spec.ts` | 2C — **fixed** (`b0ccb11`) |
+| 9 | The 4.2 s intro can't be skipped | `intro-tour.spec.ts` (moved) | 2C — **fixed** (`b0ccb11`) |
 | 10 | Autoplay at 2×/3× with narration: no audio file for those rates → 404, `console.error('[Timeline] TTS error …')`, timed fallback | `timeline.spec.ts` | 3 (remove 2×/3×, decided) |
-| 11 | **New, not in the plan:** at 1440×900 the open event panel covers part of the timeline dock (the "تشغيل" play button and the first era pill can't be clicked) | `timeline.spec.ts` | 2 (decided) |
+| 11 | **New, not in the plan:** at 1440×900 the open event panel covers part of the timeline dock (the "تشغيل" play button and the first era pill can't be clicked) | `timeline.spec.ts` | 2C — **fixed** (`88b4b03`) |
 
 Other observations from writing the tests (current behavior, recorded, not failures):
 
 - There are no next/previous buttons outside player mode; navigation is by arrow keys (and swipe).
 - Escape clears the selected event too (`closeAllModals`), not just the open overlay.
-- On phones the event panel's close button is outside the viewport at the start view.
+- On phones the event panel's close button is outside the viewport at the start view. (2C: a bug —
+  the whole panel was off-screen after the intro; fixed, intentional change 17 of Phase 2.)
 - The chat allows one question every 3.5 s (`useChat.ts`); a follow-up chip tapped sooner is ignored
   with a "please wait" note.
 - `ابو بكر` finds 18 events and `أبي بكر` 21: search normalizes letters but not grammatical case.
@@ -758,8 +759,9 @@ one PR at the end.
 - [x] 2B Content on demand; lazy search index — `f14e2b5`; map markers without `react-dom/server` — `5d5d46a`;
       person details on demand — see the 2B verification below
 - [x] 2B Pre-rendered pages, SEO tags, sitemap, robots, 404; tab titles; new icons and share image
-- [ ] 2C Dark mode, intro, phone header menu, panel vs timeline dock
-- [ ] 2C Review, verification report, PR
+- [x] 2C Dark mode, intro — `b0ccb11`; phone header menu — `4297c74`, `839fe06`; panel vs timeline
+      dock — `88b4b03`; phone panel after the intro and auto-select races — `0aa3a5e`
+- [x] 2C Review, verification report, PR
 
 ### Decisions by Mostafa
 
@@ -991,3 +993,47 @@ map, about −38 KB).
   every browser test waits through the 4.2 s intro and the map's flight. Ask Mostafa first.
 - `tests/baseline/numbers.json` (bundle and test counts) is updated at the end of the phase, with
   Mostafa's approval of the list of intentional changes above.
+
+All three notes were done in 2C (dark pre-rendered text, returning-visitor tests, numbers updated).
+
+### 2C verification (2026-10-17, Windows 11, Node 20.19.5, Playwright 1.59.1)
+
+Before any change, `npm run verify` on `7d268eb` passed (the numbers of 2B). After 2C,
+`npm run verify -- --update-numbers`:
+
+| Step | Result |
+| --- | --- |
+| Content build (Zod) | 131 events, 161 people, 10 cities, 51 Quran passages; no issues |
+| Type check, ESLint | passed (0 findings) |
+| Vitest | 229/229 |
+| Content snapshot, behavior map | identical to the baseline |
+| Production build + pre-render | 356 pages, 305 in `sitemap.xml`; bundle budget within limits |
+| Playwright features | 80: 79 passed (4 of them known failures: 3, 5, 6, 7 and 10 remain, see below), 1 skipped (the phone menu test on desktop) |
+| Phone smoke (WebKit, Firefox) | 42 passed, no known failures left |
+| Visual snapshots | 16/16 (5 updated with approval) |
+
+Known failures 2, 8, 9 and 11 are fixed; the ones left belong to Phase 3 (3 and 4 are battle tests,
+removed in 2B; the feature count of 4 is 5, 6, 7 and 10). A full `npm run verify` now takes about
+7 minutes (10.5 in 2B): browser tests start as returning visitors.
+
+Bundle: JS at start 923.7 KB raw, 256.5 KB gzip (2B: 917 / 255; the header menu and the theme
+code). Phase 2's "about 800 KB" target is not met; see 2B for what is left at start.
+
+Baselines updated with Mostafa's approval (2026-10-17): five Windows snapshots (phone start view,
+phone dark mode, phone event panel, desktop dark mode, desktop search open), `firstLoadRequests`
+desktop/phone/WebKit 13 → 12 and Firefox 14 → 13, and `numbers.json` (Vitest 185 → 229, feature
+tests 72 → 80 with 10 → 4 known failures, engine tests 32 → 42 with 2 → 0). The 16 Linux snapshots
+were removed so CI on the PR records a new set (artifact `baseline-linux-visual`); they are
+committed after Mostafa reviews them.
+
+Manual checks for Mostafa (phone and desktop):
+
+1. Phone, first visit (private window): the intro plays; a tap skips it; the first event opens at
+   30% with the map and marker visible; a reload does not play the intro again.
+2. Phone header: ⋮ opens the menu (reset map, fullscreen, help, tour, dark mode); a tap outside
+   closes it; dark mode from the menu sticks after a reload.
+3. Phone: open search while an event is open: the drawer is on top; choosing a result shows it.
+4. Desktop: with an event open, the dock's «تشغيل» and era pills work; collapsing the dock lets
+   the panel reach down again.
+5. Set the system to dark, clear site data, open a shared event link: no light flash, the page and
+   the app are dark; choose light in the app and reload: it stays light.
