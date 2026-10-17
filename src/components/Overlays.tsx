@@ -1,9 +1,9 @@
 // The surfaces opened on top of the map: search, a person, a Qur'an passage,
-// help, the chat and a battle replay. Which one is open comes from the store
+// help, the chat and a battle (its video, or its replay). Which one is open comes from the store
 // (the address, for the ones a visitor can link to).
-import { lazy, Suspense, useEffect } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { getEvent } from '../data';
+import { eventForScenario, getEvent } from '../data';
 import { closeOverlay, openBattle, openPerson, openQuran, selectEvent, setFilters } from '../router';
 import { useAppStore, type ChatReturnTo } from '../store/appStore';
 import { useFilteredEvents, useFilters, useOverlay, useSelectedEvent } from '../store/selectors';
@@ -20,6 +20,7 @@ const QuranModal = lazy(() => import('./QuranModal'));
 const HelpModal = lazy(() => import('./HelpModal'));
 const ChatPanel = lazy(() => import('./ChatPanel'));
 const BattlePlayer = lazy(() => import('../battlefield/react/BattlePlayer').then(m => ({ default: m.BattlePlayer })));
+const BattleVideoPlayer = lazy(() => import('./battleVideo/BattleVideoPlayer'));
 
 const closeSearch = () => useAppStore.getState().setSearchOpen(false);
 const closeHelp = () => useAppStore.getState().setHelpOpen(false);
@@ -141,10 +142,19 @@ export function Overlays() {
   );
 }
 
-/** A battle replay over everything (rendered after the timeline). */
+/**
+ * A battle over everything (rendered after the timeline): its video where it has one (3H), else
+ * its replay. When the video cannot play, the visitor can switch to the replay at the same address.
+ */
 export function BattleOverlay() {
   const overlay = useOverlay();
   const scenarioId = overlay?.kind === 'battle' ? overlay.scenarioId : undefined;
+  const event = scenarioId ? eventForScenario(scenarioId) : undefined;
+  const [replayInstead, setReplayInstead] = useState<string | null>(null);
+  useEffect(() => {
+    if (!scenarioId) setReplayInstead(null);
+  }, [scenarioId]);
+  const video = event?.battleVideo && replayInstead !== scenarioId ? { ...event, battleVideo: event.battleVideo } : undefined;
   return (
     <>
 
@@ -166,7 +176,11 @@ export function BattleOverlay() {
                   </div>
                 }
               >
-                <BattlePlayer scenarioId={scenarioId} onBack={closeOverlay} />
+                {video ? (
+                  <BattleVideoPlayer event={video} onClose={closeOverlay} onReplayInstead={() => setReplayInstead(scenarioId)} />
+                ) : (
+                  <BattlePlayer scenarioId={scenarioId} onBack={closeOverlay} />
+                )}
               </Suspense>
             </ErrorBoundary>
           </motion.div>

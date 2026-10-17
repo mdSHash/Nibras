@@ -34,7 +34,7 @@ export const test = base.extend<Options & Fixtures>({
 
   // eslint-disable-next-line no-empty-pattern -- Playwright requires a destructured first argument
   network: async ({}, use) => {
-    await use({ audioRequests: [], chatRequests: [], unexpected: [] });
+    await use({ audioRequests: [], chatRequests: [], youtubeRequests: [], unexpected: [] });
   },
 
   // eslint-disable-next-line no-empty-pattern -- Playwright requires a destructured first argument

@@ -113,7 +113,7 @@ function eventPage(content: SiteContent, event: ContentEvent, index: number): Pa
     section('مجريات الأحداث', list(event.courseOfEvents.map(esc), true)),
     section('الصحابة والقادة', list(event.roles.map((r) => `${link(person(r.personId), r.labelAr)} — ${esc(r.roleAr)}`))),
     section('شخصيات أخرى', list(event.keyFigures.map((k) => link(person(k.personId), k.labelAr)))),
-    event.battleScenarioId ? `<p>${link({ kind: 'battle', id: event.battleScenarioId }, 'مشاهدة المعركة على الخريطة')}</p>` : '',
+    event.battleScenarioId ? `<p>${link({ kind: 'battle', id: event.battleScenarioId }, 'مشاهدة المعركة')}</p>` : '',
     section('المصادر والمراجع', list(event.sources.map(esc))),
     '</article>',
     `<nav class="nb-pager" aria-label="أحداث مجاورة">${prev ? `<span>الحدث السابق: ${link(eventRoute(prev), prev.title)}</span>` : '<span></span>'}${next ? `<span>الحدث التالي: ${link(eventRoute(next), next.title)}</span>` : ''}</nav>`,

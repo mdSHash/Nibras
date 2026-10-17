@@ -1,11 +1,13 @@
 // The long texts the app loads on demand (Phase 2B): an event's details when
 // its panel opens, a bio when its window opens, the Qur'an text when a passage
-// opens, and the search index when the search drawer opens. Each file is its
+// opens, the search index when the search drawer opens, and a battle video's
+// captions when its player opens (3H). Each file is its
 // own chunk (src/generated/, written by scripts/build-content.ts in the shapes
 // of shared/contentSplit.ts). A loaded file stays in memory; a failed load is
 // forgotten, so a retry fetches it again.
 import { useEffect, useState } from 'react';
 import type { EventDetails, PersonDetails } from '../shared/contentSplit';
+import type { VideoCaption } from '../shared/battleVideo';
 
 export interface Loader<T> {
   load: (key: string) => Promise<T>;
@@ -52,6 +54,10 @@ const bioModules = import.meta.glob<{ default: PersonDetails }>('./generated/bio
 export const eventDetails = moduleLoader(eventDetailModules, (slug) => `./generated/eventDetails/${slug}.json`);
 /** A person's title, role, dates and bio, by their id. */
 export const bios = moduleLoader(bioModules, (id) => `./generated/bios/${id}.json`);
+
+const captionModules = import.meta.glob<{ default: VideoCaption[] }>('./generated/battleVideoCaptions/*.json');
+/** A battle video's captions (shared/battleVideo.ts), by the event's slug. */
+export const battleVideoCaptions = moduleLoader(captionModules, (slug) => `./generated/battleVideoCaptions/${slug}.json`);
 
 const quranText = cachedLoader(
   () => import('./generated/quranText.json').then((m) => m.default as Record<string, string>),
