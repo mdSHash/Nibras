@@ -9,7 +9,7 @@ The log for `docs/REFACTOR_PLAN.md`. Each session reads this file first and upda
 | 0B Safety net | merged | `refactor/phase-0b-safety-net` | #4 |
 | 1 Content model | merged | `refactor/phase-1-content` | #5 |
 | 2 State, routing and pages | merged | `refactor/phase-2-routing` | #6 |
-| 3 Assets, chat and polish | in progress | `refactor/phase-3-polish` | — |
+| 3 Assets, chat and polish | in progress | `refactor/phase-3a-…` (one per session) | — |
 | 4 Learning paths for guests | not started | `feature/phase-4-paths` | — |
 | 5 Optional accounts | not started | `feature/phase-5-accounts` | — |
 
@@ -1075,8 +1075,16 @@ build, per-IP rate limit), **3D** audio (manifest by event id, compressed narrat
   tier; Bunny Stream is paid), played with Nibras's own Arabic controls and captions from the
   reviewed WebVTT; originals as GitHub Release assets.
 
-### Open for Mostafa
-
-PRs per session or one for the phase; the `chore/chat-embeddings` branch; chat rate-limit numbers
-and wording; territory atlas and map scans; basemap; Badr video readiness and narration script;
-delete or archive old scripts.
+- 2026-10-17: **one PR per session** (`refactor/phase-3a-…`, `refactor/phase-3b-…`, …), each merged
+  before the next starts; this log keeps one Phase 3 section.
+- 2026-10-17: **`chore/chat-embeddings` is not merged**; 3C rebuilds the index from its vectors in
+  the new format (no quota) and the branch is then closed.
+- 2026-10-17: **chat rate limit** as proposed: 20 questions per 10 minutes and 100 per day per IP,
+  429 message «لقد أرسلت أسئلة كثيرة في وقت قصير. حاول مرة أخرى بعد قليل.»
+- 2026-10-17: **territory borders**: the goal is the map as it was in those days. No atlas is bought;
+  borders are rebuilt from the chronicles the app cites (Ibn Hisham, al-Tabari, al-Baladhuri, Ibn
+  Kathir), with the source noted per region and period and every uncertain border listed for
+  Mostafa. **Basemap** (satellite, terrain or parchment) is chosen from the 3F visual directions.
+- 2026-10-17: **battle videos**: Badr is ready but its voice is being fixed; Mostafa sends the video
+  and its narration script when done. 3H waits for them.
+- 2026-10-17: **old scripts and `server/` are archived** (moved to `scripts/archive/`), not deleted.
