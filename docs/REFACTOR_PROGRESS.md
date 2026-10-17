@@ -1255,7 +1255,7 @@ skipped, phone smoke 42/42, visual 16/16.
   streams adaptively); the original `battle-badr.mp4` stays in `Video/Badr/`, a GitHub Release copy
   waits for Mostafa.
 
-#### Intentional behavior changes (3H), waiting for approval
+#### Intentional behavior changes (3H), approved by Mostafa 2026-10-17
 
 1. The battle button reads **«مشاهدة المعركة»** (was «مشاهدة المعركة على الخريطة») for every battle,
    on the panel and on the pre-rendered event pages, and sits **under the summary**.
@@ -1263,12 +1263,28 @@ skipped, phone smoke 42/42, visual 16/16.
    11 battles still open their replay.
 3. **Chat**: Badr's replay text replaced by the video's captions with sources; the chat may now state
    the video's figures for Badr (14 martyrs, two horses, …), shown with their references.
-4. Baselines to update once approved: `tests/baseline/content.json` (one difference:
+4. **Videos play sideways on phones** (Mostafa, 2026-10-17: "people watch videos horizontally"). On
+   a phone held upright the player is drawn a quarter turn round, so turning the phone shows the
+   video across the long side (Safari on iPhone can neither lock the orientation nor show an element
+   full screen); on a phone held sideways the buttons sit in a column beside the video and the
+   progress bar under the captions; the full-screen button also locks the screen sideways where the
+   browser allows it (Chrome on Android). Turning the phone keeps the video playing (one element
+   tree for every layout). `src/index.css` caps `.absolute` at 100vw on phones; the frame's layers
+   lift that cap. Checked with the stand-in on Chromium, WebKit and Firefox phones and once with the
+   real video (Pixel 7 emulation): it plays, 580×326 on a 412 px wide phone.
+   Keyboard shortcuts are for computers only; every action has an on-screen button (Mostafa noted
+   phones have no keys).
+5. Baselines updated (approved): `tests/baseline/content.json` (one difference:
    `events[battle-badr].battle.video` added: `{provider: youtube, id: HCQru0jnWeA, captions:
    2a8cbd177580a258}`); visual snapshots `event-panel-badr` (desktop, phone), `person-bio` and
    `quran-passage` (desktop; the Badr panel shows behind the window) on Windows, and the same on
    Linux from CI; `numbers.json` test counts. First-load requests unchanged (11), bundle within
    budget.
+
+- 2026-10-17: Mostafa renamed the YouTube video to Arabic and removed YouTube's own captions in
+  YouTube Studio (the player also unloads them, as a fallback).
+- Still open for Mostafa: the reading of Badr fact 1 (garbled message); a GitHub Release copy of
+  `battle-badr.mp4`.
 
 #### 3H verification (2026-10-17, Windows 11, Node 20.19.5, Playwright 1.59.1)
 
@@ -1276,13 +1292,13 @@ skipped, phone smoke 42/42, visual 16/16.
 | --- | --- |
 | Content build (Zod), type check, ESLint | passed |
 | Vitest | 256/256 (229 before) |
-| Content snapshot | 1 difference, listed above (waiting for approval) |
+| Content snapshot | identical after the approved update (Badr's `battle.video`) |
 | Behavior map | identical |
 | Production build + pre-render | 356 pages, 305 in `sitemap.xml` |
 | Bundle budget | within limits (JS at start 924.6 KB, 257.0 KB gzip; was 923.5 / 256.5) |
 | Playwright features | 82: 81 passed, 0 failed, 0 flaky, 1 skipped |
-| Phone smoke (WebKit, Firefox) | 44/44 (one earlier run: 1 failure, see below) |
-| Visual snapshots | 12/16; the 4 Badr-panel images differ as listed (button moved) |
+| Phone smoke (WebKit, Firefox) | 44/44 (an earlier run: 1 failure, see below) |
+| Visual snapshots | 16/16 after the approved update of the 4 Badr-panel images (Windows); the 16 Linux images are removed so CI on the PR records a new set |
 
 Found and fixed during the session: lucide's `RotateCcw`, shared by the chat and the player, became
 its own chunk and added a request at first load (11 → 12); the player now uses `Rewind` /
