@@ -296,9 +296,9 @@ node scripts/verify-all-audio.js
 10. the `@phone` smoke tests in WebKit (iPhone 13) and Firefox, functional only
 11. Playwright visual snapshots (`tests/baseline/visual/`, per platform; on a platform with no committed set yet — Linux in CI until it is reviewed — the images are written instead of compared)
 
-Before the first run: `npm ci` and `npx playwright install chromium webkit firefox`. The Playwright tests run offline against `vite preview`: map tiles, fonts, the chat API and narration audio are all stubbed.
+Before the first run: `npm ci` and `npx playwright install chromium webkit firefox`. The Playwright tests run offline against `vite preview`: map tiles, the chat API and narration audio are all stubbed (the fonts are served with the site, `src/fonts.ts`).
 
-**Known failures.** Bugs that exist today are recorded as tests that expect the *correct* behavior and are marked as expected failures (`knownFailure(...)` in `tests/e2e/`). When a fix lands, that test reports "expected to fail, but passed" and must be updated as an approved change. `SHOW_KNOWN_FAILURES=1 npx playwright test` shows each one's actual error.
+**Known failures.** Bugs that exist today are recorded as tests that expect the *correct* behavior and are marked as expected failures (`knownFailure(...)` in `tests/e2e/`). When a fix lands, that test reports "expected to fail, but passed" and must be updated as an approved change. `SHOW_KNOWN_FAILURES=1 npx playwright test` shows each one's actual error. Since Phase 3A none are left.
 
 **Updating the baseline.** Only after the owner approves the list of differences (recorded in `docs/REFACTOR_PROGRESS.md`) — never to make a failing check pass:
 

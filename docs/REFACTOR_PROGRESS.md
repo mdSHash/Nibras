@@ -9,7 +9,7 @@ The log for `docs/REFACTOR_PLAN.md`. Each session reads this file first and upda
 | 0B Safety net | merged | `refactor/phase-0b-safety-net` | #4 |
 | 1 Content model | merged | `refactor/phase-1-content` | #5 |
 | 2 State, routing and pages | merged | `refactor/phase-2-routing` | #6 |
-| 3 Assets, chat and polish | in progress | `refactor/phase-3a-…` (one per session) | — |
+| 3 Assets, chat and polish | 3A in review | `refactor/phase-3a-fixes` | — |
 | 4 Learning paths for guests | not started | `feature/phase-4-paths` | — |
 | 5 Optional accounts | not started | `feature/phase-5-accounts` | — |
 
@@ -1088,6 +1088,21 @@ build, per-IP rate limit), **3D** audio (manifest by event id, compressed narrat
 - 2026-10-17: **battle videos**: Badr is ready but its voice is being fixed; Mostafa sends the video
   and its narration script when done. 3H waits for them.
 - 2026-10-17: **old scripts and `server/` are archived** (moved to `scripts/archive/`), not deleted.
+- 2026-10-17 (3A): **the event panel keeps moving beside the search drawer** on desktop (Mostafa:
+  "I like what is already there"). The plan's "keep the event panel in place when search opens" is
+  dropped.
+- 2026-10-17 (3A): **baselines approved**: first-load requests 12 → 11 (desktop, phone; WebKit and
+  Firefox unchanged at 12 and 13), the `index.css` bundle entry 29.7 → 31.1 KB gzip (only that entry;
+  the rest stays the Phase 0 reference), the 16 Windows screenshots with the attribution strip, and
+  the test counts. The 16 Linux screenshots are removed so CI on the PR records a new set.
+- 2026-10-17: **the Badr video arrived** (`Video/Badr/`, ignored by git: 4:41, 1080p30 H.264 + AAC
+  stereo, 103 MB, fast start, with `Transcript.txt`: 42 lines of Egyptian narration with English
+  voice directions in brackets). **3H comes next, right after 3A** (Mostafa). Asked for each video:
+  an `.srt`/`.vtt` export with timings, surah:ayah for each recitation, an unlisted YouTube link.
+  Open for Mostafa (Badr): figures and episodes the video states that the event does not (14
+  martyrs, two horses, al-Hubab's advice, ʿUmayr ibn al-Humam, Bilal and Umayya, the qalib) — add
+  to the event with a source, or leave. Al-Anfal 8:9 matches Quran.com; 8:17 and Al ʿImran 3:123
+  (partial verses) are to be fetched.
 
 ### Intentional behavior changes (3A)
 
@@ -1114,3 +1129,31 @@ build, per-IP rate limit), **3D** audio (manifest by event id, compressed narrat
    icon's colours), `icon-192.png`, `icon-512.png`, `icon-maskable-512.png`,
    `apple-touch-icon.png`, drawn from `favicon.svg` by `scripts/make-site-images.ts`. No service
    worker (no offline mode).
+
+### 3A verification (2026-10-17, Windows 11, Node 20.19.5, Playwright 1.59.1)
+
+`npm run verify -- --update-numbers` on the final 3A code:
+
+| Step | Result |
+| --- | --- |
+| Content build (Zod), type check, ESLint | passed |
+| Vitest | 229/229 |
+| Content snapshot, behavior map | identical to the baseline |
+| Production build + pre-render | 356 pages, 305 in `sitemap.xml` |
+| Bundle budget | within limits (JS at start 923.5 KB, 256.5 KB gzip; CSS 31.1 KB gzip) |
+| Playwright features | 80: 79 passed, **0 known failures** (5, 6, 7, 10 fixed), 1 skipped |
+| Phone smoke (WebKit, Firefox) | 42/42 |
+| Visual snapshots | 16/16 (all 16 Windows images rewritten with the attribution, approved) |
+
+One full run was stopped by Claude Code for low system memory (not a test failure) and run again.
+The 16 Linux snapshots are recorded by CI on the PR (artifact `baseline-linux-visual`) for review.
+
+Manual checks for Mostafa (phone and desktop):
+
+1. The map shows «Leaflet | المصدر: Esri …» top-left under the header, readable in light and dark.
+2. Arrow keys move between events with no «الحدث التالي» toast.
+3. Player mode (تشغيل): no speed button; narration plays at normal speed.
+4. Tour: the search step points at the search bar on desktop and the search icon on a phone.
+5. Text looks as before (fonts now from the site; in the browser's network tab no request goes to
+   `fonts.googleapis.com` or `fonts.gstatic.com`).
+6. Phone (Chrome/Android): ⋮ → "Add to home screen" shows «نبراس» with the golden-star icon.
