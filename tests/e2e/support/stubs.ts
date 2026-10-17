@@ -1,11 +1,10 @@
 // Offline stand-ins for everything the app fetches from other hosts, so test
 // runs are deterministic and never touch the network.
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { deflateSync } from 'node:zlib';
 import type { Page, Route } from '@playwright/test';
 
-const FONT_DIR = join(import.meta.dirname, '..', 'assets', 'fonts');
 export const CHAT_API_URL = 'http://chat.test/api/chat';
 export const FEEDBACK_API_URL = 'http://chat.test/api/feedback';
 
@@ -69,24 +68,6 @@ function silentWav(seconds: number, sampleRate = 8000): Buffer {
 }
 export const SILENT_WAV = silentWav(3);
 
-// ---- Fonts ----------------------------------------------------------------------
-const fontCssByQuery = new Map<string, string>();
-function loadFontCss(): void {
-  if (fontCssByQuery.size > 0 || !existsSync(FONT_DIR)) return;
-  // fetch-test-fonts.ts names each stylesheet by a hash of its URL; map back by content.
-  for (const file of readdirSync(FONT_DIR).filter((f) => f.endsWith('.css'))) {
-    const css = readFileSync(join(FONT_DIR, file), 'utf8');
-    const families = [...css.matchAll(/font-family: '([^']+)'/g)].map((m) => m[1]);
-    fontCssByQuery.set([...new Set(families)].sort().join('|'), css);
-  }
-}
-function fontCssFor(url: string): string | undefined {
-  loadFontCss();
-  const families = new URL(url).searchParams.getAll('family').map((f) => f.split(':')[0].replace(/\+/g, ' '));
-  return fontCssByQuery.get([...new Set(families)].sort().join('|'));
-}
-const fontFileName = (url: string): string => new URL(url).pathname.split('/').filter(Boolean).join('_');
-
 // ---- Routes -------------------------------------------------------------------------
 export interface NetworkLog {
   audioRequests: string[];
@@ -120,14 +101,6 @@ export async function installStubs(page: Page, log: NetworkLog, chat: () => Chat
 
     if (url.hostname === 'server.arcgisonline.com') {
       return route.fulfill({ status: 200, contentType: 'image/png', body: TILE });
-    }
-    if (url.hostname === 'fonts.googleapis.com') {
-      const css = fontCssFor(request.url());
-      if (css) return route.fulfill({ status: 200, contentType: 'text/css', body: css });
-    }
-    if (url.hostname === 'fonts.gstatic.com') {
-      const file = join(FONT_DIR, fontFileName(request.url()));
-      if (existsSync(file)) return route.fulfill({ status: 200, contentType: 'font/woff2', body: readFileSync(file) });
     }
     if (url.origin === new URL(CHAT_API_URL).origin) {
       if (request.method() === 'OPTIONS') return route.fulfill({ status: 204, headers: CORS });

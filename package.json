@@ -40,6 +40,9 @@
     "test:ui:report": "playwright show-report"
   },
   "dependencies": {
+    "@fontsource/amiri": "5.3.0",
+    "@fontsource/amiri-quran": "5.3.0",
+    "@fontsource/tajawal": "5.3.0",
     "@sentry/node": "^11.8.0",
     "@sentry/react": "^11.8.0",
     "clsx": "^2.1.1",

@@ -5,6 +5,7 @@ import { TourProvider } from './contexts/TourContext.tsx';
 import { ErrorBoundary } from './components/ErrorBoundary.tsx';
 import { initMonitoring } from './services/monitoring.ts';
 import { startRouter } from './router.ts';
+import './fonts';
 import './index.css';
 
 initMonitoring();
