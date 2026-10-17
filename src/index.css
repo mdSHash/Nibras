@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* `dark:` follows the app's dark-mode button (the .dark class on <html>, set by
+   src/theme.ts), like every --sys-* token, not the system setting. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Short viewports — phones held sideways, or any touch screen with the
    on-screen keyboard open (the chat panel sets data-short then). Used by the
    chat panel to give the message list the height it needs. */
