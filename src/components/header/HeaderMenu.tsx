@@ -56,16 +56,19 @@ export function HeaderMenu({ items, pulse = false }: HeaderMenuProps) {
   useEffect(() => {
     if (!isOpen) return;
     rows()[0]?.focus();
-    const onPointerDown = (e: PointerEvent) => {
+    const onPressOutside = (e: MouseEvent | TouchEvent) => {
       const target = e.target as Node;
       if (!menuRef.current?.contains(target) && !triggerRef.current?.contains(target)) setIsOpen(false);
     };
     const onResize = () => setIsOpen(false);
     // Capture phase: the map and the panel stop some presses from bubbling.
-    document.addEventListener('pointerdown', onPointerDown, true);
+    // mousedown and touchstart, not pointerdown, which some touch setups skip.
+    document.addEventListener('mousedown', onPressOutside, true);
+    document.addEventListener('touchstart', onPressOutside, true);
     window.addEventListener('resize', onResize);
     return () => {
-      document.removeEventListener('pointerdown', onPointerDown, true);
+      document.removeEventListener('mousedown', onPressOutside, true);
+      document.removeEventListener('touchstart', onPressOutside, true);
       window.removeEventListener('resize', onResize);
     };
   }, [isOpen]);
