@@ -8,7 +8,7 @@ The log for `docs/REFACTOR_PLAN.md`. Each session reads this file first and upda
 | 0A Baseline and `npm run verify` | merged | `refactor/phase-0a-baseline` | #3 |
 | 0B Safety net | merged | `refactor/phase-0b-safety-net` | #4 |
 | 1 Content model | merged | `refactor/phase-1-content` | #5 |
-| 2 State, routing and pages | done (PR open) | `refactor/phase-2-routing` | #6 |
+| 2 State, routing and pages | merged | `refactor/phase-2-routing` | #6 |
 | 3 Assets, chat and polish | not started | `refactor/phase-3-polish` | — |
 | 4 Learning paths for guests | not started | `feature/phase-4-paths` | — |
 | 5 Optional accounts | not started | `feature/phase-5-accounts` | — |
@@ -1034,7 +1034,9 @@ the machine's speed. The 16 Linux snapshots from that run were compared with the
 the Linux UI numbers were unchanged. That comparison showed that eight Windows snapshots (chat,
 help, person bio and Qur'an passage, both layouts) still showed the old phone header or the old
 panel height under a modal's backdrop, within the comparison tolerance, so the whole Windows set
-was rewritten to match the approved changes.
+was rewritten to match the approved changes. Mostafa approved the Linux set and asked to merge
+without another full test run (2026-10-17); the last full CI run before these commits failed only
+on the intro test fixed above, which passed 36/36 locally on WebKit, Firefox and Chromium.
 
 Manual checks for Mostafa (phone and desktop):
 
