@@ -101,15 +101,6 @@ test('a Qur\'an passage has its address and Back closes it', async ({ page }) =>
   await expect(page.getByRole('dialog').getByRole('button', { name: 'إغلاق' })).toBeVisible({ timeout: 30_000 });
 });
 
-test('a shared replay link opens the replay; closing it shows its event', async ({ page }) => {
-  await page.goto('./battle/battle-of-badr/');
-  await expect(page.locator('h1[lang="ar"]')).toHaveText(eventById(BADR).title, { timeout: 30_000 });
-  await page.getByRole('button', { name: 'رجوع' }).click();
-  await expect(page.locator('h1[lang="ar"]')).toBeHidden();
-  await expect(panelTitle(page)).toHaveText(eventById(BADR).title);
-  expect(pathOf(page)).toBe(`/event/${slugOf(BADR)}/`);
-});
-
 test('filters are read from and written to the query', async ({ page }) => {
   await page.goto('./?type=battles');
   await expect(header.chat(page)).toBeVisible({ timeout: 30_000 });

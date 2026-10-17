@@ -755,8 +755,8 @@ one PR at the end.
 - [x] 2A `App.tsx` → layout, `AppHeader` (one `HeaderButton`), `Overlays` — `cf3d418`; `EventPanel.tsx`
       split by job (`eventPanel/`: Hero, useNarration, ArticleBody, PeopleList) — `6958f30`
 - [x] 2A `@` alias → `src` — `7e8b11f`
-- [ ] 2B Content on demand; lazy search index
-- [ ] 2B Pre-rendered pages, SEO tags, sitemap, robots, 404
+- [x] 2B Content on demand; lazy search index — `f14e2b5`; map markers without `react-dom/server` — `5d5d46a`
+- [x] 2B Pre-rendered pages, SEO tags, sitemap, robots, 404; tab titles; new icons and share image
 - [ ] 2C Dark mode, intro, phone header menu, panel vs timeline dock
 - [ ] 2C Review, verification report, PR
 
@@ -791,6 +791,14 @@ one PR at the end.
   host root (`mdshash.github.io/robots.txt`); the sitemap is submitted in Search Console instead.
 - 2026-10-17: "main JS" for the ~800 KB target means the JS loaded before the app renders (the entry
   and the chunks `index.html` preloads), as the bundle report's new "JS at start" line measures it.
+
+- 2026-10-17: **battle replays are no longer tested** (they are slow and will be replaced by videos):
+  `tests/e2e/battles.spec.ts` is ignored in `playwright.config.ts` (so in verify and CI), and the
+  replay snapshot, the replay-link routing test and the chat citation's replay step are removed.
+  Kept (fast): the battles filter, the replay button on battle events, the content check that every
+  `battleScenarioId` names a scenario.
+- 2026-10-17: first-load request count leaves out font files (see intentional change 7); new icons
+  chosen from four directions (intentional change 10).
 
 ### Open for Mostafa (chat, reviewed 2026-10-17)
 
@@ -838,10 +846,24 @@ The chat design stays (plan, "Keep as is"). Recommended changes, none started:
    search drawer loads its index when it opens; until then a typed query shows the skeleton and the
    count «…» instead of results (the results themselves are unchanged: `contentSplit.test.ts` checks
    the index against the old matching text, and the behavior map is identical).
-7. **First load makes one more request** (2B, approved by Mostafa 2026-10-17): the first event's
-   details file. `behavior-ui.json` `firstLoadRequests` +1 on every engine (desktop 15, phone 15,
-   Firefox 18, WebKit 17). The bio and Qur'an e2e tests and the visual `shot()` now wait for the
-   loaded text; what they check is unchanged.
+7. **First-load request count** (2B, approved by Mostafa 2026-10-17). Loading on demand adds one
+   request (the first event's details file). The pre-rendered text then makes the browser fetch
+   font files while it is on screen, and how many depends on timing, so the test now leaves out
+   `fonts.gstatic.com` as it already left out map tiles. `behavior-ui.json` `firstLoadRequests`:
+   desktop 13, phone 13, Firefox 14, WebKit 13 (each stable over 3 runs). The bio and Qur'an e2e
+   tests and the visual `shot()` wait for the loaded text; what they check is unchanged.
+8. **Pre-rendered pages** (2B). `npm run build` runs `scripts/prerender.ts` after Vite: one
+   `index.html` per address (home, 131 events, 161 people, 12 replays, 51 Qur'an passages) with its
+   title, description, canonical URL, Open Graph and Twitter tags and JSON-LD, and its text shown
+   until the app mounts (it scrolls on its own, as the app's CSS locks the body). Plus `404.html`
+   (app shell, `noindex`), `sitemap.xml` (305 addresses, no Qur'an passages) and `robots.txt`.
+9. **Tab title** (2B): it now follows the page («غَزْوَةُ بَدْرٍ الْكُبْرَى — نبراس»; a replay
+   «…: مشاهدة المعركة — نبراس»); home and unknown pages keep «Nibras نِبْرَاس».
+10. **New icons** (2B, chosen by Mostafa 2026-10-17 from four directions): the golden star (two
+    overlapping squares) with نِبْرَاس centered inside, the word outlined from Amiri Bold so it needs
+    no font (the old icons loaded a font the browser ignores in icons, so the word fell back and
+    sat off-centre); the favicon is the star with ن. `scripts/make-site-images.ts` draws
+    `og-image.png` and `favicon.png` from the SVGs.
 
 ### 2A verification (2026-10-16, Windows 11, Node 20.19.5, Playwright 1.59.1)
 

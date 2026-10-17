@@ -31,6 +31,8 @@ export default defineConfig({
     trace: 'retain-on-failure',
     launchOptions: { args: ['--autoplay-policy=no-user-gesture-required'] },
   },
+  // Battle replays are not tested (Mostafa, 2026-10-17): they are slow and will be replaced by videos.
+  testIgnore: ['**/battles.spec.ts'],
   projects: [
     {
       name: 'desktop',

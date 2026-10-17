@@ -157,18 +157,4 @@ test.describe('visual @phone @visual', () => {
     await settle(page);
     await shot(page, 'chat');
   });
-
-  test('Badr replay at 40%', async ({ page }) => {
-    await openAppWithEvent(page);
-    await openEventBySearch(page, 'battle-badr', 'بدر');
-    await panel(page).getByRole('button', { name: 'مشاهدة المعركة على الخريطة' }).click();
-    await expect(page.getByText('جارٍ تحميل المعركة...')).toBeHidden({ timeout: 30_000 });
-    const bar = page.getByRole('slider', { name: 'شريط التقدم' });
-    const box = (await bar.boundingBox())!;
-    await page.mouse.click(box.x + box.width * 0.4, box.y + box.height / 2);
-    await expect(bar).toHaveAttribute('aria-valuenow', '40');
-    await page.mouse.move(0, 0);
-    await settle(page, 2_500);
-    await shot(page, 'badr-replay-40');
-  });
 });

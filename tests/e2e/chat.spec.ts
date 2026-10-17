@@ -46,7 +46,7 @@ test('a follow-up question carries the previous context', async ({ page, network
   });
 });
 
-test('citations open the right event, person, Quran passage and battle', async ({ page }) => {
+test('citations open the right event, person and Quran passage', async ({ page }) => {
   await openAppWithEvent(page);
   await ask(page, QUESTION);
 
@@ -72,15 +72,6 @@ test('citations open the right event, person, Quran passage and battle', async (
     await expect(verses).toBeVisible();
     await verses.getByRole('button', { name: 'إغلاق' }).click();
     await expect(verses).toBeHidden();
-  });
-
-  await test.step('battle', async () => {
-    await openChat(page);
-    await chatDialog(page).getByRole('button', { name: CITATION_LABELS.battle, exact: true }).click();
-    const badrTitle = content.events.find((e) => e.id === 'battle-badr')!.title;
-    await expect(page.locator('h1[lang="ar"]')).toHaveText(badrTitle, { timeout: 30_000 });
-    await page.getByRole('button', { name: 'رجوع' }).click();
-    await expect(page.locator('h1[lang="ar"]')).toBeHidden();
   });
 });
 
