@@ -152,7 +152,7 @@ export function markerHtml({ color, label, icon, isSelected, isDimmed, hasBattle
           },
           el(
             'svg',
-            { width: badgeSize - 6, height: badgeSize - 6, viewBox: '0 0 8 8', style: 'fill: rgb(var(--sys-chrome-rgb) / 0.95)' },
+            { width: badgeSize - 6, height: badgeSize - 6, viewBox: '0 0 8 8', style: 'fill:rgb(var(--sys-chrome-rgb) / 0.95)' },
             el('path', { d: 'M2 1.2 L6.6 4 L2 6.8 Z' }),
           ),
         )
