@@ -48,8 +48,9 @@ only after Mostafa approves the list of intentional changes; never to make a tes
 
 - `src/App.tsx` — layout; `src/store/` — the Zustand store (UI state) and its selectors;
   `src/router.ts` — keeps the store's location in step with the address (paths in `shared/routes.ts`);
-  every navigation goes through it
-- `src/components/` — map, timeline, modals, chat; `header/` (AppHeader, HeaderButton),
+  every navigation goes through it; `src/theme.ts` — dark mode (remembered, else the system; the
+  inline script in `index.html` applies the same rule before the first paint)
+- `src/components/` — map, timeline, modals, chat; `header/` (AppHeader, HeaderButton, HeaderMenu: the phone ⋮ menu),
   `Overlays.tsx` (search, person, Quran, help, chat, replay), `eventPanel/` (the event panel's parts)
 - `src/battlefield/` — Pixi.js battle engine and the 12 scenarios (frozen and untested, rule 8)
 - `content/` — all content as JSON (events, people, cities, eras, categories, Quran passages,
