@@ -22,8 +22,8 @@
         "gzip": 2274
       },
       "index.css": {
-        "raw": 161342,
-        "gzip": 30365
+        "raw": 172803,
+        "gzip": 31808
       },
       "index.js": {
         "raw": 1912805,
@@ -80,7 +80,7 @@
   "tests": {
     "vitestTests": 229,
     "playwrightFeatureTests": 80,
-    "playwrightFeatureKnownFailures": 4,
+    "playwrightFeatureKnownFailures": 0,
     "playwrightEnginesTests": 42,
     "playwrightEnginesKnownFailures": 0,
     "playwrightVisualTests": 16,
