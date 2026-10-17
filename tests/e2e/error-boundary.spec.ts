@@ -3,7 +3,7 @@
 // modal's code chunk fails to load, as it would after a deploy or a network drop.
 import type { Page } from '@playwright/test';
 import { test, expect } from './support/fixtures';
-import { header, openApp } from './support/app';
+import { header, headerControl, openApp } from './support/app';
 
 test.use({
   // Expected noise from the forced failure: the blocked request, and React logging the caught error.
@@ -61,7 +61,7 @@ async function fallbackContrast(page: Page): Promise<Record<string, number>> {
 test('a panel that fails to load shows the Arabic fallback and the rest keeps working @phone', async ({ page }) => {
   await breakHelpModal(page);
   await openApp(page);
-  await header.help(page).click();
+  await (await headerControl(page, 'help')).click();
 
   await expect(fallback(page)).toBeVisible();
   await expect(fallback(page).getByRole('button', { name: 'إعادة التحميل' })).toBeVisible();
@@ -77,8 +77,8 @@ test('the fallback text is readable in light and dark mode', async ({ page }) =>
   await breakHelpModal(page);
   await openApp(page);
   for (const mode of ['light', 'dark']) {
-    if (mode === 'dark') await header.darkMode(page).click();
-    await header.help(page).click();
+    if (mode === 'dark') await (await headerControl(page, 'darkMode')).click();
+    await (await headerControl(page, 'help')).click();
     await expect(fallback(page)).toBeVisible();
     const contrast = await fallbackContrast(page);
     for (const [part, value] of Object.entries(contrast)) {

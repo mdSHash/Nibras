@@ -1,6 +1,6 @@
 import { test, expect, knownFailure } from './support/fixtures';
 import type { Page } from '@playwright/test';
-import { behavior, eventById, header, mapState, markerCounts, openApp, openAppWithEvent, panelTitle, settledMarkerCounts, waitForMapIdle } from './support/app';
+import { behavior, eventById, header, headerControl, mapState, markerCounts, openApp, openAppWithEvent, panelTitle, settledMarkerCounts, waitForMapIdle } from './support/app';
 import { expectUiBaseline } from './support/uiBaseline';
 
 // The start view in Map.tsx: center [24.4672, 39.6112], zoom 6.
@@ -60,7 +60,7 @@ test('the map shows markers; clicking a single marker opens its event @phone', a
 test('map reset flies back to the start view', async ({ page }) => {
   await openAppWithEvent(page);
   await expect.poll(async () => (await mapState(page)).zoom, { timeout: 10_000 }).toBeGreaterThan(START.zoom);
-  await header.resetMap(page).click();
+  await (await headerControl(page, 'resetMap')).click();
   await expect.poll(async () => mapState(page), { timeout: 10_000 }).toMatchObject({ zoom: START.zoom });
   const state = await mapState(page);
   expect(state.lat).toBeCloseTo(START.lat, 1); // the flight ends on a whole pixel
@@ -69,7 +69,7 @@ test('map reset flies back to the start view', async ({ page }) => {
 
 test('help modal opens and closes @phone', async ({ page }) => {
   await openApp(page);
-  await header.help(page).click();
+  await (await headerControl(page, 'help')).click();
   const dialog = page.getByRole('dialog', { name: /دليل/ });
   await expect(dialog).toBeVisible();
   await dialog.getByRole('button', { name: 'إغلاق' }).first().click();
@@ -78,37 +78,68 @@ test('help modal opens and closes @phone', async ({ page }) => {
 
 test('dark mode toggles the dark class on the page @phone', async ({ page }) => {
   await openApp(page);
-  await header.darkMode(page).click();
+  await (await headerControl(page, 'darkMode')).click();
   await expect(page.locator('html')).toHaveClass(/\bdark\b/);
-  await expect(header.darkMode(page)).toHaveAccessibleName('تبديل إلى الوضع النهاري');
-  await header.darkMode(page).click();
+  await expect(await headerControl(page, 'darkMode')).toHaveAccessibleName('تبديل إلى الوضع النهاري');
+  await (await headerControl(page, 'darkMode')).click();
   await expect(page.locator('html')).not.toHaveClass(/\bdark\b/);
 });
 
 test('the fullscreen button enters and leaves fullscreen', async ({ page }) => {
   await openApp(page);
-  await header.fullscreen(page).click();
+  await (await headerControl(page, 'fullscreen')).click();
   await expect.poll(() => page.evaluate(() => !!document.fullscreenElement)).toBe(true);
-  await header.fullscreen(page).click();
+  await (await headerControl(page, 'fullscreen')).click();
   await expect.poll(() => page.evaluate(() => !!document.fullscreenElement)).toBe(false);
 });
 
+// Was known failure 2 in the Phase 0A baseline on phones (fixed in Phase 2C: the ⋮ menu).
 test('every header button is inside the viewport @phone', async ({ page }, testInfo) => {
-  if (testInfo.project.name.startsWith('phone')) knownFailure('at 375 px the dark-mode button is pushed off the left edge of the header');
   await openApp(page);
-  // The top bar is a plain div (no <header>), so its buttons are listed by name.
-  const outside: string[] = [];
-  for (const [name, locate] of Object.entries(header)) {
-    for (const button of await locate(page).all()) {
-      const box = await button.evaluate((b) => {
-        if ((b as HTMLElement).offsetParent === null) return null; // not displayed in this layout
-        const r = b.getBoundingClientRect();
-        return { left: r.left, right: r.right, top: r.top, bottom: r.bottom, vw: innerWidth, vh: innerHeight };
-      });
-      if (box && (box.left < 0 || box.right > box.vw || box.top < 0 || box.bottom > box.vh)) outside.push(name);
+  // The header's buttons are listed by name; the ⋮ menu's rows are checked with the menu open.
+  const outside = async (): Promise<string[]> => {
+    const names: string[] = [];
+    for (const [name, locate] of Object.entries(header)) {
+      for (const button of await locate(page).all()) {
+        const box = await button.evaluate((b) => {
+          if ((b as HTMLElement).offsetParent === null) return null; // not displayed in this layout
+          const r = b.getBoundingClientRect();
+          return { left: r.left, right: r.right, top: r.top, bottom: r.bottom, vw: innerWidth, vh: innerHeight };
+        });
+        if (box && (box.left < 0 || box.right > box.vw || box.top < 0 || box.bottom > box.vh)) names.push(name);
+      }
     }
+    return names;
+  };
+  expect(await outside()).toEqual([]);
+  if (testInfo.project.name.startsWith('phone')) {
+    await header.menu(page).click();
+    await expect(page.getByRole('menuitem')).toHaveCount(5);
+    expect(await outside()).toEqual([]);
   }
-  expect(outside).toEqual([]);
+});
+
+test('the phone header menu: arrow keys move, Escape closes only the menu, a tap outside closes it @phone', async ({ page }, testInfo) => {
+  test.skip(!testInfo.project.name.startsWith('phone'), 'the ⋮ menu is shown below 640 px only');
+  await openAppWithEvent(page);
+  const menu = page.getByRole('menu', { name: 'المزيد من الخيارات' });
+  await header.menu(page).click();
+  await expect(menu).toBeVisible();
+  const rows = menu.getByRole('menuitem');
+  await expect(rows.first()).toBeFocused();
+  await page.keyboard.press('ArrowDown');
+  await expect(rows.nth(1)).toBeFocused();
+  await page.keyboard.press('ArrowUp');
+  await page.keyboard.press('ArrowUp');
+  await expect(rows.last()).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(menu).toBeHidden();
+  await expect(header.menu(page)).toBeFocused();
+  await expect(panelTitle(page)).toBeVisible(); // the event stays open
+  await header.menu(page).click();
+  await expect(menu).toBeVisible();
+  await page.mouse.click(180, 400);
+  await expect(menu).toBeHidden();
 });
 
 test.describe('map moves to the selected event', () => {
@@ -174,7 +205,7 @@ test.describe('dark mode is remembered', () => {
   // Was known failure 8 in the Phase 0A baseline (fixed in Phase 2C).
   test('after a reload', async ({ page }) => {
     await openApp(page);
-    await header.darkMode(page).click();
+    await (await headerControl(page, 'darkMode')).click();
     await expect(page.locator('html')).toHaveClass(/\bdark\b/);
     await page.reload();
     await openApp(page);
@@ -187,7 +218,7 @@ test.describe('dark mode is remembered', () => {
     test('the app starts dark until the visitor chooses light', async ({ page }) => {
       await openApp(page);
       await expect(page.locator('html')).toHaveClass(/\bdark\b/);
-      await header.darkMode(page).click();
+      await (await headerControl(page, 'darkMode')).click();
       await expect(page.locator('html')).not.toHaveClass(/\bdark\b/);
       await page.reload();
       await openApp(page);

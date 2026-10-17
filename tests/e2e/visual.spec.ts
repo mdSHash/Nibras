@@ -3,7 +3,7 @@
 // CSS animations are disabled, so screenshots repeat. Stored per platform in
 // tests/baseline/visual/<project>/; update only after Mostafa approves.
 import { test, expect, useChatResponder } from './support/fixtures';
-import { content, header, openAppWithEvent, openEventBySearch, panel, panelTitle } from './support/app';
+import { content, header, headerControl, openAppWithEvent, openEventBySearch, panel, panelTitle } from './support/app';
 import { defaultChatReply } from './support/chatMock';
 import type { Page } from '@playwright/test';
 
@@ -95,7 +95,7 @@ test.describe('visual @phone @visual', () => {
 
   test('dark mode', async ({ page }) => {
     await openAppWithEvent(page);
-    await header.darkMode(page).click();
+    await (await headerControl(page, 'darkMode')).click();
     await settle(page, 3_500);
     await shot(page, 'dark-mode');
   });
@@ -138,7 +138,7 @@ test.describe('visual @phone @visual', () => {
   test('help', async ({ page }) => {
     await openAppWithEvent(page);
     await settle(page, 3_000);
-    await header.help(page).click();
+    await (await headerControl(page, 'help')).click();
     await expect(page.getByRole('dialog', { name: /دليل/ })).toBeVisible();
     await settle(page);
     await shot(page, 'help');

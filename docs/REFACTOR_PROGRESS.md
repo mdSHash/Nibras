@@ -890,6 +890,17 @@ The chat design stays (plan, "Keep as is"). Recommended changes, none started:
     the first-visit tests in `intro-tour.spec.ts` cover the intro, the tap and a key. A returning
     visit makes one request fewer (the intro's font stylesheet): `firstLoadRequests` desktop
     13 → 12 (others to be measured), to be updated in `behavior-ui.json` with approval.
+14. **Phone header menu** (2C; known failure 2 fixed; design decided 2026-10-16). Below 640 px the
+    header shows the title, chat, search and a ⋮ button («المزيد من الخيارات»); its dropdown lists
+    reset map, fullscreen, help, tour and dark mode, one row each with icon and label, in the
+    header's dark glass (`header/HeaderMenu.tsx`). Arrow keys, Home and End move between rows;
+    Escape closes only the menu (the open event stays) and returns focus to ⋮; Tab, a press outside
+    or a resize closes it. It opens with a short fade and closes at once. The dropdown is portalled
+    above the event panel (new z level `headerMenu` 920, between the panel and modals), which on
+    phones reaches the header. The ⋮ button carries help's first-visit pulse, and the tour's
+    dark-mode step points at it on phones. From 640 px up the header is unchanged. Tests reach
+    these controls through the menu (`headerControl` in `tests/e2e/support/app.ts`); new test
+    for the menu's keys and closing. The phone visual snapshots change (the header).
 
 ### 2A verification (2026-10-16, Windows 11, Node 20.19.5, Playwright 1.59.1)
 

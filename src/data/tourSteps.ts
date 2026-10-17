@@ -93,7 +93,8 @@ export const tourSteps: TourStep[] = [
   },
   {
     id: 'dark-mode',
-    target: '[data-tour-id="dark-mode-toggle"]',
+    // On phones the toggle sits in the header's ⋮ menu: the step points at the menu button.
+    target: '[data-tour-id="dark-mode-toggle"], [data-tour-id="header-menu"]',
     title: 'الوضع الداكن',
     content:
       'يمكنك التبديل بين الوضع الفاتح والوضع الداكن حسب تفضيلك. الوضع الداكن أكثر راحةً للعين في الإضاءة المنخفضة.',

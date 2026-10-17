@@ -7,6 +7,7 @@ import { useFilteredEvents } from '../../store/selectors';
 import { Z_INDEX } from '../../constants';
 import { cn } from '../../utils/cn';
 import { HeaderButton } from './HeaderButton';
+import { HeaderMenu, type HeaderMenuItem } from './HeaderMenu';
 
 // localStorage keys for "the visitor has opened this once": the gold pulse on
 // the help and chat buttons stops after the first open.
@@ -59,6 +60,33 @@ export function AppHeader() {
     document.addEventListener('fullscreenchange', handleFs);
     return () => document.removeEventListener('fullscreenchange', handleFs);
   }, []);
+
+  const openHelp = () => {
+    setHelpOpen(true);
+    markHelpSeen();
+  };
+
+  // The phone menu: the same controls and accessible names as the buttons above.
+  const menuItems: HeaderMenuItem[] = [
+    { key: 'reset', icon: <LocateFixed size={18} strokeWidth={2.5} />, label: 'إعادة تعيين الخريطة', onSelect: resetMapView },
+    {
+      key: 'fullscreen',
+      icon: isFullscreen ? <Minimize2 size={18} strokeWidth={2.5} /> : <Maximize2 size={18} strokeWidth={2.5} />,
+      label: isFullscreen ? 'الخروج من ملء الشاشة' : 'ملء الشاشة',
+      onSelect: toggleFullscreen,
+    },
+    { key: 'help', icon: <HelpCircle size={18} strokeWidth={2.5} />, label: 'دليل الاستخدام والاختصارات', onSelect: openHelp },
+    ...(tourState.isActive
+      ? []
+      : [{ key: 'tour', icon: <Compass size={18} strokeWidth={2.5} />, label: 'ابدأ الجولة التعريفية', onSelect: startTour }]),
+    {
+      key: 'dark',
+      icon: isDarkMode ? <Sun size={18} strokeWidth={2.5} /> : <Moon size={18} strokeWidth={2.5} />,
+      label: isDarkMode ? 'الوضع النهاري' : 'الوضع الليلي',
+      ariaLabel: isDarkMode ? 'تبديل إلى الوضع النهاري' : 'تبديل إلى الوضع الليلي',
+      onSelect: toggleDarkMode,
+    },
+  ];
 
   return (
     <motion.header
@@ -147,9 +175,11 @@ export function AppHeader() {
         transition={{ type: 'spring', damping: 20, stiffness: 200, delay: 0.3 }}
         className="flex items-center gap-1.5 sm:gap-2 pointer-events-auto shrink-0"
       >
+        {/* Below 640 px the controls marked `hidden sm:flex` move into the ⋮ menu (HeaderMenu). */}
         <HeaderButton
           delay={0.45}
           glow
+          className="hidden sm:flex"
           onClick={resetMapView}
           title="إعادة تعيين الخريطة"
           aria-label="إعادة تعيين الخريطة"
@@ -160,6 +190,7 @@ export function AppHeader() {
         <HeaderButton
           delay={0.5}
           glow
+          className="hidden sm:flex"
           onClick={toggleFullscreen}
           title={isFullscreen ? 'الخروج من وضع ملء الشاشة' : 'ملء الشاشة'}
           aria-label="ملء الشاشة"
@@ -176,10 +207,8 @@ export function AppHeader() {
         <HeaderButton
           delay={0.52}
           pulse={!helpSeen}
-          onClick={() => {
-            setHelpOpen(true);
-            markHelpSeen();
-          }}
+          className="hidden sm:flex"
+          onClick={openHelp}
           data-tour-id="help-button"
           aria-label="دليل الاستخدام والاختصارات"
           aria-haspopup="dialog"
@@ -217,7 +246,7 @@ export function AppHeader() {
               whileTap={{ scale: 0.9 }}
               transition={{ type: 'spring', damping: 18, stiffness: 300, delay: 0.55 }}
               className={cn(
-                'flex items-center gap-1.5 sm:gap-2',
+                'hidden sm:flex items-center gap-1.5 sm:gap-2',
                 'px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2',
                 'rounded-full border border-accent/40',
                 'bg-gradient-to-br from-accent to-accent-dark',
@@ -251,6 +280,7 @@ export function AppHeader() {
 
         <HeaderButton
           delay={0.65}
+          className="hidden sm:flex"
           data-tour-id="dark-mode-toggle"
           onClick={toggleDarkMode}
           aria-label={isDarkMode ? 'تبديل إلى الوضع النهاري' : 'تبديل إلى الوضع الليلي'}
@@ -268,6 +298,8 @@ export function AppHeader() {
             </motion.div>
           </AnimatePresence>
         </HeaderButton>
+
+        <HeaderMenu items={menuItems} pulse={!helpSeen} />
       </motion.div>
     </motion.header>
   );

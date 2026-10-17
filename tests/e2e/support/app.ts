@@ -33,16 +33,37 @@ export const eventById = (id: string): BaselineEvent => {
   return event;
 };
 
+// A header button, or its row in the phone header's ⋮ menu (Phase 2C), whichever is shown.
+const control = (page: Page, name: string | RegExp): Locator =>
+  page
+    .getByRole('button', { name })
+    .or(page.getByRole('menuitem', { name }))
+    .locator('visible=true')
+    .first();
+
 export const header = {
   // Two elements carry this tour id (one per layout); take the visible one.
   search: (page: Page) => page.locator('[data-tour-id="search-button"]:visible').first(),
-  resetMap: (page: Page) => page.getByRole('button', { name: 'إعادة تعيين الخريطة' }),
-  fullscreen: (page: Page) => page.getByRole('button', { name: 'ملء الشاشة' }),
-  help: (page: Page) => page.getByRole('button', { name: 'دليل الاستخدام والاختصارات' }),
+  resetMap: (page: Page) => control(page, 'إعادة تعيين الخريطة'),
+  fullscreen: (page: Page) => control(page, 'ملء الشاشة'),
+  help: (page: Page) => control(page, 'دليل الاستخدام والاختصارات'),
   chat: (page: Page) => page.getByRole('button', { name: 'اسأل المساعد الذكي' }),
-  tour: (page: Page) => page.getByRole('button', { name: 'ابدأ الجولة التعريفية' }),
-  darkMode: (page: Page) => page.locator('[data-tour-id="dark-mode-toggle"]'),
+  tour: (page: Page) => control(page, 'ابدأ الجولة التعريفية'),
+  darkMode: (page: Page) => control(page, /^تبديل إلى الوضع (الليلي|النهاري)$/),
+  menu: (page: Page) => page.getByRole('button', { name: 'المزيد من الخيارات' }),
 };
+
+/**
+ * A header control, ready to click: below 640 px most of them are in the ⋮
+ * menu, which is opened first when the control is not already shown.
+ */
+export async function headerControl(page: Page, key: Exclude<keyof typeof header, 'menu'>): Promise<Locator> {
+  const target = header[key](page);
+  // The header buttons pop in one after another; wait for the control or the menu button.
+  await expect(target.or(header.menu(page)).first()).toBeVisible();
+  if (!(await target.isVisible())) await header.menu(page).click();
+  return target;
+}
 
 export const panel = (page: Page): Locator => page.locator('[data-tour-id="event-panel"]');
 export const panelTitle = (page: Page): Locator => panel(page).locator('h1');

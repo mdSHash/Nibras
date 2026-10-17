@@ -36,6 +36,7 @@ export const Z_INDEX = {
   searchMenu: 800,
   searchBackdrop: 750,
   eventPanel: 900,
+  headerMenu: 920,
   modalBackdrop: 950,
   modal: 1000,
   tooltip: 1100,
