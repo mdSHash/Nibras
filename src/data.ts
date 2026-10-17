@@ -10,6 +10,7 @@ import generatedCategories from './generated/categories.json';
 import generatedQuranPassages from './generated/quranIndex.json';
 import type { Category, City as ContentCity, Era } from '../shared/contentSchema';
 import type { EventSummary, PersonSummary, QuranPassageSummary } from '../shared/contentSplit';
+import type { HeadingLookups } from '../shared/pageMeta';
 import { eventSlug, type Route } from '../shared/routes';
 
 export type EventItem = EventSummary;
@@ -56,3 +57,10 @@ export const passageFor = (ref: { surah: number; from: number; to: number }): Qu
 export const eventForScenario = (scenarioId: string): EventItem | undefined =>
   eventsData.find(e => e.battleScenarioId === scenarioId);
 
+/** Names for page titles (shared/pageMeta.ts `routeHeading`), as the pre-rendered pages use them. */
+export const headingLookups: HeadingLookups = {
+  eventTitle: (key) => eventByKey(key)?.title,
+  personName: (id) => getPerson(id)?.name,
+  battleEventTitle: (id) => eventForScenario(id)?.title,
+  passageKey: (ref) => passageFor(ref)?.key,
+};

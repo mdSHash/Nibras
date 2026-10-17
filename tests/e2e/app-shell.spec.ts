@@ -8,9 +8,11 @@ const START = { lat: 24.4672, lng: 39.6112, zoom: 6 };
 
 test('first load: request count and markers at the start view match the UI baseline @phone', async ({ page }, testInfo) => {
   // Map tiles are left out: how many load depends on the timing of the flight animation.
+  // Font files too (Phase 2B): how many load depends on how long the pre-rendered text is shown.
   let requests = 0;
   page.on('request', (request) => {
-    if (!request.url().includes('server.arcgisonline.com')) requests++;
+    const url = request.url();
+    if (!url.includes('server.arcgisonline.com') && !url.includes('fonts.gstatic.com')) requests++;
   });
   await openAppWithEvent(page);
   await page.waitForLoadState('networkidle');

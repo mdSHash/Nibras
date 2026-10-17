@@ -15,7 +15,8 @@ import { goHome, navigate, openBattle, openPerson, openQuran, selectEvent } from
 import { useAppStore } from './store/appStore';
 import { useFilteredEvents, useFilters, useOverlay, useSelectedEvent } from './store/selectors';
 import { findEraAnchor } from './utils/eventHelpers';
-import { eventRoute, type EventItem } from './data';
+import { eventRoute, headingLookups, type EventItem } from './data';
+import { pageTitle, routeHeading } from '../shared/pageMeta';
 
 const store = () => useAppStore.getState();
 
@@ -130,6 +131,12 @@ export default function App() {
       if (eraEvent) selectEvent(eraEvent);
     }
   };
+
+  // The tab title follows the page, as the pre-rendered pages set it (scripts/prerender.ts).
+  const route = useAppStore(s => s.location.route);
+  useEffect(() => {
+    document.title = pageTitle(routeHeading(route, headingLookups));
+  }, [route]);
 
   // The dark class sits on <html>, so portals and the map follow it too.
   useEffect(() => {
