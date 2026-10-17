@@ -21,9 +21,9 @@ export const DesktopDock = memo(function DesktopDock(props: DesktopDockProps) {
   const {
     events, selectedEvent, showScrollBack,
     isDockVisible, setIsDockVisible,
-    isPlayerMode, isAutoPlaying, isTTSEnabled, playbackSpeed,
+    isPlayerMode, isAutoPlaying, isTTSEnabled,
     selectedEra, quickJumps,
-    onToggleAutoPlay, onToggleTTS, onCycleSpeed, onStartOver, onExitPlayerMode,
+    onToggleAutoPlay, onToggleTTS, onStartOver, onExitPlayerMode,
     onEraClick, onJumpToStart,
   } = props;
 
@@ -99,10 +99,8 @@ export const DesktopDock = memo(function DesktopDock(props: DesktopDockProps) {
                       variant="desktop"
                       isAutoPlaying={isAutoPlaying}
                       isTTSEnabled={isTTSEnabled}
-                      playbackSpeed={playbackSpeed}
                       onToggleAutoPlay={onToggleAutoPlay}
                       onToggleTTS={onToggleTTS}
-                      onCycleSpeed={onCycleSpeed}
                       onStartOver={onStartOver}
                       onExitPlayerMode={onExitPlayerMode}
                     />

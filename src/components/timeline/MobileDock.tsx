@@ -11,9 +11,9 @@ import { FOCUS_RING } from './classes';
 export const MobileDock = memo(function MobileDock(props: DockProps) {
   const {
     isDockVisible, setIsDockVisible,
-    isPlayerMode, isAutoPlaying, isTTSEnabled, playbackSpeed,
+    isPlayerMode, isAutoPlaying, isTTSEnabled,
     selectedEra, quickJumps,
-    onToggleAutoPlay, onToggleTTS, onCycleSpeed, onStartOver, onExitPlayerMode, onEraClick,
+    onToggleAutoPlay, onToggleTTS, onStartOver, onExitPlayerMode, onEraClick,
   } = props;
 
   const hideBtnRef = useRef<HTMLButtonElement>(null);
@@ -52,10 +52,8 @@ export const MobileDock = memo(function MobileDock(props: DockProps) {
                   variant="mobile-dock"
                   isAutoPlaying={isAutoPlaying}
                   isTTSEnabled={isTTSEnabled}
-                  playbackSpeed={playbackSpeed}
                   onToggleAutoPlay={onToggleAutoPlay}
                   onToggleTTS={onToggleTTS}
-                  onCycleSpeed={onCycleSpeed}
                   onStartOver={onStartOver}
                   onExitPlayerMode={onExitPlayerMode}
                 />

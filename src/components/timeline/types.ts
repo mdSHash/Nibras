@@ -16,12 +16,10 @@ export interface DockProps {
   isPlayerMode: boolean;
   isAutoPlaying: boolean;
   isTTSEnabled: boolean;
-  playbackSpeed: 1 | 2 | 3;
   selectedEra: string | null | undefined;
   quickJumps: QuickJump[];
   onToggleAutoPlay: () => void;
   onToggleTTS: () => void;
-  onCycleSpeed: () => void;
   onStartOver: () => void;
   onExitPlayerMode: () => void;
   onEraClick: (pillId: string) => void;
