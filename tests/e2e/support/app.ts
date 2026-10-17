@@ -12,7 +12,7 @@ export interface BaselineEvent {
   keyFigures: { name: string; companionId: string }[];
   companionRoles: { name: string; companionId: string }[];
   quran: { ref: string; key: string }[];
-  battle: { battleId: string; scenarioId: string; available: boolean } | null;
+  battle: { battleId: string; scenarioId: string } | null;
   date: { hijriDisplay: string; gregorianDisplay: string };
   narration: { descriptionFile: string; titleFile: string };
 }
@@ -20,7 +20,6 @@ export interface BaselineEvent {
 export const content = JSON.parse(readFileSync(join(ROOT, 'tests', 'baseline', 'content.json'), 'utf8')) as {
   events: BaselineEvent[];
   companions: { id: string; name: string }[];
-  battles: { id: string }[];
 };
 export const behavior = JSON.parse(readFileSync(join(ROOT, 'tests', 'baseline', 'behavior.json'), 'utf8')) as {
   timelineOrder: string[];
@@ -51,7 +50,7 @@ export const panelTitle = (page: Page): Locator => panel(page).locator('h1');
 /** Opens the app and waits until the intro has finished and the header is usable. */
 export async function openApp(page: Page): Promise<void> {
   await page.goto('./');
-  // The intro takes 4.2 s; leave room for a busy machine (battle replays render in parallel).
+  // The intro takes 4.2 s; leave room for a busy machine.
   await expect(page.getByRole('button', { name: 'اسأل المساعد الذكي' })).toBeVisible({ timeout: 30_000 });
 }
 

@@ -1,7 +1,7 @@
 /**
  * Reads content/ and checks it: every file against its Zod schema
  * (shared/contentSchema.ts), file names against ids, and every link between
- * records (era, category, person, Qur'an passage, battle replay). Used by
+ * records (era, category, person, Qur'an passage; battle replays are not checked). Used by
  * scripts/build-content.ts (which then emits src/generated/) and by the tests.
  */
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
@@ -172,7 +172,6 @@ function checkUnique<T>(
  */
 export function checkContent(
   raw: RawContent,
-  scenarioIds: ReadonlySet<string>,
 ): { content: ContentSet; territories: TerritorySource | undefined; issues: ContentIssue[] } {
   const issues: ContentIssue[] = [];
   const eras = parseList(eraSchema, raw.eras, issues).sort((a, b) => a.order - b.order);
@@ -268,9 +267,8 @@ export function checkContent(
         issues.push({ file, message: `no Quran passage ${passageRange(ref)} in quran/passages.json (${ref.labelAr})` });
       }
     }
-    if (event.battleScenarioId && !scenarioIds.has(event.battleScenarioId)) {
-      issues.push({ file, message: `unknown battle scenario "${event.battleScenarioId}"` });
-    }
+    // battleScenarioId is not checked: battle replays are left out of every check until they are
+    // replaced by videos (Mostafa, 2026-10-17).
     if (event.date.gregorian.year !== Math.floor(event.date.sortKey)) {
       issues.push({ file, message: 'date.gregorian.year must be the whole-number part of date.sortKey' });
     }

@@ -792,11 +792,16 @@ one PR at the end.
 - 2026-10-17: "main JS" for the ~800 KB target means the JS loaded before the app renders (the entry
   and the chunks `index.html` preloads), as the bundle report's new "JS at start" line measures it.
 
-- 2026-10-17: **battle replays are no longer tested** (they are slow and will be replaced by videos):
-  `tests/e2e/battles.spec.ts` is ignored in `playwright.config.ts` (so in verify and CI), and the
-  replay snapshot, the replay-link routing test and the chat citation's replay step are removed.
-  Kept (fast): the battles filter, the replay button on battle events, the content check that every
-  `battleScenarioId` names a scenario.
+- 2026-10-17: **battle replays are frozen and untested, in every phase** (Mostafa: they ate test time
+  and CPU and will be replaced by videos). They stay in the build, so the live site keeps them.
+  Removed: `tests/e2e/battles.spec.ts`, the replay snapshot (and its 4 baseline images), the
+  replay-link routing test, the chat citation's replay step, the panel test's replay-button check,
+  the content check of `battleScenarioId` (`checkContent` no longer takes scenario ids), the
+  scenario data in `tests/baseline/content.json` (and `scripts/baseline/scenarios.ts`), ESLint on
+  `src/battlefield/`. Replay chunks build into `assets/battle/`, outside the bundle budget (one
+  informational line). Written into the plan ("Testing and verification", Phase 3 battle videos:
+  video tests stay light) and `CLAUDE.md` rule 8. Kept: the battles filter, `/battle/` route
+  parsing, the chat's battle knowledge.
 - 2026-10-17: first-load request count leaves out font files (see intentional change 7); new icons
   chosen from four directions (intentional change 10).
 

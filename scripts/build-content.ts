@@ -19,7 +19,6 @@ import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { checkContent, readContent } from './content/store';
 import { buildTerritories } from './content/territories';
-import { battleScenarios } from './baseline/scenarios';
 import { ROOT } from './baseline/lib';
 import { eventSearchText, splitEvent, splitPassage, splitPerson } from '../shared/contentSplit';
 import { eventSlug } from '../shared/routes';
@@ -28,7 +27,7 @@ const CONTENT_DIR = join(ROOT, 'content');
 const GENERATED_DIR = join(ROOT, 'src', 'generated');
 
 const { raw, issues: readIssues } = readContent(CONTENT_DIR);
-const { content, territories, issues } = checkContent(raw, new Set(Object.keys(battleScenarios)));
+const { content, territories, issues } = checkContent(raw);
 const allIssues = [...readIssues, ...issues];
 
 if (allIssues.length > 0) {

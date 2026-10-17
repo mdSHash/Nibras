@@ -8,7 +8,8 @@
 // Content loaded on demand (dist/assets/content/, Phase 2B) is not code: it is
 // reported by group (one line for the event details, one for the bios, …) and
 // left out of the code budget. "JS at start" is what the page loads before the
-// app renders: the entry script and the chunks index.html preloads.
+// app renders: the entry script and the chunks index.html preloads. Battle
+// replay chunks (dist/assets/battle/) are left out until videos replace them.
 //
 //   npx tsx scripts/baseline/bundle-report.ts            check the budget
 //   npx tsx scripts/baseline/bundle-report.ts --update   record the current build (only after approval)
@@ -161,6 +162,12 @@ function main(): void {
   console.log(`JS at start ${kb(start.raw)} (${kb(start.gzip)} gzip; baseline ${kb(startBefore.raw)}, ${kb(startBefore.gzip)} gzip)`);
   for (const [group, g] of Object.entries(current.content ?? {})) {
     console.log(`  content ${group}: ${g.files} file(s), ${kb(g.raw)} (${kb(g.gzip)} gzip)`);
+  }
+  // Battle replay chunks (assets/battle/) are not budgeted until videos replace them.
+  const battleDir = join(ASSETS, 'battle');
+  if (existsSync(battleDir)) {
+    const raw = readdirSync(battleDir).reduce((sum, f) => sum + statSync(join(battleDir, f)).size, 0);
+    console.log(`  battle replays (not checked): ${kb(raw)}`);
   }
   for (const note of notes) console.log(`  ${note}`);
   if (problems.length > 0) {

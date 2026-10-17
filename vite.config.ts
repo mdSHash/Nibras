@@ -39,11 +39,18 @@ export default defineConfig(({mode}) => {
         output: {
           // Content loaded on demand (src/lazyContent.ts) goes to assets/content/,
           // by folder (eventDetails/, bios/), so the bundle report can tell it from code.
+          // Battle replay code (src/battlefield, Pixi.js) goes to assets/battle/: it is not checked
+          // until videos replace the replays (2026-10-17).
           chunkFileNames: (chunk) => {
-            const generated = chunk.facadeModuleId?.replace(/\\/g, '/').match(/\/src\/generated\/(?:(\w+)\/)?/);
-            return generated
-              ? `assets/content/${generated[1] ? `${generated[1]}/` : ''}[name]-[hash].js`
-              : 'assets/[name]-[hash].js';
+            const id = chunk.facadeModuleId?.replace(/\\/g, '/') ?? '';
+            const generated = id.match(/\/src\/generated\/(?:(\w+)\/)?/);
+            if (generated) return `assets/content/${generated[1] ? `${generated[1]}/` : ''}[name]-[hash].js`;
+            const modules = chunk.moduleIds.map((m) => m.replace(/\\/g, '/'));
+            const isBattle = (m: string) => /\/src\/battlefield\/|\/node_modules\/(pixi\.js|@pixi)\//.test(m);
+            if (modules.some(isBattle) && modules.every((m) => isBattle(m) || m.includes('/node_modules/'))) {
+              return 'assets/battle/[name]-[hash].js';
+            }
+            return 'assets/[name]-[hash].js';
           },
         },
       },

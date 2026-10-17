@@ -83,7 +83,7 @@
     "playwrightFeatureKnownFailures": 10,
     "playwrightEnginesTests": 32,
     "playwrightEnginesKnownFailures": 2,
-    "playwrightVisualTests": 18,
+    "playwrightVisualTests": 16,
     "playwrightVisualKnownFailures": 0
   }
 }

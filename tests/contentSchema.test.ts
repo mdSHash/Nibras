@@ -1,10 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { join } from 'node:path';
 import { checkContent, readContent, type RawContent, type RawFile } from '../scripts/content/store';
-import { battleScenarios } from '../scripts/baseline/scenarios';
 
 const CONTENT_DIR = join(__dirname, '..', 'content');
-const SCENARIOS = new Set(Object.keys(battleScenarios));
 const { raw, issues: readIssues } = readContent(CONTENT_DIR);
 
 /** A copy of the content with one event file changed. */
@@ -15,11 +13,11 @@ function withEvent(id: string, change: (event: Record<string, unknown>) => Recor
   return copy;
 }
 const messages = (content: RawContent): string[] =>
-  checkContent(content, SCENARIOS).issues.map(i => `${i.file}: ${i.message}`);
+  checkContent(content).issues.map(i => `${i.file}: ${i.message}`);
 const badr = (raw.events.find(f => f.file === 'events/battle-badr.json') as RawFile).data as Record<string, unknown>;
 
 describe('content/', () => {
-  const { content, issues } = checkContent(raw, SCENARIOS);
+  const { content, issues } = checkContent(raw);
 
   it('is valid: every file and every link', () => {
     expect([...readIssues, ...issues]).toEqual([]);
@@ -72,7 +70,6 @@ describe('the content check fails', () => {
         categoryId: 'festival',
         keyFigures: [{ personId: 'nobody', labelAr: 'أحد' }],
         quran: [{ surah: 2, from: 1, to: 300, labelAr: 'سورة البقرة' }],
-        battleScenarioId: 'battle-of-nowhere',
       })),
     );
     expect(issues).toEqual([
@@ -80,7 +77,6 @@ describe('the content check fails', () => {
       'events/battle-badr.json: unknown category "festival"',
       'events/battle-badr.json: unknown person "nobody" (أحد)',
       'events/battle-badr.json: no Quran passage 2:1-300 in quran/passages.json (سورة البقرة)',
-      'events/battle-badr.json: unknown battle scenario "battle-of-nowhere"',
     ]);
   });
 

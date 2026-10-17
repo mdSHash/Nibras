@@ -21,6 +21,9 @@ assistant (`api/`) is a separate Vercel project.
 6. Ask before anything irreversible or costly: deleting audio (never deleted — archived), rewriting
    git history, removing a visible feature, spending Gemini / Groq / OpenRouter quota.
 7. Secrets never go in git. Document every variable name in `.env.example`.
+8. **Battle replays are frozen and untested** until videos replace them: `src/battlefield/` stays in
+   the build (the live site keeps its replays) but has no tests, snapshots, lint, bundle budget or
+   content checks. Don't add any, and don't review or refactor it (plan, "Testing and verification").
 
 ## Commands
 
@@ -48,7 +51,7 @@ only after Mostafa approves the list of intentional changes; never to make a tes
   every navigation goes through it
 - `src/components/` — map, timeline, modals, chat; `header/` (AppHeader, HeaderButton),
   `Overlays.tsx` (search, person, Quran, help, chat, replay), `eventPanel/` (the event panel's parts)
-- `src/battlefield/` — Pixi.js battle engine and the 12 scenarios
+- `src/battlefield/` — Pixi.js battle engine and the 12 scenarios (frozen and untested, rule 8)
 - `content/` — all content as JSON (events, people, cities, eras, categories, Quran passages,
   territories), validated and built into `src/generated/` by `scripts/build-content.ts`; read
   through `src/data.ts` and `src/territories.ts`. How to edit it: `docs/CONTENT_GUIDE.md`
