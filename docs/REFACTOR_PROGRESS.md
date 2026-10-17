@@ -9,7 +9,7 @@ The log for `docs/REFACTOR_PLAN.md`. Each session reads this file first and upda
 | 0B Safety net | merged | `refactor/phase-0b-safety-net` | #4 |
 | 1 Content model | merged | `refactor/phase-1-content` | #5 |
 | 2 State, routing and pages | merged | `refactor/phase-2-routing` | #6 |
-| 3 Assets, chat and polish | not started | `refactor/phase-3-polish` | — |
+| 3 Assets, chat and polish | in progress | `refactor/phase-3-polish` | — |
 | 4 Learning paths for guests | not started | `feature/phase-4-paths` | — |
 | 5 Optional accounts | not started | `feature/phase-5-accounts` | — |
 
@@ -1049,3 +1049,34 @@ Manual checks for Mostafa (phone and desktop):
    the panel reach down again.
 5. Set the system to dark, clear site data, open a shared event link: no light flash, the page and
    the app are dark; choose light in the app and reload: it stays light.
+
+---
+
+## Phase 3 — Assets, chat and polish
+
+Started 2026-10-17 from `main` at `f96b55b` (PR #6 merged). Before any change, `npm run verify`
+passed on `f96b55b`: Vitest 229/229, feature tests 79 passed (known failures 5, 6, 7, 10), 1
+skipped, phone smoke 42/42, visual 16/16, bundle budget within limits.
+
+Proposed sessions (waiting for Mostafa's answers before any code): **3A** quick fixes (known
+failures 5, 6, 7, 10; panel stays when search opens; web manifest; self-hosted fonts), **3B** colors
+through theme tokens (no visual change), **3C** chat (KB and index in `api/_data/`, scheduled index
+build, per-IP rate limit), **3D** audio (manifest by event id, compressed narration, archive),
+**3E** owner visibility (Umami, Search Console, Lighthouse budgets), **3F** territories research and
+3–4 visual directions, **3G** territories build, **3H** battle video pipeline, **3I** close-out.
+
+### Decisions by Mostafa
+
+- 2026-10-17: **free options only, for now.** No paid hosting or service; paid ones may come later,
+  so provider details stay behind one setting or content field. Narration: compressed AAC kept on
+  GitHub Pages, WAV originals and the 118 unused files archived as GitHub Release assets; no
+  history rewrite. Quota: free tiers only, still counted and asked first. Analytics: Umami Cloud
+  free tier. Battle videos: YouTube unlisted (Cloudflare R2 needs a card on file even for its free
+  tier; Bunny Stream is paid), played with Nibras's own Arabic controls and captions from the
+  reviewed WebVTT; originals as GitHub Release assets.
+
+### Open for Mostafa
+
+PRs per session or one for the phase; the `chore/chat-embeddings` branch; chat rate-limit numbers
+and wording; territory atlas and map scans; basemap; Badr video readiness and narration script;
+delete or archive old scripts.
