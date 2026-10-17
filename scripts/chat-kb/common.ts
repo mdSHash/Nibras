@@ -74,6 +74,7 @@ export class BuildContext {
     verbatimOnly?: boolean;
     alsoAbout?: string[];
     list?: KbUnit['list'];
+    sources?: string[];
   }): boolean {
     const text = (unit.text ?? (unit.list ? `${unit.list.heading}: ${unit.list.items.join('، ')}` : '')).replace(/\s+/g, ' ').trim();
     if (!text) return false;
@@ -88,6 +89,7 @@ export class BuildContext {
       verbatimOnly: unit.verbatimOnly ?? false,
       ...(unit.alsoAbout?.length ? { alsoAbout: unit.alsoAbout } : {}),
       ...(unit.list ? { list: unit.list } : {}),
+      ...(unit.sources?.length ? { sources: unit.sources } : {}),
       refs: unit.refs,
     });
     return true;

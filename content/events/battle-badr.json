@@ -111,5 +111,10 @@
     "سيرة ابن هشام",
     "مغازي الواقدي"
   ],
-  "battleScenarioId": "battle-of-badr"
+  "battleScenarioId": "battle-of-badr",
+  "battleVideo": {
+    "provider": "youtube",
+    "id": "HCQru0jnWeA",
+    "durationSec": 281
+  }
 }

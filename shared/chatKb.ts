@@ -69,6 +69,7 @@ export type UnitKind =
   | 'battle_narration'
   | 'battle_outcome'
   | 'battle_landmarks'
+  | 'battle_video'
   | 'list';
 
 export interface KbUnit {
@@ -78,7 +79,7 @@ export interface KbUnit {
   kind: UnitKind;
   /** Verbatim display text. */
   text: string;
-  /** Event records are authoritative; battle-scenario text is secondary. */
+  /** Event records are authoritative; battle-scenario and battle-video text is secondary. */
   trust: 'primary' | 'secondary';
   /**
    * Qur'an verses and hadith: the model may cite these but never restate
@@ -92,6 +93,12 @@ export interface KbUnit {
    * renders these itself so a list answer can never silently drop an item.
    */
   list?: { heading: string; items: string[] };
+  /**
+   * For a battle video's caption lines: the Arabic book references its sources
+   * give for the line (content/battle-videos/<event id>/sources.md), shown with
+   * any answer that uses it.
+   */
+  sources?: string[];
   refs: EntityRefs;
 }
 

@@ -4,6 +4,7 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { deflateSync } from 'node:zlib';
 import type { Page, Route } from '@playwright/test';
+import { FAKE_YOUTUBE_API } from './fakeYouTube';
 
 export const CHAT_API_URL = 'http://chat.test/api/chat';
 export const FEEDBACK_API_URL = 'http://chat.test/api/feedback';
@@ -72,6 +73,8 @@ export const SILENT_WAV = silentWav(3);
 export interface NetworkLog {
   audioRequests: string[];
   chatRequests: unknown[];
+  /** Loads of the (fake) YouTube IFrame API: only the battle video player asks for it. */
+  youtubeRequests: string[];
   unexpected: string[];
 }
 
@@ -99,6 +102,11 @@ export async function installStubs(page: Page, log: NetworkLog, chat: () => Chat
     }
     if (isLocal) return route.continue();
 
+    // The battle video player's YouTube IFrame API (3H): a stand-in, never the real one.
+    if (url.href === 'https://www.youtube.com/iframe_api') {
+      log.youtubeRequests.push(url.href);
+      return route.fulfill({ status: 200, contentType: 'text/javascript', body: FAKE_YOUTUBE_API });
+    }
     if (url.hostname === 'server.arcgisonline.com') {
       return route.fulfill({ status: 200, contentType: 'image/png', body: TILE });
     }

@@ -1162,3 +1162,157 @@ Manual checks for Mostafa (phone and desktop):
 5. Text looks as before (fonts now from the site; in the browser's network tab no request goes to
    `fonts.googleapis.com` or `fonts.gstatic.com`).
 6. Phone (Chrome/Android): ⋮ → "Add to home screen" shows «نبراس» with the golden-star icon.
+
+**3A merged**: PR #7, merge commit `59dd6dd` (2026-10-17).
+
+### 3H — battle videos (Badr first)
+
+Started 2026-10-17 on `refactor/phase-3h-videos` from `main` at `59dd6dd` (PR #7 merged). Before any
+change, `npm run verify` passed: Vitest 229/229, content snapshot and behavior map identical, 356
+pre-rendered pages, bundle budget within limits, feature tests 79 passed (0 known failures), 1
+skipped, phone smoke 42/42, visual 16/16.
+
+#### Decisions by Mostafa (3H)
+
+- 2026-10-17: **free options only.** Videos are on YouTube (unlisted, embeddable), played through the
+  YouTube IFrame API with Nibras's own Arabic controls and captions. Content stores
+  `battleVideo: { provider: 'youtube', id }` (plus `durationSec`), so a paid host later is a content
+  change. Video files live in `Video/<battle>/` (ignored by git); the originals are kept, never
+  deleted.
+- 2026-10-17: **replays stay frozen and untested** (rule 8). A battle opens its video if it has one,
+  else its replay. Video tests stay light: one stub-video test, never the real videos.
+- 2026-10-17: **Badr is complete** (`Video/Badr/`, checked 2026-10-17): `battle-badr.mp4` (4:41,
+  1080p30 H.264/AAC), YouTube `HCQru0jnWeA` (unlisted, embeddable), `poster.jpg` (1920×1080),
+  `poster_1280x720.jpg`, `Transcript.txt`, `facts.md` (every claim with its source),
+  `captions.ar.vtt` (74 timed cues, text identical to the transcript without the voice directions).
+  Cues `quran-8-9`, `quran-8-17-part` and `quran-3-123-part` are recitations: their text comes from
+  `content/quran/verses.json` (rule 2), never from the VTT; for "-part" cues only the recited
+  words, taken from the Quran.com text. 8:17 and 3:123 added to the fetch.
+- 2026-10-17: **captions are reviewed content** (rule 1): copied into `content/` unchanged (except
+  the Qur'an cue text), shown as subtitles (on by default), read by the chat KB with the video's
+  sources from `facts.md`.
+- 2026-10-17, Badr's facts:
+  1. «معاهم فرسين بس» (two horses) stays as narrated (Ibn Hisham), although Musnad Ahmad 1023 says
+     al-Miqdad was the only horseman. (Confirmed by Mostafa, 2026-10-17.)
+  2. Al-Hubab's advice stays (sira report, broken chain).
+  3. **The Badr event is not changed**: facts only the video states (14 martyrs, two horses,
+     al-Hubab, ʿUmayr ibn al-Humam, Bilal and Umayya, the qalib) stay in the video's captions and
+     `facts.md`. All events, companions and cities will be enriched later, with new TTS.
+  4. 313 stays as in the event («حوالي ٣١٣»).
+- 2026-10-17 (plan answers): the player **looks like today's replay** (dark full-screen overlay,
+  same buttons); the battle button reads **«مشاهدة المعركة»** for every battle and moves **near the
+  top of the event panel** (under the summary), because not every visitor scrolls to the end; when
+  YouTube cannot play, the error offers **«إعادة المحاولة»** and **the replay instead**; for a battle
+  with a video, **the captions replace the replay narration in the chat KB**; a chat answer quoting
+  a caption shows **only the Arabic book references** of its line (English notes in `facts.md` are
+  left out; the file itself is copied unchanged).
+
+#### Design choices (3H)
+
+- **Content**: `battleVideo: { provider: 'youtube', id, durationSec }` on the event (Zod); the three
+  delivered files sit unchanged in `content/battle-videos/<event id>/` (`captions.ar.vtt`,
+  `transcript.txt` = Transcript.txt, `sources.md` = facts.md); the 1280×720 poster in
+  `public/videos/<event id>/poster.jpg`. `scripts/content/battleVideos.ts` checks at build: cue
+  timing (in order, no overlap, inside `durationSec`); the transcript without its `[voice
+  directions]` spells out exactly the captions (this proves the captions are the reviewed script
+  and gives each cue its script line); each `sources.md` row names a real line; a Qur'an cue
+  (`quran-S-A`, `quran-S-A-part`) holds only the recitation, and only Qur'an cues hold ﴿ ﴾.
+- **Qur'an cues (rule 2)**: the caption only locates the words. It must match the verse its id
+  names (letter by letter against the Tanzil cross-check); the words are aligned with Tanzil's
+  ordinary-script verse, whose words are Quran.com's one for one, and the site shows that run of
+  Quran.com words. `npm run fetch:quran` also collects the verses the captions' ids name (8:17 and
+  3:123 fetched 2026-10-17; `verses.json` now 97 verses). A new test checks every verse in
+  `verses.json` against Tanzil.
+- **Player** (`src/components/battleVideo/`, lazy chunk 15.8 KB, 5.5 KB gzip; Badr's captions 8.1 KB,
+  3.1 KB gzip, load when it opens): the replay player's look (dark, full screen, back button and the
+  battle's name and date at the top, round buttons, green progress bar filling left to right). The
+  frame, then the captions band, then the controls: nothing covers the playing YouTube player (API
+  policy). YouTube via the IFrame API on `youtube-nocookie.com`, its controls, keyboard and captions
+  off (`unloadModule('captions')`: YouTube showed its own auto-generated Arabic captions otherwise).
+  States: loading (poster + «جارٍ تحميل الفيديو...»), autoplay refused («تشغيل الفيديو»; if a tap
+  still cannot start it, the poster steps aside for YouTube's own player), error (Arabic message per
+  case; «إعادة المحاولة»; «مشاهدة المحاكاة بدلاً منه» opens the replay at the same address),
+  captions failing to load (retry in the band; the video plays on), controls disabled until ready.
+  Script load limited to 15 s and player readiness to 20 s (a blocked frame never answers).
+  Keyboard by key position (works with an Arabic layout): Space/K, ←/→ 5 s, M, C, F, Escape (back
+  to the event). Focus is trapped, taken back from the frame after a click on the video, and given
+  back to the button on close.
+- **Panel**: «مشاهدة المعركة» (every battle) under the summary, also while the details load.
+- **Chat**: for a battle with a video, one `battle_video` unit per script line (42 for Badr)
+  replaces the replay's phases, narration and outcome; each unit carries the line's Arabic book
+  references (parentheses and English notes left out; «See lines 5–6» follows those lines);
+  answers show them as «المصادر: …» (Arabic-Indic digits). Lines that are only a recitation (22, 31,
+  41) are cited, never restated. The video's figures stay (decision 3). `public/data/chat-kb.json`
+  rebuilt (4178 units); no embedding quota used. With `chore/chat-embeddings`, Badr's new units
+  would need embedding before semantic search turns on (ask first).
+- **Tests**: one Playwright test (desktop, phone, WebKit, Firefox) with a stand-in for the IFrame API
+  (`tests/e2e/support/fakeYouTube.ts`): opens Badr from the panel, checks the Arabic controls,
+  captions on by default, C and K, Escape back to the event. Never the real video. The real embed
+  was checked once by hand (headless Chrome, 2026-10-17): it plays, captions in sync, seeking works,
+  and with youtube.com blocked the error and both buttons show.
+- **Not done (with YouTube they are moot or waiting)**: renditions/HLS and `preload="none"` (YouTube
+  streams adaptively); no Release copy of the original (Mostafa keeps it, see below).
+
+#### Intentional behavior changes (3H), approved by Mostafa 2026-10-17
+
+1. The battle button reads **«مشاهدة المعركة»** (was «مشاهدة المعركة على الخريطة») for every battle,
+   on the panel and on the pre-rendered event pages, and sits **under the summary**.
+2. **Badr opens its video** instead of the replay (`/battle/battle-of-badr/` unchanged). The other
+   11 battles still open their replay.
+3. **Chat**: Badr's replay text replaced by the video's captions with sources; the chat may now state
+   the video's figures for Badr (14 martyrs, two horses, …), shown with their references.
+4. **Videos play sideways on phones** (Mostafa, 2026-10-17: "people watch videos horizontally"). On
+   a phone held upright the player is drawn a quarter turn round, so turning the phone shows the
+   video across the long side (Safari on iPhone can neither lock the orientation nor show an element
+   full screen); on a phone held sideways the buttons sit in a column beside the video and the
+   progress bar under the captions; the full-screen button also locks the screen sideways where the
+   browser allows it (Chrome on Android). Turning the phone keeps the video playing (one element
+   tree for every layout). `src/index.css` caps `.absolute` at 100vw on phones; the frame's layers
+   lift that cap. Checked with the stand-in on Chromium, WebKit and Firefox phones and once with the
+   real video (Pixel 7 emulation): it plays, 580×326 on a 412 px wide phone.
+   Keyboard shortcuts are for computers only; every action has an on-screen button (Mostafa noted
+   phones have no keys).
+5. Baselines updated (approved): `tests/baseline/content.json` (one difference:
+   `events[battle-badr].battle.video` added: `{provider: youtube, id: HCQru0jnWeA, captions:
+   2a8cbd177580a258}`); visual snapshots `event-panel-badr` (desktop, phone), `person-bio` and
+   `quran-passage` (desktop; the Badr panel shows behind the window) on Windows, and the same on
+   Linux from CI; `numbers.json` test counts. First-load requests unchanged (11), bundle within
+   budget.
+
+- 2026-10-17: Mostafa renamed the YouTube video to Arabic and removed YouTube's own captions in
+  YouTube Studio (the player also unloads them, as a fallback).
+- 2026-10-17: **no GitHub Release copy of the videos** (Mostafa): he keeps the originals himself and
+  removes them from `Video/`; the site needs only the YouTube id and the files in `content/`.
+- 2026-10-17: the 16 Linux snapshots were recorded by CI on PR #8 (run 39061615917, artifact
+  `baseline-linux-visual`) and committed. Compared with `main`'s set pixel by pixel: the desktop
+  Badr panel, person and Qur'an images show the moved button; the rest differ only by anti-aliasing
+  on round buttons and markers. That CI run passed everything, the phone-webkit header test included.
+- 2026-10-17: the Vercel preview of the chat API failed on this PR: `.vercelignore` drops `*.md`, so
+  `content/battle-videos/battle-badr/sources.md` was missing from its content build. It is now let
+  through (`!content/battle-videos/**/sources.md`).
+
+#### 3H verification (2026-10-17, Windows 11, Node 20.19.5, Playwright 1.59.1)
+
+| Step | Result |
+| --- | --- |
+| Content build (Zod), type check, ESLint | passed |
+| Vitest | 256/256 (229 before) |
+| Content snapshot | identical after the approved update (Badr's `battle.video`) |
+| Behavior map | identical |
+| Production build + pre-render | 356 pages, 305 in `sitemap.xml` |
+| Bundle budget | within limits (JS at start 924.6 KB, 257.0 KB gzip; was 923.5 / 256.5) |
+| Playwright features | 82: 81 passed, 0 failed, 0 flaky, 1 skipped |
+| Phone smoke (WebKit, Firefox) | 44/44 (an earlier run: 1 failure, see below) |
+| Visual snapshots | 16/16 after the approved update of the 4 Badr-panel images (Windows); the 16 Linux images are removed so CI on the PR records a new set |
+
+Found and fixed during the session: lucide's `RotateCcw`, shared by the chat and the player, became
+its own chunk and added a request at first load (11 → 12); the player now uses `Rewind` /
+`FastForward`. An independent review (reviewer subagent) found no rule violations; its fixes are
+in commit `d65f3ab` (autoplay refusal states, a readiness limit, keys after a click on the video,
+focus on close, error not overridden, build checks for ﴿ ﴾ in cues, digits in chat sources).
+
+Flaky, not explained: "every header button is inside the viewport" (phone-webkit) failed in 1 of
+the verify runs; repeated, this branch failed 2 of 58 runs and `main` 0 of 18. The test measures
+the start screen before any event or player opens, which 3H does not change; watch it in CI. The
+shared helper `openEventBySearch` also timed out once in 20 heavy repeated runs (closing the
+search drawer).

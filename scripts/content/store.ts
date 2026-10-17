@@ -1,7 +1,7 @@
 /**
  * Reads content/ and checks it: every file against its Zod schema
  * (shared/contentSchema.ts), file names against ids, and every link between
- * records (era, category, person, Qur'an passage; battle replays are not checked). Used by
+ * records (era, category, person, Qur'an passage, battle video; battle replays are not checked). Used by
  * scripts/build-content.ts (which then emits src/generated/) and by the tests.
  */
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
@@ -27,6 +27,8 @@ import {
   type TerritoryRegions,
 } from '../../shared/contentSchema';
 import { checkTerritories } from './territories';
+import { checkBattleVideos, readBattleVideos, type RawBattleVideo } from './battleVideos';
+import type { GeneratedBattleVideo } from '../../shared/battleVideo';
 import { passageLink, passageText, passageVerseKeys } from '../../shared/quranText';
 import { eventSlug, isLowerSlug } from '../../shared/routes';
 
@@ -41,6 +43,8 @@ export interface ContentSet {
   cities: City[];
   /** With the verse text from content/quran/verses.json. */
   quranPassages: GeneratedQuranPassage[];
+  /** The battle videos' captions and script (content/battle-videos/), in event order. */
+  battleVideos: GeneratedBattleVideo[];
 }
 
 export interface ContentIssue {
@@ -66,6 +70,8 @@ export interface RawContent {
   quranVerses: RawFile;
   territoryRegions: RawFile;
   territoryControl: RawFile;
+  /** content/battle-videos/<event id>/, as text. */
+  battleVideos: RawBattleVideo[];
 }
 
 /** The territory files, validated; scripts/content/territories.ts turns them into polygons. */
@@ -116,6 +122,7 @@ export function readContent(dir: string): { raw: RawContent; issues: ContentIssu
     quranVerses: readJson(dir, 'quran/verses.json', issues),
     territoryRegions: readJson(dir, 'territories/regions.json', issues),
     territoryControl: readJson(dir, 'territories/control.json', issues),
+    battleVideos: readBattleVideos(dir),
   };
   return { raw, issues };
 }
@@ -332,6 +339,16 @@ export function checkContent(
     );
   }
   events.sort((a, b) => a.date.sortKey - b.date.sortKey || (a.date.tieOrder ?? 0) - (b.date.tieOrder ?? 0));
+  // Video folders go by event file name: a file that sets battleVideo claims its folder even when
+  // it fails its schema or its id, so those problems are not reported twice.
+  const askForVideo = new Set(
+    raw.events.flatMap(f =>
+      (f.data as { battleVideo?: unknown } | undefined)?.battleVideo !== undefined
+        ? [f.file.replace(/^events\//, '').replace(/\.json$/, '')]
+        : [],
+    ),
+  );
+  const battleVideos = checkBattleVideos(raw.battleVideos, events, askForVideo, verses, issues);
 
   const orderedPeople = order.flatMap(id => {
     const person = typeof id === 'string' ? peopleById.get(id) : undefined;
@@ -349,7 +366,7 @@ export function checkContent(
   }
 
   return {
-    content: { eras, categories, events, people: orderedPeople, cities, quranPassages: generatedPassages },
+    content: { eras, categories, events, people: orderedPeople, cities, quranPassages: generatedPassages, battleVideos },
     territories,
     issues,
   };

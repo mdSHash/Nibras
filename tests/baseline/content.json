@@ -2099,7 +2099,12 @@
       ],
       "battle": {
         "battleId": "badr",
-        "scenarioId": "battle-of-badr"
+        "scenarioId": "battle-of-badr",
+        "video": {
+          "provider": "youtube",
+          "id": "HCQru0jnWeA",
+          "captions": "2a8cbd177580a258"
+        }
       },
       "route": null,
       "narration": {

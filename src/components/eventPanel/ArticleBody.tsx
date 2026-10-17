@@ -39,6 +39,24 @@ export function ArticleBody({
   /** Called with the replay id (e.g. "battle-of-badr"). */
   onBattleOpen?: (scenarioId: string) => void;
 }) {
+  // Battle CTA: full-width, era-gradient, under the summary so it shows without scrolling
+  // (Mostafa, 2026-10-17). It opens the battle's video, or its replay where there is no video yet.
+  const battleId = summaryOnly.battleScenarioId;
+  const battleButton = battleId && onBattleOpen && (
+    <button
+      onClick={() => onBattleOpen(battleId)}
+      className="w-full flex items-center justify-center gap-2.5 px-5 py-4 rounded-xl text-white font-bold shadow-lg active:scale-[0.98] transition-all"
+      style={{
+        ...fs(15),
+        background: `linear-gradient(135deg, ${eraTheme.color} 0%, ${shadeHex(eraTheme.color, -0.25)} 100%)`,
+      }}
+    >
+      <Swords size={18} className="shrink-0" aria-hidden />
+      <span>مشاهدة المعركة</span>
+      <ChevronsRight size={18} className="shrink-0" aria-hidden />
+    </button>
+  );
+
   const placeholder = (
     <article
       className={cn(
@@ -55,6 +73,7 @@ export function ArticleBody({
           {summaryOnly.summary}
         </p>
       )}
+      {battleButton}
       <ContentLoadState state={details} lines={6} />
     </article>
   );
@@ -81,6 +100,8 @@ export function ArticleBody({
           {event.summary}
         </p>
       )}
+
+      {battleButton}
 
       {/* Lead paragraph with drop-cap. Drop-cap color uses the mode-aware
           eraTextColor (textLight on parchment in light mode, textDark on
@@ -183,23 +204,6 @@ export function ArticleBody({
       )}
 
       <PeopleList event={event} eraTextColor={eraTextColor} fs={fs} onCompanionClick={onCompanionClick} />
-
-      {/* Battle CTA — full-width, era-gradient */}
-      {event.battleScenarioId && onBattleOpen && (
-        <button
-          onClick={() => onBattleOpen(event.battleScenarioId!)}
-          className="w-full flex items-center justify-center gap-2.5 px-5 py-4 rounded-xl text-white font-bold shadow-lg active:scale-[0.98] transition-all"
-          style={{
-            ...fs(15),
-            background: `linear-gradient(135deg, ${eraTheme.color} 0%, ${shadeHex(eraTheme.color, -0.25)} 100%)`,
-          }}
-          aria-label="مشاهدة المعركة على الخريطة"
-        >
-          <Swords size={18} className="shrink-0" />
-          <span>مشاهدة المعركة على الخريطة</span>
-          <ChevronsRight size={18} className="shrink-0" />
-        </button>
-      )}
 
       {/* Footer: sources */}
       {event.sources.length > 0 && (

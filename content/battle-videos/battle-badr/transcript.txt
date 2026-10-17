@@ -1,0 +1,45 @@
+Voice description:
+A deep, warm, cinematic male documentary narrator speaking natural Egyptian Arabic. Calm authority, like a seasoned war-documentary storyteller narrating over sweeping aerial footage. Clear articulation of classical names and Quranic verses. Measured pacing with deliberate dramatic pauses at ellipses. Shifts between hushed reverence, tactical clarity, and intense energy during battle moments, but never shouts or overacts. Quranic verses and quoted hadith are recited slowly and reverently in classical Arabic, slightly softer and more melodic than the narration.
+
+[Low, slow, cinematic, almost a whisper] رَمَضان... السَّنة التانية من الهِجْرة.
+[Wide and sweeping, like a drone gliding over a desert valley] وادي اسمه بَدْر... بين مكّة والمدينة، على طريق القَوافِل.
+[Intriguing, setting up a story] الحكاية بدأت بقافلة... قافلة قُرَيْش راجعة من الشام، بقيادة أبو سُفْيان.
+[Brisk, tense] النبي صلّى الله عليه وسلّم خرج يعترضها... لكن أبو سُفْيان غيّر طريقه، وبعت لمكّة يستنجد.
+[Rising tension, heavier] ومكّة خرجت بجيش... حوالي ألف مقاتل.
+[Sharp contrast, emphatic] قُصادهم؟ تلتمية وتلاتشر راجل... معاهم فرسين بس.
+[Warm, respectful] النبي صلّى الله عليه وسلّم استشار أصحابه، فقام المِقْداد وقال:
+[Proud, energetic, classical Arabic] «لا نَقُولُ كَمَا قَالَ قَوْمُ مُوسَى: اذْهَبْ أَنْتَ وَرَبُّكَ فَقَاتِلَا، وَلَكِنَّا نُقَاتِلُ عَنْ يَمِينِكَ وَعَنْ شِمَالِكَ، وَبَيْنَ يَدَيْكَ وَخَلْفَكَ».
+[Calm and tactical, like a commander briefing over a map] دلوقتي... خلّينا نطلع فوق ونشوف الأرض.
+[Clear, explanatory] المسلمين في العُدْوَة الدُّنْيا، الناحية القريبة من المدينة... وقريش في العُدْوَة القُصْوَى، الناحية البعيدة.
+[Soft, with a sense of wonder] وبالليل... نزل مطر، ونزل على المسلمين نُعاس، فناموا مطمّنين.
+[Impressed, explaining the advantage] المطر ثبّت الأرض تحت رِجْلين المسلمين... وعلى قريش كان تقيل ومعطّلهم.
+[Sharp, attentive, key strategic moment] وهنا ييجي قرار غيّر المعركة.
+[Respectful, inquisitive] الحُبَاب بن المُنْذِر سأل: يا رسول الله، المكان ده ربنا أمرك بيه... ولا هو الرأي والحرب والمَكِيدة؟
+[Calm, warm] قال: «بَلْ هُوَ الرَّأْيُ وَالحَرْبُ وَالمَكِيدَةُ».
+[Confident, strategic, laying out a plan] فاقترح الحُبَاب ينزلوا عند أقرب ميّة لقريش، ويردموا الآبار اللي وراها، ويبنوا حوض يملوه.
+[Emphatic payoff] والنتيجة؟ المَيّة كلها بقت في إيد المسلمين.
+[Narrating, orderly] واتبنى للنبي صلّى الله عليه وسلّم عَرِيش يطلّ منه على أرض المعركة... واتصفّت الصفوف.
+[Hushed, intimate, deeply emotional, slow] وفي العَرِيش... استقبل القِبْلة، ومدّ إيده يدعي، لحدّ ما الرِّداء وقع من على كتافه:
+[Trembling with emotion, classical supplication] «اللَّهُمَّ إِنْ تُهْلِكْ هَذِهِ العِصَابَةَ مِنْ أَهْلِ الإِسْلَامِ، لَا تُعْبَدْ فِي الأَرْضِ».
+[Tender, comforting] وأبو بَكْر رجّع الرِّداء على كتافه، وحضنه من وراه، وقال: «يَا نَبِيَّ اللهِ، كَفَاكَ مُنَاشَدَتُكَ رَبَّكَ، فَإِنَّهُ سَيُنْجِزُ لَكَ مَا وَعَدَكَ».
+[Reverent Quranic recitation, slow and melodic] ﴿إِذْ تَسْتَغِيثُونَ رَبَّكُمْ فَاسْتَجَابَ لَكُمْ أَنِّي مُمِدُّكُم بِأَلْفٍ مِّنَ الْمَلَائِكَةِ مُرْدِفِينَ﴾
+[Building rhythm, like slow war drums] الجيشين بقوا وِشّ لِوِشّ... ومن صفّ قريش خرج تلاتة: عُتْبَة، وشَيْبَة، والوَلِيد... طالبين المُبارَزة.
+[Firm, commanding] فخرج لهم حَمْزة، وعَلِيّ، وعُبَيْدة بن الحارِث.
+[Fast, punchy action beat] وفي لحظات... أبطال قريش التلاتة وقعوا، وعُبَيْدة اتشال جريح.
+[Calm and tactical, relaying an order] وجه الأمر: «إِذَا أَكْثَبُوكُمْ فَارْمُوهُمْ، وَاسْتَبْقُوا نَبْلَكُمْ».
+[Warm storytelling, slight smile] وعُمَيْر بن الحُمَام كان في إيده تمرات... سمع النبي بيقول: «قُومُوا إِلَى جَنَّةٍ عَرْضُهَا السَّمَوَاتُ وَالأَرْضُ».
+[Wonder, then fierce resolve] فقال: «بَخٍ بَخٍ»... ورمى التمرات، وقاتل لحدّ ما اسْتُشْهِد.
+[Explosive, intense, full energy] وبعدها... الصفّين اشتبكوا.
+[Steady, reverent, slowing down] وأخد النبي صلّى الله عليه وسلّم قَبْضة من الحَصَى، ورماها ناحية قريش.
+[Reverent Quranic recitation, slow and melodic] ﴿وَمَا رَمَيْتَ إِذْ رَمَيْتَ وَلَٰكِنَّ اللَّهَ رَمَىٰ﴾
+[Climactic, triumphant but controlled] وصفّ قريش... اتكسر.
+[Storytelling, with a hint of surprise] وشابّين صغيرين من الأنصار كانوا بيدوّروا على واحد بس... أبو جَهْل.
+[Fast, decisive] لقوه... ونزلوا عليه بسيوفهم لحدّ ما وقع، وجه عبد الله بن مَسْعود وأنهى أمره.
+[Steady, poignant] وبِلال شاف أُمَيَّة بن خَلَف، اللي عذّبه في مكّة... وكانت نهاية أُمَيَّة في بَدْر.
+[Measured, solemn, counting slowly] وفي آخر اليوم: سبعين قتيل من قريش، وسبعين أسير... وأربعتاشَر شهيد من المسلمين.
+[Hushed, haunting] ووقف النبي صلّى الله عليه وسلّم عند القَلِيب، ونادى قادة قريش بأساميهم:
+[Solemn, echoing, classical Arabic] «فَإِنَّا قَدْ وَجَدْنَا مَا وَعَدَنَا رَبُّنَا حَقًّا، فَهَلْ وَجَدْتُمْ مَا وَعَدَ رَبُّكُمْ حَقًّا؟»
+[Reflective, slow, like a wide pull-back over the valley] تلتمية قُصاد ألف... بس بَدْر ما كانتش حِسْبة أرقام.
+[Climactic, reverent] كانت شُورى، ورأي صحّ، وصفّ ثابت... ويقين إن النصر من عند الله.
+[Reverent Quranic recitation, slow and melodic] ﴿وَلَقَدْ نَصَرَكُمُ اللَّهُ بِبَدْرٍ وَأَنتُمْ أَذِلَّةٌ﴾
+[Final, resonant, slow] وده... يوم الفُرْقان.

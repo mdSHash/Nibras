@@ -1,6 +1,8 @@
 /**
  * npm run fetch:quran — fetches the verse text of every passage in
- * content/quran/passages.json from Quran.com and writes content/quran/verses.json.
+ * content/quran/passages.json, and of every verse a battle video recites (the
+ * `quran-<surah>-<ayah>` cue ids in content/battle-videos/<event id>/captions.ar.vtt),
+ * from Quran.com and writes content/quran/verses.json.
  *
  *   npx tsx scripts/fetch-quran.ts
  *
@@ -14,6 +16,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { ROOT } from './baseline/lib';
+import { readBattleVideos } from './content/battleVideos';
 import type { QuranPassage, QuranVerses } from '../shared/contentSchema';
 
 const API = 'https://api.quran.com/api/v4/quran/verses/uthmani';
@@ -42,6 +45,11 @@ for (const p of passages) {
   const ayahs = needed.get(p.surah) ?? new Set<number>();
   for (let a = p.from; a <= p.to; a++) ayahs.add(a);
   needed.set(p.surah, ayahs);
+}
+for (const video of readBattleVideos(join(ROOT, 'content'))) {
+  for (const [, surah, ayah] of (video.files['captions.ar.vtt'] ?? '').matchAll(/^quran-(\d+)-(\d+)(?:-part)?$/gm)) {
+    needed.set(Number(surah), (needed.get(Number(surah)) ?? new Set<number>()).add(Number(ayah)));
+  }
 }
 
 const verses: QuranVerses['verses'] = {};

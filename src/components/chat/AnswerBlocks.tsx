@@ -1,6 +1,7 @@
 import { BookOpen } from 'lucide-react';
 import type { AnswerBlock, ChatCitation } from '../../hooks/useChat';
 import { cn } from '../../utils/cn';
+import { toArabicIndic } from '../../../shared/arabic';
 
 /**
  * Renders a structured chat answer. Every block's wording comes from Nibras's
@@ -24,6 +25,12 @@ export function FormattedText({ text }: { text: string }) {
   );
 }
 
+/** A battle video line's book references (3H), under the text that quotes it. */
+function BlockSources({ sources }: { sources?: string[] }) {
+  if (!sources?.length) return null;
+  return <p className="mt-1 text-[length:var(--chat-tiny)] text-[var(--color-ink)]/65">المصادر: {toArabicIndic(sources.join('؛ '))}</p>;
+}
+
 interface AnswerBlocksProps {
   blocks: AnswerBlock[];
   onVerseOpen: (citation: ChatCitation) => void;
@@ -38,6 +45,7 @@ export function AnswerBlocks({ blocks, onVerseOpen }: AnswerBlocksProps) {
             return (
               <div key={i}>
                 <FormattedText text={block.text} />
+                <BlockSources sources={block.sources} />
               </div>
             );
           case 'quote':
@@ -45,6 +53,7 @@ export function AnswerBlocks({ blocks, onVerseOpen }: AnswerBlocksProps) {
               <blockquote key={i} className="border-s-2 border-[var(--color-accent)]/50 ps-3">
                 <p>{block.text}</p>
                 {block.source && <footer className="mt-1 text-[length:var(--chat-tiny)] text-[var(--color-ink)]/65">— {block.source}</footer>}
+                <BlockSources sources={block.sources} />
               </blockquote>
             );
           case 'list':

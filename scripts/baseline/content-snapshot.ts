@@ -9,6 +9,7 @@ import { join } from 'node:path';
 import { citiesData, eraOf, passageFor } from '../../src/data';
 import { fullEvents as eventsData, fullPeople as companionsData } from '../content/generated';
 import generatedQuranPassages from '../../src/generated/quranPassages.json';
+import generatedBattleVideos from '../../src/generated/battleVideos.json';
 import { getTerritoriesForYear } from '../../src/territories';
 import { isBattle, isProphetEra, isRashidunEra } from '../../src/utils/eventHelpers';
 import { KB_ERA_LABEL, kbBattleId } from '../chat-kb/kbNames';
@@ -68,6 +69,16 @@ const events = eventsData.map((e) => {
       ? {
           battleId: kbBattleId(e.battleScenarioId),
           scenarioId: e.battleScenarioId,
+          // Phase 3H: the video that opens instead of the replay, and a hash of the captions it shows.
+          ...(e.battleVideo
+            ? {
+                video: {
+                  provider: e.battleVideo.provider,
+                  id: e.battleVideo.id,
+                  captions: hash16(JSON.stringify(generatedBattleVideos.find((v) => v.eventId === e.id)?.captions ?? null)),
+                },
+              }
+            : {}),
         }
       : null,
     route: e.route ?? null,

@@ -107,6 +107,13 @@ function toLetters(text: string): Letter[] {
   return letters;
 }
 
+/** The letter skeleton of a word or phrase (letters only, folded), for matching across spellings. */
+export function letterBases(text: string): string {
+  return toLetters(text)
+    .map(l => l.base)
+    .join('');
+}
+
 interface SurahIndex {
   surah: number;
   letters: Letter[];

@@ -52,10 +52,13 @@ only after Mostafa approves the list of intentional changes; never to make a tes
   every navigation goes through it; `src/theme.ts` — dark mode (remembered, else the system; the
   inline script in `index.html` applies the same rule before the first paint)
 - `src/components/` — map, timeline, modals, chat; `header/` (AppHeader, HeaderButton, HeaderMenu: the phone ⋮ menu),
-  `Overlays.tsx` (search, person, Quran, help, chat, replay), `eventPanel/` (the event panel's parts)
+  `Overlays.tsx` (search, person, Quran, help, chat, battle), `eventPanel/` (the event panel's parts),
+  `battleVideo/` (the battle video player: YouTube IFrame API behind `videoEngine.ts`, own Arabic
+  controls and captions)
 - `src/battlefield/` — Pixi.js battle engine and the 12 scenarios (frozen and untested, rule 8)
 - `content/` — all content as JSON (events, people, cities, eras, categories, Quran passages,
-  territories), validated and built into `src/generated/` by `scripts/build-content.ts`; read
+  territories, battle videos' captions in `content/battle-videos/<event id>/`), validated and built
+  into `src/generated/` by `scripts/build-content.ts`; read
   through `src/data.ts` and `src/territories.ts`. How to edit it: `docs/CONTENT_GUIDE.md`
 - `shared/` — code shared by the app, the chat API and scripts (Arabic text in `shared/arabic.ts`,
   chat types, content schemas)

@@ -10,7 +10,7 @@
  * Also precomputes the territory polygons (scripts/content/territories.ts), and
  * writes the split the app loads (shared/contentSplit.ts): light indexes of
  * events, people and Qur'an passages, one file per event's details and per
- * bio, the Qur'an text, and the search index. The full files stay for the
+ * bio, each battle video's captions, the Qur'an text, and the search index. The full files stay for the
  * scripts and tests.
  *
  * Fails, listing every problem, on an invalid file, an unknown id or a missing field.
@@ -59,7 +59,7 @@ function writeSplitContent(): void {
     writeFileSync(join(GENERATED_DIR, file), `${JSON.stringify(data)}
 `);
   // Rewritten whole each run, so a removed or renamed record leaves no stale file.
-  for (const dir of ['eventDetails', 'bios']) {
+  for (const dir of ['eventDetails', 'bios', 'battleVideoCaptions']) {
     rmSync(join(GENERATED_DIR, dir), { recursive: true, force: true });
     mkdirSync(join(GENERATED_DIR, dir));
   }
@@ -78,6 +78,12 @@ function writeSplitContent(): void {
     return summary;
   });
   write('peopleIndex.json', peopleIndex);
+
+  // A battle video's captions load when its player opens, by the event's slug.
+  for (const video of content.battleVideos) {
+    const event = content.events.find((e) => e.id === video.eventId)!;
+    write(`battleVideoCaptions/${eventSlug(event)}.json`, video.captions);
+  }
 
   const passages = content.quranPassages.map(splitPassage);
   write('quranIndex.json', passages.map((p) => p.summary));
