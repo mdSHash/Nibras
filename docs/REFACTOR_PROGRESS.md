@@ -1106,10 +1106,12 @@ build, per-IP rate limit), **3D** audio (manifest by event id, compressed narrat
 
 ### Intentional behavior changes (3A)
 
-1. **Map attribution shown** (known failure 5): Leaflet's attribution control, top-left under the
-   header (the one corner the event panel and the timeline never cover), in the app's colours:
-   «Leaflet | المصدر: Esri وMaxar وEarthstar Geographics ومجتمع مستخدمي GIS» (Esri's current
-   credit line for World Imagery). Visible in every screenshot.
+1. **Map credit behind a © button** (known failure 5): a small © button top-left under the header
+   (the one corner the event panel and the timeline never cover) opens «Leaflet | المصدر: Esri
+   وMaxar وEarthstar Geographics ومجتمع مستخدمي GIS» (Esri's current credit line for World Imagery)
+   on tap, click, keyboard or hover; Escape or a tap on the map closes it. A first version showed
+   the full strip; Mostafa asked to hide it (2026-10-17), and Esri's terms need the credit on the map,
+   so it is folded instead of removed.
 2. **One `data-tour-id="search-button"`** (known failure 6): the compact search button (below
    `lg`) is now `search-button-compact`; the tour's search step lists both, as the dark-mode step
    already did.
@@ -1143,14 +1145,15 @@ build, per-IP rate limit), **3D** audio (manifest by event id, compressed narrat
 | Bundle budget | within limits (JS at start 923.5 KB, 256.5 KB gzip; CSS 31.1 KB gzip) |
 | Playwright features | 80: 79 passed, **0 known failures** (5, 6, 7, 10 fixed), 1 skipped |
 | Phone smoke (WebKit, Firefox) | 42/42 |
-| Visual snapshots | 16/16 (all 16 Windows images rewritten with the attribution, approved) |
+| Visual snapshots | 16/16 (all 16 Windows images rewritten with the © button) |
 
 One full run was stopped by Claude Code for low system memory (not a test failure) and run again.
 The 16 Linux snapshots are recorded by CI on the PR (artifact `baseline-linux-visual`) for review.
 
 Manual checks for Mostafa (phone and desktop):
 
-1. The map shows «Leaflet | المصدر: Esri …» top-left under the header, readable in light and dark.
+1. A small © button top-left under the header; a tap opens «Leaflet | المصدر: Esri …», a tap on the map
+   closes it; readable in light and dark.
 2. Arrow keys move between events with no «الحدث التالي» toast.
 3. Player mode (تشغيل): no speed button; narration plays at normal speed.
 4. Tour: the search step points at the search bar on desktop and the search icon on a phone.

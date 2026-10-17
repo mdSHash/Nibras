@@ -179,11 +179,20 @@ test.describe('map moves to the selected event', () => {
 });
 
 // Were known failures 5, 6 and 7 in the Phase 0A baseline (fixed in Phase 3A).
-test('the map shows the tile provider attribution', async ({ page }) => {
+test('the map credits the tile provider behind a © button', async ({ page }) => {
   await openApp(page);
-  const attribution = page.locator('.leaflet-control-attribution');
-  await expect(attribution).toBeVisible();
-  await expect(attribution).toContainText('Esri');
+  const toggle = page.getByRole('button', { name: 'مصادر صور الخريطة' });
+  const credit = page.locator('#nb-credit-text');
+  await expect(credit).toBeHidden();
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  await expect(credit).toBeVisible();
+  await expect(credit).toContainText('Esri');
+  await page.keyboard.press('Escape');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  // With a mouse the credit also shows on hover: move away to see it close.
+  await page.mouse.move(400, 400);
+  await expect(credit).toBeHidden();
 });
 
 test('the tour target data-tour-id="search-button" is unique', async ({ page }) => {

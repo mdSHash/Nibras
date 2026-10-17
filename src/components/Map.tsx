@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
-import { MapContainer, TileLayer, AttributionControl, Marker, Popup, Polyline, Polygon, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, Polygon, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { GestureHandling } from 'leaflet-gesture-handling';
@@ -25,6 +25,52 @@ import { useAppStore } from '../store/appStore';
 const TILE_ATTRIBUTION =
   'المصدر: <a href="https://www.esri.com/" target="_blank" rel="noopener">Esri</a> وMaxar وEarthstar Geographics ومجتمع مستخدمي GIS';
 const ATTRIBUTION_PREFIX = '<a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>';
+
+/**
+ * The map credit, folded into a small © button (Mostafa, 3A: the full strip was too much). Top-left,
+ * under the header: the only corner the panel and the timeline never cover. Opens on tap, click or
+ * keyboard (and on hover with a mouse); closes on Escape or a tap on the map.
+ */
+function MapCredit() {
+  const map = useMap();
+  useEffect(() => {
+    const control = new L.Control({ position: 'topleft' });
+    control.onAdd = () => {
+      const box = L.DomUtil.create('div', 'leaflet-control nb-credit');
+      box.innerHTML =
+        '<button type="button" class="nb-credit__toggle" aria-expanded="false" aria-controls="nb-credit-text" aria-label="مصادر صور الخريطة">©</button>' +
+        `<span id="nb-credit-text" class="nb-credit__text" dir="rtl">${ATTRIBUTION_PREFIX} | ${TILE_ATTRIBUTION}</span>`;
+      L.DomEvent.disableClickPropagation(box);
+      L.DomEvent.disableScrollPropagation(box);
+      return box;
+    };
+    control.addTo(map);
+    const box = control.getContainer()!;
+    const toggle = box.querySelector('button')!;
+    const setOpen = (open: boolean) => {
+      box.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+    };
+    const onToggle = () => setOpen(!box.classList.contains('is-open'));
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape' || !box.classList.contains('is-open')) return;
+      e.stopPropagation(); // Escape here closes the credit, not the event panel.
+      setOpen(false);
+      toggle.focus();
+    };
+    const close = () => setOpen(false);
+    toggle.addEventListener('click', onToggle);
+    box.addEventListener('keydown', onKey);
+    map.on('click', close);
+    return () => {
+      toggle.removeEventListener('click', onToggle);
+      box.removeEventListener('keydown', onKey);
+      map.off('click', close);
+      control.remove();
+    };
+  }, [map]);
+  return null;
+}
 
 // Custom Map Controls, Updater etc... (Keep as is, but we'll update TerritoryRenderer)
 
@@ -361,10 +407,8 @@ export default function HistoricalMap({ events, selectedEvent, onSelectEvent, sh
           url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
           className="historical-map-tiles"
           keepBuffer={8}
-          attribution={TILE_ATTRIBUTION}
         />
-        {/* Top-left, under the header: the only corner the panel and the timeline never cover. */}
-        <AttributionControl position="topleft" prefix={ATTRIBUTION_PREFIX} />
+        <MapCredit />
         <MapUpdater selectedEvent={selectedEvent} />
 
         <TerritoryRenderer selectedEvent={selectedEvent} />
