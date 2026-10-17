@@ -19,7 +19,8 @@ export default function CompanionModal({ personId, onClose }: CompanionModalProp
   const focusTrapRef = useFocusTrap(!!personId);
 
   const companion = useMemo(() => (personId ? getPerson(personId) ?? null : null), [personId]);
-  const bio = useLazyContent(bios, companion ? companion.id : null);
+  // Title, role, dates and bio load when the window opens; the name shows at once.
+  const details = useLazyContent(bios, companion ? companion.id : null);
 
   // Lock scroll when modal is open
   useScrollLock(!!personId);
@@ -102,25 +103,29 @@ export default function CompanionModal({ personId, onClose }: CompanionModalProp
                     </div>
                     <div>
                       <h2 id="companion-modal-title" className="text-[24px] font-bold leading-tight" style={{ color: 'var(--color-ink)' }}>{companion.name}</h2>
-                      <p className="text-[14px] text-accent font-bold mt-1">{companion.title} • {companion.role}</p>
+                      {details.status === 'ready' && (
+                        <p className="text-[14px] text-accent font-bold mt-1">{details.data.title} • {details.data.role}</p>
+                      )}
                     </div>
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                    <div>
-                      {bio.status === 'ready' ? (
-                        <p className="text-justify font-medium" style={{ color: 'var(--color-ink)', opacity: 0.9, fontSize: '22px', lineHeight: '1.6' }}>
-                          {bio.data}
-                        </p>
-                      ) : (
-                        <ContentLoadState state={bio} />
-                      )}
-                    </div>
-                    <div className="bg-ink/5 p-4 rounded-lg border border-border-dark/10 flex items-center gap-2">
-                      <Star size={18} className="text-battle-red shrink-0" />
-                      <span className="text-[14px] font-bold" style={{ color: 'var(--color-ink)' }}>تاريخ الميلاد والوفاة:</span>
-                      <span className="text-[14px]" style={{ color: 'var(--color-ink)', opacity: 0.85 }}>{companion.birthDeath}</span>
-                    </div>
+                    {details.status === 'ready' ? (
+                      <>
+                        <div>
+                          <p className="text-justify font-medium" style={{ color: 'var(--color-ink)', opacity: 0.9, fontSize: '22px', lineHeight: '1.6' }}>
+                            {details.data.bio}
+                          </p>
+                        </div>
+                        <div className="bg-ink/5 p-4 rounded-lg border border-border-dark/10 flex items-center gap-2">
+                          <Star size={18} className="text-battle-red shrink-0" />
+                          <span className="text-[14px] font-bold" style={{ color: 'var(--color-ink)' }}>تاريخ الميلاد والوفاة:</span>
+                          <span className="text-[14px]" style={{ color: 'var(--color-ink)', opacity: 0.85 }}>{details.data.birthDeath}</span>
+                        </div>
+                      </>
+                    ) : (
+                      <ContentLoadState state={details} />
+                    )}
                   </div>
                 </div>
               ) : (

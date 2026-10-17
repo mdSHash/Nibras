@@ -18,11 +18,11 @@ describe('the content split (Phase 2B)', () => {
     }
   });
 
-  it('index plus bio give back every person exactly', async () => {
+  it('index plus details give back every person exactly', async () => {
     expect(companionsData.map((p) => p.id)).toEqual(fullPeople.map((p) => p.id));
     for (const [i, summary] of companionsData.entries()) {
-      expect(summary).not.toHaveProperty('bio');
-      expect({ ...summary, bio: await bios.load(summary.id) }).toEqual(fullPeople[i]);
+      expect(Object.keys(summary).sort()).toEqual(['aliases', 'id', 'name']);
+      expect({ ...summary, ...(await bios.load(summary.id)) }).toEqual(fullPeople[i]);
     }
   });
 

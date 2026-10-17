@@ -11,8 +11,10 @@ export const EVENT_DETAIL_FIELDS = ['fullDescription', 'courseOfEvents', 'roles'
 export type EventDetails = Pick<ContentEvent, (typeof EVENT_DETAIL_FIELDS)[number]>;
 /** An event as the index carries it (src/generated/eventIndex.json). */
 export type EventSummary = Omit<ContentEvent, (typeof EVENT_DETAIL_FIELDS)[number]>;
-/** A person without the bio (src/generated/peopleIndex.json); the bio is in bios/<id>.json. */
-export type PersonSummary = Omit<Person, 'bio'>;
+/** A person as the index carries it (src/generated/peopleIndex.json): the name and the aliases the chat matches. */
+export type PersonSummary = Pick<Person, 'id' | 'name' | 'aliases'>;
+/** What the person window loads when it opens (src/generated/bios/<id>.json). */
+export type PersonDetails = Pick<Person, 'title' | 'role' | 'birthDeath' | 'bio'>;
 /** A Qur'an passage without its text (src/generated/quranIndex.json); the text is in quranText.json. */
 export type QuranPassageSummary = QuranPassage & { link: string };
 
@@ -26,8 +28,8 @@ export function splitEvent(event: ContentEvent): { summary: EventSummary; detail
   return { summary: summary as EventSummary, details: details as EventDetails };
 }
 
-export function splitPerson({ bio, ...summary }: Person): { summary: PersonSummary; bio: string } {
-  return { summary, bio };
+export function splitPerson({ id, name, aliases, ...details }: Person): { summary: PersonSummary; details: PersonDetails } {
+  return { summary: { id, name, aliases }, details };
 }
 
 export function splitPassage({ text, ...summary }: GeneratedQuranPassage): { summary: QuranPassageSummary; text: string } {

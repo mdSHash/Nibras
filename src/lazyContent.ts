@@ -5,7 +5,7 @@
 // of shared/contentSplit.ts). A loaded file stays in memory; a failed load is
 // forgotten, so a retry fetches it again.
 import { useEffect, useState } from 'react';
-import type { EventDetails } from '../shared/contentSplit';
+import type { EventDetails, PersonDetails } from '../shared/contentSplit';
 
 export interface Loader<T> {
   load: (key: string) => Promise<T>;
@@ -36,19 +36,21 @@ function cachedLoader<T>(fetchValue: (key: string) => Promise<T>): Loader<T> {
   return { load, peek: (key) => loaded.get(key) };
 }
 
-function moduleLoader<T>(modules: Record<string, () => Promise<T>>, path: (key: string) => string): Loader<T> {
+// The glob maps take the whole module and read `default` here, once: asking Vite
+// for the default export repeats that step in each of the ~300 map entries.
+function moduleLoader<T>(modules: Record<string, () => Promise<{ default: T }>>, path: (key: string) => string): Loader<T> {
   return cachedLoader((key) => {
     const importModule = modules[path(key)];
-    return importModule ? importModule() : Promise.reject(new Error(`No content file for "${key}"`));
+    return importModule ? importModule().then((m) => m.default) : Promise.reject(new Error(`No content file for "${key}"`));
   });
 }
 
-const eventDetailModules = import.meta.glob<EventDetails>('./generated/eventDetails/*.json', { import: 'default' });
-const bioModules = import.meta.glob<string>('./generated/bios/*.json', { import: 'default' });
+const eventDetailModules = import.meta.glob<{ default: EventDetails }>('./generated/eventDetails/*.json');
+const bioModules = import.meta.glob<{ default: PersonDetails }>('./generated/bios/*.json');
 
 /** An event's details, by its slug (shared/routes.ts `eventSlug`). */
 export const eventDetails = moduleLoader(eventDetailModules, (slug) => `./generated/eventDetails/${slug}.json`);
-/** A person's bio, by their id. */
+/** A person's title, role, dates and bio, by their id. */
 export const bios = moduleLoader(bioModules, (id) => `./generated/bios/${id}.json`);
 
 const quranText = cachedLoader(

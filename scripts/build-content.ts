@@ -73,8 +73,8 @@ function writeSplitContent(): void {
   write('searchIndex.json', Object.fromEntries(content.events.map((e) => [e.id, eventSearchText(e)])));
 
   const peopleIndex = content.people.map((person) => {
-    const { summary, bio } = splitPerson(person);
-    write(`bios/${person.id}.json`, bio);
+    const { summary, details } = splitPerson(person);
+    write(`bios/${person.id}.json`, details);
     return summary;
   });
   write('peopleIndex.json', peopleIndex);
