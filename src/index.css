@@ -173,7 +173,8 @@
   --sys-night-deep: #0d0d1a;
   --sys-go-rgb: 16 185 129;                   /* play, the current place, the legend's route */
   --sys-stop: #ef4444;
-  --sys-ridda: #f87171;                       /* the Ridda wars' borders */
+  --sys-ridda: #f87171;
+  --sys-popup-accent: #fde68a;                /* highlighted words in map popups */                       /* the Ridda wars' borders */
   --sys-glow-green-rgb: 45 90 39;             /* the player's glows (light mode's greens, in both modes) */
   --sys-glow-red-rgb: 163 59 32;
   --sys-glow-gray-rgb: 107 114 128;
@@ -280,28 +281,23 @@
   /* Allow scrolling on references section */
   [data-tour-id="quran-section"],
   [data-tour-id="quran-section"] * {
-    touch-action: pan-y !important;
-    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
   }
   
   /* Allow scrolling on course of events section */
-  .bg-ink\/5.p-4.sm\:p-5.rounded-lg.border.border-border-dark\/10.relative.overflow-hidden.shadow-inner,
-  .bg-ink\/5.p-4.sm\:p-5.rounded-lg.border.border-border-dark\/10.relative.overflow-hidden.shadow-inner * {
-    touch-action: pan-y !important;
-    -webkit-overflow-scrolling: touch !important;
-  }
   
   /* Ensure parent scroll container allows touch */
   [data-tour-id="event-panel"] .overflow-y-auto,
   [data-tour-id="event-panel"] .min-h-0 {
-    touch-action: pan-y !important;
-    -webkit-overflow-scrolling: touch !important;
-    overscroll-behavior: contain !important;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
   
   /* Remove pointer-events-none from decorative elements that might block scroll */
   [data-tour-id="event-panel"] .pointer-events-none {
-    pointer-events: none !important;
+    pointer-events: none;
   }
   
   /* Ensure all content areas in event panel are scrollable */
@@ -309,7 +305,7 @@
   [data-tour-id="event-panel"] .space-y-4,
   [data-tour-id="event-panel"] .flex.flex-col.gap-5,
   [data-tour-id="event-panel"] .flex.flex-col.gap-6 {
-    touch-action: pan-y !important;
+    touch-action: pan-y;
   }
 }
 
@@ -474,12 +470,6 @@ body {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-  
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
   }
 }
 
@@ -862,12 +852,6 @@ html {
 }
 
 /* Mobile Performance: Reduce Motion */
-@media (prefers-reduced-motion: reduce) {
-  .mobile-animation {
-    animation: none !important;
-    transition: none !important;
-  }
-}
 
 /* Mobile Dark Mode Enhancements */
 .dark {
@@ -1024,28 +1008,10 @@ html {
   .mobile-only {
     display: block;
   }
-  
-  .mobile-hidden {
-    display: none !important;
-  }
-  
-  .mobile-flex {
-    display: flex !important;
-  }
-  
-  .mobile-inline-flex {
-    display: inline-flex !important;
-  }
 }
 
 .desktop-only {
   display: block;
-}
-
-@media (max-width: 768px) {
-  .desktop-only {
-    display: none !important;
-  }
 }
 
 /* Mobile Text Utilities */
@@ -1122,13 +1088,16 @@ html {
   input[type="tel"],
   textarea,
   select {
-    font-size: 16px !important;
+    font-size: 16px;
   }
 }
 
 /* Fix for overlapping elements on mobile */
 @media (max-width: 640px) {
-  /* Ensure panels don't overlap with fixed elements */
+  /* Ensure panels don't overlap with fixed elements. Load-bearing (3B): being
+     unlayered, this beats components' own max-w-* classes on phones (the tour
+     prompt's max-w-[92vw] is 100vw wide today). The battle video player's turned
+     frame lifts it on its layers (LAYER in BattleVideoPlayer.tsx). */
   .fixed,
   .absolute {
     max-width: 100vw;
@@ -1214,22 +1183,22 @@ button[type="reset"],
 a,
 [role="button"],
 .cursor-pointer {
-  cursor: pointer !important;
+  cursor: pointer;
 }
 
 button:disabled,
 button[disabled],
 [aria-disabled="true"] {
-  cursor: not-allowed !important;
+  cursor: not-allowed;
 }
 
 /* Custom styles for leaflet map to make it look ancient */
 .leaflet-container {
-  background: radial-gradient(circle at center, var(--color-map-center) 0%, var(--color-map-edge) 100%) !important;
+  background: radial-gradient(circle at center, var(--color-map-center) 0%, var(--color-map-edge) 100%);
   font-family: 'Times New Roman', Times, serif;
 }
 .historical-map-tiles {
-  filter: var(--sys-map-filter) !important;
+  filter: var(--sys-map-filter);
   transition: filter var(--duration-slow) ease;
 }
 .custom-marker {
@@ -1246,23 +1215,24 @@ button[disabled],
 
 /* Leaflet popup improvements - Using standardized system */
 .leaflet-popup-content-wrapper {
-  background: var(--sys-popup-bg) !important;
+  background: var(--sys-popup-bg);
   backdrop-filter: blur(8px);
-  border: 2px solid var(--sys-popup-edge) !important;
-  border-radius: var(--radius-lg) !important;
-  box-shadow: var(--shadow-modal) !important;
+  border: 2px solid var(--sys-popup-edge);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-modal);
 }
 
 .dark .leaflet-popup-content-wrapper {
-  background: var(--sys-popup-bg) !important;
-  border: 2px solid var(--sys-popup-edge) !important;
+  background: var(--sys-popup-bg);
+  border: 2px solid var(--sys-popup-edge);
 }
 
 .leaflet-popup-content {
-  margin: 0 !important;
+  margin: 0;
+  /* !important: beats .dark .historical-popup * (more specific). */
   color: var(--color-parchment) !important;
-  font-family: system-ui, -apple-system, sans-serif !important;
-  font-size: var(--text-sm) !important;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: var(--text-sm);
   direction: rtl;
   text-align: right;
 }
@@ -1285,7 +1255,7 @@ button[disabled],
 }
 
 .historical-popup .popup-accent {
-  color: #fde68a;
+  color: var(--sys-popup-accent);
 }
 
 .historical-popup .popup-surface {
@@ -1295,7 +1265,7 @@ button[disabled],
 
 .dark .historical-popup,
 .dark .historical-popup * {
-  color: #f4ece1;
+  color: rgb(var(--sys-chrome-ink-rgb));
 }
 
 .dark .historical-popup .popup-title {
@@ -1311,7 +1281,7 @@ button[disabled],
 }
 
 .dark .historical-popup .popup-accent {
-  color: #fde68a;
+  color: var(--sys-popup-accent);
 }
 
 .dark .historical-popup .popup-surface {
@@ -1320,14 +1290,14 @@ button[disabled],
 }
 
 .leaflet-popup-tip {
-  background: var(--sys-popup-bg) !important;
-  border: 2px solid rgba(255, 255, 255, 0.2) !important;
-  border-top: none !important;
-  border-right: none !important;
+  background: var(--sys-popup-bg);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top: none;
+  border-right: none;
 }
 
 .dark .leaflet-popup-tip {
-  background: var(--sys-popup-bg) !important;
+  background: var(--sys-popup-bg);
 }
 
 /* Improve cluster marker visibility - Using standardized system */
@@ -1622,6 +1592,7 @@ border-color: rgb(var(--sys-accent-rgb) / 0.3);
 @media (max-width: 640px) {
 /* Mobile optimizations for era dock */
 [dir="rtl"] .flex-wrap {
+  /* !important: wins over .gap-2's !important below on very small screens (more specific). */
   gap: 0.5rem !important;
 }
 
@@ -1635,21 +1606,16 @@ border-color: rgb(var(--sys-accent-rgb) / 0.3);
 @media (max-width: 380px) {
 /* Further compress on very small screens */
 .rounded-2xl {
-  padding: 0.5rem !important;
+  padding: 0.5rem;
 }
 
 .gap-2 {
+  /* !important: beats [class*="bottom-"][class*="left-1/2"][class*="flex"] below (the toasts). */
   gap: 0.375rem !important;
 }
 }
 
 /* Tablet landscape optimizations */
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-/* Adjust era dock positioning for tablet landscape */
-.sm\:bottom-\[120px\] {
-  bottom: 100px !important;
-}
-}
 
 /* Smooth animations for era buttons */
 @keyframes era-pulse {
@@ -1679,26 +1645,8 @@ background: linear-gradient(to right, rgb(var(--sys-night-panel-rgb) / 0.95), rg
 }
 
 /* Timeline Event Text - WCAG AA Compliant Contrast with Backgrounds */
-.timeline-container .text-parchment {
-  color: var(--timeline-text-primary) !important;
-  text-shadow: none;
-  font-weight: 700;
-}
-
-.timeline-container .text-parchment\/80 {
-  color: var(--timeline-text-secondary) !important;
-  text-shadow: none;
-  font-weight: 600;
-}
 
 /* Timeline Date Labels - Enhanced readability with background and stronger contrast */
-.timeline-container [class*="-top-"] {
-  color: var(--timeline-text-date) !important;
-  font-weight: 800;
-  text-shadow: none;
-  letter-spacing: 0.05em;
-  backdrop-filter: blur(6px);
-}
 
 /* Timeline Markers - Perfect alignment */
 .timeline-container .rounded-full {
@@ -1797,24 +1745,6 @@ background: linear-gradient(to right, rgb(var(--sys-night-panel-rgb) / 0.95), rg
 }
 
 /* Dark Mode Timeline Adjustments - Enhanced contrast with backgrounds */
-.dark .timeline-container .text-parchment {
-  color: var(--timeline-text-primary) !important;
-  text-shadow: none;
-  font-weight: 700;
-}
-
-.dark .timeline-container .text-parchment\/80 {
-  color: var(--timeline-text-secondary) !important;
-  text-shadow: none;
-  font-weight: 600;
-}
-
-.dark .timeline-container [class*="-top-"] {
-  color: var(--timeline-text-date) !important;
-  text-shadow: none;
-  backdrop-filter: blur(8px);
-  font-weight: 800;
-}
 
 /* Timeline Background - Ensure proper contrast in both modes */
 .timeline-container {
@@ -1862,10 +1792,6 @@ background: linear-gradient(to right, rgb(var(--sys-night-panel-rgb) / 0.95), rg
   }
   
   /* Mobile search menu */
-  .search-menu {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
   
   /* Mobile map popups */
   .leaflet-popup {
@@ -1873,8 +1799,8 @@ background: linear-gradient(to right, rgb(var(--sys-night-panel-rgb) / 0.95), rg
   }
   
   .leaflet-popup-content {
-    max-width: calc(100vw - 60px) !important;
-    font-size: 14px !important;
+    max-width: calc(100vw - 60px);
+    font-size: 14px;
   }
   
   /* Mobile button improvements */
@@ -1892,30 +1818,28 @@ background: linear-gradient(to right, rgb(var(--sys-night-panel-rgb) / 0.95), rg
 /* Mobile Landscape Specific */
 @media (max-width: 896px) and (orientation: landscape) {
   [data-tour-id="event-panel"] {
-    max-height: calc(100vh - 56px) !important;
+    max-height: calc(100vh - 56px);
   }
   
   [data-tour-id="timeline"] {
-    max-height: 80px !important;
+    max-height: 80px;
   }
   
   /* Compact header in landscape */
   header {
-    height: 56px !important;
+    height: 56px;
   }
 }
 
 /* Tablet Portrait Optimizations */
 @media (min-width: 641px) and (max-width: 1024px) and (orientation: portrait) {
   [data-tour-id="event-panel"] {
-    width: 450px !important;
+    width: 450px;
+    /* !important: beats the max-width: 100vw further down (Prevent Content Overflow). */
     max-width: 450px !important;
   }
   
   /* Better spacing for tablet */
-  .timeline-container {
-    padding: 16px 20px !important;
-  }
 }
 
 /* Safe Area Padding */
@@ -2359,15 +2283,6 @@ background: linear-gradient(to right, rgb(var(--sys-night-panel-rgb) / 0.95), rg
 /* Performance Optimizations */
 @media (max-width: 768px) {
   /* Reduce motion for better performance on low-end devices */
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
   
   /* Optimize animations for mobile */
   * {
@@ -2399,8 +2314,8 @@ background: linear-gradient(to right, rgb(var(--sys-night-panel-rgb) / 0.95), rg
   
   /* Ensure map is visible when panel is open */
   [data-tour-id="map-container"] {
-    height: 100dvh !important;
-    padding-bottom: 0 !important;
+    height: 100dvh;
+    padding-bottom: 0;
   }
   
   /* Mobile panel drag handle improvements */
@@ -2499,19 +2414,10 @@ background: linear-gradient(to right, rgb(var(--sys-night-panel-rgb) / 0.95), rg
 /* Mobile Landscape Specific Adjustments */
 @media (max-width: 896px) and (orientation: landscape) {
   [data-tour-id="event-panel"] {
-    max-height: 60vh !important;
+    max-height: 60vh;
   }
   
   /* Compact player controls in landscape */
-  [class*="bottom-"][class*="z-[900]"] {
-    padding: 8px 12px !important;
-  }
-  
-  [class*="bottom-"][class*="z-[900]"] button {
-    min-height: 36px !important;
-    padding: 6px 12px !important;
-    font-size: 11px !important;
-  }
 }
 
 /* Prevent Content Overflow */
@@ -2536,10 +2442,6 @@ background: linear-gradient(to right, rgb(var(--sys-night-panel-rgb) / 0.95), rg
   @media (max-width: 768px) {
     [data-tour-id="timeline"] {
       padding-bottom: max(16px, env(safe-area-inset-bottom));
-    }
-    
-    [class*="bottom-"][class*="z-[900]"] {
-      bottom: calc(120px + env(safe-area-inset-bottom)) !important;
     }
   }
 }
@@ -2568,7 +2470,7 @@ background: linear-gradient(to right, rgb(var(--sys-night-panel-rgb) / 0.95), rg
   .custom-cursor-active .leaflet-control,
   .custom-cursor-active .leaflet-popup,
   .custom-cursor-active .leaflet-tooltip {
-    cursor: none !important;
+    cursor: none;
   }
 }
 
