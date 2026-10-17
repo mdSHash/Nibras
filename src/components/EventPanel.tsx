@@ -11,6 +11,7 @@ import { getEraTheme, shadeHex } from "./eventPanel/theme";
 import { useNarration } from "./eventPanel/useNarration";
 import { eventDetails, useLazyContent } from "../lazyContent";
 import { eventSlug } from "../../shared/routes";
+import { useAppStore } from "../store/appStore";
 
 interface EventPanelProps {
   event: EventItem | null;
@@ -55,7 +56,10 @@ export default function EventPanel({
   const panelRef = useRef<HTMLDivElement>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [fontSizeStep, setFontSizeStep] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  // Read at once, not only in the effect below: a panel that mounts with an
+  // event (after the intro) would otherwise start from the desktop slide-in
+  // (x: 100%) and stay off-screen on phones when the variants switch.
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
   const [isDark, setIsDark] = useState(false);
   const [mobileHeight, setMobileHeight] = useState(SNAP_HALF);
   const handleY = useMotionValue(0);
@@ -77,11 +81,15 @@ export default function EventPanel({
     };
   }, []);
 
+  // The event the app opened by itself on start shows collapsed on phones, so
+  // the map stays in view (Mostafa, 2026-10-17); others open at half height.
+  const isAutoOpened = useAppStore(s => !!event && s.autoOpenedEventId === event.id);
   useEffect(() => {
     setFontSizeStep(0);
     setIsExpanded(false);
     handleY.set(0);
-    setMobileHeight(SNAP_HALF);
+    setMobileHeight(isAutoOpened ? SNAP_COLLAPSED : SNAP_HALF);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- the height is chosen when the event changes, on purpose
   }, [event?.id, handleY]);
 
   // Mobile drag-end: vertical resize / swipe-to-close
@@ -151,7 +159,8 @@ export default function EventPanel({
             style={
               isMobile
                 ? {
-                    zIndex: Z_INDEX.eventPanel,
+                    // Under the full-screen search drawer while it is open.
+                    zIndex: isDrawerOpen ? Z_INDEX.searchBackdrop - 1 : Z_INDEX.eventPanel,
                     height: `${mobileHeight}dvh`,
                     bottom: 'calc(var(--timeline-height, 90px) + env(safe-area-inset-bottom, 0px))',
                     // Match the timeline rail's own layout animation so the panel bottom

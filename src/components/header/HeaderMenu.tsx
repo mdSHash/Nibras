@@ -61,10 +61,11 @@ export function HeaderMenu({ items, pulse = false }: HeaderMenuProps) {
       if (!menuRef.current?.contains(target) && !triggerRef.current?.contains(target)) setIsOpen(false);
     };
     const onResize = () => setIsOpen(false);
-    document.addEventListener('pointerdown', onPointerDown);
+    // Capture phase: the map and the panel stop some presses from bubbling.
+    document.addEventListener('pointerdown', onPointerDown, true);
     window.addEventListener('resize', onResize);
     return () => {
-      document.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('pointerdown', onPointerDown, true);
       window.removeEventListener('resize', onResize);
     };
   }, [isOpen]);

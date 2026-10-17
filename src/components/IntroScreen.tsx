@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { Z_INDEX } from '../constants';
 import { cn } from '../utils/cn';
@@ -77,8 +77,9 @@ export default function IntroScreen({ onComplete }: IntroScreenProps) {
     if (reducedMotion) finish();
   }, [reducedMotion, finish]);
 
-  // Tap, click or any key skips the intro.
-  useEffect(() => {
+  // Tap, click or any key skips the intro (attached with the first render, so
+  // a tap as soon as the intro shows is not lost).
+  useLayoutEffect(() => {
     if (reducedMotion) return;
     window.addEventListener('click', finish);
     window.addEventListener('keydown', finish);

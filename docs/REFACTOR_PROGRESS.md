@@ -809,6 +809,10 @@ one PR at the end.
 - 2026-10-17 (2C plan approved): **browser tests start as returning visitors** (intro already
   seen, set by the fixture as it already does for the tour prompt); the first-visit intro and its
   skip keep their own tests. Saves the 4.2 s intro in every test.
+- 2026-10-17: **phones open the first event collapsed.** Fixing the off-screen panel (intentional
+  change 17) would have put a 60% panel over the map on load; Mostafa chose the existing 30%
+  snap for the event the app opens by itself, so the map and its marker stay in view. Events
+  the visitor opens still start at 60%.
 
 ### Open for Mostafa (chat, reviewed 2026-10-17)
 
@@ -910,6 +914,27 @@ The chat design stays (plan, "Keep as is"). Recommended changes, none started:
     moving the dock beside the panel, which only fits from about 1440 px and would cut the era
     pills on smaller screens (both tried at 1280 and 1440). The desktop visual snapshots with an
     open panel change (its bottom edge).
+16. **First-event auto-select stands down when the visitor acts first** (2C). Without the intro
+    the app is usable at once, which exposed two races of the 1 s auto-select (`App.tsx`): closing
+    a person opened from a shared link within that second then opened the first event, and on
+    phones opening search within it slid the event panel over the search drawer. The auto-select
+    now happens only if nothing navigated during the second and search, help and chat are closed.
+    Found by `routing.spec.ts` (shared person link) and four phone tests that search for an event.
+    The intro-skip tests wait for the intro to be on screen (its skip button) instead of 400 ms.
+17. **Phones: the first event's panel is on screen after the intro** (2C; a live bug found while
+    fixing the tests). Until now, on phones the auto-selected panel sat entirely off-screen to
+    the right (`translateX(375px)`) whenever the intro had played, i.e. on every visit before 2C
+    (the 0A observation «on phones the event panel's close button is outside the viewport at the
+    start view»). Cause: App's hooks run during the intro, so the first event is selected
+    before the panel mounts; `EventPanel` then rendered once with `isMobile = false`, started
+    from the desktop slide-in (`x: 100%`), and the switch to the phone slide-up never moved it
+    back. `isMobile` is now read when the state is created. With the panel visible, it covered
+    the full-screen search drawer on phones (z 900 over 800): while the drawer is open the
+    phone panel now sits under it (phones close the drawer after a choice, and the panel is
+    back on top). The phone tests passed before only because the panel was off-screen. The
+    phone visual snapshots with an event open change (the panel now shows). The event the app
+    opens by itself on start shows at the collapsed 30% height on phones (decision above;
+    `autoOpenedEventId` in the store, cleared when another event opens).
 
 ### 2A verification (2026-10-16, Windows 11, Node 20.19.5, Playwright 1.59.1)
 

@@ -104,14 +104,21 @@ export default function App() {
 
   // On the map with nothing open, the first event opens after a second (on
   // start, and again when the filters change the event count). The address
-  // follows it without adding a history entry.
+  // follows it without adding a history entry. Not when the visitor acted
+  // during that second: navigated (e.g. closed a person opened from a shared
+  // link) or opened search, help or chat (the panel would cover them on phones).
   useEffect(() => {
     if (filteredSortedEvents.length === 0) return;
+    const scheduledAt = store().location;
     const timer = setTimeout(() => {
-      const { location, eventId } = store();
-      if (location.route.kind === 'home' && !eventId) {
+      const { location, eventId, isSearchOpen, isHelpOpen, isChatOpen } = store();
+      const busy = isSearchOpen || isHelpOpen || isChatOpen;
+      if (location === scheduledAt && location.route.kind === 'home' && !eventId && !busy) {
         const first = filteredSortedEvents[0];
-        if (first) navigate(eventRoute(first), { replace: true });
+        if (first) {
+          store().setAutoOpenedEventId(first.id);
+          navigate(eventRoute(first), { replace: true });
+        }
       }
     }, 1000);
     return () => clearTimeout(timer);

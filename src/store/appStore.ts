@@ -23,6 +23,11 @@ export interface AppState {
    * or replay opened from it is on top; cleared on the map (`/`).
    */
   eventId: string | null;
+  /**
+   * The event the app opened by itself on start (App.tsx); phones show it in
+   * the collapsed panel. Cleared when another event opens.
+   */
+  autoOpenedEventId: string | null;
   isPanelHidden: boolean;
   isAutoPlaying: boolean;
   isPlayerMode: boolean;
@@ -40,6 +45,7 @@ export interface AppState {
 
   /** For src/router.ts only. */
   setLocation: (location: AppLocation) => void;
+  setAutoOpenedEventId: (id: string | null) => void;
   setPanelHidden: (hidden: boolean) => void;
   setAutoPlaying: (playing: boolean) => void;
   setPlayerMode: (on: boolean) => void;
@@ -90,6 +96,7 @@ let toastSeq = 0;
 export const useAppStore = create<AppState>()((set, get) => ({
   location: { route: { kind: 'home' }, filters: DEFAULT_FILTERS },
   eventId: null,
+  autoOpenedEventId: null,
   isPanelHidden: false,
   isAutoPlaying: false,
   isPlayerMode: false,
@@ -103,7 +110,12 @@ export const useAppStore = create<AppState>()((set, get) => ({
   mapResetCount: 0,
   toasts: [],
 
-  setLocation: location => set(s => ({ location, eventId: nextEventId(location.route, s.eventId) })),
+  setLocation: location =>
+    set(s => {
+      const eventId = nextEventId(location.route, s.eventId);
+      return { location, eventId, autoOpenedEventId: eventId === s.autoOpenedEventId ? eventId : null };
+    }),
+  setAutoOpenedEventId: autoOpenedEventId => set({ autoOpenedEventId }),
   setPanelHidden: isPanelHidden => set({ isPanelHidden }),
   setAutoPlaying: isAutoPlaying => set({ isAutoPlaying }),
   setPlayerMode: isPlayerMode => set({ isPlayerMode }),
