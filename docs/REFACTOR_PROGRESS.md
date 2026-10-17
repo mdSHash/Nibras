@@ -755,7 +755,8 @@ one PR at the end.
 - [x] 2A `App.tsx` → layout, `AppHeader` (one `HeaderButton`), `Overlays` — `cf3d418`; `EventPanel.tsx`
       split by job (`eventPanel/`: Hero, useNarration, ArticleBody, PeopleList) — `6958f30`
 - [x] 2A `@` alias → `src` — `7e8b11f`
-- [x] 2B Content on demand; lazy search index — `f14e2b5`; map markers without `react-dom/server` — `5d5d46a`
+- [x] 2B Content on demand; lazy search index — `f14e2b5`; map markers without `react-dom/server` — `5d5d46a`;
+      person details on demand — see the 2B verification below
 - [x] 2B Pre-rendered pages, SEO tags, sitemap, robots, 404; tab titles; new icons and share image
 - [ ] 2C Dark mode, intro, phone header menu, panel vs timeline dock
 - [ ] 2C Review, verification report, PR
@@ -869,6 +870,8 @@ The chat design stays (plan, "Keep as is"). Recommended changes, none started:
     no font (the old icons loaded a font the browser ignores in icons, so the word fell back and
     sat off-centre); the favicon is the star with ن. `scripts/make-site-images.ts` draws
     `og-image.png` and `favicon.png` from the SVGs.
+11. **Person window** (2B): the name shows at once; title, role, dates and bio arrive together from
+    the person's file (skeleton until then). The people index keeps only id, name and aliases.
 
 ### 2A verification (2026-10-16, Windows 11, Node 20.19.5, Playwright 1.59.1)
 
@@ -889,14 +892,39 @@ Before any change, `npm run verify` on `37b179a` passed (all steps, the numbers 
 The test counts grew by the new routing tests; `tests/baseline/numbers.json` is updated at the end
 of the phase with Mostafa's approval.
 
-### Notes for 2B
+### 2B verification (2026-10-17, Windows 11, Node 20.19.5, Playwright 1.59.1)
 
-- Main JS is 1.9 MB raw (463.5 KiB gzip); the target is about 800 KB raw. The generated event and
-  people JSON (686 KB + 264 KB, mostly `fullDescription`, `courseOfEvents`, `roles`, `keyFigures` and
-  `bio`) are bundled whole.
-- Search matches `summary` and `fullDescription` (`SearchMenu.tsx`), so the search drawer needs the
-  full text (a lazy index) to keep the behavior map identical.
-- Narration hashes `fullDescription` to find its file (`eventPanel/useNarration.ts`), so the play
-  button waits for the details.
-- `Map.tsx` imports `react-dom/server` (`renderToStaticMarkup`) into the main chunk to draw marker
-  icons.
+Before any change, CI on `e252e5c` passed and `npm run verify` on `aecd0a4` passed (the numbers of
+2A). After 2B, `npm run verify`:
+
+| Step | Result |
+| --- | --- |
+| Content build (Zod) | 131 events, 161 people, 10 cities, 51 Quran passages; no issues |
+| Type check, ESLint | passed (0 findings; `src/battlefield/` no longer linted) |
+| Vitest | 229/229 (214 + content split 5, marker HTML 2, pre-render 8) |
+| Content snapshot, behavior map | identical (content snapshot without the battle scenario data, approved) |
+| Production build + pre-render | 356 pages, 305 in `sitemap.xml`; bundle budget within limits |
+| Playwright features | 72 passed, 8 of them known failures (battle tests removed; pre-render tests added) |
+| Phone smoke (WebKit, Firefox) | 36 passed, 2 of them known failures |
+| Visual snapshots | 16/16 identical (replay snapshot removed) |
+
+A full `npm run verify` now takes about 10.5 minutes (was about 13.5 with the battle tests).
+
+Bundle: JS at start (entry plus what `index.html` preloads) **1,868 → 917 KB raw, 478 → 255 KB gzip**.
+The target was about 800 KB raw; what is left at start: React DOM 178 KB, Leaflet 147 KB, motion
+125 KB, the content indexes ~200 KB (events 117, territories 42, people), tailwind-merge 27 KB and
+the lazy-content import map ~38 KB (one entry per details and bio file). Tried and dropped: the tour
+loaded on demand (first visits fetch it right away anyway, +1 first-load request) and the people
+aliases moved into the chat chunk (−25 KB, but the chat chunk's budget would need re-baselining).
+Next step if wanted: serve the per-record files as plain JSON fetched by address (removes the import
+map, about −38 KB).
+
+### Notes for 2C
+
+- Dark mode will follow the system: the pre-rendered text (`scripts/prerender/pages.ts`,
+  `STATIC_STYLE`) is light only; add a `prefers-color-scheme: dark` block when the app's default
+  changes, so the page does not flash light before a dark app.
+- A shorter intro in tests (2C makes it skippable) would cut each verify by roughly 2–3 minutes:
+  every browser test waits through the 4.2 s intro and the map's flight. Ask Mostafa first.
+- `tests/baseline/numbers.json` (bundle and test counts) is updated at the end of the phase, with
+  Mostafa's approval of the list of intentional changes above.

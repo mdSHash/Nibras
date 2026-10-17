@@ -243,7 +243,7 @@ For the full engine architecture, scenario format, and authoring guide see [`src
 |---------|-------------|
 | `npm run dev` | Start the Vite dev server (port 3000) |
 | `npm run dev:server` | Start the TTS backend server |
-| `npm run build` | Production build |
+| `npm run build` | Production build, then the pre-rendered pages, `sitemap.xml`, `robots.txt` and `404.html` (`scripts/prerender.ts`) |
 | `npm run preview` | Preview production build |
 | `npm run lint` | TypeScript type checking (`tsc --noEmit`) |
 | `npm run lint:eslint` | ESLint (TypeScript + React hooks rules) |
@@ -316,7 +316,7 @@ See `docs/REFACTOR_PLAN.md` and `docs/REFACTOR_PROGRESS.md` for the refactor pla
 
 ## Deployment
 
-Production is hosted at **https://mdshash.github.io/Nibras/** on GitHub Pages. `.github/workflows/deploy.yml` runs a `check` job (the full `npm run verify`, on Ubuntu) on every pull request and every push to `main`; only when it passes on `main` does it build with Vite (`base: '/Nibras/'`) and publish `dist/` via `actions/deploy-pages@v4`. The deploy build carries the Sentry settings (crash reports, source maps); see `docs/OWNER_DASHBOARD.md` for Sentry, the uptime checks and the weekly owner routine. The chat API also has `GET /api/health`.
+Production is hosted at **https://mdshash.github.io/Nibras/** on GitHub Pages. `.github/workflows/deploy.yml` runs a `check` job (the full `npm run verify`, on Ubuntu) on every pull request and every push to `main`; only when it passes on `main` does it build with Vite (`base: '/Nibras/'`), pre-render one page per event, person, replay and Qur'an passage, and publish `dist/` via `actions/deploy-pages@v4`. The deploy build carries the Sentry settings (crash reports, source maps); see `docs/OWNER_DASHBOARD.md` for Sentry, the uptime checks and the weekly owner routine. The chat API also has `GET /api/health`.
 
 Because all audio ships as static WAVs bundled into `dist/audio/`, no separate backend is required at runtime. The TTS proxy in `server/` is only used at authoring time when regenerating narration.
 
