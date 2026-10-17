@@ -9,16 +9,19 @@ export function CaptionBand({
   captions,
   time,
   visible,
+  compact = false,
 }: {
   captions: LazyContent<VideoCaption[]>;
   time: number;
   visible: boolean;
+  /** A phone held sideways: less height, smaller text. */
+  compact?: boolean;
 }) {
   const cue = captions.status === 'ready' ? cueAt(captions.data, time) : undefined;
   return (
     // aria-live stays off: the narration already speaks every caption.
     <div
-      className="shrink-0 min-h-[4.5rem] sm:min-h-[5rem] px-4 py-2 flex items-center justify-center text-center bg-black"
+      className={`shrink-0 px-4 flex items-center justify-center text-center bg-black ${compact ? 'min-h-[3.25rem] py-1' : 'min-h-[4.5rem] sm:min-h-[5rem] py-2'}`}
       dir="rtl"
       lang="ar"
       aria-live="off"
@@ -42,8 +45,8 @@ export function CaptionBand({
             className="max-w-4xl text-white leading-relaxed bg-gray-900/90 rounded-lg px-3 py-1"
             style={
               cue.quranKey
-                ? { fontFamily: "'Amiri Quran', serif", fontSize: 'clamp(1.05rem, 2.4vw, 1.5rem)', lineHeight: 2 }
-                : { fontSize: 'clamp(0.95rem, 2.1vw, 1.3rem)' }
+                ? { fontFamily: "'Amiri Quran', serif", fontSize: compact ? '0.95rem' : 'clamp(1.05rem, 2.4vw, 1.5rem)', lineHeight: compact ? 1.8 : 2 }
+                : { fontSize: compact ? '0.9rem' : 'clamp(0.95rem, 2.1vw, 1.3rem)' }
             }
           >
             {cue.text}

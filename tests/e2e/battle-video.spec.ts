@@ -13,7 +13,7 @@ const captions = JSON.parse(
   readFileSync(join(ROOT, 'src', 'generated', 'battleVideoCaptions', 'battle-badr.json'), 'utf8'),
 ) as VideoCaption[];
 
-test('a battle with a video opens it with Arabic controls and captions (stub video) @phone', async ({ page, network }) => {
+test('a battle with a video opens it with Arabic controls and captions (stub video) @phone', async ({ page, network }, testInfo) => {
   const badr = eventById('battle-badr');
   await openAppWithEvent(page);
   await openEventBySearch(page, 'battle-badr', 'بدر');
@@ -22,6 +22,8 @@ test('a battle with a video opens it with Arabic controls and captions (stub vid
   await expect(page).toHaveURL(/\/battle\/battle-of-badr\/$/);
   const player = page.getByRole('dialog', { name: badr.title });
   await expect(player).toBeVisible();
+  // On a phone held upright the player is drawn sideways (videos are watched sideways).
+  await expect(player).toHaveAttribute('data-layout', testInfo.project.name.startsWith('phone') ? 'rotated' : 'standard');
   expect(network.youtubeRequests).toHaveLength(1);
   await expect(page.locator('[data-fake-youtube="HCQru0jnWeA"]')).toBeAttached();
 
