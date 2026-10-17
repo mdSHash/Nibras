@@ -1008,12 +1008,12 @@ Before any change, `npm run verify` on `7d268eb` passed (the numbers of 2B). Aft
 | Vitest | 229/229 |
 | Content snapshot, behavior map | identical to the baseline |
 | Production build + pre-render | 356 pages, 305 in `sitemap.xml`; bundle budget within limits |
-| Playwright features | 80: 79 passed (4 of them known failures: 3, 5, 6, 7 and 10 remain, see below), 1 skipped (the phone menu test on desktop) |
+| Playwright features | 80: 79 passed (4 of them known failures: 5, 6, 7, 10), 1 skipped (the phone menu test on desktop) |
 | Phone smoke (WebKit, Firefox) | 42 passed, no known failures left |
 | Visual snapshots | 16/16 (5 updated with approval) |
 
-Known failures 2, 8, 9 and 11 are fixed; the ones left belong to Phase 3 (3 and 4 are battle tests,
-removed in 2B; the feature count of 4 is 5, 6, 7 and 10). A full `npm run verify` now takes about
+Known failures 2, 8, 9 and 11 are fixed. Left for Phase 3: 5, 6, 7 and 10 (3 and 4 were battle
+tests, removed in 2B). A full `npm run verify` now takes about
 7 minutes (10.5 in 2B): browser tests start as returning visitors.
 
 Bundle: JS at start 923.7 KB raw, 256.5 KB gzip (2B: 917 / 255; the header menu and the theme
