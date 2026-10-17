@@ -1026,6 +1026,16 @@ tests 72 → 80 with 10 → 4 known failures, engine tests 32 → 42 with 2 → 
 were removed so CI on the PR records a new set (artifact `baseline-linux-visual`); they are
 committed after Mostafa reviews them.
 
+After PR #6's first CI run (2026-10-17): the engines job failed once on Linux WebKit: the intro
+test's check that a reload does not replay the intro used a 3 s limit, and the slow runner needed
+more just to load. It now records whether the intro appears at all (a DOM observer), whatever
+the machine's speed. The 16 Linux snapshots from that run were compared with the Windows set
+(same screens, font rendering only) and committed, as Mostafa asked to finish the phase and merge;
+the Linux UI numbers were unchanged. That comparison showed that eight Windows snapshots (chat,
+help, person bio and Qur'an passage, both layouts) still showed the old phone header or the old
+panel height under a modal's backdrop, within the comparison tolerance, so the whole Windows set
+was rewritten to match the approved changes.
+
 Manual checks for Mostafa (phone and desktop):
 
 1. Phone, first visit (private window): the intro plays; a tap skips it; the first event opens at
