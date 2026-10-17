@@ -901,6 +901,15 @@ The chat design stays (plan, "Keep as is"). Recommended changes, none started:
     dark-mode step points at it on phones. From 640 px up the header is unchanged. Tests reach
     these controls through the menu (`headerControl` in `tests/e2e/support/app.ts`); new test
     for the menu's keys and closing. The phone visual snapshots change (the header).
+15. **Event panel ends above the timeline dock** (2C, desktop from 768 px; known failure 11 fixed).
+    The dock (about 875 px wide, centred) was under the panel at every common width (at 1440 the
+    play button and the first era pill; even at 1920 by 18 px). The dock now publishes its height
+    (`--timeline-dock-height`, like the rail's `--timeline-height`) and the panel's bottom is
+    rail + dock, so the panel is about 60 px shorter and the dock is whole; when the dock is
+    collapsed the panel reaches down again (its existing 0.3 s `bottom` transition). Chosen over
+    moving the dock beside the panel, which only fits from about 1440 px and would cut the era
+    pills on smaller screens (both tried at 1280 and 1440). The desktop visual snapshots with an
+    open panel change (its bottom edge).
 
 ### 2A verification (2026-10-16, Windows 11, Node 20.19.5, Playwright 1.59.1)
 

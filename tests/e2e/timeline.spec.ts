@@ -90,20 +90,17 @@ test.describe('known failure', () => {
   });
 });
 
-test.describe('known failure', () => {
-  // At 1440×900 the event panel (right) overlaps the centered timeline dock, so
-  // the dock's play button and first era pill can't be clicked while it is open.
-  test('with the event panel open, the timeline dock controls are clickable', async ({ page }) => {
-    knownFailure('the event panel covers part of the timeline dock on desktop');
-    await openAppWithEvent(page);
-    for (const name of ['تشغيل', 'العهد النبوي']) {
-      const button = page.getByRole('button', { name, exact: true }).locator('visible=true').first();
-      const hit = await button.evaluate((el) => {
-        const r = el.getBoundingClientRect();
-        const top = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
-        return !!top && (el === top || el.contains(top));
-      });
-      expect(hit, `${name} receives the click`).toBe(true);
-    }
-  });
+// Was known failure 11 in the Phase 0A baseline (fixed in Phase 2C: the desktop
+// event panel ends above the timeline dock).
+test('with the event panel open, the timeline dock controls are clickable', async ({ page }) => {
+  await openAppWithEvent(page);
+  for (const name of ['تشغيل', 'العهد النبوي']) {
+    const button = page.getByRole('button', { name, exact: true }).locator('visible=true').first();
+    const hit = await button.evaluate((el) => {
+      const r = el.getBoundingClientRect();
+      const top = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
+      return !!top && (el === top || el.contains(top));
+    });
+    expect(hit, `${name} receives the click`).toBe(true);
+  }
 });

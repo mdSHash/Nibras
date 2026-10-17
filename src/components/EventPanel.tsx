@@ -163,7 +163,8 @@ export default function EventPanel({
                 : {
                     zIndex: Z_INDEX.eventPanel,
                     top: 'var(--header-h, 64px)',
-                    bottom: 'var(--timeline-height, 110px)',
+                    // Above the rail and the timeline dock (its play button and era pills).
+                    bottom: 'calc(var(--timeline-height, 110px) + var(--timeline-dock-height, 0px))',
                     borderInlineStartColor: eraTheme.color,
                     // Sync with the rail's expand/collapse animation (see mobile note).
                     transition: 'bottom 0.3s cubic-bezier(0.22, 1, 0.36, 1), height 0.3s ease-in-out, width 0.3s ease-in-out',

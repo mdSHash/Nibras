@@ -39,8 +39,33 @@ export const DesktopDock = memo(function DesktopDock(props: DesktopDockProps) {
     requestAnimationFrame(() => target?.focus());
   }, [isDockVisible]);
 
+  // Publish the dock's height (0 below md, where it is not shown) so the
+  // desktop event panel ends above it instead of covering its controls
+  // (EventPanel adds it to --timeline-height). Same approach as the rail's
+  // --timeline-height in Timeline.tsx.
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const publish = (h: number) => {
+      document.documentElement.style.setProperty('--timeline-dock-height', `${Math.round(h)}px`);
+    };
+    publish(el.getBoundingClientRect().height);
+    const ro = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        const box = entry.borderBoxSize?.[0];
+        publish(box ? box.blockSize : el.getBoundingClientRect().height);
+      }
+    });
+    ro.observe(el);
+    return () => {
+      ro.disconnect();
+      document.documentElement.style.removeProperty('--timeline-dock-height');
+    };
+  }, []);
+
   return (
-    <div className="hidden md:block">
+    <div ref={wrapperRef} className="hidden md:block">
       <AnimatePresence>
         {isDockVisible && (
           <motion.div
