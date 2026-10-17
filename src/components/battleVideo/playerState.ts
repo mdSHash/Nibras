@@ -27,13 +27,15 @@ export function playerReducer(state: PlayerState, action: PlayerAction): PlayerS
     case 'ready':
       return state.status === 'loading' ? { ...state, status: 'ready', duration: action.duration } : state;
     case 'playing':
-      return { ...state, status: 'playing', needsTap: false, started: true };
+      return state.status === 'error' ? state : { ...state, status: 'playing', needsTap: false, started: true };
     case 'paused':
     case 'buffering':
     case 'ended':
       return state.status === 'error' ? state : { ...state, status: action.type };
     case 'autoplayBlocked':
-      return state.status === 'ready' ? { ...state, needsTap: true } : state;
+      // Browsers that refuse autoplay may report paused or buffering first, so any state
+      // before the first play counts.
+      return !state.started && state.status !== 'loading' && state.status !== 'error' ? { ...state, needsTap: true } : state;
     case 'error':
       return { ...state, status: 'error', error: action.kind, needsTap: false };
     case 'retry':

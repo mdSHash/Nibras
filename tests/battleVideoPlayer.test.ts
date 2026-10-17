@@ -14,10 +14,13 @@ describe('the battle video player state', () => {
     const blocked = run({ type: 'ready', duration: 1 }, { type: 'autoplayBlocked' });
     expect(blocked.needsTap).toBe(true);
     expect(playerReducer(blocked, { type: 'playing' }).needsTap).toBe(false);
+    // Some browsers report paused or buffering when they refuse autoplay.
+    expect(run({ type: 'ready', duration: 1 }, { type: 'paused' }, { type: 'autoplayBlocked' }).needsTap).toBe(true);
+    expect(run({ type: 'ready', duration: 1 }, { type: 'playing' }, { type: 'paused' }, { type: 'autoplayBlocked' }).needsTap).toBe(false);
   });
 
   it('keeps an error until a retry, which starts a fresh attempt', () => {
-    const failed = run({ type: 'ready', duration: 1 }, { type: 'error', kind: 'unavailable' }, { type: 'paused' });
+    const failed = run({ type: 'ready', duration: 1 }, { type: 'error', kind: 'unavailable' }, { type: 'paused' }, { type: 'playing' });
     expect(failed).toMatchObject({ status: 'error', error: 'unavailable' });
     expect(playerReducer(failed, { type: 'retry' })).toEqual({ ...initialPlayerState, attempt: 1 });
   });

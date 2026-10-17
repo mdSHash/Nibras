@@ -39,6 +39,9 @@ export default function BattleVideoPlayer({
   const [captionsOn, setCaptionsOn] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [tapFailed, setTapFailed] = useState(false);
+  const tapTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  // Where focus was when the player opened (the panel's button), to give it back on close.
+  const [openedFrom] = useState(() => document.activeElement);
   const captions = useLazyContent(battleVideoCaptions, eventSlug(event));
   const engineRef = useRef<VideoEngine | null>(null);
   const hostRef = useRef<HTMLDivElement>(null);
@@ -66,8 +69,10 @@ export default function BattleVideoPlayer({
     });
     engineRef.current = engine;
     setTime(0);
+    setTapFailed(false);
     return () => {
       clearTimeout(autoplayTimer);
+      clearTimeout(tapTimer.current);
       engine.destroy();
       engineRef.current = null;
     };
@@ -80,11 +85,20 @@ export default function BattleVideoPlayer({
     return () => clearInterval(timer);
   }, [playing]);
 
+  // The first play, by tap or key: if the browser still refuses, the poster steps
+  // aside so the visitor can start YouTube's own player.
+  const startByTap = useCallback(() => {
+    engineRef.current?.play();
+    clearTimeout(tapTimer.current);
+    tapTimer.current = setTimeout(() => setTapFailed(true), AUTOPLAY_WAIT_MS);
+  }, []);
+
   const togglePlay = useCallback(() => {
     if (!ready) return;
-    if (playing) engineRef.current?.pause();
+    if (!state.started) startByTap();
+    else if (playing) engineRef.current?.pause();
     else engineRef.current?.play();
-  }, [ready, playing]);
+  }, [ready, playing, state.started, startByTap]);
 
   const seek = useCallback(
     (seconds: number) => {
@@ -117,12 +131,20 @@ export default function BattleVideoPlayer({
     return () => document.removeEventListener('fullscreenchange', onChange);
   }, []);
 
-  // The first tap when autoplay was blocked; if the browser still refuses, the
-  // poster steps aside so the visitor can start YouTube's own player.
-  const startByTap = () => {
-    engineRef.current?.play();
-    setTimeout(() => setTapFailed(true), AUTOPLAY_WAIT_MS);
-  };
+  // A click on the video moves focus into YouTube's frame, where the keys would no
+  // longer reach the player: take focus back. On close, focus returns to where it was.
+  useEffect(() => {
+    const onBlur = () =>
+      setTimeout(() => {
+        const active = document.activeElement;
+        if (active instanceof HTMLIFrameElement && rootRef.current?.contains(active)) rootRef.current.focus();
+      });
+    window.addEventListener('blur', onBlur);
+    return () => {
+      window.removeEventListener('blur', onBlur);
+      if (openedFrom instanceof HTMLElement && openedFrom.isConnected) openedFrom.focus();
+    };
+  }, [rootRef, openedFrom]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -181,7 +203,8 @@ export default function BattleVideoPlayer({
   return (
     <div
       ref={rootRef}
-      className="fixed inset-0 bg-black flex flex-col overflow-hidden text-white"
+      className="fixed inset-0 bg-black flex flex-col overflow-hidden text-white focus:outline-none"
+      tabIndex={-1}
       role="dialog"
       aria-modal="true"
       aria-labelledby={titleId}

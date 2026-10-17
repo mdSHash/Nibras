@@ -236,7 +236,16 @@ export function checkBattleVideos(
 
     const captions: VideoCaption[] = cues.map(cue => {
       const caption = { start: cue.start, end: cue.end, text: collapse(cue.text) };
-      if (!cue.id?.startsWith('quran-')) return caption;
+      // A recitation cue holds only the recitation, and only recitation cues hold ﴿ ﴾:
+      // otherwise narration would be dropped (rule 1) or Qur'an text shown unchecked (rule 2).
+      if (!cue.id?.startsWith('quran-')) {
+        if (/[﴿﴾]/.test(caption.text)) problem(`${folder}/captions.ar.vtt`, `cue at ${cue.start} s has ﴿ ﴾ but no quran-<surah>-<ayah> id`);
+        return caption;
+      }
+      if (!/^﴿[^﴾]*﴾$/.test(caption.text)) {
+        problem(`${folder}/captions.ar.vtt`, `${cue.id}: a Qur'an cue holds only the recited words, inside ﴿ ﴾`);
+        return caption;
+      }
       const quran = quranCueText(cue, verses);
       if ('problem' in quran) {
         problem(`${folder}/captions.ar.vtt`, `${cue.id}: ${quran.problem}`);

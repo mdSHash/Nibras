@@ -41,6 +41,7 @@ Nibras (نِبْرَاس — "lamp" or "light" in Arabic) is an interactive web 
 ## Features
 
 - **Interactive Timeline** — 131 chronological events spanning the Prophetic era (571 CE) and all four Rashidun caliphates (632–661 CE). Filter by era or category. Events with a playable cinematic battle are marked with a gold ▷ badge on the timeline diamond, the search list, and the map pin so watchable moments are recognizable at a glance.
+- **Battle Videos** — a narrated video per battle is replacing the replays, one battle at a time (Badr first). It plays from YouTube (unlisted) with Nibras's own Arabic controls and the reviewed Arabic captions (on by default, Qur'an recitations in Quran.com text); battles without a video yet open their replay. Adding one: `docs/CONTENT_GUIDE.md`, "Adding a battle video".
 - **Cinematic Battle Replay Engine** — 12 fully scripted battles rendered with PixiJS WebGL at 60fps. Each unit is a stylized soldier silhouette per troop type (infantry, cavalry, archers, elephant, camel rider, …). Includes:
   - **Autonomous combat resolution** — units close to melee range, exchange damage, take visible casualties (fallen-soldier silhouettes appear in formation as numbers drop)
   - **Cinematic auto-camera** — pans + zooms onto engagements, snaps to dying units, yields to authored keyframes. Every scenario opens at the "fit the whole battlefield" zoom, which is also the widest view the camera can reach — the reset-view button snaps back to it, and no cinematic keyframe can pan wider. Mobile viewports reserve space for the top header + narration + controls so no unit ends up behind the chrome.
@@ -121,7 +122,7 @@ The app will be available at `http://localhost:3000`.
 1. **Timeline Navigation** — Use the vertical timeline on the right to browse events chronologically. Filter by era (Meccan, Medinan, Rashidun) or event type.
 2. **Map Exploration** — Click markers on the map to view event details. Territorial polygons update as you move through time.
 3. **Event Details** — Select any event to open the detail panel with full description, companion roles, Quran references, and TTS narration.
-4. **Battle Replay** — Events tagged as battles display a "Watch Battle" button. Click to launch the full-screen cinematic replay with play/pause controls and narration.
+4. **Battle Video or Replay** — Battles show «مشاهدة المعركة» under the summary. It opens the battle's narrated video with Arabic captions where one exists (keyboard: Space/K play, ←/→ seek, M mute, C captions, F full screen, Esc close), else the full-screen cinematic replay.
 5. **Search** — Open the search drawer (Ctrl+K on desktop, magnifier icon on mobile) to filter events by keyword, era, or type. Search is diacritic-tolerant Arabic: `معركه` matches `معركة`, `بدر الكبرى` matches `غزوة بدر الكبرى`, and tokens can appear in any order across title, summary, description, location, or year.
 6. **Autoplay** — Enable player mode to auto-advance through events with narration.
 

@@ -13,8 +13,8 @@ export const FAKE_YOUTUBE_API = `(() => {
       box.style.cssText = 'width:100%;height:100%;background:#123';
       element.replaceWith(box);
       const frame = document.createElement('iframe');
-      let base = 0, startedAt = null, muted = false, state = -1;
-      const now = () => base + (startedAt === null ? 0 : (performance.now() - startedAt) / 1000);
+      let base = 0, startedAt = null, muted = false, state = -1, held = false;
+      const now = () => base + (startedAt === null || held ? 0 : (performance.now() - startedAt) / 1000);
       const setState = (next) => { state = next; options.events.onStateChange({ data: next }); };
       const player = {
         playVideo() { if (state !== PLAYING) { startedAt = performance.now(); setState(PLAYING); } },
@@ -28,7 +28,14 @@ export const FAKE_YOUTUBE_API = `(() => {
         getIframe() { return frame; },
         destroy() { box.remove(); },
       };
-      window.__fakeYouTube = { player, videoId: options.videoId, get state() { return state; }, end() { base = DURATION; startedAt = null; setState(ENDED); } };
+      window.__fakeYouTube = {
+        player,
+        videoId: options.videoId,
+        get state() { return state; },
+        /** Stops the clock at \`seconds\` while the video still reports playing. */
+        hold(seconds) { base = seconds; held = true; },
+        end() { base = DURATION; startedAt = null; setState(ENDED); },
+      };
       setTimeout(() => options.events.onReady({ target: player }), 50);
       return player;
     },

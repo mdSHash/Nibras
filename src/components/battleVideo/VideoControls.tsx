@@ -1,6 +1,6 @@
 // The battle video's controls bar (Phase 3H), in the replay player's style:
 // round dark buttons, a green progress bar filling left to right, Arabic labels.
-import { Captions, CaptionsOff, Maximize, Minimize, Pause, Play, RotateCcw, RotateCw, Volume2, VolumeX } from 'lucide-react';
+import { Captions, CaptionsOff, FastForward, Maximize, Minimize, Pause, Play, Rewind, Volume2, VolumeX } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { formatTime } from './playerState';
 
@@ -58,10 +58,10 @@ export function VideoControls(props: VideoControlsProps) {
           {playing ? <Pause className="w-5 h-5" aria-hidden /> : <Play className="w-5 h-5" aria-hidden />}
         </ControlButton>
         <ControlButton label="رجوع ١٠ ثوانٍ" onClick={() => props.onSeek(time - 10)} disabled={!ready}>
-          <RotateCcw className="w-5 h-5" aria-hidden />
+          <Rewind className="w-5 h-5" aria-hidden />
         </ControlButton>
         <ControlButton label="تقديم ١٠ ثوانٍ" onClick={() => props.onSeek(time + 10)} disabled={!ready}>
-          <RotateCw className="w-5 h-5" aria-hidden />
+          <FastForward className="w-5 h-5" aria-hidden />
         </ControlButton>
 
         <span className="text-gray-300 text-xs font-mono tabular-nums min-w-[78px] text-center" dir="ltr" aria-hidden>

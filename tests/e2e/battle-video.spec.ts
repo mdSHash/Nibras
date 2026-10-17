@@ -31,9 +31,11 @@ test('a battle with a video opens it with Arabic controls and captions (stub vid
   }
   await expect(player.getByRole('slider', { name: 'موضع الفيديو' })).toBeEnabled();
 
-  // Captions are on: the first one shows once the clock passes its start.
+  // Captions are on: the clock held inside the first caption shows it.
   const band = page.getByTestId('video-captions');
-  await expect(band).toHaveText(captions[0].text, { timeout: 5_000 });
+  const inFirst = (captions[0].start + captions[0].end) / 2;
+  await page.evaluate((t) => (window as unknown as { __fakeYouTube: { hold(t: number): void } }).__fakeYouTube.hold(t), inFirst);
+  await expect(band).toHaveText(captions[0].text);
 
   // Keyboard: C hides the captions, K pauses.
   await page.keyboard.press('c');

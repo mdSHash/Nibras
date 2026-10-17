@@ -66,6 +66,8 @@ declare global {
 
 const API_URL = 'https://www.youtube.com/iframe_api';
 const API_TIMEOUT_MS = 15_000;
+/** How long the player may take to get ready once the API has loaded (a blocked frame never does). */
+const READY_TIMEOUT_MS = 20_000;
 let api: Promise<YTNamespace> | null = null;
 
 /** Loads the IFrame API script once; a failure is forgotten, so a retry loads it again. */
@@ -106,6 +108,7 @@ export function createYouTubeEngine(host: HTMLElement, videoId: string, onEvent:
   host.appendChild(mount);
   let player: YTPlayer | null = null;
   let destroyed = false;
+  let readyTimer: ReturnType<typeof setTimeout> | undefined;
   // YouTube turns on its own (auto-generated) captions for some viewers even with
   // cc_load_policy 0; Nibras shows the reviewed captions, so YouTube's are unloaded.
   const hideYouTubeCaptions = () => {
@@ -116,6 +119,8 @@ export function createYouTubeEngine(host: HTMLElement, videoId: string, onEvent:
   loadYouTubeApi().then(
     (YT) => {
       if (destroyed) return;
+      // A frame blocked by an extension or a network filter sends neither ready nor error.
+      readyTimer = setTimeout(() => !destroyed && onEvent({ type: 'error', kind: 'script' }), READY_TIMEOUT_MS);
       player = new YT.Player(mount, {
         videoId,
         host: 'https://www.youtube-nocookie.com',
@@ -135,6 +140,7 @@ export function createYouTubeEngine(host: HTMLElement, videoId: string, onEvent:
         },
         events: {
           onReady: () => {
+            clearTimeout(readyTimer);
             if (destroyed || !player) return;
             // The controls are Nibras's own; the frame itself is not a tab stop.
             player.getIframe().tabIndex = -1;
@@ -148,6 +154,7 @@ export function createYouTubeEngine(host: HTMLElement, videoId: string, onEvent:
             if (!destroyed && type) onEvent({ type } as EngineEvent);
           },
           onError: ({ data }) => {
+            clearTimeout(readyTimer);
             if (!destroyed) onEvent({ type: 'error', kind: ERROR_KIND[data] ?? 'unplayable' });
           },
         },
@@ -166,6 +173,7 @@ export function createYouTubeEngine(host: HTMLElement, videoId: string, onEvent:
     time: () => player?.getCurrentTime() ?? 0,
     destroy: () => {
       destroyed = true;
+      clearTimeout(readyTimer);
       player?.destroy();
       host.replaceChildren();
     },

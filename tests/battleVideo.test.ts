@@ -141,6 +141,13 @@ describe('the video check fails', () => {
     ]);
   });
 
+  it("when a Qur'an cue holds narration too, or a narration cue holds ﴿ ﴾", () => {
+    const extra = messages(withBadrFile('captions.ar.vtt', t => t.replace(/(quran-8-17-part\n[^\n]+\n)(﴿)/, '$1قال: $2')));
+    expect(extra.some(i => i.endsWith("quran-8-17-part: a Qur'an cue holds only the recited words, inside ﴿ ﴾"))).toBe(true);
+    const unmarked = messages(withBadrFile('captions.ar.vtt', t => t.replace('quran-8-17-part\n', '')));
+    expect(unmarked.some(i => /cue at 205\.27 s has ﴿ ﴾ but no quran-<surah>-<ayah> id/.test(i))).toBe(true);
+  });
+
   it('when a sources.md row names a line the script does not have', () => {
     const issues = messages(withBadrFile('sources.md', t => t.replace('| 42 |', '| 43 |')));
     expect(issues).toEqual(['battle-videos/battle-badr/sources.md: line 43 is not a transcript line (1–42)']);
