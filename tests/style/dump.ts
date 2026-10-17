@@ -114,7 +114,20 @@ export async function dumpStyles(page: Page, scope?: string): Promise<StyleDump>
       };
       // Resolved colors: rgb()/rgba() and the CSS Color 4 forms Chrome serializes.
       const COLOR = /\b(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch|color)\((?:[^()]|\([^()]*\))*\)|#[0-9a-fA-F]{3,8}\b|\btransparent\b/g;
-      const normalize = (value: string) => value.replace(COLOR, paint);
+      // A gradient whose stops include a modern color (oklab(), from Tailwind's
+      // color-mix) interpolates in oklab by default, and Chrome then leaves
+      // "in oklab" out; with only legacy rgb() stops the default is srgb. Spell
+      // the default out, so equal gradients compare equal and a real change of
+      // interpolation still shows.
+      const GRADIENT = /((?:repeating-)?(?:linear|radial|conic)-gradient\()((?:[^()]|\((?:[^()]|\([^()]*\))*\))*)\)/g;
+      const explicit = (value: string) =>
+        value.replace(GRADIENT, (whole, head: string, body: string) =>
+          / in (?:oklab|oklch|srgb|srgb-linear|lab|lch|hsl|hwb|display-p3|xyz)/.test(` ${body}`) ||
+          !/\b(?:oklab|oklch|lab|lch|color)\(/.test(body)
+            ? whole
+            : `${head}${/^\s*(?:to |\d|-\d|[\d.]+(?:deg|turn|rad))/.test(body) ? body.replace(/^([^,]*)/, '$1 in oklab') : `in oklab, ${body}`})`,
+        );
+      const normalize = (value: string) => explicit(value).replace(COLOR, paint);
 
       const root = scope ? document.querySelector(scope) : document.documentElement;
       if (!root) throw new Error(`no element matches ${scope}`);

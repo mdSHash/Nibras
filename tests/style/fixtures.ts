@@ -28,6 +28,22 @@ export { expect };
 
 const MAX_LISTED = 60;
 
+/**
+ * Chrome writes the same gradient differently depending on how it was declared
+ * (`to right` or `90deg`, an `in oklab` hint or none when oklab is the default
+ * for its stops). Compare the direction as an angle and the colors as painted;
+ * the interpolation hint is left out (the screenshot still sees the result).
+ */
+function canonical(line: string): string {
+  if (!line.startsWith('background-image:')) return line;
+  const angles: Record<string, string> = { top: '0deg', right: '90deg', bottom: '180deg', left: '270deg' };
+  return line
+    .replace(/ in (?:oklab|oklch|srgb|srgb-linear|lab|lch|hsl|hwb)(?: (?:shorter|longer|increasing|decreasing) hue)?/g, '')
+    .replace(/(linear-gradient\()in [a-z-]+, /g, '$1')
+    .replace(/(linear-gradient\()to (top|right|bottom|left)\b/g, (_m, head: string, side: string) => head + angles[side])
+    .replace(/(linear-gradient\()180deg, /g, '$1');
+}
+
 function compare(baseDump: StyleDump, dump: StyleDump): string[] {
   const lines: string[] = [];
   const moving = new Set([...baseDump.moving, ...dump.moving]);
@@ -48,7 +64,7 @@ function compare(baseDump: StyleDump, dump: StyleDump): string[] {
     for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
       // A value caught moving in either run (a loop or a spring still running) is not compared.
       if (pa[i]?.endsWith(': (moving)') || pb[i]?.endsWith(': (moving)')) continue;
-      if (pa[i] !== pb[i]) lines.push(`${path} ${dump.labels[path] ?? ''}\n    - ${pa[i]}\n    + ${pb[i]}`);
+      if (pa[i] !== pb[i] && canonical(pa[i] ?? '') !== canonical(pb[i] ?? '')) lines.push(`${path} ${dump.labels[path] ?? ''}\n    - ${pa[i]}\n    + ${pb[i]}`);
     }
   }
   return lines;
