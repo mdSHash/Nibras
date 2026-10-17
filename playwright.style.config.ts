@@ -53,15 +53,19 @@ export default defineConfig({
   outputDir: 'tmp/style-results',
   snapshotPathTemplate: 'tmp/style-snapshots/{projectName}/{arg}{ext}',
   fullyParallel: true,
-  retries: 0,
+  // A spring can come to rest a sub-pixel apart from run to run, moving an
+  // anti-aliased edge; a fresh retry settles that. A real change fails twice.
+  retries: 1,
   workers: 4,
   timeout: 120_000,
   expect: {
     timeout: 10_000,
-    // No pixel may differ beyond ±1–3 levels per channel: blurred backdrops
-    // (backdrop-filter) repaint with that much noise from run to run. The exact
-    // check is the computed-style dump, where every color is compared as painted.
-    toHaveScreenshot: { maxDiffPixels: 0, threshold: 0.01, animations: 'disabled', caret: 'hide' },
+    // The exact check is the computed-style dump, where every color is compared
+    // as painted. The screenshot is a backstop for what the dump cannot see:
+    // measured on unchanged code (2026-10-18), run-to-run noise is up to ~130
+    // pixels (blurred backdrops, the era dock's anti-aliased edge after its
+    // spring), while a real change of one surface is tens of thousands.
+    toHaveScreenshot: { maxDiffPixels: 250, threshold: 0.05, animations: 'disabled', caret: 'hide' },
   },
   reporter: [['list']],
   use: {

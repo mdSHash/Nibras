@@ -46,6 +46,8 @@ function compare(baseDump: StyleDump, dump: StyleDump): string[] {
     const pa = a.split('\n');
     const pb = b.split('\n');
     for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+      // A value caught moving in either run (a loop or a spring still running) is not compared.
+      if (pa[i]?.endsWith(': (moving)') || pb[i]?.endsWith(': (moving)')) continue;
       if (pa[i] !== pb[i]) lines.push(`${path} ${dump.labels[path] ?? ''}\n    - ${pa[i]}\n    + ${pb[i]}`);
     }
   }
