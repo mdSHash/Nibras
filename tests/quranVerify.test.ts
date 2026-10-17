@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import path from 'path';
 import quranPassages from '../src/generated/quranPassages.json';
+import verseFile from '../content/quran/verses.json';
 import { buildSurahIndex, loadTanzil, verifyInlineQuote, verifyQuranEntry } from '../scripts/chat-kb/quranVerify';
 
 const TANZIL = path.join(__dirname, '../scripts/data/tanzil');
@@ -17,6 +18,15 @@ describe('Tanzil text files', () => {
 describe('verifyQuranEntry', () => {
   it('accepts every passage in src/generated/quranPassages.json (the Quran.com text)', () => {
     for (const { key, ...entry } of quranPassages) {
+      const verdict = verifyQuranEntry(entry, uthmani);
+      expect(verdict.ok, `${key}: ${verdict.detail}`).toBe(true);
+    }
+  });
+
+  it("accepts every verse in content/quran/verses.json, the battle videos' recitations included", () => {
+    for (const [key, text] of Object.entries(verseFile.verses)) {
+      const [surah, ayah] = key.split(':').map(Number);
+      const entry = { text: `${text} ﴿${String(ayah).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[Number(d)])}﴾`, surah, from: ayah, to: ayah };
       const verdict = verifyQuranEntry(entry, uthmani);
       expect(verdict.ok, `${key}: ${verdict.detail}`).toBe(true);
     }

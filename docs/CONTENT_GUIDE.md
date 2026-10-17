@@ -51,6 +51,7 @@ content/
   quran/verses.json         verse text from Quran.com (written by npm run fetch:quran)
   territories/regions.json  the territory map's seed points and land outline
   territories/control.json  who holds each region, period by period
+  battle-videos/<event id>/ a battle video's captions.ar.vtt, transcript.txt and sources.md
 ```
 
 ## Adding or editing an event
@@ -98,6 +99,30 @@ Create or edit `content/cities/<id>.json`; coordinates are `[latitude, longitude
    builds and CI stay offline.
 3. Never edit `verses.json` by hand. The chat KB build also checks the text against the Tanzil copy
    in `scripts/data/tanzil/`.
+
+## Adding a battle video
+
+A battle with a video opens it instead of its replay, from the event panel's «مشاهدة المعركة» and
+from `/battle/<battleScenarioId>/`. The video is hosted on YouTube; the site shows it with its own
+Arabic controls and captions. The delivered files stay in `Video/<battle>/` (not in git), never
+deleted.
+
+1. Upload the video to YouTube as **unlisted**, with embedding allowed. Its id is the part after
+   `youtu.be/`.
+2. Copy the three reviewed files, unchanged, into `content/battle-videos/<event id>/`:
+   `captions.ar.vtt` (timed Arabic captions), `transcript.txt` (the narration script: one line per
+   paragraph, each starting with its `[voice direction]`) and `sources.md` (the facts table: script
+   line → claim → source). Copy the 1280×720 poster to `public/videos/<event id>/poster.jpg`.
+3. Add `battleVideo: { "provider": "youtube", "id": "…", "durationSec": … }` to the event (it must
+   have `isBattle: true` and a `battleScenarioId`).
+4. Qur'an recitations: give each such cue an id, `quran-<surah>-<ayah>` for a whole verse or
+   `quran-<surah>-<ayah>-part` for part of one, with the recited words inside ﴿ ﴾. Run
+   `npm run fetch:quran`: the site shows Quran.com's words, never the caption's own.
+5. Run `npm run build:content`. It fails, naming the cue or line, if a caption differs from the
+   transcript (voice directions aside), cues overlap or run past `durationSec`, a recitation is not
+   in the verse its id names, or a `sources.md` row points to a line the script does not have.
+6. Run `npm run build:chat-kb` (the chat reads the captions with their sources: only the Arabic book
+   references are shown) and `npm run verify`.
 
 ## Eras, categories and territories
 
@@ -184,6 +209,10 @@ a field not listed here is an error.
 | `hadith` | list of text | yes | Hadith references, as shown. |
 | `sources` | list of text | yes | Sources, as shown. |
 | `battleScenarioId` | slug (`a-z`, `0-9`, `-`) |  | Battle replay (`src/battlefield/scenarios`), e.g. `battle-of-badr`. |
+| `battleVideo` | object |  | The battle's narrated video; it opens instead of the replay. Needs `battleScenarioId` (its address) and the folder `content/battle-videos/<id>/` (see "Adding a battle video"). |
+| `battleVideo.provider` | `"youtube"` | yes | Where the video is hosted. Only `youtube` (unlisted, embeddable) for now. |
+| `battleVideo.id` | text matching `^[A-Za-z0-9_-]{11}$` | yes | The YouTube video id, e.g. `HCQru0jnWeA` from `https://youtu.be/HCQru0jnWeA`. |
+| `battleVideo.durationSec` | integer ≥ 1 | yes | Length in whole seconds, rounded up; every caption must end by then. |
 | `route` | list of pair `[number, number]` (at least 2) |  | A route drawn on the map, `[latitude, longitude]` points. |
 
 ### Person: `content/people/<id>.json`

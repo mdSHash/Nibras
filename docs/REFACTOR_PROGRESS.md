@@ -1162,3 +1162,48 @@ Manual checks for Mostafa (phone and desktop):
 5. Text looks as before (fonts now from the site; in the browser's network tab no request goes to
    `fonts.googleapis.com` or `fonts.gstatic.com`).
 6. Phone (Chrome/Android): ⋮ → "Add to home screen" shows «نبراس» with the golden-star icon.
+
+**3A merged**: PR #7, merge commit `59dd6dd` (2026-10-17).
+
+### 3H — battle videos (Badr first)
+
+Started 2026-10-17 on `refactor/phase-3h-videos` from `main` at `59dd6dd` (PR #7 merged). Before any
+change, `npm run verify` passed: Vitest 229/229, content snapshot and behavior map identical, 356
+pre-rendered pages, bundle budget within limits, feature tests 79 passed (0 known failures), 1
+skipped, phone smoke 42/42, visual 16/16.
+
+#### Decisions by Mostafa (3H)
+
+- 2026-10-17: **free options only.** Videos are on YouTube (unlisted, embeddable), played through the
+  YouTube IFrame API with Nibras's own Arabic controls and captions. Content stores
+  `battleVideo: { provider: 'youtube', id }` (plus `durationSec`), so a paid host later is a content
+  change. Video files live in `Video/<battle>/` (ignored by git); the originals are kept, never
+  deleted.
+- 2026-10-17: **replays stay frozen and untested** (rule 8). A battle opens its video if it has one,
+  else its replay. Video tests stay light: one stub-video test, never the real videos.
+- 2026-10-17: **Badr is complete** (`Video/Badr/`, checked 2026-10-17): `battle-badr.mp4` (4:41,
+  1080p30 H.264/AAC), YouTube `HCQru0jnWeA` (unlisted, embeddable), `poster.jpg` (1920×1080),
+  `poster_1280x720.jpg`, `Transcript.txt`, `facts.md` (every claim with its source),
+  `captions.ar.vtt` (74 timed cues, text identical to the transcript without the voice directions).
+  Cues `quran-8-9`, `quran-8-17-part` and `quran-3-123-part` are recitations: their text comes from
+  `content/quran/verses.json` (rule 2), never from the VTT; for "-part" cues only the recited
+  words, taken from the Quran.com text. 8:17 and 3:123 added to the fetch.
+- 2026-10-17: **captions are reviewed content** (rule 1): copied into `content/` unchanged (except
+  the Qur'an cue text), shown as subtitles (on by default), read by the chat KB with the video's
+  sources from `facts.md`.
+- 2026-10-17, Badr's facts:
+  1. «معاهم فرسين بس» (two horses) stays as narrated (Ibn Hisham), although Musnad Ahmad 1023 says
+     al-Miqdad was the only horseman. *(Recorded from a message whose Arabic arrived garbled; Mostafa
+     to confirm this reading.)*
+  2. Al-Hubab's advice stays (sira report, broken chain).
+  3. **The Badr event is not changed**: facts only the video states (14 martyrs, two horses,
+     al-Hubab, ʿUmayr ibn al-Humam, Bilal and Umayya, the qalib) stay in the video's captions and
+     `facts.md`. All events, companions and cities will be enriched later, with new TTS.
+  4. 313 stays as in the event («حوالي ٣١٣»).
+- 2026-10-17 (plan answers): the player **looks like today's replay** (dark full-screen overlay,
+  same buttons); the battle button reads **«مشاهدة المعركة»** for every battle and moves **near the
+  top of the event panel** (under the summary), because not every visitor scrolls to the end; when
+  YouTube cannot play, the error offers **«إعادة المحاولة»** and **the replay instead**; for a battle
+  with a video, **the captions replace the replay narration in the chat KB**; a chat answer quoting
+  a caption shows **only the Arabic book references** of its line (English notes in `facts.md` are
+  left out; the file itself is copied unchanged).

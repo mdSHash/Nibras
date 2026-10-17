@@ -127,6 +127,16 @@ export const eventSchema = z.strictObject({
   hadith: z.array(text).describe('Hadith references, as shown.'),
   sources: z.array(text).describe('Sources, as shown.'),
   battleScenarioId: slug.optional().describe('Battle replay (`src/battlefield/scenarios`), e.g. `battle-of-badr`.'),
+  battleVideo: z
+    .strictObject({
+      provider: z.literal('youtube').describe('Where the video is hosted. Only `youtube` (unlisted, embeddable) for now.'),
+      id: z.string().regex(/^[A-Za-z0-9_-]{11}$/, 'a YouTube video id (11 characters)').describe('The YouTube video id, e.g. `HCQru0jnWeA` from `https://youtu.be/HCQru0jnWeA`.'),
+      durationSec: z.number().int().positive().describe('Length in whole seconds, rounded up; every caption must end by then.'),
+    })
+    .optional()
+    .describe(
+      'The battle\'s narrated video; it opens instead of the replay. Needs `battleScenarioId` (its address) and the folder `content/battle-videos/<id>/` (see "Adding a battle video").',
+    ),
   route: z.array(latLng).min(2).optional().describe('A route drawn on the map, `[latitude, longitude]` points.'),
 });
 
