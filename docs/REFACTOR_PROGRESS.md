@@ -1088,3 +1088,29 @@ build, per-IP rate limit), **3D** audio (manifest by event id, compressed narrat
 - 2026-10-17: **battle videos**: Badr is ready but its voice is being fixed; Mostafa sends the video
   and its narration script when done. 3H waits for them.
 - 2026-10-17: **old scripts and `server/` are archived** (moved to `scripts/archive/`), not deleted.
+
+### Intentional behavior changes (3A)
+
+1. **Map attribution shown** (known failure 5): Leaflet's attribution control, top-left under the
+   header (the one corner the event panel and the timeline never cover), in the app's colours:
+   «Leaflet | المصدر: Esri وMaxar وEarthstar Geographics ومجتمع مستخدمي GIS» (Esri's current
+   credit line for World Imagery). Visible in every screenshot.
+2. **One `data-tour-id="search-button"`** (known failure 6): the compact search button (below
+   `lg`) is now `search-button-compact`; the tour's search step lists both, as the dark-mode step
+   already did.
+3. **No toast on next/previous** (known failure 7). The "page not found" toast stays.
+4. **No playback speed control** (known failure 10; approved 2026-10-15): the 2×/3× button is gone
+   from the desktop and phone player strips; autoplay narrates at 1× and waits 5 s without
+   narration.
+5. **Fonts served with the site** instead of Google Fonts: `src/fonts.ts` imports the Fontsource
+   packages (OFL) for the same families and weights (Tajawal 400/500/700/900, Amiri 400/700, Amiri
+   Quran 400). All 16 files Google served are byte-identical to the Fontsource ones, so text renders
+   the same. The intro loads Amiri 700 through `document.fonts.load` instead of injecting a second
+   Google link. No request leaves the site for fonts; the first-load request count leaves out
+   `.woff`/`.woff2` files (as it left out `fonts.gstatic.com`). The test copies of Google's files
+   (`tests/e2e/assets/fonts/`) and their stubs are removed; `fetch-test-fonts.ts` is archived in
+   `scripts/archive/`.
+6. **Web manifest and icons**: `public/manifest.webmanifest` (Arabic name, RTL, standalone, the
+   icon's colours), `icon-192.png`, `icon-512.png`, `icon-maskable-512.png`,
+   `apple-touch-icon.png`, drawn from `favicon.svg` by `scripts/make-site-images.ts`. No service
+   worker (no offline mode).
