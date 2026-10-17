@@ -10,7 +10,9 @@ import { slideInRight, staggerContainer, staggerItem } from '../utils/motionVari
 import { Z_INDEX } from '../constants';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useSwipeGesture } from '../hooks/useSwipeGesture';
-import { normalizeForSearch, tokenizeQuery } from '../../shared/arabic';
+import { tokenizeQuery } from '../../shared/arabic';
+import { searchTexts, useLazyContent } from '../lazyContent';
+import { ContentLoadState } from './ContentLoadState';
 
 interface SearchMenuProps {
   isOpen: boolean;
@@ -36,33 +38,22 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
     threshold: 60
   });
 
-  // Pre-normalize each event once per `events` prop change. A single lowercased,
-  // diacritic-stripped haystack per event lets filtering shrink to a token loop
-  // without re-allocating for every keystroke.
-  const eventHaystacks = useMemo(() => {
-    const map = new Map<string, string>();
-    events.forEach(e => {
-      const parts = [
-        e.title,
-        e.summary,
-        e.fullDescription,
-        e.location.nameAr,
-        String(e.date.sortKey),
-        e.date.labelAr,
-      ].join(' ');
-      map.set(e.id, normalizeForSearch(parts));
-    });
-    return map;
-  }, [events]);
+  // Each event's normalized text (title, summary, full description, place,
+  // year, date label) comes precomputed from the search index, which loads
+  // when the drawer first opens. Until it arrives a query has no results yet
+  // (null), so the list never shows matches from part of the text.
+  const searchIndex = useLazyContent(searchTexts, isOpen ? 'events' : null);
+  const haystacks = searchIndex.status === 'ready' ? searchIndex.data : null;
 
   const filteredEvents = useMemo(() => {
     const tokens = tokenizeQuery(debouncedSearch);
     if (!tokens.length) return events;
+    if (!haystacks) return null;
     return events.filter(e => {
-      const haystack = eventHaystacks.get(e.id) ?? '';
+      const haystack = haystacks[e.id] ?? '';
       return tokens.every(t => haystack.includes(t));
     });
-  }, [debouncedSearch, events, eventHaystacks]);
+  }, [debouncedSearch, events, haystacks]);
 
   return (
     <AnimatePresence>
@@ -174,7 +165,7 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
                 'rounded-full border border-[var(--color-accent)]/20',
                 'text-xs md:text-sm'
               )}>
-                {filteredEvents.length} حدث
+                {filteredEvents ? `${filteredEvents.length} حدث` : '…'}
               </div>
             </div>
 
@@ -283,7 +274,9 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
               role="listbox"
               aria-label="نتائج البحث"
             >
-              {filteredEvents.length === 0 ? (
+              {filteredEvents === null ? (
+                <ContentLoadState state={searchIndex} lines={4} className="p-2" />
+              ) : filteredEvents.length === 0 ? (
                 <div className="flex items-center justify-center h-full">
                   <EmptyState
                     icon={<Search size={48} />}

@@ -10,6 +10,8 @@ export default tseslint.config(
   {
     ignores: [
       'dist/**',
+      // Battle replays are left out of every check until videos replace them (2026-10-17).
+      'src/battlefield/**',
       'public/**',
       'tmp/**',
       'test-results/**',

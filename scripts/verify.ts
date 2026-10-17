@@ -103,7 +103,7 @@ const steps: Step[] = [
   },
   { id: 'snapshot', name: 'Content snapshot', command: 'npx tsx scripts/baseline/content-snapshot.ts' },
   { id: 'behavior', name: 'Behavior map', command: 'npx tsx scripts/baseline/behavior-map.ts' },
-  { id: 'build', name: 'Production build', command: 'npx vite build', env: { VITE_CHAT_API_URL: TEST_CHAT_API_URL } },
+  { id: 'build', name: 'Production build', command: 'npx vite build && npx tsx scripts/prerender.ts', env: { VITE_CHAT_API_URL: TEST_CHAT_API_URL } },
   { id: 'bundle', name: 'Bundle budget', command: 'npx tsx scripts/baseline/bundle-report.ts' },
   {
     // Three workers locally: the 12 battle replays render with WebGL and saturate a laptop CPU at four.

@@ -3,7 +3,7 @@
 // CSS animations are disabled, so screenshots repeat. Stored per platform in
 // tests/baseline/visual/<project>/; update only after Mostafa approves.
 import { test, expect, useChatResponder } from './support/fixtures';
-import { content, header, openAppWithEvent, openEventBySearch, panel, panelTitle } from './support/app';
+import { content, header, headerControl, openAppWithEvent, openEventBySearch, panel, panelTitle } from './support/app';
 import { defaultChatReply } from './support/chatMock';
 import type { Page } from '@playwright/test';
 
@@ -76,6 +76,8 @@ async function shot(page: Page, name: string): Promise<void> {
     }
   });
   await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur());
+  // Texts that load on demand (Phase 2B) must have arrived.
+  await expect(page.getByRole('status', { name: 'جارٍ التحميل' })).toHaveCount(0);
   await waitUntilStill(page);
   await pinView(page);
   await expect(page).toHaveScreenshot(`${name}.png`, { timeout: 20_000 });
@@ -93,7 +95,7 @@ test.describe('visual @phone @visual', () => {
 
   test('dark mode', async ({ page }) => {
     await openAppWithEvent(page);
-    await header.darkMode(page).click();
+    await (await headerControl(page, 'darkMode')).click();
     await settle(page, 3_500);
     await shot(page, 'dark-mode');
   });
@@ -136,7 +138,7 @@ test.describe('visual @phone @visual', () => {
   test('help', async ({ page }) => {
     await openAppWithEvent(page);
     await settle(page, 3_000);
-    await header.help(page).click();
+    await (await headerControl(page, 'help')).click();
     await expect(page.getByRole('dialog', { name: /دليل/ })).toBeVisible();
     await settle(page);
     await shot(page, 'help');
@@ -154,19 +156,5 @@ test.describe('visual @phone @visual', () => {
     await input.blur();
     await settle(page);
     await shot(page, 'chat');
-  });
-
-  test('Badr replay at 40%', async ({ page }) => {
-    await openAppWithEvent(page);
-    await openEventBySearch(page, 'battle-badr', 'بدر');
-    await panel(page).getByRole('button', { name: 'مشاهدة المعركة على الخريطة' }).click();
-    await expect(page.getByText('جارٍ تحميل المعركة...')).toBeHidden({ timeout: 30_000 });
-    const bar = page.getByRole('slider', { name: 'شريط التقدم' });
-    const box = (await bar.boundingBox())!;
-    await page.mouse.click(box.x + box.width * 0.4, box.y + box.height / 2);
-    await expect(bar).toHaveAttribute('aria-valuenow', '40');
-    await page.mouse.move(0, 0);
-    await settle(page, 2_500);
-    await shot(page, 'badr-replay-40');
   });
 });

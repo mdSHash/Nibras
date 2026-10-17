@@ -25,7 +25,6 @@ async function readPanel(page: Page) {
       quranChips: [...root.querySelectorAll('article button')]
         .filter((b) => b.textContent?.includes('عرض الآيات'))
         .map((b) => b.querySelector('span')?.textContent ?? ''),
-      battleButton: !!root.querySelector('button[aria-label="مشاهدة المعركة على الخريطة"]'),
     };
   });
 }
@@ -43,7 +42,6 @@ async function expectPanelMatchesBaseline(page: Page, id: string): Promise<void>
   expect(shown.roles, `${id}: companion cards`).toEqual(expected.companionRoles.map((p) => p.name));
   expect(shown.figures, `${id}: other figures`).toEqual(expected.keyFigures.map((p) => p.name));
   expect(shown.quranChips, `${id}: Quran chips`).toEqual(expected.quran.filter((q) => q.key !== 'unmatched').map((q) => q.ref));
-  expect(shown.battleButton, `${id}: replay button`).toBe(!!expected.battle?.available);
 }
 
 test('every event renders as in the content baseline, walking the timeline with the arrow keys', async ({ page }) => {
@@ -79,8 +77,10 @@ test('a companion card and a figure chip open the right biography', async ({ pag
     await panel(page).getByRole('button', { name: person.name }).first().click();
     const dialog = page.getByRole('dialog', { name: companion.name });
     await expect(dialog).toBeVisible();
-    const paragraphs = await dialog.locator('p').allTextContents();
-    expect(paragraphs.map((p) => hash16(p))).toContain(companion.bio);
+    // The bio loads when the window opens (Phase 2B), so wait for it.
+    await expect
+      .poll(async () => (await dialog.locator('p').allTextContents()).map((p) => hash16(p)))
+      .toContain(companion.bio);
     await dialog.getByRole('button', { name: 'إغلاق' }).click();
     await expect(dialog).toBeHidden();
     await expect(panelTitle(page)).toHaveText(badr.title);
@@ -104,8 +104,10 @@ test('a Quran chip opens the right verses @phone', async ({ page }) => {
   await panel(page).getByRole('button', { name: /عرض الآيات/ }).first().click();
   const dialog = page.getByRole('dialog', { name: ref.key });
   await expect(dialog).toBeVisible();
-  const paragraphs = await dialog.locator('p').allTextContents();
-  expect(paragraphs.map((p) => hash16(p))).toContain(passage.text);
+  // The verse text loads when the window opens (Phase 2B), so wait for it.
+  await expect
+    .poll(async () => (await dialog.locator('p').allTextContents()).map((p) => hash16(p)))
+    .toContain(passage.text);
   await dialog.getByRole('button', { name: 'إغلاق' }).click();
   await expect(dialog).toBeHidden();
 });

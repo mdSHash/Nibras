@@ -18,8 +18,10 @@ schemas.
    for Mostafa instead.
 2. **Never type Qur'an text.** Verse text comes only from Quran.com, fetched by `npm run fetch:quran`
    into `content/quran/verses.json` (see [Qur'an passages](#quran-passages)).
-3. **Ids are permanent.** An event id becomes its public URL; people, cities, eras and categories are
-   linked by id. Never rename an id. Choose new ids carefully.
+3. **Ids and addresses are permanent.** Records link to each other by id. An event's public address is
+   `/event/<slug>/` (its `slug`, or its id with `_` → `-`); a person's is `/person/<id>/`. Never rename
+   an id or change a slug once published. For a new event, choose a lowercase ASCII id such as
+   `battle-of-siffin`, so it needs no separate slug.
 4. **Search before adding.** Look for the event, person or city first (`content/events/`,
    `content/people/`, `content/cities/`, or search inside the app), so nothing is added twice.
 5. **Cite sources.** Every event lists its `sources`. Check dates, places and numbers against more
@@ -131,7 +133,8 @@ a field not listed here is an error.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | id usable as a file name (no spaces) | yes | Permanent id and file name (`content/events/<id>.json`); becomes the public URL. Never rename. |
+| `id` | id usable as a file name (no spaces) | yes | Permanent id and file name (`content/events/<id>.json`). Never rename. |
+| `slug` | slug (`a-z`, `0-9`, `-`) |  | The event's address, `/event/<slug>/`. Defaults to the id with `_` → `-`; required when the id is not lowercase ASCII. Never change it once published. |
 | `eraId` | slug (`a-z`, `0-9`, `-`) | yes | An `id` from `content/eras.json`. |
 | `categoryId` | slug (`a-z`, `0-9`, `-`) | yes | An `id` from `content/categories.json`; sets the marker colour. |
 | `isBattle` | true / false | yes | Counted by the "battles" filter. Stored, never guessed from the title. |

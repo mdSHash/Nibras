@@ -8,7 +8,7 @@ The log for `docs/REFACTOR_PLAN.md`. Each session reads this file first and upda
 | 0A Baseline and `npm run verify` | merged | `refactor/phase-0a-baseline` | #3 |
 | 0B Safety net | merged | `refactor/phase-0b-safety-net` | #4 |
 | 1 Content model | merged | `refactor/phase-1-content` | #5 |
-| 2 State, routing and pages | not started | `refactor/phase-2-routing` | — |
+| 2 State, routing and pages | merged | `refactor/phase-2-routing` | #6 |
 | 3 Assets, chat and polish | not started | `refactor/phase-3-polish` | — |
 | 4 Learning paths for guests | not started | `feature/phase-4-paths` | — |
 | 5 Optional accounts | not started | `feature/phase-5-accounts` | — |
@@ -107,22 +107,23 @@ the bug makes the test "unexpectedly pass", so the fix must be listed here as an
 | # | Bug | Test | Phase that fixes it |
 | --- | --- | --- | --- |
 | 1 | Blank page: `MapUpdater` calls `flyTo` on a map with no size → `Invalid LatLng object: (NaN, NaN)` (reproduced by hiding the map container during the 1 s auto-select) | `app-shell.spec.ts` | 0B — **fixed** (`d469bff`) |
-| 2 | Phone 375 px: the dark-mode button is pushed off the left of the header | `app-shell.spec.ts` (phone) | 2 |
+| 2 | Phone 375 px: the dark-mode button is pushed off the left of the header | `app-shell.spec.ts` (phone) | 2C — **fixed** (`4297c74`) |
 | 3 | Battle timer has no `dir="ltr"`, reads "01:08 / 00:27" in RTL | `battles.spec.ts` | 3 |
 | 4 | Battle subtitle shows the English date ("17 Ramadan 2 AH (13 March 624 CE)") | `battles.spec.ts` | 3 |
 | 5 | Map tile attribution hidden (`attributionControl={false}`) | `app-shell.spec.ts` | 3 |
 | 6 | Two elements carry `data-tour-id="search-button"` | `app-shell.spec.ts` | 3 |
 | 7 | A toast on every next/previous arrow press | `app-shell.spec.ts` | 3 |
-| 8 | Dark mode not remembered after reload | `app-shell.spec.ts` | 2 |
-| 9 | The 4.2 s intro can't be skipped | `app-shell.spec.ts` | 2 |
+| 8 | Dark mode not remembered after reload | `app-shell.spec.ts` | 2C — **fixed** (`b0ccb11`) |
+| 9 | The 4.2 s intro can't be skipped | `intro-tour.spec.ts` (moved) | 2C — **fixed** (`b0ccb11`) |
 | 10 | Autoplay at 2×/3× with narration: no audio file for those rates → 404, `console.error('[Timeline] TTS error …')`, timed fallback | `timeline.spec.ts` | 3 (remove 2×/3×, decided) |
-| 11 | **New, not in the plan:** at 1440×900 the open event panel covers part of the timeline dock (the "تشغيل" play button and the first era pill can't be clicked) | `timeline.spec.ts` | 2 (decided) |
+| 11 | **New, not in the plan:** at 1440×900 the open event panel covers part of the timeline dock (the "تشغيل" play button and the first era pill can't be clicked) | `timeline.spec.ts` | 2C — **fixed** (`88b4b03`) |
 
 Other observations from writing the tests (current behavior, recorded, not failures):
 
 - There are no next/previous buttons outside player mode; navigation is by arrow keys (and swipe).
 - Escape clears the selected event too (`closeAllModals`), not just the open overlay.
-- On phones the event panel's close button is outside the viewport at the start view.
+- On phones the event panel's close button is outside the viewport at the start view. (2C: a bug —
+  the whole panel was off-screen after the intro; fixed, intentional change 17 of Phase 2.)
 - The chat allows one question every 3.5 s (`useChat.ts`); a follow-up chip tapped sooner is ignored
   with a "please wait" note.
 - `ابو بكر` finds 18 events and `أبي بكر` 21: search normalizes letters but not grammatical case.
@@ -731,3 +732,320 @@ Not changed:
 
 Not verified here: CI on Linux (after the push); the narration scripts' generation runs (they spend
 Gemini quota).
+
+## Phase 2 — State, routing and pages
+
+Started 2026-10-16 from `main` at `37b179a` (PR #5 merged). One branch, three sessions (2A, 2B, 2C),
+one PR at the end.
+
+- **2A**: one Zustand store and a small history-API router; routes `/event/:slug`, `/person/:id`,
+  `/battle/:id`, `/quran/:surah/:from-:to`, filters in the query (`?era=…&type=…`); one `overlay` value
+  from the route; `window.__nibrasOpenBattle` and the reset-map window event removed; `App.tsx` and
+  `EventPanel.tsx` split; the `@` alias points at `src`.
+- **2B**: event details, bios and Qur'an passages loaded on demand (with loading and retry states;
+  search reads a lazy index so its results do not change); pre-rendered pages with title, description,
+  canonical URL, Open Graph and JSON-LD; `sitemap.xml`, `robots.txt`, `404.html`; main JS about 800 KB.
+- **2C**: dark mode remembered (system default), intro skippable by tap and shown once, phone header
+  menu, the event panel no longer covering the timeline dock (known failures 2, 8, 9, 11); review,
+  report, PR.
+
+### Tasks
+
+- [x] 2A Event slugs and the shared route parser (`shared/routes.ts`) — `8c34d4b`
+- [x] 2A Store and router; routes and query filters; overlay from the route; window hooks removed — `cf3d418`
+- [x] 2A `App.tsx` → layout, `AppHeader` (one `HeaderButton`), `Overlays` — `cf3d418`; `EventPanel.tsx`
+      split by job (`eventPanel/`: Hero, useNarration, ArticleBody, PeopleList) — `6958f30`
+- [x] 2A `@` alias → `src` — `7e8b11f`
+- [x] 2B Content on demand; lazy search index — `f14e2b5`; map markers without `react-dom/server` — `5d5d46a`;
+      person details on demand — see the 2B verification below
+- [x] 2B Pre-rendered pages, SEO tags, sitemap, robots, 404; tab titles; new icons and share image
+- [x] 2C Dark mode, intro — `b0ccb11`; phone header menu — `4297c74`, `839fe06`; panel vs timeline
+      dock — `88b4b03`; phone panel after the intro and auto-select races — `0aa3a5e`
+- [x] 2C Review, verification report, PR
+
+### Decisions by Mostafa
+
+- 2026-10-16: base path stays `/Nibras/` (no custom domain for now).
+- 2026-10-16: **events get an ASCII `slug` for their address**: the id with `_` → `-`, and a short
+  English slug for the 23 ids that contain Arabic. Ids do not change (chat KB, audio and links between
+  records untouched); an address with the old id still opens the event.
+- 2026-10-16: **a pre-rendered page shows its text before the app loads**: title, date and text in the
+  app's colours and font, replaced by the app when it mounts (today that moment is blank).
+- 2026-10-16: **one site-wide share image** for now; per-page titles and descriptions in Phase 2,
+  per-page generated images later (Phase 3).
+- 2026-10-16: Mostafa left the phone header design to Claude. Chosen: below 640 px the header keeps
+  search and chat, and a ⋮ button opens a dropdown list under the header (icon and Arabic label per
+  row, in the header's dark glass style) with reset map, fullscreen, help, tour and dark mode.
+
+- 2026-10-17: **the guided tour is to be redesigned** (outdated and not informative). Added to the
+  plan as the last task of Phase 4, so it can include learning paths.
+- 2026-10-17: Mostafa asked to finish the Gemini embedding index in one run (the scheduled task no
+  longer exists). Done: 156 units embedded, 3,235/3,235, the API's loader reports it usable. Committed
+  on branch `chore/chat-embeddings` (`b285075`, from `main`, separate from this phase); pushing it and
+  merging it is Mostafa's step. Semantic search turns on in production once it is merged, if
+  `GEMINI_API_KEY` is set on Vercel.
+
+- 2026-10-17 (2B plan approved): **share image** is a 1200×630 card (logo and name in the app's
+  colours) made by a script, shown to Mostafa before it is committed. **Home description**:
+  «خريطة تفاعلية وخط زمني لأحداث السيرة النبوية والتاريخ الإسلامي المبكر، مع سِيَر الصحابة والآيات
+  المتصلة بكل حدث.» **Page descriptions**: an event's `summary` as written; a person's first bio
+  sentence, copied exactly. **Qur'an passage pages** are pre-rendered (shared links open and preview)
+  but left out of the sitemap. **`robots.txt`** is generated although crawlers only read it at the
+  host root (`mdshash.github.io/robots.txt`); the sitemap is submitted in Search Console instead.
+- 2026-10-17: "main JS" for the ~800 KB target means the JS loaded before the app renders (the entry
+  and the chunks `index.html` preloads), as the bundle report's new "JS at start" line measures it.
+
+- 2026-10-17: **battle replays are frozen and untested, in every phase** (Mostafa: they ate test time
+  and CPU and will be replaced by videos). They stay in the build, so the live site keeps them.
+  Removed: `tests/e2e/battles.spec.ts`, the replay snapshot (and its 4 baseline images), the
+  replay-link routing test, the chat citation's replay step, the panel test's replay-button check,
+  the content check of `battleScenarioId` (`checkContent` no longer takes scenario ids), the
+  scenario data in `tests/baseline/content.json` (and `scripts/baseline/scenarios.ts`), ESLint on
+  `src/battlefield/`. Replay chunks build into `assets/battle/`, outside the bundle budget (one
+  informational line). Written into the plan ("Testing and verification", Phase 3 battle videos:
+  video tests stay light) and `CLAUDE.md` rule 8. Kept: the battles filter, `/battle/` route
+  parsing, the chat's battle knowledge.
+- 2026-10-17: first-load request count leaves out font files (see intentional change 7); new icons
+  chosen from four directions (intentional change 10).
+
+- 2026-10-17 (2C plan approved): **browser tests start as returning visitors** (intro already
+  seen, set by the fixture as it already does for the tour prompt); the first-visit intro and its
+  skip keep their own tests. Saves the 4.2 s intro in every test.
+- 2026-10-17: **phones open the first event collapsed.** Fixing the off-screen panel (intentional
+  change 17) would have put a 60% panel over the map on load; Mostafa chose the existing 30%
+  snap for the event the app opens by itself, so the map and its marker stay in view. Events
+  the visitor opens still start at 60%.
+
+### Open for Mostafa (chat, reviewed 2026-10-17)
+
+The chat design stays (plan, "Keep as is"). Recommended changes, none started:
+
+1. **Semantic search is all-or-nothing**: `api/_lib/semanticIndex.ts` uses the index only at 100%
+   coverage, and no scheduled build runs any more, so the next content edit switches it off again
+   silently. Use the index at partial coverage (missing units fall back to keyword search) and move
+   the incremental build to the scheduled GitHub Action already planned in Phase 3.
+2. **One Gemini key, one daily cap**: each chat question embeds the query (1 of the free tier's
+   1,000/day), shared with the index builder. Cache query embeddings in Upstash and/or give the
+   builder its own key, so a busy day cannot starve either.
+3. **Index size**: 13.4 MB of JSON in git and on GitHub Pages, rewritten on every rebuild. With the
+   Phase 3 move to `api/_data/`, store vectors as int8 (about 2–3 MB) and stop publishing them.
+4. The per-IP rate limit (Phase 3) matters more now that each question spends embedding quota.
+5. After merging the index: run `npm run eval:chat` once to measure answers with semantic search on
+   (spends Groq quota; ask first).
+
+### Design choices (approved with the plan)
+
+- Event, person, battle and Qur'an passage panels have addresses; search, help and chat do not. Back
+  closes a routed panel.
+- No router library: the routes are few, and the pre-render step needs the same path parser.
+
+### Intentional behavior changes
+
+1. **Addresses** (2A). The address bar follows what is open: `/event/<slug>/`, `/person/<id>/`,
+   `/quran/<surah>/<from>-<to>/`, `/battle/<id>/`, and `?era=…&type=…` for filters. Opening an
+   event (map, timeline, search, arrow keys, era pill, chat) adds a history entry; autoplay steps,
+   filter changes and the first-event auto-select replace the current one, so `/` becomes
+   `/event/birth-of-the-prophet/` after a second without adding an entry.
+2. **Back and Forward** (2A) move between opened events and close or reopen a person, a passage or a
+   replay. The close button of those three goes Back when they were opened in the app, so the two
+   agree; opened from a link, closing shows the page under them (the map, or for a replay its event).
+3. **Shared links** (2A): an address opens its page after the intro. An old link by event id moves to
+   the slug. An unknown address shows the map with «لم نجد هذه الصفحة، فعدنا بك إلى الخريطة».
+4. **Escape** (2A) still closes everything and clears the event (as recorded in 0A); it now does so by
+   going to `/`, which adds a history entry when something was open.
+5. Removed (2A): `window.__nibrasOpenBattle` (tests open `/battle/<id>/`), the `nibras:reset-map-view`
+   window event (the map follows a counter in the store), and the unused `onOpenFilter` prop of the map.
+6. **Texts load on demand** (2B). The app starts with a light index; an event's details (full text,
+   course of events, people, hadith, sources), a bio and the Qur'an text load when their panel opens
+   (text-line skeletons, then the text; on failure «تعذّر تحميل المحتوى…» with «إعادة المحاولة»). The
+   summary shows at once. The narration button fetches the details itself when pressed early. The
+   search drawer loads its index when it opens; until then a typed query shows the skeleton and the
+   count «…» instead of results (the results themselves are unchanged: `contentSplit.test.ts` checks
+   the index against the old matching text, and the behavior map is identical).
+7. **First-load request count** (2B, approved by Mostafa 2026-10-17). Loading on demand adds one
+   request (the first event's details file). The pre-rendered text then makes the browser fetch
+   font files while it is on screen, and how many depends on timing, so the test now leaves out
+   `fonts.gstatic.com` as it already left out map tiles. `behavior-ui.json` `firstLoadRequests`:
+   desktop 13, phone 13, Firefox 14, WebKit 13 (each stable over 3 runs). The bio and Qur'an e2e
+   tests and the visual `shot()` wait for the loaded text; what they check is unchanged.
+8. **Pre-rendered pages** (2B). `npm run build` runs `scripts/prerender.ts` after Vite: one
+   `index.html` per address (home, 131 events, 161 people, 12 replays, 51 Qur'an passages) with its
+   title, description, canonical URL, Open Graph and Twitter tags and JSON-LD, and its text shown
+   until the app mounts (it scrolls on its own, as the app's CSS locks the body). Plus `404.html`
+   (app shell, `noindex`), `sitemap.xml` (305 addresses, no Qur'an passages) and `robots.txt`.
+9. **Tab title** (2B): it now follows the page («غَزْوَةُ بَدْرٍ الْكُبْرَى — نبراس»; a replay
+   «…: مشاهدة المعركة — نبراس»); home and unknown pages keep «Nibras نِبْرَاس».
+10. **New icons** (2B, chosen by Mostafa 2026-10-17 from four directions): the golden star (two
+    overlapping squares) with نِبْرَاس centered inside, the word outlined from Amiri Bold so it needs
+    no font (the old icons loaded a font the browser ignores in icons, so the word fell back and
+    sat off-centre); the favicon is the star with ن. `scripts/make-site-images.ts` draws
+    `og-image.png` and `favicon.png` from the SVGs.
+11. **Person window** (2B): the name shows at once; title, role, dates and bio arrive together from
+    the person's file (skeleton until then). The people index keeps only id, name and aliases.
+12. **Dark mode remembered** (2C; known failure 8 fixed). The header toggle stores the choice
+    (`nibras.theme`); until a visitor chooses, the app follows the system setting, also when it
+    changes while the app is open. A small inline script in `index.html` applies the same rule
+    before the first paint (`src/theme.ts` is the app's side), and the pre-rendered text has dark
+    colours, so a dark visitor no longer sees a light flash. Tests: «dark mode is remembered» (3,
+    `app-shell.spec.ts`), «the static text is dark before the app loads» (`prerender.spec.ts`).
+13. **Intro skippable, shown once** (2C; known failure 9 fixed). A tap, click or any key skips it
+    and the app appears at once; a «تخطي المقدمة» button (visible when focused) serves screen
+    readers. It plays on the first visit only (`nibras.intro.seen`, set when it ends or is
+    skipped). The tour prompt still appears on the first visit, now also when the intro was seen
+    but the prompt never answered. Browser tests start as returning visitors (decision above);
+    the first-visit tests in `intro-tour.spec.ts` cover the intro, the tap and a key. A returning
+    visit makes one request fewer (the intro's font stylesheet): `firstLoadRequests` desktop
+    13 → 12 (others to be measured), to be updated in `behavior-ui.json` with approval.
+14. **Phone header menu** (2C; known failure 2 fixed; design decided 2026-10-16). Below 640 px the
+    header shows the title, chat, search and a ⋮ button («المزيد من الخيارات»); its dropdown lists
+    reset map, fullscreen, help, tour and dark mode, one row each with icon and label, in the
+    header's dark glass (`header/HeaderMenu.tsx`). Arrow keys, Home and End move between rows;
+    Escape closes only the menu (the open event stays) and returns focus to ⋮; Tab, a press outside
+    or a resize closes it. It opens with a short fade and closes at once. The dropdown is portalled
+    above the event panel (new z level `headerMenu` 920, between the panel and modals), which on
+    phones reaches the header. The ⋮ button carries help's first-visit pulse, and the tour's
+    dark-mode step points at it on phones. From 640 px up the header is unchanged. Tests reach
+    these controls through the menu (`headerControl` in `tests/e2e/support/app.ts`); new test
+    for the menu's keys and closing. The phone visual snapshots change (the header).
+15. **Event panel ends above the timeline dock** (2C, desktop from 768 px; known failure 11 fixed).
+    The dock (about 875 px wide, centred) was under the panel at every common width (at 1440 the
+    play button and the first era pill; even at 1920 by 18 px). The dock now publishes its height
+    (`--timeline-dock-height`, like the rail's `--timeline-height`) and the panel's bottom is
+    rail + dock, so the panel is about 60 px shorter and the dock is whole; when the dock is
+    collapsed the panel reaches down again (its existing 0.3 s `bottom` transition). Chosen over
+    moving the dock beside the panel, which only fits from about 1440 px and would cut the era
+    pills on smaller screens (both tried at 1280 and 1440). The desktop visual snapshots with an
+    open panel change (its bottom edge).
+16. **First-event auto-select stands down when the visitor acts first** (2C). Without the intro
+    the app is usable at once, which exposed two races of the 1 s auto-select (`App.tsx`): closing
+    a person opened from a shared link within that second then opened the first event, and on
+    phones opening search within it slid the event panel over the search drawer. The auto-select
+    now happens only if nothing navigated during the second and search, help and chat are closed.
+    Found by `routing.spec.ts` (shared person link) and four phone tests that search for an event.
+    The intro-skip tests wait for the intro to be on screen (its skip button) instead of 400 ms.
+17. **Phones: the first event's panel is on screen after the intro** (2C; a live bug found while
+    fixing the tests). Until now, on phones the auto-selected panel sat entirely off-screen to
+    the right (`translateX(375px)`) whenever the intro had played, i.e. on every visit before 2C
+    (the 0A observation «on phones the event panel's close button is outside the viewport at the
+    start view»). Cause: App's hooks run during the intro, so the first event is selected
+    before the panel mounts; `EventPanel` then rendered once with `isMobile = false`, started
+    from the desktop slide-in (`x: 100%`), and the switch to the phone slide-up never moved it
+    back. `isMobile` is now read when the state is created. With the panel visible, it covered
+    the full-screen search drawer on phones (z 900 over 800): while the drawer is open the
+    phone panel now sits under it (phones close the drawer after a choice, and the panel is
+    back on top). The phone tests passed before only because the panel was off-screen. The
+    phone visual snapshots with an event open change (the panel now shows). The event the app
+    opens by itself on start shows at the collapsed 30% height on phones (decision above;
+    `autoOpenedEventId` in the store, cleared when another event opens).
+
+### 2A verification (2026-10-16, Windows 11, Node 20.19.5, Playwright 1.59.1)
+
+Before any change, `npm run verify` on `37b179a` passed (all steps, the numbers of 1C). After 2A
+(`6958f30`), `npm run verify`:
+
+| Step | Result |
+| --- | --- |
+| Content build (Zod) | 131 events, 161 people, 10 cities, 51 Quran passages; no issues (slug checks included) |
+| Type check, ESLint | passed (0 findings) |
+| Vitest | 214/214 (207 + 6 route tests + 1 slug check) |
+| Content snapshot, behavior map | identical to the baseline |
+| Production build, bundle budget | within limits: main chunk 477.7 → 463.5 KiB gzip |
+| Playwright features | 83 passed (72 + 11 new `routing.spec.ts` runs), 9 of them known failures |
+| Phone smoke (WebKit, Firefox) | 34 passed (32 + the shared-link test on each), 2 of them known failures |
+| Visual snapshots | 18/18 identical |
+
+The test counts grew by the new routing tests; `tests/baseline/numbers.json` is updated at the end
+of the phase with Mostafa's approval.
+
+### 2B verification (2026-10-17, Windows 11, Node 20.19.5, Playwright 1.59.1)
+
+Before any change, CI on `e252e5c` passed and `npm run verify` on `aecd0a4` passed (the numbers of
+2A). After 2B, `npm run verify`:
+
+| Step | Result |
+| --- | --- |
+| Content build (Zod) | 131 events, 161 people, 10 cities, 51 Quran passages; no issues |
+| Type check, ESLint | passed (0 findings; `src/battlefield/` no longer linted) |
+| Vitest | 229/229 (214 + content split 5, marker HTML 2, pre-render 8) |
+| Content snapshot, behavior map | identical (content snapshot without the battle scenario data, approved) |
+| Production build + pre-render | 356 pages, 305 in `sitemap.xml`; bundle budget within limits |
+| Playwright features | 72 passed, 8 of them known failures (battle tests removed; pre-render tests added) |
+| Phone smoke (WebKit, Firefox) | 36 passed, 2 of them known failures |
+| Visual snapshots | 16/16 identical (replay snapshot removed) |
+
+A full `npm run verify` now takes about 10.5 minutes (was about 13.5 with the battle tests).
+
+Bundle: JS at start (entry plus what `index.html` preloads) **1,868 → 917 KB raw, 478 → 255 KB gzip**.
+The target was about 800 KB raw; what is left at start: React DOM 178 KB, Leaflet 147 KB, motion
+125 KB, the content indexes ~200 KB (events 117, territories 42, people), tailwind-merge 27 KB and
+the lazy-content import map ~38 KB (one entry per details and bio file). Tried and dropped: the tour
+loaded on demand (first visits fetch it right away anyway, +1 first-load request) and the people
+aliases moved into the chat chunk (−25 KB, but the chat chunk's budget would need re-baselining).
+Next step if wanted: serve the per-record files as plain JSON fetched by address (removes the import
+map, about −38 KB).
+
+### Notes for 2C
+
+- Dark mode will follow the system: the pre-rendered text (`scripts/prerender/pages.ts`,
+  `STATIC_STYLE`) is light only; add a `prefers-color-scheme: dark` block when the app's default
+  changes, so the page does not flash light before a dark app.
+- A shorter intro in tests (2C makes it skippable) would cut each verify by roughly 2–3 minutes:
+  every browser test waits through the 4.2 s intro and the map's flight. Ask Mostafa first.
+- `tests/baseline/numbers.json` (bundle and test counts) is updated at the end of the phase, with
+  Mostafa's approval of the list of intentional changes above.
+
+All three notes were done in 2C (dark pre-rendered text, returning-visitor tests, numbers updated).
+
+### 2C verification (2026-10-17, Windows 11, Node 20.19.5, Playwright 1.59.1)
+
+Before any change, `npm run verify` on `7d268eb` passed (the numbers of 2B). After 2C,
+`npm run verify -- --update-numbers`:
+
+| Step | Result |
+| --- | --- |
+| Content build (Zod) | 131 events, 161 people, 10 cities, 51 Quran passages; no issues |
+| Type check, ESLint | passed (0 findings) |
+| Vitest | 229/229 |
+| Content snapshot, behavior map | identical to the baseline |
+| Production build + pre-render | 356 pages, 305 in `sitemap.xml`; bundle budget within limits |
+| Playwright features | 80: 79 passed (4 of them known failures: 5, 6, 7, 10), 1 skipped (the phone menu test on desktop) |
+| Phone smoke (WebKit, Firefox) | 42 passed, no known failures left |
+| Visual snapshots | 16/16 (5 updated with approval) |
+
+Known failures 2, 8, 9 and 11 are fixed. Left for Phase 3: 5, 6, 7 and 10 (3 and 4 were battle
+tests, removed in 2B). A full `npm run verify` now takes about
+7 minutes (10.5 in 2B): browser tests start as returning visitors.
+
+Bundle: JS at start 923.7 KB raw, 256.5 KB gzip (2B: 917 / 255; the header menu and the theme
+code). Phase 2's "about 800 KB" target is not met; see 2B for what is left at start.
+
+Baselines updated with Mostafa's approval (2026-10-17): five Windows snapshots (phone start view,
+phone dark mode, phone event panel, desktop dark mode, desktop search open), `firstLoadRequests`
+desktop/phone/WebKit 13 → 12 and Firefox 14 → 13, and `numbers.json` (Vitest 185 → 229, feature
+tests 72 → 80 with 10 → 4 known failures, engine tests 32 → 42 with 2 → 0). The 16 Linux snapshots
+were removed so CI on the PR records a new set (artifact `baseline-linux-visual`); they are
+committed after Mostafa reviews them.
+
+After PR #6's first CI run (2026-10-17): the engines job failed once on Linux WebKit: the intro
+test's check that a reload does not replay the intro used a 3 s limit, and the slow runner needed
+more just to load. It now records whether the intro appears at all (a DOM observer), whatever
+the machine's speed. The 16 Linux snapshots from that run were compared with the Windows set
+(same screens, font rendering only) and committed, as Mostafa asked to finish the phase and merge;
+the Linux UI numbers were unchanged. That comparison showed that eight Windows snapshots (chat,
+help, person bio and Qur'an passage, both layouts) still showed the old phone header or the old
+panel height under a modal's backdrop, within the comparison tolerance, so the whole Windows set
+was rewritten to match the approved changes. Mostafa approved the Linux set and asked to merge
+without another full test run (2026-10-17); the last full CI run before these commits failed only
+on the intro test fixed above, which passed 36/36 locally on WebKit, Firefox and Chromium.
+
+Manual checks for Mostafa (phone and desktop):
+
+1. Phone, first visit (private window): the intro plays; a tap skips it; the first event opens at
+   30% with the map and marker visible; a reload does not play the intro again.
+2. Phone header: ⋮ opens the menu (reset map, fullscreen, help, tour, dark mode); a tap outside
+   closes it; dark mode from the menu sticks after a reload.
+3. Phone: open search while an event is open: the drawer is on top; choosing a result shows it.
+4. Desktop: with an event open, the dock's «تشغيل» and era pills work; collapsing the dock lets
+   the panel reach down again.
+5. Set the system to dark, clear site data, open a shared event link: no light flash, the page and
+   the app are dark; choose light in the app and reload: it stays light.

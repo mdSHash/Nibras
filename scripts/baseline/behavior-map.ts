@@ -5,7 +5,8 @@
 //
 //   npx tsx scripts/baseline/behavior-map.ts            compare with tests/baseline/behavior.json
 //   npx tsx scripts/baseline/behavior-map.ts --update   rewrite it (only after approval)
-import { eventsData, type EventItem } from '../../src/data';
+import type { ContentEvent as EventItem } from '../../shared/contentSchema';
+import { fullEvents as eventsData } from '../content/generated';
 import type { FilterOptions } from '../../src/types';
 import { ERA_PILLS as APP_ERA_PILLS, findEraAnchor, isBattle, isProphetEra, isRashidunEra } from '../../src/utils/eventHelpers';
 import { normalizeForSearch, tokenizeQuery } from '../../shared/arabic';
@@ -30,7 +31,9 @@ export function filterAndSort(filters: FilterOptions): EventItem[] {
     .sort((a, b) => a.date.sortKey - b.date.sortKey);
 }
 
-// Copy of eventHaystacks + filteredEvents in src/components/SearchMenu.tsx:42–67.
+// Independent copy of the search: the app matches the same text, precomputed by
+// eventSearchText (shared/contentSplit.ts) into src/generated/searchIndex.json,
+// in filteredEvents (src/components/SearchMenu.tsx).
 function search(events: EventItem[], query: string): EventItem[] {
   const tokens = tokenizeQuery(query);
   if (!tokens.length) return events;

@@ -47,7 +47,7 @@ Nibras (نِبْرَاس — "lamp" or "light" in Arabic) is an interactive web 
   - **Day/night + weather** — sandstorm, storm, dust haze, plus dayPhase tinting (e.g. Khandaq night)
   - **Time compression UI** — day counter for siege-length engagements (Khandaq 27d, Khaybar 20d, Tabuk 30d)
   - **End-of-battle summary** — Arabic verdict badge (نصر / انسحاب تكتيكي / غزوة بدون قتال) + casualty grid + historical significance
-- **Arabic-only UI** — Full RTL support with Arabic calligraphy intro (Amiri / Tajawal). All user-facing strings, narration, and aria-labels are Arabic; numerals use Arabic-Eastern digits in summary panels.
+- **Arabic-only UI** — Full RTL support with Arabic calligraphy intro (Amiri / Tajawal; first visit only, a tap or any key skips it). All user-facing strings, narration, and aria-labels are Arabic; numerals use Arabic-Eastern digits in summary panels.
 - **Map Visualization** — Leaflet-based interactive map with event markers, route polylines, territorial expansion polygons (Voronoi via Turf.js), and marker clustering via Supercluster
 - **Companion Profiles** — ~150 Sahaba biographies at Ibn Hajar / Ibn al-Athir / Ibn Sa'd source depth, indexed by name and alias for cross-event lookup
 - **Quran & Hadith References** — Events linked to relevant Quranic verses and canonical hadith (Bukhari, Muslim, Ahmad, Tirmidhi) with modal display
@@ -56,7 +56,7 @@ Nibras (نِبْرَاس — "lamp" or "light" in Arabic) is an interactive web 
 - **Diacritic-tolerant Arabic search** — Type `معركه بدر` or `بدر الكبرى` and match the vocalized title `مَعْرَكَةُ بَدْرٍ الْكُبْرَى`. Normalizes tashkeel, alef/yeh/teh-marbuta variants, and matches whitespace-separated tokens (all-of), against title, summary, full description, location, and year.
 - **Guided App Tour** — Step-by-step onboarding with spotlight highlighting; auto-repositions when targets resize/remount and after slide-in animations settle
 - **Keyboard Shortcuts** — Full keyboard navigation; gated when modals are open
-- **Dark/Light Mode** — Theme toggle, WCAG AA contrast verified in both modes
+- **Dark/Light Mode** — Follows the system until the visitor chooses; the choice is remembered. WCAG AA contrast verified in both modes
 - **Autoplay Mode** — Sequential event playback with narration
 
 ---
@@ -160,7 +160,7 @@ nibras/
 │   ├── components/            # UI components
 │   │   ├── AppTour.tsx        # Guided tour overlay
 │   │   ├── EventPanel.tsx     # Event detail panel with TTS
-│   │   ├── IntroScreen.tsx    # Arabic calligraphy intro animation
+│   │   ├── IntroScreen.tsx    # Arabic calligraphy intro animation (first visit; skippable)
 │   │   ├── Map.tsx            # Leaflet map with territories
 │   │   ├── Timeline.tsx       # Vertical timeline with autoplay
 │   │   ├── CompanionModal.tsx # Sahaba biography modal
@@ -243,7 +243,7 @@ For the full engine architecture, scenario format, and authoring guide see [`src
 |---------|-------------|
 | `npm run dev` | Start the Vite dev server (port 3000) |
 | `npm run dev:server` | Start the TTS backend server |
-| `npm run build` | Production build |
+| `npm run build` | Production build, then the pre-rendered pages, `sitemap.xml`, `robots.txt` and `404.html` (`scripts/prerender.ts`) |
 | `npm run preview` | Preview production build |
 | `npm run lint` | TypeScript type checking (`tsc --noEmit`) |
 | `npm run lint:eslint` | ESLint (TypeScript + React hooks rules) |
@@ -316,7 +316,7 @@ See `docs/REFACTOR_PLAN.md` and `docs/REFACTOR_PROGRESS.md` for the refactor pla
 
 ## Deployment
 
-Production is hosted at **https://mdshash.github.io/Nibras/** on GitHub Pages. `.github/workflows/deploy.yml` runs a `check` job (the full `npm run verify`, on Ubuntu) on every pull request and every push to `main`; only when it passes on `main` does it build with Vite (`base: '/Nibras/'`) and publish `dist/` via `actions/deploy-pages@v4`. The deploy build carries the Sentry settings (crash reports, source maps); see `docs/OWNER_DASHBOARD.md` for Sentry, the uptime checks and the weekly owner routine. The chat API also has `GET /api/health`.
+Production is hosted at **https://mdshash.github.io/Nibras/** on GitHub Pages. `.github/workflows/deploy.yml` runs a `check` job (the full `npm run verify`, on Ubuntu) on every pull request and every push to `main`; only when it passes on `main` does it build with Vite (`base: '/Nibras/'`), pre-render one page per event, person, replay and Qur'an passage, and publish `dist/` via `actions/deploy-pages@v4`. The deploy build carries the Sentry settings (crash reports, source maps); see `docs/OWNER_DASHBOARD.md` for Sentry, the uptime checks and the weekly owner routine. The chat API also has `GET /api/health`.
 
 Because all audio ships as static WAVs bundled into `dist/audio/`, no separate backend is required at runtime. The TTS proxy in `server/` is only used at authoring time when regenerating narration.
 

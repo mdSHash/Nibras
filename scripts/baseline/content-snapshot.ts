@@ -1,26 +1,23 @@
 // Content snapshot (baseline part 1): everything the app shows for each event,
-// person, city, Quran passage, battle replay and territory year, loaded the way
+// person, city, Quran passage and territory year (battle replays are not checked), loaded the way
 // the app loads it today. Text is stored as hashes so any wording change shows.
 //
 //   npx tsx scripts/baseline/content-snapshot.ts            compare with tests/baseline/content.json
 //   npx tsx scripts/baseline/content-snapshot.ts --update   rewrite it (only after approval)
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { citiesData, companionsData, eraOf, eventsData, passageFor } from '../../src/data';
+import { citiesData, eraOf, passageFor } from '../../src/data';
+import { fullEvents as eventsData, fullPeople as companionsData } from '../content/generated';
 import generatedQuranPassages from '../../src/generated/quranPassages.json';
 import { getTerritoriesForYear } from '../../src/territories';
 import { isBattle, isProphetEra, isRashidunEra } from '../../src/utils/eventHelpers';
 import { KB_ERA_LABEL, kbBattleId } from '../chat-kb/kbNames';
-import { PANEL_BATTLE_SCENARIOS, battleScenarios } from './scenarios';
 import { ROOT, hash16, sha256Hex, writeOrCompare } from './lib';
 
 const quran = Object.fromEntries(generatedQuranPassages.map((p) => [p.key, p]));
 
 // Copy of EventPanel.tsx:96 (arNum), used for the dates the panel displays.
 const arNum = (n: number | string): string => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[Number(d)]);
-
-// The scenarios the event panel offers a replay button for (see scenarios.ts).
-const AVAILABLE_BATTLE_SCENARIOS = new Set(PANEL_BATTLE_SCENARIOS);
 
 // Copy of ttsGemini.ts:92–109: audio file name = SHA-256("<text>|<voice>|<rate>").
 const audioFile = (text: string, rate: number): string =>
@@ -71,7 +68,6 @@ const events = eventsData.map((e) => {
       ? {
           battleId: kbBattleId(e.battleScenarioId),
           scenarioId: e.battleScenarioId,
-          available: AVAILABLE_BATTLE_SCENARIOS.has(e.battleScenarioId),
         }
       : null,
     route: e.route ?? null,
@@ -103,22 +99,6 @@ const quranPassages = Object.keys(quran).map((key) => ({
   text: hash16(quran[key].text),
 }));
 
-const battles = Object.entries(battleScenarios).map(([id, s]) => ({
-  id,
-  scenarioId: s.id,
-  actualDayCount: s.actualDayCount ?? null,
-  forces: s.forces.map((f) => ({
-    faction: f.faction,
-    label: f.label,
-    labelAr: f.labelAr ?? null,
-    totalStrength: f.totalStrength,
-    units: f.units.length,
-    soldiers: f.units.reduce((sum, u) => sum + u.soldierCount, 0),
-  })),
-  phases: s.phases.map((p) => p.id),
-  narration: s.narration.map((n) => ({ id: n.id, time: n.time, textAr: hash16(n.textAr ?? null), text: hash16(n.text) })),
-  choreography: hash16(JSON.stringify(s)),
-}));
 
 // The map draws territories for the selected event's gregorian value, or 610
 // with nothing selected (Map.tsx TerritoryRenderer). Geometry is rounded so a
@@ -145,12 +125,10 @@ writeOrCompare('content.json', {
     companions: companions.length,
     cities: citiesData.length,
     quranPassages: quranPassages.length,
-    battles: battles.length,
   },
   events,
   companions,
   cities: citiesData,
   quranPassages,
-  battles,
   territories,
 });

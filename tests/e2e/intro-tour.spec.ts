@@ -26,6 +26,36 @@ test.describe('first visit @phone', () => {
     await expect(prompt).toBeHidden();
   });
 
+  // Was known failure 9 in the Phase 0A baseline (fixed in Phase 2C).
+  test('the intro can be skipped with a tap', async ({ page }) => {
+    await page.goto('./');
+    await expect(page.getByRole('button', { name: 'تخطي المقدمة' })).toBeAttached(); // the intro is up
+    await page.mouse.click(200, 200);
+    // The intro goes at once (it would play for 4.2 s), then the app appears.
+    await expect(page.getByRole('button', { name: 'تخطي المقدمة' })).toHaveCount(0, { timeout: 2_000 });
+    await expect(header.chat(page)).toBeVisible();
+  });
+
+  test('a key skips the intro, and it does not play on the next visit', async ({ page }) => {
+    await page.goto('./');
+    await expect(page.getByRole('button', { name: 'تخطي المقدمة' })).toBeAttached(); // the intro is up
+    await page.keyboard.press('Enter');
+    await expect(page.getByRole('button', { name: 'تخطي المقدمة' })).toHaveCount(0, { timeout: 2_000 });
+    await expect(header.chat(page)).toBeVisible();
+    expect(await page.evaluate((key) => localStorage.getItem(key), STORAGE.introSeen)).toBe('true');
+    // Record whether the intro shows at all on the next visit (timing would depend on the machine).
+    await page.addInitScript(() => {
+      new MutationObserver(() => {
+        if ([...document.querySelectorAll('button')].some((b) => b.textContent?.trim() === 'تخطي المقدمة')) {
+          (window as Window & { __nibrasIntroShown?: boolean }).__nibrasIntroShown = true;
+        }
+      }).observe(document, { childList: true, subtree: true });
+    });
+    await page.reload();
+    await expect(header.chat(page)).toBeVisible();
+    expect(await page.evaluate(() => (window as Window & { __nibrasIntroShown?: boolean }).__nibrasIntroShown)).toBeUndefined();
+  });
+
   test('starting the tour opens its first step', async ({ page }) => {
     await openApp(page);
     const prompt = page.getByRole('dialog', { name: /مرحباً بك في نبراس/ });

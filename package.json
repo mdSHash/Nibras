@@ -23,7 +23,7 @@
     "validate:content": "tsx scripts/build-content.ts --check",
     "eval:chat": "tsx scripts/eval-chat.ts",
     "prebuild": "npm run build:content",
-    "build": "vite build",
+    "build": "vite build && tsx scripts/prerender.ts",
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "prelint": "npm run build:content",

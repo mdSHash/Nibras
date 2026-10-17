@@ -1,44 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <defs>
-    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#FFA500;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#D4AF37;stop-opacity:1" />
-    </linearGradient>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-      <feMerge>
-        <feMergeNode in="coloredBlur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-    <radialGradient id="bgGradient" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#0f0f1e;stop-opacity:1" />
-    </radialGradient>
-  </defs>
-  
-  <rect width="512" height="512" fill="url(#bgGradient)"/>
-  
-  <g transform="translate(256, 256)">
-    <circle cx="0" cy="0" r="220" fill="none" stroke="url(#goldGradient)" stroke-width="2" opacity="0.3"/>
-    <circle cx="0" cy="0" r="200" fill="none" stroke="url(#goldGradient)" stroke-width="1" opacity="0.2"/>
-    
-    <path d="M -180,0 L -160,10 L -180,20 Z M 180,0 L 160,10 L 180,20 Z M 0,-180 L 10,-160 L 20,-180 Z M 0,180 L 10,160 L 20,180 Z" 
-          fill="url(#goldGradient)" opacity="0.4"/>
-  </g>
-  
-  <text x="256" y="320" 
-        font-family="'Amiri', 'Traditional Arabic', 'Arabic Typesetting', serif" 
-        font-size="140" 
-        font-weight="bold"
-        text-anchor="middle" 
-        fill="url(#goldGradient)"
-        filter="url(#glow)"
-        style="text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);">نِبْرَاس</text>
-  
-  <g transform="translate(256, 256)" opacity="0.15">
-    <path d="M -150,-150 L -140,-140 M 150,-150 L 140,-140 M -150,150 L -140,140 M 150,150 L 140,140" 
-          stroke="url(#goldGradient)" stroke-width="3" stroke-linecap="round"/>
-  </g>
-</svg>
+<!-- Nibras icon, direction A (golden star), chosen 2026-10-17. The word is outlined from Amiri Bold (OFL), so it needs no font. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#E9C977"></stop><stop offset=".45" stop-color="#F7E3A6"></stop><stop offset=".7" stop-color="#C99A45"></stop><stop offset="1" stop-color="#9C6F27"></stop></linearGradient><radialGradient id="glow" cx=".5" cy=".55" r=".6">
+  <stop offset="0" stop-color="#FFF4C9"></stop><stop offset=".45" stop-color="#F2C46B"></stop><stop offset="1" stop-color="#B9772B"></stop></radialGradient></defs><rect width="512" height="512" rx="112" fill="#1C1512"></rect>
+      <g transform="translate(256 256)">
+        <g fill="#2A201A"><rect x="-200" y="-200" width="400" height="400" rx="30"></rect><g transform="rotate(45)"><rect x="-200" y="-200" width="400" height="400" rx="30"></rect></g></g>
+        <g fill="none" stroke="url(#gold)" stroke-width="34" stroke-linejoin="round"><rect x="-200" y="-200" width="400" height="400" rx="30"></rect><g transform="rotate(45)"><rect x="-200" y="-200" width="400" height="400" rx="30"></rect></g></g>
+        <path fill="url(#gold)" d="M393.0 164.0Q468.0 316.0 446.0 502.0Q443.0 525.0 435.5 547.0Q428.0 569.0 414.0 589.0Q350.0 686.0 210.0 701.0Q113.0 711.0 56.0 657.0Q0.0 603.0 1.0 515.0Q3.0 423.0 59.0 341.0Q71.0 324.0 79.0 332.0Q89.0 342.0 79.0 358.0Q25.0 453.0 61.0 513.0Q96.0 571.0 203.0 570.0Q336.0 568.0 411.0 489.0Q407.0 402.0 327.0 268.0Q315.0 248.0 321.0 237.0L358.0 153.0Q372.0 121.0 393.0 164.0ZM184.0 8.0Q190.0 0.0 201.0 3.0Q221.0 10.0 239.5 21.0Q258.0 32.0 274.0 46.0Q282.0 54.0 277.0 64.0L229.0 140.0Q222.0 150.0 211.0 142.0Q201.0 134.0 139.0 97.0Q128.0 90.0 135.0 80.0L184.0 8.0Z" transform="translate(-74.21 -115.72) scale(0.32839)"></path>
+      </g></svg>

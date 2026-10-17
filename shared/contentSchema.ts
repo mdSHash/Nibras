@@ -14,9 +14,10 @@ import { z } from 'zod';
 // change what validates.
 const text = z.string().trim().min(1);
 const slug = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'lowercase-slug id');
-// Event ids are the future public URLs and are frozen as they are, including
-// the legacy ones (`event-0-ميلاد-النبي--عام-الفيل`, `battle_yamama`). They only
-// have to be usable as file names.
+// Event ids are frozen as they are, including the legacy ones
+// (`event-0-ميلاد-النبي--عام-الفيل`, `battle_yamama`): the chat KB and links between
+// records use them. They only have to be usable as file names; the public
+// address uses the event's slug (shared/routes.ts, `eventSlug`).
 const eventId = z.string().regex(/^[^\s/\\:*?"<>|.][^\s/\\:*?"<>|]*$/, 'usable as a file name, no spaces');
 const latLng = z.tuple([z.number().min(-90).max(90), z.number().min(-180).max(180)]);
 
@@ -54,7 +55,12 @@ export const countSchema = z.strictObject({
 });
 
 export const eventSchema = z.strictObject({
-  id: eventId.describe('Permanent id and file name (`content/events/<id>.json`); becomes the public URL. Never rename.'),
+  id: eventId.describe('Permanent id and file name (`content/events/<id>.json`). Never rename.'),
+  slug: slug
+    .optional()
+    .describe(
+      'The event\'s address, `/event/<slug>/`. Defaults to the id with `_` → `-`; required when the id is not lowercase ASCII. Never change it once published.',
+    ),
   eraId: slug.describe('An `id` from `content/eras.json`.'),
   categoryId: slug.describe('An `id` from `content/categories.json`; sets the marker colour.'),
   isBattle: z.boolean().describe('Counted by the "battles" filter. Stored, never guessed from the title.'),

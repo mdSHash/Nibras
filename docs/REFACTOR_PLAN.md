@@ -226,6 +226,14 @@ The point of this refactor is long-term health **without breaking the current si
 code changes, we capture what the app does today, and after every phase we prove it still does
 exactly that, except for changes listed as intentional.
 
+**Battle replays are not tested, in any phase** (Mostafa, 2026-10-17). They took a large share of
+test time and CPU and will be replaced by videos. `src/battlefield/` and Pixi.js stay in the build, so
+the live site keeps its replays, but nothing checks them: no Playwright replay tests or snapshots, no
+ESLint, no bundle budget (their chunks build into `assets/battle/`), no content check of
+`battleScenarioId`, no baseline data. Do not add replay tests or review the engine; the items below
+that mention replays are struck through. Kept, because they test other features: the "battles"
+filter, `/battle/` route parsing (unit tests) and the chat's battle knowledge.
+
 ### The baseline (captured once, from today's unchanged code)
 
 Capture it at the start of Phase 0, on commit `35b37f0` or the current `main`, **before** any other
@@ -256,13 +264,14 @@ Phase 0 task. Store it in `tests/baseline/` and commit it. It has five parts:
    - search: typing a query lists results; each filter changes the count as in the behavior map
    - help modal, dark mode toggle, fullscreen button, map reset
    - chat panel opens, sends a question to a **mocked** API, renders answer and citation chips, and
-     a citation opens the right event, person, Quran passage or battle
-   - **all 12 battle replays** load, play for a few seconds, and close, each without errors
+     a citation opens the right event, person or Quran passage (~~or battle~~)
+   - ~~**all 12 battle replays** load, play for a few seconds, and close, each without errors~~
+     (removed 2026-10-17)
    - desktop 1440×900 and phone 375×812: every header button is inside the viewport
    - every test fails on any uncaught page error or `console.error`
 4. **Visual snapshots**. Playwright screenshots of key screens at desktop and phone size: start view,
-   event panel open, search open, a person bio, a Quran passage, help, chat, Badr replay at a fixed
-   time, dark mode. Use fixed fonts or wait for them, stub map tiles with a plain image, and freeze
+   event panel open, search open, a person bio, a Quran passage, help, chat, ~~Badr replay at a fixed
+   time~~ (removed 2026-10-17), dark mode. Use fixed fonts or wait for them, stub map tiles with a plain image, and freeze
    animations, so screenshots are stable. Compare with a small pixel tolerance.
 5. **Numbers**: bundle sizes per chunk, number of requests on first load, test count. Recorded so
    later phases can show improvement and catch regressions.
@@ -512,10 +521,12 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
         to Mostafa.
       - *App.* The event gets a `battleVideo` reference (validated at build); the panel's replay button
         and the Phase 2 `/battle/:id` page open an accessible video player (Arabic controls labels,
-        keyboard, captions on by default, loading/error/retry states). Tests: the player opens, plays,
-        shows captions; one visual snapshot per battle replaces the replay snapshot.
+        keyboard, captions on by default, loading/error/retry states). Tests stay light: one test that
+        the player opens a small stub video and shows its controls and captions; never play or
+        screenshot the real videos in verify or CI (they cost time and CPU, as the replays did).
       - *After the last battle.* Archive `src/battlefield/` (git tag plus a note in this plan), drop
-        Pixi.js, GSAP, XState and the replay tests and CI jobs, and record the bundle saving.
+        Pixi.js, GSAP, XState and `assets/battle/` from the build, and record the bundle saving (the
+        replay tests are already gone, 2026-10-17).
 - [ ] ~~Lazy-load each battle scenario by ID; move `ScenarioLoader` out of `scenarios/index.ts` into
       `core/`; split `systems/index.ts` into one file per system.~~ On hold: superseded by the battle
       videos (Mostafa, 2026-10-16).
@@ -672,9 +683,27 @@ tested with real users first.
       failing and retrying a quiz, finishing a path, and progress surviving a reload. Add to the
       baseline and visual snapshots.
 - [ ] Analytics events (from Phase 3): path started, module completed, quiz passed/failed, path completed.
+- [ ] **Redesign the guided tour** (Mostafa, 2026-10-17: "not that cool and not that informative"). Today's
+      8 steps (`src/data/tourSteps.ts`: welcome, timeline, map, search, filters, dark mode, event panel,
+      tips) predate most of the app: they say nothing about the chat assistant, narration, battle
+      replays and videos, era pills and player mode, shareable addresses, or learning paths. Done last
+      in Phase 4 so it can present the paths. Steps:
+      - *Content.* Start from what a visitor can do with Nibras (follow the story on the map, open an
+        event and listen, ask the assistant, take a path), not from where the buttons are. Short Arabic
+        copy; Claude drafts, Mostafa approves every step's text.
+      - *Design.* 3–4 visual directions (for example spotlight steps, a short guided story that opens
+        a real event, a one-screen "what you can do here" card with optional deep dives) shown to
+        Mostafa before building; separate phone and desktop flows where the layout differs (the Phase
+        2 phone menu).
+      - *Behaviour.* Skippable at every step, resumable, restartable from help and the phone menu,
+        keyboard and screen-reader friendly, reduced motion respected; offered once to new visitors
+        (as today), never over a shared link's page.
+      - *Tests.* Playwright walks every step on desktop and phone; visual snapshots of two steps;
+        the tour's targets are checked to exist so a UI change cannot silently break it.
 
 Done when: a guest can finish مسار الرسالة end to end on phone and desktop, progress survives reloads,
-all questions are reviewed, and `npm run verify` passes.
+all questions are reviewed, the new tour is approved and walks the current app, and `npm run verify`
+passes.
 
 ### Phase 5 — Optional accounts, sync and certificates
 

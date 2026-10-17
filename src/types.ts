@@ -1,4 +1,1 @@
-export type FilterOptions = {
-  era: 'all' | 'prophet' | 'rashidun';
-  type: 'all' | 'battles' | 'events';
-};
+export type { FilterOptions } from '../shared/routes';

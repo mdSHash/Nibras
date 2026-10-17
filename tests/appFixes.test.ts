@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { companionsData, eventsData, getEra } from '../src/data';
+import { getEra } from '../src/data';
+import { fullEvents as eventsData, fullPeople as companionsData } from '../scripts/content/generated';
 import { findPersonIn } from '../src/utils/peopleLookup';
 import { isProphetEra, isRashidunEra } from '../src/utils/eventHelpers';
 
