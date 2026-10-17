@@ -20,6 +20,7 @@ import { clusterHtml, markerHtml } from './map/markerIcons';
 import { getTerritoriesForYear } from '../territories';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { useAppStore } from '../store/appStore';
+import { RIDDA } from '../themeColors';
 
 // The tile provider's credit, required by Esri's terms (its "Source" line for World Imagery).
 const TILE_ATTRIBUTION =
@@ -167,7 +168,7 @@ const categoryColor = (categoryId: string): string =>
   categories.find((c) => c.id === categoryId)?.color ?? categories.find((c) => c.id === 'events')!.color;
 
 const cityIcon = L.divIcon({
-  html: `<div style="width: 20px; height: 20px; background-color: #10b981; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: transform 0.2s;"></div>`,
+  html: `<div style="width: 20px; height: 20px; background-color: rgb(var(--sys-go-rgb)); border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: transform 0.2s;"></div>`,
   className: 'custom-marker',
   iconSize: [20, 20],
   iconAnchor: [10, 10],
@@ -338,7 +339,7 @@ const TerritoryRenderer = ({ selectedEvent }: { selectedEvent: EventItem | null 
                 key={`${group.id}-${idx}`}
                 positions={poly.coordinates}
                 pathOptions={{
-                  color: isRidda ? '#f87171' : poly.color,
+                  color: isRidda ? RIDDA : poly.color,
                   fillColor: poly.color,
                   fillOpacity: isRidda ? 0.4 : 0.3,
                   weight: isRidda ? 2.5 : 2,
