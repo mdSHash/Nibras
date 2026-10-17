@@ -191,14 +191,14 @@ export default function HelpModal({ isOpen, onClose }: HelpModalProps) {
                           width: 22,
                           height: 22,
                           background: 'var(--color-accent)',
-                          boxShadow: '0 0 0 1.5px rgba(20,15,10,0.85), 0 1px 3px rgba(0,0,0,0.4)',
+                          boxShadow: '0 0 0 1.5px rgb(var(--sys-chrome-rgb) / 0.85), 0 1px 3px rgba(0,0,0,0.4)',
                         }}
                         aria-hidden="true"
                       >
                         <Play
                           size={10}
                           strokeWidth={0}
-                          className="text-[rgba(20,15,10,0.95)] fill-current translate-x-[1px]"
+                          className="text-chrome/95 fill-current translate-x-[1px]"
                         />
                       </span>
                       <span>معركة قابلة للمشاهدة</span>
@@ -211,8 +211,8 @@ export default function HelpModal({ isOpen, onClose }: HelpModalProps) {
                         style={{
                           width: 22,
                           height: 16,
-                          backgroundColor: 'rgba(16,185,129,0.3)',
-                          border: '2px solid rgba(16,185,129,0.7)',
+                          backgroundColor: 'rgb(var(--sys-go-rgb) / 0.3)',
+                          border: '2px solid rgb(var(--sys-go-rgb) / 0.7)',
                         }}
                         aria-hidden="true"
                       />

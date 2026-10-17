@@ -69,7 +69,7 @@ export default function QuranModal({ reference, onClose }: QuranModalProps) {
                 // Desktop: centered card
                 "md:max-w-[560px] md:max-h-[80vh] md:rounded-[var(--radius-lg)]",
                 // Solid background for readability
-                "bg-[#faf8f5] dark:bg-[#1a1a2e] backdrop-blur-[16px]",
+                "bg-paper backdrop-blur-[16px]",
                 // Border
                 "border-2 border-[var(--color-islamic-green)]/20",
                 "overflow-hidden"
@@ -79,7 +79,7 @@ export default function QuranModal({ reference, onClose }: QuranModalProps) {
               aria-labelledby="quran-modal-title"
             >
               {/* Decorative Header */}
-              <div className="bg-[#f0ecd6] dark:bg-[#1f2937] border-b border-accent/20 p-5 shrink-0 relative overflow-hidden">
+              <div className="bg-quran-head border-b border-accent/20 p-5 shrink-0 relative overflow-hidden">
                 {/* Decorative corners */}
                 <div className="absolute top-2 right-2 w-10 h-10 border-t-2 border-r-2 border-accent opacity-20"></div>
                 <div className="absolute top-2 left-2 w-10 h-10 border-t-2 border-l-2 border-accent opacity-20"></div>
@@ -91,7 +91,7 @@ export default function QuranModal({ reference, onClose }: QuranModalProps) {
                     "absolute left-4 top-4 w-12 h-12",
                     "flex justify-center items-center rounded-full",
                     "bg-ink/5 hover:bg-battle-red/10 hover:text-battle-red",
-                    "text-gray-900 dark:text-gray-100",
+                    "text-quran-close",
                     "transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
                   )}
                   aria-label="إغلاق"
@@ -100,8 +100,8 @@ export default function QuranModal({ reference, onClose }: QuranModalProps) {
                 </button>
 
                 <div className="text-center">
-                  <h2 id="quran-modal-title" className="text-2xl font-bold text-[#2d5a27] dark:text-[#8bc77f] mb-1">{reference}</h2>
-                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <h2 id="quran-modal-title" className="text-2xl font-bold text-quran-title mb-1">{reference}</h2>
+                  <p className="text-sm font-medium text-quran-muted">
                     سورة رقم {data.surah} • الآيات ({data.from} {data.to ? `- ${data.to}` : ''})
                   </p>
                 </div>
@@ -109,11 +109,11 @@ export default function QuranModal({ reference, onClose }: QuranModalProps) {
 
               {/* Quran Text Content */}
               <div
-                className="p-6 md:p-10 overflow-y-auto bg-[#faf8f5] dark:bg-[#111827]"
+                className="p-6 md:p-10 overflow-y-auto bg-quran-body"
               >
                 {text.status === 'ready' ? (
                   <p
-                    className="text-2xl md:text-3xl leading-[2] text-center text-[#1a1a2e] dark:text-[#f5f5f5]"
+                    className="text-2xl md:text-3xl leading-[2] text-center text-paper-ink"
                     style={{ fontFamily: "'Amiri Quran', serif" }}
                   >
                     {text.data}
@@ -124,15 +124,15 @@ export default function QuranModal({ reference, onClose }: QuranModalProps) {
               </div>
 
               {/* Footer with Quran.com link */}
-              <div className="bg-gray-100 dark:bg-gray-800 p-4 border-t border-accent/10 flex justify-center shrink-0">
+              <div className="bg-quran-foot p-4 border-t border-accent/10 flex justify-center shrink-0">
                 <a
                   href={data.link}
                   target="_blank"
                   rel="noreferrer"
                   className={cn(
                     "flex items-center gap-2 px-6 py-2.5 min-h-[48px]",
-                    "bg-[#2d5a27]/10 dark:bg-[#6da561]/10 border border-[#2d5a27] dark:border-[#6da561]",
-                    "text-[#2d5a27] dark:text-[#8bc77f] hover:bg-[#2d5a27] dark:hover:bg-[#6da561] hover:text-white",
+                    "bg-islamic-green/10 border border-islamic-green",
+                    "text-quran-title hover:bg-islamic-green hover:text-white",
                     "text-[14px] font-bold rounded-full transition-all"
                   )}
                 >

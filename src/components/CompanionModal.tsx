@@ -89,7 +89,7 @@ export default function CompanionModal({ personId, onClose }: CompanionModalProp
                   "hover:bg-ink/20 transition-colors",
                   "focus:outline-none focus:ring-2 focus:ring-accent"
                 )}
-                style={{ backgroundColor: 'rgba(44, 36, 30, 0.1)', color: 'var(--color-ink)' }}
+                style={{ backgroundColor: 'rgb(var(--sys-chrome-raised-rgb) / 0.1)', color: 'var(--color-ink)' }}
                 aria-label="إغلاق"
               >
                 <X size={22} strokeWidth={2.5} />
@@ -97,7 +97,7 @@ export default function CompanionModal({ personId, onClose }: CompanionModalProp
 
               {companion ? (
                 <div>
-                  <div className="flex items-center gap-3 pb-5 mb-5" style={{ borderBottom: '2px solid rgba(61, 43, 31, 0.2)' }}>
+                  <div className="flex items-center gap-3 pb-5 mb-5" style={{ borderBottom: '2px solid rgb(var(--sys-umber-rgb) / 0.2)' }}>
                     <div className="w-14 h-14 rounded-full bg-accent text-parchment flex justify-center items-center shrink-0 shadow-md">
                       <User size={26} />
                     </div>
@@ -130,7 +130,7 @@ export default function CompanionModal({ personId, onClose }: CompanionModalProp
                 </div>
               ) : (
                 <div className="text-center py-6">
-                  <div className="w-16 h-16 mx-auto rounded-full flex justify-center items-center mb-4" style={{ backgroundColor: 'rgba(61, 43, 31, 0.15)', color: 'rgba(44, 36, 30, 0.5)' }}>
+                  <div className="w-16 h-16 mx-auto rounded-full flex justify-center items-center mb-4" style={{ backgroundColor: 'rgb(var(--sys-umber-rgb) / 0.15)', color: 'rgb(var(--sys-chrome-raised-rgb) / 0.5)' }}>
                     <User size={32} />
                   </div>
                   {/* Only for an unknown id (every event link is checked at build). */}
