@@ -1316,3 +1316,24 @@ the verify runs; repeated, this branch failed 2 of 58 runs and `main` 0 of 18. T
 the start screen before any event or player opens, which 3H does not change; watch it in CI. The
 shared helper `openEventBySearch` also timed out once in 20 heavy repeated runs (closing the
 search drawer).
+
+**3H merged**: PR #8, merge commit `2b27adf` (2026-10-17).
+
+### 3B — colors through theme tokens
+
+Started 2026-10-17 on `refactor/phase-3b-theme-tokens` from `main` at `2b27adf` (PR #8 merged).
+
+#### Decisions by Mostafa (3B)
+
+- 2026-10-17: **no visual change**: the 16 Windows and 16 Linux screenshots stay identical (any
+  difference is a bug unless approved); text contrast passes WCAG AA in light and dark.
+- 2026-10-17: **dark mode follows the app's button everywhere.** Found while planning: there is no
+  `@custom-variant dark`, so Tailwind's `dark:` classes (QuranModal, SearchMenu, TourTooltip)
+  followed the system setting, not the button; with the app dark and the system light those parts
+  stayed light, and the reverse. The rule stays as it is for the start (a visitor who never pressed
+  the button gets the system setting, light when there is none); once pressed, the whole app
+  follows the button. This is 3B's one intentional change.
+- 2026-10-17: **the phone rule `.fixed, .absolute { max-width: 100vw }`** is removed together with
+  the battle video player's `LAYER` workaround, if measuring shows nothing else depends on it.
+- 2026-10-17: `src/battlefield/` is not touched (rule 8); the battle video player keeps its Tailwind
+  gray classes (they match the replay).
