@@ -52,24 +52,21 @@ export default function Timeline({
   const wheelAnimationFrameRef = useRef<number | null>(null);
   const wheelVelocityRef = useRef(0);
   const [showScrollBack, setShowScrollBack] = useState(false);
-  const [playbackSpeed, setPlaybackSpeed] = useState<1 | 2 | 3>(1);
   const [isDockVisible, setIsDockVisible] = useState(true);
   const [isTTSEnabled, setIsTTSEnabled] = useState(true);
   const [isExpanded, setIsExpanded] = useState(false);
 
   // Refs that let the async autoplay loop read the freshest values without
-  // capturing stale closures. Speed + TTS-enabled are mirrored so cycling
-  // them mid-utterance takes effect at the NEXT iteration boundary instead of
+  // capturing stale closures. TTS-enabled is mirrored so toggling it
+  // mid-utterance takes effect at the NEXT iteration boundary instead of
   // tearing down the effect and re-narrating the current event from the top.
   const isAutoPlayingRef = useRef(isAutoPlaying);
   const fullEventsRef = useRef<EventItem[]>(allEvents);
   const selectedEventIdRef = useRef<string | null>(null);
-  const playbackSpeedRef = useRef(playbackSpeed);
   const isTTSEnabledRef = useRef(isTTSEnabled);
 
   useEffect(() => { isAutoPlayingRef.current = isAutoPlaying; }, [isAutoPlaying]);
   useEffect(() => { selectedEventIdRef.current = selectedEvent?.id ?? null; }, [selectedEvent]);
-  useEffect(() => { playbackSpeedRef.current = playbackSpeed; }, [playbackSpeed]);
   useEffect(() => { isTTSEnabledRef.current = isTTSEnabled; }, [isTTSEnabled]);
   // Keep the autoplay snapshot in sync with the current filter selection so a
   // filter change during autoplay is picked up on the next iteration instead
@@ -260,14 +257,14 @@ export default function Timeline({
         let narrated = false;
         if (isTTSEnabledRef.current && currentEvent.title) {
           try {
-            await requestSpeak('timeline', currentEvent.title, { voice: 'Charon', rate: playbackSpeedRef.current });
+            await requestSpeak('timeline', currentEvent.title, { voice: 'Charon', rate: 1 });
             narrated = true;
           } catch (error) {
             console.error('[Timeline] TTS error for', currentEvent.title, ':', error);
           }
         }
         if (!narrated) {
-          await new Promise(r => setTimeout(r, 5000 / playbackSpeedRef.current));
+          await new Promise(r => setTimeout(r, 5000));
         }
 
         if (!isActive || !isAutoPlayingRef.current) break;
@@ -313,10 +310,6 @@ export default function Timeline({
     setIsTTSEnabled(v => !v);
   }, []);
 
-  const cycleSpeed = useCallback(() => {
-    setPlaybackSpeed(prev => (prev === 1 ? 2 : prev === 2 ? 3 : 1));
-  }, []);
-
   const handleEraClick = useCallback((pillId: string) => {
     const isDeselect = selectedEra === pillId;
     onEraSelect?.(isDeselect ? null : pillId);
@@ -331,18 +324,17 @@ export default function Timeline({
 
   const dockProps = useMemo(() => ({
     isDockVisible, setIsDockVisible,
-    isPlayerMode, isAutoPlaying, isTTSEnabled, playbackSpeed,
+    isPlayerMode, isAutoPlaying, isTTSEnabled,
     selectedEra, quickJumps,
     onToggleAutoPlay: toggleAutoPlay,
     onToggleTTS: toggleTTS,
-    onCycleSpeed: cycleSpeed,
     onStartOver: startOver,
     onExitPlayerMode: exitPlayerMode,
     onEraClick: handleEraClick,
   }), [
-    isDockVisible, isPlayerMode, isAutoPlaying, isTTSEnabled, playbackSpeed,
+    isDockVisible, isPlayerMode, isAutoPlaying, isTTSEnabled,
     selectedEra, quickJumps,
-    toggleAutoPlay, toggleTTS, cycleSpeed, startOver, exitPlayerMode, handleEraClick,
+    toggleAutoPlay, toggleTTS, startOver, exitPlayerMode, handleEraClick,
   ]);
 
   return (

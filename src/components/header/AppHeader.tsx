@@ -269,7 +269,7 @@ export function AppHeader() {
         <HeaderButton
           delay={0.6}
           className="lg:hidden"
-          data-tour-id="search-button"
+          data-tour-id="search-button-compact"
           onClick={() => setSearchOpen(true)}
           aria-label="فتح قائمة البحث والتصفية"
           aria-haspopup="dialog"

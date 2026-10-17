@@ -5,7 +5,7 @@
       "clusters": 3,
       "pointsInClusters": 22
     },
-    "firstLoadRequests": 12
+    "firstLoadRequests": 11
   },
   "phone": {
     "markersAfterAutoSelect": {
@@ -13,7 +13,7 @@
       "clusters": 4,
       "pointsInClusters": 26
     },
-    "firstLoadRequests": 12
+    "firstLoadRequests": 11
   },
   "phone-firefox": {
     "markersAfterAutoSelect": {

@@ -6,6 +6,10 @@
  *     (shared/pageMeta.ts) in the app's colours and fonts
  *   - public/favicon.png (32×32), from public/favicon.svg, for browsers
  *     without SVG favicons
+ *   - the web manifest's icons (public/manifest.webmanifest), from public/favicon.svg:
+ *     icon-192.png and icon-512.png as drawn; icon-maskable-512.png and
+ *     apple-touch-icon.png (180×180) on a full square of the icon's background, the
+ *     maskable one scaled into the safe circle Android crops to
  * Run it again after changing any of them; it needs the network for Google Fonts.
  *
  *   npx tsx scripts/make-site-images.ts
@@ -60,11 +64,28 @@ try {
   console.log(`Wrote ${out}`);
 
   const favicon = readFileSync(join(ROOT, 'public', 'favicon.svg'), 'utf8');
-  await page.setViewportSize({ width: 32, height: 32 });
-  await page.setContent(`<style>html,body{margin:0;background:transparent}svg{display:block;width:32px;height:32px}</style>${favicon}`);
-  const png = join(ROOT, 'public', 'favicon.png');
-  await page.locator('svg').screenshot({ path: png, omitBackground: true });
-  console.log(`Wrote ${png}`);
+  // The icon's own background (the rounded square in favicon.svg).
+  const ICON_BG = '#1C1512';
+  const icons: { file: string; size: number; fullBleed?: boolean; scale?: number }[] = [
+    { file: 'favicon.png', size: 32 },
+    { file: 'icon-192.png', size: 192 },
+    { file: 'icon-512.png', size: 512 },
+    // The star reaches about 0.53 of the size from the centre; Android keeps a circle of 0.4.
+    { file: 'icon-maskable-512.png', size: 512, fullBleed: true, scale: 0.72 },
+    { file: 'apple-touch-icon.png', size: 180, fullBleed: true, scale: 0.86 },
+  ];
+  for (const { file, size, fullBleed = false, scale = 1 } of icons) {
+    const inner = Math.round(size * scale);
+    await page.setViewportSize({ width: size, height: size });
+    await page.setContent(
+      `<style>html,body{margin:0;background:transparent}` +
+        `.icon{width:${size}px;height:${size}px;display:flex;align-items:center;justify-content:center;background:${fullBleed ? ICON_BG : 'transparent'}}` +
+        `svg{display:block;width:${inner}px;height:${inner}px}</style><div class="icon">${favicon}</div>`,
+    );
+    const png = join(ROOT, 'public', file);
+    await page.locator('.icon').screenshot({ path: png, omitBackground: !fullBleed });
+    console.log(`Wrote ${png}`);
+  }
 } finally {
   await browser.close();
 }

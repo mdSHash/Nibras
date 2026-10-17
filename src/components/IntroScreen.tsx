@@ -40,29 +40,15 @@ export default function IntroScreen({ onComplete }: IntroScreenProps) {
   const [fontLoaded, setFontLoaded] = useState(false);
   const hasCompleted = useRef(false);
 
-  // Load Amiri font (Naskh style — used in Quran printing)
+  // Wait for Amiri (Naskh style — used in Quran printing; src/fonts.ts) before drawing the name.
   useEffect(() => {
-    const link = document.createElement('link');
-    link.href = 'https://fonts.googleapis.com/css2?family=Amiri:wght@700&display=swap';
-    link.rel = 'stylesheet';
-    document.head.appendChild(link);
-
-    // Check if font is loaded
-    const checkFont = () => {
-      if (document.fonts) {
-        document.fonts.ready.then(() => {
-          setFontLoaded(true);
-        });
-      } else {
-        // Fallback: assume loaded after a short delay
-        setTimeout(() => setFontLoaded(true), 300);
-      }
-    };
-    checkFont();
-
-    return () => {
-      document.head.removeChild(link);
-    };
+    if (!document.fonts) {
+      // Fallback: assume loaded after a short delay
+      const timer = setTimeout(() => setFontLoaded(true), 300);
+      return () => clearTimeout(timer);
+    }
+    const done = () => setFontLoaded(true);
+    document.fonts.load('700 1em Amiri', 'نبراس').then(done, done);
   }, []);
 
   const finish = useCallback(() => {

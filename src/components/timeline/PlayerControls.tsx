@@ -7,10 +7,8 @@ export interface PlayerControlsProps {
   variant: 'desktop' | 'mobile-dock' | 'mobile-rail';
   isAutoPlaying: boolean;
   isTTSEnabled: boolean;
-  playbackSpeed: 1 | 2 | 3;
   onToggleAutoPlay: () => void;
   onToggleTTS: () => void;
-  onCycleSpeed: () => void;
   onStartOver: () => void;
   onExitPlayerMode: () => void;
 }
@@ -18,15 +16,15 @@ export interface PlayerControlsProps {
 const ICON_BTN = `min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full shrink-0 ${FOCUS_RING}`;
 
 /**
- * The 5-button player-mode strip (autoplay / TTS / speed / restart / exit)
+ * The 4-button player-mode strip (autoplay / TTS / restart / exit)
  * shared between the desktop dock, the mobile dock, and the mobile-expanded
  * rail footer. All three used to inline near-identical JSX; this component
  * is the single source of truth.
  */
 export function PlayerControls(props: PlayerControlsProps) {
   const {
-    variant, isAutoPlaying, isTTSEnabled, playbackSpeed,
-    onToggleAutoPlay, onToggleTTS, onCycleSpeed, onStartOver, onExitPlayerMode,
+    variant, isAutoPlaying, isTTSEnabled,
+    onToggleAutoPlay, onToggleTTS, onStartOver, onExitPlayerMode,
   } = props;
 
   if (variant === 'desktop') {
@@ -61,17 +59,6 @@ export function PlayerControls(props: PlayerControlsProps) {
           title={isTTSEnabled ? 'إيقاف الصوت' : 'تشغيل الصوت'}
         >
           {isTTSEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
-        </motion.button>
-
-        <motion.button
-          onClick={onCycleSpeed}
-          whileTap={{ scale: 0.95 }}
-          aria-label={`السرعة ${playbackSpeed}x`}
-          className={cn(pill, 'px-3 py-2 gap-1 bg-accent/20 border-accent/40')}
-          style={{ touchAction: 'manipulation', boxShadow: '0 0 20px rgba(139, 107, 74, 0.4)' }}
-          title="تغيير سرعة التشغيل"
-        >
-          <span className="font-mono">{playbackSpeed}x</span>
         </motion.button>
 
         <motion.button
@@ -128,15 +115,6 @@ export function PlayerControls(props: PlayerControlsProps) {
         style={{ touchAction: 'manipulation' }}
       >
         {isTTSEnabled ? <Volume2 size={iconSize} /> : <VolumeX size={iconSize} />}
-      </button>
-
-      <button
-        onClick={onCycleSpeed}
-        aria-label={`السرعة ${playbackSpeed}x`}
-        className={cn(ICON_BTN, textTone, 'text-xs font-mono font-bold', !isRail && 'text-ink')}
-        style={{ touchAction: 'manipulation' }}
-      >
-        {playbackSpeed}x
       </button>
 
       <button

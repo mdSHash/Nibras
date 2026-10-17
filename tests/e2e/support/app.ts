@@ -43,7 +43,7 @@ const control = (page: Page, name: string | RegExp): Locator =>
 
 export const header = {
   // Two elements carry this tour id (one per layout); take the visible one.
-  search: (page: Page) => page.locator('[data-tour-id="search-button"]:visible').first(),
+  search: (page: Page) => page.locator('[data-tour-id="search-button"]:visible, [data-tour-id="search-button-compact"]:visible').first(),
   resetMap: (page: Page) => control(page, 'إعادة تعيين الخريطة'),
   fullscreen: (page: Page) => control(page, 'ملء الشاشة'),
   help: (page: Page) => control(page, 'دليل الاستخدام والاختصارات'),

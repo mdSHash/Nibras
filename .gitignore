@@ -12,3 +12,6 @@ playwright/.cache/
 .bob
 tmp/
 src/generated/
+
+# Battle videos as delivered (hosted outside git; Phase 3H)
+Video/

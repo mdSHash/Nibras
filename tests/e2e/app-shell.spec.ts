@@ -1,4 +1,4 @@
-import { test, expect, knownFailure } from './support/fixtures';
+import { test, expect } from './support/fixtures';
 import type { Page } from '@playwright/test';
 import { behavior, eventById, header, headerControl, mapState, markerCounts, openApp, openAppWithEvent, panelTitle, settledMarkerCounts, waitForMapIdle } from './support/app';
 import { expectUiBaseline } from './support/uiBaseline';
@@ -9,10 +9,11 @@ const START = { lat: 24.4672, lng: 39.6112, zoom: 6 };
 test('first load: request count and markers at the start view match the UI baseline @phone', async ({ page }, testInfo) => {
   // Map tiles are left out: how many load depends on the timing of the flight animation.
   // Font files too (Phase 2B): how many load depends on how long the pre-rendered text is shown.
+  // Since Phase 3A they are served with the site instead of from fonts.gstatic.com.
   let requests = 0;
   page.on('request', (request) => {
     const url = request.url();
-    if (!url.includes('server.arcgisonline.com') && !url.includes('fonts.gstatic.com')) requests++;
+    if (!url.includes('server.arcgisonline.com') && !/\.woff2?$/.test(new URL(url).pathname)) requests++;
   });
   await openAppWithEvent(page);
   await page.waitForLoadState('networkidle');
@@ -177,28 +178,34 @@ test.describe('map moves to the selected event', () => {
   });
 });
 
-test.describe('known failures', () => {
+// Were known failures 5, 6 and 7 in the Phase 0A baseline (fixed in Phase 3A).
+test('the map credits the tile provider behind a © button', async ({ page }) => {
+  await openApp(page);
+  const toggle = page.getByRole('button', { name: 'مصادر صور الخريطة' });
+  const credit = page.locator('#nb-credit-text');
+  await expect(credit).toBeHidden();
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  await expect(credit).toBeVisible();
+  await expect(credit).toContainText('Esri');
+  await page.keyboard.press('Escape');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  // With a mouse the credit also shows on hover: move away to see it close.
+  await page.mouse.move(400, 400);
+  await expect(credit).toBeHidden();
+});
 
-  test('the map shows the tile provider attribution', async ({ page }) => {
-    knownFailure('attributionControl={false} hides the required Esri attribution');
-    await openApp(page);
-    await expect(page.locator('.leaflet-control-attribution')).toBeVisible();
-  });
+test('the tour target data-tour-id="search-button" is unique', async ({ page }) => {
+  await openApp(page);
+  await expect(page.locator('[data-tour-id="search-button"]')).toHaveCount(1);
+});
 
-  test('the tour target data-tour-id="search-button" is unique', async ({ page }) => {
-    knownFailure('two elements carry data-tour-id="search-button"');
-    await openApp(page);
-    await expect(page.locator('[data-tour-id="search-button"]')).toHaveCount(1);
-  });
-
-  test('arrow-key navigation does not show a toast every time', async ({ page }) => {
-    knownFailure('a toast appears on every next/previous arrow press');
-    await openAppWithEvent(page);
-    await page.keyboard.press('ArrowRight');
-    await page.waitForTimeout(300);
-    // An immediate count: toHaveCount(0) would retry until the 3 s toast is gone.
-    expect(await page.getByText('الحدث التالي', { exact: true }).count()).toBe(0);
-  });
+test('arrow-key navigation does not show a toast every time', async ({ page }) => {
+  await openAppWithEvent(page);
+  await page.keyboard.press('ArrowRight');
+  await page.waitForTimeout(300);
+  // An immediate count: toHaveCount(0) would retry until the 3 s toast is gone.
+  expect(await page.getByText('الحدث التالي', { exact: true }).count()).toBe(0);
 });
 
 test.describe('dark mode is remembered', () => {

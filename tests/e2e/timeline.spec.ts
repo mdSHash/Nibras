@@ -1,4 +1,4 @@
-import { test, expect, knownFailure } from './support/fixtures';
+import { test, expect } from './support/fixtures';
 import { behavior, eventById, header, openAppWithEvent, panelTitle } from './support/app';
 import type { Page } from '@playwright/test';
 
@@ -73,21 +73,16 @@ test('player mode autoplay narrates each title and advances to the next event', 
   await expectSelected(page, second.id);
 });
 
-test.describe('known failure', () => {
-  // Timeline.tsx:260 narrates the title with rate = playback speed; no audio file
-  // exists for 2× or 3×, so the request fails, console.error is logged and the
-  // timeline falls back to a timed pause.
-  test('autoplay at 2× narrates without errors', async ({ page, network }) => {
-    knownFailure('no narration files exist for 2×/3× speed');
-    await openAppWithEvent(page);
-    await hidePanel(page);
-    await page.getByRole('button', { name: 'تشغيل', exact: true }).locator('visible=true').first().click();
-    await page.getByRole('button', { name: 'إيقاف', exact: true }).locator('visible=true').first().click();
-    await page.getByRole('button', { name: 'السرعة 1x' }).locator('visible=true').first().click();
-    await page.getByRole('button', { name: 'تشغيل', exact: true }).locator('visible=true').first().click();
-    await expect.poll(() => network.audioRequests.length, { timeout: 10_000 }).toBeGreaterThan(1);
-    await page.waitForTimeout(1_000);
-  });
+// Was known failure 10 in the Phase 0A baseline (fixed in Phase 3A): 2× and 3× had no narration
+// files, so autoplay at those speeds hit 404s. The speed control is gone; autoplay runs at 1×.
+test('player mode has no speed control and autoplay narrates without errors', async ({ page, network }) => {
+  await openAppWithEvent(page);
+  await hidePanel(page);
+  await page.getByRole('button', { name: 'تشغيل', exact: true }).locator('visible=true').first().click();
+  await expect(page.getByTitle('الخروج من وضع التشغيل').locator('visible=true')).not.toHaveCount(0);
+  await expect(page.getByRole('button', { name: /^السرعة/ })).toHaveCount(0);
+  await expect.poll(() => network.audioRequests.length, { timeout: 10_000 }).toBeGreaterThan(0);
+  await page.waitForTimeout(1_000);
 });
 
 // Was known failure 11 in the Phase 0A baseline (fixed in Phase 2C: the desktop

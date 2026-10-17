@@ -2,10 +2,13 @@
 // (index.html and IntroScreen.tsx), so Playwright can serve them offline and
 // screenshots use the real Arabic fonts. Run once; the files are committed.
 //
-//   npx tsx scripts/baseline/fetch-test-fonts.ts
+//   npx tsx scripts/archive/fetch-test-fonts.ts
+//
+// Archived in Phase 3A: the fonts are now served with the site (src/fonts.ts), so tests no
+// longer need Google's copies.
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { ROOT, sha256Hex } from './lib';
+import { ROOT, sha256Hex } from '../baseline/lib';
 
 // Every stylesheet URL the app loads today.
 export const FONT_CSS_URLS = [

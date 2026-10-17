@@ -533,13 +533,14 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
 - [ ] ~~Battle readability: hide or de-collide unit labels at low zoom; `dir="ltr"` on the timer.~~ On
       hold: superseded by the battle videos (Mostafa, 2026-10-16). The event's Arabic date in the
       subtitle was done in Phase 1B.
-- [ ] Self-host the Arabic fonts (subset, only weights in use); remove the second font link injected
-      by `IntroScreen.tsx`.
+- [x] Self-host the Arabic fonts (subset, only weights in use); remove the second font link injected
+      by `IntroScreen.tsx`. (3A)
 - [ ] Styling: colors only through theme tokens; move inline `style={{}}` colors into tokens/classes;
       cut `!important` in `src/index.css`. No visual change.
-- [ ] Remove the toast on next/previous; keep the event panel in place when search opens; dedupe the
-      tour target `data-tour-id`.
-- [ ] Timeline player: remove the 2× and 3× playback speeds and keep 1× only (no narration exists
+- [x] Remove the toast on next/previous; dedupe the tour target `data-tour-id`. (3A) ~~Keep the event
+      panel in place when search opens~~: dropped, Mostafa keeps the panel moving beside the search
+      drawer (2026-10-17).
+- [x] Timeline player: remove the 2× and 3× playback speeds and keep 1× only (no narration exists
       for other speeds; known failure 10). Approved removal of a visible control (Mostafa, 2026-10-15).
 - [ ] **Territory map: correct borders and a better look** (Mostafa, 2026-10-16: the borders between
       empires, kingdoms and tribes need correcting, and the map "looks awful"). Two parts, content
@@ -561,8 +562,8 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
         directions and let him pick before building** (he rejected a solo redesign before).
       Polygons stay precomputed at build (`scripts/content/territories.ts`); the content snapshot
       records every changed period for approval.
-- [ ] Add map attribution for the tile provider.
-- [ ] Add a web manifest and icons.
+- [x] Add map attribution for the tile provider. (3A)
+- [x] Add a web manifest and icons. (3A)
 - [ ] Add Umami with the custom events listed in "Owner visibility, SEO and domain"; write
       `docs/OWNER_DASHBOARD.md`; register the site in Google Search Console and Bing Webmaster Tools
       and submit the sitemap (Mostafa verifies ownership); add Lighthouse checks with budgets to

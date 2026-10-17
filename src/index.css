@@ -1357,6 +1357,53 @@ button[disabled],
   :root { --header-h: 48px; }
 }
 
+/* Map credit (Map.tsx, MapCredit): a © button below the header that opens the full credit. */
+.leaflet-top.leaflet-left {
+  top: var(--header-h);
+}
+.leaflet-container .nb-credit {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  direction: ltr;
+  font-family: inherit;
+}
+.nb-credit__toggle {
+  width: 26px;
+  height: 26px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in oklab, var(--color-card-bg) 85%, transparent);
+  color: var(--color-ink);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}
+.nb-credit__text {
+  display: none;
+  max-width: calc(100vw - 64px);
+  padding: 2px 10px;
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--color-card-bg) 92%, transparent);
+  color: var(--color-ink);
+  font-size: 11px;
+  line-height: 1.6;
+}
+.nb-credit.is-open .nb-credit__text {
+  display: block;
+}
+@media (hover: hover) {
+  .nb-credit:hover .nb-credit__text {
+    display: block;
+  }
+}
+.nb-credit__text a {
+  color: inherit;
+  text-decoration: underline;
+}
+
 /* Mobile Landscape: tighten header height + prevent body scroll */
 @media (max-width: 896px) and (orientation: landscape) {
   header {

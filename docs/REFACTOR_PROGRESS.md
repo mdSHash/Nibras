@@ -9,7 +9,7 @@ The log for `docs/REFACTOR_PLAN.md`. Each session reads this file first and upda
 | 0B Safety net | merged | `refactor/phase-0b-safety-net` | #4 |
 | 1 Content model | merged | `refactor/phase-1-content` | #5 |
 | 2 State, routing and pages | merged | `refactor/phase-2-routing` | #6 |
-| 3 Assets, chat and polish | not started | `refactor/phase-3-polish` | — |
+| 3 Assets, chat and polish | 3A in review | `refactor/phase-3a-fixes` | #7 |
 | 4 Learning paths for guests | not started | `feature/phase-4-paths` | — |
 | 5 Optional accounts | not started | `feature/phase-5-accounts` | — |
 
@@ -1049,3 +1049,116 @@ Manual checks for Mostafa (phone and desktop):
    the panel reach down again.
 5. Set the system to dark, clear site data, open a shared event link: no light flash, the page and
    the app are dark; choose light in the app and reload: it stays light.
+
+---
+
+## Phase 3 — Assets, chat and polish
+
+Started 2026-10-17 from `main` at `f96b55b` (PR #6 merged). Before any change, `npm run verify`
+passed on `f96b55b`: Vitest 229/229, feature tests 79 passed (known failures 5, 6, 7, 10), 1
+skipped, phone smoke 42/42, visual 16/16, bundle budget within limits.
+
+Proposed sessions (waiting for Mostafa's answers before any code): **3A** quick fixes (known
+failures 5, 6, 7, 10; panel stays when search opens; web manifest; self-hosted fonts), **3B** colors
+through theme tokens (no visual change), **3C** chat (KB and index in `api/_data/`, scheduled index
+build, per-IP rate limit), **3D** audio (manifest by event id, compressed narration, archive),
+**3E** owner visibility (Umami, Search Console, Lighthouse budgets), **3F** territories research and
+3–4 visual directions, **3G** territories build, **3H** battle video pipeline, **3I** close-out.
+
+### Decisions by Mostafa
+
+- 2026-10-17: **free options only, for now.** No paid hosting or service; paid ones may come later,
+  so provider details stay behind one setting or content field. Narration: compressed AAC kept on
+  GitHub Pages, WAV originals and the 118 unused files archived as GitHub Release assets; no
+  history rewrite. Quota: free tiers only, still counted and asked first. Analytics: Umami Cloud
+  free tier. Battle videos: YouTube unlisted (Cloudflare R2 needs a card on file even for its free
+  tier; Bunny Stream is paid), played with Nibras's own Arabic controls and captions from the
+  reviewed WebVTT; originals as GitHub Release assets.
+
+- 2026-10-17: **one PR per session** (`refactor/phase-3a-…`, `refactor/phase-3b-…`, …), each merged
+  before the next starts; this log keeps one Phase 3 section.
+- 2026-10-17: **`chore/chat-embeddings` is not merged**; 3C rebuilds the index from its vectors in
+  the new format (no quota) and the branch is then closed.
+- 2026-10-17: **chat rate limit** as proposed: 20 questions per 10 minutes and 100 per day per IP,
+  429 message «لقد أرسلت أسئلة كثيرة في وقت قصير. حاول مرة أخرى بعد قليل.»
+- 2026-10-17: **territory borders**: the goal is the map as it was in those days. No atlas is bought;
+  borders are rebuilt from the chronicles the app cites (Ibn Hisham, al-Tabari, al-Baladhuri, Ibn
+  Kathir), with the source noted per region and period and every uncertain border listed for
+  Mostafa. **Basemap** (satellite, terrain or parchment) is chosen from the 3F visual directions.
+- 2026-10-17: **battle videos**: Badr is ready but its voice is being fixed; Mostafa sends the video
+  and its narration script when done. 3H waits for them.
+- 2026-10-17: **old scripts and `server/` are archived** (moved to `scripts/archive/`), not deleted.
+- 2026-10-17 (3A): **the event panel keeps moving beside the search drawer** on desktop (Mostafa:
+  "I like what is already there"). The plan's "keep the event panel in place when search opens" is
+  dropped.
+- 2026-10-17 (3A): **baselines approved**: first-load requests 12 → 11 (desktop, phone; WebKit and
+  Firefox unchanged at 12 and 13), the `index.css` bundle entry 29.7 → 31.1 KB gzip (only that entry;
+  the rest stays the Phase 0 reference), the 16 Windows screenshots with the attribution strip, and
+  the test counts. The 16 Linux screenshots are removed so CI on the PR records a new set.
+- 2026-10-17: **the Badr video arrived** (`Video/Badr/`, ignored by git: 4:41, 1080p30 H.264 + AAC
+  stereo, 103 MB, fast start, with `Transcript.txt`: 42 lines of Egyptian narration with English
+  voice directions in brackets). **3H comes next, right after 3A** (Mostafa). Asked for each video:
+  an `.srt`/`.vtt` export with timings, surah:ayah for each recitation, an unlisted YouTube link.
+  Open for Mostafa (Badr): figures and episodes the video states that the event does not (14
+  martyrs, two horses, al-Hubab's advice, ʿUmayr ibn al-Humam, Bilal and Umayya, the qalib) — add
+  to the event with a source, or leave. Al-Anfal 8:9 matches Quran.com; 8:17 and Al ʿImran 3:123
+  (partial verses) are to be fetched.
+
+### Intentional behavior changes (3A)
+
+1. **Map credit behind a © button** (known failure 5): a small © button top-left under the header
+   (the one corner the event panel and the timeline never cover) opens «Leaflet | المصدر: Esri
+   وMaxar وEarthstar Geographics ومجتمع مستخدمي GIS» (Esri's current credit line for World Imagery)
+   on tap, click, keyboard or hover; Escape or a tap on the map closes it. A first version showed
+   the full strip; Mostafa asked to hide it (2026-10-17), and Esri's terms need the credit on the map,
+   so it is folded instead of removed.
+2. **One `data-tour-id="search-button"`** (known failure 6): the compact search button (below
+   `lg`) is now `search-button-compact`; the tour's search step lists both, as the dark-mode step
+   already did.
+3. **No toast on next/previous** (known failure 7). The "page not found" toast stays.
+4. **No playback speed control** (known failure 10; approved 2026-10-15): the 2×/3× button is gone
+   from the desktop and phone player strips; autoplay narrates at 1× and waits 5 s without
+   narration.
+5. **Fonts served with the site** instead of Google Fonts: `src/fonts.ts` imports the Fontsource
+   packages (OFL) for the same families and weights (Tajawal 400/500/700/900, Amiri 400/700, Amiri
+   Quran 400). All 16 files Google served are byte-identical to the Fontsource ones, so text renders
+   the same. The intro loads Amiri 700 through `document.fonts.load` instead of injecting a second
+   Google link. No request leaves the site for fonts; the first-load request count leaves out
+   `.woff`/`.woff2` files (as it left out `fonts.gstatic.com`). The test copies of Google's files
+   (`tests/e2e/assets/fonts/`) and their stubs are removed; `fetch-test-fonts.ts` is archived in
+   `scripts/archive/`.
+6. **Web manifest and icons**: `public/manifest.webmanifest` (Arabic name, RTL, standalone, the
+   icon's colours), `icon-192.png`, `icon-512.png`, `icon-maskable-512.png`,
+   `apple-touch-icon.png`, drawn from `favicon.svg` by `scripts/make-site-images.ts`. No service
+   worker (no offline mode).
+
+### 3A verification (2026-10-17, Windows 11, Node 20.19.5, Playwright 1.59.1)
+
+`npm run verify -- --update-numbers` on the final 3A code:
+
+| Step | Result |
+| --- | --- |
+| Content build (Zod), type check, ESLint | passed |
+| Vitest | 229/229 |
+| Content snapshot, behavior map | identical to the baseline |
+| Production build + pre-render | 356 pages, 305 in `sitemap.xml` |
+| Bundle budget | within limits (JS at start 923.5 KB, 256.5 KB gzip; CSS 31.1 KB gzip) |
+| Playwright features | 80: 79 passed, **0 known failures** (5, 6, 7, 10 fixed), 1 skipped |
+| Phone smoke (WebKit, Firefox) | 42/42 |
+| Visual snapshots | 16/16 (all 16 Windows images rewritten with the © button) |
+
+One full run was stopped by Claude Code for low system memory (not a test failure) and run again.
+The 16 Linux snapshots were recorded by CI on PR #7 (run 39044826718, artifact
+`baseline-linux-visual`), compared with the Windows set (same screens with the © button, font
+rendering only; the Linux UI numbers unchanged) and committed.
+
+Manual checks for Mostafa (phone and desktop):
+
+1. A small © button top-left under the header; a tap opens «Leaflet | المصدر: Esri …», a tap on the map
+   closes it; readable in light and dark.
+2. Arrow keys move between events with no «الحدث التالي» toast.
+3. Player mode (تشغيل): no speed button; narration plays at normal speed.
+4. Tour: the search step points at the search bar on desktop and the search icon on a phone.
+5. Text looks as before (fonts now from the site; in the browser's network tab no request goes to
+   `fonts.googleapis.com` or `fonts.gstatic.com`).
+6. Phone (Chrome/Android): ⋮ → "Add to home screen" shows «نبراس» with the golden-star icon.

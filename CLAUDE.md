@@ -46,6 +46,7 @@ only after Mostafa approves the list of intentional changes; never to make a tes
 
 ## Project map
 
+- `src/fonts.ts` — the self-hosted fonts (Fontsource; no Google Fonts requests)
 - `src/App.tsx` — layout; `src/store/` — the Zustand store (UI state) and its selectors;
   `src/router.ts` — keeps the store's location in step with the address (paths in `shared/routes.ts`);
   every navigation goes through it; `src/theme.ts` — dark mode (remembered, else the system; the
@@ -70,7 +71,8 @@ only after Mostafa approves the list of intentional changes; never to make a tes
 ## Session protocol
 
 One phase per session, one branch per phase (`refactor/phase-…`, `feature/phase-…`), a PR to
-`main` at the end; never push to `main` or force-push.
+`main` at the end; never push to `main` or force-push. Phase 3 is split into sessions (3A, 3B, …),
+each with its own branch (`refactor/phase-3a-…`) and PR, merged before the next starts.
 
 1. **Start**: read this file, the plan and the progress log. Pull `main`, confirm the previous phase
    is merged, create the branch, confirm `npm run verify` passes.
