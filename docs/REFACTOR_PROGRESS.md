@@ -1283,6 +1283,10 @@ skipped, phone smoke 42/42, visual 16/16.
   YouTube Studio (the player also unloads them, as a fallback).
 - 2026-10-17: **no GitHub Release copy of the videos** (Mostafa): he keeps the originals himself and
   removes them from `Video/`; the site needs only the YouTube id and the files in `content/`.
+- 2026-10-17: the 16 Linux snapshots were recorded by CI on PR #8 (run 39061615917, artifact
+  `baseline-linux-visual`) and committed. Compared with `main`'s set pixel by pixel: the desktop
+  Badr panel, person and Qur'an images show the moved button; the rest differ only by anti-aliasing
+  on round buttons and markers. That CI run passed everything, the phone-webkit header test included.
 - 2026-10-17: the Vercel preview of the chat API failed on this PR: `.vercelignore` drops `*.md`, so
   `content/battle-videos/battle-badr/sources.md` was missing from its content build. It is now let
   through (`!content/battle-videos/**/sources.md`).
