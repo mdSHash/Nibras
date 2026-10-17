@@ -10,3 +10,6 @@ playwright-report
 test-results
 tests
 *.md
+# Except the battle videos' sources (content/battle-videos/<event id>/sources.md): the
+# content build checks them and the chat KB build reads them.
+!content/battle-videos/**/sources.md

@@ -104,8 +104,8 @@ Create or edit `content/cities/<id>.json`; coordinates are `[latitude, longitude
 
 A battle with a video opens it instead of its replay, from the event panel's «مشاهدة المعركة» and
 from `/battle/<battleScenarioId>/`. The video is hosted on YouTube; the site shows it with its own
-Arabic controls and captions. The delivered files stay in `Video/<battle>/` (not in git), never
-deleted.
+Arabic controls and captions. The video file itself is not needed by the site (Mostafa keeps the
+originals); deliveries arrive in `Video/<battle>/`, which git ignores.
 
 1. Upload the video to YouTube as **unlisted**, with embedding allowed. Its id is the part after
    `youtu.be/`.

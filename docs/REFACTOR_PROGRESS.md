@@ -1251,8 +1251,7 @@ skipped, phone smoke 42/42, visual 16/16.
   was checked once by hand (headless Chrome, 2026-10-17): it plays, captions in sync, seeking works,
   and with youtube.com blocked the error and both buttons show.
 - **Not done (with YouTube they are moot or waiting)**: renditions/HLS and `preload="none"` (YouTube
-  streams adaptively); the original `battle-badr.mp4` stays in `Video/Badr/`, a GitHub Release copy
-  waits for Mostafa.
+  streams adaptively); no Release copy of the original (Mostafa keeps it, see below).
 
 #### Intentional behavior changes (3H), approved by Mostafa 2026-10-17
 
@@ -1282,8 +1281,11 @@ skipped, phone smoke 42/42, visual 16/16.
 
 - 2026-10-17: Mostafa renamed the YouTube video to Arabic and removed YouTube's own captions in
   YouTube Studio (the player also unloads them, as a fallback).
-- Still open for Mostafa: a GitHub Release copy of `battle-badr.mp4` (a backup of the original
-  outside this computer, as planned for the narration WAVs).
+- 2026-10-17: **no GitHub Release copy of the videos** (Mostafa): he keeps the originals himself and
+  removes them from `Video/`; the site needs only the YouTube id and the files in `content/`.
+- 2026-10-17: the Vercel preview of the chat API failed on this PR: `.vercelignore` drops `*.md`, so
+  `content/battle-videos/battle-badr/sources.md` was missing from its content build. It is now let
+  through (`!content/battle-videos/**/sources.md`).
 
 #### 3H verification (2026-10-17, Windows 11, Node 20.19.5, Playwright 1.59.1)
 

@@ -508,7 +508,7 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
       archived (not deleted). Until then each battle opens its video if it has one, else the replay.
       Steps, one battle at a time as videos arrive (Badr first). **Done for Badr (3H, 2026-10-17);
       11 battles to go**: each new one is a content change (docs/CONTENT_GUIDE.md, "Adding a battle
-      video"). Hosting is YouTube unlisted (free); originals stay in `Video/` (a GitHub Release copy waits for Mostafa):
+      video"). Hosting is YouTube unlisted (free); Mostafa keeps the originals himself (no Release copy, 2026-10-17):
       - *Hosting.* Not in git or GitHub Pages: git rejects files over 100 MB and Pages sites are capped
         at 1 GB, while 12 videos come to 1–2.5 GB. Host them with the narration audio (same question,
         same answer; **ask Mostafa**: Cloudflare R2, Bunny Stream, YouTube unlisted, or similar). The
