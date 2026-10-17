@@ -6,9 +6,12 @@ import { defaultChatReply } from './chatMock';
 
 export { expect };
 
-// localStorage keys the app reads on start (src/hooks/useTour.ts, src/App.tsx).
+// localStorage keys the app reads on start (src/hooks/useTour.ts, src/store/appStore.ts,
+// src/components/header/AppHeader.tsx, src/theme.ts).
 export const STORAGE = {
   tourPrompted: 'nibras_tour_prompted',
+  introSeen: 'nibras.intro.seen',
+  theme: 'nibras.theme',
   helpSeen: 'nibras.help.seen',
   chatSeen: 'nibras.chat.seen',
 };
@@ -16,7 +19,7 @@ export const STORAGE = {
 interface Options {
   /** Console errors this test expects (known failures recorded in the baseline). */
   allowedConsoleErrors: RegExp[];
-  /** Whether to start as a first-time visitor (tour prompt shown). */
+  /** Whether to start as a first-time visitor (intro and tour prompt shown). */
   firstVisit: boolean;
 }
 
@@ -74,6 +77,7 @@ export const test = base.extend<Options & Fixtures>({
         if (prompted && !sessionStorage.getItem('__nibras_test_seeded')) {
           sessionStorage.setItem('__nibras_test_seeded', '1');
           localStorage.setItem(storage.tourPrompted, 'true');
+          localStorage.setItem(storage.introSeen, 'true');
         }
       },
       { prompted: !firstVisit, storage: STORAGE },

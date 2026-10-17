@@ -26,6 +26,24 @@ test.describe('first visit @phone', () => {
     await expect(prompt).toBeHidden();
   });
 
+  // Was known failure 9 in the Phase 0A baseline (fixed in Phase 2C).
+  test('the intro can be skipped with a tap', async ({ page }) => {
+    await page.goto('./');
+    await page.waitForTimeout(400);
+    await page.mouse.click(200, 200);
+    await expect(header.chat(page)).toBeVisible({ timeout: 1_500 });
+  });
+
+  test('a key skips the intro, and it does not play on the next visit', async ({ page }) => {
+    await page.goto('./');
+    await page.waitForTimeout(400);
+    await page.keyboard.press('Enter');
+    await expect(header.chat(page)).toBeVisible({ timeout: 1_500 });
+    expect(await page.evaluate((key) => localStorage.getItem(key), STORAGE.introSeen)).toBe('true');
+    await page.reload();
+    await expect(header.chat(page)).toBeVisible({ timeout: 1_500 });
+  });
+
   test('starting the tour opens its first step', async ({ page }) => {
     await openApp(page);
     const prompt = page.getByRole('dialog', { name: /مرحباً بك في نبراس/ });

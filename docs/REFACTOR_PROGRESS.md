@@ -806,6 +806,10 @@ one PR at the end.
 - 2026-10-17: first-load request count leaves out font files (see intentional change 7); new icons
   chosen from four directions (intentional change 10).
 
+- 2026-10-17 (2C plan approved): **browser tests start as returning visitors** (intro already
+  seen, set by the fixture as it already does for the tour prompt); the first-visit intro and its
+  skip keep their own tests. Saves the 4.2 s intro in every test.
+
 ### Open for Mostafa (chat, reviewed 2026-10-17)
 
 The chat design stays (plan, "Keep as is"). Recommended changes, none started:
@@ -872,6 +876,20 @@ The chat design stays (plan, "Keep as is"). Recommended changes, none started:
     `og-image.png` and `favicon.png` from the SVGs.
 11. **Person window** (2B): the name shows at once; title, role, dates and bio arrive together from
     the person's file (skeleton until then). The people index keeps only id, name and aliases.
+12. **Dark mode remembered** (2C; known failure 8 fixed). The header toggle stores the choice
+    (`nibras.theme`); until a visitor chooses, the app follows the system setting, also when it
+    changes while the app is open. A small inline script in `index.html` applies the same rule
+    before the first paint (`src/theme.ts` is the app's side), and the pre-rendered text has dark
+    colours, so a dark visitor no longer sees a light flash. Tests: «dark mode is remembered» (3,
+    `app-shell.spec.ts`), «the static text is dark before the app loads» (`prerender.spec.ts`).
+13. **Intro skippable, shown once** (2C; known failure 9 fixed). A tap, click or any key skips it
+    and the app appears at once; a «تخطي المقدمة» button (visible when focused) serves screen
+    readers. It plays on the first visit only (`nibras.intro.seen`, set when it ends or is
+    skipped). The tour prompt still appears on the first visit, now also when the intro was seen
+    but the prompt never answered. Browser tests start as returning visitors (decision above);
+    the first-visit tests in `intro-tour.spec.ts` cover the intro, the tap and a key. A returning
+    visit makes one request fewer (the intro's font stylesheet): `firstLoadRequests` desktop
+    13 → 12 (others to be measured), to be updated in `behavior-ui.json` with approval.
 
 ### 2A verification (2026-10-16, Windows 11, Node 20.19.5, Playwright 1.59.1)
 

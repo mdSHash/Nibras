@@ -292,4 +292,8 @@ export const STATIC_STYLE = `<style>
       .nb-static .nb-quran{font-family:'Amiri Quran',serif;font-size:1.65rem;line-height:2.3;text-align:center}
       .nb-static .nb-pager{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:2em;padding-top:1em;border-top:1px solid #2c241e26}
       .nb-static a{color:inherit;text-decoration:underline;text-decoration-color:#8b6b4a;text-underline-offset:4px}
+      .dark .nb-static{background:#221a15;color:#e0d0b8}
+      .dark .nb-static h2{color:#d4a373}
+      .dark .nb-static .nb-pager{border-top-color:#e0d0b826}
+      .dark .nb-static a{text-decoration-color:#d4a373}
     </style>`;

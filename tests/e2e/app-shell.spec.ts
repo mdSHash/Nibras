@@ -168,9 +168,11 @@ test.describe('known failures', () => {
     // An immediate count: toHaveCount(0) would retry until the 3 s toast is gone.
     expect(await page.getByText('الحدث التالي', { exact: true }).count()).toBe(0);
   });
+});
 
-  test('dark mode is remembered after a reload', async ({ page }) => {
-    knownFailure('dark mode is not persisted');
+test.describe('dark mode is remembered', () => {
+  // Was known failure 8 in the Phase 0A baseline (fixed in Phase 2C).
+  test('after a reload', async ({ page }) => {
     await openApp(page);
     await header.darkMode(page).click();
     await expect(page.locator('html')).toHaveClass(/\bdark\b/);
@@ -179,11 +181,25 @@ test.describe('known failures', () => {
     await expect(page.locator('html')).toHaveClass(/\bdark\b/);
   });
 
-  test('the intro can be skipped with a tap', async ({ page }) => {
-    knownFailure('the 4.2 s intro plays on every visit with no way to skip');
-    await page.goto('./');
-    await page.waitForTimeout(400);
-    await page.mouse.click(200, 200);
-    await expect(header.chat(page)).toBeVisible({ timeout: 1_500 });
+  test.describe('with a dark system setting', () => {
+    test.use({ colorScheme: 'dark' });
+
+    test('the app starts dark until the visitor chooses light', async ({ page }) => {
+      await openApp(page);
+      await expect(page.locator('html')).toHaveClass(/\bdark\b/);
+      await header.darkMode(page).click();
+      await expect(page.locator('html')).not.toHaveClass(/\bdark\b/);
+      await page.reload();
+      await openApp(page);
+      await expect(page.locator('html')).not.toHaveClass(/\bdark\b/);
+    });
+
+    test('the system setting is followed while the visitor has not chosen', async ({ page }) => {
+      await openApp(page);
+      await page.emulateMedia({ colorScheme: 'light' });
+      await expect(page.locator('html')).not.toHaveClass(/\bdark\b/);
+      await page.emulateMedia({ colorScheme: 'dark' });
+      await expect(page.locator('html')).toHaveClass(/\bdark\b/);
+    });
   });
 });

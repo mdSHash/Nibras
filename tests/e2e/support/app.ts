@@ -47,10 +47,10 @@ export const header = {
 export const panel = (page: Page): Locator => page.locator('[data-tour-id="event-panel"]');
 export const panelTitle = (page: Page): Locator => panel(page).locator('h1');
 
-/** Opens the app and waits until the intro has finished and the header is usable. */
+/** Opens the app and waits until the header is usable (after the intro on a first visit). */
 export async function openApp(page: Page): Promise<void> {
   await page.goto('./');
-  // The intro takes 4.2 s; leave room for a busy machine.
+  // A first visit's intro takes 4.2 s; leave room for a busy machine.
   await expect(page.getByRole('button', { name: 'اسأل المساعد الذكي' })).toBeVisible({ timeout: 30_000 });
 }
 

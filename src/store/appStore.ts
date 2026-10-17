@@ -5,6 +5,7 @@ import { create } from 'zustand';
 import { DEFAULT_FILTERS, type AppLocation, type Route } from '../../shared/routes';
 import { eventByKey, eventForScenario } from '../data';
 import type { ToastType } from '../components/Toast';
+import { initialDarkMode, rememberDarkMode } from '../theme';
 
 /** Which surface the chat stepped aside for on a small screen (it returns when that closes). */
 export type ChatReturnTo = 'event' | 'companion' | 'quran' | 'battle' | null;
@@ -31,6 +32,7 @@ export interface AppState {
   isChatOpen: boolean;
   chatReturnTo: ChatReturnTo;
   showIntro: boolean;
+  /** Remembered when the visitor toggles it; until then it follows the system (src/theme.ts). */
   isDarkMode: boolean;
   /** Bumped by the header's reset button; the map flies home when it changes. */
   mapResetCount: number;
@@ -47,7 +49,10 @@ export interface AppState {
   setChatOpen: (open: boolean) => void;
   setChatReturnTo: (to: ChatReturnTo) => void;
   finishIntro: () => void;
+  /** The visitor's choice: switches and remembers it. */
   toggleDarkMode: () => void;
+  /** Follows the system setting (not remembered). */
+  setDarkMode: (isDark: boolean) => void;
   resetMapView: () => void;
   showToast: (message: string, type: ToastType) => void;
   removeToast: (id: string) => void;
@@ -69,9 +74,20 @@ function nextEventId(route: Route, previous: string | null): string | null {
   }
 }
 
+/** Set when the intro finishes or is skipped: it plays on the first visit only. */
+export const INTRO_SEEN_KEY = 'nibras.intro.seen';
+
+function introSeen(): boolean {
+  try {
+    return localStorage.getItem(INTRO_SEEN_KEY) === 'true';
+  } catch {
+    return false;
+  }
+}
+
 let toastSeq = 0;
 
-export const useAppStore = create<AppState>()(set => ({
+export const useAppStore = create<AppState>()((set, get) => ({
   location: { route: { kind: 'home' }, filters: DEFAULT_FILTERS },
   eventId: null,
   isPanelHidden: false,
@@ -82,8 +98,8 @@ export const useAppStore = create<AppState>()(set => ({
   isHelpOpen: false,
   isChatOpen: false,
   chatReturnTo: null,
-  showIntro: true,
-  isDarkMode: false,
+  showIntro: !introSeen(),
+  isDarkMode: initialDarkMode(),
   mapResetCount: 0,
   toasts: [],
 
@@ -96,8 +112,20 @@ export const useAppStore = create<AppState>()(set => ({
   setHelpOpen: isHelpOpen => set({ isHelpOpen }),
   setChatOpen: isChatOpen => set({ isChatOpen }),
   setChatReturnTo: chatReturnTo => set({ chatReturnTo }),
-  finishIntro: () => set({ showIntro: false }),
-  toggleDarkMode: () => set(s => ({ isDarkMode: !s.isDarkMode })),
+  finishIntro: () => {
+    try {
+      localStorage.setItem(INTRO_SEEN_KEY, 'true');
+    } catch {
+      // Private mode: the intro plays again next visit.
+    }
+    set({ showIntro: false });
+  },
+  toggleDarkMode: () => {
+    const isDarkMode = !get().isDarkMode;
+    rememberDarkMode(isDarkMode);
+    set({ isDarkMode });
+  },
+  setDarkMode: isDarkMode => set({ isDarkMode }),
   resetMapView: () => set(s => ({ mapResetCount: s.mapResetCount + 1 })),
   showToast: (message, type) =>
     set(s => ({ toasts: [...s.toasts, { id: `${Date.now()}-${++toastSeq}`, message, type }] })),

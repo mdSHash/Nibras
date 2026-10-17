@@ -33,6 +33,20 @@ test.describe('without JavaScript', () => {
   });
 });
 
+test.describe('with a dark system setting', () => {
+  test.use({ colorScheme: 'dark' });
+
+  test('the static text is dark before the app loads', async ({ page }) => {
+    // An empty app script: the page stays as pre-rendered.
+    await page.route('**/assets/*.js', (route) => route.fulfill({ contentType: 'text/javascript', body: '' }));
+    await page.goto('./event/battle-badr/');
+    const main = page.locator('main.nb-static');
+    await expect(main.getByRole('heading', { level: 1 })).toHaveText(BADR.title);
+    await expect(page.locator('html')).toHaveClass(/\bdark\b/);
+    expect(await main.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe('rgb(34, 26, 21)');
+  });
+});
+
 test('the app replaces the static text and keeps the page title @phone', async ({ page }) => {
   await page.goto('./event/battle-badr/');
   await expect(panelTitle(page)).toHaveText(BADR.title, { timeout: 30_000 });

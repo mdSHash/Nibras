@@ -17,6 +17,7 @@ import { useFilteredEvents, useFilters, useOverlay, useSelectedEvent } from './s
 import { findEraAnchor } from './utils/eventHelpers';
 import { eventRoute, headingLookups, type EventItem } from './data';
 import { pageTitle, routeHeading } from '../shared/pageMeta';
+import { followSystemTheme } from './theme';
 
 const store = () => useAppStore.getState();
 
@@ -142,14 +143,17 @@ export default function App() {
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDarkMode);
   }, [isDarkMode]);
+  useEffect(() => followSystemTheme(isDark => store().setDarkMode(isDark)), []);
 
-  const handleIntroComplete = () => {
-    store().finishIntro();
-    // The tour prompt appears once, on the first visit, after the app has rendered.
-    if (isFirstVisit()) setTimeout(() => triggerPrompt(), 300);
-  };
+  // The tour prompt appears after the intro (or at once when the intro was seen
+  // before) until the visitor answers it, once the app has rendered.
+  useEffect(() => {
+    if (showIntro || !isFirstVisit()) return;
+    const timer = setTimeout(() => triggerPrompt(), 300);
+    return () => clearTimeout(timer);
+  }, [showIntro, isFirstVisit, triggerPrompt]);
 
-  if (showIntro) return <IntroScreen onComplete={handleIntroComplete} />;
+  if (showIntro) return <IntroScreen onComplete={store().finishIntro} />;
 
   return (
     <div
