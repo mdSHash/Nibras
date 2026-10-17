@@ -1337,3 +1337,92 @@ Started 2026-10-17 on `refactor/phase-3b-theme-tokens` from `main` at `2b27adf` 
   the battle video player's `LAYER` workaround, if measuring shows nothing else depends on it.
 - 2026-10-17: `src/battlefield/` is not touched (rule 8); the battle video player keeps its Tailwind
   gray classes (they match the replay).
+
+#### Design choices (3B)
+
+- **Style snapshots** (`playwright.style.config.ts`, `tests/style/`; run on demand, not in verify or
+  CI) prove each step changes nothing. Every state (start, an event of each era, a replay battle,
+  Badr, search, person, Quran, help, chat, ⋮ menu, player mode, map popup, tour prompt and step,
+  the video player with the stub) in app light/dark × system light/dark on desktop and phone,
+  plus phone sideways, tablet both ways and reduced motion: 228 captures, ~12 min. Two checks:
+  - the **computed styles of every element** (and `::before`/`::after`): colors, borders, shadows,
+    filters, opacity, sizes, spacing, fonts, cursor, touch-action…, every color compared as painted
+    8-bit pixels (so `rgba()` and Tailwind's `color-mix()` are equal when they draw the same),
+    plus each header, timeline, panel, search, Quran and menu control hovered and focused. This
+    check is exact;
+  - a **screenshot** backstop, allowing 250 pixels beyond a 0.05 threshold. Measured on unchanged
+    code (2026-10-18), run-to-run noise is up to ~130 pixels (blurred backdrops; the era dock's
+    edge after its spring); one changed surface is tens of thousands.
+  Infinite framer-motion loops (pulsing buttons, the selected diamond) are detected, left out and
+  hidden in the screenshot; the territory borders are hidden in the screenshot (sub-pixel
+  anti-aliasing), their colors still compared; Leaflet's markers are put in a fixed order first.
+  A planned `scripts/style-snapshot.ts` became this Playwright config, to reuse the offline stubs.
+  The visual spec's settle helpers moved to `tests/e2e/support/still.ts` (no change in behavior).
+- The plan's inventory listed "`select { font-size: 16px }`, no `<select>` in the app" as dead: the
+  rule also covers search inputs and textareas (it stops iPhones zooming into a field). It stays.
+- **Tokens.** Every color with a hue goes through a token in `src/index.css`, holding the exact value
+  it replaces (no merging of values that are only close; equal values share one token, e.g.
+  `#f4ece1` text and the `rgba(244, 236, 225, …)` glows are `--sys-chrome-ink-rgb`). Fixed colors
+  (the always-dark header and rail, gold, night, the player's glows) are defined once in `:root`;
+  colors that change with the mode (the Quran window and tour step's "paper", the popup, the hero's
+  shade, the accent's channels) in `:root` and `.dark`. `-rgb` tokens hold channels so CSS and
+  inline styles can add alpha exactly (`rgb(var(--sys-gold-rgb) / 0.3)`); Tailwind names map to
+  them in `@theme` (`bg-chrome/55`, `text-paper-ink`). The Tailwind palette colors the app used
+  (emerald, red and gray shades on the hero, the player and the Quran window) are tokens with
+  Tailwind's own OKLCH values copied in, since Tailwind only emits the variables a class uses.
+- **Not tokens** (a narrowing of the plan's table, which had `shade`/`light`): neutral black and
+  white with alpha (shadows, scrims, highlights on photos), which carry no palette; and **data
+  colors**: the five era colors (`src/utils/eraColors.ts`, now also the hero's fallback
+  `FALLBACK_ERA_COLOR` and the empty timeline's gradient) and the category and territory colors in
+  `content/`. They stay inline where a component draws them (about 30 places, several animated by
+  framer-motion); rewriting them as `--era` custom properties would be churn with risk and no
+  visible gain. Theme colors are never inline literals.
+- **JS-only colors** (`src/themeColors.ts`): framer-motion keyframes and hover targets need numbers
+  it can interpolate (a `var()` would make it jump), and Leaflet's path options are SVG attributes;
+  `GOLD`, `GOLD_BRIGHT`, `GOLD_BRIGHT_HEX` (the intro's SVG pattern, a data URL), `CHROME_INK`,
+  `RIDDA`. `tests/themeColors.test.ts` checks each equals its token.
+- Kept exactly, noted for Mostafa: the header's tour button and round buttons glow on hover with
+  `rgba(var(--color-accent-rgb, …) / …)`, a variable never defined, so the fallback forest green
+  (34 139 34) shows; the fallback is now the token `--sys-glow-forest-rgb`. The tour button's
+  `to-accent-dark` names no theme color, so Tailwind generates nothing for it (its gradient ends
+  transparent).
+- **Unused color tokens removed** (46, e.g. the five `--sys-*-era` colors and `--sys-gradient-*`,
+  which disagreed with `eraColors.ts`, the `--timeline-bg-*`/`--timeline-text-*` era colors, the
+  semantic success/warning/error/info colors, unused `@theme` names such as `ink-light` and
+  `primary-light`), after checking `var()` and Tailwind class uses in `src/`, `index.html`,
+  `scripts/`, `shared/`, `api/` and `public/`. Not touched: the duplicated non-color variables in
+  `:root` (`--radius-*`, `--space-*`, `--text-*` are each defined twice and override Tailwind's
+  own `rounded-lg`, `text-sm`… so they are load-bearing).
+- **`!important`: 77 → 11.** Removed: rules no element matches (`.mobile-hidden`, `.desktop-only`,
+  `.search-menu`, `.timeline-container …` (the timeline has no such class any more), the course-of-
+  events rule written against an old Tailwind class string, `[class*="z-[900]"]`,
+  `.sm:bottom-[120px]`), two copies of the reduced-motion reset, and every `!important` the style
+  snapshots showed was not needed (Tailwind v4's utilities sit in a layer, so the unlayered rules
+  of `index.css` win without it). Kept, each with a comment: the reduced-motion reset (7, it must
+  beat framer-motion's inline styles); `.leaflet-popup-content`'s color (beats
+  `.dark .historical-popup *`); `.gap-2` on screens under 380 px and `[dir="rtl"] .flex-wrap` on
+  phones (the first beats the era-dock rule `[class*="bottom-"][class*="left-1/2"][class*="flex"]`,
+  which also matches the toasts; the second must then win over the first); the event panel's
+  `max-width: 450px` on portrait tablets (beats a later `max-width: 100vw`).
+- **The phone rule `.fixed, .absolute { max-width: 100vw }` stays** (measured 2026-10-18, as agreed):
+  being unlayered it overrides components' own `max-w-*` classes on phones, so removing it would
+  change the look: the tour prompt (`max-w-[92vw]`, 100vw wide today) would shrink from 375 to
+  345 px and the search drawer would change. A comment in `index.css` now says so; the battle
+  video player keeps its `LAYER` workaround.
+- The style snapshots compare gradients by direction (as an angle) and painted stops: Chrome writes
+  one gradient as `to right` or `90deg`, with or without `in oklab`, depending on how it was
+  declared (Tailwind's `color-mix` stops are oklab, the default then). The interpolation hint is
+  therefore not compared; a change of interpolation alone would show only in the screenshots.
+
+#### Intentional behavior changes (3B)
+
+1. **Dark mode follows the app's button everywhere** (Mostafa, 2026-10-17). `@custom-variant dark`
+   ties Tailwind's `dark:` classes to the `.dark` class, like every `--sys-*` token. Changed only
+   when the app's mode differs from the system's: the Quran window (13 classes), the tour step (7)
+   and the search menu's field, tabs and chips (9). With the app dark and the system light the
+   search field was white with light text (`bg-white/80` under dark ink); it is now dark. The style
+   snapshots show differences only on those elements and only in the mixed projects (Quran 120
+   values, tour step 49–59, search 6); 16/16 committed screenshots unchanged (they run light/light).
+   New test `tests/e2e/theme-contrast.spec.ts`: the Quran window and the tour follow the button and
+   their text passes AA in both modes (it fails on the old build, as it should). Before/after
+   images: `tmp/3b-dark-fix/`.
