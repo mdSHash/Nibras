@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline, Polygon, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, AttributionControl, Marker, Popup, Polyline, Polygon, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { GestureHandling } from 'leaflet-gesture-handling';
@@ -20,6 +20,11 @@ import { clusterHtml, markerHtml } from './map/markerIcons';
 import { getTerritoriesForYear } from '../territories';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { useAppStore } from '../store/appStore';
+
+// The tile provider's credit, required by Esri's terms (its "Source" line for World Imagery).
+const TILE_ATTRIBUTION =
+  'المصدر: <a href="https://www.esri.com/" target="_blank" rel="noopener">Esri</a> وMaxar وEarthstar Geographics ومجتمع مستخدمي GIS';
+const ATTRIBUTION_PREFIX = '<a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>';
 
 // Custom Map Controls, Updater etc... (Keep as is, but we'll update TerritoryRenderer)
 
@@ -356,7 +361,10 @@ export default function HistoricalMap({ events, selectedEvent, onSelectEvent, sh
           url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
           className="historical-map-tiles"
           keepBuffer={8}
+          attribution={TILE_ATTRIBUTION}
         />
+        {/* Top-left, under the header: the only corner the panel and the timeline never cover. */}
+        <AttributionControl position="topleft" prefix={ATTRIBUTION_PREFIX} />
         <MapUpdater selectedEvent={selectedEvent} />
 
         <TerritoryRenderer selectedEvent={selectedEvent} />

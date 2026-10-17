@@ -1357,6 +1357,26 @@ button[disabled],
   :root { --header-h: 48px; }
 }
 
+/* Map attribution: below the header, in the app's colors. */
+.leaflet-top.leaflet-left {
+  top: var(--header-h);
+}
+.leaflet-container .leaflet-control-attribution {
+  margin: 0;
+  max-width: calc(100vw - 16px);
+  padding: 1px 8px;
+  border-bottom-right-radius: 8px;
+  background: color-mix(in oklab, var(--color-card-bg) 85%, transparent);
+  color: var(--color-ink);
+  font-family: inherit;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.leaflet-container .leaflet-control-attribution a {
+  color: inherit;
+  text-decoration: underline;
+}
+
 /* Mobile Landscape: tighten header height + prevent body scroll */
 @media (max-width: 896px) and (orientation: landscape) {
   header {
