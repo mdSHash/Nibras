@@ -65,13 +65,14 @@ export const tourSteps: TourStep[] = [
   },
   {
     id: 'search',
-    target: '[data-tour-id="search-button"]',
+    // Below lg the header shows a compact search button instead of the search bar.
+    target: '[data-tour-id="search-button"], [data-tour-id="search-button-compact"]',
     title: 'البحث والتصفية',
     content:
       'من هنا تفتح قائمة البحث والتصفية المتقدّمة، وتستطيع البحث عن الأحداث والصحابة والمواقع.',
     position: 'bottom',
     spotlightPadding: 8,
-    action: { type: 'click', target: '[data-tour-id="search-button"]', description: 'انقر لفتح قائمة البحث' },
+    action: { type: 'click', target: '[data-tour-id="search-button"], [data-tour-id="search-button-compact"]', description: 'انقر لفتح قائمة البحث' },
   },
   {
     id: 'filters',
@@ -84,7 +85,7 @@ export const tourSteps: TourStep[] = [
     beforeShow: async () => {
       await closeAllPanels();
       if (document.querySelector('[data-tour-id="filters-section"]')) return;
-      const searchBtn = queryVisibleTourTarget('[data-tour-id="search-button"]');
+      const searchBtn = queryVisibleTourTarget('[data-tour-id="search-button"], [data-tour-id="search-button-compact"]');
       if (!searchBtn) return;
       searchBtn.click();
       await waitForVisible('[data-tour-id="filters-section"]');
