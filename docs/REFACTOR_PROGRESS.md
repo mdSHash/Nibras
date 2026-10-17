@@ -8,7 +8,7 @@ The log for `docs/REFACTOR_PLAN.md`. Each session reads this file first and upda
 | 0A Baseline and `npm run verify` | merged | `refactor/phase-0a-baseline` | #3 |
 | 0B Safety net | merged | `refactor/phase-0b-safety-net` | #4 |
 | 1 Content model | merged | `refactor/phase-1-content` | #5 |
-| 2 State, routing and pages | in progress | `refactor/phase-2-routing` | — |
+| 2 State, routing and pages | done (PR open) | `refactor/phase-2-routing` | #6 |
 | 3 Assets, chat and polish | not started | `refactor/phase-3-polish` | — |
 | 4 Learning paths for guests | not started | `feature/phase-4-paths` | — |
 | 5 Optional accounts | not started | `feature/phase-5-accounts` | — |
