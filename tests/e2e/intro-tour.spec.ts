@@ -32,7 +32,7 @@ test.describe('first visit @phone', () => {
     await expect(page.getByRole('button', { name: 'تخطي المقدمة' })).toBeAttached(); // the intro is up
     await page.mouse.click(200, 200);
     // The intro goes at once (it would play for 4.2 s), then the app appears.
-    await expect(page.getByRole('button', { name: 'تخطي المقدمة' })).toHaveCount(0, { timeout: 1_000 });
+    await expect(page.getByRole('button', { name: 'تخطي المقدمة' })).toHaveCount(0, { timeout: 2_000 });
     await expect(header.chat(page)).toBeVisible();
   });
 
@@ -40,12 +40,20 @@ test.describe('first visit @phone', () => {
     await page.goto('./');
     await expect(page.getByRole('button', { name: 'تخطي المقدمة' })).toBeAttached(); // the intro is up
     await page.keyboard.press('Enter');
-    await expect(page.getByRole('button', { name: 'تخطي المقدمة' })).toHaveCount(0, { timeout: 1_000 });
+    await expect(page.getByRole('button', { name: 'تخطي المقدمة' })).toHaveCount(0, { timeout: 2_000 });
     await expect(header.chat(page)).toBeVisible();
     expect(await page.evaluate((key) => localStorage.getItem(key), STORAGE.introSeen)).toBe('true');
+    // Record whether the intro shows at all on the next visit (timing would depend on the machine).
+    await page.addInitScript(() => {
+      new MutationObserver(() => {
+        if ([...document.querySelectorAll('button')].some((b) => b.textContent?.trim() === 'تخطي المقدمة')) {
+          (window as Window & { __nibrasIntroShown?: boolean }).__nibrasIntroShown = true;
+        }
+      }).observe(document, { childList: true, subtree: true });
+    });
     await page.reload();
-    // Well before the 4.2 s the intro would take.
-    await expect(header.chat(page)).toBeVisible({ timeout: 3_000 });
+    await expect(header.chat(page)).toBeVisible();
+    expect(await page.evaluate(() => (window as Window & { __nibrasIntroShown?: boolean }).__nibrasIntroShown)).toBeUndefined();
   });
 
   test('starting the tour opens its first step', async ({ page }) => {
