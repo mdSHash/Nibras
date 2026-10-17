@@ -72,7 +72,6 @@ export default function App() {
     const next = filteredSortedEvents[filteredSortedEvents.findIndex(e => e.id === selectedEvent.id) + delta];
     if (!next) return;
     selectEvent(next);
-    store().showToast(delta === 1 ? 'الحدث التالي' : 'الحدث السابق', 'info');
   };
 
   // Timeline navigation is off while a modal, the search drawer, a replay or the tour is open.
