@@ -9,7 +9,7 @@ The log for `docs/REFACTOR_PLAN.md`. Each session reads this file first and upda
 | 0B Safety net | merged | `refactor/phase-0b-safety-net` | #4 |
 | 1 Content model | merged | `refactor/phase-1-content` | #5 |
 | 2 State, routing and pages | merged | `refactor/phase-2-routing` | #6 |
-| 3 Assets, chat and polish | 3A in review | `refactor/phase-3a-fixes` | — |
+| 3 Assets, chat and polish | 3A in review | `refactor/phase-3a-fixes` | #7 |
 | 4 Learning paths for guests | not started | `feature/phase-4-paths` | — |
 | 5 Optional accounts | not started | `feature/phase-5-accounts` | — |
 
@@ -1148,7 +1148,9 @@ build, per-IP rate limit), **3D** audio (manifest by event id, compressed narrat
 | Visual snapshots | 16/16 (all 16 Windows images rewritten with the © button) |
 
 One full run was stopped by Claude Code for low system memory (not a test failure) and run again.
-The 16 Linux snapshots are recorded by CI on the PR (artifact `baseline-linux-visual`) for review.
+The 16 Linux snapshots were recorded by CI on PR #7 (run 39044826718, artifact
+`baseline-linux-visual`), compared with the Windows set (same screens with the © button, font
+rendering only; the Linux UI numbers unchanged) and committed.
 
 Manual checks for Mostafa (phone and desktop):
 
