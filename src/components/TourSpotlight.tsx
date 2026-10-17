@@ -4,6 +4,7 @@ import { SpotlightPosition } from '../types/tour';
 import { cn } from '../utils/cn';
 import { Z_INDEX } from '../constants';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { GOLD, rgba } from '../themeColors';
 
 interface TourSpotlightProps {
   position: SpotlightPosition;
@@ -95,7 +96,7 @@ export const TourSpotlight: React.FC<TourSpotlightProps> = ({
         <div
           className="absolute inset-0 rounded-[14px]"
           style={{
-            border: '2px dashed rgba(212, 168, 83, 0.6)',
+            border: '2px dashed rgb(var(--sys-gold-rgb) / 0.6)',
           }}
         />
 
@@ -105,9 +106,9 @@ export const TourSpotlight: React.FC<TourSpotlightProps> = ({
             className="absolute -inset-1 rounded-[16px]"
             animate={{
               boxShadow: [
-                '0 0 8px 2px rgba(212, 168, 83, 0.2), inset 0 0 8px 2px rgba(212, 168, 83, 0.1)',
-                '0 0 16px 4px rgba(212, 168, 83, 0.35), inset 0 0 12px 3px rgba(212, 168, 83, 0.15)',
-                '0 0 8px 2px rgba(212, 168, 83, 0.2), inset 0 0 8px 2px rgba(212, 168, 83, 0.1)',
+                `0 0 8px 2px ${rgba(GOLD, 0.2)}, inset 0 0 8px 2px ${rgba(GOLD, 0.1)}`,
+                `0 0 16px 4px ${rgba(GOLD, 0.35)}, inset 0 0 12px 3px ${rgba(GOLD, 0.15)}`,
+                `0 0 8px 2px ${rgba(GOLD, 0.2)}, inset 0 0 8px 2px ${rgba(GOLD, 0.1)}`,
               ],
             }}
             transition={{
@@ -122,7 +123,7 @@ export const TourSpotlight: React.FC<TourSpotlightProps> = ({
         <motion.div
           className="absolute -inset-6 rounded-[20px] pointer-events-none"
           style={{
-            background: 'radial-gradient(ellipse at center, rgba(212,168,83,0.08) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse at center, rgb(var(--sys-gold-rgb) / 0.08) 0%, transparent 70%)',
           }}
           animate={!reducedMotion ? {
             opacity: [0.5, 1, 0.5],
@@ -165,12 +166,14 @@ export const TourSpotlight: React.FC<TourSpotlightProps> = ({
 };
 
 /** Small golden corner accent marks */
+const CORNER = '2px solid rgb(var(--sys-gold-rgb) / 0.8)';
+
 const CornerAccent: React.FC<{ position: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' }> = ({ position }) => {
   const positionStyles: Record<string, React.CSSProperties> = {
-    'top-right': { top: -1, right: -1, borderTop: '2px solid rgba(212,168,83,0.8)', borderRight: '2px solid rgba(212,168,83,0.8)' },
-    'top-left': { top: -1, left: -1, borderTop: '2px solid rgba(212,168,83,0.8)', borderLeft: '2px solid rgba(212,168,83,0.8)' },
-    'bottom-right': { bottom: -1, right: -1, borderBottom: '2px solid rgba(212,168,83,0.8)', borderRight: '2px solid rgba(212,168,83,0.8)' },
-    'bottom-left': { bottom: -1, left: -1, borderBottom: '2px solid rgba(212,168,83,0.8)', borderLeft: '2px solid rgba(212,168,83,0.8)' },
+    'top-right': { top: -1, right: -1, borderTop: CORNER, borderRight: CORNER },
+    'top-left': { top: -1, left: -1, borderTop: CORNER, borderLeft: CORNER },
+    'bottom-right': { bottom: -1, right: -1, borderBottom: CORNER, borderRight: CORNER },
+    'bottom-left': { bottom: -1, left: -1, borderBottom: CORNER, borderLeft: CORNER },
   };
 
   return (

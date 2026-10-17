@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { Z_INDEX } from '../constants';
 import { cn } from '../utils/cn';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { GOLD_BRIGHT_HEX } from '../themeColors';
 
 interface IntroScreenProps {
   onComplete: () => void;
@@ -101,7 +102,7 @@ export default function IntroScreen({ onComplete }: IntroScreenProps) {
       <button
         type="button"
         onClick={finish}
-        className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:top-4 focus-visible:right-4 focus-visible:px-4 focus-visible:py-2 focus-visible:rounded-full focus-visible:bg-[#1a1a2e] focus-visible:text-[#D4AF37] focus-visible:border focus-visible:border-[#D4AF37]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]"
+        className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:top-4 focus-visible:right-4 focus-visible:px-4 focus-visible:py-2 focus-visible:rounded-full focus-visible:bg-night focus-visible:text-gold-bright focus-visible:border focus-visible:border-gold-bright/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-bright"
         style={{ zIndex: Z_INDEX.intro + 1 }}
       >
         تخطي المقدمة
@@ -117,7 +118,7 @@ export default function IntroScreen({ onComplete }: IntroScreenProps) {
         {/* ===== LEFT PANEL (slides left on split) ===== */}
         <motion.div
           className="absolute top-0 bottom-0 left-0 w-1/2"
-          style={{ backgroundColor: '#1a1a2e' }}
+          style={{ backgroundColor: 'var(--sys-night)' }}
           animate={{
             x: isSplitting ? '-100%' : '0%',
           }}
@@ -132,18 +133,18 @@ export default function IntroScreen({ onComplete }: IntroScreenProps) {
           <div
             className="absolute inset-0 opacity-[0.03]"
             style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='%23D4AF37' stroke-width='0.5'/%3E%3C/svg%3E")`,
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='${encodeURIComponent(GOLD_BRIGHT_HEX)}' stroke-width='0.5'/%3E%3C/svg%3E")`,
               backgroundSize: '60px 60px',
             }}
           />
           {/* Edge line */}
-          <div className="absolute top-0 right-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#D4AF37]/30 to-transparent" />
+          <div className="absolute top-0 right-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gold-bright/30 to-transparent" />
         </motion.div>
 
         {/* ===== RIGHT PANEL (slides right on split) ===== */}
         <motion.div
           className="absolute top-0 bottom-0 right-0 w-1/2"
-          style={{ backgroundColor: '#1a1a2e' }}
+          style={{ backgroundColor: 'var(--sys-night)' }}
           animate={{
             x: isSplitting ? '100%' : '0%',
           }}
@@ -158,12 +159,12 @@ export default function IntroScreen({ onComplete }: IntroScreenProps) {
           <div
             className="absolute inset-0 opacity-[0.03]"
             style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='%23D4AF37' stroke-width='0.5'/%3E%3C/svg%3E")`,
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='${encodeURIComponent(GOLD_BRIGHT_HEX)}' stroke-width='0.5'/%3E%3C/svg%3E")`,
               backgroundSize: '60px 60px',
             }}
           />
           {/* Edge line */}
-          <div className="absolute top-0 left-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#D4AF37]/30 to-transparent" />
+          <div className="absolute top-0 left-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gold-bright/30 to-transparent" />
         </motion.div>
 
         {/* ===== CENTERED ARABIC TEXT ===== */}
@@ -183,7 +184,7 @@ export default function IntroScreen({ onComplete }: IntroScreenProps) {
             <motion.div
               className="absolute inset-0 rounded-full"
               style={{
-                background: 'radial-gradient(ellipse at center, rgba(212,175,55,0.15) 0%, transparent 70%)',
+                background: 'radial-gradient(ellipse at center, rgb(var(--sys-gold-bright-rgb) / 0.15) 0%, transparent 70%)',
                 width: '120%',
                 height: '200%',
                 left: '-10%',
@@ -217,11 +218,11 @@ export default function IntroScreen({ onComplete }: IntroScreenProps) {
                   fontFamily: "'Amiri', serif",
                   fontSize: 'clamp(4rem, 12vw, 8rem)',
                   fontWeight: 700,
-                  color: '#D4AF37',
+                  color: 'rgb(var(--sys-gold-bright-rgb))',
                   direction: 'rtl',
                   letterSpacing: '0.02em',
                   textShadow: isGlowing
-                    ? '0 0 20px rgba(212,175,55,0.4), 0 0 40px rgba(212,175,55,0.2)'
+                    ? '0 0 20px rgb(var(--sys-gold-bright-rgb) / 0.4), 0 0 40px rgb(var(--sys-gold-bright-rgb) / 0.2)'
                     : 'none',
                 }}
                 animate={{
@@ -241,7 +242,7 @@ export default function IntroScreen({ onComplete }: IntroScreenProps) {
               <motion.div
                 className="absolute top-0 bottom-0 w-0.5"
                 style={{
-                  background: 'linear-gradient(to bottom, transparent, #D4AF37, transparent)',
+                  background: 'linear-gradient(to bottom, transparent, rgb(var(--sys-gold-bright-rgb)), transparent)',
                   right: 0,
                 }}
                 initial={{ right: '0%' }}
@@ -259,7 +260,7 @@ export default function IntroScreen({ onComplete }: IntroScreenProps) {
             <motion.div
               className="absolute inset-0 pointer-events-none"
               style={{
-                background: 'linear-gradient(90deg, transparent 0%, rgba(212,175,55,0.1) 50%, transparent 100%)',
+                background: 'linear-gradient(90deg, transparent 0%, rgb(var(--sys-gold-bright-rgb) / 0.1) 50%, transparent 100%)',
                 backgroundSize: '200% 100%',
               }}
               animate={{

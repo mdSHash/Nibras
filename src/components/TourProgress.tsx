@@ -27,7 +27,7 @@ const StepMarker: React.FC<{
         <motion.div
           className="absolute w-5 h-5 rounded-sm rotate-45"
           style={{
-            background: 'rgba(212, 168, 83, 0.3)',
+            background: 'rgb(var(--sys-gold-rgb) / 0.3)',
           }}
           animate={{
             scale: [1, 1.6, 1],
@@ -45,8 +45,8 @@ const StepMarker: React.FC<{
       <motion.div
         className={cn(
           "w-2.5 h-2.5 rotate-45 transition-colors duration-300",
-          status === 'completed' && "bg-accent shadow-[0_0_6px_rgba(212,168,83,0.4)]",
-          status === 'current' && "bg-accent shadow-[0_0_10px_rgba(212,168,83,0.6)]",
+          status === 'completed' && "bg-accent shadow-[0_0_6px_rgb(var(--sys-gold-rgb)/0.4)]",
+          status === 'current' && "bg-accent shadow-[0_0_10px_rgb(var(--sys-gold-rgb)/0.6)]",
           status === 'future' && "bg-transparent border border-accent/40"
         )}
         animate={status === 'current' && !reducedMotion ? {
@@ -97,7 +97,7 @@ export const TourProgress: React.FC<TourProgressProps> = ({ currentStep, totalSt
         "border border-accent/20",
         "rounded-full",
         "px-4 sm:px-5 py-2.5 sm:py-3",
-        "shadow-[0_8px_32px_rgba(0,0,0,0.3),0_0_20px_rgba(212,168,83,0.05)]",
+        "shadow-[0_8px_32px_rgba(0,0,0,0.3),0_0_20px_rgb(var(--sys-gold-rgb)/0.05)]",
         "will-change-transform",
         "max-w-[calc(100vw-2rem)]"
       )}

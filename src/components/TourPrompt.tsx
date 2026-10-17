@@ -4,6 +4,12 @@ import { Sparkles, X, MapPin, BookOpen, Compass } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { Z_INDEX } from '../constants';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { GOLD_BRIGHT, rgba } from '../themeColors';
+
+/** The card's gold border, a gradient framer-motion turns round. */
+function borderGlow(degrees: number, a: number, b: number, c: number): string {
+  return `linear-gradient(${degrees}deg, ${rgba(GOLD_BRIGHT, a)}, ${rgba(GOLD_BRIGHT, b)}, ${rgba(GOLD_BRIGHT, c)})`;
+}
 
 interface TourPromptProps {
   isOpen: boolean;
@@ -34,7 +40,7 @@ const FloatingParticle: React.FC<{ delay: number; x: number; y: number; size: nu
 /** Feature item for the tour description */
 const FeatureItem: React.FC<{ icon: React.ReactNode; text: string; delay: number }> = ({ icon, text, delay }) => (
   <motion.div
-    className="flex items-center gap-3 text-[#f4ece1]/90"
+    className="flex items-center gap-3 text-chrome-ink/90"
     initial={{ opacity: 0, x: -10 }}
     animate={{ opacity: 1, x: 0 }}
     transition={{ delay, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
@@ -84,13 +90,13 @@ export const TourPrompt: React.FC<TourPromptProps> = ({ isOpen, onAccept, onDecl
             aria-hidden="true"
           >
             {/* Dark cinematic backdrop */}
-            <div className="absolute inset-0 bg-[#0d0d1a]/90 backdrop-blur-sm" />
+            <div className="absolute inset-0 bg-night-deep/90 backdrop-blur-sm" />
             
             {/* Subtle radial glow from center */}
             <div
               className="absolute inset-0"
               style={{
-                background: 'radial-gradient(ellipse at center, rgba(212,175,55,0.06) 0%, transparent 60%)',
+                background: 'radial-gradient(ellipse at center, rgb(var(--sys-gold-bright-rgb) / 0.06) 0%, transparent 60%)',
               }}
             />
 
@@ -135,14 +141,14 @@ export const TourPrompt: React.FC<TourPromptProps> = ({ isOpen, onAccept, onDecl
               <motion.div
                 className="relative rounded-2xl p-[1.5px]"
                 style={{
-                  background: 'linear-gradient(135deg, rgba(212,175,55,0.5), rgba(212,175,55,0.1), rgba(212,175,55,0.3))',
+                  background: borderGlow(135, 0.5, 0.1, 0.3),
                 }}
                 animate={!reducedMotion ? {
                   background: [
-                    'linear-gradient(135deg, rgba(212,175,55,0.5), rgba(212,175,55,0.1), rgba(212,175,55,0.3))',
-                    'linear-gradient(225deg, rgba(212,175,55,0.3), rgba(212,175,55,0.5), rgba(212,175,55,0.1))',
-                    'linear-gradient(315deg, rgba(212,175,55,0.1), rgba(212,175,55,0.3), rgba(212,175,55,0.5))',
-                    'linear-gradient(135deg, rgba(212,175,55,0.5), rgba(212,175,55,0.1), rgba(212,175,55,0.3))',
+                    borderGlow(135, 0.5, 0.1, 0.3),
+                    borderGlow(225, 0.3, 0.5, 0.1),
+                    borderGlow(315, 0.1, 0.3, 0.5),
+                    borderGlow(135, 0.5, 0.1, 0.3),
                   ],
                 } : undefined}
                 transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
@@ -150,8 +156,8 @@ export const TourPrompt: React.FC<TourPromptProps> = ({ isOpen, onAccept, onDecl
                 {/* Card body - solid dark background for readability */}
                 <div className={cn(
                   "relative rounded-2xl overflow-hidden",
-                  "bg-[#1a1a2e]",
-                  "shadow-[0_25px_80px_rgba(0,0,0,0.6),0_0_60px_rgba(212,175,55,0.08)]"
+                  "bg-night",
+                  "shadow-[0_25px_80px_rgba(0,0,0,0.6),0_0_60px_rgb(var(--sys-gold-bright-rgb)/0.08)]"
                 )}>
                   {/* Close button */}
                   <motion.button
@@ -170,7 +176,7 @@ export const TourPrompt: React.FC<TourPromptProps> = ({ isOpen, onAccept, onDecl
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3 }}
                   >
-                    <X className="w-4 h-4 text-[#f4ece1]/70" />
+                    <X className="w-4 h-4 text-chrome-ink/70" />
                   </motion.button>
 
                   {/* Header area with icon */}
@@ -191,7 +197,7 @@ export const TourPrompt: React.FC<TourPromptProps> = ({ isOpen, onAccept, onDecl
                       <motion.div
                         className="absolute inset-0 rounded-full"
                         style={{
-                          background: 'radial-gradient(circle, rgba(212,175,55,0.25) 0%, transparent 70%)',
+                          background: 'radial-gradient(circle, rgb(var(--sys-gold-bright-rgb) / 0.25) 0%, transparent 70%)',
                         }}
                         animate={!reducedMotion ? {
                           scale: [1, 1.3, 1],
@@ -231,7 +237,7 @@ export const TourPrompt: React.FC<TourPromptProps> = ({ isOpen, onAccept, onDecl
                     {/* Description */}
                     <motion.p
                       id="tour-prompt-description"
-                      className="text-[#f4ece1]/85 text-base sm:text-lg leading-relaxed text-center mb-5"
+                      className="text-chrome-ink/85 text-base sm:text-lg leading-relaxed text-center mb-5"
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.55, duration: 0.4 }}
@@ -266,10 +272,10 @@ export const TourPrompt: React.FC<TourPromptProps> = ({ isOpen, onAccept, onDecl
                         className={cn(
                           "relative w-full px-6 py-3.5",
                           "bg-accent",
-                          "text-[#1a1a2e] rounded-xl",
+                          "text-night rounded-xl",
                           "font-bold text-base sm:text-lg",
-                          "shadow-[0_4px_24px_rgba(212,175,55,0.35)]",
-                          "hover:shadow-[0_6px_32px_rgba(212,175,55,0.5)]",
+                          "shadow-[0_4px_24px_rgb(var(--sys-gold-bright-rgb)/0.35)]",
+                          "hover:shadow-[0_6px_32px_rgb(var(--sys-gold-bright-rgb)/0.5)]",
                           "hover:bg-accent/90",
                           "transition-all",
                           "flex items-center justify-center gap-2",
@@ -304,11 +310,11 @@ export const TourPrompt: React.FC<TourPromptProps> = ({ isOpen, onAccept, onDecl
                         onClick={onDecline}
                         className={cn(
                           "w-full px-6 py-3.5",
-                          "bg-[#f4ece1]/5 hover:bg-[#f4ece1]/10",
-                          "text-[#f4ece1]/75 hover:text-[#f4ece1]",
+                          "bg-chrome-ink/5 hover:bg-chrome-ink/10",
+                          "text-chrome-ink/75 hover:text-chrome-ink",
                           "rounded-xl",
                           "font-medium text-base sm:text-lg",
-                          "transition-all border border-[#f4ece1]/20 hover:border-[#f4ece1]/35",
+                          "transition-all border border-chrome-ink/20 hover:border-chrome-ink/35",
                           "min-h-[52px]"
                         )}
                         initial={{ opacity: 0, y: 10 }}
@@ -323,7 +329,7 @@ export const TourPrompt: React.FC<TourPromptProps> = ({ isOpen, onAccept, onDecl
 
                     {/* Footer note */}
                     <motion.p
-                      className="text-[#f4ece1]/55 text-xs sm:text-sm text-center mt-4"
+                      className="text-chrome-ink/55 text-xs sm:text-sm text-center mt-4"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 1.1, duration: 0.3 }}

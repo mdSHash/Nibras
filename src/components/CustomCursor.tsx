@@ -127,7 +127,7 @@ function CustomCursorImpl() {
           width: "3px",
           height: "3px",
           borderRadius: "50%",
-          backgroundColor: "rgba(212, 168, 83, 0.2)",
+          backgroundColor: "rgb(var(--sys-gold-rgb) / 0.2)",
           border: "1px solid rgba(0, 0, 0, 0.3)",
           willChange: "transform",
         }}
@@ -141,7 +141,7 @@ function CustomCursorImpl() {
           width: "4px",
           height: "4px",
           borderRadius: "50%",
-          backgroundColor: "rgba(212, 168, 83, 0.4)",
+          backgroundColor: "rgb(var(--sys-gold-rgb) / 0.4)",
           border: "1px solid rgba(0, 0, 0, 0.4)",
           willChange: "transform",
         }}
@@ -155,7 +155,7 @@ function CustomCursorImpl() {
           width: "6px",
           height: "6px",
           borderRadius: "50%",
-          backgroundColor: "rgba(212, 168, 83, 0.6)",
+          backgroundColor: "rgb(var(--sys-gold-rgb) / 0.6)",
           border: "1px solid rgba(0, 0, 0, 0.5)",
           willChange: "transform",
         }}
@@ -186,12 +186,12 @@ function CustomCursorImpl() {
             alignItems: "center",
             justifyContent: "center",
             borderRadius: isHovering ? "50%" : "0",
-            border: isHovering ? "2px solid #D4A853" : "none",
+            border: isHovering ? "2px solid rgb(var(--sys-gold-rgb))" : "none",
             outline: isHovering ? "2px solid rgba(0, 0, 0, 0.6)" : "none",
             outlineOffset: "0px",
             boxShadow: isHovering
-              ? "0 0 12px rgba(212, 168, 83, 0.8), inset 0 0 6px rgba(212, 168, 83, 0.3), 0 0 2px rgba(0,0,0,0.8)"
-              : "0 0 8px rgba(212, 168, 83, 0.6)",
+              ? "0 0 12px rgb(var(--sys-gold-rgb) / 0.8), inset 0 0 6px rgb(var(--sys-gold-rgb) / 0.3), 0 0 2px rgba(0,0,0,0.8)"
+              : "0 0 8px rgb(var(--sys-gold-rgb) / 0.6)",
           }}
         >
           {!isHovering && (
@@ -201,18 +201,17 @@ function CustomCursorImpl() {
               viewBox="0 0 32 32"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              style={{ filter: "drop-shadow(0 0 2px rgba(0,0,0,0.8)) drop-shadow(0 0 1px rgba(0,0,0,0.5)) drop-shadow(0 0 4px rgba(212, 168, 83, 0.6))" }}
+              style={{ filter: "drop-shadow(0 0 2px rgba(0,0,0,0.8)) drop-shadow(0 0 1px rgba(0,0,0,0.5)) drop-shadow(0 0 4px rgb(var(--sys-gold-rgb) / 0.6))" }}
             >
               {/* 8-pointed star (Rub el Hizb) */}
               <path
                 d="M16 0 L19.5 12.5 L32 16 L19.5 19.5 L16 32 L12.5 19.5 L0 16 L12.5 12.5 Z"
-                fill="#D4A853"
-                stroke="#1a1a2e"
+                className="fill-gold stroke-night"
                 strokeWidth="2"
               />
               <path
                 d="M16 4 L20 12 L28 16 L20 20 L16 28 L12 20 L4 16 L12 12 Z"
-                fill="#E8C872"
+                className="fill-gold-pale"
                 opacity="0.6"
               />
             </svg>
