@@ -137,7 +137,9 @@ export async function capture(
   const file = testInfo.snapshotPath(`${name}.styles.json`);
   const diffFile = join(dirname(file), `${name}.diff.txt`);
   const updating = testInfo.config.updateSnapshots === 'all' || testInfo.config.updateSnapshots === 'changed';
-  if (updating || !existsSync(file)) {
+  if (!updating && !existsSync(file)) {
+    expect.soft(false, `no base for ${name}: capture it first with --update-snapshots`).toBe(true);
+  } else if (updating) {
     mkdirSync(dirname(file), { recursive: true });
     writeFileSync(file, JSON.stringify(dump));
   } else {

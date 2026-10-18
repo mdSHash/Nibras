@@ -4,7 +4,7 @@
 // runs with a light system, so pressing the button is that mixed case. Text
 // must pass WCAG AA (4.5, or 3 for large text) in both modes.
 import type { Locator, Page } from '@playwright/test';
-import { test, expect } from './support/fixtures';
+import { test, expect, STORAGE } from './support/fixtures';
 import { clickAnimated, headerControl, openApp, openEventBySearch, panel } from './support/app';
 
 interface Reading {
@@ -97,7 +97,7 @@ test.describe('first visit', () => {
 
   test('the tour follows the dark-mode button and its text passes AA', async ({ page }) => {
     // The visitor's choice from an earlier visit, while the system stays light.
-    await page.addInitScript(() => localStorage.setItem('nibras.theme', 'dark'));
+    await page.addInitScript((key) => localStorage.setItem(key, 'dark'), STORAGE.theme);
     await page.goto('./');
     const prompt = page.getByRole('dialog', { name: /مرحباً بك في نبراس/ });
     await expect(prompt).toBeVisible({ timeout: 30_000 });

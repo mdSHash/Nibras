@@ -2,8 +2,8 @@
 // through theme tokens). Not part of `npm run verify` or CI. Every state of
 // tests/style/ is captured in light and dark (the app's button) × the system's
 // light and dark, on desktop and phone, plus phone sideways and tablet: the
-// computed styles of every element (colors compared as painted pixels) and a
-// screenshot with no pixel tolerance.
+// computed styles of every element (colors compared as painted pixels, exactly)
+// and a screenshot (a backstop, with the measured noise allowance below).
 //
 //   npm run build (with VITE_CHAT_API_URL=http://chat.test/api/chat)
 //   npx playwright test -c playwright.style.config.ts --update-snapshots   # capture the base

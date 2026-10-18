@@ -49,7 +49,8 @@ const isNeutral = (channels: number[]) => channels.every((c) => c === 0) || chan
 
 /** Color literals with a hue in one line of code (comments left out). */
 function hueLiterals(line: string): string[] {
-  const code = line.replace(/\/\/.*$/, '').replace(/\/\*.*?\*\//g, '');
+  // A // comment, not the // of a URL (the intro's SVG data URLs name http://www.w3.org).
+  const code = line.replace(/(^|[^:])\/\/.*$/, '$1').replace(/\/\*.*?\*\//g, '');
   if (/^\s*\*/.test(code)) return [];
   const found: string[] = [];
   for (const [hex] of code.matchAll(/(?:#|%23)([0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3,4})\b/g)) {
@@ -97,5 +98,6 @@ describe('colors go through theme tokens', () => {
     expect(hueLiterals("stroke='%23D4AF37'")).toEqual(['%23D4AF37']);
     expect(hueLiterals("boxShadow: '0 2px 8px rgba(0,0,0,0.5)', border: '3px solid #fff'")).toEqual([]);
     expect(hueLiterals('// the old #92700A gold')).toEqual([]);
+    expect(hueLiterals(`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23D4AF37'/%3E")`)).toEqual(['%23D4AF37']);
   });
 });

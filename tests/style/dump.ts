@@ -37,6 +37,7 @@ export const PROPERTIES = [
   'transform', 'cursor', 'touch-action', 'pointer-events', 'user-select',
   'animation-name', 'animation-duration', 'animation-iteration-count',
   'transition-property', 'transition-duration', 'scroll-behavior', 'content',
+  '-webkit-tap-highlight-color', 'scrollbar-color',
 ] as const;
 
 /** Properties that framer-motion loops (pulses, glows, floating) keep changing. */
