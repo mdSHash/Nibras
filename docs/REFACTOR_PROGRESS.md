@@ -1386,14 +1386,14 @@ Started 2026-10-17 on `refactor/phase-3b-theme-tokens` from `main` at `2b27adf` 
   (34 139 34) shows; the fallback is now the token `--sys-glow-forest-rgb`. The tour button's
   `to-accent-dark` names no theme color, so Tailwind generates nothing for it (its gradient ends
   transparent).
-- **Unused color tokens removed** (46, e.g. the five `--sys-*-era` colors and `--sys-gradient-*`,
-  which disagreed with `eraColors.ts`, the `--timeline-bg-*`/`--timeline-text-*` era colors, the
+- **Unused color tokens removed** (49, e.g. the five `--sys-*-era` colors and `--sys-gradient-*`,
+  which disagreed with `eraColors.ts`, the `--timeline-bg-*`/`--timeline-text-*` colors, the
   semantic success/warning/error/info colors, unused `@theme` names such as `ink-light` and
   `primary-light`), after checking `var()` and Tailwind class uses in `src/`, `index.html`,
   `scripts/`, `shared/`, `api/` and `public/`. Not touched: the duplicated non-color variables in
   `:root` (`--radius-*`, `--space-*`, `--text-*` are each defined twice and override Tailwind's
   own `rounded-lg`, `text-sm`… so they are load-bearing).
-- **`!important`: 77 → 11.** Removed: rules no element matches (`.mobile-hidden`, `.desktop-only`,
+- **`!important`: 77 → 12.** Removed: rules no element matches (`.mobile-hidden`, `.desktop-only`,
   `.search-menu`, `.timeline-container …` (the timeline has no such class any more), the course-of-
   events rule written against an old Tailwind class string, `[class*="z-[900]"]`,
   `.sm:bottom-[120px]`), two copies of the reduced-motion reset, and every `!important` the style
@@ -1403,7 +1403,10 @@ Started 2026-10-17 on `refactor/phase-3b-theme-tokens` from `main` at `2b27adf` 
   `.dark .historical-popup *`); `.gap-2` on screens under 380 px and `[dir="rtl"] .flex-wrap` on
   phones (the first beats the era-dock rule `[class*="bottom-"][class*="left-1/2"][class*="flex"]`,
   which also matches the toasts; the second must then win over the first); the event panel's
-  `max-width: 450px` on portrait tablets (beats a later `max-width: 100vw`).
+  `max-width: 450px` on portrait tablets (beats a later `max-width: 100vw`); the custom cursor's
+  `cursor: none` (beats Leaflet's `.leaflet-dragging .leaflet-grab .leaflet-interactive`, which
+  otherwise shows the system hand beside the gold cursor while the map is dragged; found by the
+  review, which the snapshots could not see since they never drag).
 - **The phone rule `.fixed, .absolute { max-width: 100vw }` stays** (measured 2026-10-18, as agreed):
   being unlayered it overrides components' own `max-w-*` classes on phones, so removing it would
   change the look: the tour prompt (`max-w-[92vw]`, 100vw wide today) would shrink from 375 to
@@ -1426,3 +1429,71 @@ Started 2026-10-17 on `refactor/phase-3b-theme-tokens` from `main` at `2b27adf` 
    New test `tests/e2e/theme-contrast.spec.ts`: the Quran window and the tour follow the button and
    their text passes AA in both modes (it fails on the old build, as it should). Before/after
    images: `tmp/3b-dark-fix/`.
+
+#### 3B verification (2026-10-18, Windows 11, Node 20.19.5, Playwright 1.59.1)
+
+`npm run verify` on the final 3B code (start of session: the same on `2b27adf`, after one flaky
+phone-webkit run of "a Quran chip opens the right verses", which then passed 8/8 alone and in a
+full smoke run):
+
+| Step | Result |
+| --- | --- |
+| Content build (Zod), type check, ESLint | passed |
+| Vitest | 261/261 (256 before: the theme-color mirror, the guard and its self-test) |
+| Content snapshot, behavior map | identical to the baseline |
+| Production build + pre-render | 356 pages |
+| Bundle budget | within limits (JS at start 924.5 KB, 257.1 KB gzip, unchanged; `index.css` 31.1 → 31.5 KB gzip) |
+| Playwright features | 83 passed (81 before + the two theme-contrast tests), 0 failed, 1 skipped |
+| Phone smoke (WebKit, Firefox) | 44/44 |
+| Visual snapshots | 16/16, no image updated (Windows); Linux is expected unchanged in CI |
+
+Style snapshots (228 captures per run, `playwright.style.config.ts`):
+
+| Step | Result against the base |
+| --- | --- |
+| Determinism (unchanged code, twice) | style dumps identical; screenshot noise measured (≤ ~130 px) |
+| `dark:` follows the button (intentional) | differences only on the Quran window, tour step and search field, only in the mixed projects |
+| Tokens, components, `index.css` literals (steps 3–5) | identical (after comparing gradients by angle; one known-noisy line in the phone Quran screenshot) |
+| Unused tokens, `!important` (steps 6–7) | first run showed three `!important` still needed (gaps, popup text color, panel width); restored; then identical |
+| The phone 100vw rule (step 8) | not inert (tour prompt, search drawer); kept |
+| Final run on `e1d6df0` | identical in every state (1 flaky screenshot, passed on retry) |
+
+The two commits after that run (`5b644b8`, `8ad5ce9`, from the review) were not re-run through the
+style snapshots: they restore one `!important` that only acts while the map is dragged (checked in
+Chromium: Leaflet's `grabbing` cursor before, `none` after), remove three unused variables and edit
+comments and tests; `verify` passed on them.
+
+| Count (guard's rule) | Before (`2b27adf`) | After |
+| --- | --- | --- |
+| Color literals with a hue in `src/` components and modules (outside the allowed places) | 196 | 0 |
+| The same in `src/index.css` rules | 37 | 0 |
+| `!important` in `src/index.css` | 77 | 12 |
+| `src/index.css` lines | 2588 | 2486 |
+
+Independent review (reviewer subagent, read-only, on `2b27adf..HEAD`): every replaced color maps to
+a token of exactly the same value in the right mode, every new class is generated, nothing removed
+is still referenced, no rule violation. Its findings and what was done:
+1. Custom cursor while dragging the map (regression from removing `!important`): fixed.
+2. A state with no base passed silently: now fails. The map-popup state, whose rules lost
+   `!important`, did run in 10 of 12 projects (no popup opens on phone sideways or portrait tablet).
+3. The tap-highlight and scrollbar colors were not compared: their 3B rewrites were checked by hand
+   (the accent's channels, 139 107 74 and 212 163 115) and the properties are now in the dump.
+4. The guard ignored the rest of a line after the `//` of a URL: fixed, with a self-test.
+5. The popup and map rules now rely on `leaflet.css` loading before `index.css` (it does: `App`, which
+   imports the map, is imported before `index.css` in `src/main.tsx`). Noted here; no change.
+6. The frozen marker reference in `tests/markerIcons.test.tsx` now spells its colors as the tokens
+   (same values); its comment says so.
+7. Nits (stale comments, three unused timeline variables, a doc comment split): fixed; the `.dark`
+   copies of rules that now resolve to the same token are left in place (removing them could change
+   which rule wins).
+
+Manual checks for Mostafa (phone and desktop):
+
+1. Light and dark: the start view, an event of each era, search, a person, a Qur'an passage, help and
+   chat look as before.
+2. Set the app to dark while the phone/computer is in light mode (or the reverse), open a Qur'an
+   passage, the search menu and the tour: they now follow the app (the one intended change).
+3. Desktop: drag the map across a marker or a territory: only the gold cursor shows, no hand.
+4. Phone: the ⋮ menu, the timeline player, a map popup (tap a cluster) and a toast.
+5. Phone: Badr's video upright and sideways looks and turns as before.
+6. The tour prompt and a tour step on a phone look as before (full width).
