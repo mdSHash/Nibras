@@ -173,8 +173,8 @@
   --sys-night-deep: #0d0d1a;
   --sys-go-rgb: 16 185 129;                   /* play, the current place, the legend's route */
   --sys-stop: #ef4444;
-  --sys-ridda: #f87171;
-  --sys-popup-accent: #fde68a;                /* highlighted words in map popups */                       /* the Ridda wars' borders */
+  --sys-ridda: #f87171;                       /* the Ridda wars' borders */
+  --sys-popup-accent: #fde68a;                /* highlighted words in map popups */
   --sys-glow-green-rgb: 45 90 39;             /* the player's glows (light mode's greens, in both modes) */
   --sys-glow-red-rgb: 163 59 32;
   --sys-glow-gray-rgb: 107 114 128;
@@ -246,9 +246,6 @@
   
   /* Timeline-Specific Variables - Light Mode */
   --timeline-bg: #2c241e;                  /* Dark background for timeline */
-  --timeline-text-primary: #1a1410;        /* Dark text for light backgrounds */
-  --timeline-text-secondary: #2c241e;      /* Darker secondary text */
-  --timeline-text-date: #1a1410;           /* Dark text for dates */
   --timeline-spacing-item: 1.5rem;         /* 24px between items */
   --timeline-spacing-category: 2rem;       /* 32px between categories */
   --timeline-marker-size: 0.5rem;          /* 8px default marker */
@@ -336,8 +333,7 @@
   /* CRITICAL: --glass-bg was previously only defined in :root and never
      overridden under .dark, so every panel painted with bg-[var(--glass-bg)]
      stayed light-cream in dark mode while text-ink flipped to a light cream
-     too — light-on-light, unreadable. The matching --glass-bg-dark token
-     existed but no consumer used it. Pointing --glass-bg at the dark value
+     too — light-on-light, unreadable. Pointing --glass-bg at the dark value
      here fixes EventPanel root, the edge tab, the desktop + mobile Timeline
      docks, every modal (Companion / Quran / Search), and Toast all at once. */
   --glass-bg: rgba(30, 20, 15, 0.88);
@@ -370,9 +366,6 @@
   
   /* Timeline-Specific Variables - Dark Mode with WCAG AA compliance */
   --timeline-bg: #221a15;                  /* Dark mode background */
-  --timeline-text-primary: #f4ece1;        /* Light text for dark backgrounds */
-  --timeline-text-secondary: #e0d0b8;      /* Lighter secondary text */
-  --timeline-text-date: #fde68a;           /* Bright yellow for dates in dark mode */
 }
 
 body {
@@ -2470,7 +2463,10 @@ background: linear-gradient(to right, rgb(var(--sys-night-panel-rgb) / 0.95), rg
   .custom-cursor-active .leaflet-control,
   .custom-cursor-active .leaflet-popup,
   .custom-cursor-active .leaflet-tooltip {
-    cursor: none;
+    /* !important: beats Leaflet's .leaflet-dragging .leaflet-grab .leaflet-interactive
+       (more specific), which would show the system hand beside this cursor while the
+       map is dragged over a marker, a route or a territory. */
+    cursor: none !important;
   }
 }
 

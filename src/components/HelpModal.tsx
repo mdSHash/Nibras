@@ -56,8 +56,7 @@ function Key({ label }: { label: string }) {
         'inline-flex items-center justify-center min-w-[28px] h-7 px-2',
         'rounded-[6px] border border-[var(--color-ink)]/25',
         // CSS-var background so it switches automatically with the .dark
-        // theme toggle — Tailwind v4's `dark:` utility variants react to
-        // `prefers-color-scheme`, not to the `.dark` class this app uses.
+        // theme toggle.
         'bg-[var(--color-card-bg)]',
         'text-[13px] font-bold text-[var(--color-ink)]',
       )}

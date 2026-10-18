@@ -68,13 +68,13 @@ export function chatEraColorKey(eraKey: EraKey | undefined): EraColorKey {
   return eraKey === undefined || eraKey === 'meccan' || eraKey === 'medinan' ? 'prophetic' : eraKey;
 }
 
+/** The hero's color for an event whose era has none. */
+export const FALLBACK_ERA_COLOR = '#3a5a2a';
+
 /**
  * Get the primary accent color for an era (matches timeline scrubber).
  * This is the main function used by Timeline and EventPanel for accent colors.
  */
-/** The hero's color for an event whose era has none. */
-export const FALLBACK_ERA_COLOR = '#3a5a2a';
-
 export function getEraColor(key: EraColorKey = 'prophetic'): string {
   return ERA_COLORS[key].primary;
 }
