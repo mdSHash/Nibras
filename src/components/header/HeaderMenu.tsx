@@ -135,7 +135,7 @@ export function HeaderMenu({ items, pulse = false }: HeaderMenuProps) {
             className={cn(
               'fixed min-w-[220px] origin-top-left',
               'py-1.5 rounded-2xl',
-              'bg-[rgba(20,15,10,0.92)] backdrop-blur-[20px] backdrop-saturate-150',
+              'bg-chrome/92 backdrop-blur-[20px] backdrop-saturate-150',
               'border border-[var(--glass-border)]',
               'shadow-[0_8px_30px_rgba(0,0,0,0.4)]',
               'pointer-events-auto',
@@ -156,16 +156,16 @@ export function HeaderMenu({ items, pulse = false }: HeaderMenuProps) {
                 }}
                 className={cn(
                   'w-full min-h-12 px-4 flex items-center gap-3',
-                  'text-[15px] font-bold text-[#f4ece1] text-right',
-                  // Literal gold, not `bg-accent`: the accent turns light in dark
+                  'text-[15px] font-bold text-chrome-ink text-right',
+                  // The fixed gold, not `bg-accent`: the accent turns light in dark
                   // mode, under the menu's light text.
-                  'hover:bg-[rgba(212,168,83,0.16)] active:bg-[rgba(212,168,83,0.28)]',
-                  'focus-visible:outline-none focus-visible:bg-[rgba(212,168,83,0.22)]',
-                  'focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#d4a853]',
+                  'hover:bg-gold/16 active:bg-gold/28',
+                  'focus-visible:outline-none focus-visible:bg-gold/22',
+                  'focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gold',
                   'transition-colors duration-150',
                 )}
               >
-                <span className="shrink-0 text-[#f4ece1]" aria-hidden="true">
+                <span className="shrink-0 text-chrome-ink" aria-hidden="true">
                   {item.icon}
                 </span>
                 <span>{item.label}</span>

@@ -9,6 +9,7 @@ import type { DockProps } from './types';
 import { PlayerControls } from './PlayerControls';
 import { EraPill } from './EraPill';
 import { FOCUS_RING } from './classes';
+import { CHROME_INK, rgba } from '../../themeColors';
 
 interface DesktopDockProps extends DockProps {
   events: EventItem[];
@@ -124,7 +125,7 @@ export const DesktopDock = memo(function DesktopDock(props: DesktopDockProps) {
                         'bg-islamic-green/20 border-islamic-green/40',
                         FOCUS_RING,
                       )}
-                      style={{ touchAction: 'manipulation', boxShadow: '0 0 20px rgba(45, 90, 39, 0.4)' }}
+                      style={{ touchAction: 'manipulation', boxShadow: '0 0 20px rgb(var(--sys-glow-green-rgb) / 0.4)' }}
                       title="تشغيل تلقائي للأحداث"
                     >
                       <Play size={16} />
@@ -144,7 +145,7 @@ export const DesktopDock = memo(function DesktopDock(props: DesktopDockProps) {
                             scale: { repeat: Infinity, repeatType: 'reverse', duration: 2, ease: 'easeInOut' },
                           }}
                           onClick={onJumpToStart}
-                          whileHover={{ scale: 1.05, backgroundColor: 'rgba(244, 236, 225, 0.2)' }}
+                          whileHover={{ scale: 1.05, backgroundColor: rgba(CHROME_INK, 0.2) }}
                           whileTap={{ scale: 0.95 }}
                           className={cn(
                             'flex items-center gap-1',

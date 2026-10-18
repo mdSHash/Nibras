@@ -173,7 +173,9 @@ nibras/
 │   ├── services/              # TTS service layer (Gemini)
 │   ├── constants/             # App-wide constants (z-index, etc.)
 │   ├── data/                  # Tour step definitions
-│   └── utils/                 # Utilities (animations, formatting, era colors, people lookup)
+│   ├── utils/                 # Utilities (animations, formatting, era colors, people lookup)
+│   ├── index.css              # Tailwind, the theme's color tokens (light and dark) and global styles
+│   └── themeColors.ts         # The few theme colors JS must interpolate (framer-motion, Leaflet)
 ├── .env.example               # Environment variable template
 ├── package.json               # Dependencies and scripts
 ├── docs/                      # PRD, content guide, refactor plan and log, owner dashboard
@@ -312,6 +314,19 @@ npx playwright test --grep @visual --update-snapshots
 ```
 
 See `docs/REFACTOR_PLAN.md` and `docs/REFACTOR_PROGRESS.md` for the refactor plan and its log.
+
+### Styling
+
+Colors go through the theme tokens in `src/index.css` (`--sys-*`, used as Tailwind colors such as `bg-chrome/55`, `text-paper-ink`, or in CSS and inline styles as `rgb(var(--sys-gold-rgb) / 0.3)`); light values sit in `:root`, dark ones in `.dark`, and Tailwind's `dark:` follows the app's dark-mode button. Framer-motion keyframes and Leaflet options take theirs from `src/themeColors.ts`. Neutral black and white (shadows, scrims) and the data colors (eras in `src/utils/eraColors.ts`, categories and territories in `content/`) are the only literals; `tests/themeColors.test.ts` fails on any other color written in `src/`.
+
+A change that must not alter the look can be proven with the style snapshots (not part of `verify`; ~12 min): build as for verify, then
+
+```bash
+npx playwright test -c playwright.style.config.ts --update-snapshots   # on the code before the change
+npx playwright test -c playwright.style.config.ts                      # after it: every state must match
+```
+
+They record every element's computed styles (colors compared as painted) and a screenshot, in light and dark × the system's light and dark, on desktop, phone, phone sideways and tablet (`tmp/style-snapshots/`, ignored by git).
 
 ---
 

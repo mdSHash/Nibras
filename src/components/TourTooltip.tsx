@@ -6,6 +6,7 @@ import { cn } from '../utils/cn';
 import { Z_INDEX } from '../constants';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { toArabicNumeral } from '../utils/tour';
+import { GOLD, rgba } from '../themeColors';
 
 interface TourTooltipProps {
   title: string;
@@ -41,15 +42,15 @@ const StepBadge = ({ step, total }: { step: number; total: number }) => {
         animate={{ opacity: [0.5, 1, 0.5] }}
         transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <span className="relative text-sm font-bold text-[#1a1a2e] z-10">{toArabicNumeral(step + 1)}</span>
+      <span className="relative text-sm font-bold text-night z-10">{toArabicNumeral(step + 1)}</span>
       <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 44 44">
-        <circle cx="22" cy="22" r={R} fill="none" stroke="rgba(212,168,83,0.2)" strokeWidth="1.5" />
+        <circle cx="22" cy="22" r={R} fill="none" stroke={rgba(GOLD, 0.2)} strokeWidth="1.5" />
         <motion.circle
           cx="22"
           cy="22"
           r={R}
           fill="none"
-          stroke="rgba(212,168,83,0.8)"
+          stroke={rgba(GOLD, 0.8)}
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeDasharray={`${CIRCUMFERENCE}`}
@@ -88,8 +89,8 @@ const TypewriterText = ({ text, delay = 0.2 }: { text: string; delay?: number })
 
 // Shared style for the muted (X + السابق) controls — dark text on light card, light text on dark card.
 const MUTED_BTN =
-  'bg-black/10 hover:bg-black/20 border border-black/25 text-[#1a1a2e] ' +
-  'dark:bg-white/15 dark:hover:bg-white/25 dark:border-white/30 dark:text-[#faf8f5]';
+  'bg-black/10 hover:bg-black/20 border border-black/25 text-paper-control ' +
+  'dark:bg-white/15 dark:hover:bg-white/25 dark:border-white/30';
 
 export const TourTooltip = ({
   title,
@@ -120,15 +121,15 @@ export const TourTooltip = ({
           <div
             className="absolute -inset-[1px] rounded-2xl opacity-60"
             style={{
-              background: 'linear-gradient(135deg, rgba(212,168,83,0.5), rgba(212,168,83,0.1), rgba(212,168,83,0.3))',
+              background: 'linear-gradient(135deg, rgb(var(--sys-gold-rgb) / 0.5), rgb(var(--sys-gold-rgb) / 0.1), rgb(var(--sys-gold-rgb) / 0.3))',
               filter: 'blur(1px)',
             }}
           />
 
           <div
             className={cn(
-              'relative bg-[#faf8f5] dark:bg-[#1a1a2e] backdrop-blur-xl border border-accent/30 rounded-2xl overflow-hidden',
-              'shadow-[0_20px_50px_rgba(0,0,0,0.3),0_0_30px_rgba(212,168,83,0.08)]'
+              'relative bg-paper backdrop-blur-xl border border-accent/30 rounded-2xl overflow-hidden',
+              'shadow-[0_20px_50px_rgba(0,0,0,0.3),0_0_30px_rgb(var(--sys-gold-rgb)/0.08)]'
             )}
           >
             <div className="h-[2px] bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
@@ -137,7 +138,7 @@ export const TourTooltip = ({
               <div className="flex items-start gap-3 mb-3">
                 <StepBadge step={currentStep} total={totalSteps} />
                 <motion.h3
-                  className="flex-1 min-w-0 pt-1 text-lg sm:text-xl font-bold text-[#1a1a2e] dark:text-[#D4A853] leading-tight"
+                  className="flex-1 min-w-0 pt-1 text-lg sm:text-xl font-bold text-paper-title leading-tight"
                   initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.15, duration: 0.3 }}
@@ -161,7 +162,7 @@ export const TourTooltip = ({
               </div>
 
               <motion.div
-                className="text-[15px] sm:text-base text-[#1a1a2e] dark:text-[#f5f5f5] leading-relaxed mb-4 pr-1"
+                className="text-[15px] sm:text-base text-paper-ink leading-relaxed mb-4 pr-1"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.3 }}
@@ -205,7 +206,7 @@ export const TourTooltip = ({
                     className={cn(
                       'flex items-center gap-1.5 px-4 py-2 bg-accent hover:bg-accent/90 text-parchment',
                       'rounded-xl transition-colors font-medium text-sm min-h-[44px]',
-                      'shadow-[0_2px_10px_rgba(212,168,83,0.3)]'
+                      'shadow-[0_2px_10px_rgb(var(--sys-gold-rgb)/0.3)]'
                     )}
                     aria-label={isLast ? 'إنهاء الجولة' : 'الخطوة التالية'}
                     whileHover={{ scale: 1.03 }}
@@ -237,6 +238,8 @@ export const TourTooltip = ({
 };
 
 // Directional arrow — only rendered for edge placements with a translate transform.
+const ARROW_EDGE = '1px solid rgb(var(--sys-gold-rgb) / 0.4)';
+
 const ARROW_VARIANTS: Array<{
   match: (p: TooltipPosition) => boolean;
   position: React.CSSProperties;
@@ -246,25 +249,25 @@ const ARROW_VARIANTS: Array<{
     // Tooltip above target (arrow points down).
     match: (p) => p.bottom !== undefined && !!p.transform?.includes('translateX'),
     position: { top: '-6px', left: '50%', marginLeft: '-7px' },
-    borders: { borderTop: '1px solid rgba(212,168,83,0.4)', borderLeft: '1px solid rgba(212,168,83,0.4)' },
+    borders: { borderTop: ARROW_EDGE, borderLeft: ARROW_EDGE },
   },
   {
     // Tooltip below target (arrow points up).
     match: (p) => p.top !== undefined && !!p.transform?.includes('translateX'),
     position: { bottom: '-6px', left: '50%', marginLeft: '-7px' },
-    borders: { borderBottom: '1px solid rgba(212,168,83,0.4)', borderRight: '1px solid rgba(212,168,83,0.4)' },
+    borders: { borderBottom: ARROW_EDGE, borderRight: ARROW_EDGE },
   },
   {
     // Tooltip to the left of target (arrow points right).
     match: (p) => p.left !== undefined && !!p.transform?.includes('translateY'),
     position: { right: '-6px', top: '50%', marginTop: '-7px' },
-    borders: { borderTop: '1px solid rgba(212,168,83,0.4)', borderRight: '1px solid rgba(212,168,83,0.4)' },
+    borders: { borderTop: ARROW_EDGE, borderRight: ARROW_EDGE },
   },
   {
     // Tooltip to the right of target (arrow points left).
     match: (p) => p.right !== undefined && !!p.transform?.includes('translateY'),
     position: { left: '-6px', top: '50%', marginTop: '-7px' },
-    borders: { borderBottom: '1px solid rgba(212,168,83,0.4)', borderLeft: '1px solid rgba(212,168,83,0.4)' },
+    borders: { borderBottom: ARROW_EDGE, borderLeft: ARROW_EDGE },
   },
 ];
 
@@ -274,8 +277,8 @@ const TooltipArrow = ({ position }: { position: TooltipPosition }) => {
   return (
     <div className="absolute" style={variant.position}>
       <div
-        className="w-3.5 h-3.5 rotate-45 bg-[#faf8f5] dark:bg-[#1a1a2e] border-accent/40"
-        style={{ boxShadow: '0 0 8px rgba(212,168,83,0.2)', ...variant.borders }}
+        className="w-3.5 h-3.5 rotate-45 bg-paper border-accent/40"
+        style={{ boxShadow: '0 0 8px rgb(var(--sys-gold-rgb) / 0.2)', ...variant.borders }}
       />
     </div>
   );

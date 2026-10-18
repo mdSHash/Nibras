@@ -1316,3 +1316,184 @@ the verify runs; repeated, this branch failed 2 of 58 runs and `main` 0 of 18. T
 the start screen before any event or player opens, which 3H does not change; watch it in CI. The
 shared helper `openEventBySearch` also timed out once in 20 heavy repeated runs (closing the
 search drawer).
+
+**3H merged**: PR #8, merge commit `2b27adf` (2026-10-17).
+
+### 3B — colors through theme tokens
+
+Started 2026-10-17 on `refactor/phase-3b-theme-tokens` from `main` at `2b27adf` (PR #8 merged).
+
+#### Decisions by Mostafa (3B)
+
+- 2026-10-17: **no visual change**: the 16 Windows and 16 Linux screenshots stay identical (any
+  difference is a bug unless approved); text contrast passes WCAG AA in light and dark.
+- 2026-10-17: **dark mode follows the app's button everywhere.** Found while planning: there is no
+  `@custom-variant dark`, so Tailwind's `dark:` classes (QuranModal, SearchMenu, TourTooltip)
+  followed the system setting, not the button; with the app dark and the system light those parts
+  stayed light, and the reverse. The rule stays as it is for the start (a visitor who never pressed
+  the button gets the system setting, light when there is none); once pressed, the whole app
+  follows the button. This is 3B's one intentional change.
+- 2026-10-17: **the phone rule `.fixed, .absolute { max-width: 100vw }`** is removed together with
+  the battle video player's `LAYER` workaround, if measuring shows nothing else depends on it.
+- 2026-10-17: `src/battlefield/` is not touched (rule 8); the battle video player keeps its Tailwind
+  gray classes (they match the replay).
+
+#### Design choices (3B)
+
+- **Style snapshots** (`playwright.style.config.ts`, `tests/style/`; run on demand, not in verify or
+  CI) prove each step changes nothing. Every state (start, an event of each era, a replay battle,
+  Badr, search, person, Quran, help, chat, ⋮ menu, player mode, map popup, tour prompt and step,
+  the video player with the stub) in app light/dark × system light/dark on desktop and phone,
+  plus phone sideways, tablet both ways and reduced motion: 228 captures, ~12 min. Two checks:
+  - the **computed styles of every element** (and `::before`/`::after`): colors, borders, shadows,
+    filters, opacity, sizes, spacing, fonts, cursor, touch-action…, every color compared as painted
+    8-bit pixels (so `rgba()` and Tailwind's `color-mix()` are equal when they draw the same),
+    plus each header, timeline, panel, search, Quran and menu control hovered and focused. This
+    check is exact;
+  - a **screenshot** backstop, allowing 250 pixels beyond a 0.05 threshold. Measured on unchanged
+    code (2026-10-18), run-to-run noise is up to ~130 pixels (blurred backdrops; the era dock's
+    edge after its spring); one changed surface is tens of thousands.
+  Infinite framer-motion loops (pulsing buttons, the selected diamond) are detected, left out and
+  hidden in the screenshot; the territory borders are hidden in the screenshot (sub-pixel
+  anti-aliasing), their colors still compared; Leaflet's markers are put in a fixed order first.
+  A planned `scripts/style-snapshot.ts` became this Playwright config, to reuse the offline stubs.
+  The visual spec's settle helpers moved to `tests/e2e/support/still.ts` (no change in behavior).
+- The plan's inventory listed "`select { font-size: 16px }`, no `<select>` in the app" as dead: the
+  rule also covers search inputs and textareas (it stops iPhones zooming into a field). It stays.
+- **Tokens.** Every color with a hue goes through a token in `src/index.css`, holding the exact value
+  it replaces (no merging of values that are only close; equal values share one token, e.g.
+  `#f4ece1` text and the `rgba(244, 236, 225, …)` glows are `--sys-chrome-ink-rgb`). Fixed colors
+  (the always-dark header and rail, gold, night, the player's glows) are defined once in `:root`;
+  colors that change with the mode (the Quran window and tour step's "paper", the popup, the hero's
+  shade, the accent's channels) in `:root` and `.dark`. `-rgb` tokens hold channels so CSS and
+  inline styles can add alpha exactly (`rgb(var(--sys-gold-rgb) / 0.3)`); Tailwind names map to
+  them in `@theme` (`bg-chrome/55`, `text-paper-ink`). The Tailwind palette colors the app used
+  (emerald, red and gray shades on the hero, the player and the Quran window) are tokens with
+  Tailwind's own OKLCH values copied in, since Tailwind only emits the variables a class uses.
+- **Not tokens** (a narrowing of the plan's table, which had `shade`/`light`): neutral black and
+  white with alpha (shadows, scrims, highlights on photos), which carry no palette; and **data
+  colors**: the five era colors (`src/utils/eraColors.ts`, now also the hero's fallback
+  `FALLBACK_ERA_COLOR` and the empty timeline's gradient) and the category and territory colors in
+  `content/`. They stay inline where a component draws them (about 30 places, several animated by
+  framer-motion); rewriting them as `--era` custom properties would be churn with risk and no
+  visible gain. Theme colors are never inline literals.
+- **JS-only colors** (`src/themeColors.ts`): framer-motion keyframes and hover targets need numbers
+  it can interpolate (a `var()` would make it jump), and Leaflet's path options are SVG attributes;
+  `GOLD`, `GOLD_BRIGHT`, `GOLD_BRIGHT_HEX` (the intro's SVG pattern, a data URL), `CHROME_INK`,
+  `RIDDA`. `tests/themeColors.test.ts` checks each equals its token.
+- Kept exactly, noted for Mostafa: the header's tour button and round buttons glow on hover with
+  `rgba(var(--color-accent-rgb, …) / …)`, a variable never defined, so the fallback forest green
+  (34 139 34) shows; the fallback is now the token `--sys-glow-forest-rgb`. The tour button's
+  `to-accent-dark` names no theme color, so Tailwind generates nothing for it (its gradient ends
+  transparent).
+- **Unused color tokens removed** (49, e.g. the five `--sys-*-era` colors and `--sys-gradient-*`,
+  which disagreed with `eraColors.ts`, the `--timeline-bg-*`/`--timeline-text-*` colors, the
+  semantic success/warning/error/info colors, unused `@theme` names such as `ink-light` and
+  `primary-light`), after checking `var()` and Tailwind class uses in `src/`, `index.html`,
+  `scripts/`, `shared/`, `api/` and `public/`. Not touched: the duplicated non-color variables in
+  `:root` (`--radius-*`, `--space-*`, `--text-*` are each defined twice and override Tailwind's
+  own `rounded-lg`, `text-sm`… so they are load-bearing).
+- **`!important`: 77 → 12.** Removed: rules no element matches (`.mobile-hidden`, `.desktop-only`,
+  `.search-menu`, `.timeline-container …` (the timeline has no such class any more), the course-of-
+  events rule written against an old Tailwind class string, `[class*="z-[900]"]`,
+  `.sm:bottom-[120px]`), two copies of the reduced-motion reset, and every `!important` the style
+  snapshots showed was not needed (Tailwind v4's utilities sit in a layer, so the unlayered rules
+  of `index.css` win without it). Kept, each with a comment: the reduced-motion reset (7, it must
+  beat framer-motion's inline styles); `.leaflet-popup-content`'s color (beats
+  `.dark .historical-popup *`); `.gap-2` on screens under 380 px and `[dir="rtl"] .flex-wrap` on
+  phones (the first beats the era-dock rule `[class*="bottom-"][class*="left-1/2"][class*="flex"]`,
+  which also matches the toasts; the second must then win over the first); the event panel's
+  `max-width: 450px` on portrait tablets (beats a later `max-width: 100vw`); the custom cursor's
+  `cursor: none` (beats Leaflet's `.leaflet-dragging .leaflet-grab .leaflet-interactive`, which
+  otherwise shows the system hand beside the gold cursor while the map is dragged; found by the
+  review, which the snapshots could not see since they never drag).
+- **The phone rule `.fixed, .absolute { max-width: 100vw }` stays** (measured 2026-10-18, as agreed):
+  being unlayered it overrides components' own `max-w-*` classes on phones, so removing it would
+  change the look: the tour prompt (`max-w-[92vw]`, 100vw wide today) would shrink from 375 to
+  345 px and the search drawer would change. A comment in `index.css` now says so; the battle
+  video player keeps its `LAYER` workaround.
+- The style snapshots compare gradients by direction (as an angle) and painted stops: Chrome writes
+  one gradient as `to right` or `90deg`, with or without `in oklab`, depending on how it was
+  declared (Tailwind's `color-mix` stops are oklab, the default then). The interpolation hint is
+  therefore not compared; a change of interpolation alone would show only in the screenshots.
+
+#### Intentional behavior changes (3B)
+
+1. **Dark mode follows the app's button everywhere** (Mostafa, 2026-10-17). `@custom-variant dark`
+   ties Tailwind's `dark:` classes to the `.dark` class, like every `--sys-*` token. Changed only
+   when the app's mode differs from the system's: the Quran window (13 classes), the tour step (7)
+   and the search menu's field, tabs and chips (9). With the app dark and the system light the
+   search field was white with light text (`bg-white/80` under dark ink); it is now dark. The style
+   snapshots show differences only on those elements and only in the mixed projects (Quran 120
+   values, tour step 49–59, search 6); 16/16 committed screenshots unchanged (they run light/light).
+   New test `tests/e2e/theme-contrast.spec.ts`: the Quran window and the tour follow the button and
+   their text passes AA in both modes (it fails on the old build, as it should). Before/after
+   images: `tmp/3b-dark-fix/`.
+
+#### 3B verification (2026-10-18, Windows 11, Node 20.19.5, Playwright 1.59.1)
+
+`npm run verify` on the final 3B code (start of session: the same on `2b27adf`, after one flaky
+phone-webkit run of "a Quran chip opens the right verses", which then passed 8/8 alone and in a
+full smoke run):
+
+| Step | Result |
+| --- | --- |
+| Content build (Zod), type check, ESLint | passed |
+| Vitest | 261/261 (256 before: the theme-color mirror, the guard and its self-test) |
+| Content snapshot, behavior map | identical to the baseline |
+| Production build + pre-render | 356 pages |
+| Bundle budget | within limits (JS at start 924.5 KB, 257.1 KB gzip, unchanged; `index.css` 31.1 → 31.5 KB gzip) |
+| Playwright features | 83 passed (81 before + the two theme-contrast tests), 0 failed, 1 skipped |
+| Phone smoke (WebKit, Firefox) | 44/44 |
+| Visual snapshots | 16/16, no image updated (Windows); Linux is expected unchanged in CI |
+
+Style snapshots (228 captures per run, `playwright.style.config.ts`):
+
+| Step | Result against the base |
+| --- | --- |
+| Determinism (unchanged code, twice) | style dumps identical; screenshot noise measured (≤ ~130 px) |
+| `dark:` follows the button (intentional) | differences only on the Quran window, tour step and search field, only in the mixed projects |
+| Tokens, components, `index.css` literals (steps 3–5) | identical (after comparing gradients by angle; one known-noisy line in the phone Quran screenshot) |
+| Unused tokens, `!important` (steps 6–7) | first run showed three `!important` still needed (gaps, popup text color, panel width); restored; then identical |
+| The phone 100vw rule (step 8) | not inert (tour prompt, search drawer); kept |
+| Final run on `e1d6df0` | identical in every state (1 flaky screenshot, passed on retry) |
+
+The two commits after that run (`5b644b8`, `8ad5ce9`, from the review) were not re-run through the
+style snapshots: they restore one `!important` that only acts while the map is dragged (checked in
+Chromium: Leaflet's `grabbing` cursor before, `none` after), remove three unused variables and edit
+comments and tests; `verify` passed on them.
+
+| Count (guard's rule) | Before (`2b27adf`) | After |
+| --- | --- | --- |
+| Color literals with a hue in `src/` components and modules (outside the allowed places) | 196 | 0 |
+| The same in `src/index.css` rules | 37 | 0 |
+| `!important` in `src/index.css` | 77 | 12 |
+| `src/index.css` lines | 2588 | 2486 |
+
+Independent review (reviewer subagent, read-only, on `2b27adf..HEAD`): every replaced color maps to
+a token of exactly the same value in the right mode, every new class is generated, nothing removed
+is still referenced, no rule violation. Its findings and what was done:
+1. Custom cursor while dragging the map (regression from removing `!important`): fixed.
+2. A state with no base passed silently: now fails. The map-popup state, whose rules lost
+   `!important`, did run in 10 of 12 projects (no popup opens on phone sideways or portrait tablet).
+3. The tap-highlight and scrollbar colors were not compared: their 3B rewrites were checked by hand
+   (the accent's channels, 139 107 74 and 212 163 115) and the properties are now in the dump.
+4. The guard ignored the rest of a line after the `//` of a URL: fixed, with a self-test.
+5. The popup and map rules now rely on `leaflet.css` loading before `index.css` (it does: `App`, which
+   imports the map, is imported before `index.css` in `src/main.tsx`). Noted here; no change.
+6. The frozen marker reference in `tests/markerIcons.test.tsx` now spells its colors as the tokens
+   (same values); its comment says so.
+7. Nits (stale comments, three unused timeline variables, a doc comment split): fixed; the `.dark`
+   copies of rules that now resolve to the same token are left in place (removing them could change
+   which rule wins).
+
+Manual checks for Mostafa (phone and desktop):
+
+1. Light and dark: the start view, an event of each era, search, a person, a Qur'an passage, help and
+   chat look as before.
+2. Set the app to dark while the phone/computer is in light mode (or the reverse), open a Qur'an
+   passage, the search menu and the tour: they now follow the app (the one intended change).
+3. Desktop: drag the map across a marker or a territory: only the gold cursor shows, no hand.
+4. Phone: the ⋮ menu, the timeline player, a map popup (tap a cluster) and a toast.
+5. Phone: Badr's video upright and sideways looks and turns as before.
+6. The tour prompt and a tour step on a phone look as before (full width).

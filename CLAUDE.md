@@ -40,6 +40,7 @@ assistant (`api/`) is a separate Vercel project.
 | `npm run build` | Production build (`dist/`, base `/Nibras/`) |
 | `npm run format` | Prettier, on demand only (no repo-wide reformat) |
 | `npx playwright test` | Feature + visual tests (build first with `VITE_CHAT_API_URL=http://chat.test/api/chat`) |
+| `npx playwright test -c playwright.style.config.ts` | Style snapshots: prove a change keeps the look (capture with `--update-snapshots` before it; see README, "Styling") |
 
 `npm run verify -- --update-numbers` rewrites `tests/baseline/numbers.json`. Baselines are updated
 only after Mostafa approves the list of intentional changes; never to make a test pass.
@@ -50,7 +51,9 @@ only after Mostafa approves the list of intentional changes; never to make a tes
 - `src/App.tsx` — layout; `src/store/` — the Zustand store (UI state) and its selectors;
   `src/router.ts` — keeps the store's location in step with the address (paths in `shared/routes.ts`);
   every navigation goes through it; `src/theme.ts` — dark mode (remembered, else the system; the
-  inline script in `index.html` applies the same rule before the first paint)
+  inline script in `index.html` applies the same rule before the first paint); `src/index.css` — the
+  color tokens (`--sys-*`, light in `:root`, dark in `.dark`): colors only through them, or
+  `src/themeColors.ts` where JS must interpolate (`tests/themeColors.test.ts` enforces it)
 - `src/components/` — map, timeline, modals, chat; `header/` (AppHeader, HeaderButton, HeaderMenu: the phone ⋮ menu),
   `Overlays.tsx` (search, person, Quran, help, chat, battle), `eventPanel/` (the event panel's parts),
   `battleVideo/` (the battle video player: YouTube IFrame API behind `videoEngine.ts`, own Arabic

@@ -142,7 +142,7 @@ export function markerHtml({ color, label, icon, isSelected, isDimmed, hasBattle
               height: `${badgeSize}px`,
               borderRadius: '9999px',
               backgroundColor: 'var(--color-accent)',
-              border: '1.5px solid rgba(20,15,10,0.9)',
+              border: '1.5px solid rgb(var(--sys-chrome-rgb) / 0.9)',
               boxShadow: '0 1px 3px rgba(0,0,0,0.5)',
               display: 'flex',
               alignItems: 'center',
@@ -152,7 +152,7 @@ export function markerHtml({ color, label, icon, isSelected, isDimmed, hasBattle
           },
           el(
             'svg',
-            { width: badgeSize - 6, height: badgeSize - 6, viewBox: '0 0 8 8', fill: 'rgba(20,15,10,0.95)' },
+            { width: badgeSize - 6, height: badgeSize - 6, viewBox: '0 0 8 8', style: 'fill:rgb(var(--sys-chrome-rgb) / 0.95)' },
             el('path', { d: 'M2 1.2 L6.6 4 L2 6.8 Z' }),
           ),
         )
@@ -164,8 +164,8 @@ export function markerHtml({ color, label, icon, isSelected, isDimmed, hasBattle
           top: isMobile ? '48px' : '42px',
           left: '50%',
           transform: 'translateX(-50%)',
-          backgroundColor: 'rgba(44, 36, 30, 0.95)',
-          color: '#f4ece1',
+          backgroundColor: 'rgb(var(--sys-chrome-raised-rgb) / 0.95)',
+          color: 'rgb(var(--sys-chrome-ink-rgb))',
           padding: isMobile ? '8px 14px' : '6px 12px',
           borderRadius: '8px',
           fontSize: isMobile ? '13px' : '12px',

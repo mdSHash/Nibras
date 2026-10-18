@@ -8,6 +8,7 @@ import { slideUp, slideInRight, slideInLeft } from "../utils/motionVariants";
 import { ArticleBody } from "./eventPanel/ArticleBody";
 import { Hero } from "./eventPanel/Hero";
 import { getEraTheme, shadeHex } from "./eventPanel/theme";
+import { FALLBACK_ERA_COLOR } from "../utils/eraColors";
 import { useNarration } from "./eventPanel/useNarration";
 import { eventDetails, useLazyContent } from "../lazyContent";
 import { eventSlug } from "../../shared/routes";
@@ -133,10 +134,9 @@ export default function EventPanel({
 
   // Hero gradient: era-color → darker shade. For dark mode, deepen further.
   const heroGradient = useMemo(() => {
-    const c = eraTheme.color || '#3a5a2a';
+    const c = eraTheme.color || FALLBACK_ERA_COLOR;
     const dark = shadeHex(c, isDark ? -0.55 : -0.35);
-    const ink = isDark ? '#0a0a0a' : '#1a1a1a';
-    return `linear-gradient(135deg, ${c} 0%, ${dark} 60%, ${ink} 110%)`;
+    return `linear-gradient(135deg, ${c} 0%, ${dark} 60%, var(--sys-hero-ink) 110%)`;
   }, [eraTheme.color, isDark]);
 
   if (!event) return null;

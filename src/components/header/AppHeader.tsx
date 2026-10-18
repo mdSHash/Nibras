@@ -97,9 +97,9 @@ export function AppHeader() {
         'absolute top-0 left-0 right-0 h-14 md:h-16',
         'pt-[env(safe-area-inset-top)]',
         'px-3 sm:px-4 flex items-center justify-between',
-        // Literal dark RGB, not `from-ink/80`: --color-ink flips to light in dark
-        // mode, which would make the header light-on-light.
-        'bg-gradient-to-b from-[rgba(20,15,10,0.85)] via-[rgba(20,15,10,0.65)] to-[rgba(20,15,10,0.4)]',
+        // The fixed chrome color, not `from-ink/80`: --color-ink flips to light in
+        // dark mode, which would make the header light-on-light.
+        'bg-gradient-to-b from-chrome/85 via-chrome/65 to-chrome/40',
         'backdrop-blur-[20px] backdrop-saturate-150',
         'border-b border-[var(--glass-border)]',
         'pointer-events-none',
@@ -117,11 +117,11 @@ export function AppHeader() {
         className="flex items-center gap-1.5 sm:gap-3 md:gap-4 pointer-events-auto shrink-0 drop-shadow-md relative"
       >
         <motion.div
-          className="relative text-[18px] sm:text-[24px] md:text-[32px] font-bold tracking-[0.5px] sm:tracking-[1px] md:tracking-[2px] text-[#f4ece1]"
+          className="relative text-[18px] sm:text-[24px] md:text-[32px] font-bold tracking-[0.5px] sm:tracking-[1px] md:tracking-[2px] text-chrome-ink"
           whileHover={{ scale: 1.03 }}
           transition={{ duration: 0.2 }}
         >
-          <span className="relative z-10 bg-gradient-to-l from-[#f4ece1] via-[#f5e6c8] to-[#f4ece1] bg-clip-text text-transparent bg-[length:200%_100%] animate-[shimmer_6s_ease-in-out_infinite]">
+          <span className="relative z-10 bg-gradient-to-l from-chrome-ink via-chrome-ink-warm to-chrome-ink bg-clip-text text-transparent bg-[length:200%_100%] animate-[shimmer_6s_ease-in-out_infinite]">
             نِبْرَاس
           </span>
         </motion.div>
@@ -129,7 +129,7 @@ export function AppHeader() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.5 }}
-          className="italic text-[10px] sm:text-[12px] md:text-[14px] text-[#f4ece1]/75 hidden sm:block"
+          className="italic text-[10px] sm:text-[12px] md:text-[14px] text-chrome-ink/75 hidden sm:block"
         >
           التاريخ الإسلامي كما لم تره من قبل
         </motion.div>
@@ -242,7 +242,7 @@ export function AppHeader() {
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
-              whileHover={{ scale: 1.08, boxShadow: '0 0 16px rgba(var(--color-accent-rgb, 34 139 34) / 0.5)' }}
+              whileHover={{ scale: 1.08, boxShadow: '0 0 16px rgba(var(--color-accent-rgb, var(--sys-glow-forest-rgb)) / 0.5)' }}
               whileTap={{ scale: 0.9 }}
               transition={{ type: 'spring', damping: 18, stiffness: 300, delay: 0.55 }}
               className={cn(
@@ -250,9 +250,9 @@ export function AppHeader() {
                 'px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2',
                 'rounded-full border border-accent/40',
                 'bg-gradient-to-br from-accent to-accent-dark',
-                'backdrop-blur text-[#f4ece1]',
-                'shadow-[0_4px_16px_rgba(34,139,34,0.3)]',
-                'hover:shadow-[0_6px_24px_rgba(34,139,34,0.5)]',
+                'backdrop-blur text-chrome-ink',
+                'shadow-[0_4px_16px_rgb(var(--sys-glow-forest-rgb)/0.3)]',
+                'hover:shadow-[0_6px_24px_rgb(var(--sys-glow-forest-rgb)/0.5)]',
                 'transition-all font-bold text-xs sm:text-sm',
                 'min-w-[48px] min-h-[48px] justify-center',
               )}

@@ -142,13 +142,13 @@ export function Hero({
         {(event.forces?.army || event.forces?.enemyArmy) && (
           <div className="flex items-center gap-3 text-white mb-4" style={fs(13)}>
             {event.forces?.army && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-900/75 backdrop-blur-md border border-emerald-300/25 font-bold ring-1 ring-white/10">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-ally-deep/75 backdrop-blur-md border border-ally-light/25 font-bold ring-1 ring-white/10">
                 <Users size={12} className="shrink-0" />
                 {event.forces.army.textAr}
               </span>
             )}
             {event.forces?.enemyArmy && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-red-950/75 backdrop-blur-md border border-red-300/25 font-bold ring-1 ring-white/10">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-enemy-deeper/75 backdrop-blur-md border border-enemy-light/25 font-bold ring-1 ring-white/10">
                 <Swords size={12} className="shrink-0" />
                 {event.forces.enemyArmy.textAr}
               </span>
@@ -177,7 +177,7 @@ export function Hero({
               </>
             )}
             {audioError && (
-              <span className="text-red-200 font-medium" style={fs(11)}>
+              <span className="text-hero-error font-medium" style={fs(11)}>
                 {audioError}
               </span>
             )}

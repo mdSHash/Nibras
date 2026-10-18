@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* `dark:` follows the app's dark-mode button (the .dark class on <html>, set by
+   src/theme.ts), like every --sys-* token, not the system setting. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Short viewports — phones held sideways, or any touch screen with the
    on-screen keyboard open (the chat panel sets data-short then). Used by the
    chat panel to give the message list the height it needs. */
@@ -29,7 +33,6 @@
   --color-ink: var(--sys-ink);
   --color-accent: var(--sys-accent);
   --color-primary: var(--sys-accent);
-  --color-primary-light: var(--sys-accent-light);
   --color-primary-dark: var(--sys-accent-dark);
   --color-islamic-green: var(--sys-islamic-green);
   --color-battle-red: var(--sys-battle-red);
@@ -38,9 +41,41 @@
   --color-card-bg: var(--sys-card-bg);
   --color-map-center: var(--sys-map-center);
   --color-map-edge: var(--sys-map-edge);
-  --color-ink-light: var(--sys-ink-300);
-  --color-parchment-dark: var(--sys-parchment-200);
-  --color-ink-dark: var(--sys-ink-900);
+  --color-chrome: rgb(var(--sys-chrome-rgb));
+  --color-chrome-raised: rgb(var(--sys-chrome-raised-rgb));
+  --color-chrome-ink: rgb(var(--sys-chrome-ink-rgb));
+  --color-chrome-ink-warm: var(--sys-chrome-ink-warm);
+  --color-umber: rgb(var(--sys-umber-rgb));
+  --color-gold: rgb(var(--sys-gold-rgb));
+  --color-gold-bright: rgb(var(--sys-gold-bright-rgb));
+  --color-gold-pale: var(--sys-gold-pale);
+  --color-night: var(--sys-night);
+  --color-night-deep: var(--sys-night-deep);
+  --color-go: rgb(var(--sys-go-rgb));
+  --color-stop: var(--sys-stop);
+  --color-ridda: var(--sys-ridda);
+  --color-glow-green: rgb(var(--sys-glow-green-rgb));
+  --color-glow-red: rgb(var(--sys-glow-red-rgb));
+  --color-glow-gray: rgb(var(--sys-glow-gray-rgb));
+  --color-glow-forest: rgb(var(--sys-glow-forest-rgb));
+  --color-ally-deep: var(--sys-ally-deep);
+  --color-ally-light: var(--sys-ally-light);
+  --color-enemy-deeper: var(--sys-enemy-deeper);
+  --color-enemy-light: var(--sys-enemy-light);
+  --color-hero-error: var(--sys-hero-error);
+  --color-play-soft: var(--sys-play-soft);
+  --color-stop-soft: var(--sys-stop-soft);
+  --color-muted-gray: var(--sys-muted-gray);
+  --color-paper: var(--sys-paper);
+  --color-paper-ink: var(--sys-paper-ink);
+  --color-paper-title: var(--sys-paper-title);
+  --color-paper-control: var(--sys-paper-control);
+  --color-quran-head: var(--sys-quran-head);
+  --color-quran-body: var(--sys-quran-body);
+  --color-quran-title: var(--sys-quran-title);
+  --color-quran-muted: var(--sys-quran-muted);
+  --color-quran-close: var(--sys-quran-close);
+  --color-quran-foot: var(--sys-quran-foot);
 }
 
 :root {
@@ -84,7 +119,6 @@
 
   /* Glassmorphism */
   --glass-bg: rgba(250, 246, 237, 0.85);
-  --glass-bg-dark: rgba(30, 20, 15, 0.85);
   /* Same colour as --glass-bg with no see-through, for phone sheets where
      the map and timeline would otherwise show behind text. */
   --glass-bg-solid: rgb(250, 246, 237);
@@ -99,47 +133,19 @@
   --radius-xl: 24px;
 
   /* Base Colors - Enhanced warmth and depth */
-  --sys-parchment-50: #faf7f2;
   --sys-parchment: #f4ece1;
-  --sys-parchment-200: #e8dfd0;
-  --sys-parchment-300: #dccfb8;
   
-  --sys-ink-900: #2c241e;
-  --sys-ink-700: #4a3d32;
-  --sys-ink-500: #6b5a47;
-  --sys-ink-300: #8b7a67;
   --sys-ink: #2c241e;
   
   /* Accent Colors - Richer golden tones */
-  --sys-accent-light: #c4a57b;
   --sys-accent: #8b6b4a;
   --sys-accent-dark: #6d5438;
-  --sys-accent-glow: rgba(139, 107, 74, 0.3);
   
   /* Islamic Green - More vibrant */
-  --sys-islamic-green-light: #4a8040;
   --sys-islamic-green: #2d5a27;
-  --sys-islamic-green-dark: #1f3d1b;
-  --sys-islamic-green-glow: rgba(45, 90, 39, 0.25);
   
   /* Battle Red - Enhanced contrast */
-  --sys-battle-red-light: #c74d2e;
   --sys-battle-red: #a33b20;
-  --sys-battle-red-dark: #7d2d18;
-  --sys-battle-red-glow: rgba(163, 59, 32, 0.25);
-  
-  /* Era-Specific Colors */
-  --sys-prophet-era: #10b981;
-  --sys-abu-bakr: #fbbf24;
-  --sys-umar: #ef4444;
-  --sys-uthman: #06b6d4;
-  --sys-ali: #818cf8;
-  
-  /* Semantic Colors */
-  --sys-success: #059669;
-  --sys-warning: #d97706;
-  --sys-error: #dc2626;
-  --sys-info: #0284c7;
   
   /* Legacy support */
   --sys-border-dark: #3d2b1f;
@@ -148,7 +154,60 @@
   --sys-map-center: #e8dfd0;
   --sys-map-edge: #dccfb8;
   --sys-map-filter: sepia(0.3) grayscale(0.5) contrast(1.1) brightness(1.1) opacity(0.4);
-  
+
+  /* Fixed colors: the same in light and dark mode. "-rgb" tokens hold the
+     channels for alpha in CSS and inline styles: rgb(var(--sys-gold-rgb) / 0.3).
+     Neutral black and white (shadows, scrims) stay literal. JS-only users
+     (framer-motion keyframes, Leaflet options) take them from src/themeColors.ts. */
+  --sys-chrome-rgb: 20 15 10;                 /* the always-dark header, ⋮ menu, map badges */
+  --sys-chrome-raised-rgb: 44 36 30;          /* cluster badges, popups, the companion window's tints */
+  --sys-chrome-ink-rgb: 244 236 225;          /* text and glows on the dark chrome */
+  --sys-chrome-ink-warm: #f5e6c8;             /* the title's shimmer */
+  --sys-rail-top-rgb: 15 10 5;                /* the timeline rail's gradient */
+  --sys-rail-bottom-rgb: 10 8 4;
+  --sys-umber-rgb: 61 43 31;                  /* the companion window's lines */
+  --sys-gold-rgb: 212 168 83;                 /* the tour, the cursor, the ⋮ menu */
+  --sys-gold-bright-rgb: 212 175 55;          /* the intro and the tour prompt */
+  --sys-gold-pale: #e8c872;                   /* the cursor's inner star */
+  --sys-night: #1a1a2e;                       /* the intro, the tour prompt, the cursor's outline */
+  --sys-night-deep: #0d0d1a;
+  --sys-go-rgb: 16 185 129;                   /* play, the current place, the legend's route */
+  --sys-stop: #ef4444;
+  --sys-ridda: #f87171;                       /* the Ridda wars' borders */
+  --sys-popup-accent: #fde68a;                /* highlighted words in map popups */
+  --sys-glow-green-rgb: 45 90 39;             /* the player's glows (light mode's greens, in both modes) */
+  --sys-glow-red-rgb: 163 59 32;
+  --sys-glow-gray-rgb: 107 114 128;
+  --sys-glow-forest-rgb: 34 139 34;           /* the tour button's shadow */
+  --sys-ally-deep: oklch(37.8% 0.077 168.94);  /* the hero's army badges — Tailwind emerald-900 */
+  --sys-ally-light: oklch(84.5% 0.143 164.978); /* Tailwind emerald-300 */
+  --sys-enemy-deeper: oklch(25.8% 0.092 26.042); /* Tailwind red-950 */
+  --sys-enemy-light: oklch(80.8% 0.114 19.571); /* Tailwind red-300 */
+  --sys-hero-error: oklch(88.5% 0.062 18.334); /* the narration's error on the hero — Tailwind red-200 */
+  --sys-play-soft: oklch(76.5% 0.177 163.223); /* the rail's play icon — Tailwind emerald-400 */
+  --sys-stop-soft: oklch(70.4% 0.191 22.216); /* and its stop icon — Tailwind red-400 */
+  --sys-muted-gray: oklch(55.1% 0.027 264.364);    /* narration off — Tailwind gray-500 */
+
+  --sys-night-panel-rgb: 34 26 21;            /* dark mode's panels, in rules that apply only in dark mode */
+  --sys-lightning-rgb: 220 230 255;           /* the storm's flash */
+  --sys-lightning-dim-rgb: 180 200 255;
+
+  /* Light and dark: the accent's channels, the Quran window and the tour step ("paper"), the hero's shade. */
+  --sys-accent-rgb: 139 107 74;               /* --sys-accent */
+  --sys-paper: #faf8f5;
+  --sys-paper-ink: #1a1a2e;
+  --sys-paper-title: #1a1a2e;
+  --sys-paper-control: #1a1a2e;
+  --sys-quran-head: #f0ecd6;
+  --sys-quran-body: #faf8f5;
+  --sys-quran-title: #2d5a27;
+  --sys-quran-muted: oklch(37.3% 0.034 259.733); /* Tailwind gray-700 */
+  --sys-quran-close: oklch(21% 0.034 264.665); /* Tailwind gray-900 */
+  --sys-quran-foot: oklch(96.7% 0.003 264.542); /* Tailwind gray-100 */
+  --sys-popup-bg: rgba(44, 36, 30, 0.95);
+  --sys-popup-edge: rgba(255, 255, 255, 0.2);
+  --sys-hero-ink: #1a1a1a;
+
   /* Standardized Design System */
   
   /* Shadow System - Consistent depth hierarchy */
@@ -187,40 +246,10 @@
   
   /* Timeline-Specific Variables - Light Mode */
   --timeline-bg: #2c241e;                  /* Dark background for timeline */
-  --timeline-text-primary: #1a1410;        /* Dark text for light backgrounds */
-  --timeline-text-secondary: #2c241e;      /* Darker secondary text */
-  --timeline-text-date: #1a1410;           /* Dark text for dates */
-  --timeline-date-bg: rgba(252, 211, 77, 0.95); /* Light yellow background for dates */
-  --timeline-event-bg: rgba(244, 236, 225, 0.95); /* Light parchment background for event labels */
-  --timeline-event-bg-major: rgba(255, 248, 240, 0.98); /* Nearly white for major events */
-  --timeline-event-bg-selected: rgba(255, 255, 255, 1); /* Pure white for selected events */
   --timeline-spacing-item: 1.5rem;         /* 24px between items */
   --timeline-spacing-category: 2rem;       /* 32px between categories */
   --timeline-marker-size: 0.5rem;          /* 8px default marker */
   --timeline-marker-size-major: 0.75rem;   /* 12px major event marker */
-  
-  /* Era-Specific Timeline Backgrounds - Light Mode */
-  --timeline-bg-meccan: #d4f1e8;           /* Light green for Meccan period */
-  --timeline-bg-medinan: #e8f5f0;          /* Very light green for Medinan period */
-  --timeline-bg-rashidun: #fef3e2;         /* Light warm beige for Rashidun Caliphate */
-  --timeline-bg-default: #f4ece1;          /* Default light background */
-  
-  /* Era-Specific Text Colors for Contrast - Light Mode */
-  --timeline-text-meccan: #1a1410;         /* Dark text for light backgrounds */
-  --timeline-text-medinan: #1a1410;        /* Dark text for light backgrounds */
-  --timeline-text-rashidun: #1a1410;       /* Dark text for light backgrounds */
-  --timeline-text-default: #1a1410;        /* Dark text for light backgrounds */
-  
-  /* Gradients */
-  --sys-gradient-parchment: radial-gradient(circle at center, #faf7f2 0%, #f4ece1 50%, #e8dfd0 100%);
-  --sys-gradient-header: linear-gradient(180deg, rgba(44, 36, 30, 0.95) 0%, rgba(44, 36, 30, 0.6) 60%, transparent 100%);
-  --sys-gradient-panel: linear-gradient(135deg, #f4ece1 0%, #e8dfd0 100%);
-  --sys-gradient-accent-glow: radial-gradient(circle at center, rgba(139, 107, 74, 0.3) 0%, transparent 70%);
-  --sys-gradient-prophet: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  --sys-gradient-abu-bakr: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-  --sys-gradient-umar: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  --sys-gradient-uthman: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
-  --sys-gradient-ali: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
   
   /* Animation Timing */
   --duration-instant: 100ms;
@@ -249,28 +278,23 @@
   /* Allow scrolling on references section */
   [data-tour-id="quran-section"],
   [data-tour-id="quran-section"] * {
-    touch-action: pan-y !important;
-    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
   }
   
   /* Allow scrolling on course of events section */
-  .bg-ink\/5.p-4.sm\:p-5.rounded-lg.border.border-border-dark\/10.relative.overflow-hidden.shadow-inner,
-  .bg-ink\/5.p-4.sm\:p-5.rounded-lg.border.border-border-dark\/10.relative.overflow-hidden.shadow-inner * {
-    touch-action: pan-y !important;
-    -webkit-overflow-scrolling: touch !important;
-  }
   
   /* Ensure parent scroll container allows touch */
   [data-tour-id="event-panel"] .overflow-y-auto,
   [data-tour-id="event-panel"] .min-h-0 {
-    touch-action: pan-y !important;
-    -webkit-overflow-scrolling: touch !important;
-    overscroll-behavior: contain !important;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
   
   /* Remove pointer-events-none from decorative elements that might block scroll */
   [data-tour-id="event-panel"] .pointer-events-none {
-    pointer-events: none !important;
+    pointer-events: none;
   }
   
   /* Ensure all content areas in event panel are scrollable */
@@ -278,48 +302,25 @@
   [data-tour-id="event-panel"] .space-y-4,
   [data-tour-id="event-panel"] .flex.flex-col.gap-5,
   [data-tour-id="event-panel"] .flex.flex-col.gap-6 {
-    touch-action: pan-y !important;
+    touch-action: pan-y;
   }
 }
 
 .dark {
   /* Base Colors - Warmer, less harsh */
-  --sys-parchment-50: #2d231c;
   --sys-parchment: #221a15;
-  --sys-parchment-200: #1a140f;
-  --sys-parchment-300: #120d09;
   
-  --sys-ink-900: #f0e6d8;
-  --sys-ink-700: #e0d0b8;
-  --sys-ink-500: #c4b39a;
-  --sys-ink-300: #a89a82;
   --sys-ink: #e0d0b8;
   
   /* Accent Colors - Richer in dark mode */
-  --sys-accent-light: #e8c89a;
   --sys-accent: #d4a373;
   --sys-accent-dark: #b8895f;
-  --sys-accent-glow: rgba(212, 163, 115, 0.4);
   
   /* Islamic Green - Softer but visible */
-  --sys-islamic-green-light: #8bc77f;
   --sys-islamic-green: #6da561;
   
-  --sys-islamic-green-dark: #558a4a;
-  --sys-islamic-green-glow: rgba(109, 165, 97, 0.3);
-  
   /* Battle Red - Warm and legible */
-  --sys-battle-red-light: #f28d6f;
   --sys-battle-red: #e57256;
-  --sys-battle-red-dark: #c85a3f;
-  --sys-battle-red-glow: rgba(229, 114, 86, 0.3);
-  
-  /* Era Colors - Adjusted for dark mode */
-  --sys-prophet-era: #34d399;
-  --sys-abu-bakr: #fcd34d;
-  --sys-umar: #f87171;
-  --sys-uthman: #22d3ee;
-  --sys-ali: #a5b4fc;
   
   /* Legacy support */
   --sys-border-dark: #4a382b;
@@ -332,8 +333,7 @@
   /* CRITICAL: --glass-bg was previously only defined in :root and never
      overridden under .dark, so every panel painted with bg-[var(--glass-bg)]
      stayed light-cream in dark mode while text-ink flipped to a light cream
-     too — light-on-light, unreadable. The matching --glass-bg-dark token
-     existed but no consumer used it. Pointing --glass-bg at the dark value
+     too — light-on-light, unreadable. Pointing --glass-bg at the dark value
      here fixes EventPanel root, the edge tab, the desktop + mobile Timeline
      docks, every modal (Companion / Quran / Search), and Toast all at once. */
   --glass-bg: rgba(30, 20, 15, 0.88);
@@ -342,24 +342,22 @@
   --sys-map-center: #2b211a;
   --sys-map-edge: #18120e;
   --sys-map-filter: sepia(0.4) grayscale(0.6) brightness(0.4) contrast(1.3) opacity(0.4);
-  
-  /* Era-Specific Timeline Backgrounds - Dark Mode */
-  --timeline-bg-meccan: #1a3a2e;           /* Deep forest green for Meccan period */
-  --timeline-bg-medinan: #2d4a3e;          /* Medium green for Medinan period */
-  --timeline-bg-rashidun: #3d2e1a;         /* Warm brown for Rashidun Caliphate */
-  --timeline-bg-default: #2c241e;          /* Default dark background */
-  
-  /* Era-Specific Text Colors for Contrast - Dark Mode */
-  --timeline-text-meccan: #e8f5e9;         /* Light text for dark backgrounds */
-  --timeline-text-medinan: #f1f8f4;        /* Light text for dark backgrounds */
-  --timeline-text-rashidun: #fef3e2;       /* Light text for dark backgrounds */
-  --timeline-text-default: #f4ece1;        /* Light text for dark backgrounds */
-  
-  /* Gradients for dark mode */
-  --sys-gradient-parchment: radial-gradient(circle at center, #2d231c 0%, #221a15 50%, #1a140f 100%);
-  --sys-gradient-header: linear-gradient(180deg, rgba(34, 26, 21, 0.95) 0%, rgba(34, 26, 21, 0.6) 60%, transparent 100%);
-  --sys-gradient-panel: linear-gradient(135deg, #221a15 0%, #1a140f 100%);
-  
+
+  --sys-accent-rgb: 212 163 115;
+  --sys-paper: #1a1a2e;
+  --sys-paper-ink: #f5f5f5;
+  --sys-paper-title: #d4a853;
+  --sys-paper-control: #faf8f5;
+  --sys-quran-head: #1f2937;
+  --sys-quran-body: #111827;
+  --sys-quran-title: #8bc77f;
+  --sys-quran-muted: oklch(87.2% 0.01 258.338); /* Tailwind gray-300 */
+  --sys-quran-close: oklch(96.7% 0.003 264.542); /* Tailwind gray-100 */
+  --sys-quran-foot: oklch(27.8% 0.033 256.848); /* Tailwind gray-800 */
+  --sys-popup-bg: rgba(34, 26, 21, 0.95);
+  --sys-popup-edge: rgba(255, 255, 255, 0.15);
+  --sys-hero-ink: #0a0a0a;
+
   /* Dark Mode Shadow System - Enhanced for visibility */
   --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.4);
   --shadow-modal: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -368,13 +366,6 @@
   
   /* Timeline-Specific Variables - Dark Mode with WCAG AA compliance */
   --timeline-bg: #221a15;                  /* Dark mode background */
-  --timeline-text-primary: #f4ece1;        /* Light text for dark backgrounds */
-  --timeline-text-secondary: #e0d0b8;      /* Lighter secondary text */
-  --timeline-text-date: #fde68a;           /* Bright yellow for dates in dark mode */
-  --timeline-date-bg: rgba(44, 36, 30, 0.95); /* Dark background for dates */
-  --timeline-event-bg: rgba(44, 36, 30, 0.95); /* Dark background for event labels */
-  --timeline-event-bg-major: rgba(34, 26, 21, 0.98); /* Darker for major events */
-  --timeline-event-bg-selected: rgba(26, 20, 15, 1); /* Darkest for selected events */
 }
 
 body {
@@ -432,7 +423,7 @@ textarea,
 [role="button"],
 [tabindex]:not([tabindex="-1"]) {
   touch-action: manipulation;
-  -webkit-tap-highlight-color: rgba(139, 107, 74, 0.2);
+  -webkit-tap-highlight-color: rgb(var(--sys-accent-rgb) / 0.2);
 }
 
 .dark a,
@@ -442,7 +433,7 @@ textarea,
 .dark textarea,
 .dark [role="button"],
 .dark [tabindex]:not([tabindex="-1"]) {
-  -webkit-tap-highlight-color: rgba(212, 163, 115, 0.2);
+  -webkit-tap-highlight-color: rgb(var(--sys-accent-rgb) / 0.2);
 }
 
 /* Momentum Scrolling for iOS */
@@ -472,12 +463,6 @@ body {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-  
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
   }
 }
 
@@ -860,12 +845,6 @@ html {
 }
 
 /* Mobile Performance: Reduce Motion */
-@media (prefers-reduced-motion: reduce) {
-  .mobile-animation {
-    animation: none !important;
-    transition: none !important;
-  }
-}
 
 /* Mobile Dark Mode Enhancements */
 .dark {
@@ -1022,28 +1001,10 @@ html {
   .mobile-only {
     display: block;
   }
-  
-  .mobile-hidden {
-    display: none !important;
-  }
-  
-  .mobile-flex {
-    display: flex !important;
-  }
-  
-  .mobile-inline-flex {
-    display: inline-flex !important;
-  }
 }
 
 .desktop-only {
   display: block;
-}
-
-@media (max-width: 768px) {
-  .desktop-only {
-    display: none !important;
-  }
 }
 
 /* Mobile Text Utilities */
@@ -1120,13 +1081,16 @@ html {
   input[type="tel"],
   textarea,
   select {
-    font-size: 16px !important;
+    font-size: 16px;
   }
 }
 
 /* Fix for overlapping elements on mobile */
 @media (max-width: 640px) {
-  /* Ensure panels don't overlap with fixed elements */
+  /* Ensure panels don't overlap with fixed elements. Load-bearing (3B): being
+     unlayered, this beats components' own max-w-* classes on phones (the tour
+     prompt's max-w-[92vw] is 100vw wide today). The battle video player's turned
+     frame lifts it on its layers (LAYER in BattleVideoPlayer.tsx). */
   .fixed,
   .absolute {
     max-width: 100vw;
@@ -1193,7 +1157,7 @@ a:focus-visible,
 [role="button"]:focus-visible {
   outline: 3px solid var(--color-accent);
   outline-offset: 2px;
-  box-shadow: 0 0 0 6px rgba(139, 107, 74, 0.2);
+  box-shadow: 0 0 0 6px rgb(var(--sys-accent-rgb) / 0.2);
 }
 
 .dark button:focus-visible,
@@ -1201,7 +1165,7 @@ a:focus-visible,
 .dark [role="button"]:focus-visible {
   outline: 3px solid var(--color-accent);
   outline-offset: 2px;
-  box-shadow: 0 0 0 6px rgba(212, 163, 115, 0.3);
+  box-shadow: 0 0 0 6px rgb(var(--sys-accent-rgb) / 0.3);
 }
 
 /* Button Cursor Styles - High specificity to override all other styles */
@@ -1212,22 +1176,22 @@ button[type="reset"],
 a,
 [role="button"],
 .cursor-pointer {
-  cursor: pointer !important;
+  cursor: pointer;
 }
 
 button:disabled,
 button[disabled],
 [aria-disabled="true"] {
-  cursor: not-allowed !important;
+  cursor: not-allowed;
 }
 
 /* Custom styles for leaflet map to make it look ancient */
 .leaflet-container {
-  background: radial-gradient(circle at center, var(--color-map-center) 0%, var(--color-map-edge) 100%) !important;
+  background: radial-gradient(circle at center, var(--color-map-center) 0%, var(--color-map-edge) 100%);
   font-family: 'Times New Roman', Times, serif;
 }
 .historical-map-tiles {
-  filter: var(--sys-map-filter) !important;
+  filter: var(--sys-map-filter);
   transition: filter var(--duration-slow) ease;
 }
 .custom-marker {
@@ -1244,23 +1208,24 @@ button[disabled],
 
 /* Leaflet popup improvements - Using standardized system */
 .leaflet-popup-content-wrapper {
-  background: rgba(44, 36, 30, 0.95) !important;
+  background: var(--sys-popup-bg);
   backdrop-filter: blur(8px);
-  border: 2px solid rgba(255, 255, 255, 0.2) !important;
-  border-radius: var(--radius-lg) !important;
-  box-shadow: var(--shadow-modal) !important;
+  border: 2px solid var(--sys-popup-edge);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-modal);
 }
 
 .dark .leaflet-popup-content-wrapper {
-  background: rgba(34, 26, 21, 0.95) !important;
-  border: 2px solid rgba(255, 255, 255, 0.15) !important;
+  background: var(--sys-popup-bg);
+  border: 2px solid var(--sys-popup-edge);
 }
 
 .leaflet-popup-content {
-  margin: 0 !important;
+  margin: 0;
+  /* !important: beats .dark .historical-popup * (more specific). */
   color: var(--color-parchment) !important;
-  font-family: system-ui, -apple-system, sans-serif !important;
-  font-size: var(--text-sm) !important;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: var(--text-sm);
   direction: rtl;
   text-align: right;
 }
@@ -1275,15 +1240,15 @@ button[disabled],
 }
 
 .historical-popup .popup-text {
-  color: rgba(244, 236, 225, 0.92);
+  color: rgb(var(--sys-chrome-ink-rgb) / 0.92);
 }
 
 .historical-popup .popup-muted {
-  color: rgba(244, 236, 225, 0.78);
+  color: rgb(var(--sys-chrome-ink-rgb) / 0.78);
 }
 
 .historical-popup .popup-accent {
-  color: #fde68a;
+  color: var(--sys-popup-accent);
 }
 
 .historical-popup .popup-surface {
@@ -1293,7 +1258,7 @@ button[disabled],
 
 .dark .historical-popup,
 .dark .historical-popup * {
-  color: #f4ece1;
+  color: rgb(var(--sys-chrome-ink-rgb));
 }
 
 .dark .historical-popup .popup-title {
@@ -1301,15 +1266,15 @@ button[disabled],
 }
 
 .dark .historical-popup .popup-text {
-  color: rgba(244, 236, 225, 0.92);
+  color: rgb(var(--sys-chrome-ink-rgb) / 0.92);
 }
 
 .dark .historical-popup .popup-muted {
-  color: rgba(244, 236, 225, 0.78);
+  color: rgb(var(--sys-chrome-ink-rgb) / 0.78);
 }
 
 .dark .historical-popup .popup-accent {
-  color: #fde68a;
+  color: var(--sys-popup-accent);
 }
 
 .dark .historical-popup .popup-surface {
@@ -1318,14 +1283,14 @@ button[disabled],
 }
 
 .leaflet-popup-tip {
-  background: rgba(44, 36, 30, 0.95) !important;
-  border: 2px solid rgba(255, 255, 255, 0.2) !important;
-  border-top: none !important;
-  border-right: none !important;
+  background: var(--sys-popup-bg);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top: none;
+  border-right: none;
 }
 
 .dark .leaflet-popup-tip {
-  background: rgba(34, 26, 21, 0.95) !important;
+  background: var(--sys-popup-bg);
 }
 
 /* Improve cluster marker visibility - Using standardized system */
@@ -1516,7 +1481,7 @@ button[disabled],
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
-    scrollbar-color: rgba(139, 107, 74, 0.5) transparent;
+    scrollbar-color: rgb(var(--sys-accent-rgb) / 0.5) transparent;
   }
 
   .legend-scroll::-webkit-scrollbar {
@@ -1528,24 +1493,24 @@ button[disabled],
   }
 
   .legend-scroll::-webkit-scrollbar-thumb {
-    background-color: rgba(139, 107, 74, 0.5);
+    background-color: rgb(var(--sys-accent-rgb) / 0.5);
     border-radius: 3px;
   }
 
   .legend-scroll::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(139, 107, 74, 0.7);
+    background-color: rgb(var(--sys-accent-rgb) / 0.7);
   }
 
   .dark .legend-scroll {
-    scrollbar-color: rgba(212, 163, 115, 0.5) transparent;
+    scrollbar-color: rgb(var(--sys-accent-rgb) / 0.5) transparent;
   }
 
   .dark .legend-scroll::-webkit-scrollbar-thumb {
-    background-color: rgba(212, 163, 115, 0.5);
+    background-color: rgb(var(--sys-accent-rgb) / 0.5);
   }
 
   .dark .legend-scroll::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(212, 163, 115, 0.7);
+    background-color: rgb(var(--sys-accent-rgb) / 0.7);
   }
 
 }
@@ -1584,10 +1549,10 @@ transform: translateX(-4px);
 }
 
 @keyframes nibras-storm-flash {
-  0%, 92%, 100% { background-color: rgba(180,200,255,0); }
-  93%           { background-color: rgba(220,230,255,0.35); }
-  95%           { background-color: rgba(180,200,255,0.10); }
-  97%           { background-color: rgba(220,230,255,0.25); }
+  0%, 92%, 100% { background-color: rgb(var(--sys-lightning-dim-rgb) / 0); }
+  93%           { background-color: rgb(var(--sys-lightning-rgb) / 0.35); }
+  95%           { background-color: rgb(var(--sys-lightning-dim-rgb) / 0.10); }
+  97%           { background-color: rgb(var(--sys-lightning-rgb) / 0.25); }
 }
 .nibras-weather-flash {
   animation: nibras-storm-flash 7s ease-in-out infinite;
@@ -1612,14 +1577,15 @@ transform: translateX(-4px);
 }
 
 .dark .panel-toggle-button {
-background-color: rgba(34, 26, 21, 0.95);
-border-color: rgba(212, 163, 115, 0.3);
+background-color: rgb(var(--sys-night-panel-rgb) / 0.95);
+border-color: rgb(var(--sys-accent-rgb) / 0.3);
 }
 
 /* Era Navigation Dock Enhancements */
 @media (max-width: 640px) {
 /* Mobile optimizations for era dock */
 [dir="rtl"] .flex-wrap {
+  /* !important: wins over .gap-2's !important below on very small screens (more specific). */
   gap: 0.5rem !important;
 }
 
@@ -1633,21 +1599,16 @@ border-color: rgba(212, 163, 115, 0.3);
 @media (max-width: 380px) {
 /* Further compress on very small screens */
 .rounded-2xl {
-  padding: 0.5rem !important;
+  padding: 0.5rem;
 }
 
 .gap-2 {
+  /* !important: beats [class*="bottom-"][class*="left-1/2"][class*="flex"] below (the toasts). */
   gap: 0.375rem !important;
 }
 }
 
 /* Tablet landscape optimizations */
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-/* Adjust era dock positioning for tablet landscape */
-.sm\:bottom-\[120px\] {
-  bottom: 100px !important;
-}
-}
 
 /* Smooth animations for era buttons */
 @keyframes era-pulse {
@@ -1661,10 +1622,8 @@ border-color: rgba(212, 163, 115, 0.3);
 
 /* Dark mode enhancements for era dock */
 .dark .bg-gradient-to-r {
-background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0.9), rgba(34, 26, 21, 0.95));
+background: linear-gradient(to right, rgb(var(--sys-night-panel-rgb) / 0.95), rgb(var(--sys-night-panel-rgb) / 0.9), rgb(var(--sys-night-panel-rgb) / 0.95));
 }
-
-
 
 /* Timeline Component Specific Fixes */
 
@@ -1679,26 +1638,8 @@ background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0
 }
 
 /* Timeline Event Text - WCAG AA Compliant Contrast with Backgrounds */
-.timeline-container .text-parchment {
-  color: var(--timeline-text-primary) !important;
-  text-shadow: none;
-  font-weight: 700;
-}
-
-.timeline-container .text-parchment\/80 {
-  color: var(--timeline-text-secondary) !important;
-  text-shadow: none;
-  font-weight: 600;
-}
 
 /* Timeline Date Labels - Enhanced readability with background and stronger contrast */
-.timeline-container [class*="-top-"] {
-  color: var(--timeline-text-date) !important;
-  font-weight: 800;
-  text-shadow: none;
-  letter-spacing: 0.05em;
-  backdrop-filter: blur(6px);
-}
 
 /* Timeline Markers - Perfect alignment */
 .timeline-container .rounded-full {
@@ -1797,24 +1738,6 @@ background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0
 }
 
 /* Dark Mode Timeline Adjustments - Enhanced contrast with backgrounds */
-.dark .timeline-container .text-parchment {
-  color: var(--timeline-text-primary) !important;
-  text-shadow: none;
-  font-weight: 700;
-}
-
-.dark .timeline-container .text-parchment\/80 {
-  color: var(--timeline-text-secondary) !important;
-  text-shadow: none;
-  font-weight: 600;
-}
-
-.dark .timeline-container [class*="-top-"] {
-  color: var(--timeline-text-date) !important;
-  text-shadow: none;
-  backdrop-filter: blur(8px);
-  font-weight: 800;
-}
 
 /* Timeline Background - Ensure proper contrast in both modes */
 .timeline-container {
@@ -1862,10 +1785,6 @@ background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0
   }
   
   /* Mobile search menu */
-  .search-menu {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
   
   /* Mobile map popups */
   .leaflet-popup {
@@ -1873,49 +1792,47 @@ background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0
   }
   
   .leaflet-popup-content {
-    max-width: calc(100vw - 60px) !important;
-    font-size: 14px !important;
+    max-width: calc(100vw - 60px);
+    font-size: 14px;
   }
   
   /* Mobile button improvements */
   button {
-    -webkit-tap-highlight-color: rgba(139, 107, 74, 0.2);
-    tap-highlight-color: rgba(139, 107, 74, 0.2);
+    -webkit-tap-highlight-color: rgb(var(--sys-accent-rgb) / 0.2);
+    tap-highlight-color: rgb(var(--sys-accent-rgb) / 0.2);
   }
   
   .dark button {
-    -webkit-tap-highlight-color: rgba(212, 163, 115, 0.2);
-    tap-highlight-color: rgba(212, 163, 115, 0.2);
+    -webkit-tap-highlight-color: rgb(var(--sys-accent-rgb) / 0.2);
+    tap-highlight-color: rgb(var(--sys-accent-rgb) / 0.2);
   }
 }
 
 /* Mobile Landscape Specific */
 @media (max-width: 896px) and (orientation: landscape) {
   [data-tour-id="event-panel"] {
-    max-height: calc(100vh - 56px) !important;
+    max-height: calc(100vh - 56px);
   }
   
   [data-tour-id="timeline"] {
-    max-height: 80px !important;
+    max-height: 80px;
   }
   
   /* Compact header in landscape */
   header {
-    height: 56px !important;
+    height: 56px;
   }
 }
 
 /* Tablet Portrait Optimizations */
 @media (min-width: 641px) and (max-width: 1024px) and (orientation: portrait) {
   [data-tour-id="event-panel"] {
-    width: 450px !important;
+    width: 450px;
+    /* !important: beats the max-width: 100vw further down (Prevent Content Overflow). */
     max-width: 450px !important;
   }
   
   /* Better spacing for tablet */
-  .timeline-container {
-    padding: 16px 20px !important;
-  }
 }
 
 /* Safe Area Padding */
@@ -2359,15 +2276,6 @@ background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0
 /* Performance Optimizations */
 @media (max-width: 768px) {
   /* Reduce motion for better performance on low-end devices */
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
   
   /* Optimize animations for mobile */
   * {
@@ -2399,8 +2307,8 @@ background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0
   
   /* Ensure map is visible when panel is open */
   [data-tour-id="map-container"] {
-    height: 100dvh !important;
-    padding-bottom: 0 !important;
+    height: 100dvh;
+    padding-bottom: 0;
   }
   
   /* Mobile panel drag handle improvements */
@@ -2484,7 +2392,7 @@ background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0
   
   .mobile-panel-controls button:active {
     transform: scale(0.95);
-    background: rgba(44, 36, 30, 0.2);
+    background: rgb(var(--sys-chrome-raised-rgb) / 0.2);
   }
 }
 
@@ -2499,19 +2407,10 @@ background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0
 /* Mobile Landscape Specific Adjustments */
 @media (max-width: 896px) and (orientation: landscape) {
   [data-tour-id="event-panel"] {
-    max-height: 60vh !important;
+    max-height: 60vh;
   }
   
   /* Compact player controls in landscape */
-  [class*="bottom-"][class*="z-[900]"] {
-    padding: 8px 12px !important;
-  }
-  
-  [class*="bottom-"][class*="z-[900]"] button {
-    min-height: 36px !important;
-    padding: 6px 12px !important;
-    font-size: 11px !important;
-  }
 }
 
 /* Prevent Content Overflow */
@@ -2536,10 +2435,6 @@ background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0
   @media (max-width: 768px) {
     [data-tour-id="timeline"] {
       padding-bottom: max(16px, env(safe-area-inset-bottom));
-    }
-    
-    [class*="bottom-"][class*="z-[900]"] {
-      bottom: calc(120px + env(safe-area-inset-bottom)) !important;
     }
   }
 }
@@ -2568,6 +2463,9 @@ background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0
   .custom-cursor-active .leaflet-control,
   .custom-cursor-active .leaflet-popup,
   .custom-cursor-active .leaflet-tooltip {
+    /* !important: beats Leaflet's .leaflet-dragging .leaflet-grab .leaflet-interactive
+       (more specific), which would show the system hand beside this cursor while the
+       map is dragged over a marker, a route or a territory. */
     cursor: none !important;
   }
 }
@@ -2575,10 +2473,10 @@ background: linear-gradient(to right, rgba(34, 26, 21, 0.95), rgba(34, 26, 21, 0
 /* Custom cursor glow pulse animation */
 @keyframes cursor-glow-pulse {
   0%, 100% {
-    box-shadow: 0 0 6px rgba(212, 168, 83, 0.5);
+    box-shadow: 0 0 6px rgb(var(--sys-gold-rgb) / 0.5);
   }
   50% {
-    box-shadow: 0 0 12px rgba(212, 168, 83, 0.9);
+    box-shadow: 0 0 12px rgb(var(--sys-gold-rgb) / 0.9);
   }
 }
 
