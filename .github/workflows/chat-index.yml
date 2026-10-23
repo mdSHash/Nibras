@@ -85,9 +85,12 @@ jobs:
           git commit -m "chore(chat): update the embedding index"
           git push origin "HEAD:refs/heads/$target"
           if [ "$BRANCH" = "main" ]; then
+            # Needs Settings → Actions → General → "Allow GitHub Actions to create and approve pull
+            # requests". Without it the run fails (GitHub emails the owner) with a link to open the PR.
             gh pr create --base main --head "$target" \
               --title "chore(chat): update the embedding index" \
-              --body "The daily Chat index run found units on main without a current vector and embedded them. Review the counts in the run log: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+              --body "The daily Chat index run found units on main without a current vector and embedded them. Review the counts in the run log: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" \
+            || { echo "::error::The index was pushed to $target but no pull request could be opened. Open it here: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/compare/main...$target"; exit 1; }
           fi
           echo "target=$target" >> "$GITHUB_OUTPUT"
 
