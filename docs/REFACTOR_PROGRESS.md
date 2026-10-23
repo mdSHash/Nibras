@@ -1064,7 +1064,8 @@ through theme tokens (no visual change), **3C** chat (KB and index in `api/_data
 build, per-IP rate limit), **3D** audio (manifest by event id, compressed narration, archive),
 **3E** owner visibility (Umami, Search Console, Lighthouse budgets), **3F** territories research and
 3–4 visual directions, **3G** territories build, **3H** battle video pipeline, **3I** close-out. Added 2026-10-23:
-**3J** chat answers that teach (after 3C, before 3D; Mostafa).
+**3J** chat answers that teach (after 3D; Mostafa, 2026-10-23: keep the normal sequence, 3J stays
+planned).
 
 ### Decisions by Mostafa
 
@@ -1649,9 +1650,39 @@ After the merge (2026-10-23):
      the setting on is optional. The stray branch `bot/chat-index-40006657712` (only the reordered
      file) was deleted.
 
+### 3D — narration audio: manifest by event id, AAC, archive
+
+Started 2026-10-24 on `refactor/phase-3d-audio` from `main` at `7504109` (PRs #10, #11, #12
+merged). Before any change, `npm run verify` passed: Vitest 278/278, feature tests 84 passed (0
+known failures), 1 skipped, phone smoke 44/44, visual 16/16, bundle budget within limits.
+
+**Live site check** (once, 2026-10-24, headless Chromium against https://mdshash.github.io/Nibras/ as
+a returning visitor, desktop 1440×900 and phone 390×844): `/event/battle-badr/` opens Badr («غَزْوَةُ
+بَدْرٍ الْكُبْرَى — نبراس») with «مشاهدة المعركة»; «تشغيل السرد» plays the description (one HEAD and one
+GET of its WAV); no console errors. `GET https://nibras-chat-api.vercel.app/api/health` → 200
+`{"ok":true,"kbUnits":4178,"llmConfigured":true,"sharedStore":true,"release":"7504109"}`.
+
+Measured on `7504109` (the app's own key, 131 events): 131 description narrations (397.9 MB,
+138.1 min), 131 title narrations played in player mode (18.8 MB, 6.5 min), 118 files no current
+text uses (22.5 MB, 7.8 min). Every narrated text has a recording. All WAVs are 24 kHz mono 16-bit.
+
+#### Decisions by Mostafa (3D)
+
+- 2026-10-23: **3J after 3D** (keep the normal sequence); 3J stays planned.
+- 2026-10-24: the session plan approved (manifest `public/audio/manifest.json` by event id, AAC,
+  one Release with the WAV originals, one `scripts/narration.ts`, CI report, no quota).
+- 2026-10-24: **stale narration is hidden**: when an event's text no longer matches its recording,
+  the play button is hidden (player mode pauses 5 s on the title) until it is regenerated; the CI
+  report names the event.
+- 2026-10-24: **AAC-LC mono 24 kHz at 48 kbps**, chosen by listening to three narrations (the
+  shortest title, Hunayn's description, the longest description) at 40, 48 and 64 kbps beside the WAV.
+- 2026-10-24: ffmpeg installed on Mostafa's machine with `winget install Gyan.FFmpeg` (9.0.2), for
+  the narration script only (not CI, not `npm ci`).
+- 2026-10-24: **no Gemini quota in 3D**: `narration generate` is tested with a fake response only.
+
 ### 3J — chat answers that teach (planned, 2026-10-23)
 
-Not started. Next session, before 3D (Mostafa, 2026-10-23); the plan's Phase 3 item "Chat answers
+Not started. Planned after 3D (Mostafa, 2026-10-23: keep the normal sequence); the plan's Phase 3 item "Chat answers
 that teach (3J)" lists the steps.
 
 #### What Mostafa asked (2026-10-23)
