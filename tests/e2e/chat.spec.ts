@@ -76,7 +76,17 @@ test('citations open the right event, person and Quran passage', async ({ page }
 });
 
 test.describe('API errors', () => {
-  test.use({ allowedConsoleErrors: [/status of 503/] });
+  test.use({ allowedConsoleErrors: [/status of (503|429)/] });
+
+  test('the per-IP limit shows its Arabic message', async ({ page }) => {
+    const message = 'لقد أرسلت أسئلة كثيرة في وقت قصير. حاول مرة أخرى بعد قليل.';
+    useChatResponder(page, () => ({ status: 429, json: { error: 'too_many_requests', messageAr: message } }));
+    await openAppWithEvent(page);
+    await openChat(page);
+    await chatDialog(page).getByPlaceholder('اكتب سؤالك هنا...').fill(QUESTION);
+    await chatDialog(page).getByRole('button', { name: 'إرسال' }).click();
+    await expect(chatDialog(page).getByText(message)).toBeVisible();
+  });
 
   test('an API error shows the Arabic error message', async ({ page }) => {
     useChatResponder(page, () => ({ status: 503, json: { error: 'unavailable', messageAr: 'الخدمة غير متاحة الآن' } }));

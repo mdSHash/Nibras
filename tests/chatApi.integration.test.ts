@@ -246,4 +246,45 @@ describe('HTTP handler', () => {
     expect(res.statusCode).toBe(200);
     expect((res.body as ChatSuccessBody).blocks.length).toBeGreaterThan(0);
   });
+
+  describe('per-IP rate limit', () => {
+    let storeCalls: number;
+    beforeEach(() => {
+      storeCalls = 0;
+      vi.stubEnv('KV_REST_API_URL', 'https://example.upstash.io');
+      vi.stubEnv('KV_REST_API_TOKEN', 'token-123');
+      const llmFetch = globalThis.fetch;
+      vi.stubGlobal('fetch', vi.fn(async (url: string, init?: RequestInit) => {
+        if (!String(url).startsWith('https://example.upstash.io')) return llmFetch(url, init);
+        storeCalls++;
+        const commands = JSON.parse(String(init?.body)) as unknown[];
+        // Pipeline replies: the 21st question in this 10-minute window, the 21st today.
+        if (Array.isArray(commands[0])) return new Response(JSON.stringify([{ result: 21 }, { result: 1 }, { result: 21 }, { result: 1 }]), { status: 200 });
+        return new Response(JSON.stringify({ result: null }), { status: 200 });
+      }));
+    });
+    afterEach(() => vi.unstubAllEnvs());
+
+    it('answers 429 in Arabic with Retry-After once an IP is over the limit', async () => {
+      const info = vi.spyOn(console, 'info').mockImplementation(() => {});
+      const { res, api } = mockRes();
+      await handler({ method: 'POST', body: { message: ALI_AT_BADR }, headers: { origin: 'https://mdshash.github.io', 'x-real-ip': '1.2.3.4' } } as unknown as VercelRequest, api);
+      expect(res.statusCode).toBe(429);
+      expect(res.body).toEqual({ error: 'too_many_requests', messageAr: 'لقد أرسلت أسئلة كثيرة في وقت قصير. حاول مرة أخرى بعد قليل.' });
+      expect(Number(res.headers['Retry-After'])).toBeGreaterThan(0);
+      expect(res.headers['Access-Control-Allow-Origin']).toBe('https://mdshash.github.io');
+      expect(llmCalls).toEqual([]);
+      expect(info.mock.calls.some(c => String(c[0]).includes('1.2.3.4'))).toBe(false);
+      info.mockRestore();
+    });
+
+    it('does not count empty or over-long questions', async () => {
+      for (const message of ['  ', 'س'.repeat(401)]) {
+        const { res, api } = mockRes();
+        await handler(req('POST', { message }), api);
+        expect(res.statusCode).toBe(400);
+      }
+      expect(storeCalls).toBe(0);
+    });
+  });
 });
