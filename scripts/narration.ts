@@ -10,6 +10,9 @@
  *              lists it unless --yes. Options: --engine voicestudio|gemini (default voicestudio,
  *              local and free; gemini spends quota: ask Mostafa first), --max N, --only <event id>.
  *              Settings in .env.local (.env.example).
+ *   review     Whisper (VoiceStudio, local) listens to every fresh recording and lists the words
+ *              said differently from the text, with the time: audio-src/review/report.json
+ *              (scripts/narration/review.ts). --only <event id>.
  *
  * Needs ffmpeg on PATH for convert and generate (not for check).
  */
@@ -32,6 +35,7 @@ import { NARRATION_KINDS, narratedText, narrationFileName } from '../shared/narr
 import { eventSlug } from '../shared/routes';
 import { checkContent, readContent } from './content/store';
 import { generate as generateNarration, geminiEngine, voiceStudioEngine } from './narration/generate';
+import { review as reviewNarration } from './narration/review';
 
 config({ path: join(ROOT, '.env.local'), quiet: true });
 
@@ -109,7 +113,21 @@ async function generate(): Promise<number> {
   return 0;
 }
 
-const commands: Record<string, () => number | Promise<number>> = { check, convert, generate };
+async function review(): Promise<number> {
+  const at = process.argv.indexOf('--only');
+  const items = await reviewNarration({
+    events: loadEvents(),
+    audioDir: AUDIO_DIR,
+    outDir: join(ROOT, 'audio-src', 'review'),
+    url: process.env.VOICESTUDIO_URL ?? 'http://localhost:3900',
+    only: at > 0 ? process.argv[at + 1] : undefined,
+  });
+  const flagged = items.filter((i) => i.differences.length > 0).length;
+  console.log(`${items.length} recordings listened to; ${flagged} with places to check (audio-src/review/report.json).`);
+  return 0;
+}
+
+const commands: Record<string, () => number | Promise<number>> = { check, convert, generate, review };
 const command = commands[process.argv[2] ?? ''];
 if (!command) {
   console.error(`Usage: npm run narration -- <${Object.keys(commands).join('|')}>`);

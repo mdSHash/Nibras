@@ -8,6 +8,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { afterEach, describe, expect, it } from 'vitest';
 import { checkNarration, legacyAudioKey, textHash, wavDurationSec, AUDIO_DIR } from '../scripts/narration/lib';
 import { generate, geminiEngine, pcmToWav, voiceStudioEngine } from '../scripts/narration/generate';
+import { compareWords } from '../scripts/narration/review';
 import { narrationFileName, normalizeNarrationText } from '../shared/narration';
 import { fullEvents } from '../scripts/content/generated';
 import { narrationUrl } from '../src/narration';
@@ -191,5 +192,17 @@ describe('narration generate (fake engines, no network)', () => {
       fakeFetch(() => Response.json({ candidates: [{ content: { parts: [{ inlineData: { data: pcm.toString('base64') } }] } }] })),
     );
     expect(wavDurationSec(await engine.synthesize('نص'))).toBe(1);
+  });
+});
+
+describe('narration review (word alignment)', () => {
+  it('finds skipped, added and changed words', () => {
+    const text = ['فخرج', 'النبي', 'الى', 'بدر', 'في', 'رمضان'];
+    expect(compareWords(text, text)).toEqual([]);
+    expect(compareWords(text, ['فخرج', 'النبي', 'بدر', 'في', 'رمضان'])).toEqual([{ text: ['الى'], heard: [], heardAt: 2 }]);
+    expect(compareWords(text, ['فخرج', 'النبي', 'الى', 'احد', 'في', 'رمضان', 'سنه'])).toEqual([
+      { text: ['بدر'], heard: ['احد'], heardAt: 3 },
+      { text: [], heard: ['سنه'], heardAt: 6 },
+    ]);
   });
 });
