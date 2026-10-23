@@ -1594,22 +1594,28 @@ Quota spent in 3C: **42 Gemini embedding texts (2 requests), 2026-10-23**. No Gr
 | Phone smoke (WebKit, Firefox) | 44/44 |
 | Visual snapshots | 16/16, unchanged |
 
-`tests/baseline/numbers.json` was not rewritten. Its test counts were already behind `main` before
-3C (Vitest 256, features 82); with 3C they would be Vitest 278 and features 85 (84 + 1 skipped). To
-update with `npm run verify -- --update-numbers` once Mostafa approves.
+`tests/baseline/numbers.json` test counts (already behind `main` before 3C: Vitest 256, features 82)
+updated to Vitest 278 and features 85 (84 + 1 skipped), approved by Mostafa 2026-10-23; nothing else
+in it changed. That run hit the known flaky "every header button is inside the viewport"
+(phone-webkit, see 3H) once; it passed on the re-run.
+
+- 2026-10-23 (Mostafa): `chore/chat-embeddings` deleted (was `b285075`). The repository secret
+  `GEMINI_API_KEY` set from `.env.local` with `gh secret set` (value never printed or written).
+- 2026-10-23: semantic search checked with one real question, run locally with the `.env.local` keys
+  (the Vercel preview is behind Vercel's login): «لماذا خرج المسلمون إلى بدر؟» → 200, `semantic:
+  "gemini"`, composed answer with citations, Groq `openai/gpt-oss-120b`, 1.6 s. Spent 1 Gemini
+  embedding and 1 Groq call (approved).
 
 The API loader on the final index: coverage 1, usable, 3,246 vectors. The workflow YAML parses;
 its first real run is after merge.
 
-Not verified here: the Vercel preview with semantic search on (needs one question: 1 Gemini + 1 Groq
-call, ask first); the rate limit against real Upstash (not set up yet; 21 questions would spend 21
+Not verified here: the rate limit against real Upstash (not set up yet; 21 questions would spend 21
 query embeddings, ask first); the Chat index workflow on GitHub (after merge).
 
 Manual checks for Mostafa:
 
-1. **Add the repository secret**: GitHub → Settings → Secrets and variables → Actions → New
-   repository secret → `GEMINI_API_KEY` (the key from `.env.local`). Then, after merging: Actions →
-   Chat index → Run workflow on `main`: green, the log says `3246/3246 up to date, 0 to embed`.
+1. After merging: Actions → Chat index → Run workflow on `main`: green, the log says
+   `3246/3246 up to date, 0 to embed` (the `GEMINI_API_KEY` secret is set).
 2. **Set up Upstash** (`docs/OWNER_DASHBOARD.md`, "Setting up Upstash"), redeploy, and open
    https://nibras-chat-api.vercel.app/api/health: `"sharedStore":true`.
 3. After merge: ask the chat a question in your own words (for example «لماذا خرج المسلمون إلى بدر؟»);
@@ -1617,5 +1623,3 @@ Manual checks for Mostafa:
 4. https://mdshash.github.io/Nibras/data/chat-kb.json returns 404 after the deploy.
 5. Optional: rotate the Gemini key, since it was pasted into the chat session (steps in the owner
    dashboard).
-6. `chore/chat-embeddings` (local only, never pushed) can now be deleted: `git branch -D
-   chore/chat-embeddings` (its commit is `b285075`, recorded above). Not deleted without your OK.
