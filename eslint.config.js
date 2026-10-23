@@ -16,8 +16,8 @@ export default tseslint.config(
       'tmp/**',
       'test-results/**',
       'playwright-report/**',
-      'server/node_modules/**',
-      'server/audio-cache/**',
+      // Archived scripts are kept as they were, not maintained (scripts/archive/README.md).
+      'scripts/archive/**',
     ],
   },
   js.configs.recommended,
@@ -44,13 +44,13 @@ export default tseslint.config(
     },
   },
   {
-    files: ['api/**', 'shared/**', 'scripts/**', 'server/**', 'tests/**', '*.{js,cjs,mjs,ts}'],
+    files: ['api/**', 'shared/**', 'scripts/**', 'tests/**', '*.{js,cjs,mjs,ts}'],
     languageOptions: { globals: { ...globals.node, ...globals.browser } },
   },
   {
     // One-off and legacy scripts that Phase 3 archives or replaces (plan, "Phase 3"):
     // unused leftovers there are not worth editing before they go.
-    files: ['server/index.js', 'scripts/capture-*.mjs', 'scripts/migrate-to-cloudflare-r2.js'],
+    files: ['scripts/capture-*.mjs'],
     rules: { '@typescript-eslint/no-unused-vars': 'off' },
   },
   {
