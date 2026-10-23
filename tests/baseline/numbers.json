@@ -78,8 +78,8 @@
     }
   },
   "tests": {
-    "vitestTests": 256,
-    "playwrightFeatureTests": 82,
+    "vitestTests": 278,
+    "playwrightFeatureTests": 85,
     "playwrightFeatureKnownFailures": 0,
     "playwrightEnginesTests": 44,
     "playwrightEnginesKnownFailures": 0,

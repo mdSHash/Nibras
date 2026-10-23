@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { sharedStoreConfigured, storeGet, storePushCapped, storeSet } from '../api/_lib/store';
+import { sharedStoreConfigured, storeGet, storePipeline, storePushCapped, storeSet } from '../api/_lib/store';
 
 // Requests must follow the Upstash REST format: a JSON array command POSTed to
 // the base URL, or an array of commands POSTed to /pipeline.
@@ -32,6 +32,16 @@ describe('shared store (Upstash REST)', () => {
       { url: 'https://example.upstash.io', auth: 'Bearer token-123', body: ['SET', 'k', 'v', 'EX', 60] },
       { url: 'https://example.upstash.io', auth: 'Bearer token-123', body: ['GET', 'k'] },
     ]);
+  });
+
+  it('returns the result of each pipeline command, or null when one fails', async () => {
+    reply = [{ result: 3 }, { result: 1 }];
+    expect(await storePipeline([['INCR', 'n'], ['EXPIRE', 'n', 600]])).toEqual([3, 1]);
+    expect(calls[0]).toMatchObject({ url: 'https://example.upstash.io/pipeline', body: [['INCR', 'n'], ['EXPIRE', 'n', 600]] });
+    reply = [{ result: 3 }, { error: 'ERR' }];
+    expect(await storePipeline([['INCR', 'n'], ['EXPIRE', 'n', 600]])).toBeNull();
+    reply = [{ result: 3 }];
+    expect(await storePipeline([['INCR', 'n'], ['EXPIRE', 'n', 600]])).toBeNull();
   });
 
   it('pushes and trims a list in one pipeline and reports command errors', async () => {

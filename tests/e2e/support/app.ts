@@ -91,8 +91,13 @@ export async function openEventBySearch(page: Page, eventId: string, query?: str
   await drawer.getByRole('option').filter({ has: page.getByText(event.title, { exact: true }) }).first().click();
   await expect(panelTitle(page)).toHaveText(event.title);
   // Escape would also close the event panel (closeAllModals in App.tsx); use the drawer's own button.
-  if (await drawer.isVisible()) await drawer.getByRole('button', { name: 'إغلاق القائمة' }).click();
-  await expect(drawer).toBeHidden();
+  // On a phone the drawer may already be closing by itself: a click on its button mid-animation
+  // waits for a button that disappears, so click briefly and retry until the drawer is gone.
+  const close = drawer.getByRole('button', { name: 'إغلاق القائمة' });
+  await expect(async () => {
+    if (await drawer.isVisible()) await close.click({ timeout: 2_000 });
+    await expect(drawer).toBeHidden({ timeout: 2_000 });
+  }).toPass({ timeout: 15_000 });
   await expect(panelTitle(page)).toHaveText(event.title);
 }
 

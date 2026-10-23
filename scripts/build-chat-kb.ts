@@ -6,7 +6,7 @@
  *
  * Every verse and inline Qur'an quote is verified against the Tanzil text
  * first; anything that fails is excluded and reported. Writes:
- *   public/data/chat-kb.json          — runtime knowledge base
+ *   api/_data/chat-kb.json            — runtime knowledge base
  *   scripts/chat-kb/data-report.md    — data problems found, for human review
  *
  * Usage: npm run build:chat-kb   (add --strict to exit non-zero on errors)
@@ -131,7 +131,7 @@ function writeReport(ctx: BuildContext, kb: ChatKb): string {
 const isMain = process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));
 if (isMain) {
   const { kb, ctx } = buildChatKb();
-  const outPath = path.join(__dirname, '../public/data/chat-kb.json');
+  const outPath = path.join(__dirname, '../api/_data/chat-kb.json');
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
   fs.writeFileSync(outPath, JSON.stringify(kb));
   fs.writeFileSync(path.join(__dirname, 'chat-kb/data-report.md'), writeReport(ctx, kb));

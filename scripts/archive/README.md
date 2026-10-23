@@ -6,3 +6,4 @@ Scripts no longer used by the app, the build or the tests, kept in case one is n
 | Script | What it did | Archived |
 | --- | --- | --- |
 | `fetch-test-fonts.ts` | Downloaded the Google Fonts files so Playwright could serve them offline | Phase 3A: fonts are served with the site (`src/fonts.ts`) |
+| `run-gemini-index.ps1` | Windows scheduled task that ran the Gemini embedding build daily | Phase 3C: the "Chat index" GitHub Action (`.github/workflows/chat-index.yml`) |

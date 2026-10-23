@@ -1,13 +1,18 @@
 /**
  * Builds the semantic-search indexes for the chat knowledge base
- * (public/data/chat-kb.json → public/data/chat-embeddings-{provider}.json).
+ * (api/_data/chat-kb.json → api/_data/chat-embeddings-{provider}.json).
  *
  * Vectors are keyed by unit id AND a hash of the exact embedded text, so a
  * re-run only embeds units that are new or whose text changed, and stale
  * vectors are dropped. Stops cleanly (keeping progress) when the provider
  * reports a quota/rate limit instead of hammering it with retries.
  *
- * Usage: npm run build:embeddings [gemini|openrouter]
+ * Vectors are stored as int8 (semanticIndex.ts); an older float32 file is
+ * converted on read, without calling the provider.
+ *
+ * Usage: npm run build:embeddings -- [gemini|openrouter] [--max N]
+ *   --max N  embed at most N texts this run (default 200; 0 only converts and
+ *            drops stale vectors). Every text counts against the free tier.
  */
 import fs from 'fs';
 import path from 'path';
@@ -15,7 +20,7 @@ import { fileURLToPath } from 'url';
 import { config } from 'dotenv';
 import type { ChatKb } from '../shared/chatKb';
 import { embedDocuments, embeddingText, EMBEDDING_MODELS, isEmbeddable, textHash, type EmbeddingProvider } from '../api/_lib/embeddings';
-import type { EmbeddingIndexFile } from '../api/_lib/semanticIndex';
+import { decodeVector, encodeVector, type EmbeddingIndexFile } from '../api/_lib/semanticIndex';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 config({ path: path.join(__dirname, '../.env.local'), quiet: true });
@@ -27,27 +32,25 @@ const BATCH_SIZE: Record<EmbeddingProvider, number> = { gemini: 40, openrouter: 
 const PAUSE_MS: Record<EmbeddingProvider, number> = { gemini: 32000, openrouter: 2000 };
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 const MAX_MINUTE_RETRIES = 3;
+const DEFAULT_MAX_TEXTS = 200;
 
 function indexPath(provider: EmbeddingProvider) {
-  return path.join(__dirname, `../public/data/chat-embeddings-${provider}.json`);
+  return path.join(__dirname, `../api/_data/chat-embeddings-${provider}.json`);
 }
 
 function readIndex(provider: EmbeddingProvider): EmbeddingIndexFile {
-  const empty: EmbeddingIndexFile = { provider, model: EMBEDDING_MODELS[provider].model, dims: EMBEDDING_MODELS[provider].dims, ids: [], hashes: [], vectors: [] };
+  const empty: EmbeddingIndexFile = { provider, model: EMBEDDING_MODELS[provider].model, dims: EMBEDDING_MODELS[provider].dims, format: 'int8', ids: [], hashes: [], vectors: [] };
   try {
     const file = JSON.parse(fs.readFileSync(indexPath(provider), 'utf8')) as Partial<EmbeddingIndexFile>;
-    if (file.provider !== provider || !Array.isArray(file.hashes)) return empty; // old format → rebuild
-    return { ...empty, ...file } as EmbeddingIndexFile;
+    if (file.provider !== provider || !Array.isArray(file.hashes) || !Array.isArray(file.vectors)) return empty; // old format → rebuild
+    const vectors = file.format === 'int8' ? file.vectors : file.vectors.map(v => encodeVector(decodeVector(v, 'float32'), 'int8'));
+    return { ...empty, ...file, format: 'int8', vectors } as EmbeddingIndexFile;
   } catch {
     return empty;
   }
 }
 
-function floatsToBase64(values: number[]): string {
-  return Buffer.from(new Float32Array(values).buffer).toString('base64');
-}
-
-export async function buildIndex(provider: EmbeddingProvider, kb: ChatKb, apiKey: string | undefined): Promise<void> {
+export async function buildIndex(provider: EmbeddingProvider, kb: ChatKb, apiKey: string | undefined, maxTexts = DEFAULT_MAX_TEXTS): Promise<void> {
   const recordById = new Map(kb.records.map(r => [r.id, r]));
   const wanted = kb.units
     .filter(isEmbeddable)
@@ -70,15 +73,17 @@ export async function buildIndex(provider: EmbeddingProvider, kb: ChatKb, apiKey
   const save = () => fs.writeFileSync(indexPath(provider), JSON.stringify(out));
   save(); // drops stale vectors even if nothing new can be embedded
 
-  console.log(`[${provider}] ${kept.length}/${wanted.length} up to date, ${todo.length} to embed`);
+  console.log(`[${provider}] ${kept.length}/${wanted.length} up to date, ${todo.length} to embed (at most ${maxTexts} this run)`);
   if (todo.length === 0) return;
+  if (maxTexts <= 0) return;
   if (!apiKey) {
     console.warn(`[${provider}] no API key in .env.local — index left incomplete (runtime will not use it)`);
     return;
   }
 
-  for (let i = 0; i < todo.length; i += BATCH_SIZE[provider]) {
-    const batch = todo.slice(i, i + BATCH_SIZE[provider]);
+  const thisRun = todo.slice(0, maxTexts);
+  for (let i = 0; i < thisRun.length; i += BATCH_SIZE[provider]) {
+    const batch = thisRun.slice(i, i + BATCH_SIZE[provider]);
     let outcome = await embedDocuments(provider, batch.map(b => b.text), apiKey);
     // A per-minute limit clears quickly: wait and retry. A daily limit (or an
     // unidentified rate limit that keeps recurring) ends today's run; the
@@ -97,22 +102,32 @@ export async function buildIndex(provider: EmbeddingProvider, kb: ChatKb, apiKey
     batch.forEach((b, j) => {
       out.ids.push(b.id);
       out.hashes.push(b.hash);
-      out.vectors.push(floatsToBase64(outcome.vectors![j]));
+      out.vectors.push(encodeVector(outcome.vectors![j], 'int8'));
     });
     save();
     console.log(`[${provider}] ${out.ids.length}/${wanted.length}`);
     await sleep(PAUSE_MS[provider]);
   }
-  console.log(`[${provider}] index complete`);
+  console.log(thisRun.length === todo.length ? `[${provider}] index complete` : `[${provider}] stopped at --max ${maxTexts}; ${todo.length - thisRun.length} left for the next run`);
+}
+
+function maxTextsArg(argv: string[]): number {
+  const at = argv.indexOf('--max');
+  if (at === -1) return DEFAULT_MAX_TEXTS;
+  const value = Number(argv[at + 1]);
+  if (!Number.isInteger(value) || value < 0) throw new Error(`--max needs a whole number, got ${argv[at + 1]}`);
+  return value;
 }
 
 const isMain = process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));
 if (isMain) {
-  const kb = JSON.parse(fs.readFileSync(path.join(__dirname, '../public/data/chat-kb.json'), 'utf8')) as ChatKb;
-  const only = process.argv[2] as EmbeddingProvider | undefined;
+  const kb = JSON.parse(fs.readFileSync(path.join(__dirname, '../api/_data/chat-kb.json'), 'utf8')) as ChatKb;
+  const args = process.argv.slice(2);
+  const only = args.find(a => a === 'gemini' || a === 'openrouter') as EmbeddingProvider | undefined;
+  const maxTexts = maxTextsArg(args);
   (async () => {
-    if (!only || only === 'gemini') await buildIndex('gemini', kb, process.env.GEMINI_API_KEY);
-    if (!only || only === 'openrouter') await buildIndex('openrouter', kb, process.env.OPENROUTER_API_KEY);
+    if (!only || only === 'gemini') await buildIndex('gemini', kb, process.env.GEMINI_API_KEY, maxTexts);
+    if (!only || only === 'openrouter') await buildIndex('openrouter', kb, process.env.OPENROUTER_API_KEY, maxTexts);
   })().catch(err => {
     console.error(err);
     process.exit(1);

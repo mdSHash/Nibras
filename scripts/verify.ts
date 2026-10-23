@@ -101,6 +101,8 @@ const steps: Step[] = [
       return `${report.numPassedTests}/${report.numTotalTests} passed`;
     },
   },
+  // The committed chat KB equals a fresh build (Vitest, tests/chatKb.test.ts); its embedding index must cover it.
+  { id: 'chatindex', name: 'Chat index in sync', command: 'npx tsx scripts/check-chat-index.ts' },
   { id: 'snapshot', name: 'Content snapshot', command: 'npx tsx scripts/baseline/content-snapshot.ts' },
   { id: 'behavior', name: 'Behavior map', command: 'npx tsx scripts/baseline/behavior-map.ts' },
   { id: 'build', name: 'Production build', command: 'npx vite build && npx tsx scripts/prerender.ts', env: { VITE_CHAT_API_URL: TEST_CHAT_API_URL } },

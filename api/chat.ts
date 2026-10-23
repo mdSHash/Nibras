@@ -12,10 +12,12 @@ import {
   EXTRACTIVE_INTRO,
   METHOD_NOT_ALLOWED_MESSAGE,
   NOT_COVERED_MESSAGE,
+  RATE_LIMIT_MESSAGE,
   SERVICE_BUSY_MESSAGE,
   TOO_LONG_MESSAGE,
 } from './_lib/messages.js';
 import { reportServerError } from './_lib/monitoring.js';
+import { checkRateLimit, clientIp } from './_lib/rateLimit.js';
 import { buildPrompt, parseModelAnswer } from './_lib/prompt.js';
 import { defaultEmbedder, search, type QueryEmbedder, type SearchOutcome } from './_lib/search.js';
 
@@ -181,10 +183,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
+  // Counted after the checks above, so an empty or too-long question costs nothing.
+  const limit = await checkRateLimit(clientIp(req));
+  if (limit.status === 'blocked') {
+    console.info(`[chat] ${JSON.stringify({ status: 429, rateLimit: limit.window })}`);
+    res.setHeader('Retry-After', String(limit.retryAfterSeconds));
+    res.status(429).json({ error: 'too_many_requests', messageAr: RATE_LIMIT_MESSAGE });
+    return;
+  }
+
   try {
     const context = sanitizeContext(req.body?.context, getKb());
     const { status, body, log } = await answerQuestion(message, { context });
-    console.info(`[chat] ${JSON.stringify({ status, questionLength: message.length, ...log })}`);
+    console.info(`[chat] ${JSON.stringify({ status, questionLength: message.length, rateLimit: limit.status, ...log })}`);
     res.status(status).json(body);
   } catch (err) {
     console.error('[chat] unexpected failure', err);

@@ -1497,3 +1497,133 @@ Manual checks for Mostafa (phone and desktop):
 4. Phone: the ⋮ menu, the timeline player, a map popup (tap a cluster) and a toast.
 5. Phone: Badr's video upright and sideways looks and turns as before.
 6. The tour prompt and a tour step on a phone look as before (full width).
+
+**3B merged**: PR #9, merge commit `07923b4` (2026-10-18).
+
+### 3C — chat: KB and index in `api/_data/`, scheduled index build, per-IP rate limit
+
+Started 2026-10-23 on `refactor/phase-3c-chat` from `main` at `07923b4` (PR #9 merged).
+
+**Live site check** (once, 2026-10-23, headless Chromium against https://mdshash.github.io/Nibras/ as
+a returning visitor, desktop 1440×900 and phone 390×844): the app loads, the first event opens
+(«مِيلَادُ النَّبِيِّ ﷺ»), `/event/battle-badr/` opens Badr with «مشاهدة المعركة», the chat window
+opens (no question sent), no console errors. `GET https://nibras-chat-api.vercel.app/api/health` → 200
+`{"ok":true,"kbUnits":4178,"llmConfigured":true,"release":"07923b4"}`. `/Nibras/data/chat-kb.json` is
+still published (200).
+
+**Before any change**, `npm run verify`: content, type check, ESLint, Vitest 261/261, snapshot,
+behavior map, build, bundle budget and the feature tests (83 passed, 1 skipped) passed; the phone
+smoke failed once in WebKit, twice in a row on different tests, both in `openEventBySearch`
+(`tests/e2e/support/app.ts`): on a phone the search drawer may already be closing when the helper
+clicks its close button, and the click waits for a button that is gone. The same test passed 5/5
+alone. Fixed in the helper only (click briefly and retry until the drawer is hidden); then phone
+smoke 44/44 and visual 16/16.
+
+#### Decisions by Mostafa (3C, 2026-10-23)
+
+- **Strict sync**: CI fails on any PR whose KB has embeddable units without a current vector; the
+  "Chat index" workflow, run on that branch, embeds them and commits there. Its daily run on `main`
+  only opens a PR (`bot/chat-index`) if `main` drifts. Nothing is pushed to `main`.
+- **Upstash** is not set up yet: setup steps go in `docs/OWNER_DASHBOARD.md`; Mostafa sets it on Vercel.
+  Correction (2026-10-23, Mostafa): it already exists: `nibras-chat` (Upstash for Redis, Free,
+  created 2026-09-15), connected to the chat project's Production and Preview, so the answer cache
+  and feedback already use it and the rate limit works as soon as 3C deploys. `/api/health` shows
+  `sharedStore` from the 3C deploy on.
+- **The workflow uses the same Gemini key as `.env.local`** (repository secret `GEMINI_API_KEY`).
+- **Quota**: Mostafa left the choice to Claude: the first workflow run, on the 3C branch, embeds
+  Badr's 42 `battle_video` units (42 of the free tier's 1,000 daily texts, 2 requests). Nothing else.
+- What the index held (measured against the current KB, 4,178 units, 3,246 embeddable): `main`'s
+  index 3,079/3,246; `chore/chat-embeddings` (`b285075`) 3,204/3,246, missing only the 42
+  `battle_video` units (its 31 stale vectors are Badr's old replay units).
+
+#### Design choices (3C)
+
+- **Where things live**: `api/_data/chat-kb.json`, `api/_data/chat-embeddings-gemini.json` (and the
+  empty OpenRouter index, moved as is). The KB stays committed (its diff shows what the chat will
+  say) and is still rebuilt from `content/` by Vercel (`vercel.json`) and checked against a fresh
+  build by `tests/chatKb.test.ts`. The file names stayed `chat-embeddings-*` (the plan said
+  `chat-index-gemini.json`; renaming would only churn).
+- **int8 vectors**: each vector scaled so its largest component is ±127 (cosine ignores the scale).
+  Checked over all 3,235 vectors of `b285075`, each used as a query: mean top-10 neighbour overlap
+  float32 vs int8 0.989, worst 0.8, same nearest neighbour 3,196/3,235. The builder converts a
+  float32 file on read, so `b285075`'s vectors were reused with `--max 0` (no provider call; the
+  planned one-off conversion script was not needed). 13.8 MB → 3.5 MB.
+- **`--max N`** on `npm run build:embeddings` (default 200): never embeds more than N texts in a run
+  and prints the count first.
+- **Strict check** `npm run check:chat-index` (verify step `chatindex`, the static CI job): every
+  embeddable unit has a vector of its current text, no stale or unknown vectors, model 768-dim
+  int8. The runtime still uses the index only at 100% (CI now keeps it there).
+- **Chat index workflow** (`.github/workflows/chat-index.yml`): manual on any branch (commits the
+  index there, then dispatches "Check and deploy" on it, since a `GITHUB_TOKEN` push starts no
+  checks) and daily at 03:17 UTC on `main` (opens `bot/chat-index-<run>` as a PR, never pushes to
+  `main`). Secret `GEMINI_API_KEY` in the repository's Actions secrets.
+- **Quota spent locally instead of by the first workflow run**: GitHub only allows "Run workflow"
+  once the file is on the default branch, so the approved 42 texts were embedded with
+  `npm run build:embeddings -- gemini --max 42` and the `.env.local` key (same count, 2 requests).
+  The workflow is first run by hand on `main` after merge (spends 0).
+- **Rate limit** (`api/_lib/rateLimit.ts`): fixed windows in Upstash (`INCR` + `EXPIRE`, 4 commands
+  per question, one pipeline): 10-minute window and UTC day; the IP from `x-real-ip` (Vercel), else
+  `x-forwarded-for`, kept as 16 hex of SHA-256. A burst of up to 40 across a 10-minute boundary is
+  possible (fixed windows). Counted after the empty/too-long checks, before the answer cache, so a
+  cached answer counts too. 429 body `{error: 'too_many_requests', messageAr}` (a new code, apart
+  from the provider-busy `rate_limited`) with `Retry-After`. **Fails open** without a store or on a
+  store error (logged as `rateLimit: 'unavailable'`). Not on `/api/feedback` or `/api/health`.
+- `/api/health` adds `sharedStore` (not part of `ok`).
+
+#### Intentional behavior changes (3C)
+
+1. **GitHub Pages no longer publishes the chat KB and index** (`/Nibras/data/…`, about 16 MB); the app
+   never fetched them.
+2. **Semantic search turns on** in production once merged (index 3,246/3,246; `GEMINI_API_KEY` is set
+   on Vercel). Each question then spends one Gemini query embedding (it already tried to before,
+   but only when the index was complete).
+3. **Per-IP rate limit**, active once Upstash is connected: past 20 questions in 10 minutes or 100 in a
+   day the chat shows «لقد أرسلت أسئلة كثيرة في وقت قصير. حاول مرة أخرى بعد قليل.».
+4. Content PRs now need the Chat index workflow run on their branch before CI passes.
+
+Quota spent in 3C: **42 Gemini embedding texts (2 requests), 2026-10-23**. No Groq or OpenRouter.
+
+#### 3C verification (2026-10-23, Windows 11, Node 20.19.5, Playwright 1.59.1)
+
+`npm run verify` on the final 3C code:
+
+| Step | Result |
+| --- | --- |
+| Content build (Zod), type check, ESLint | passed |
+| Vitest | 278/278 (261 before: `chatIndex`, `rateLimit`, `storePipeline`, handler 429) |
+| Chat index in sync (new) | 3,246/3,246 |
+| Content snapshot, behavior map | identical to the baseline |
+| Production build, bundle budget | passed; JS at start 924.5 KB (257.1 KB gzip), unchanged |
+| Playwright features | 84 passed (new: the 429 message), 1 skipped, 0 known failures |
+| Phone smoke (WebKit, Firefox) | 44/44 |
+| Visual snapshots | 16/16, unchanged |
+
+`tests/baseline/numbers.json` test counts (already behind `main` before 3C: Vitest 256, features 82)
+updated to Vitest 278 and features 85 (84 + 1 skipped), approved by Mostafa 2026-10-23; nothing else
+in it changed. That run hit the known flaky "every header button is inside the viewport"
+(phone-webkit, see 3H) once; it passed on the re-run.
+
+- 2026-10-23 (Mostafa): `chore/chat-embeddings` deleted (was `b285075`). The repository secret
+  `GEMINI_API_KEY` set from `.env.local` with `gh secret set` (value never printed or written).
+- 2026-10-23: semantic search checked with one real question, run locally with the `.env.local` keys
+  (the Vercel preview is behind Vercel's login): «لماذا خرج المسلمون إلى بدر؟» → 200, `semantic:
+  "gemini"`, composed answer with citations, Groq `openai/gpt-oss-120b`, 1.6 s. Spent 1 Gemini
+  embedding and 1 Groq call (approved).
+
+The API loader on the final index: coverage 1, usable, 3,246 vectors. The workflow YAML parses;
+its first real run is after merge.
+
+Not verified here: the rate limit against real Upstash (not set up yet; 21 questions would spend 21
+query embeddings, ask first); the Chat index workflow on GitHub (after merge).
+
+Manual checks for Mostafa:
+
+1. After merging: Actions → Chat index → Run workflow on `main`: green, the log says
+   `3246/3246 up to date, 0 to embed` (the `GEMINI_API_KEY` secret is set).
+2. After the deploy, https://nibras-chat-api.vercel.app/api/health shows `"sharedStore":true`
+   (Upstash `nibras-chat` already exists; `false` would mean it is connected to another project).
+3. After merge: ask the chat a question in your own words (for example «لماذا خرج المسلمون إلى بدر؟»);
+   it answers with citations. In Vercel → Logs the `[chat]` line shows `"semantic":"gemini"`.
+4. https://mdshash.github.io/Nibras/data/chat-kb.json returns 404 after the deploy.
+5. Optional: rotate the Gemini key, since it was pasted into the chat session (steps in the owner
+   dashboard).

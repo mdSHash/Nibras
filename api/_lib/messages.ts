@@ -3,6 +3,9 @@
 export const NOT_COVERED_MESSAGE =
   'عذراً، لا تتوفر لديّ معلومات عن هذا السؤال في محتوى تطبيق نبراس. جرّب صياغة السؤال بطريقة أخرى، أو تصفّح الأحداث والصحابة والمعارك مباشرة في التطبيق.';
 
+/** Shown when one visitor sends more questions than the per-IP limit allows (rateLimit.ts). */
+export const RATE_LIMIT_MESSAGE = 'لقد أرسلت أسئلة كثيرة في وقت قصير. حاول مرة أخرى بعد قليل.';
+
 export const SERVICE_BUSY_MESSAGE = 'الخدمة مشغولة حالياً بسبب كثرة الطلبات، يرجى المحاولة بعد قليل.';
 
 /** Shown above verbatim passages when no composed answer could be produced. */

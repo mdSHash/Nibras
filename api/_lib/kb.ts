@@ -3,7 +3,7 @@
  * indexes search needs (BM25 postings, alias lookup). The JSON is produced by
  * scripts/build-chat-kb.ts.
  */
-import kbJson from '../../public/data/chat-kb.json' with { type: 'json' };
+import kbJson from '../_data/chat-kb.json' with { type: 'json' };
 import type { ChatKb, KbRecord, KbUnit } from '../../shared/chatKb.js';
 import { analyze, searchStems, stripDiacritics } from '../../shared/arabic.js';
 

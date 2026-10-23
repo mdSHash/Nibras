@@ -1,9 +1,12 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { getKb } from './_lib/kb.js';
+import { sharedStoreConfigured } from './_lib/store.js';
 
 /**
  * GET /api/health — for the uptime monitor (docs/OWNER_DASHBOARD.md). Checks
- * that the knowledge base loads and that an LLM provider key is configured.
+ * that the knowledge base loads and that an LLM provider key is configured;
+ * also says whether the shared store (Upstash: answer cache, feedback, rate
+ * limit) is configured, which does not affect `ok`.
  * Calls no LLM and no embedding API, so it uses no quota.
  */
 export default function handler(req: VercelRequest, res: VercelResponse) {
@@ -26,6 +29,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     ok,
     kbUnits,
     llmConfigured,
+    sharedStore: sharedStoreConfigured(),
     release: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ?? null,
   });
 }

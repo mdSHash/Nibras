@@ -17,6 +17,7 @@
     "fetch:quran": "tsx scripts/fetch-quran.ts",
     "docs:content": "tsx scripts/docs/content-guide.ts",
     "build:embeddings": "tsx scripts/build-chat-embeddings.ts",
+    "check:chat-index": "tsx scripts/check-chat-index.ts",
     "pretest": "npm run build:content",
     "test": "vitest run",
     "test:watch": "vitest",

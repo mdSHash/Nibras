@@ -52,12 +52,22 @@ export async function storeSet(key: string, value: string, ttlSeconds: number): 
   return data?.result === 'OK';
 }
 
+/**
+ * Sends several commands in one request; returns each command's result, or
+ * null when the store is not configured, unreachable or any command failed.
+ */
+export async function storePipeline(commands: (string | number)[][]): Promise<unknown[] | null> {
+  const data = (await send('/pipeline', commands)) as Array<{ result?: unknown; error?: string }> | null;
+  // A pipeline answers 200 with one {result} or {error} per command.
+  if (!Array.isArray(data) || data.length !== commands.length || !data.every(reply => reply && !reply.error)) return null;
+  return data.map(reply => reply.result);
+}
+
 /** Prepends to a list and trims it to `max` entries. */
 export async function storePushCapped(key: string, value: string, max: number): Promise<boolean> {
-  const data = (await send('/pipeline', [
+  const results = await storePipeline([
     ['LPUSH', key, value],
     ['LTRIM', key, 0, max - 1],
-  ])) as Array<{ error?: string }> | null;
-  // A pipeline answers 200 with one {result} or {error} per command.
-  return Array.isArray(data) && data.length === 2 && data.every(reply => reply && !reply.error);
+  ]);
+  return results !== null;
 }
