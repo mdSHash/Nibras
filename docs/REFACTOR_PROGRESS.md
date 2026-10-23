@@ -1525,6 +1525,10 @@ smoke 44/44 and visual 16/16.
   "Chat index" workflow, run on that branch, embeds them and commits there. Its daily run on `main`
   only opens a PR (`bot/chat-index`) if `main` drifts. Nothing is pushed to `main`.
 - **Upstash** is not set up yet: setup steps go in `docs/OWNER_DASHBOARD.md`; Mostafa sets it on Vercel.
+  Correction (2026-10-23, Mostafa): it already exists: `nibras-chat` (Upstash for Redis, Free,
+  created 2026-09-15), connected to the chat project's Production and Preview, so the answer cache
+  and feedback already use it and the rate limit works as soon as 3C deploys. `/api/health` shows
+  `sharedStore` from the 3C deploy on.
 - **The workflow uses the same Gemini key as `.env.local`** (repository secret `GEMINI_API_KEY`).
 - **Quota**: Mostafa left the choice to Claude: the first workflow run, on the 3C branch, embeds
   Badr's 42 `battle_video` units (42 of the free tier's 1,000 daily texts, 2 requests). Nothing else.
@@ -1616,8 +1620,8 @@ Manual checks for Mostafa:
 
 1. After merging: Actions → Chat index → Run workflow on `main`: green, the log says
    `3246/3246 up to date, 0 to embed` (the `GEMINI_API_KEY` secret is set).
-2. **Set up Upstash** (`docs/OWNER_DASHBOARD.md`, "Setting up Upstash"), redeploy, and open
-   https://nibras-chat-api.vercel.app/api/health: `"sharedStore":true`.
+2. After the deploy, https://nibras-chat-api.vercel.app/api/health shows `"sharedStore":true`
+   (Upstash `nibras-chat` already exists; `false` would mean it is connected to another project).
 3. After merge: ask the chat a question in your own words (for example «لماذا خرج المسلمون إلى بدر؟»);
    it answers with citations. In Vercel → Logs the `[chat]` line shows `"semantic":"gemini"`.
 4. https://mdshash.github.io/Nibras/data/chat-kb.json returns 404 after the deploy.
