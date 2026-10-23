@@ -15,6 +15,7 @@
     "build:content": "tsx scripts/build-content.ts",
     "build:chat-kb": "npm run build:content && tsx scripts/build-chat-kb.ts",
     "fetch:quran": "tsx scripts/fetch-quran.ts",
+    "narration": "tsx scripts/narration.ts",
     "docs:content": "tsx scripts/docs/content-guide.ts",
     "build:embeddings": "tsx scripts/build-chat-embeddings.ts",
     "check:chat-index": "tsx scripts/check-chat-index.ts",

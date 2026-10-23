@@ -11,7 +11,8 @@
  * writes the split the app loads (shared/contentSplit.ts): light indexes of
  * events, people and Qur'an passages, one file per event's details and per
  * bio, each battle video's captions, the Qur'an text, and the search index. The full files stay for the
- * scripts and tests.
+ * scripts and tests. Checks public/audio/manifest.json and writes the narration the app plays
+ * (fresh recordings only; scripts/narration/lib.ts).
  *
  * Fails, listing every problem, on an invalid file, an unknown id or a missing field.
  */
@@ -22,13 +23,19 @@ import { buildTerritories } from './content/territories';
 import { ROOT } from './baseline/lib';
 import { eventSearchText, splitEvent, splitPassage, splitPerson } from '../shared/contentSplit';
 import { eventSlug } from '../shared/routes';
+import { AUDIO_DIR, checkNarration } from './narration/lib';
 
 const CONTENT_DIR = join(ROOT, 'content');
 const GENERATED_DIR = join(ROOT, 'src', 'generated');
 
 const { raw, issues: readIssues } = readContent(CONTENT_DIR);
 const { content, territories, issues } = checkContent(raw);
-const allIssues = [...readIssues, ...issues];
+const narration = issues.length ? null : checkNarration(content.events, AUDIO_DIR);
+const allIssues = [
+  ...readIssues,
+  ...issues,
+  ...(narration?.issues ?? []).map((message) => ({ file: '../public/audio/manifest.json', message })),
+];
 
 if (allIssues.length > 0) {
   for (const issue of allIssues) console.error(`  content/${issue.file}: ${issue.message}`);
@@ -51,6 +58,8 @@ if (process.argv.includes('--check')) {
   const periods = buildTerritories(territories!.regions, territories!.control);
   writeFileSync(join(GENERATED_DIR, 'territories.json'), `${JSON.stringify(periods)}\n`);
   writeSplitContent();
+  // Stale and missing narration is not played; `npm run narration -- check` lists it.
+  writeFileSync(join(GENERATED_DIR, 'narration.json'), `${JSON.stringify(narration!.fresh)}\n`);
   console.log(`Content is valid; wrote src/generated/: ${summary}.`);
 }
 

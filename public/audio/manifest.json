@@ -1,0 +1,2100 @@
+{
+  "events": {
+    "event-0-ميلاد-النبي--عام-الفيل": {
+      "title": {
+        "file": "birth-of-the-prophet.title.77c38088.m4a",
+        "textHash": "77c380887c40193921614cea5bcde2d4873f4bf79739c78591057dac8992a432",
+        "durationSec": 4.8,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "birth-of-the-prophet.description.bba874cf.m4a",
+        "textHash": "bba874cf4646194185524de01c5c062dc023e15a0ef6bf61a13ffec429691da2",
+        "durationSec": 60.08,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-1-حادثة-شق-الصدر": {
+      "title": {
+        "file": "splitting-of-the-chest.title.8ad772bb.m4a",
+        "textHash": "8ad772bbdd4f0c8a5a6d4129a38c9147ff1245fbeb12111dbecfd64e2b5f455f",
+        "durationSec": 3,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "splitting-of-the-chest.description.0d121422.m4a",
+        "textHash": "0d121422c43a9ad503013093bacbb33f9e76d48e98d1091568647b7584da5706",
+        "durationSec": 49.08,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "fijar-war": {
+      "title": {
+        "file": "fijar-war.title.af5fbcf0.m4a",
+        "textHash": "af5fbcf020dcb1f5e704b37ca69b11b21bd877c51453df32514be6d37e4c044f",
+        "durationSec": 2.12,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "fijar-war.description.1d90ed77.m4a",
+        "textHash": "1d90ed7728f05aaf63992f23c2d9f16adfa546a3b098149e52b53ef96d5cef86",
+        "durationSec": 48.8,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "hilf-al-fudul": {
+      "title": {
+        "file": "hilf-al-fudul.title.5c8b2b3c.m4a",
+        "textHash": "5c8b2b3cf0d9f7f63529242a9eedb78c730144a07aacd839e7cc81ca3325f407",
+        "durationSec": 1.76,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "hilf-al-fudul.description.692ca684.m4a",
+        "textHash": "692ca684f35213e121b459856737ea82869efc8df28f07028de4f02b0163ce5a",
+        "durationSec": 48.08,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "marriage-khadija": {
+      "title": {
+        "file": "marriage-khadija.title.1f30b9e9.m4a",
+        "textHash": "1f30b9e91e05b0288cab5b99fe21eb19e404d5eb6d0d491504c6c6e119381bff",
+        "durationSec": 5.32,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "marriage-khadija.description.3b2a3c1f.m4a",
+        "textHash": "3b2a3c1f0d1d43d03945d63695beb868ee0ab60463a3ded900b5ba5e7220ec7f",
+        "durationSec": 56.8,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "rebuilding-kaaba": {
+      "title": {
+        "file": "rebuilding-kaaba.title.efb7cd66.m4a",
+        "textHash": "efb7cd663968bf9da9ad847a74dd490d85855dcd5f2811cd315bd50b3edfe160",
+        "durationSec": 4.12,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "rebuilding-kaaba.description.6abd3ca8.m4a",
+        "textHash": "6abd3ca883a1f677e57c0165bef4f8ebceac68cd6ff3defad76613502a9f98ea",
+        "durationSec": 67.92,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "revelation-hira": {
+      "title": {
+        "file": "revelation-hira.title.7308ae6c.m4a",
+        "textHash": "7308ae6c7e4aa2033c3bea2f8aa5cd544a55143c0267d04b163255d61333b76f",
+        "durationSec": 3.52,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "revelation-hira.description.61f2dac8.m4a",
+        "textHash": "61f2dac8495a29832b294a26fcd0b4ca2251518954524f647299ed38197f871b",
+        "durationSec": 83.56,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "public-dawah": {
+      "title": {
+        "file": "public-dawah.title.817decaf.m4a",
+        "textHash": "817decafce797046238fd4b249e958b77392f401c258592eea7cb0414a913dec",
+        "durationSec": 1.92,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "public-dawah.description.c070856c.m4a",
+        "textHash": "c070856c752fe3061fff657f548d49a5c7bfdceb9015c1a90be737f8c1ca9bac",
+        "durationSec": 68.04,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "migration-abyssinia": {
+      "title": {
+        "file": "migration-abyssinia.title.504dd9e3.m4a",
+        "textHash": "504dd9e36f27f7baf5361dd21227e730122f2ca6a90d16ea4daeb5cbfbed6f3a",
+        "durationSec": 2.72,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "migration-abyssinia.description.7fb746e5.m4a",
+        "textHash": "7fb746e50b15af765c8a6df47a49f0cc1a16b2119cba981d7fb20ed202f64b22",
+        "durationSec": 60.68,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "islam_hamza": {
+      "title": {
+        "file": "islam-hamza.title.d6a27ff1.m4a",
+        "textHash": "d6a27ff15c07e71de2a65821c104d22ca9d6028f963a41c26baf6a97d84fb272",
+        "durationSec": 3.24,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "islam-hamza.description.7fe7dad7.m4a",
+        "textHash": "7fe7dad771c993ba5221acbfce4a213ec199dc874a348b62b828a93216f908d6",
+        "durationSec": 61.44,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "islam_umar": {
+      "title": {
+        "file": "islam-umar.title.1dc5a5c2.m4a",
+        "textHash": "1dc5a5c2ec565e81b76766239e07a1f3a4dde47fad9366ad76fa2d59708416ae",
+        "durationSec": 2.8,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "islam-umar.description.d5119a94.m4a",
+        "textHash": "d5119a946f688d0e87f7c2595d9629e921377014ed76614e3c7d1f9b3499d43c",
+        "durationSec": 86.52,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "boycott-hashim": {
+      "title": {
+        "file": "boycott-hashim.title.864f501d.m4a",
+        "textHash": "864f501d9c626748930f4bed37f14b735a61c7880211d273f912ea831f3c9db7",
+        "durationSec": 2.92,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "boycott-hashim.description.7878369b.m4a",
+        "textHash": "7878369bfb46239e8e68130f9eb3d6612c1055ee0cc7ae2303461376a395e6f5",
+        "durationSec": 73.72,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "year-of-sorrow": {
+      "title": {
+        "file": "year-of-sorrow.title.3edd7e8f.m4a",
+        "textHash": "3edd7e8ff1c4092475387bd7e054ed2e3e68360fa209670e576fc536e3175d48",
+        "durationSec": 2.04,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "year-of-sorrow.description.8b30d7ae.m4a",
+        "textHash": "8b30d7ae7bd4bb3ab68af00c52ee6e6f668257e80ba4bcbe24bfca8c204cb663",
+        "durationSec": 64.92,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "journey-taif": {
+      "title": {
+        "file": "journey-taif.title.c56e7500.m4a",
+        "textHash": "c56e7500f9a5a2e599d9c2ee169f32346af0499af1f159813ec59ac4cc6acd6a",
+        "durationSec": 1.88,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "journey-taif.description.3defa72a.m4a",
+        "textHash": "3defa72a38dca4241e735dbd3e92e658e1cd439cc8b7b851c6d2ffd518d88c2b",
+        "durationSec": 69.08,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "isra-miraj": {
+      "title": {
+        "file": "isra-miraj.title.70b61fb3.m4a",
+        "textHash": "70b61fb30136cb06c925686abc748b77f9867f38eee1b532beb19b1ffabdde25",
+        "durationSec": 2.36,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "isra-miraj.description.3ecbfbd1.m4a",
+        "textHash": "3ecbfbd184cce663bc0a7ffa08fd7b63707dcc409e5c6b1bb9c0cbc8246b292d",
+        "durationSec": 74,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "first-aqaba": {
+      "title": {
+        "file": "first-aqaba.title.da991944.m4a",
+        "textHash": "da991944614c3864b92c71ba4661d149047d27415b1bb957b9ee34d43fd4a556",
+        "durationSec": 2.76,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "first-aqaba.description.09334dc0.m4a",
+        "textHash": "09334dc00bc73e7a951979163c109cee586fcfbaa958db8dae555b574405f97c",
+        "durationSec": 53.8,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "second-aqaba": {
+      "title": {
+        "file": "second-aqaba.title.fedb5e68.m4a",
+        "textHash": "fedb5e689bf20df6006651314343e6042953d7e230610ddaf247836614117aa2",
+        "durationSec": 2.48,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "second-aqaba.description.48716066.m4a",
+        "textHash": "48716066b26c58eaca346dbf7358e0239f800cbb683002bd9396019a4aed4a23",
+        "durationSec": 73.16,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "hijra-medina": {
+      "title": {
+        "file": "hijra-medina.title.2fa09c00.m4a",
+        "textHash": "2fa09c00d6b5cc21a7a1e2b22e9f35dca52628c1629d1678f9df69fc64b3bb2e",
+        "durationSec": 2.84,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "hijra-medina.description.9ee21b01.m4a",
+        "textHash": "9ee21b013738863fa7de07f2dff808d837c467e5a758edc8a174756d0105bb4f",
+        "durationSec": 67.08,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "building-mosque": {
+      "title": {
+        "file": "building-mosque.title.a75cfb57.m4a",
+        "textHash": "a75cfb57b8609015f2ad7bfe9376dfe8dec76b4714181d5172d08f253e61d61c",
+        "durationSec": 2.64,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "building-mosque.description.ff49e910.m4a",
+        "textHash": "ff49e910da57118388c61dc99545e74e0a02b017fb2c5e70fd6be2e363357997",
+        "durationSec": 53.68,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "medina-constitution": {
+      "title": {
+        "file": "medina-constitution.title.277a2c6d.m4a",
+        "textHash": "277a2c6d4a6a3f5dfece5c4f85248bf1e9e5caad33bfc121c99b17dbd090f98d",
+        "durationSec": 2,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "medina-constitution.description.cd45cd49.m4a",
+        "textHash": "cd45cd49862055cf7bbd88457831a52e9be78345798cae360b5ae783c393061f",
+        "durationSec": 51.92,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "sariyyat-hamza": {
+      "title": {
+        "file": "sariyyat-hamza.title.62f33ac3.m4a",
+        "textHash": "62f33ac3fcc7a99c1d0405792f0ecd5cf5f2c758de4218afed2735b17f042596",
+        "durationSec": 4.4,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "sariyyat-hamza.description.086fdefb.m4a",
+        "textHash": "086fdefbd99fa9216bbcbdecaa7ef68c0b99831c9d389250339a25705ccd54a2",
+        "durationSec": 33.4,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "sariyyat-ubaydah": {
+      "title": {
+        "file": "sariyyat-ubaydah.title.c107c41f.m4a",
+        "textHash": "c107c41f4aeaa96de1210f85d14440f65b46d2ea65125139529e7b2c9844f71e",
+        "durationSec": 3.76,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "sariyyat-ubaydah.description.ac67357c.m4a",
+        "textHash": "ac67357ccc9b162d23af02524df23bbbf839bcca22f384305fe879d7a7a56b3c",
+        "durationSec": 28.44,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "sariyyat-nakhla": {
+      "title": {
+        "file": "sariyyat-nakhla.title.99531b06.m4a",
+        "textHash": "99531b06fe6dcf6886af2d6ac7152ce468c761aa51a03affb6409dec00c44efb",
+        "durationSec": 3.52,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "sariyyat-nakhla.description.7f0d2b2f.m4a",
+        "textHash": "7f0d2b2fba653bc71691699c4a4b80a88b666c4d79c4b6921deaaeb380f17f1b",
+        "durationSec": 51.2,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "change-qibla": {
+      "title": {
+        "file": "change-qibla.title.e555b420.m4a",
+        "textHash": "e555b420fd2a1e3b8b334f37d8f6a88b146de4c1991e3d194aab941ad5a986f3",
+        "durationSec": 1.96,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "change-qibla.description.ce9d93a6.m4a",
+        "textHash": "ce9d93a6fbfaff3bd631f6412111a569a6471ce6b32c242a988e17cc99cfb1e0",
+        "durationSec": 46.24,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-badr": {
+      "title": {
+        "file": "battle-badr.title.fdbca40c.m4a",
+        "textHash": "fdbca40c019d376ec4a0adfbe9aaafeabfe4ca67558b125419ca476f1a2d6bbc",
+        "durationSec": 2.52,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-badr.description.d6f5d2d9.m4a",
+        "textHash": "d6f5d2d956815f89e6c0d801fa863caa7948228ede9c43e064fdd9b36341019e",
+        "durationSec": 52.88,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "banu-qaynuqa": {
+      "title": {
+        "file": "banu-qaynuqa.title.2c45d629.m4a",
+        "textHash": "2c45d62988b6db31e29a3c9843bde5b2f1cdd7043e9e4e8d902d9e17c15348a3",
+        "durationSec": 2.68,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "banu-qaynuqa.description.94602a2b.m4a",
+        "textHash": "94602a2b3781eaf6833fa965a2e31c732ca7832454ced01d94f64602d8443028",
+        "durationSec": 47.28,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "ghazwat_sawiq": {
+      "title": {
+        "file": "ghazwat-sawiq.title.7c0456a6.m4a",
+        "textHash": "7c0456a645a1dccbe8541488c20769701f4d5fa0c74f2f57cb51e05853837e07",
+        "durationSec": 2,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "ghazwat-sawiq.description.61e936c3.m4a",
+        "textHash": "61e936c3c4d540511542d978f68bb1af7f67b6229949f2de98282ebf08107ba1",
+        "durationSec": 41.92,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "ghazwat_dhi_amar": {
+      "title": {
+        "file": "ghazwat-dhi-amar.title.ff5914a8.m4a",
+        "textHash": "ff5914a84676077064d6419a5c815da858a33d150929c786ef892291eee24a0c",
+        "durationSec": 3.32,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "ghazwat-dhi-amar.description.43acdf23.m4a",
+        "textHash": "43acdf23a743ff0c53ba699a5fbd72ac6a3d28076b4b49595f848d674da3fefc",
+        "durationSec": 52.48,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-uhud": {
+      "title": {
+        "file": "battle-uhud.title.4431831a.m4a",
+        "textHash": "4431831a9b34e0d968f982ce81effa2abedf7ba809058f747f5cf6e7fbe65ee7",
+        "durationSec": 1.96,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-uhud.description.acd06d0c.m4a",
+        "textHash": "acd06d0c0407b86a35c707e0e252296d75fefa0ba41b037317789ad75590233e",
+        "durationSec": 67.2,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "banu-nadir": {
+      "title": {
+        "file": "banu-nadir.title.0625c92b.m4a",
+        "textHash": "0625c92bc4b8477fd2e8fa64a6607eacce2e9fa0cb2298854db6fa875b0331e8",
+        "durationSec": 2.36,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "banu-nadir.description.8e847500.m4a",
+        "textHash": "8e847500843acbcd365f365222f5f89d9e0231793f68307e7954f8e95f3d64e6",
+        "durationSec": 48.96,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "incident_rajeei": {
+      "title": {
+        "file": "incident-rajeei.title.4bca4851.m4a",
+        "textHash": "4bca48516625431f25c4839114d48146d982a3192210bc952d677282f7e48ecf",
+        "durationSec": 2,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "incident-rajeei.description.62bb890b.m4a",
+        "textHash": "62bb890b0de514b0a4c5597e790997484dafa023dad56de38677e31fe5f8248e",
+        "durationSec": 62.12,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "incident_bir_mauna": {
+      "title": {
+        "file": "incident-bir-mauna.title.312ce7ab.m4a",
+        "textHash": "312ce7ab36d26af5f1dd9b63600f12a3171fc0bb4b033724a3c34e4ff87df046",
+        "durationSec": 2.72,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "incident-bir-mauna.description.f07305da.m4a",
+        "textHash": "f07305daa269825317e7360c46218320a958a60b811cda84d3c2a901a012d526",
+        "durationSec": 57.28,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "ghazwat_badr_mawuid": {
+      "title": {
+        "file": "ghazwat-badr-mawuid.title.d69bca11.m4a",
+        "textHash": "d69bca117801ac291919c6e1405deb68c2b305c7f08711753d6f3c89b5ff46fb",
+        "durationSec": 2.56,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "ghazwat-badr-mawuid.description.b807ab46.m4a",
+        "textHash": "b807ab468342b4fc537f666f780ac1a0bd7f4d1649e486e445987933be88a7aa",
+        "durationSec": 54.4,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "ghazwat_dumat_aljandal": {
+      "title": {
+        "file": "ghazwat-dumat-aljandal.title.dd9e3b7a.m4a",
+        "textHash": "dd9e3b7a7b2f5fdb0eef1091a11a9353f8cf51bb4bd79fcc3fd07184afe8cc46",
+        "durationSec": 3.16,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "ghazwat-dumat-aljandal.description.66a92dc3.m4a",
+        "textHash": "66a92dc3e90ddfecdec010560c8ceb213e28c0e893021370aea6110fb74041c7",
+        "durationSec": 51.6,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-khandaq": {
+      "title": {
+        "file": "battle-khandaq.title.20aa39e5.m4a",
+        "textHash": "20aa39e545611fcd173d1d01f91be45d346f1cd5f6f8bc63b0ee5b1146fda606",
+        "durationSec": 3.32,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-khandaq.description.d32970bc.m4a",
+        "textHash": "d32970bc50215ec9d398a6c94035e6c686c1586c88f4196fd020d23ead245672",
+        "durationSec": 90.84,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "banu-qurayza": {
+      "title": {
+        "file": "banu-qurayza.title.624dd7c9.m4a",
+        "textHash": "624dd7c9759d1e9c2a39aba14046e035cb5f07630876bf7f3420ec5db302b15d",
+        "durationSec": 2.24,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "banu-qurayza.description.95fbc7e3.m4a",
+        "textHash": "95fbc7e33c943dd408b095f974b7bd9a5f9414305b4479bc90e3788b509a2f08",
+        "durationSec": 58.8,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "ghazwat_bani_mustaliq": {
+      "title": {
+        "file": "ghazwat-bani-mustaliq.title.6fc97eb6.m4a",
+        "textHash": "6fc97eb617c58accdec12f0e7ec5573da3bc5f92695e90e8321fcb4766644cc6",
+        "durationSec": 3.88,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "ghazwat-bani-mustaliq.description.f30cc36a.m4a",
+        "textHash": "f30cc36a79187db67b1ecfce7cded7e493d58bf31450809a7eace96a10f2a264",
+        "durationSec": 57.24,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "incident_ifk": {
+      "title": {
+        "file": "incident-ifk.title.217d970e.m4a",
+        "textHash": "217d970e1d8816f2e10ec664aa113df039ecf543615589e02b3b5a48981b0a2b",
+        "durationSec": 2.24,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "incident-ifk.description.1580fb91.m4a",
+        "textHash": "1580fb91e824061e32f38293194d694d0918a1da9d5385a061ce22eb893986ff",
+        "durationSec": 73.84,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "treaty-hudaybiyyah": {
+      "title": {
+        "file": "treaty-hudaybiyyah.title.68aa971d.m4a",
+        "textHash": "68aa971d5c8648e1d78f574e1d72cbe41a4c354a20ad0f4393cb911dc7eea71d",
+        "durationSec": 2.08,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "treaty-hudaybiyyah.description.8953af6e.m4a",
+        "textHash": "8953af6e951e84479cb6c5a2aaba850bc223800ac7241e0f8086cbaf4eb620c7",
+        "durationSec": 90.32,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-khaybar": {
+      "title": {
+        "file": "battle-khaybar.title.57a30587.m4a",
+        "textHash": "57a30587dff2ebfc31c2d7629c15a078b9f5d249bb71163773d3072d0c3be93f",
+        "durationSec": 1.92,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-khaybar.description.b22ade7e.m4a",
+        "textHash": "b22ade7e2b73decb66548f9f505f4ebd60736a52323be34fceeb910a7ef2af5b",
+        "durationSec": 60.04,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "umrat_alqada": {
+      "title": {
+        "file": "umrat-alqada.title.938a139a.m4a",
+        "textHash": "938a139af4680cbefd07b636499520a23864d52ca43fef39599af75e79b87039",
+        "durationSec": 1.88,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "umrat-alqada.description.a0594c09.m4a",
+        "textHash": "a0594c093431d2ea7ff550505b4d299ab67c5cdc3eee8ed83fbbbb5d01a5c4fc",
+        "durationSec": 44.88,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-mutah": {
+      "title": {
+        "file": "battle-mutah.title.9f466589.m4a",
+        "textHash": "9f46658962f0315fc57b2bfcc90d0173948d2525749ae92008195c820c128b22",
+        "durationSec": 1.96,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-mutah.description.69fea8ab.m4a",
+        "textHash": "69fea8ab9953246ff60a0b7f82f4c779d9f8fd240aa96d567870f3c48c7a980d",
+        "durationSec": 68.36,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "sariyat_khabt": {
+      "title": {
+        "file": "sariyat-khabt.title.6c8859dd.m4a",
+        "textHash": "6c8859dd36ac06a30fccc887159e3fc94f122851796244b7f004221142d692e8",
+        "durationSec": 3.6,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "sariyat-khabt.description.40454921.m4a",
+        "textHash": "40454921cab8a5159af6726a7370d947134a2772df9e4e11394fdf76709237d9",
+        "durationSec": 56.72,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest-mecca": {
+      "title": {
+        "file": "conquest-mecca.title.578b90db.m4a",
+        "textHash": "578b90dbb984249d85f96c6402df5533c84e62617c41460c8d1c0d1fa7906483",
+        "durationSec": 2.56,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-mecca.description.b8c2f338.m4a",
+        "textHash": "b8c2f33857171b05a56e8bbbdaa4ba1447914e025b758ffb7f1cabe5f5ee0fa8",
+        "durationSec": 71.12,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-hunayn": {
+      "title": {
+        "file": "battle-hunayn.title.211b5774.m4a",
+        "textHash": "211b5774a61567460a58ea2f77378698ea5b20e3504a8944aac57fa1d6b4673d",
+        "durationSec": 1.96,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-hunayn.description.9c5898ee.m4a",
+        "textHash": "9c5898ee35f59bd0d2b07f42f19e6e1900e54e3e6799491a9df90fbb05a580c6",
+        "durationSec": 60.92,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "siege_of_taif": {
+      "title": {
+        "file": "siege-of-taif.title.86d0bf31.m4a",
+        "textHash": "86d0bf31e2543777e407c04ce277f7c1f3e4888a1c5bc99bbc98140fb35beea8",
+        "durationSec": 3.72,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "siege-of-taif.description.2214e822.m4a",
+        "textHash": "2214e822e56f6ddb57cc82248f72c093027720557eb709a5e55fe92543282283",
+        "durationSec": 65.8,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-tabuk": {
+      "title": {
+        "file": "battle-tabuk.title.55b8c088.m4a",
+        "textHash": "55b8c088de8def194ca6030878ffedb95caa85b44ddbe4dcf7ee414246f6901f",
+        "durationSec": 3.36,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-tabuk.description.1179a358.m4a",
+        "textHash": "1179a358c5c6d1bf59d9a2db6dafafd385e7f34b644b23a29826afa609203ddb",
+        "durationSec": 66.68,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "farewell-pilgrimage": {
+      "title": {
+        "file": "farewell-pilgrimage.title.f792d604.m4a",
+        "textHash": "f792d604af4a43b430cb36af1f2899ac0fe4cc3b8b849dfa8985ec25cc3f206f",
+        "durationSec": 1.92,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "farewell-pilgrimage.description.4f8ff1f2.m4a",
+        "textHash": "4f8ff1f23004ea4f169540d688006244904ff4b2b2711bea5c7dd18134da09f7",
+        "durationSec": 70.2,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "prophet-death": {
+      "title": {
+        "file": "prophet-death.title.aa12b172.m4a",
+        "textHash": "aa12b172cb6c9a0c7399d6f26592fb6f6770471b7422edb5c05c9329cf42072c",
+        "durationSec": 3.68,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "prophet-death.description.347352eb.m4a",
+        "textHash": "347352eb7f39c535f09b5b079acdc95ffd5f0194922443d4897ee137c940b8cd",
+        "durationSec": 74.32,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-49-تولي-أبي-بكر-الخلافة-السقيفة": {
+      "title": {
+        "file": "abu-bakr-caliphate-saqifah.title.4f106682.m4a",
+        "textHash": "4f106682383252412c6d9ab9ad5f67e900f815bed9b6f3577ea3e0ec027befbe",
+        "durationSec": 4,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "abu-bakr-caliphate-saqifah.description.c1dd92f2.m4a",
+        "textHash": "c1dd92f25d2653e4ab1050523a92f1177b0434b1e19b05386bafa91453032753",
+        "durationSec": 66.36,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-50-إنفاذ-جيش-أسامة-بن-زيد": {
+      "title": {
+        "file": "expedition-of-usama.title.9019034b.m4a",
+        "textHash": "9019034b110d07aab737a7b51bbc6b2de29dc2cef90ac67faab644278c01a483",
+        "durationSec": 3.48,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "expedition-of-usama.description.c1020607.m4a",
+        "textHash": "c102060772937b6fe4f52aa60408cac23deeecad0628ac4e3b756b58894d4fef",
+        "durationSec": 59.04,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "ridda-wars-start": {
+      "title": {
+        "file": "ridda-wars-start.title.341630ea.m4a",
+        "textHash": "341630eab1a2c09ae7aa18c07698b70020293166dfc03bed783cc42ae553dc62",
+        "durationSec": 2.68,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "ridda-wars-start.description.e213a336.m4a",
+        "textHash": "e213a336b287fde68503064bb901a52140075d06ec7fcc60f030c707e0dd9d1c",
+        "durationSec": 60.36,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle_buzakha": {
+      "title": {
+        "file": "battle-buzakha.title.40a6a208.m4a",
+        "textHash": "40a6a2089da6f7bf6820b167bd78dcc65a15331f78f7947ec4dcda7f938a1981",
+        "durationSec": 2.12,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-buzakha.description.5724b308.m4a",
+        "textHash": "5724b30886f2e949dbdcda9163d90cd333601129215e1a79291ea8973c61ecdd",
+        "durationSec": 51.88,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle_yamama": {
+      "title": {
+        "file": "battle-yamama.title.3944ed5c.m4a",
+        "textHash": "3944ed5c323ea8feda84975b23f43ff6c45c3c0d5394f697bd6d2faa498be25b",
+        "durationSec": 3.92,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-yamama.description.32f1023a.m4a",
+        "textHash": "32f1023a04139da4129f09e1e27a993cbd9c1cdef59ac3b361f870127e9b1e14",
+        "durationSec": 76.16,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest-iraq-start": {
+      "title": {
+        "file": "conquest-iraq-start.title.0480f9d0.m4a",
+        "textHash": "0480f9d07d2c038e6df7e3c2c90d10dfd5a063af0e0c683a27362b9ee1c72a40",
+        "durationSec": 4.52,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-iraq-start.description.621b75f0.m4a",
+        "textHash": "621b75f0718b7d623309138c639f0ca4e5c09e9c1e5f8134bc2aa686ed21537b",
+        "durationSec": 57.6,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-55-جمع-القرن-الكريم-الأول": {
+      "title": {
+        "file": "first-compilation-of-the-quran.title.1b6c30f7.m4a",
+        "textHash": "1b6c30f7212bbcbe3c254abc0f41054345997787a34c8b7238d78bc96b3aba69",
+        "durationSec": 3.12,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "first-compilation-of-the-quran.description.5e3a7aed.m4a",
+        "textHash": "5e3a7aed7864a920c1312cef8ac042cc3f3abcd58052b69fbb4013ad7ebb5a7d",
+        "durationSec": 69.48,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest_hira": {
+      "title": {
+        "file": "conquest-hira.title.86eaee9b.m4a",
+        "textHash": "86eaee9b609f88b0f25a51e15eee5698848cd41f08f6ca3fef05b6d5a880476e",
+        "durationSec": 2.2,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-hira.description.30093253.m4a",
+        "textHash": "300932530e343a3bc38296a38f1829876e5a6f6ae96a8a71318e5c7747a1ca97",
+        "durationSec": 50.64,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle_ullais": {
+      "title": {
+        "file": "battle-ullais.title.2e970f6e.m4a",
+        "textHash": "2e970f6e336bfdc7bfe68c968d7bcbd1a985034eed32a6452e5bfc8dbf1ca594",
+        "durationSec": 3.52,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-ullais.description.e9ace8f4.m4a",
+        "textHash": "e9ace8f4b4f7b7cec52486a13e60ee6d521156b6fc98a5a1025b0176c0f575dc",
+        "durationSec": 57.36,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-hasid": {
+      "title": {
+        "file": "battle-hasid.title.7b2cc28f.m4a",
+        "textHash": "7b2cc28fb1290ac5691ce0ef1b5e8dc3a4a82a27832a13384694d83f0072c92e",
+        "durationSec": 2.48,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-hasid.description.ca7fb91f.m4a",
+        "textHash": "ca7fb91f3033c8074b3d52baa5fc75d6d2fcef5a980429713c81d073725f233a",
+        "durationSec": 34.76,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-musayyakh": {
+      "title": {
+        "file": "battle-musayyakh.title.cc9b28a4.m4a",
+        "textHash": "cc9b28a4c3af0caac6625ee8aae445e230dd45c2f40ceaee76eb939dbfc70d63",
+        "durationSec": 2.44,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-musayyakh.description.5e432429.m4a",
+        "textHash": "5e432429983a86ff12c828076a7e6253223d674bb96dc5220dd18d658b1a1980",
+        "durationSec": 41.96,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-thani": {
+      "title": {
+        "file": "battle-thani.title.93619ff7.m4a",
+        "textHash": "93619ff78851a0a551d8928c866df9bac7426103738cfe0338623a3270579b9a",
+        "durationSec": 2.12,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-thani.description.9c17396f.m4a",
+        "textHash": "9c17396f176ff5bb063e4b7332b3ed490eb2f7d8be8ee9c28fb890f466009621",
+        "durationSec": 40.4,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-zumail": {
+      "title": {
+        "file": "battle-zumail.title.0b65041f.m4a",
+        "textHash": "0b65041fbb2f25f35d5b17cb3b844b005d9c09d1619155f838fed6abde6c18c4",
+        "durationSec": 2,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-zumail.description.b36ac55c.m4a",
+        "textHash": "b36ac55c9da7659d48c494d1f5ccba70858e6f7b78bb85e2d7fa703fdb98fbf8",
+        "durationSec": 44.32,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-marj-dabiq": {
+      "title": {
+        "file": "battle-marj-dabiq.title.613c3809.m4a",
+        "textHash": "613c3809cd98b302d6fe0c29a962ff5a2191667a5fa2d8d3975b02fe7440f33f",
+        "durationSec": 2.76,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-marj-dabiq.description.fb79fb8a.m4a",
+        "textHash": "fb79fb8a21f2eef833680b6778b19edb7df2a57168cf3e1f06f58cdf268fcd9d",
+        "durationSec": 63.68,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle_firaz": {
+      "title": {
+        "file": "battle-firaz.title.a03e06c5.m4a",
+        "textHash": "a03e06c5d30ac97df493bf41b92650c5170b09ef0a5b893901b48e6497b6a0c0",
+        "durationSec": 2.4,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-firaz.description.b97ee4f2.m4a",
+        "textHash": "b97ee4f2ac0c6dd760865a38e9407d1d663f3a9497fef8033a21cf30a3bcd831",
+        "durationSec": 61.8,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle_namariq": {
+      "title": {
+        "file": "battle-namariq.title.0667426b.m4a",
+        "textHash": "0667426b6d956f46cc7cbc3a64c0c1b90c7830e62c38afd8cf7a8ea2f2cf51b7",
+        "durationSec": 2.32,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-namariq.description.7d0e9f6c.m4a",
+        "textHash": "7d0e9f6cfabfec638551c92b9064fd4044398ff7935e659ff108db31cbaca967",
+        "durationSec": 69.68,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-65-وفاة-أبي-بكر-الصديق": {
+      "title": {
+        "file": "death-of-abu-bakr.title.7fe1dcc3.m4a",
+        "textHash": "7fe1dcc36c157dcd8ffb0640d53ea24b136b21e6f27097eaee8a8f010920c0e9",
+        "durationSec": 3.08,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "death-of-abu-bakr.description.0767a1f4.m4a",
+        "textHash": "0767a1f4cd8a1ca93323feb9aa19e5b0e2b4177c7619cb2f7d7d2ca4c984cab8",
+        "durationSec": 65.8,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-66-تولي-عمر-بن-الخطاب-الخلافة": {
+      "title": {
+        "file": "umar-caliphate.title.33c75854.m4a",
+        "textHash": "33c7585465cf7fad72b16a77817adb88e4a6c0a28528de6bbb1a7f6422aab8cd",
+        "durationSec": 3.32,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "umar-caliphate.description.47816eeb.m4a",
+        "textHash": "47816eeb393bfe31a639d9edd1998ec04d999ef374a0d61148e69a2270d6ef4e",
+        "durationSec": 69.84,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest-damascus": {
+      "title": {
+        "file": "conquest-damascus.title.3fb485bd.m4a",
+        "textHash": "3fb485bd7458090b1bb163a59f27cdd389da7c49d7274f91ac245d10c7acc104",
+        "durationSec": 1.84,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-damascus.description.7dfb79f4.m4a",
+        "textHash": "7dfb79f43f9084983a81c7fa8ce956ba6949b8348f95bf7f0a05684454105345",
+        "durationSec": 68.96,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-saqatiya": {
+      "title": {
+        "file": "battle-saqatiya.title.78ebc331.m4a",
+        "textHash": "78ebc331a434ac61da27525db415a7c96ceda2245515bd46eec75265f815ac80",
+        "durationSec": 2.2,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-saqatiya.description.af964d7a.m4a",
+        "textHash": "af964d7a824258f3e03ab832c43937ea1ac5fc8cfd90fca3027955245086e3e4",
+        "durationSec": 64.16,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-bridge": {
+      "title": {
+        "file": "battle-bridge.title.15294020.m4a",
+        "textHash": "15294020762926c96b8eb6b9fbd4cba3967c3f72b3e4dcca13f6f4bdb79f9d44",
+        "durationSec": 2.08,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-bridge.description.ba2d2d9c.m4a",
+        "textHash": "ba2d2d9c6b7cf2db3a143403de16cc3ab363e8af94ae8ae8f8e4f5ded47a0a1f",
+        "durationSec": 66.52,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-buwaib": {
+      "title": {
+        "file": "battle-buwaib.title.34d70bfa.m4a",
+        "textHash": "34d70bfa0699e07309ac4b886eaf181c0f367ac72d8a752f008cf1d6914d424a",
+        "durationSec": 2.32,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-buwaib.description.b8c2f920.m4a",
+        "textHash": "b8c2f92042dff1af554cba25969be133d227f0ea6917d71f00ae88fee156e175",
+        "durationSec": 63.2,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle_fahl": {
+      "title": {
+        "file": "battle-fahl.title.119a60fd.m4a",
+        "textHash": "119a60fd3a04f7680be9ef105fd7423aea78ec964c648c6da38dcff1a378b6cb",
+        "durationSec": 2.76,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-fahl.description.230165cb.m4a",
+        "textHash": "230165cbab30b45400bc7e92458ff18f6e9b0a657d8ac316e3674cf489ce1769",
+        "durationSec": 56.68,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest-homs": {
+      "title": {
+        "file": "conquest-homs.title.d0509da6.m4a",
+        "textHash": "d0509da62b1395770081d200fc398b157fd6be1ede54a0010268da89871e61d0",
+        "durationSec": 1.72,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-homs.description.ce97caa3.m4a",
+        "textHash": "ce97caa3f506e63f0f081ce067b56e2098d49a6cbb3804190151f0726316f790",
+        "durationSec": 52.28,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-yarmouk": {
+      "title": {
+        "file": "battle-yarmouk.title.27af333a.m4a",
+        "textHash": "27af333a653283438e668ed4f988120fa830feee6392a654106b5db78e465472",
+        "durationSec": 2.28,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-yarmouk.description.54b53707.m4a",
+        "textHash": "54b537073523848f8ffaab872e56221b34086460b9579f256650317cc9b32723",
+        "durationSec": 79.8,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-qadisiyyah": {
+      "title": {
+        "file": "battle-qadisiyyah.title.faf384e0.m4a",
+        "textHash": "faf384e0b4f1cf127938a384f57fe10a437908894c516b893432f4e4b3d8cca3",
+        "durationSec": 2.16,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-qadisiyyah.description.575de036.m4a",
+        "textHash": "575de036d0ed22c51c94c3d7499527a5dc6b65805873a230500256e553f6ed5e",
+        "durationSec": 83.12,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-75-فتح-القدس-والعهدة-العمرية": {
+      "title": {
+        "file": "conquest-of-jerusalem.title.1f053751.m4a",
+        "textHash": "1f05375193cdbc75496ccbcffab7d037f9cb4e30b4823f196e57ebec007b54d1",
+        "durationSec": 3.64,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-of-jerusalem.description.db124b7f.m4a",
+        "textHash": "db124b7f2d25af219dd69e380418dbfe8182e3bf600e56a2bf9e2a02a720a091",
+        "durationSec": 76.44,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest-madain": {
+      "title": {
+        "file": "conquest-madain.title.bad21e9a.m4a",
+        "textHash": "bad21e9a08e7849d7873fce77f74ef2bc0c2d8d3afde9a1b2ccb7f3415d2a707",
+        "durationSec": 3.84,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-madain.description.aad3a235.m4a",
+        "textHash": "aad3a235518c4da4315cc10fecfa27090a2758ae9b7b56b71632bd34ef8c8eb1",
+        "durationSec": 65.48,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest-qinnasrin": {
+      "title": {
+        "file": "conquest-qinnasrin.title.649ac31e.m4a",
+        "textHash": "649ac31e2dcb6cf55f815acca4623dc24ca8cc852687c15658c102105d82ecc8",
+        "durationSec": 2.32,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-qinnasrin.description.7fbfd68d.m4a",
+        "textHash": "7fbfd68df2402b4e9187a90efa95a248d63d4a426165ffa93dfc933d8cb27721",
+        "durationSec": 39.88,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest_jalula": {
+      "title": {
+        "file": "conquest-jalula.title.1f66e2fe.m4a",
+        "textHash": "1f66e2fe9153db58069dab15d6f948faf6042cd74d48fd48d9165c8c4279d606",
+        "durationSec": 1.88,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-jalula.description.bbae06a6.m4a",
+        "textHash": "bbae06a695dc6512f3737d9dc0c45bba439261e4d443a07697c70b862413c3d8",
+        "durationSec": 53.8,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest-aleppo": {
+      "title": {
+        "file": "conquest-aleppo.title.20e2d9e5.m4a",
+        "textHash": "20e2d9e559dd46c57fb58959f9cdc01904d23179ea9a62a0fe05199691669d8a",
+        "durationSec": 1.6,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-aleppo.description.d53b0120.m4a",
+        "textHash": "d53b0120927f2a963830f49e24d5e036173d1d017324d8387b428117167ee601",
+        "durationSec": 52.52,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest-antioch": {
+      "title": {
+        "file": "conquest-antioch.title.ba2e1627.m4a",
+        "textHash": "ba2e16273a54a60cc7252db55c1e98f87caf467dd5ea283684556610e8f393d0",
+        "durationSec": 2.04,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-antioch.description.f9bc4527.m4a",
+        "textHash": "f9bc452729480533b8dad4b24ec17db4248c34fb95bdb4393d02c041ba1c604e",
+        "durationSec": 50.16,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-81-وضع-التقويم-الهجري-وتأسيس-الدواوين": {
+      "title": {
+        "file": "hijri-calendar-and-diwans.title.6c1c28df.m4a",
+        "textHash": "6c1c28dff5987ea3676157af07a1dcb2f037da7cd9131e16442039078dd7d33a",
+        "durationSec": 4.84,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "hijri-calendar-and-diwans.description.7d754f04.m4a",
+        "textHash": "7d754f04715ea8ca6a2c8e6375017f451b808f4537a5bcb977c096923cfbe537",
+        "durationSec": 57.4,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-hadir": {
+      "title": {
+        "file": "battle-hadir.title.24a5f80c.m4a",
+        "textHash": "24a5f80ce217ca692e02246e77b581fbe71080511a5aa4bf4c1b05ba1d206d5b",
+        "durationSec": 2.28,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-hadir.description.a572661a.m4a",
+        "textHash": "a572661a09b3f08dc20da48833ce6b115fbe7e9d19a68b90033ea7a787d32d78",
+        "durationSec": 49.08,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "famine-am-ramada": {
+      "title": {
+        "file": "famine-am-ramada.title.04a4d84c.m4a",
+        "textHash": "04a4d84c9d74984cb9e4f15e821fc1f9a5b991068f02a547f72fd11501d86846",
+        "durationSec": 1.84,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "famine-am-ramada.description.caa062e6.m4a",
+        "textHash": "caa062e6ab1113791fc575ea0a1db59bbd871ca652500dd42af440a90a2341bb",
+        "durationSec": 69.36,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest-edessa": {
+      "title": {
+        "file": "conquest-edessa.title.a565444e.m4a",
+        "textHash": "a565444e12b6af0e92b7fba2e70652985155158132a87d78178557942a1e3e02",
+        "durationSec": 1.64,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-edessa.description.cf3a96d1.m4a",
+        "textHash": "cf3a96d1191b7f8597defd29a33ac2182728926cdc3cb0f45ffa29ef304665f4",
+        "durationSec": 43.56,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "plague-amwas": {
+      "title": {
+        "file": "plague-amwas.title.5adfc2b0.m4a",
+        "textHash": "5adfc2b0c7c62519950afb8dd756cf51bd3f3095204e3fd006ed41d88dcc7c56",
+        "durationSec": 2.08,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "plague-amwas.description.3237485b.m4a",
+        "textHash": "3237485bf561ee3ada116ec85ed8634e35de06ac28cfa0d4ec25730792bba2a1",
+        "durationSec": 75.04,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest-raqqa": {
+      "title": {
+        "file": "conquest-raqqa.title.ed78bfa6.m4a",
+        "textHash": "ed78bfa629a5ba341e438c7ea425a65e8feed2b901b8ecbc9cdd6e596c1ca0db",
+        "durationSec": 1.88,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-raqqa.description.79322ad2.m4a",
+        "textHash": "79322ad2cb15d3249585c9fa45dd6140e004eb05c0716338bc663c59109df9e7",
+        "durationSec": 48.08,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest-egypt": {
+      "title": {
+        "file": "conquest-egypt.title.72a11543.m4a",
+        "textHash": "72a115439fe166848f5d061d1ca5b3c63562ec5263996e63a6fc5843256e50b3",
+        "durationSec": 1.64,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-egypt.description.c4599f84.m4a",
+        "textHash": "c4599f84a72e073241658040e96073faef011b7e6e18d76f40069fe9292f7476",
+        "durationSec": 55.92,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest_tustar": {
+      "title": {
+        "file": "conquest-tustar.title.85bd8ece.m4a",
+        "textHash": "85bd8ecef5d3dff3b854d19fb58de4184c955e18b9e3b98e7b87afec613c04ea",
+        "durationSec": 1.76,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-tustar.description.891d9eaa.m4a",
+        "textHash": "891d9eaabb899b508e242c73232cabba4bfa2eefce46f1f9a779c549cf55bff4",
+        "durationSec": 55.64,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest-alexandria": {
+      "title": {
+        "file": "conquest-alexandria.title.25e7666f.m4a",
+        "textHash": "25e7666f450bc12e258559975b25049f1788a30332b27dc6a313848db6ec695e",
+        "durationSec": 2.04,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-alexandria.description.db1a87a2.m4a",
+        "textHash": "db1a87a2eee11633641c01b6c38408683f193bb9422453899ff57a2f456e1ccf",
+        "durationSec": 57.64,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-nahavand": {
+      "title": {
+        "file": "battle-nahavand.title.7491d651.m4a",
+        "textHash": "7491d6510af2487d35699900a3c443c73c6a41ca9eba97a194c079ce16ea354d",
+        "durationSec": 4.4,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-nahavand.description.c29a90e3.m4a",
+        "textHash": "c29a90e346013c819d1ce45488813c8f23873420daf6ff4c86a574ccdddc2918",
+        "durationSec": 72.56,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest_istakhr": {
+      "title": {
+        "file": "conquest-istakhr.title.01240b13.m4a",
+        "textHash": "01240b13b26077ee5d1841637d4c7cc9e3eb5e0d3e1b9af45198f86aec1b6790",
+        "durationSec": 1.76,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-istakhr.description.7f05061e.m4a",
+        "textHash": "7f05061ed67a5c0038fa5377ee2cf88d2af918bf901318a86b5308cd6ac1e22e",
+        "durationSec": 39.04,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-92-استشهاد-عمر-بن-الخطاب": {
+      "title": {
+        "file": "martyrdom-of-umar.title.fb93e6db.m4a",
+        "textHash": "fb93e6db9c4e4a5b7882575b827db6f1c9498da44ad6461a65b9ff8152a92444",
+        "durationSec": 3.04,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "martyrdom-of-umar.description.1c6be2b1.m4a",
+        "textHash": "1c6be2b1f71160b17f7ca986825f16c6b1568f3fff03fd67d24caae39d86ca83",
+        "durationSec": 68.84,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-93-تولي-عثمان-بن-عفان-الخلافة-الشورى": {
+      "title": {
+        "file": "uthman-caliphate-shura.title.8e9697ae.m4a",
+        "textHash": "8e9697ae8a586da1519797996c2fd1876fc1a98ffcceb6bc4339f58f997d03e0",
+        "durationSec": 4.16,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "uthman-caliphate-shura.description.f212e139.m4a",
+        "textHash": "f212e1395d289164ad949a01b8388564152c3e24f38d0631d52fec36636c6b3c",
+        "durationSec": 78.28,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest_armenia": {
+      "title": {
+        "file": "conquest-armenia.title.563279b4.m4a",
+        "textHash": "563279b4c9445d2577dad383f5da47899af47510daf5824141021cb8da5df134",
+        "durationSec": 1.76,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-armenia.description.b2c2dab2.m4a",
+        "textHash": "b2c2dab233a502e6dc6fd7a7414311e64a7b6ab33eac7c9ad5e498b21c9cef36",
+        "durationSec": 37.68,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "alexandria-reconquest": {
+      "title": {
+        "file": "alexandria-reconquest.title.9dea294e.m4a",
+        "textHash": "9dea294e3f852ec2e4bfdbeca191c41b5335de93e6c6b81adbb6298c737f4f38",
+        "durationSec": 2.64,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "alexandria-reconquest.description.8e003b31.m4a",
+        "textHash": "8e003b313df18c8fc53a399ff18a05847ed043e0b76fa67df15232dc6256234e",
+        "durationSec": 75.64,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-96-نسخ-المصحف-الإمام-المصحف-العثماني": {
+      "title": {
+        "file": "uthmanic-mushaf.title.003aa978.m4a",
+        "textHash": "003aa978ee996fc9aa907ba13562fcfcaa65c802b6439b23b89086b04d9e67a6",
+        "durationSec": 4.88,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "uthmanic-mushaf.description.55f0ae38.m4a",
+        "textHash": "55f0ae387726eead28567a20b26a847c3c2478cbc36d4f18d2e953d23b31cab7",
+        "durationSec": 65.96,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest-rayy-jurjan": {
+      "title": {
+        "file": "conquest-rayy-jurjan.title.b99484d9.m4a",
+        "textHash": "b99484d9f5b279c313c4608f6cb37daabadb6abe4ef25af4c57f66ba902ef173",
+        "durationSec": 6.4,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-rayy-jurjan.description.e69da362.m4a",
+        "textHash": "e69da36283f3866f1188f4c9b8812ed57f4e20ecdcc61a7fd3a1bdf38d0d4385",
+        "durationSec": 64.44,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest-north-africa": {
+      "title": {
+        "file": "conquest-north-africa.title.7f5e0c8a.m4a",
+        "textHash": "7f5e0c8aa1dd964a94ef9cd936c76284756e7f58d5360e2fa1e257bb4d39def3",
+        "durationSec": 3.16,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-north-africa.description.a61cdef9.m4a",
+        "textHash": "a61cdef9d13c1db2d317e68ad3a417d5066f54a2d41687a540f50e240beb9c0b",
+        "durationSec": 57.56,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-98-توسعة-المسجد-الحرام": {
+      "title": {
+        "file": "expansion-of-masjid-al-haram.title.b58c6601.m4a",
+        "textHash": "b58c660117ed1a0e37efb68802e237a0012a89e0179b288f85a972a487d8cde6",
+        "durationSec": 2.68,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "expansion-of-masjid-al-haram.description.60c1a204.m4a",
+        "textHash": "60c1a2040d22106b086803405f05b5cd806513d4f5c6dcb5df4e3e3fd33f3e13",
+        "durationSec": 39.6,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "first-muslim-fleet": {
+      "title": {
+        "file": "first-muslim-fleet.title.eb0f22ba.m4a",
+        "textHash": "eb0f22baf337ea27453d1fca41a89c44264b3f96cc94ac8fbdc015199d8dfd75",
+        "durationSec": 3.48,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "first-muslim-fleet.description.af0ffbec.m4a",
+        "textHash": "af0ffbec4e2bd82a4dc0472e44a46f1a172ef9c41724d7bb7210fd8ff054df59",
+        "durationSec": 94.4,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest-cyprus": {
+      "title": {
+        "file": "conquest-cyprus.title.10a3632a.m4a",
+        "textHash": "10a3632af2a693f8aa6b26b2418be0735b131de070d6645d5efa616a8250841a",
+        "durationSec": 1.96,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-cyprus.description.d5c8ff89.m4a",
+        "textHash": "d5c8ff89622f509949cf9833299eb85532898889d19ada15d3b32b08412ad09e",
+        "durationSec": 60.08,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-100-توسعة-المسجد-النبوي": {
+      "title": {
+        "file": "expansion-of-the-prophets-mosque.title.b40447eb.m4a",
+        "textHash": "b40447ebbe93ebf5715d69e5c4760d2c786f63f2900ff5cd4db6f40cc0e1440b",
+        "durationSec": 2.8,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "expansion-of-the-prophets-mosque.description.285954dc.m4a",
+        "textHash": "285954dc4b620224387cc1644b2fb2b8380ff7d3250df6c913b7c687b06e2d6a",
+        "durationSec": 38.64,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-101-فتح-طبرستان": {
+      "title": {
+        "file": "conquest-of-tabaristan.title.18d33640.m4a",
+        "textHash": "18d336407e03d7da66ad3a105d4f60394fa90366b88d4e84a673329656454b63",
+        "durationSec": 1.96,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-of-tabaristan.description.2ae28df0.m4a",
+        "textHash": "2ae28df0ec380ecb0c7ca4f7fd3cd2f3fb27683a232b7878c594792e550c7117",
+        "durationSec": 34.52,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest_khorasan": {
+      "title": {
+        "file": "conquest-khorasan.title.826723ee.m4a",
+        "textHash": "826723ee7527448fcf092e8bbea8f321a77f92cc9ad7b18f92c510e88881437a",
+        "durationSec": 2.64,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-khorasan.description.d2ffdb67.m4a",
+        "textHash": "d2ffdb678c4b89a7e5a20ccdfb5ebef83ac32a28750e7886ca84ed744328bf82",
+        "durationSec": 47.88,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest-sijistan": {
+      "title": {
+        "file": "conquest-sijistan.title.0758c42c.m4a",
+        "textHash": "0758c42c88b174da902beb545ce7a8296ec8214b4ef2ccbae95473e625785ba6",
+        "durationSec": 4.32,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-sijistan.description.636459ce.m4a",
+        "textHash": "636459cef154e1a338b73c1229e2152735e27ca387eb2772dece7f2b72f997e0",
+        "durationSec": 67.2,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest-nubia-baqt": {
+      "title": {
+        "file": "conquest-nubia-baqt.title.413ce6ab.m4a",
+        "textHash": "413ce6ab5943d44673c67f6a9500f36fac5cc1880af4b18760bd2ec17a8c47b0",
+        "durationSec": 3.48,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-nubia-baqt.description.bbf49a40.m4a",
+        "textHash": "bbf49a40aa59ed0ee66a35c55e5117222bfa15aa273ac56b2dbcba4fd263c314",
+        "durationSec": 70,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "abu-dharr-rabadhah": {
+      "title": {
+        "file": "abu-dharr-rabadhah.title.48c5bb67.m4a",
+        "textHash": "48c5bb67aa00989c16ccf6975e3f7e2e56acdfb1976d70ed97950129fd74fb9d",
+        "durationSec": 5.68,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "abu-dharr-rabadhah.description.30f65098.m4a",
+        "textHash": "30f6509826d62c35f55cac0c5ed1817d569e402f137034fdbb27cf78c9725fed",
+        "durationSec": 80.84,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "year-of-passing-32ah": {
+      "title": {
+        "file": "year-of-passing-32ah.title.bd22958f.m4a",
+        "textHash": "bd22958f1382fc1d7800ea213ce68d8b3b6a819f9468bb269ef380e7adb73000",
+        "durationSec": 6.16,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "year-of-passing-32ah.description.cb87f2f4.m4a",
+        "textHash": "cb87f2f44fbd428a45d8b00f6bb94d6b2e48e2e94b73b126d0abb5ec7bc38692",
+        "durationSec": 88.08,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-masts": {
+      "title": {
+        "file": "battle-masts.title.8460a737.m4a",
+        "textHash": "8460a737cc551d64385c70e91cba6f10fb92c5fcd4f987b4d7c3d9897671bf46",
+        "durationSec": 2.92,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-masts.description.7407452f.m4a",
+        "textHash": "7407452f6925dbb2fc69fba347839eb0b0c5b2122b79f045421268f920d060ed",
+        "durationSec": 53.04,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "wufud-amsar-complaints": {
+      "title": {
+        "file": "wufud-amsar-complaints.title.f7ccfa76.m4a",
+        "textHash": "f7ccfa7697fdbce471bc19f259e3721d5384df7fec74c1a44e087808bc8d9cd3",
+        "durationSec": 5.28,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "wufud-amsar-complaints.description.2ad3b21c.m4a",
+        "textHash": "2ad3b21cc31b2700f2ee3f97c46d102a798845d5b1b001ca336b439f2bbfccb2",
+        "durationSec": 108.84,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-104-بداية-الفتنة-الكبرى": {
+      "title": {
+        "file": "beginning-of-the-great-fitna.title.e46a6e35.m4a",
+        "textHash": "e46a6e35e421ae2bd17a69a2de91300f839adea7ad4d8be361af01508b533e54",
+        "durationSec": 2.6,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "beginning-of-the-great-fitna.description.adfc8ddd.m4a",
+        "textHash": "adfc8dddc8638e17805fb8a35fa9c49742e73f5aec8af09fce841668890126cf",
+        "durationSec": 39,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "siege-of-uthman-house": {
+      "title": {
+        "file": "siege-of-uthman-house.title.bae1bfd7.m4a",
+        "textHash": "bae1bfd77c6b80c4ab7589084c1f99f33441e1311c7feb9c25a9236342652c1f",
+        "durationSec": 4.04,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "siege-of-uthman-house.description.976c45a1.m4a",
+        "textHash": "976c45a160a3fbe52bc7b32cfd5b77cd1d7404cb80e87632c6b8fa1da1dc8cea",
+        "durationSec": 110.28,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-105-استشهاد-عثمان-بن-عفان-يوم-الدار": {
+      "title": {
+        "file": "martyrdom-of-uthman.title.5a2f31cd.m4a",
+        "textHash": "5a2f31cdeb502a5154fc58c73a0093b1292c652c1041acf7bb75187822161485",
+        "durationSec": 4.44,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "martyrdom-of-uthman.description.43fa6343.m4a",
+        "textHash": "43fa63436f4a0745907216956a4644fdbe2cf19a20a8592a2f5259702a3b24bd",
+        "durationSec": 63.04,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-106-تولي-علي-بن-أبي-طالب-الخلافة": {
+      "title": {
+        "file": "ali-caliphate.title.d75b4d25.m4a",
+        "textHash": "d75b4d250007042700866f9be0eea89e96b3dc0af1678e22d74c989edd05caf4",
+        "durationSec": 3.16,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "ali-caliphate.description.c788c9a3.m4a",
+        "textHash": "c788c9a3b1b2625679f6124f996762c26be5727f633ae1cfab90fb318edc437d",
+        "durationSec": 55,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "march-to-basra-pre-jamal": {
+      "title": {
+        "file": "march-to-basra-pre-jamal.title.15c238ab.m4a",
+        "textHash": "15c238ab5be433ffc2eefe6d57fe784c71eabc4c8b225b8c7e23ce5a823de02f",
+        "durationSec": 6,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "march-to-basra-pre-jamal.description.a5eccf2d.m4a",
+        "textHash": "a5eccf2d497f694e1ea73100b44a36f0205b2d0518455db51a3cb8ab82916c4f",
+        "durationSec": 74.88,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-camel": {
+      "title": {
+        "file": "battle-camel.title.fff67155.m4a",
+        "textHash": "fff67155bdb731208dc207fae3b3097659d6680414d9f4629cb037f0b5fa7753",
+        "durationSec": 2.08,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-camel.description.2e824d02.m4a",
+        "textHash": "2e824d0203567a2807fdb0198931a46d52d3160d8fd159516629d1072b76abde",
+        "durationSec": 58.84,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-108-نقل-العاصمة-إلى-الكوفة": {
+      "title": {
+        "file": "capital-moves-to-kufa.title.e451cbae.m4a",
+        "textHash": "e451cbaee9a4dc4deced70ab1b27aa5faf9042666226d2470b44aa4e7df4847e",
+        "durationSec": 2.84,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "capital-moves-to-kufa.description.f5eb9413.m4a",
+        "textHash": "f5eb941354b452fb434d96a1393094f7dbcc93a96cf0bb428e253cebe4b91e37",
+        "durationSec": 41,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "muawiyah-refuses-bayah": {
+      "title": {
+        "file": "muawiyah-refuses-bayah.title.46668d01.m4a",
+        "textHash": "46668d01e02e563dd76b8d5ea3365080c8d2b89761345d44845d98c6233aa9e8",
+        "durationSec": 4.84,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "muawiyah-refuses-bayah.description.1a5d18e3.m4a",
+        "textHash": "1a5d18e3b6af798d6512ec2ff151bda58fff4c2768aea289f7835f257e4b3cfd",
+        "durationSec": 93.08,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-109-معركة-صفين": {
+      "title": {
+        "file": "battle-of-siffin.title.06a9fce9.m4a",
+        "textHash": "06a9fce9786c7bb787f33523da42ac3d50723a9bf2c85c6f0b0884039e8deaad",
+        "durationSec": 2.04,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-of-siffin.description.d2a30c30.m4a",
+        "textHash": "d2a30c301718a6600b66fbe5d7da931a03cf329654e65a2374ed588e5184b707",
+        "durationSec": 63.76,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "ammar-martyrdom-siffin": {
+      "title": {
+        "file": "ammar-martyrdom-siffin.title.a7c5225d.m4a",
+        "textHash": "a7c5225ddc89183d8beed394a6adbdd9e182abc2057bbcd57b4cbdd968a879ce",
+        "durationSec": 4.72,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "ammar-martyrdom-siffin.description.bff15694.m4a",
+        "textHash": "bff15694446bb92b873b7a90cc4c69a5f9eb44be29185e4dedb689fb06959aa9",
+        "durationSec": 100.72,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "raising-mushafs-siffin": {
+      "title": {
+        "file": "raising-mushafs-siffin.title.a6f64962.m4a",
+        "textHash": "a6f64962b366d175930b89c9ad3fe36d8575920c620146710dd55bfa3db10a24",
+        "durationSec": 2.96,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "raising-mushafs-siffin.description.7eab9879.m4a",
+        "textHash": "7eab987922ed67e04ac750a624bf5d51e4a26101601c2df7299436b5274e950b",
+        "durationSec": 76.04,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-110-ظهور-الخوارج": {
+      "title": {
+        "file": "emergence-of-the-khawarij.title.4c1d92d2.m4a",
+        "textHash": "4c1d92d231ca5410ed1eb040f74234bc9134591c98953d78559fe12b944e5e71",
+        "durationSec": 2.12,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "emergence-of-the-khawarij.description.b7b3a82e.m4a",
+        "textHash": "b7b3a82e875e4978c55bf4cf14e62078c6e475a028c0654128d2a5595efdf97f",
+        "durationSec": 40.84,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-nahrawan": {
+      "title": {
+        "file": "battle-nahrawan.title.1dde3882.m4a",
+        "textHash": "1dde38822d2c524ff3526bdfcd942e94f690a9b3f45f16eb9caa8995877c60f2",
+        "durationSec": 2.16,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-nahrawan.description.ef36781a.m4a",
+        "textHash": "ef36781a39e45155ed7a1a235dbb96983336d805fbd59de133ed9f0039273672",
+        "durationSec": 59.48,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-112-التحكيم-بين-علي-ومعاوية": {
+      "title": {
+        "file": "arbitration-between-ali-and-muawiyah.title.e4a07aaa.m4a",
+        "textHash": "e4a07aaa1aa832a9a600940f1394ee0afde856d77d369a1f22d2fe6b473bbf43",
+        "durationSec": 3.36,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "arbitration-between-ali-and-muawiyah.description.28570819.m4a",
+        "textHash": "28570819dbda131ea67fdd8d81b060049a2519b7e069fb00613158934074c067",
+        "durationSec": 46.28,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "ibn-abbas-debates-khawarij": {
+      "title": {
+        "file": "ibn-abbas-debates-khawarij.title.063b19d1.m4a",
+        "textHash": "063b19d15f7405c61493466ae5eadbe555408067831b2c9a5a8010fa306da7f8",
+        "durationSec": 4.24,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "ibn-abbas-debates-khawarij.description.df6ada68.m4a",
+        "textHash": "df6ada68fcd346572b100d8cb2952dfed25fa4161462e1edce087813876f5861",
+        "durationSec": 116.56,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "muhammad-abi-bakr-egypt": {
+      "title": {
+        "file": "muhammad-abi-bakr-egypt.title.6bfb8d97.m4a",
+        "textHash": "6bfb8d9740c852e12ab63c8a6f815d861770a8175b2ad84eb8c9b74260481eab",
+        "durationSec": 6.08,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "muhammad-abi-bakr-egypt.description.ca45e03e.m4a",
+        "textHash": "ca45e03e53f1f0e487eab873cb4a6b2bdc99d8fca42ac703cf739ad25f5022bf",
+        "durationSec": 106.72,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "muawiyah-raids-iraq-hijaz": {
+      "title": {
+        "file": "muawiyah-raids-iraq-hijaz.title.893479c7.m4a",
+        "textHash": "893479c7368b484643ba09577b47a4b2f1aab03de1b4ce984d9a4e927a0a2844",
+        "durationSec": 4.76,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "muawiyah-raids-iraq-hijaz.description.5a61826a.m4a",
+        "textHash": "5a61826a5abfc876d2684f1a1aff8b681318503cc99130e4037b8de233d556b0",
+        "durationSec": 101.6,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "ibn-muljam-plot-mecca": {
+      "title": {
+        "file": "ibn-muljam-plot-mecca.title.2fdf3187.m4a",
+        "textHash": "2fdf3187eeae6e8d56abeca7e9aa7eec49fd4e659bd15980b16fdb8f0228fe0e",
+        "durationSec": 3.28,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "ibn-muljam-plot-mecca.description.5ff89ee1.m4a",
+        "textHash": "5ff89ee1a0bd8bdbd28429184b8241374528faceabc8f9c37ba42361e3fc50fc",
+        "durationSec": 104.44,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-113-استشهاد-الإمام-علي-بن-أبي-طالب": {
+      "title": {
+        "file": "martyrdom-of-ali.title.354f96a1.m4a",
+        "textHash": "354f96a18857716c4698aab792cb84aa83c0952357ee34508adccc266264bbdc",
+        "durationSec": 3.52,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "martyrdom-of-ali.description.dc5598bd.m4a",
+        "textHash": "dc5598bde9b5e0334d307b4a6b6aaf9764d59ff3b7be6d2a700487a7c123f016",
+        "durationSec": 71.28,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "year-of-reconciliation": {
+      "title": {
+        "file": "year-of-reconciliation.title.dc996789.m4a",
+        "textHash": "dc9967890631c5a9c42647bd1328ec867d4425d8e072fc968db4fb9423d61fb0",
+        "durationSec": 4.64,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "year-of-reconciliation.description.b22fffef.m4a",
+        "textHash": "b22fffef6116e163ef9a324913e52584b4c11dc486ef7e909c27a35d05aa1956",
+        "durationSec": 119.16,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    }
+  }
+}
