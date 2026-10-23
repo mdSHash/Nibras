@@ -139,7 +139,7 @@ originals); deliveries arrive in `Video/<battle>/`, which git ignores.
 | What changed | Also do |
 | --- | --- |
 | Anything in `content/` | `npm run validate:content`, then check it in the app (`npm run dev`): the marker on the map, the date on the timeline, search, the panel. |
-| Events, people, cities, passages | Rebuild the chat assistant's knowledge base: `npm run build:chat-kb`, commit `public/data/chat-kb.json`. The semantic-search embeddings catch up in the daily index task. |
+| Events, people, cities, passages | Rebuild the chat assistant's knowledge base: `npm run build:chat-kb`, commit `api/_data/chat-kb.json`. Then, on the pull request's branch, run GitHub → Actions → **Chat index** → Run workflow: it embeds the changed units (Gemini free tier, one text each) and commits `api/_data/chat-embeddings-gemini.json`; CI fails until it has (`npm run check:chat-index`). |
 | An event's `title` or `fullDescription` | Its narration no longer matches: recordings are keyed by a hash of the text (`public/audio/`). `node scripts/verify-all-audio.js` lists what is missing. Generating narration uses Gemini quota: ask Mostafa first. |
 | Any shown text or link | `tests/baseline/content.json` (the content snapshot) will differ and `npm run verify` fails. Write the list of intended differences for Mostafa; after his approval, `npx tsx scripts/baseline/content-snapshot.ts --update`. Never update a baseline only to make a test pass. |
 | A schema field (`shared/contentSchema.ts`) | `npm run docs:content` rewrites the field reference below. |

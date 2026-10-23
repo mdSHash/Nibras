@@ -350,6 +350,11 @@ git add content/ api/_data/chat-kb.json public/audio/
 git commit -m "…"
 ```
 
+After pushing, run GitHub → Actions → **Chat index** → Run workflow on that branch so the chat's
+embedding index covers the new text (CI fails until it does; it spends one Gemini free-tier text per
+changed unit). The chat assistant itself (`api/`, its KB and index in `api/_data/`, the per-IP rate
+limit) is a separate Vercel project: `docs/OWNER_DASHBOARD.md`, "Chat".
+
 ---
 
 ## Contributing

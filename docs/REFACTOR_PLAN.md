@@ -496,12 +496,15 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
       Release, Cloudflare R2, or similar) before moving files out of git or rewriting history.
       **No narration file is ever deleted** (Mostafa, 2026-10-15): the 118 files no current text uses
       are archived, and the WAV originals are archived when converting.
-- [ ] Move `chat-kb.json` and the embedding files from `public/data/` to `api/_data/`; build the KB in
+- [x] Move `chat-kb.json` and the embedding files from `public/data/` to `api/_data/`; build the KB in
       CI from `content/`; move the incremental embedding build to a scheduled GitHub Action (secrets
       in repository settings) so the index reaches 100% and semantic search turns on. Fail CI if KB and
       index fall out of sync. **Ask before using quota.**
-- [ ] Per-IP rate limit on `api/chat.ts` using the Upstash Redis the API already supports, with a
+- [x] Per-IP rate limit on `api/chat.ts` using the Upstash Redis the API already supports, with a
       friendly Arabic 429 message.
+      **Done in 3C (2026-10-23)**: KB and int8 index in `api/_data/`, `npm run check:chat-index` in
+      CI, the Chat index workflow (`.github/workflows/chat-index.yml`), index complete (semantic
+      search on), 20 per 10 minutes and 100 per day per IP (fails open without Upstash).
 - [ ] **Battle videos replace the battle engine** (Mostafa, 2026-10-16). Mostafa is producing one
       narrated video per battle (roughly 100–200 MB each at full quality), better than the Pixi.js
       replay. The engine stays as it is, untouched, until every battle has its video, then it is
