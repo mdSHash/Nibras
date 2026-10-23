@@ -7,10 +7,18 @@ import openrouterIndexJson from '../_data/chat-embeddings-openrouter.json' with 
 import { embeddingText, isEmbeddable, textHash, type EmbeddingProvider } from './embeddings.js';
 import type { LoadedKb } from './kb.js';
 
+/**
+ * How a vector is stored (base64): int8 is the vector scaled so its largest
+ * component is ±127 — cosine similarity ignores the scale, so none is kept.
+ */
+export type VectorFormat = 'float32' | 'int8';
+
 export interface EmbeddingIndexFile {
   provider: EmbeddingProvider;
   model: string;
   dims: number;
+  /** float32 when absent (older files). */
+  format?: VectorFormat;
   ids: string[];
   hashes: string[];
   vectors: string[];
@@ -25,10 +33,24 @@ export interface ProviderIndex {
   vectors: Float32Array[];
 }
 
-function decode(base64: string): Float32Array {
+export function encodeVector(values: ArrayLike<number>, format: VectorFormat): string {
+  if (format === 'float32') return Buffer.from(Float32Array.from(values).buffer).toString('base64');
+  let max = 0;
+  for (let i = 0; i < values.length; i++) max = Math.max(max, Math.abs(values[i]));
+  const ints = Int8Array.from(values, v => (max === 0 ? 0 : Math.round((v / max) * 127)));
+  return Buffer.from(ints.buffer).toString('base64');
+}
+
+/** Decodes a stored vector to unit length. */
+export function decodeVector(base64: string, format: VectorFormat = 'float32'): Float32Array {
   const buf = Buffer.from(base64, 'base64');
-  const copy = new Float32Array(buf.byteLength / 4);
-  new Uint8Array(copy.buffer).set(buf);
+  let copy: Float32Array;
+  if (format === 'int8') {
+    copy = Float32Array.from(new Int8Array(buf.buffer, buf.byteOffset, buf.byteLength));
+  } else {
+    copy = new Float32Array(buf.byteLength / 4);
+    new Uint8Array(copy.buffer).set(buf);
+  }
   let norm = 0;
   for (const v of copy) norm += v * v;
   norm = Math.sqrt(norm) || 1;
@@ -51,7 +73,7 @@ export function buildProviderIndex(kb: LoadedKb, file: EmbeddingIndexFile | unde
     const expected = textHash(embeddingText(unit, kb.recordById.get(unit.recordId), provider));
     if (file.hashes[at] !== expected) return;
     unitIndexes.push(unitIndex);
-    vectors.push(decode(file.vectors[at]));
+    vectors.push(decodeVector(file.vectors[at], file.format));
   });
   const coverage = embeddable === 0 ? 0 : unitIndexes.length / embeddable;
   return { provider, coverage, usable: coverage === 1, unitIndexes, vectors };
