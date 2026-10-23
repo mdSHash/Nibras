@@ -2,8 +2,8 @@
  * Loads the precomputed embedding indexes and decides, per provider, whether
  * the index is usable for the current knowledge base.
  */
-import geminiIndexJson from '../../public/data/chat-embeddings-gemini.json' with { type: 'json' };
-import openrouterIndexJson from '../../public/data/chat-embeddings-openrouter.json' with { type: 'json' };
+import geminiIndexJson from '../_data/chat-embeddings-gemini.json' with { type: 'json' };
+import openrouterIndexJson from '../_data/chat-embeddings-openrouter.json' with { type: 'json' };
 import { embeddingText, isEmbeddable, textHash, type EmbeddingProvider } from './embeddings.js';
 import type { LoadedKb } from './kb.js';
 

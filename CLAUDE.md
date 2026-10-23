@@ -66,7 +66,7 @@ only after Mostafa approves the list of intentional changes; never to make a tes
 - `shared/` — code shared by the app, the chat API and scripts (Arabic text in `shared/arabic.ts`,
   chat types, content schemas)
 - `api/` — chat assistant (Vercel functions); `api/_lib/` its modules
-- `public/audio/` — narration WAVs (SHA-256 names); `public/data/` — chat KB and embeddings
+- `public/audio/` — narration WAVs (SHA-256 names); `api/_data/` — chat KB and embedding index (Vercel only, not on GitHub Pages)
 - `scripts/` — content, KB, audio and baseline scripts; `scripts/verify.ts` runs `npm run verify`
 - `tests/` — Vitest (`*.test.ts`); `tests/e2e/` — Playwright (desktop + phone in Chromium; the `@phone`
   subset also in WebKit and Firefox); `tests/baseline/` — frozen baseline

@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import committedKb from '../public/data/chat-kb.json';
+import committedKb from '../api/_data/chat-kb.json';
 import quranPassages from '../src/generated/quranPassages.json';
 import { fullEvents as eventsData } from '../scripts/content/generated';
 import type { ChatKb } from '../shared/chatKb';
@@ -14,7 +14,7 @@ beforeAll(() => {
 }, 60000);
 
 describe('knowledge base build', () => {
-  it('matches the committed public/data/chat-kb.json (run npm run build:chat-kb after data changes)', () => {
+  it('matches the committed api/_data/chat-kb.json (run npm run build:chat-kb after data changes)', () => {
     expect((committedKb as unknown as ChatKb).contentHash).toBe(kb.contentHash);
   });
 

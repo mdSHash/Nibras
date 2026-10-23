@@ -1,5 +1,5 @@
 /**
- * Shape of the chat assistant's knowledge base (public/data/chat-kb.json),
+ * Shape of the chat assistant's knowledge base (api/_data/chat-kb.json),
  * shared by the offline builder (scripts/build-chat-kb.ts) and the runtime
  * (api/_lib/*). Every displayable string in here is either copied verbatim
  * from Nibras's own data or a fixed template label around verbatim values.

@@ -1,6 +1,6 @@
 /**
  * Builds the semantic-search indexes for the chat knowledge base
- * (public/data/chat-kb.json → public/data/chat-embeddings-{provider}.json).
+ * (api/_data/chat-kb.json → api/_data/chat-embeddings-{provider}.json).
  *
  * Vectors are keyed by unit id AND a hash of the exact embedded text, so a
  * re-run only embeds units that are new or whose text changed, and stale
@@ -29,7 +29,7 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 const MAX_MINUTE_RETRIES = 3;
 
 function indexPath(provider: EmbeddingProvider) {
-  return path.join(__dirname, `../public/data/chat-embeddings-${provider}.json`);
+  return path.join(__dirname, `../api/_data/chat-embeddings-${provider}.json`);
 }
 
 function readIndex(provider: EmbeddingProvider): EmbeddingIndexFile {
@@ -108,7 +108,7 @@ export async function buildIndex(provider: EmbeddingProvider, kb: ChatKb, apiKey
 
 const isMain = process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));
 if (isMain) {
-  const kb = JSON.parse(fs.readFileSync(path.join(__dirname, '../public/data/chat-kb.json'), 'utf8')) as ChatKb;
+  const kb = JSON.parse(fs.readFileSync(path.join(__dirname, '../api/_data/chat-kb.json'), 'utf8')) as ChatKb;
   const only = process.argv[2] as EmbeddingProvider | undefined;
   (async () => {
     if (!only || only === 'gemini') await buildIndex('gemini', kb, process.env.GEMINI_API_KEY);

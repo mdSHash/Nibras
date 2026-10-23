@@ -346,7 +346,7 @@ npm run build:chat-kb
 node scripts/verify-all-audio.js
 
 # 3. Commit on a branch and open a pull request; merging to main deploys
-git add content/ public/data/chat-kb.json public/audio/
+git add content/ api/_data/chat-kb.json public/audio/
 git commit -m "…"
 ```
 
