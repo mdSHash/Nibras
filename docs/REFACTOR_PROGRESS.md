@@ -1680,6 +1680,54 @@ text uses (22.5 MB, 7.8 min). Every narrated text has a recording. All WAVs are 
   the narration script only (not CI, not `npm ci`).
 - 2026-10-24: **no Gemini quota in 3D**: `narration generate` is tested with a fake response only.
 
+- 2026-10-24: **VoiceStudio instead of Gemini for new narration** (Mostafa: Gemini and paid services
+  cost too much). VoiceStudio (github.com/debpalash/VoiceStudio, AGPL app, local) is installed on
+  Mostafa's machine: app in `B:\VoiceStudio\app`, runtime in `B:\Voice Studio`; model caches pointed
+  at `B:\VoiceStudio\models` and `B:\VoiceStudio\hf` (user variables `OMNIVOICE_CACHE_DIR`,
+  `HF_HOME`). Voice: **clone Charon** from one original recording, so new and old narration match.
+  The first runtime attempt on `C:` was deleted at Mostafa's request (2026-10-24).
+
+#### Design choices (3D)
+
+- **Manifest** `public/audio/manifest.json`, keyed by event id; each entry `{ file, textHash,
+  durationSec, engine, voice }` (Zod schema in `shared/contentSchema.ts`, helpers in
+  `shared/narration.ts`, kept free of Zod so the app bundle does not carry it). `textHash` is
+  SHA-256 of the whitespace-folded text alone (the old key also had `|Charon|1`; the voice now has
+  its own field, and the old names are kept in the archive list).
+- **File names** `<event slug>.<title|description>.<first 8 hex of textHash>.m4a`: the slug, not the
+  id, because 25 legacy ids hold Arabic or `_`; a new recording gets a new URL.
+- **Where the app looks**: `scripts/build-content.ts` checks the manifest (a broken one fails the
+  build like a content error) and writes the fresh entries to `src/generated/narration.json`
+  (event id → kind → 8-hex hash; 9.3 KB, 3.4 KB gzip); `src/narration.ts` rebuilds the URL. The
+  pre-rendered pages boot the same bundle; `scripts/prerender.ts` is unchanged.
+- **Player**: `src/services/ttsGemini.ts` (580 lines, most of it an unused Gemini voice list) is
+  replaced by `src/services/narrationPlayer.ts`, which keeps the same playback and owner rules
+  (the panel stops the timeline) and plays a URL: no hashing, no HEAD request.
+- **AAC**: ffmpeg's built-in encoder, AAC-LC mono 24 kHz 48 kbps, `+faststart`. 262 files, 53 MB
+  (WAVs in use: 416.7 MB). Plays in Chromium, WebKit and Firefox on Windows (feature tests).
+- **`npm run narration`** (`scripts/narration.ts`, `scripts/narration/`): `check` (no network; the
+  `npm run verify` step "Narration manifest" and the CI job summary), `convert` (once, from the
+  WAVs), `generate` (dry run unless `--yes`; `--engine voicestudio|gemini`, `--max`, `--only`). It
+  fails when VoiceStudio reports a dropped chunk, keeps the engine's WAVs in the git-ignored
+  `audio-src/` and moves a replaced `.m4a` to `audio-src/replaced/`. Tested with fake engines.
+- **Archived** to `scripts/archive/` (not deleted): `server/` (its `.env` stays git-ignored),
+  `cache-event-audio.js`, `cache-event-details-audio.js`, `verify-all-audio.js`, `test-audio-hash.js`,
+  `fix-aqaba-audio-r2.js`, `migrate-to-cloudflare-r2.js`; their npm scripts are removed and
+  `scripts/archive/` leaves ESLint.
+
+#### Intentional behavior changes (3D)
+
+1. Narration files are `.m4a` named by event (were `.wav` named by hash); 87% smaller.
+2. Playing narration makes one request (was a HEAD and a GET).
+3. An event without a fresh recording shows **no play button**, and player mode pauses 5 s on its
+   title (before: the button showed an English error «Audio file not found: …»). Today every event
+   has both recordings, so nothing visible changes.
+
+#### Baselines to approve (not updated yet)
+
+- `tests/baseline/content.json`: the 262 `narration.descriptionFile` / `titleFile` values, `.wav` hash
+  names → `.m4a` event names (`descriptionExists` / `titleExists` stay true). No other difference.
+
 ### 3J — chat answers that teach (planned, 2026-10-23)
 
 Not started. Planned after 3D (Mostafa, 2026-10-23: keep the normal sequence); the plan's Phase 3 item "Chat answers
