@@ -6,11 +6,16 @@
  *              broken manifest (bad format, unknown event, missing file).
  *   convert    Once, in 3D: the Gemini WAVs in public/audio/ (named by the old key) → AAC .m4a
  *              named by event, and public/audio/manifest.json. Skips files already converted.
+ *   generate   Records what is stale or missing (scripts/narration/generate.ts). A dry run that
+ *              lists it unless --yes. Options: --engine voicestudio|gemini (default voicestudio,
+ *              local and free; gemini spends quota: ask Mostafa first), --max N, --only <event id>.
+ *              Settings in .env.local (.env.example).
  *
- * Needs ffmpeg on PATH for convert (not for check).
+ * Needs ffmpeg on PATH for convert and generate (not for check).
  */
 import { appendFileSync, existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { config } from 'dotenv';
 import { ROOT } from './baseline/lib';
 import {
   AUDIO_DIR,
@@ -26,6 +31,9 @@ import {
 import { NARRATION_KINDS, narratedText, narrationFileName } from '../shared/narration';
 import { eventSlug } from '../shared/routes';
 import { checkContent, readContent } from './content/store';
+import { generate as generateNarration, geminiEngine, voiceStudioEngine } from './narration/generate';
+
+config({ path: join(ROOT, '.env.local'), quiet: true });
 
 function loadEvents(): NarratedEvent[] {
   const { raw, issues } = readContent(join(ROOT, 'content'));
@@ -81,10 +89,30 @@ function convert(): number {
   return 0;
 }
 
-const commands: Record<string, () => number> = { check, convert };
+async function generate(): Promise<number> {
+  const arg = (name: string): string | undefined => {
+    const at = process.argv.indexOf(`--${name}`);
+    return at > 0 ? process.argv[at + 1] : undefined;
+  };
+  const engineName = arg('engine') ?? 'voicestudio';
+  if (engineName !== 'voicestudio' && engineName !== 'gemini') throw new Error(`unknown engine ${engineName}`);
+  await generateNarration({
+    events: loadEvents(),
+    audioDir: AUDIO_DIR,
+    sourceDir: join(ROOT, 'audio-src'),
+    engine: () => (engineName === 'gemini' ? geminiEngine(process.env) : voiceStudioEngine(process.env)),
+    encode: encodeAac,
+    yes: process.argv.includes('--yes'),
+    max: arg('max') ? Number(arg('max')) : undefined,
+    only: arg('only'),
+  });
+  return 0;
+}
+
+const commands: Record<string, () => number | Promise<number>> = { check, convert, generate };
 const command = commands[process.argv[2] ?? ''];
 if (!command) {
   console.error(`Usage: npm run narration -- <${Object.keys(commands).join('|')}>`);
   process.exit(2);
 }
-process.exit(command());
+process.exit(await command());

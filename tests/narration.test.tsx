@@ -1,11 +1,13 @@
 // Narration by event id (Phase 3D): the manifest check (scripts/narration/lib.ts),
-// where the app finds a recording (src/narration.ts) and the play-button rule.
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+// where the app finds a recording (src/narration.ts), the play-button rule, and
+// recording with fake engines (scripts/narration/generate.ts).
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { afterEach, describe, expect, it } from 'vitest';
 import { checkNarration, legacyAudioKey, textHash, wavDurationSec, AUDIO_DIR } from '../scripts/narration/lib';
+import { generate, geminiEngine, pcmToWav, voiceStudioEngine } from '../scripts/narration/generate';
 import { narrationFileName, normalizeNarrationText } from '../shared/narration';
 import { fullEvents } from '../scripts/content/generated';
 import { narrationUrl } from '../src/narration';
@@ -121,5 +123,73 @@ describe('play button', () => {
   it('is shown only when the event has narration', () => {
     expect(render(true)).toContain('aria-label="تشغيل السرد"');
     expect(render(false)).not.toContain('تشغيل السرد');
+  });
+});
+
+describe('narration generate (fake engines, no network)', () => {
+  const wav = (seconds: number) => pcmToWav(Buffer.alloc(24000 * 2 * seconds), 24000);
+  const fakeFetch = (response: () => Response) => (async () => response()) as unknown as typeof fetch;
+
+  function run(engine: () => ReturnType<typeof voiceStudioEngine>, yes = true) {
+    const audio = audioDir({ events: {} });
+    const source = join(audio, 'src');
+    mkdirSync(source);
+    const encoded: string[] = [];
+    const lines: string[] = [];
+    const done = generate({
+      events: [event],
+      audioDir: audio,
+      sourceDir: source,
+      engine,
+      encode: (_wav, m4a) => {
+        encoded.push(m4a);
+        writeFileSync(m4a, '');
+      },
+      yes,
+      log: (line) => lines.push(line),
+    });
+    return { audio, encoded, lines, done };
+  }
+
+  it('lists what it would record and records nothing without --yes', async () => {
+    const { done, encoded, lines } = run(() => {
+      throw new Error('engine must not start');
+    }, false);
+    expect((await done).map((t) => `${t.reason} ${t.kind}`)).toEqual(['missing title', 'missing description']);
+    expect(encoded).toEqual([]);
+    expect(lines.at(-1)).toContain('Dry run');
+  });
+
+  it('records with VoiceStudio and writes fresh manifest entries', async () => {
+    const env = { VOICESTUDIO_PROFILE: 'charon-clone' };
+    const { audio, encoded, done } = run(() => voiceStudioEngine(env, fakeFetch(() => new Response(new Uint8Array(wav(2))))));
+    await done;
+    expect(encoded).toHaveLength(2);
+    const report = checkNarration([event], audio);
+    expect(report.issues).toEqual([]);
+    expect(Object.keys(report.fresh[event.id])).toEqual(['title', 'description']);
+    expect(JSON.parse(readFileSync(join(audio, 'manifest.json'), 'utf8')).events[event.id].title).toMatchObject({
+      durationSec: 2,
+      engine: 'voicestudio/default',
+      voice: 'charon-clone',
+    });
+  });
+
+  it('fails when VoiceStudio drops part of the text', async () => {
+    const env = { VOICESTUDIO_PROFILE: 'p' };
+    const engine = voiceStudioEngine(
+      env,
+      fakeFetch(() => new Response(new Uint8Array(wav(1)), { headers: { 'X-OmniVoice-Dropped-Chunks': '1' } })),
+    );
+    await expect(engine.synthesize('نص')).rejects.toThrow('dropped 1 chunk');
+  });
+
+  it('wraps Gemini PCM in a WAV header', async () => {
+    const pcm = Buffer.alloc(24000 * 2);
+    const engine = geminiEngine(
+      { GEMINI_API_KEY: 'k' },
+      fakeFetch(() => Response.json({ candidates: [{ content: { parts: [{ inlineData: { data: pcm.toString('base64') } }] } }] })),
+    );
+    expect(wavDurationSec(await engine.synthesize('نص'))).toBe(1);
   });
 });

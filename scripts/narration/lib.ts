@@ -122,9 +122,9 @@ export function encodeAac(input: string, output: string): void {
   if (run.status !== 0) throw new Error(`ffmpeg failed on ${input}: ${run.stderr}`);
 }
 
-export function writeManifest(manifest: NarrationManifest, events: NarratedEvent[]): void {
+export function writeManifest(manifest: NarrationManifest, events: NarratedEvent[], audioDir = AUDIO_DIR): void {
   // Event order, so the diff of a regeneration shows only what changed.
   const ordered: NarrationManifest = { events: {} };
   for (const event of events) if (manifest.events[event.id]) ordered.events[event.id] = manifest.events[event.id];
-  writeFileSync(join(AUDIO_DIR, 'manifest.json'), `${JSON.stringify(ordered, null, 2)}\n`);
+  writeFileSync(join(audioDir, 'manifest.json'), `${JSON.stringify(ordered, null, 2)}\n`);
 }
