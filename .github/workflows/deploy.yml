@@ -21,7 +21,7 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  # Content build, type check, ESLint, Vitest, baseline comparisons, the test build
+  # Content build, type check, ESLint, Vitest, the chat index check, baseline comparisons, the test build
   # and the bundle budget. Runs in parallel with the browser jobs below.
   static:
     runs-on: ubuntu-latest
@@ -40,7 +40,7 @@ jobs:
         run: npm ci
 
       - name: npm run verify (static steps and build)
-        run: npm run verify -- --only=content,tsc,eslint,vitest,snapshot,behavior,build,bundle
+        run: npm run verify -- --only=content,tsc,eslint,vitest,chatindex,snapshot,behavior,build,bundle
 
   # Playwright against the test build: Chromium features, the WebKit/Firefox phone
   # smoke tests, and the visual snapshots. Each job makes its own test build (about

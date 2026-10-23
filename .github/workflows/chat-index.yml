@@ -1,0 +1,107 @@
+name: Chat index
+
+# Embeds the chat knowledge base units that have no current vector (Gemini free
+# tier) and commits the index, so semantic search stays on. See
+# docs/OWNER_DASHBOARD.md ("Chat index").
+#
+# - Run by hand on a branch (Actions → Chat index → Run workflow → pick the
+#   branch) after a content change: it commits api/_data/chat-embeddings-gemini.json
+#   to that branch, then starts "Check and deploy" on the new commit.
+# - Daily on main: CI already requires a complete index on every pull request,
+#   so this normally finds nothing to embed and spends nothing. If main ever
+#   drifts, it opens a pull request (bot/chat-index-<run>) instead of pushing.
+#
+# Quota: each embedded unit is one of Gemini's 1,000 free texts a day; a run
+# embeds at most max_units (default 200) and prints the count before spending.
+
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+    inputs:
+      max_units:
+        description: 'Embed at most this many units (each counts against the free daily quota)'
+        required: false
+        default: '200'
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+
+concurrency:
+  group: chat-index
+  cancel-in-progress: false
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      MAX_UNITS: ${{ inputs.max_units || '200' }}
+      BRANCH: ${{ github.ref_name }}
+      INDEX: api/_data/chat-embeddings-gemini.json
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Builds src/generated/ and the KB from content/; tests/chatKb.test.ts keeps the
+      # committed KB equal to this build, so only the index is committed below.
+      - name: Build the chat KB
+        run: npm run build:chat-kb
+
+      - name: Embed new or changed units
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run build:embeddings -- gemini --max "$MAX_UNITS"
+
+      - name: Commit the index
+        id: commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- "$INDEX"; then
+            echo "Index unchanged; nothing to commit."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          if [ "$BRANCH" = "main" ]; then
+            target="bot/chat-index-${GITHUB_RUN_ID}"
+            git switch -c "$target"
+          else
+            target="$BRANCH"
+          fi
+          git add -- "$INDEX"
+          git commit -m "chore(chat): update the embedding index"
+          git push origin "HEAD:refs/heads/$target"
+          if [ "$BRANCH" = "main" ]; then
+            gh pr create --base main --head "$target" \
+              --title "chore(chat): update the embedding index" \
+              --body "The daily Chat index run found units on main without a current vector and embedded them. Review the counts in the run log: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          fi
+          echo "target=$target" >> "$GITHUB_OUTPUT"
+
+      # A push made with this workflow's token starts no other workflow; start the checks
+      # on the new commit by hand (a dispatched run never deploys: deploy.yml deploys
+      # only on pushes to main).
+      - name: Start the checks on the new commit
+        if: steps.commit.outputs.target != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET: ${{ steps.commit.outputs.target }}
+        run: gh workflow run deploy.yml --ref "$TARGET"
+
+      # Fails while units are still missing (daily quota reached or --max hit); the
+      # progress above is already committed and the next run continues from it.
+      - name: Check the index covers the KB
+        run: npm run check:chat-index
