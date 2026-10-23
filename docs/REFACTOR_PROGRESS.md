@@ -1686,6 +1686,13 @@ text uses (22.5 MB, 7.8 min). Every narrated text has a recording. All WAVs are 
   at `B:\VoiceStudio\models` and `B:\VoiceStudio\hf` (user variables `OMNIVOICE_CACHE_DIR`,
   `HF_HOME`). Voice: **clone Charon** from one original recording, so new and old narration match.
   The first runtime attempt on `C:` was deleted at Mostafa's request (2026-10-24).
+- 2026-10-24: **wrong tashkeel and pronunciation go to a new Phase 4**, "Content audit, enrichment
+  and narration" (Mostafa: fixing the texts and re-recording is a long task, and it is the same
+  operation as the planned enrichment). Every text is audited against the guide's "Reliable sources"
+  (Sunni, verified only); Mostafa approves each change; then the changed events are re-recorded.
+  It comes right after Phase 3, before the learning paths (now Phase 5) and accounts (now Phase 6),
+  because the quizzes are written from the event text. 3D only builds the tools:
+  `npm run narration -- review` (Whisper, local) and `-- generate`.
 
 #### Design choices (3D)
 
