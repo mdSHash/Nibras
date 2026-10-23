@@ -64,22 +64,6 @@ describe('chat question suggestions', () => {
   });
 });
 
-describe('narration audio', () => {
-  it('has a cached recording for every narrated text (event titles and full descriptions)', async () => {
-    const crypto = await import('crypto');
-    const fs = await import('fs');
-    const path = await import('path');
-    const missing: string[] = [];
-    for (const event of eventsData) {
-      for (const text of [event.title, event.fullDescription]) {
-        const key = crypto.createHash('sha256').update(`${String(text).replace(/\s+/g, ' ').trim()}|Charon|1`).digest('hex');
-        if (!fs.existsSync(path.join(__dirname, '../public/audio', `${key}.wav`))) missing.push(`${event.id}: ${text.slice(0, 40)}`);
-      }
-    }
-    expect(missing).toEqual([]);
-  });
-});
-
 describe('"المعارك فقط" filter (isBattle)', () => {
   it('counts conquests titled فتح as battles without renaming them', async () => {
     const { isBattle } = await import('../src/utils/eventHelpers');

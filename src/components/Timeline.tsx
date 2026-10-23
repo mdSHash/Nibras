@@ -1,7 +1,8 @@
 import { useRef, useEffect, useState, useMemo, useCallback } from 'react';
 import { ChevronUp, ChevronDown } from 'lucide-react';
 import { EventItem } from '../data';
-import { requestSpeak, releaseOwner } from '../services/ttsGemini';
+import { requestSpeak, releaseOwner } from '../services/narrationPlayer';
+import { narrationUrl } from '../narration';
 import { cn } from '../utils/cn';
 import { Z_INDEX } from '../constants';
 import { getEraColor } from '../utils/eraColors';
@@ -251,13 +252,14 @@ export default function Timeline({
           break;
         }
 
-        // Try to narrate; if TTS is disabled OR the request fails (offline,
-        // quota, invalid key), fall back to a timed pacing so autoplay doesn't
+        // Narrate the title; if narration is off, the event has no recording or
+        // playback fails (offline), fall back to a timed pacing so autoplay doesn't
         // race through 20+ events at ~500ms each with no user-visible signal.
         let narrated = false;
-        if (isTTSEnabledRef.current && currentEvent.title) {
+        const titleUrl = narrationUrl(currentEvent, 'title');
+        if (isTTSEnabledRef.current && titleUrl) {
           try {
-            await requestSpeak('timeline', currentEvent.title, { voice: 'Charon', rate: 1 });
+            await requestSpeak('timeline', titleUrl);
             narrated = true;
           } catch (error) {
             console.error('[Timeline] TTS error for', currentEvent.title, ':', error);

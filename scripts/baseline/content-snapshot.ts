@@ -13,22 +13,27 @@ import generatedBattleVideos from '../../src/generated/battleVideos.json';
 import { getTerritoriesForYear } from '../../src/territories';
 import { isBattle, isProphetEra, isRashidunEra } from '../../src/utils/eventHelpers';
 import { KB_ERA_LABEL, kbBattleId } from '../chat-kb/kbNames';
-import { ROOT, hash16, sha256Hex, writeOrCompare } from './lib';
+import generatedNarration from '../../src/generated/narration.json';
+import { narrationFileName, type GeneratedNarration, type NarrationKind } from '../../shared/narration';
+import { eventSlug } from '../../shared/routes';
+import { ROOT, hash16, writeOrCompare } from './lib';
 
 const quran = Object.fromEntries(generatedQuranPassages.map((p) => [p.key, p]));
 
 // Copy of EventPanel.tsx:96 (arNum), used for the dates the panel displays.
 const arNum = (n: number | string): string => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[Number(d)]);
 
-// Copy of ttsGemini.ts:92–109: audio file name = SHA-256("<text>|<voice>|<rate>").
-const audioFile = (text: string, rate: number): string =>
-  `${sha256Hex(`${String(text || '').replace(/\s+/g, ' ').trim()}|Charon|${rate}`)}.wav`;
-const audioExists = (file: string): boolean => existsSync(join(ROOT, 'public', 'audio', file));
-
+// As src/narration.ts finds it: the fresh recording of the event's title or description, or null.
+const narration: GeneratedNarration = generatedNarration;
+const audioFile = (e: { id: string; slug?: string }, kind: NarrationKind): string | null => {
+  const hash = narration[e.id]?.[kind];
+  return hash ? narrationFileName(eventSlug(e), kind, hash) : null;
+};
+const audioExists = (file: string | null): boolean => file !== null && existsSync(join(ROOT, 'public', 'audio', file));
 
 const events = eventsData.map((e) => {
-  const descriptionAudio = audioFile(e.fullDescription, 1);
-  const titleAudio = audioFile(e.title, 1);
+  const descriptionAudio = audioFile(e, 'description');
+  const titleAudio = audioFile(e, 'title');
   return {
     id: e.id,
     title: e.title,

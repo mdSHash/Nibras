@@ -1,6 +1,6 @@
 // Offline stand-ins for everything the app fetches from other hosts, so test
 // runs are deterministic and never touch the network.
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { deflateSync } from 'node:zlib';
 import type { Page, Route } from '@playwright/test';
@@ -49,25 +49,8 @@ function solidPng(r: number, g: number, b: number): Buffer {
 const TILE = solidPng(196, 178, 140);
 
 // ---- Silent narration audio ---------------------------------------------------
-/** A silent mono 16-bit WAV of the given length. */
-function silentWav(seconds: number, sampleRate = 8000): Buffer {
-  const dataSize = Math.round(seconds * sampleRate) * 2;
-  const header = Buffer.alloc(44);
-  header.write('RIFF', 0, 'ascii');
-  header.writeUInt32LE(36 + dataSize, 4);
-  header.write('WAVEfmt ', 8, 'ascii');
-  header.writeUInt32LE(16, 16);
-  header.writeUInt16LE(1, 20); // PCM
-  header.writeUInt16LE(1, 22); // mono
-  header.writeUInt32LE(sampleRate, 24);
-  header.writeUInt32LE(sampleRate * 2, 28);
-  header.writeUInt16LE(2, 32);
-  header.writeUInt16LE(16, 34);
-  header.write('data', 36, 'ascii');
-  header.writeUInt32LE(dataSize, 40);
-  return Buffer.concat([header, Buffer.alloc(dataSize)]);
-}
-export const SILENT_WAV = silentWav(3);
+/** 3 s of silence in the narration's format (AAC-LC mono 24 kHz .m4a, made with ffmpeg). */
+export const SILENT_M4A = readFileSync(join(import.meta.dirname, '..', 'assets', 'silent-3s.m4a'));
 
 // ---- Routes -------------------------------------------------------------------------
 export interface NetworkLog {
@@ -92,12 +75,12 @@ export async function installStubs(page: Page, log: NetworkLog, chat: () => Chat
     const url = new URL(request.url());
     const isLocal = url.hostname === 'localhost' || url.hostname === '127.0.0.1';
 
-    if (isLocal && url.pathname.endsWith('.wav')) {
+    if (isLocal && url.pathname.endsWith('.m4a')) {
       log.audioRequests.push(url.pathname.split('/').pop() ?? '');
       // Only answer for files that exist in the build, like the real server.
       const exists = existsSync(join(import.meta.dirname, '..', '..', '..', 'dist', 'audio', url.pathname.split('/').pop() ?? ''));
       return exists
-        ? route.fulfill({ status: 200, contentType: 'audio/wav', body: SILENT_WAV })
+        ? route.fulfill({ status: 200, contentType: 'audio/mp4', body: SILENT_M4A })
         : route.fulfill({ status: 404, body: '' });
     }
     if (isLocal) return route.continue();

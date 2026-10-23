@@ -24,6 +24,7 @@ export function Hero({
   narration: Narration;
 }) {
   const {
+    hasNarration,
     audioState,
     isAudioLoading,
     progressFraction,
@@ -183,51 +184,54 @@ export function Hero({
             )}
           </div>
 
-          <div className="relative shrink-0" style={{ width: ringSize, height: ringSize }}>
-            {/* Progress ring */}
-            <svg
-              width={ringSize}
-              height={ringSize}
-              className="absolute inset-0 -rotate-90"
-              aria-hidden="true"
-            >
-              <circle
-                cx={ringSize / 2}
-                cy={ringSize / 2}
-                r={ringRadius}
-                fill="none"
-                stroke="rgba(255,255,255,0.28)"
-                strokeWidth={ringStroke}
-              />
-              <circle
-                cx={ringSize / 2}
-                cy={ringSize / 2}
-                r={ringRadius}
-                fill="none"
-                stroke="#ffffff"
-                strokeWidth={ringStroke}
-                strokeLinecap="round"
-                strokeDasharray={ringCircumference}
-                strokeDashoffset={ringDashOffset}
-                style={{ transition: 'stroke-dashoffset 0.3s linear' }}
-              />
-            </svg>
-            <button
-              onClick={handlePlayPause}
-              disabled={isAudioLoading}
-              className="absolute inset-1 rounded-full flex items-center justify-center bg-white text-black shadow-lg hover:scale-105 active:scale-95 transition-transform disabled:opacity-60 disabled:cursor-not-allowed"
-              aria-label={audioState === 'playing' ? 'إيقاف السرد' : 'تشغيل السرد'}
-              title={audioState === 'playing' ? 'إيقاف السرد' : 'تشغيل السرد'}
-            >
-              {isAudioLoading ? (
-                <LoaderCircle size={isMobile ? 22 : 26} className="animate-spin" />
-              ) : audioState === 'playing' ? (
-                <Pause size={isMobile ? 22 : 26} />
-              ) : (
-                <Play size={isMobile ? 22 : 26} className="translate-x-[1px]" />
+          {/* No play button for an event without a fresh recording (src/narration.ts). */}
+          {hasNarration && (
+            <div className="relative shrink-0" style={{ width: ringSize, height: ringSize }}>
+              {/* Progress ring */}
+              <svg
+                width={ringSize}
+                height={ringSize}
+                className="absolute inset-0 -rotate-90"
+                aria-hidden="true"
+              >
+                <circle
+                  cx={ringSize / 2}
+                  cy={ringSize / 2}
+                  r={ringRadius}
+                  fill="none"
+                  stroke="rgba(255,255,255,0.28)"
+                  strokeWidth={ringStroke}
+                />
+                <circle
+                  cx={ringSize / 2}
+                  cy={ringSize / 2}
+                  r={ringRadius}
+                  fill="none"
+                  stroke="#ffffff"
+                  strokeWidth={ringStroke}
+                  strokeLinecap="round"
+                  strokeDasharray={ringCircumference}
+                  strokeDashoffset={ringDashOffset}
+                  style={{ transition: 'stroke-dashoffset 0.3s linear' }}
+                />
+              </svg>
+              <button
+                onClick={handlePlayPause}
+                disabled={isAudioLoading}
+                className="absolute inset-1 rounded-full flex items-center justify-center bg-white text-black shadow-lg hover:scale-105 active:scale-95 transition-transform disabled:opacity-60 disabled:cursor-not-allowed"
+                aria-label={audioState === 'playing' ? 'إيقاف السرد' : 'تشغيل السرد'}
+                title={audioState === 'playing' ? 'إيقاف السرد' : 'تشغيل السرد'}
+              >
+                {isAudioLoading ? (
+                  <LoaderCircle size={isMobile ? 22 : 26} className="animate-spin" />
+                ) : audioState === 'playing' ? (
+                  <Pause size={isMobile ? 22 : 26} />
+                ) : (
+                  <Play size={isMobile ? 22 : 26} className="translate-x-[1px]" />
               )}
             </button>
           </div>
+          )}
         </div>
       </div>
 
