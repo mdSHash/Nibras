@@ -1627,3 +1627,23 @@ Manual checks for Mostafa:
 4. https://mdshash.github.io/Nibras/data/chat-kb.json returns 404 after the deploy.
 5. Optional: rotate the Gemini key, since it was pasted into the chat session (steps in the owner
    dashboard).
+
+**3C merged**: PR #10, merge commit `09dd51f` (2026-10-23).
+
+After the merge (2026-10-23):
+
+- Production `/api/health`: `{"ok":true,"kbUnits":4178,"llmConfigured":true,"sharedStore":true,
+  "release":"09dd51f"}`; Upstash is connected.
+- **Rate limit checked on production**: 21 quick off-topic questions (`not_covered`, no LLM call):
+  1–20 answered 200, the 21st 429 `too_many_requests` with `Retry-After: 433` and the Arabic message.
+  Spent at most 20 Gemini query embeddings (approved: 21).
+- **First Chat index run on `main`** (run 40006657712): `3246/3246 up to date, 0 to embed`, no quota.
+  Two problems found and fixed in PR #11:
+  1. The index was rewritten in a different order (the 42 Badr vectors embedded on 2026-10-23 had been
+     appended at the end; a fresh run writes KB order), so the run saw a change with nothing new.
+     The builder now always writes KB order; two runs give the same bytes, equal to the CI's.
+  2. GitHub does not let Actions open pull requests in this repository (Settings → Actions → General
+     → "Allow GitHub Actions to create and approve pull requests" is off), so the daily run's PR
+     failed. The run now fails with a link to open the PR by hand (GitHub emails the owner); turning
+     the setting on is optional. The stray branch `bot/chat-index-40006657712` (only the reordered
+     file) was deleted.

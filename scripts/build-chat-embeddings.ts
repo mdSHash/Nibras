@@ -70,7 +70,14 @@ export async function buildIndex(provider: EmbeddingProvider, kb: ChatKb, apiKey
     out.hashes.push(w.hash);
     out.vectors.push(have.get(w.id)!.vector);
   }
-  const save = () => fs.writeFileSync(indexPath(provider), JSON.stringify(out));
+  // Written in KB order, so the same vectors always give the same file (new vectors would
+  // otherwise sit at the end until a later run moved them, and that run would commit a change).
+  const order = new Map(wanted.map((w, i) => [w.id, i]));
+  const save = () => {
+    const at = out.ids.map((_, i) => i).sort((a, b) => order.get(out.ids[a])! - order.get(out.ids[b])!);
+    const sorted = { ...out, ids: at.map(i => out.ids[i]), hashes: at.map(i => out.hashes[i]), vectors: at.map(i => out.vectors[i]) };
+    fs.writeFileSync(indexPath(provider), JSON.stringify(sorted));
+  };
   save(); // drops stale vectors even if nothing new can be embedded
 
   console.log(`[${provider}] ${kept.length}/${wanted.length} up to date, ${todo.length} to embed (at most ${maxTexts} this run)`);
