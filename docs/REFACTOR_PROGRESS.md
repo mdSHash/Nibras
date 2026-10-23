@@ -1063,7 +1063,8 @@ failures 5, 6, 7, 10; panel stays when search opens; web manifest; self-hosted f
 through theme tokens (no visual change), **3C** chat (KB and index in `api/_data/`, scheduled index
 build, per-IP rate limit), **3D** audio (manifest by event id, compressed narration, archive),
 **3E** owner visibility (Umami, Search Console, Lighthouse budgets), **3F** territories research and
-3–4 visual directions, **3G** territories build, **3H** battle video pipeline, **3I** close-out.
+3–4 visual directions, **3G** territories build, **3H** battle video pipeline, **3I** close-out. Added 2026-10-23:
+**3J** chat answers that teach (after 3C, before 3D; Mostafa).
 
 ### Decisions by Mostafa
 
@@ -1647,3 +1648,37 @@ After the merge (2026-10-23):
      failed. The run now fails with a link to open the PR by hand (GitHub emails the owner); turning
      the setting on is optional. The stray branch `bot/chat-index-40006657712` (only the reordered
      file) was deleted.
+
+### 3J — chat answers that teach (planned, 2026-10-23)
+
+Not started. Next session, before 3D (Mostafa, 2026-10-23); the plan's Phase 3 item "Chat answers
+that teach (3J)" lists the steps.
+
+#### What Mostafa asked (2026-10-23)
+
+- «ماذا تعرف عن صلح الحديبية» repeats the same point 3–4 times in different words and teaches
+  nothing. A visitor asks because they do not know: the chat is their source of truth, so it must
+  be accurate first, then educational, formatted to fit the information (paragraph, table, steps).
+- Test it as visitors will use it: mostly Egyptian Arabic («إيه هو صلح الحديبية؟»، «احكيلي عن غزوة
+  بدر»، «مين اللي كتب الصلح؟»، «عمر زعل ليه؟»، «كانوا كام واحد؟»), also formal Arabic; and the flow of a
+  conversation: a typed follow-up that is not one of the suggestions, a suggestion pressed, then
+  what happens next. It must feel like a working chat a visitor can use freely and easily.
+- Inspect the logs while testing: whether the Gemini embedding and semantic search ran, what was
+  retrieved and used and what was not, to find the issues and improve the retrieval pipeline.
+
+#### Found in 3C (no quota; keyword search only, the question above)
+
+- Search gave the record in fragments: 16 units for `event:treaty-hudaybiyyah`, but only 4 of the
+  8 description sentences, 3 of the 6 steps and 1 of the 4 roles. Cut: the treaty's terms (ten-year
+  truce, umrah the next year, returning those who come as Muslims), why it was «فتحاً مبيناً», Ali
+  refusing to erase «رسول الله», Umar's objection, Umm Salama's advice. The rest of the evidence was
+  neighbouring events (عمرة القضاء، فتح مكة), two verse-index units and an era list.
+- The steps retell the description (stopping at al-Hudaybiyya, the negotiations, the pledge), so
+  quoting both repeats it.
+- Fact units carry the event name («تاريخ صلح الحديبية: …»، «مكان صلح الحديبية: …»، «عدد الجيش في
+  صلح الحديبية: …»), and each point is «**heading**: quote» with the name as heading.
+- The prompt (`api/_lib/prompt.ts`) allows only verbatim whole phrases, at most 8 points, one list
+  shape for every question.
+
+Open for Mostafa: answers verbatim only (recommended) or verbatim plus short connecting sentences
+written by the model.

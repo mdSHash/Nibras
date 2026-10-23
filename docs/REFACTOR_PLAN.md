@@ -505,6 +505,28 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
       **Done in 3C (2026-10-23)**: KB and int8 index in `api/_data/`, `npm run check:chat-index` in
       CI, the Chat index workflow (`.github/workflows/chat-index.yml`), index complete (semantic
       search on), 20 per 10 minutes and 100 per day per IP (fails open without Upstash).
+- [ ] **Chat answers that teach (3J)** (Mostafa, 2026-10-23). Visitors use the chat as their source
+      of truth for what they do not know: answers must be accurate first, then educational and shaped
+      to the information (paragraph, fact table, numbered steps, list), never one point restated in
+      other words. Steps, in order:
+      - *Pipeline tracing first*: one structured trace per question (intent, entities and their
+        aliases, context carried or dropped, keyword and semantic hits with scores, whether the
+        Gemini query embedding ran and its result, fusion, evidence kept and what was cut by which
+        limit, prompt size, every LLM attempt, validator rejections, final mode, cache, rate limit,
+        time), in the eval report and in dev; production keeps its one-line log (no question text).
+        Every retrieval fix is justified by a trace.
+      - *Retrieval*: an overview question about one clear subject gets the whole record in order;
+        specific questions keep the focused search; overlapping units are de-duplicated and fact
+        labels lose the repeated name.
+      - *Answer shape* by question type, with new paragraph and table blocks in the chat's existing
+        style (screenshots for Mostafa before merging); text stays verbatim from the reviewed
+        content with citations and the validator (whether the model may add connecting sentences is
+        Mostafa's decision).
+      - *Tests the way visitors ask*: mostly Egyptian Arabic, also formal Arabic, misspellings, short,
+        vague and uncovered questions; multi-turn flows (typed follow-ups, pressed suggestion
+        buttons, topic switches, going back); about 60 questions and 15 flows with automatic checks
+        (no quota) and Playwright flows; one real-model before/after run, read by Mostafa, with the
+        quota counted and asked first.
 - [ ] **Battle videos replace the battle engine** (Mostafa, 2026-10-16). Mostafa is producing one
       narrated video per battle (roughly 100–200 MB each at full quality), better than the Pixi.js
       replay. The engine stays as it is, untouched, until every battle has its video, then it is
