@@ -1,45 +1,40 @@
 # `scripts/`
 
-Utility scripts for Nibras. Two groups: **build-time audio caching** (run
-during deploys to prepare TTS files) and **Playwright capture** (run
-against the local dev server to verify visual correctness).
+Utility scripts for Nibras. Two groups here: **narration** (recording and
+checking event audio) and **Playwright capture** (run against the local dev
+server to verify visual correctness). Content, chat and baseline scripts are
+described in the README's command table; retired scripts are in `archive/`.
 
 ---
 
-## Audio caching (build-time)
+## Narration (`npm run narration`)
 
-These pre-generate Gemini TTS audio files keyed by SHA-256 of the spoken
-text. The client (`src/services/ttsGemini.ts`) computes the same hash at
-runtime and fetches `${BASE_URL}audio/<hash>.wav` — so as long as the cache
-is populated, the deployed app makes zero TTS API calls at runtime.
+Each event has two recordings: its title (player mode) and its full
+description (the event panel's play button). They are AAC `.m4a` files in
+`public/audio/`, listed by event id in `public/audio/manifest.json`
+(format: `shared/narration.ts`). The app plays only **fresh** recordings,
+whose text hash matches the event's current text; an edited text hides its
+play button until it is recorded again.
 
-| Script | npm | Caches |
+| Command | Network | What it does |
 |---|---|---|
-| `cache-event-audio.js` | `npm run cache-audio` | Event **titles** |
-| `cache-event-details-audio.js` | `npm run cache-details` | Event **full descriptions** |
+| `npm run narration -- check` | no | Lists stale and missing narration (also in CI, `npm run verify` step "Narration manifest"). Fails only on a broken manifest. |
+| `npm run narration -- generate` | no | Dry run: lists what is stale or missing and how many characters it would record. |
+| `npm run narration -- generate --yes` | engine | Records it, converts it to AAC (48 kbps mono 24 kHz) and updates the manifest. `--max N`, `--only <event id>`. |
+| `npm run narration -- convert` | no | Used once in Phase 3D: the Gemini WAVs → `.m4a`. |
 
-Both write WAVs into `public/audio/`. The TTS backend server
-(`npm run dev:server`) must be running, and `GEMINI_API_KEY` must be set
-in `server/.env`.
+Engines (`--engine`, settings in `.env.local`, see `.env.example`):
 
-**Resume / batch options** (read from env):
+- `voicestudio` (default): VoiceStudio running on this machine
+  (`http://localhost:3900`), with a saved voice profile. Free, no quota.
+- `gemini`: Gemini TTS, voice Charon. Spends free-tier quota: **ask Mostafa
+  first**.
 
-```bash
-START_FROM=37 npm run cache-audio       # skip first 37 events
-BATCH_SIZE=5  npm run cache-details      # 5 at a time
-```
-
-If the Gemini quota errors out, the script reports the last index it
-finished — re-run with `START_FROM=<that+1>`.
-
-### Verifying / fixing the audio cache
-
-| Script | Purpose |
-|---|---|
-| `verify-all-audio.js` | Walk every event and event detail, recompute its SHA-256, check the file exists in `public/audio/`. Reports missing entries. |
-| `test-audio-hash.js` | Sanity-check that the client and server compute the same hash for a known string — useful when bumping the TTS voice / rate constants. |
-| `fix-aqaba-audio-r2.js` | One-shot fix for a specific historical mismatch (Aqaba audio that landed under a stale hash). Kept for reference; only re-run if the same bug recurs. |
-| `migrate-to-cloudflare-r2.js` | One-shot migration to upload local `public/audio/` files into the R2 bucket configured by `R2_*` env vars. The runtime currently serves from `public/audio/` directly, so this is only needed if you switch the deploy target. |
+`generate` and `convert` need ffmpeg on PATH (`winget install Gyan.FFmpeg`).
+The engine's WAVs are kept in the git-ignored `audio-src/`; a replaced
+`.m4a` moves to `audio-src/replaced/` (narration is never deleted). The
+Gemini WAV originals of 2026 are in the GitHub Release
+`narration-archive-2026-10`.
 
 ---
 
