@@ -1497,3 +1497,37 @@ Manual checks for Mostafa (phone and desktop):
 4. Phone: the ⋮ menu, the timeline player, a map popup (tap a cluster) and a toast.
 5. Phone: Badr's video upright and sideways looks and turns as before.
 6. The tour prompt and a tour step on a phone look as before (full width).
+
+**3B merged**: PR #9, merge commit `07923b4` (2026-10-18).
+
+### 3C — chat: KB and index in `api/_data/`, scheduled index build, per-IP rate limit
+
+Started 2026-10-23 on `refactor/phase-3c-chat` from `main` at `07923b4` (PR #9 merged).
+
+**Live site check** (once, 2026-10-23, headless Chromium against https://mdshash.github.io/Nibras/ as
+a returning visitor, desktop 1440×900 and phone 390×844): the app loads, the first event opens
+(«مِيلَادُ النَّبِيِّ ﷺ»), `/event/battle-badr/` opens Badr with «مشاهدة المعركة», the chat window
+opens (no question sent), no console errors. `GET https://nibras-chat-api.vercel.app/api/health` → 200
+`{"ok":true,"kbUnits":4178,"llmConfigured":true,"release":"07923b4"}`. `/Nibras/data/chat-kb.json` is
+still published (200).
+
+**Before any change**, `npm run verify`: content, type check, ESLint, Vitest 261/261, snapshot,
+behavior map, build, bundle budget and the feature tests (83 passed, 1 skipped) passed; the phone
+smoke failed once in WebKit, twice in a row on different tests, both in `openEventBySearch`
+(`tests/e2e/support/app.ts`): on a phone the search drawer may already be closing when the helper
+clicks its close button, and the click waits for a button that is gone. The same test passed 5/5
+alone. Fixed in the helper only (click briefly and retry until the drawer is hidden); then phone
+smoke 44/44 and visual 16/16.
+
+#### Decisions by Mostafa (3C, 2026-10-23)
+
+- **Strict sync**: CI fails on any PR whose KB has embeddable units without a current vector; the
+  "Chat index" workflow, run on that branch, embeds them and commits there. Its daily run on `main`
+  only opens a PR (`bot/chat-index`) if `main` drifts. Nothing is pushed to `main`.
+- **Upstash** is not set up yet: setup steps go in `docs/OWNER_DASHBOARD.md`; Mostafa sets it on Vercel.
+- **The workflow uses the same Gemini key as `.env.local`** (repository secret `GEMINI_API_KEY`).
+- **Quota**: Mostafa left the choice to Claude: the first workflow run, on the 3C branch, embeds
+  Badr's 42 `battle_video` units (42 of the free tier's 1,000 daily texts, 2 requests). Nothing else.
+- What the index held (measured against the current KB, 4,178 units, 3,246 embeddable): `main`'s
+  index 3,079/3,246; `chore/chat-embeddings` (`b285075`) 3,204/3,246, missing only the 42
+  `battle_video` units (its 31 stale vectors are Badr's old replay units).
