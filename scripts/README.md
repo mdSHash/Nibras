@@ -25,10 +25,12 @@ play button until it is recorded again.
 
 Engines (`--engine`, settings in `.env.local`, see `.env.example`):
 
-- `voicestudio` (default): VoiceStudio running on this machine
-  (`http://localhost:3900`), with a saved voice profile. Free, no quota.
-- `gemini`: Gemini TTS, voice Charon. Spends free-tier quota: **ask Mostafa
-  first**.
+- `gemini` (default): Gemini TTS, voice Charon, the voice of every recording.
+  Spends free-tier quota: **ask Mostafa first**, and count the requests (the
+  dry run prints them).
+- `voicestudio`: VoiceStudio running on this machine (`http://localhost:3900`)
+  with a saved voice profile. Free, no quota; tried in Phase 3D and found
+  clearly behind Gemini (kept as a fallback).
 
 `generate` and `convert` need ffmpeg on PATH (`winget install Gyan.FFmpeg`).
 The engine's WAVs are kept in the git-ignored `audio-src/`; a replaced

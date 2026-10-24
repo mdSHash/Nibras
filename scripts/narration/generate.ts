@@ -3,9 +3,11 @@
 // public/audio/manifest.json. A dry run unless `--yes`; it prints what it would record.
 //
 // Engines (one setting, `--engine`; Mostafa, 2026-10-17: free, provider-agnostic):
+//   gemini       Gemini TTS, voice Charon (GEMINI_API_KEY; spends free-tier quota, ask Mostafa
+//                first). The default: Mostafa chose it over the local engines (2026-10-24).
 //   voicestudio  VoiceStudio running locally (no quota): POST <VOICESTUDIO_URL>/generate with a
-//                saved voice profile (VOICESTUDIO_PROFILE). The default.
-//   gemini       Gemini TTS (GEMINI_API_KEY; spends free-tier quota, ask Mostafa first).
+//                saved voice profile (VOICESTUDIO_PROFILE). Tried in 3D (OmniVoice, Lahgtna);
+//                kept as the free fallback.
 import { existsSync, mkdirSync, renameSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { NARRATION_KINDS, narratedText, narrationFileName, type NarrationKind } from '../../shared/narration';

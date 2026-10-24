@@ -1693,6 +1693,17 @@ text uses (22.5 MB, 7.8 min). Every narrated text has a recording. All WAVs are 
   It comes right after Phase 3, before the learning paths (now Phase 5) and accounts (now Phase 6),
   because the quizzes are written from the event text. 3D only builds the tools:
   `npm run narration -- review` (Whisper, local) and `-- generate`.
+- 2026-10-24: **narration stays with Gemini** (Mostafa, after listening). Tried in VoiceStudio with a
+  Charon clone (reference: the original 6.1 s title WAV of «اسْتِشْهَادُ مُحَمَّدِ بْنِ أَبِي بَكْرٍ رضي الله
+  عنه وَسُقُوطُ مِصْرَ»), on «فتح حلب», Hunayn, «عام الجماعة», Ibn ʿAbbas and the Khawarij, Abu Dharr:
+  - **OmniVoice** (default engine): rejected, "100% robot talking", one flat pace.
+  - **Lahgtna** (oddadmix/lahgtna-omnivoice-v2, Arabic fine-tune): "much better" and read every word,
+    but «ﷺ» needed spelling out for the engine, it read «هـ» as a letter, and it ran about 35% slower;
+    "Gemini is way ahead".
+  - Whisper word checks were close (3–9% differences either way, much of it Whisper itself), so the
+    choice is by ear. `npm run narration -- generate` now defaults to `--engine gemini`;
+    `voicestudio` stays as a free fallback, and VoiceStudio's Whisper runs `narration review`.
+  - The `tmp/` folder (scratch from earlier sessions and the trial) was deleted at Mostafa's request.
 
 #### Design choices (3D)
 

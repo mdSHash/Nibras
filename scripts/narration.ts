@@ -7,8 +7,9 @@
  *   convert    Once, in 3D: the Gemini WAVs in public/audio/ (named by the old key) → AAC .m4a
  *              named by event, and public/audio/manifest.json. Skips files already converted.
  *   generate   Records what is stale or missing (scripts/narration/generate.ts). A dry run that
- *              lists it unless --yes. Options: --engine voicestudio|gemini (default voicestudio,
- *              local and free; gemini spends quota: ask Mostafa first), --max N, --only <event id>.
+ *              lists it unless --yes. Options: --engine gemini|voicestudio (default gemini, the
+ *              Charon voice of every recording; spends free-tier quota: ask Mostafa first),
+ *              --max N, --only <event id>.
  *              Settings in .env.local (.env.example).
  *   review     Whisper (VoiceStudio, local) listens to every fresh recording and lists the words
  *              said differently from the text, with the time: audio-src/review/report.json
@@ -98,7 +99,7 @@ async function generate(): Promise<number> {
     const at = process.argv.indexOf(`--${name}`);
     return at > 0 ? process.argv[at + 1] : undefined;
   };
-  const engineName = arg('engine') ?? 'voicestudio';
+  const engineName = arg('engine') ?? 'gemini';
   if (engineName !== 'voicestudio' && engineName !== 'gemini') throw new Error(`unknown engine ${engineName}`);
   await generateNarration({
     events: loadEvents(),

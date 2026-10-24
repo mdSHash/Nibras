@@ -101,8 +101,8 @@ Runtime doesn't require any secrets — the 262 narration recordings (AAC `.m4a`
 
 | Variable | Description |
 |---|---|
-| `VOICESTUDIO_PROFILE` | The VoiceStudio voice profile `npm run narration -- generate` records with (default engine). Optional: `VOICESTUDIO_URL`, `VOICESTUDIO_ENGINE`, `VOICESTUDIO_LANGUAGE`, `VOICESTUDIO_SEED`. |
-| `GEMINI_API_KEY` | Google Gemini API key, for `--engine gemini` (spends quota) and the chat embeddings. Get one at https://aistudio.google.com/apikey. |
+| `GEMINI_API_KEY` | Google Gemini API key: `npm run narration -- generate` records with Gemini TTS, voice Charon (spends free-tier quota; ask first), and the chat embeddings use it. Get one at https://aistudio.google.com/apikey. |
+| `VOICESTUDIO_PROFILE` | Only for `--engine voicestudio` (local fallback). Optional: `VOICESTUDIO_URL`, `VOICESTUDIO_ENGINE`, `VOICESTUDIO_LANGUAGE`, `VOICESTUDIO_SEED`. |
 
 ### Running Locally
 
@@ -264,7 +264,7 @@ Every event's title and full description has a recording in `public/audio/` (AAC
 ```bash
 npm run narration -- check              # what is stale or missing
 npm run narration -- generate           # dry run: what it would record
-npm run narration -- generate --yes     # record it with VoiceStudio (local, free)
+npm run narration -- generate --yes     # record it with Gemini TTS, voice Charon (spends quota: ask first)
 ```
 
 Details, engines and settings: `scripts/README.md`. The 2026 Gemini WAV originals are in the GitHub Release `narration-archive-2026-10`.

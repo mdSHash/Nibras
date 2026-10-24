@@ -628,8 +628,9 @@ corrected, enriched where the sources support it, and narrated again.
 - [ ] **Enrichment**: new facts from the same sources, including the gaps collected so far (the
       Badr video's figures and episodes the event does not state; see 3H, "Open for Mostafa").
 - [ ] **Narration**: `npm run narration -- generate --yes` re-records exactly the events whose text
-      changed (VoiceStudio, the Charon clone; the engine chosen in 3D's listening trial). Mostafa
-      listens before merge. The chat KB is rebuilt (`npm run build:chat-kb`; embeddings: ask first).
+      changed, with Gemini TTS in the Charon voice of every recording (Mostafa, 2026-10-24, after
+      3D's listening trial). Free-tier quota: count the requests (the dry run prints them), ask
+      first, spread over days if needed. Mostafa listens before merge. The chat KB is rebuilt (`npm run build:chat-kb`; embeddings: ask first).
 - [ ] Sessions are split by era (prophetic, Abu Bakr, ʿUmar, ʿUthman, ʿAli), one PR each.
 
 Done when: every text has an approved audit entry, `npm run narration -- check` reports 0 stale and
