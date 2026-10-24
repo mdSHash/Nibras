@@ -487,16 +487,17 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
 
 ## Phase 3 — Assets, chat and polish
 
-- [ ] Audio manifest `audio/manifest.json`: `eventId → { file, textHash, durationSec }`. The app looks
+- [x] Audio manifest `audio/manifest.json`: `eventId → { file, textHash, durationSec }`. The app looks
       up by event ID; CI reports events whose text changed since narration or that have no audio; the
       play button is hidden when an event has no narration.
-- [ ] One generation script that calls Gemini directly, generates only missing or stale entries and
+- [x] One generation script that calls Gemini directly, generates only missing or stale entries and
       writes the manifest. Delete `server/` and the old scripts once replaced. **Ask before spending
       quota.**
-- [ ] Convert narration to Opus (or AAC) at speech bitrate. **Ask Mostafa** where to host it (GitHub
+- [x] Convert narration to Opus (or AAC) at speech bitrate. **Ask Mostafa** where to host it (GitHub
       Release, Cloudflare R2, or similar) before moving files out of git or rewriting history.
       **No narration file is ever deleted** (Mostafa, 2026-10-15): the 118 files no current text uses
-      are archived, and the WAV originals are archived when converting.
+      are archived, and the WAV originals are archived when converting. (3D: AAC 48 kbps in
+      `public/audio/`, WAVs in the Release `narration-archive-2026-10`.)
 - [x] Move `chat-kb.json` and the embedding files from `public/data/` to `api/_data/`; build the KB in
       CI from `content/`; move the incremental embedding build to a scheduled GitHub Action (secrets
       in repository settings) so the index reaches 100% and semantic search turns on. Fail CI if KB and
