@@ -37,7 +37,8 @@ const vectorOf = (unitId: string): QueryEmbedder => {
 
 describe('chat trace', () => {
   it('records intents, entities, hits, evidence kept and cut, and the final mode', async () => {
-    const trace = newTrace('ماذا تعرف عن صلح الحديبية');
+    // A question about part of the record goes to the model (an overview would not).
+    const trace = newTrace('ما شروط صلح الحديبية وأسبابه؟');
     await answerQuestion(trace.question, { noCache: true, trace, embed: vectorOf('event:treaty-hudaybiyyah#summary') });
 
     expect(trace.entities).toContainEqual(expect.objectContaining({ id: 'event:treaty-hudaybiyyah', strong: true, carried: false }));

@@ -12,7 +12,23 @@ export type AnswerBlock =
   /** A stored list shown in full. */
   | { type: 'list'; heading: string; items: string[]; citations: string[] }
   /** A verse shown from the app's verified Qur'an text. */
-  | { type: 'quran'; key: string; text: string; link?: string; citations: string[] };
+  | { type: 'quran'; key: string; text: string; link?: string; citations: string[] }
+  /** Whole stored sentences of one record, in order. `heading` comes from a fixed list (api/_lib/shapes.ts). */
+  | { type: 'paragraph'; heading?: string; text: string; citations: string[]; sources?: string[] }
+  /** Stored facts or roles: a template label and the stored value. */
+  | { type: 'facts'; heading?: string; rows: { label: string; value: string }[]; citations: string[] }
+  /** A record's course of events, in order. */
+  | { type: 'steps'; heading?: string; items: string[]; citations: string[]; sources?: string[] };
+
+/** One block as plain text (the `answer` field, logs and eval reports). */
+export function answerBlockText(b: AnswerBlock): string {
+  const head = 'heading' in b && b.heading ? `${b.heading}:\n` : '';
+  if (b.type === 'quran') return `${b.key}: ${b.text}`;
+  if (b.type === 'list') return `${b.heading}:\n${b.items.map(item => `• ${item}`).join('\n')}`;
+  if (b.type === 'facts') return head + b.rows.map(r => `${r.label}: ${r.value}`).join('\n');
+  if (b.type === 'steps') return head + b.items.map((item, i) => `${i + 1}. ${item}`).join('\n');
+  return head + b.text;
+}
 
 export interface ChatCitation {
   chunkId: string;

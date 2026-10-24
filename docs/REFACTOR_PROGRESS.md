@@ -1955,3 +1955,34 @@ After 4–6: **99 / 92**.
 
 After 7–11: **101 / 97**. Left: an overview misses part of its record (16-unit cap), and no
 suggestion buttons under a list answer or a refusal; both are the answer-shape work.
+
+#### Answer shapes (3J)
+
+- **KB**: fact and role units carry `fact: { label, value }` (620 units: «التاريخ»، «المكان»، «عدد
+  الجيش»، «عدد جيش الخصم»، «المدة»، «الوقت»، «السنة», or the person's name for a role; the value is
+  the stored text the unit's text ends with, checked by a test). Unit text is unchanged, so the
+  index stays 3,246/3,246. Everyday alias added: «الخوارج» → «ظهور الخوارج».
+- **Overview without the model** (`api/_lib/shapes.ts`): a whole-record question about one record
+  the question names («إيه هو / ماذا تعرف عن / ما قصة …», a bare name; for people also «مين + name»)
+  is composed from the record in order: summary; «القصة» (the description) or, for «احكيلي / إيه اللي
+  حصل», «الأحداث بالترتيب» (the steps, numbered); «تفاصيل أخرى» (the other one's sentences that add
+  to it, novelty ≥ 0.5); «أهم المعلومات» (facts); «مواقف الشخصيات» (roles); verses from the verified
+  text; the record's sources under the story. People: profile, «السيرة», the events list. Lists: the
+  stored list. A carried record is never replayed («وبعدين حصل إيه؟» goes to the model). Offline it
+  takes 34 of the 98 model calls; such answers are not cached (no model call to save).
+- **Model answers** are sections: the model returns passage ids grouped by shape (`paragraph`,
+  `steps`, `facts`, `list`) with an optional heading from the fixed list, and writes no text; the
+  server renders each passage whole (lists in full, verses and hadith from stored text, fact and
+  role passages as rows, prose in KB order) and drops a passage already shown or one that only
+  repeats what is shown. The older `points` answer is still accepted (validator unchanged).
+- **New blocks** `paragraph`, `facts`, `steps` (`shared/chatApi.ts`, `answerBlockText`).
+- **Refusals** show three starter questions (`pickExampleQuestions`); **list answers** suggest the
+  people the list names («ما قصة أبي بكر الصديق؟»), each checked to find that person.
+- **Answer cache** keys carry `ANSWER_FORMAT = 2`, so no old-shape answer is served after deploy.
+- Checks added to the visitor set: the shape the server arranges (overview, steps, person) offline,
+  the model's (facts, list, verses) live; no sentence twice in an answer; a refusal has three
+  starter questions. The Hudaybiyya overview leaves out step 4 (the terms) because description
+  sentence 3 already holds them, ten-year truce included; the case no longer expects step 4.
+
+Offline after the shapes: **103 / 102** of 104 (semantic / keyword only). One known gap left:
+«غزوة الخندك» (misspelled name, not linked, so no overview; the model answers from the record).

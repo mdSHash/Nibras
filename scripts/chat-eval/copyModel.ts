@@ -1,21 +1,21 @@
 /**
  * A scripted stand-in for the answer model, for offline runs (Vitest and
- * `npm run eval:chat -- --visitors --offline`): it answers every prompt by
- * copying the first record's passages verbatim (verses and hadith by id
- * only), as a well-behaved model would. No network, no quota.
+ * `npm run eval:chat -- --visitors --offline`): it answers every prompt with
+ * one section holding the first record's first passages, as a plain model
+ * would. No network, no quota.
  */
 
 const PASSAGE = /^(s\d+)( \[[^\]]*\])?: (.*)$/;
 
-export function copyModelAnswer(system: string, maxPoints = 6): string {
+export function copyModelAnswer(system: string, maxPassages = 6): string {
   const firstBlock = (system.split('المقاطع:\n')[1] ?? '').split('\n\n')[0];
   const points = firstBlock
     .split('\n')
     .map(line => PASSAGE.exec(line))
     .filter((m): m is RegExpExecArray => m !== null)
-    .slice(0, maxPoints)
-    .map(([, ref, tag, text]) => ({ text: tag ? '' : text, refs: [ref] }));
-  return JSON.stringify({ answerable: true, points });
+    .slice(0, maxPassages)
+    .map(([, ref]) => ref);
+  return JSON.stringify({ answerable: true, sections: [{ shape: 'paragraph', heading: '', refs: points }] });
 }
 
 /** Replaces fetch: chat completions get the copy model, anything else fails. Returns the undo. */

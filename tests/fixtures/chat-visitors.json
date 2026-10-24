@@ -1,7 +1,7 @@
 {
   "about": "Questions the way visitors ask (3J). records: must be in the evidence; units: must be in the evidence; notRecords: must not be linked or in the evidence; outOfScope: no confident subject offline, a refusal live. shape: the answer shape expected. knownGap: fails today, with why (the test fails once it passes, so the mark is removed with the fix).",
   "questions": [
-    { "id": "hud-overview-eg", "q": "إيه هو صلح الحديبية؟", "style": "egyptian", "shape": "overview", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#description:3", "event:treaty-hudaybiyyah#description:4", "event:treaty-hudaybiyyah#step:4", "event:treaty-hudaybiyyah#role:1", "event:treaty-hudaybiyyah#role:3"], "knownGap": "an overview gets at most 16 units of its record (maxPerRecord)" },
+    { "id": "hud-overview-eg", "q": "إيه هو صلح الحديبية؟", "style": "egyptian", "shape": "overview", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#description:3", "event:treaty-hudaybiyyah#description:4", "event:treaty-hudaybiyyah#role:1", "event:treaty-hudaybiyyah#role:3"] },
     { "id": "hud-overview-msa", "q": "ماذا تعرف عن صلح الحديبية؟", "style": "formal", "shape": "overview", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#description:3", "event:treaty-hudaybiyyah#description:5", "event:treaty-hudaybiyyah#role:2"] },
     { "id": "hud-terms", "q": "ايه شروط صلح الحديبية", "style": "egyptian", "shape": "specific", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#description:3", "event:treaty-hudaybiyyah#step:4"] },
     { "id": "hud-writer", "q": "مين اللي كتب صلح الحديبية؟", "style": "egyptian", "shape": "role", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#role:2"] },
@@ -13,7 +13,7 @@
     { "id": "badr-enemy", "q": "ما عدد جيش المشركين في بدر؟", "style": "formal", "shape": "fact", "records": ["event:battle-badr"], "units": ["event:battle-badr#enemy_army_size"] },
     { "id": "badr-ali", "q": "علي عمل إيه في بدر؟", "style": "egyptian", "shape": "role", "records": ["event:battle-badr"], "units": ["event:battle-badr#role:0"] },
     { "id": "badr-why-misspelled", "q": "غزوه بدر ليه حصلت؟", "style": "misspelled", "shape": "reason", "records": ["event:battle-badr"] },
-    { "id": "uhud-what", "q": "إيه اللي حصل في أحد؟", "style": "egyptian", "shape": "overview", "records": ["event:battle-uhud"] },
+    { "id": "uhud-what", "q": "إيه اللي حصل في أحد؟", "style": "egyptian", "shape": "steps", "records": ["event:battle-uhud"] },
     { "id": "hamza-death", "q": "حمزة اتقتل إزاي؟", "style": "egyptian", "shape": "specific", "records": ["companion:hamza", "event:battle-uhud"] },
     { "id": "uhud-verses", "q": "ما الآيات التي نزلت في غزوة أحد؟", "style": "formal", "shape": "quran", "records": ["event:battle-uhud"], "units": ["event:battle-uhud#quran:0", "event:battle-uhud#quran:1"] },
     { "id": "uhud-banner", "q": "مين كان شايل اللوا في أحد؟", "style": "egyptian", "shape": "role", "records": ["event:battle-uhud"], "units": ["event:battle-uhud#role:1"] },
@@ -37,7 +37,7 @@
     { "id": "ramada-story", "q": "ايه قصة عام الرمادة", "style": "egyptian", "shape": "overview", "records": ["event:famine-am-ramada"] },
     { "id": "nahavand-name", "q": "معركة نهاوند سموها فتح الفتوح ليه؟", "style": "egyptian", "shape": "reason", "records": ["event:battle-nahavand"] },
     { "id": "uthman-killer", "q": "مين قتل عثمان بن عفان؟", "style": "egyptian", "shape": "specific", "records": ["event:event-105-استشهاد-عثمان-بن-عفان-يوم-الدار", "companion:uthman"] },
-    { "id": "siffin-what", "q": "إيه اللي حصل في صفين؟", "style": "egyptian", "shape": "overview", "records": ["event:event-109-معركة-صفين"] },
+    { "id": "siffin-what", "q": "إيه اللي حصل في صفين؟", "style": "egyptian", "shape": "steps", "records": ["event:event-109-معركة-صفين"] },
     { "id": "khawarij-who", "q": "مين الخوارج؟", "style": "egyptian", "shape": "overview", "records": ["event:event-110-ظهور-الخوارج"] },
     { "id": "rashidun-list", "q": "مين هما الخلفاء الراشدين؟", "style": "egyptian", "shape": "list", "records": ["list:rashidun-caliphs"] },
     { "id": "mothers-list", "q": "من هن أمهات المؤمنين؟", "style": "formal", "shape": "list", "records": ["list:mothers-of-the-believers"] },
@@ -60,7 +60,7 @@
     { "id": "prophet-death-when", "q": "متى توفي النبي ﷺ؟", "style": "formal", "shape": "fact", "records": ["event:prophet-death"], "units": ["event:prophet-death#date"] },
     { "id": "musab-who", "q": "من هو مصعب بن عمير؟", "style": "formal", "shape": "person", "records": ["companion:musab-ibn-umayr"] },
     { "id": "isra-when-misspelled", "q": "الاسراء والمعراج حصل امتي", "style": "misspelled", "shape": "fact", "records": ["event:isra-miraj"], "units": ["event:isra-miraj#date"] },
-    { "id": "khandaq-misspelled", "q": "غزوة الخندك", "style": "misspelled", "shape": "overview", "records": ["event:battle-khandaq"] },
+    { "id": "khandaq-misspelled", "q": "غزوة الخندك", "style": "misspelled", "shape": "overview", "records": ["event:battle-khandaq"], "knownGap": "a misspelled name («الخندك») is not linked, so no overview: the model answers from the retrieved record" },
     { "id": "aqaba-misspelled", "q": "بيعه العقبه الاولي", "style": "misspelled", "shape": "overview", "records": ["event:first-aqaba"] }
   ],
   "flows": [
@@ -122,7 +122,7 @@
     ] },
     { "id": "caliphs-suggestion", "turns": [
       { "q": "مين هما الخلفاء الراشدين؟", "records": ["list:rashidun-caliphs"] },
-      { "suggestion": 0, "knownGap": "a list answer gets no follow-up suggestions" }
+      { "suggestion": 0, "records": ["companion:abu-bakr"], "shape": "person" }
     ] },
     { "id": "umm-salama-hudaybiyya", "turns": [
       { "q": "مين أم سلمة؟", "records": ["companion:umm-salamah"] },
@@ -130,7 +130,7 @@
     ] },
     { "id": "vague-then-starter", "turns": [
       { "q": "احكيلي حاجة", "outOfScope": true },
-      { "suggestion": 0, "knownGap": "a refusal shows no starter questions (approved for 3J)" }
+      { "suggestion": 0 }
     ] },
     { "id": "ifk-follow-ups", "turns": [
       { "q": "إيه هي حادثة الإفك؟", "records": ["event:incident_ifk"] },

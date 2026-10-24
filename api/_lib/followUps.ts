@@ -8,6 +8,7 @@ import type { KbRecord } from '../../shared/chatKb.js';
 import { normalizeForMatch, stripVowelMarks } from '../../shared/arabic.js';
 import { genitiveName } from '../../shared/arabicGrammar.js';
 import type { LoadedKb } from './kb.js';
+import { linkEntities } from './entityLinker.js';
 import { search, type Intent } from './search.js';
 
 const MAX_FOLLOW_UPS = 3;
@@ -34,7 +35,8 @@ function hasUnit(kb: LoadedKb, recordId: string, slugPrefix: string): boolean {
   return (kb.unitsByRecord.get(recordId) ?? []).some(u => u.id.startsWith(`${recordId}#${slugPrefix}`));
 }
 
-function candidatesFor(kb: LoadedKb, record: KbRecord, intents: Set<Intent>): string[] {
+/** Suggested questions about the record; a list's also about the people it names (`targets`: question → the record it must find). */
+function candidatesFor(kb: LoadedKb, record: KbRecord, intents: Set<Intent>, targets: Map<string, string>): string[] {
   const out: string[] = [];
   const t = plainName(record.title);
   if (record.type === 'event') {
@@ -63,6 +65,17 @@ function candidatesFor(kb: LoadedKb, record: KbRecord, intents: Set<Intent>): st
       if (units.some(u => u.id.endsWith('#events'))) out.push(`ما الأحداث الأخرى في ${label}؟`);
     } else if (units.some(u => u.id.endsWith('#ghazawat'))) out.push(`ما غزوات النبي ﷺ في ${label}؟`);
     else if (units.some(u => u.id.endsWith('#battles'))) out.push(`ما المعارك والفتوح في ${label}؟`);
+  } else if (record.type === 'list') {
+    // «مين هما الخلفاء الراشدين؟» → the people the list names, in its order.
+    for (const unit of kb.unitsByRecord.get(record.id) ?? []) {
+      for (const item of unit.list?.items ?? []) {
+        const person = linkEntities(item, kb).find(e => e.strong && kb.recordById.get(e.recordId)?.type === 'companion');
+        if (!person) continue;
+        const question = `ما قصة ${genitiveName(plainName(item))}؟`;
+        targets.set(question, person.recordId);
+        out.push(question);
+      }
+    }
   } else if (record.type === 'quran') {
     if (hasUnit(kb, record.id, 'events')) out.push(`ما الأحداث المرتبطة بـ«${record.title}»؟`);
   } else if (record.type === 'city') {
@@ -87,12 +100,14 @@ export async function buildFollowUps(kb: LoadedKb, focusRecordIds: string[], int
     const record = factRecord(kb, id);
     if (!record || seen.has(record.id)) continue;
     seen.add(record.id);
-    for (const candidate of candidatesFor(kb, record, intentSet)) {
+    const targets = new Map<string, string>();
+    for (const candidate of candidatesFor(kb, record, intentSet, targets)) {
       if (results.length >= MAX_FOLLOW_UPS) return results;
       if (normalizeForMatch(candidate) === asked || results.includes(candidate)) continue;
       // Only offer questions this assistant can actually answer about that record.
       const check = await search(candidate, undefined, kb);
-      if (check.confidence === 'high' && check.evidence.some(e => e.record.id === record.id)) results.push(candidate);
+      const target = targets.get(candidate) ?? record.id;
+      if (check.confidence === 'high' && check.evidence.some(e => e.record.id === target)) results.push(candidate);
     }
   }
   return results;

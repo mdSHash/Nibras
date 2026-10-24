@@ -14,18 +14,14 @@ import path from 'path';
 import { answerQuestion } from '../../api/chat';
 import { formatTrace, newTrace } from '../../api/_lib/trace';
 import { stripVowelMarks } from '../../shared/arabic';
-import type { AnswerBlock } from '../../shared/chatApi';
+import { answerBlockText, type AnswerBlock } from '../../shared/chatApi';
 import { installCopyModel } from './copyModel';
 import { checkTurn, fixtureEmbedder, loadVisitors, runFlow, type AnswerFn, type TurnResult } from './visitors';
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 function blockLines(blocks: AnswerBlock[]): string[] {
-  return blocks.map(b => {
-    if (b.type === 'quran') return `> [quran] ${b.key}`;
-    if (b.type === 'list') return `> [list] ${stripVowelMarks(b.heading)}: ${b.items.map(stripVowelMarks).join('، ')}`;
-    return `> [${b.type}] ${stripVowelMarks(b.text)}`;
-  });
+  return blocks.map(b => `> [${b.type}] ${stripVowelMarks(answerBlockText(b)).replace(/\n/g, ' / ')}`);
 }
 
 export async function runVisitorsEval(args: string[]) {

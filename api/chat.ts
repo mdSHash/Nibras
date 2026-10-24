@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import type { AnswerBlock, AnswerMode, ChatErrorBody, ChatSuccessBody } from '../shared/chatApi.js';
+import { answerBlockText, type AnswerBlock, type AnswerMode, type ChatErrorBody, type ChatSuccessBody } from '../shared/chatApi.js';
 import { composeAnswer, extractiveAnswer, type ComposedAnswer } from './_lib/answer.js';
 import { answerCacheKey, cacheAnswer, getCachedAnswer } from './_lib/answerCache.js';
 import { sanitizeContext, type ChatContext } from './_lib/context.js';
@@ -19,6 +19,8 @@ import {
 import { reportServerError } from './_lib/monitoring.js';
 import { checkRateLimit, clientIp } from './_lib/rateLimit.js';
 import { buildPrompt, parseModelAnswer } from './_lib/prompt.js';
+import { composeOverview, composeSections, overviewTarget } from './_lib/shapes.js';
+import { pickExampleQuestions } from '../src/utils/chatExamples.js';
 import { defaultEmbedder, search, type QueryEmbedder, type SearchOutcome } from './_lib/search.js';
 import { formatTrace, newTrace, type ChatTrace } from './_lib/trace.js';
 
@@ -45,13 +47,7 @@ export interface AnswerDeps {
 const traceEnabled = () => process.env.CHAT_TRACE === '1' && !process.env.VERCEL;
 
 function plainAnswer(blocks: AnswerBlock[]): string {
-  return blocks
-    .map(b => {
-      if (b.type === 'quran') return `${b.key}: ${b.text}`;
-      if (b.type === 'list') return `${b.heading}:\n${b.items.map(item => `• ${item}`).join('\n')}`;
-      return b.text;
-    })
-    .join('\n\n');
+  return blocks.map(answerBlockText).join('\n\n');
 }
 
 /** Records the next question may refer back to: what this one named or carried, else what it cited. */
@@ -89,7 +85,8 @@ const notCovered = (): ChatSuccessBody => ({
   grounded: false,
   mode: 'not_covered',
   context: { recordIds: [], carried: [] },
-  followUps: [],
+  // Starter questions (approved for 3J), so a refused or vague question still leads somewhere.
+  followUps: pickExampleQuestions(),
 });
 
 /** The whole question → answer pipeline, independent of the HTTP layer. */
@@ -121,6 +118,20 @@ export async function answerQuestion(question: string, deps: AnswerDeps = {}): P
   };
   if (found.confidence === 'none' || found.evidence.length === 0) {
     return finish({ status: 200, body: notCovered(), log: { ...log, mode: 'not_covered', ms: now() - started } });
+  }
+
+  // An overview of one clear record: the whole record in order, without the model.
+  const overview = overviewTarget(question, found, kb);
+  if (overview) {
+    const composed = composeOverview(kb, overview.recordId, overview.style);
+    if (composed.blocks.length > 0) {
+      if (trace) {
+        trace.shape = overview.style;
+        trace.answerUnits = composed.shown;
+      }
+      const body = await success(found, composed, 'composed', question);
+      return finish({ status: 200, body, log: { ...log, mode: 'composed', shape: overview.style, ms: now() - started } });
+    }
   }
 
   const cacheKey = answerCacheKey(kb.kb.contentHash, question, carried);
@@ -157,16 +168,24 @@ export async function answerQuestion(question: string, deps: AnswerDeps = {}): P
   }
 
   const model = llm.ok && llm.text ? parseModelAnswer(llm.text) : null;
-  if (trace && model) trace.model = { answerable: model.answerable, points: model.points.length };
+  if (trace && model) trace.model = { answerable: model.answerable, items: model.sections?.length || model.points.length };
   if (model && !model.answerable) {
     const body = notCovered();
     if (!deps.noCache) await cacheAnswer(cacheKey, body);
     return finish({ status: 200, body, log: { ...log, mode: 'not_covered', modelSaid: 'unanswerable', ms: now() - started } });
   }
   if (model) {
-    const composed = composeAnswer(kb, model, unitByRef, found.entities.filter(e => e.strong).map(e => e.recordId));
+    const shape = model.sections?.length ? 'sections' : 'points';
+    const composed = model.sections?.length
+      ? composeSections(kb, model.sections, unitByRef)
+      : composeAnswer(kb, model, unitByRef, found.entities.filter(e => e.strong).map(e => e.recordId));
+    log.shape = shape;
+    if (trace) trace.shape = shape;
     log.rejected = composed.rejected;
-    if (trace) trace.rejected = composed.rejected;
+    if (trace) {
+      trace.rejected = composed.rejected;
+      trace.answerUnits = composed.shown;
+    }
     if (composed.blocks.some(b => b.type !== 'text' || b.citations.length > 0)) {
       const body = await success(found, composed, 'composed', question);
       if (!deps.noCache) await cacheAnswer(cacheKey, body);
@@ -178,6 +197,7 @@ export async function answerQuestion(question: string, deps: AnswerDeps = {}): P
   if (found.confidence === 'high') {
     const extractive = extractiveAnswer(kb, found.evidence, found.intents);
     if (extractive.blocks.length > 0) {
+      if (trace) trace.answerUnits = extractive.shown;
       const body = await success(found, extractive, 'extractive', question, EXTRACTIVE_INTRO);
       return finish({ status: 200, body, log: { ...log, mode: 'extractive', ms: now() - started } });
     }

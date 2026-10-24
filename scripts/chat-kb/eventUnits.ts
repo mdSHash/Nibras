@@ -18,6 +18,7 @@ const TITLE_HEADS = ['غزوة', 'معركة', 'موقعة', 'سرية', 'فتح
 const EVERYDAY_ALIASES: Record<string, string[]> = {
   'hijra-medina': ['الهجرة', 'هجرة النبي', 'هجرة الرسول', 'الهجرة إلى المدينة'],
   'migration-abyssinia': ['الهجرة إلى الحبشة', 'هجرة الحبشة'],
+  'event-110-ظهور-الخوارج': ['الخوارج'],
 };
 
 /** Linking phrases for an event title: full title, title without its epithet or head word, parenthetical names. */
@@ -149,28 +150,28 @@ export function addEventUnits(
     const dateLabel = event.date.labelAr;
     if (/عمره/.test(aliasForm(dateLabel))) {
       // An age rather than a date ("في الرابعة من عمره ﷺ تقريبًا").
-      ctx.add({ recordId, slug: 'date', kind: 'event_date', text: `وقت ${plainTitle}: ${dateLabel} (سنة ${year} م)`, refs });
+      ctx.add({ recordId, slug: 'date', kind: 'event_date', text: `وقت ${plainTitle}: ${dateLabel} (سنة ${year} م)`, fact: { label: 'الوقت', value: `${dateLabel} (سنة ${year} م)` }, refs });
     } else if (isUsableHijriDate(dateLabel)) {
-      ctx.add({ recordId, slug: 'date', kind: 'event_date', text: `تاريخ ${plainTitle}: ${dateLabel} (سنة ${year} م)`, refs });
+      ctx.add({ recordId, slug: 'date', kind: 'event_date', text: `تاريخ ${plainTitle}: ${dateLabel} (سنة ${year} م)`, fact: { label: 'التاريخ', value: `${dateLabel} (سنة ${year} م)` }, refs });
     } else {
       ctx.issue('warning', recordId, `date label is not a date ("${dateLabel}") — chat states only the Gregorian year`);
-      ctx.add({ recordId, slug: 'date', kind: 'event_date', text: `سنة ${plainTitle}: ${year} م`, refs });
+      ctx.add({ recordId, slug: 'date', kind: 'event_date', text: `سنة ${plainTitle}: ${year} م`, fact: { label: 'السنة', value: `${year} م` }, refs });
     }
-    ctx.add({ recordId, slug: 'location', kind: 'event_location', text: `مكان ${plainTitle}: ${event.location.nameAr}`, refs });
+    ctx.add({ recordId, slug: 'location', kind: 'event_location', text: `مكان ${plainTitle}: ${event.location.nameAr}`, fact: { label: 'المكان', value: event.location.nameAr }, refs });
 
     // Unit slugs keep the pre-Phase 1 field names so unit ids stay stable.
-    for (const [field, value, label] of [
-      ['army_size', event.forces?.army?.textAr, 'عدد الجيش في'],
-      ['enemy_army_size', event.forces?.enemyArmy?.textAr, 'عدد جيش الخصم في'],
+    for (const [field, value, label, factLabel] of [
+      ['army_size', event.forces?.army?.textAr, 'عدد الجيش في', 'عدد الجيش'],
+      ['enemy_army_size', event.forces?.enemyArmy?.textAr, 'عدد جيش الخصم في', 'عدد جيش الخصم'],
     ] as const) {
       if (!value) continue;
       if (/^[\d٠-٩,\s]+$/.test(aliasForm(value))) {
         ctx.issue('warning', recordId, `${field} is a bare number without a unit ("${value}")`);
       }
-      ctx.add({ recordId, slug: field, kind: 'event_army', text: `${label} ${plainTitle}: ${value}`, refs });
+      ctx.add({ recordId, slug: field, kind: 'event_army', text: `${label} ${plainTitle}: ${value}`, fact: { label: factLabel, value }, refs });
     }
     if (event.durationAr) {
-      ctx.add({ recordId, slug: 'duration', kind: 'event_duration', text: `مدة ${plainTitle}: ${event.durationAr}`, refs });
+      ctx.add({ recordId, slug: 'duration', kind: 'event_duration', text: `مدة ${plainTitle}: ${event.durationAr}`, fact: { label: 'المدة', value: event.durationAr }, refs });
     }
 
     event.roles.forEach((role, i) => {
@@ -181,6 +182,7 @@ export function addEventUnits(
         slug: `role:${i}`,
         kind: 'event_role',
         text: `${bareText(role.labelAr)} في ${plainTitle}: ${role.roleAr}`,
+        fact: { label: bareText(role.labelAr), value: role.roleAr },
         refs: { eventId: event.id, companionId },
         alsoAbout: [`companion:${companionId}`],
       });

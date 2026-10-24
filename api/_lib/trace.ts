@@ -35,9 +35,14 @@ export interface ChatTrace {
   };
   prompt?: { chars: number; passages: number };
   llm?: { attempts: string[]; provider: string | null; ms: number };
-  model?: { answerable: boolean; points: number };
+  /** `items`: the model's sections (or, in the older format, its points). */
+  model?: { answerable: boolean; items: number };
   rejected: { text: string; reason: string }[];
+  /** Units the answer shows (an overview shows more than the evidence held). */
+  answerUnits: string[];
   mode?: string;
+  /** How the answer was arranged: an overview style, the model's sections, or its older points. */
+  shape?: string;
   cache?: 'hit' | 'miss' | 'off';
   rateLimit?: string;
   ms: { search?: number; llm?: number; total?: number };
@@ -55,6 +60,7 @@ export function newTrace(question: string): ChatTrace {
     confidence: 'none',
     evidence: { kept: [], cut: [], chars: 0 },
     rejected: [],
+    answerUnits: [],
     ms: {},
   };
 }
@@ -69,7 +75,7 @@ export const hit = (unit: string, score: number): TraceHit => ({ unit, score: ro
 /** A short, readable form for a terminal (dev server, eval script). */
 export function formatTrace(t: ChatTrace): string {
   const lines = [`── ${t.question}`];
-  lines.push(`intents: ${t.intents.join(', ') || '-'} | confidence: ${t.confidence} | mode: ${t.mode ?? '-'} | cache: ${t.cache ?? '-'}`);
+  lines.push(`intents: ${t.intents.join(', ') || '-'}${t.context.intentsFromPrevious ? ' (from the previous question)' : ''} | confidence: ${t.confidence} | mode: ${t.mode ?? '-'} | shape: ${t.shape ?? '-'} | cache: ${t.cache ?? '-'}`);
   lines.push(`entities: ${t.entities.map(e => `${e.id}${e.strong ? '' : '?'}${e.carried ? ' (carried)' : ` «${e.phrase}»`}`).join(', ') || '-'}`);
   if (t.context.sent.length) lines.push(`context sent: ${t.context.sent.join(', ')} → carried: ${t.context.carried.join(', ') || 'none'}`);
   lines.push(`keyword: ${t.keyword.slice(0, 6).map(h => `${h.unit} ${h.score}`).join(' | ') || '-'}`);

@@ -7,7 +7,8 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import type { ChatErrorBody, ChatRequestContext, ChatSuccessBody } from '../../shared/chatApi';
+import { answerBlockText, type ChatErrorBody, type ChatRequestContext, type ChatSuccessBody } from '../../shared/chatApi';
+import { normalizeForMatch } from '../../shared/arabic';
 import type { ChatTrace } from '../../api/_lib/trace';
 import type { QueryEmbedder } from '../../api/_lib/search';
 import { decodeVector } from '../../api/_lib/semanticIndex';
@@ -86,16 +87,47 @@ export function checkTurn(checks: TurnChecks, status: number, body: ChatSuccessB
     if (!live && mode !== 'not_covered' && (linked.size > 0 || trace.confidence === 'high')) {
       problems.push(`out of scope but confident (${trace.confidence}; linked ${[...linked].join(', ') || 'none'})`);
     }
+    if (mode === 'not_covered' && isSuccess(body) && body.followUps.length < 3) problems.push('a refusal without three starter questions');
     return problems;
   }
   if (mode === 'not_covered') problems.push('refused an in-scope question');
   else if (!isSuccess(body)) problems.push(`status ${status}`);
+  // An overview shows more of its record than the evidence held (it reads the record itself).
+  const shown = new Set([...keptUnits, ...trace.answerUnits]);
   if (checks.records && !checks.records.some(r => keptRecords.has(r))) problems.push(`missing record ${checks.records.join(' | ')}`);
-  for (const unit of checks.units ?? []) if (!keptUnits.has(unit)) problems.push(`missing unit ${unit}`);
+  for (const unit of checks.units ?? []) if (!shown.has(unit)) problems.push(`missing unit ${unit}`);
   for (const record of checks.notRecords ?? []) {
     if (linked.has(record) || keptRecords.has(record)) problems.push(`off-topic record ${record}`);
   }
+  if (isSuccess(body)) problems.push(...shapeProblems(checks.shape, body, live), ...repeated(body));
   return problems;
+}
+
+/**
+ * The shapes the server arranges itself are checked offline; the ones the
+ * model picks (facts, lists, verses) only live, since the copy model always
+ * returns one paragraph.
+ */
+function shapeProblems(shape: string | undefined, body: ChatSuccessBody, live: boolean): string[] {
+  const has = (type: string, heading?: string) => body.blocks.some(b => b.type === type && (!heading || ('heading' in b && b.heading === heading)));
+  const wanted: Record<string, [string, string?, boolean?]> = {
+    overview: ['paragraph', 'القصة'],
+    steps: ['steps', 'الأحداث بالترتيب'],
+    person: ['paragraph', 'السيرة'],
+    fact: ['facts', undefined, true],
+    list: ['list', undefined, true],
+    quran: ['quran', undefined, true],
+  };
+  const want = shape ? wanted[shape] : undefined;
+  if (!want || (want[2] && !live)) return [];
+  return has(want[0], want[1]) ? [] : [`expected a ${want[0]} block${want[1] ? ` «${want[1]}»` : ''} (${shape}), got ${body.blocks.map(b => b.type).join(', ')}`];
+}
+
+/** Never one sentence twice in an answer. */
+function repeated(body: ChatSuccessBody): string[] {
+  const sentences = body.blocks.flatMap(b => answerBlockText(b).split(/[.!؟?\n]+/)).map(s => normalizeForMatch(s).trim()).filter(s => s.split(' ').length >= 4);
+  const dupes = sentences.filter((s, i) => sentences.indexOf(s) !== i);
+  return dupes.length > 0 ? [`repeated: «${dupes[0].slice(0, 60)}»`] : [];
 }
 
 /** Runs one flow the way the chat panel does: context from the last answer that had one. */
@@ -122,7 +154,7 @@ export async function runFlow(flow: VisitorFlow, answer: AnswerFn, live: boolean
 }
 
 function emptyTrace(): ChatTrace {
-  return { question: '', intents: [], entities: [], context: { sent: [], carried: [], previousQuestionShown: false }, keyword: [], semantic: { ran: false, notes: [], top: [] }, fusion: [], confidence: 'none', evidence: { kept: [], cut: [], chars: 0 }, rejected: [], ms: {} };
+  return { question: '', intents: [], entities: [], context: { sent: [], carried: [], previousQuestionShown: false }, keyword: [], semantic: { ran: false, notes: [], top: [] }, fusion: [], confidence: 'none', evidence: { kept: [], cut: [], chars: 0 }, rejected: [], answerUnits: [], ms: {} };
 }
 
 export interface VisitorVectors {
