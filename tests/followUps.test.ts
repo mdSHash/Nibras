@@ -17,6 +17,20 @@ describe('buildFollowUps', () => {
     }
   });
 
+  it('does not offer a role the answer already showed', async () => {
+    const hudaybiyyaRole = 'ما دور عمر بن الخطاب في صلح الحديبية؟';
+    const shownRole = kb.units.find(u => u.kind === 'event_role' && u.recordId === 'event:treaty-hudaybiyyah' && u.alsoAbout?.includes('companion:umar'))!;
+    const before = await buildFollowUps(kb, ['companion:umar'], ['reason'], 'ليه عمر بن الخطاب زعل في صلح الحديبية؟');
+    const after = await buildFollowUps(kb, ['companion:umar'], ['reason'], 'ليه عمر بن الخطاب زعل في صلح الحديبية؟', [shownRole.id]);
+    expect(before).toContain(hudaybiyyaRole);
+    expect(after).not.toContain(hudaybiyyaRole);
+  });
+
+  it('suggests the people a list names', async () => {
+    const followUps = await buildFollowUps(kb, ['list:rashidun-caliphs'], ['list'], 'مين هما الخلفاء الراشدين؟');
+    expect(followUps[0]).toBe('ما قصة أبي بكر الصديق؟');
+  });
+
   it('uses gender-neutral wording for people and no vowel marks', async () => {
     const followUps = await buildFollowUps(kb, ['companion:khadija'], ['biography'], 'من هي خديجة؟');
     expect(followUps.length).toBeGreaterThan(0);

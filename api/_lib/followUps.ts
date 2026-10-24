@@ -36,7 +36,7 @@ function hasUnit(kb: LoadedKb, recordId: string, slugPrefix: string): boolean {
 }
 
 /** Suggested questions about the record; a list's also about the people it names (`targets`: question → the record it must find). */
-function candidatesFor(kb: LoadedKb, record: KbRecord, intents: Set<Intent>, targets: Map<string, string>): string[] {
+function candidatesFor(kb: LoadedKb, record: KbRecord, intents: Set<Intent>, targets: Map<string, string>, shown: Set<string>): string[] {
   const out: string[] = [];
   const t = plainName(record.title);
   if (record.type === 'event') {
@@ -50,7 +50,8 @@ function candidatesFor(kb: LoadedKb, record: KbRecord, intents: Set<Intent>, tar
     // Every template puts the name after a noun (دور، ذكر، قصة): genitive case.
     const g = genitiveName(t);
     const firstName = t.split(' ').slice(0, 2).join(' ');
-    const roles = kb.units.filter(u => u.kind === 'event_role' && u.alsoAbout?.includes(record.id));
+    // A role the answer already showed is not offered again («عمر زعل ليه؟» showed Umar's role at Hudaybiyya).
+    const roles = kb.units.filter(u => u.kind === 'event_role' && u.alsoAbout?.includes(record.id) && !shown.has(u.id));
     // Skip events named after the person ("رحيل أبي ذر الغفاري إلى الربذة").
     const firstEvent = roles
       .map(u => kb.recordById.get(u.recordId))
@@ -91,7 +92,8 @@ function factRecord(kb: LoadedKb, id: string): KbRecord | undefined {
   return kb.kb.records.find(r => r.type === 'event' && r.refs.battleId === record.refs.battleId) ?? record;
 }
 
-export async function buildFollowUps(kb: LoadedKb, focusRecordIds: string[], intents: Intent[], question: string): Promise<string[]> {
+export async function buildFollowUps(kb: LoadedKb, focusRecordIds: string[], intents: Intent[], question: string, shownUnits: string[] = []): Promise<string[]> {
+  const shown = new Set(shownUnits);
   const asked = normalizeForMatch(question);
   const intentSet = new Set(intents);
   const results: string[] = [];
@@ -101,7 +103,7 @@ export async function buildFollowUps(kb: LoadedKb, focusRecordIds: string[], int
     if (!record || seen.has(record.id)) continue;
     seen.add(record.id);
     const targets = new Map<string, string>();
-    for (const candidate of candidatesFor(kb, record, intentSet, targets)) {
+    for (const candidate of candidatesFor(kb, record, intentSet, targets, shown)) {
       if (results.length >= MAX_FOLLOW_UPS) return results;
       if (normalizeForMatch(candidate) === asked || results.includes(candidate)) continue;
       // Only offer questions this assistant can actually answer about that record.

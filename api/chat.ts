@@ -74,7 +74,7 @@ async function success(found: SearchOutcome, composed: ComposedAnswer, mode: Ans
         .map(e => ({ recordId: e.recordId, title: kb.recordById.get(e.recordId)?.title ?? '' })),
       ...(found.askedAs ? { question: found.askedAs } : {}),
     },
-    followUps: await buildFollowUps(kb, recordIds, found.intents, question),
+    followUps: await buildFollowUps(kb, recordIds, found.intents, question, composed.shown),
   };
 }
 
