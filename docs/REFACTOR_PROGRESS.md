@@ -1940,3 +1940,18 @@ After 1–3: **96 / 90**.
    sends that question instead of the last typed text when the server gives one.
 
 After 4–6: **99 / 92**.
+7. **«مين اللي / مين كان / مين صاحب…» asks who did it** (new intent `agent`: roles, description,
+   steps); a bare «مين» is no longer a biography question, and «مين + a person's name» still is.
+   Trace before (keyword only): «مين اللي نام في فرشة النبي؟», «مين كان مع النبي في الغار؟» and
+   «مين الخوارج؟» kept profiles (the Prophet's, al-Abbas', Ibn Muljam's) and cut the Hijra and
+   Khawarij units the keyword search ranked first or second.
+8. **Question words behind a leading و/ف** («واستشهد إزاي؟»، «وليه؟»، «وفين؟»): no intent was
+   detected, so Uthman's death was not looked for (keyword only).
+9. **The fact asked for leads its record** (`FACT_KINDS`): «متى توفي النبي ﷺ؟» cut the date (facts are
+   not embedded; five semantic hits filled the record's cap).
+10. **An opinion about nothing named is not covered** (`SUPERLATIVE`): «إيه أهم حدث في التاريخ
+    الإسلامي؟» had keyword confidence high from common words.
+11. Synonyms: «غضب زعل اعترض حزن», «كتب كاتب كتابة».
+
+After 7–11: **101 / 97**. Left: an overview misses part of its record (16-unit cap), and no
+suggestion buttons under a list answer or a refusal; both are the answer-shape work.

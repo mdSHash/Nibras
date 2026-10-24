@@ -17,7 +17,7 @@ import { hit, TRACE_MAX_CUT, TRACE_TOP, type ChatTrace } from './trace.js';
 
 export type Intent =
   | 'date' | 'location' | 'quantity' | 'duration' | 'role' | 'quran' | 'hadith' | 'sources'
-  | 'list' | 'outcome' | 'reason' | 'biography' | 'death' | 'birth' | 'appearances' | 'military' | 'how';
+  | 'list' | 'outcome' | 'reason' | 'biography' | 'death' | 'birth' | 'appearances' | 'military' | 'how' | 'agent';
 
 // Patterns run on normalizeForMatch() text (ة→ه, ى→ي, alef variants folded),
 // in both Modern Standard Arabic and Egyptian colloquial phrasing.
@@ -34,7 +34,10 @@ const INTENTS: [Intent, RegExp, UnitKind[]][] = [
   ['outcome', /(^| )(نتيجه|نتائج|النتيجه|انتهت|خلصت|انتصر|انتصروا|انتصار|كسب|كسبوا|هزم|اتهزم|اتهزموا|هزيمه|خسر|خسروا)( |$)/, ['battle_outcome', 'event_summary']],
   ['reason', /(^| )(لماذا|ليه|سبب|اسباب|اهميه|لم|عشان ايه|علشان ايه)( |$)/, ['event_description', 'battle_outcome', 'companion_bio']],
   ['how', /(^| )(كيف|ازاي|ازاى)( |$)/, ['event_step', 'event_description', 'event_role']],
-  ['biography', /(^| )(من هو|من هي|مين هو|مين هي|مين|سيره|حياه|ترجمه|نسب|لقب|سمي|يلقب|لقبه|اتسمي|اسمه)( |$)/, ['companion_profile', 'companion_bio']],
+  // «مين اللي نام في فرشة النبي؟» asks who did something: roles and the story,
+  // not biographies (a bare «مين» used to fill the evidence with profiles).
+  ['agent', /(^| )(مين اللي|من الذي|من اللي|مين كان|من كان|مين صاحب|من صاحب|مين قتل|من قتل|مين كتب|من كتب)( |$)/, ['event_role', 'event_description', 'event_step']],
+  ['biography', /(^| )(من هو|من هي|مين هو|مين هي|سيره|حياه|ترجمه|نسب|لقب|سمي|يلقب|لقبه|اتسمي|اسمه)( |$)/, ['companion_profile', 'companion_bio']],
   ['death', /(^| )(توفي|اتوفي|اتوفت|وفاه|استشهد|استشهدت|استشهاد|مات|ماتت|مقتل|قتل|اتقتل|اتقتلت|قتلوه|قتله)( |$)/, ['companion_profile', 'companion_bio', 'event_summary', 'event_role']],
   ['birth', /(^| )(ولد|ولدت|اتولد|اتولدت|مولد|ميلاد|مولده)( |$)/, ['companion_profile', 'event_date']],
   ['appearances', /(^| )(في اي|الاحداث التي|الاحداث اللي|اين ورد|ورد ذكر|اتذكر فين)( |$)/, ['companion_events']],
@@ -48,10 +51,12 @@ const QURAN_WORDS = /(^| )(اية|ايات|الاية|الايه|الايات|ق
 
 export function detectIntents(question: string): { intents: Intent[]; kinds: Set<UnitKind> } {
   const normalized = ` ${normalizeForMatch(question)} `;
+  // «واستشهد إزاي؟», «وليه؟», «وكام؟»: each word is also read without a leading و/ف.
+  const withoutConjunctions = normalized.replace(/ [وف](?=[^ ]{3,} )/g, ' ');
   const intents: Intent[] = [];
   const kinds = new Set<UnitKind>();
   for (const [intent, pattern, unitKinds] of INTENTS) {
-    if (pattern.test(normalized)) {
+    if (pattern.test(normalized) || pattern.test(withoutConjunctions)) {
       intents.push(intent);
       unitKinds.forEach(k => kinds.add(k));
     }
@@ -71,6 +76,10 @@ const KIND_PRIOR: Partial<Record<UnitKind, number>> = {
   event_date: 0.004, event_location: 0.003, battle_outcome: 0.002, event_description: 0.002,
   companion_bio: 0.002, event_step: 0.001,
 };
+
+const SUPERLATIVE = /(^| )[وف]?(اهم|اعظم|اشجع|افضل|احسن|اكبر|اقوي|اجمل|احب|اشهر)( |$)/;
+
+const FACT_KINDS: ReadonlySet<UnitKind> = new Set(['event_date', 'event_location', 'event_army', 'event_duration']);
 
 const BM25_K1 = 1.2;
 const BM25_B = 0.75;
@@ -100,6 +109,8 @@ const SYNONYM_GROUPS = [
   'راح خرج ذهب توجه',
   'دفن اتدفن مدفون',
   'بنى بناء اتبنى',
+  'غضب زعل اعترض حزن',
+  'كتب كاتب كتابة',
 ];
 
 const SYNONYMS = new Map<string, string[]>();
@@ -188,6 +199,14 @@ export async function search(question: string, embed?: QueryEmbedder, kb: Loaded
   const elliptic = own.intents.length === 0 && stems.length <= 2 && named.some(e => e.strong) && !!context?.previousQuestion;
   const { intents, kinds } = elliptic ? detectIntents(context!.previousQuestion!) : own;
   if (trace && elliptic) trace.context.intentsFromPrevious = true;
+  // «مين خديجة؟»: «مين» before a person's name still asks who they were.
+  const startsWithWho = /^(مين|من) /.test(normalizeForMatch(question).trim());
+  const namesPerson = named.some(e => e.strong && kb.recordById.get(e.recordId)?.type === 'companion');
+  if (startsWithWho && namesPerson && !intents.includes('agent') && !intents.includes('biography')) {
+    intents.push('biography');
+    kinds.add('companion_profile');
+    kinds.add('companion_bio');
+  }
   if (trace) {
     trace.intents = intents;
     trace.entities = entities.map(e => ({ id: e.recordId, phrase: e.phrase, strong: e.strong, carried: !!e.carried }));
@@ -266,6 +285,9 @@ export async function search(question: string, embed?: QueryEmbedder, kb: Loaded
     // "What did Ali do at Badr?" — the role unit tying both named records.
     if (linked.has(unit.recordId) && about.some(id => linked.has(id))) score += 0.05;
     if (kinds.has(unit.kind)) score += linked.has(unit.recordId) || about.some(id => linked.has(id)) ? 0.03 : 0.012;
+    // The fact asked for («متى توفي النبي ﷺ؟» → the date) leads its record: facts are
+    // not embedded, so semantic hits otherwise push it past the per-record cap.
+    if (kinds.has(unit.kind) && FACT_KINDS.has(unit.kind) && linked.has(unit.recordId)) score += 0.05;
     score += KIND_PRIOR[unit.kind] ?? 0;
     if (unit.trust === 'secondary') score *= 0.85;
     // When the question clearly names a record, other records only get in on
@@ -278,8 +300,12 @@ export async function search(question: string, embed?: QueryEmbedder, kb: Loaded
   const ranked = [...scores].sort((a, b) => b[1] - a[1]);
   const topKeyword = keyword[0];
   const topSemantic = semantic[0];
-  const confidence: SearchOutcome['confidence'] =
-    strong.size > 0 || (topKeyword && topKeyword.matched >= 2 && topKeyword.score >= 6)
+  // «إيه أهم حدث في التاريخ الإسلامي؟», «مين أشجع صحابي؟»: an opinion about no named
+  // subject; the reviewed content ranks nothing, so it is not covered.
+  const opinionOnly = entities.length === 0 && titleBoost.size === 0 && SUPERLATIVE.test(` ${normalizeForMatch(question)} `);
+  const confidence: SearchOutcome['confidence'] = opinionOnly
+    ? 'none'
+    : strong.size > 0 || (topKeyword && topKeyword.matched >= 2 && topKeyword.score >= 6)
       ? 'high'
       : (topKeyword && topKeyword.score >= BM25_MIN) || (topSemantic && topSemantic.score >= semanticMin) || weak.size > 0
         ? 'medium'
