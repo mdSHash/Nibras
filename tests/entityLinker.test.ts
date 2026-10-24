@@ -51,6 +51,17 @@ describe('linkEntities', () => {
     expect(prophet?.strong).toBe(false);
   });
 
+  it('does not read the colloquial «واحد» as "and Uhud"; «وأحد» still links it', () => {
+    expect(ids('كانوا كام واحد؟')).not.toContain('event:battle-uhud');
+    expect(ids('كام واحدة؟')).not.toContain('event:battle-uhud');
+    expect(strongIds('وأحد؟')).toContain('event:battle-uhud');
+  });
+
+  it('links the everyday name «الهجرة» to the Hijra, not the migration to Abyssinia', () => {
+    expect(strongIds('احكيلي عن الهجرة')).toEqual(['event:hijra-medina']);
+    expect(strongIds('الهجرة إلى الحبشة')).toContain('event:migration-abyssinia');
+  });
+
   it('links nothing in an unrelated question', () => {
     expect(ids('ما عاصمة فرنسا')).toEqual([]);
   });

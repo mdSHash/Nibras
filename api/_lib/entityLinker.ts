@@ -20,6 +20,16 @@ export interface LinkedEntity {
 const ERA_WORDS = new Set(['عهد', 'خلافه', 'ايام', 'زمن', 'وقت', 'فتره', 'حكم', 'عصر']);
 const TITLE_WORDS = new Set(['سيدنا', 'الخليفه', 'الامام', 'النبي', 'الرسول']);
 
+// «كام واحد» ("how many"): «واحد» would otherwise be read as "و + أحد" (and
+// Uhud), by the linker and by keyword search. Only the spelling without hamza;
+// «وأحد» ("and Uhud") is kept. Run on the question before analyze(), which
+// folds the hamza away.
+const COUNTING_WORD = /(^|\s)واحد[هة]?(?=$|[\s؟?!.،])/g;
+
+export function withoutCountingWord(question: string): string {
+  return question.replace(/[\u064B-\u0652]/g, '').replace(COUNTING_WORD, ' ');
+}
+
 /** Clitic-stripped spellings a question token may carry in front of a name. */
 function tokenVariants(raw: string): string[] {
   const folded = aliasToken(foldLetters(raw));
@@ -38,7 +48,7 @@ function tokenVariants(raw: string): string[] {
 const COMMON_WORDS = new Set(['مالك', 'عامر', 'هاشم', 'محمود', 'قيس', 'حبيب', 'عاصم', 'نعيم', 'سعيد', 'الانصار', 'صفوان', 'جابر', 'انس', 'محمد']);
 
 export function linkEntities(question: string, kb: LoadedKb): LinkedEntity[] {
-  const tokens = analyze(question);
+  const tokens = analyze(withoutCountingWord(question));
   const matches: { start: number; end: number; entries: AliasEntry[]; phrase: string }[] = [];
 
   for (let i = 0; i < tokens.length; i++) {

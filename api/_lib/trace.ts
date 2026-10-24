@@ -28,7 +28,7 @@ export interface ChatTrace {
   confidence: string;
   evidence: {
     kept: { record: string; units: string[]; of: number }[];
-    cut: { unit: string; by: 'maxRecords' | 'maxPerRecord' | 'charBudget' | 'listKind' }[];
+    cut: { unit: string; by: 'maxRecords' | 'maxPerRecord' | 'charBudget' | 'listKind' | 'offTopic' }[];
     chars: number;
   };
   prompt?: { chars: number; passages: number };

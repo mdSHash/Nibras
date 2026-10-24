@@ -10,7 +10,7 @@ import type { KbRecord, KbUnit, UnitKind } from '../../shared/chatKb.js';
 import { analyze, normalizeForMatch, plainText, searchStems } from '../../shared/arabic.js';
 import { embedQueryWith, type EmbeddingProvider } from './embeddings.js';
 import { carryContext, type ChatContext } from './context.js';
-import { linkEntities, type LinkedEntity } from './entityLinker.js';
+import { linkEntities, withoutCountingWord, type LinkedEntity } from './entityLinker.js';
 import { getKb, type LoadedKb } from './kb.js';
 import { getProviderIndex, semanticScores } from './semanticIndex.js';
 import { hit, TRACE_MAX_CUT, TRACE_TOP, type ChatTrace } from './trace.js';
@@ -171,8 +171,13 @@ export interface SearchOutcome {
   semanticProvider?: EmbeddingProvider;
 }
 
+/** The question's search stems, without the colloquial «واحد» (entityLinker.ts). */
+export function questionStems(question: string): string[] {
+  return [...new Set(searchStems(withoutCountingWord(question)))];
+}
+
 export async function search(question: string, embed?: QueryEmbedder, kb: LoadedKb = getKb(), context?: ChatContext, trace?: ChatTrace): Promise<SearchOutcome> {
-  const stems = [...new Set(searchStems(question))];
+  const stems = questionStems(question);
   const named = linkEntities(question, kb);
   const entities = [...named, ...carryContext(question, named, context, kb).filter(c => !named.some(n => n.recordId === c.recordId))];
   const { intents, kinds } = detectIntents(question);
@@ -274,7 +279,15 @@ export async function search(question: string, embed?: QueryEmbedder, kb: Loaded
         : 'none';
 
   const cut: ChatTrace['evidence']['cut'] = [];
-  const evidence = packEvidence(kb, ranked, intents.includes('list') || intents.includes('military'), strong, intents.includes('military'), cut);
+  const listQuestion = intents.includes('list') || intents.includes('military');
+  // A question about a named event stays on it: other records only through a
+  // unit tied to it (a role, a verse). «كام واحد كانوا في غزوة بدر؟» filled up
+  // with Uhud, whose description mentions Badr.
+  const related = (unit: KbUnit) => linked.has(unit.recordId) || !!unit.alsoAbout?.some(id => linked.has(id));
+  // Only for an event the question names: one carried from context may be the wrong one.
+  const namesEvent = entities.some(e => e.strong && !e.carried && strongEvents.has(e.recordId));
+  const onTopic = namesEvent && !listQuestion ? related : () => true;
+  const evidence = packEvidence(kb, ranked, listQuestion, strong, intents.includes('military'), cut, onTopic);
   if (trace) {
     trace.confidence = confidence;
     trace.fusion = ranked.slice(0, TRACE_TOP).map(([i, score]) => hit(kb.units[i].id, score));
@@ -301,6 +314,7 @@ function packEvidence(
   strong: Set<string>,
   militaryQuestion: boolean,
   cut: ChatTrace['evidence']['cut'] = [],
+  onTopic: (unit: KbUnit) => boolean = () => true,
 ): EvidenceRecord[] {
   const maxRecords = listQuestion ? 10 : 6;
   // A question about one or two named records gets their full narrative.
@@ -316,6 +330,10 @@ function packEvidence(
     };
     // "Which battles…" must not get the era's non-military events list, and
     // vice versa "what happened…" keeps both.
+    if (!onTopic(unit)) {
+      note('offTopic');
+      continue;
+    }
     if (militaryQuestion && unit.kind === 'list' && unit.id.endsWith('#events')) {
       note('listKind');
       continue;

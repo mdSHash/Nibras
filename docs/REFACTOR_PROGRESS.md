@@ -1903,3 +1903,24 @@ three overviews, «عمر زعل ليه؟» after Hudaybiyya and «واستشه�
 (the date and «الهجرة» cases above). Retrieval fixes are checked both ways.
 
 Quota spent in 3J so far: **87 Gemini embedding texts, 1 request** (2026-10-24, approved: about 105).
+
+#### Retrieval fixes (3J), each from a trace
+
+Offline turns passing (of 104), semantic on / keyword only: baseline **92 / 88**.
+
+1. **«واحد» is not "and Uhud"** (`withoutCountingWord`, `api/_lib/entityLinker.ts`): the colloquial
+   counting word (without hamza) is dropped before linking and before keyword stems; «وأحد» still
+   links Uhud. Trace before: «كام واحد كانوا في غزوة بدر؟» linked `event:battle-uhud` «واحد» and kept
+   5 Uhud units; after: Badr only.
+2. **«الهجرة» links the Hijra** (`EVERYDAY_ALIASES`, `scripts/chat-kb/eventUnits.ts`: «الهجرة»، «هجرة
+   النبي»، «هجرة الرسول»، «الهجرة إلى المدينة» for the Hijra; «الهجرة إلى الحبشة»، «هجرة الحبشة» for
+   Abyssinia). Linking phrases only (never shown, not embedded: the index stays 3,246/3,246). Trace
+   before: «إيه الآية اللي نزلت في الهجرة؟» linked nothing and kept five verse records; a Hijra flow
+   carried `event:migration-abyssinia`.
+3. **A named event keeps the evidence on itself** (`onTopic`, `api/_lib/search.ts`): when the
+   question names an event (not one carried from context), other records get in only through a
+   unit tied to it (`alsoAbout`). Cut units show as `offTopic` in the trace. Applied to carried
+   events at first, it broke «طب نرجع للصلح، كان فين؟» (Badr carried) and «واستشهد إزاي؟» (Tabuk
+   carried): a carried event may be the wrong one, so it applies only to named events.
+
+After 1–3: **96 / 90**.

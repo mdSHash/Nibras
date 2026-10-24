@@ -8,7 +8,7 @@
     { "id": "hud-umar-why", "q": "ليه عمر بن الخطاب زعل في صلح الحديبية؟", "style": "egyptian", "shape": "reason", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#role:1"] },
     { "id": "hud-misspelled", "q": "صلح الحديبيه", "style": "misspelled", "shape": "overview", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#description:3"] },
     { "id": "badr-tell", "q": "احكيلي عن غزوة بدر", "style": "egyptian", "shape": "steps", "records": ["event:battle-badr"], "units": ["event:battle-badr#step:0", "event:battle-badr#step:1", "event:battle-badr#step:3"] },
-    { "id": "badr-how-many", "q": "كام واحد كانوا في غزوة بدر؟", "style": "egyptian", "shape": "fact", "records": ["event:battle-badr"], "units": ["event:battle-badr#army_size"], "notRecords": ["event:battle-uhud"], "knownGap": "«واحد» is stemmed to «احد» and links Uhud" },
+    { "id": "badr-how-many", "q": "كام واحد كانوا في غزوة بدر؟", "style": "egyptian", "shape": "fact", "records": ["event:battle-badr"], "units": ["event:battle-badr#army_size"], "notRecords": ["event:battle-uhud"] },
     { "id": "badr-when", "q": "إمتى كانت غزوة بدر؟", "style": "egyptian", "shape": "fact", "records": ["event:battle-badr"], "units": ["event:battle-badr#date"] },
     { "id": "badr-enemy", "q": "ما عدد جيش المشركين في بدر؟", "style": "formal", "shape": "fact", "records": ["event:battle-badr"], "units": ["event:battle-badr#enemy_army_size"] },
     { "id": "badr-ali", "q": "علي عمل إيه في بدر؟", "style": "egyptian", "shape": "role", "records": ["event:battle-badr"], "units": ["event:battle-badr#role:0"] },
@@ -43,7 +43,7 @@
     { "id": "mothers-list", "q": "من هن أمهات المؤمنين؟", "style": "formal", "shape": "list", "records": ["list:mothers-of-the-believers"] },
     { "id": "ghazawat-list", "q": "إيه غزوات النبي؟", "style": "egyptian", "shape": "list", "records": ["list:era:prophet", "list:era:medinan"] },
     { "id": "umar-battles-list", "q": "ايه المعارك اللي حصلت ايام عمر؟", "style": "egyptian", "shape": "list", "records": ["list:era:umar"] },
-    { "id": "hijra-verse", "q": "إيه الآية اللي نزلت في الهجرة؟", "style": "egyptian", "shape": "quran", "records": ["event:hijra-medina"], "units": ["event:hijra-medina#quran:1"], "knownGap": "«الهجرة» alone links the migration to Abyssinia, not the Hijra; verse records fill the evidence" },
+    { "id": "hijra-verse", "q": "إيه الآية اللي نزلت في الهجرة؟", "style": "egyptian", "shape": "quran", "records": ["event:hijra-medina"], "units": ["event:hijra-medina#quran:1"] },
     { "id": "fath-surah", "q": "ما سبب نزول سورة الفتح؟", "style": "formal", "shape": "quran", "records": ["event:treaty-hudaybiyyah"] },
     { "id": "badr-short", "q": "بدر", "style": "short", "shape": "overview", "records": ["event:battle-badr"] },
     { "id": "hudaybiyya-short", "q": "الحديبية", "style": "short", "shape": "overview", "records": ["event:treaty-hudaybiyyah"] },
@@ -68,7 +68,7 @@
       { "q": "إيه هو صلح الحديبية؟", "records": ["event:treaty-hudaybiyyah"] },
       { "q": "مين اللي كتب الصلح؟", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#role:2"] },
       { "q": "عمر زعل ليه؟", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#role:1"] },
-      { "q": "كانوا كام واحد؟", "units": ["event:treaty-hudaybiyyah#army_size"], "notRecords": ["event:battle-uhud"], "knownGap": "«واحد» is stemmed to «احد» and links Uhud" }
+      { "q": "كانوا كام واحد؟", "units": ["event:treaty-hudaybiyyah#army_size"], "notRecords": ["event:battle-uhud"], "knownGap": "the previous turn («عمر زعل ليه؟») kept only Umar as context, not the treaty" }
     ] },
     { "id": "badr-suggestions", "turns": [
       { "q": "احكيلي عن غزوة بدر", "records": ["event:battle-badr"] },
@@ -97,8 +97,8 @@
     ] },
     { "id": "hijra-companion-verse", "turns": [
       { "q": "احكيلي عن الهجرة", "records": ["event:hijra-medina"] },
-      { "q": "مين كان معاه؟", "units": ["event:hijra-medina#role:0"], "knownGap": "«الهجرة» alone links the migration to Abyssinia, not the Hijra" },
-      { "q": "وإيه الآية اللي نزلت فيها؟", "units": ["event:hijra-medina#quran:1"], "knownGap": "«الهجرة» alone links the migration to Abyssinia, not the Hijra" }
+      { "q": "مين كان معاه؟", "units": ["event:hijra-medina#role:0"] },
+      { "q": "وإيه الآية اللي نزلت فيها؟", "units": ["event:hijra-medina#quran:1"] }
     ] },
     { "id": "umar-suggestion-chain", "turns": [
       { "q": "مين عمر بن الخطاب؟", "records": ["companion:umar"] },

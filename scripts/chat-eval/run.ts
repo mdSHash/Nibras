@@ -5,6 +5,7 @@
  * one trace per turn (test-results/chat-visitors-<time>.json and .md).
  *  --offline  the copy model instead of the providers: no network, no quota.
  *  --sample   only the cases in the fixture's `liveSample` (the before/after run).
+ *  --keyword-only  no semantic search (as when the Gemini call fails).
  * Query vectors always come from tests/fixtures/chat-visitor-vectors.json, so
  * a live run spends model calls only, never a Gemini embedding.
  */
@@ -39,7 +40,7 @@ export async function runVisitorsEval(args: string[]) {
   const questions = fixture.questions.filter(q => wanted(q.id));
   const flows = fixture.flows.filter(f => wanted(f.id));
   const uninstall = offline ? installCopyModel() : () => {};
-  const embed = fixtureEmbedder();
+  const embed = args.includes('--keyword-only') ? async () => null : fixtureEmbedder();
 
   let calls = 0;
   const answer: AnswerFn = async (q, context) => {

@@ -11,6 +11,15 @@ import { BuildContext, splitSentences } from './common';
 
 const TITLE_HEADS = ['غزوة', 'معركة', 'موقعة', 'سرية', 'فتح', 'حصار', 'بيعة', 'صلح', 'حادثة', 'حلف', 'عمرة', 'وثيقة'];
 
+/**
+ * Everyday names visitors use that no title gives ("احكيلي عن الهجرة"). Linking
+ * phrases only, never displayed. Checked against the visitor set (3J).
+ */
+const EVERYDAY_ALIASES: Record<string, string[]> = {
+  'hijra-medina': ['الهجرة', 'هجرة النبي', 'هجرة الرسول', 'الهجرة إلى المدينة'],
+  'migration-abyssinia': ['الهجرة إلى الحبشة', 'هجرة الحبشة'],
+};
+
 /** Linking phrases for an event title: full title, title without its epithet or head word, parenthetical names. */
 export function eventAliases(title: string, reservedNames: Set<string>): string[] {
   const plain = aliasForm(title);
@@ -124,7 +133,7 @@ export function addEventUnits(
       isBattle: event.isBattle,
       military,
       refs: { eventId: event.id, ...(event.battleScenarioId ? { battleId: kbBattleId(event.battleScenarioId) } : {}) },
-      aliases: [...new Set([...eventAliases(title, reservedNames), ...eventAliases(event.title, reservedNames)])],
+      aliases: [...new Set([...eventAliases(title, reservedNames), ...eventAliases(event.title, reservedNames), ...(EVERYDAY_ALIASES[event.id] ?? []).map(aliasForm)])],
       weakAliases: [],
     });
 
