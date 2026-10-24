@@ -507,7 +507,7 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
       **Done in 3C (2026-10-23)**: KB and int8 index in `api/_data/`, `npm run check:chat-index` in
       CI, the Chat index workflow (`.github/workflows/chat-index.yml`), index complete (semantic
       search on), 20 per 10 minutes and 100 per day per IP (fails open without Upstash).
-- [ ] **Chat answers that teach (3J)** (Mostafa, 2026-10-23). Visitors use the chat as their source
+- [x] **Chat answers that teach (3J)** (Mostafa, 2026-10-23). Visitors use the chat as their source
       of truth for what they do not know: answers must be accurate first, then educational and shaped
       to the information (paragraph, fact table, numbered steps, list), never one point restated in
       other words. Steps, in order:
@@ -529,6 +529,10 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
         buttons, topic switches, going back); about 60 questions and 15 flows with automatic checks
         (no quota) and Playwright flows; one real-model before/after run, read by Mostafa, with the
         quota counted and asked first.
+      **Done in 3J (2026-10-24)**: trace in the eval report and dev (`CHAT_TRACE=1`); 11 retrieval
+      and context fixes, each from a trace; overviews without the model, model sections rendered
+      from stored text, `paragraph` / `facts` / `steps` blocks; 61 questions and 15 flows offline
+      (103/104) and in Playwright; live sample 24/41 → 40/41 (`docs/chat-eval/3j-before-after.md`).
 - [ ] **Battle videos replace the battle engine** (Mostafa, 2026-10-16). Mostafa is producing one
       narrated video per battle (roughly 100–200 MB each at full quality), better than the Pixi.js
       replay. The engine stays as it is, untouched, until every battle has its video, then it is

@@ -2017,7 +2017,7 @@ call), 40 s apart. Before: commit `9a03367` (tracing only); after: the 3J code. 
 | | Before | After |
 | --- | --- | --- |
 | Turns passing the current checks | 24/41 | 40/41 |
-| Model calls (all `gpt-oss-120b`, no fallback) | 39 | 26 (12 overviews and 3 refusals with none) |
+| Model calls (all `gpt-oss-120b`, no fallback) | 39 | 26 (12 overviews and 4 refusals with none) |
 | Tokens (prompt + completion) | 75,031 + 6,990 | 50,658 + 1,936 |
 | Model sentences rejected by the validator | 8 | 0 (no model text) |
 
