@@ -4,6 +4,8 @@
  *   npm run eval:chat -- "سؤال" "سؤال آخر"      ad-hoc questions, verbose
  *   npm run eval:chat -- --golden [--set egyptian|conversation] [--limit N]
  *                                               a golden set in tests/fixtures
+ *   npm run eval:chat -- --visitors [--offline] [--sample] [--only id,id]
+ *                                               the visitor set (scripts/chat-eval/run.ts)
  *
  * In the conversation set, a case with "followUp": true is asked with the
  * context returned by the previous case, like the chat panel does.
@@ -34,6 +36,11 @@ interface GoldenCase {
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 async function main() {
+  if (process.argv.includes('--visitors')) {
+    const { runVisitorsEval } = await import('./chat-eval/run');
+    await runVisitorsEval(process.argv.slice(2));
+    return;
+  }
   const { answerQuestion } = await import('../api/chat');
   const { formatTrace, newTrace } = await import('../api/_lib/trace');
   const args = process.argv.slice(2);

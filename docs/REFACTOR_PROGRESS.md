@@ -1854,5 +1854,52 @@ skipped, phone smoke 44/44, visual 16/16.
 - The prompt (`api/_lib/prompt.ts`) allows only verbatim whole phrases, at most 8 points, one list
   shape for every question.
 
-Open for Mostafa: answers verbatim only (recommended) or verbatim plus short connecting sentences
-written by the model.
+Decided 2026-10-24: verbatim only (see "Decisions by Mostafa (3J)" above).
+
+#### Design choices (3J)
+
+- **Trace** (`api/_lib/trace.ts`): one object per question, filled by each stage only when a caller
+  passes one in: intents; entities with the phrase that linked them; context sent, carried and
+  whether the previous question reached the model; the top 12 keyword (BM25) and semantic (cosine)
+  hits; why semantic search did not run (index not usable, no key, call failed); the top 12 fused
+  scores; evidence kept per record (`units/of`) and the units cut, with the limit that cut them
+  (`maxRecords`, `maxPerRecord`, `charBudget`, `listKind`); prompt size; every model attempt;
+  validator rejections; mode, cache, rate limit; time per stage. Shown by `npm run eval:chat`
+  (JSON + a readable `.md` in `test-results/`) and by `npm run dev:chat-api` with `CHAT_TRACE=1`
+  (printed, and returned as `trace`; ignored on Vercel). Production keeps its one-line log, with
+  no question text, plus `promptChars`.
+- **Visitor set** (`tests/fixtures/chat-visitors.json`): 61 questions (39 Egyptian, 12 formal, 6
+  misspelled, 4 short, 3 vague, 5 uncovered; some overlap) and 15 flows (43 turns: typed
+  follow-ups, pressed suggestions, topic switches, going back). Each turn checks the records and
+  units retrieval must keep, records it must not, refusals. A failing case carries `knownGap` with
+  its cause from the trace; the test fails once a gap passes, so the mark goes with the fix.
+- **Offline** (`tests/chatVisitors.test.ts`, `npm run eval:chat -- --visitors --offline`): the real
+  pipeline with a copy model (`scripts/chat-eval/copyModel.ts`: answers by copying the first
+  record's passages) and stored query vectors (`tests/fixtures/chat-visitor-vectors.json`, 87
+  Gemini `RETRIEVAL_QUERY` vectors, int8, made once by `scripts/chat-eval/embed-visitors.ts`), so
+  semantic search runs as in production with no quota. Out-of-scope cases offline must reach no
+  confident subject (the copy model never refuses); live they must be refused.
+- **Live sample** (`liveSample`, `--sample`): 25 questions and 5 flows, 41 turns, for the one
+  real-model before/after run; it reuses the stored vectors (no Gemini call).
+
+#### Baseline traces (before any retrieval change, 2026-10-24)
+
+Offline, semantic on: **92/104 turns pass**; the 12 known gaps and their causes, from the traces:
+
+| Gap | Cause | Cases |
+| --- | --- | --- |
+| An overview misses parts of its record | at most 16 units per record (`maxPerRecord`) | «إيه هو صلح الحديبية؟» (description sentence 4, Ali and «رسول الله», cut) |
+| «كام واحد / كانوا كام واحد» answer about Uhud | «واحد» is stemmed to «احد» and links Uhud strongly, overriding the context | 2 |
+| «الهجرة» means the migration to Abyssinia | its alias wins; verse records then fill the evidence | «إيه الآية اللي نزلت في الهجرة؟», a Hijra flow (2 turns) |
+| «متى توفي النبي ﷺ؟» misses the date | facts are not embedded; semantic hits push the date past the 5-unit cap of a weakly linked record | 1 |
+| «وأحد؟ / والخندق؟» after «إمتى كانت غزوة بدر؟» miss the date | the previous question's intent is not kept for an elliptic follow-up | 2 |
+| «إيه أهم حدث في التاريخ الإسلامي؟» answered with confidence | common words give keyword confidence high | 1 |
+| No suggestion buttons under a list answer or a refusal | follow-ups only for records; starter questions approved for 3J | 2 |
+
+Keyword only (as when the Gemini call fails) 16 turns fail: semantic search fixes the «مين» cases
+(«مين» alone is read as a biography question, so profiles crowd out role and event units: «مين اللي
+نام في فرشة النبي؟», «مين كان مع النبي في الغار؟», «مين الخوارج؟»), «غزوة الخندك», the 16-unit cap for
+three overviews, «عمر زعل ليه؟» after Hudaybiyya and «واستشهد إزاي؟» after Uthman; and it breaks five
+(the date and «الهجرة» cases above). Retrieval fixes are checked both ways.
+
+Quota spent in 3J so far: **87 Gemini embedding texts, 1 request** (2026-10-24, approved: about 105).

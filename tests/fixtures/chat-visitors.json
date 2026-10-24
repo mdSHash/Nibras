@@ -1,0 +1,173 @@
+{
+  "about": "Questions the way visitors ask (3J). records: must be in the evidence; units: must be in the evidence; notRecords: must not be linked or in the evidence; outOfScope: no confident subject offline, a refusal live. shape: the answer shape expected. knownGap: fails today, with why (the test fails once it passes, so the mark is removed with the fix).",
+  "questions": [
+    { "id": "hud-overview-eg", "q": "إيه هو صلح الحديبية؟", "style": "egyptian", "shape": "overview", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#description:3", "event:treaty-hudaybiyyah#description:4", "event:treaty-hudaybiyyah#step:4", "event:treaty-hudaybiyyah#role:1", "event:treaty-hudaybiyyah#role:3"], "knownGap": "an overview gets at most 16 units of its record (maxPerRecord)" },
+    { "id": "hud-overview-msa", "q": "ماذا تعرف عن صلح الحديبية؟", "style": "formal", "shape": "overview", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#description:3", "event:treaty-hudaybiyyah#description:5", "event:treaty-hudaybiyyah#role:2"] },
+    { "id": "hud-terms", "q": "ايه شروط صلح الحديبية", "style": "egyptian", "shape": "specific", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#description:3", "event:treaty-hudaybiyyah#step:4"] },
+    { "id": "hud-writer", "q": "مين اللي كتب صلح الحديبية؟", "style": "egyptian", "shape": "role", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#role:2"] },
+    { "id": "hud-umar-why", "q": "ليه عمر بن الخطاب زعل في صلح الحديبية؟", "style": "egyptian", "shape": "reason", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#role:1"] },
+    { "id": "hud-misspelled", "q": "صلح الحديبيه", "style": "misspelled", "shape": "overview", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#description:3"] },
+    { "id": "badr-tell", "q": "احكيلي عن غزوة بدر", "style": "egyptian", "shape": "steps", "records": ["event:battle-badr"], "units": ["event:battle-badr#step:0", "event:battle-badr#step:1", "event:battle-badr#step:3"] },
+    { "id": "badr-how-many", "q": "كام واحد كانوا في غزوة بدر؟", "style": "egyptian", "shape": "fact", "records": ["event:battle-badr"], "units": ["event:battle-badr#army_size"], "notRecords": ["event:battle-uhud"], "knownGap": "«واحد» is stemmed to «احد» and links Uhud" },
+    { "id": "badr-when", "q": "إمتى كانت غزوة بدر؟", "style": "egyptian", "shape": "fact", "records": ["event:battle-badr"], "units": ["event:battle-badr#date"] },
+    { "id": "badr-enemy", "q": "ما عدد جيش المشركين في بدر؟", "style": "formal", "shape": "fact", "records": ["event:battle-badr"], "units": ["event:battle-badr#enemy_army_size"] },
+    { "id": "badr-ali", "q": "علي عمل إيه في بدر؟", "style": "egyptian", "shape": "role", "records": ["event:battle-badr"], "units": ["event:battle-badr#role:0"] },
+    { "id": "badr-why-misspelled", "q": "غزوه بدر ليه حصلت؟", "style": "misspelled", "shape": "reason", "records": ["event:battle-badr"] },
+    { "id": "uhud-what", "q": "إيه اللي حصل في أحد؟", "style": "egyptian", "shape": "overview", "records": ["event:battle-uhud"] },
+    { "id": "hamza-death", "q": "حمزة اتقتل إزاي؟", "style": "egyptian", "shape": "specific", "records": ["companion:hamza", "event:battle-uhud"] },
+    { "id": "uhud-verses", "q": "ما الآيات التي نزلت في غزوة أحد؟", "style": "formal", "shape": "quran", "records": ["event:battle-uhud"], "units": ["event:battle-uhud#quran:0", "event:battle-uhud#quran:1"] },
+    { "id": "uhud-banner", "q": "مين كان شايل اللوا في أحد؟", "style": "egyptian", "shape": "role", "records": ["event:battle-uhud"], "units": ["event:battle-uhud#role:1"] },
+    { "id": "khandaq-idea", "q": "مين صاحب فكرة الخندق؟", "style": "egyptian", "shape": "role", "records": ["event:battle-khandaq"], "units": ["event:battle-khandaq#role:0"] },
+    { "id": "khandaq-duration", "q": "غزوة الأحزاب استمرت قد إيه؟", "style": "egyptian", "shape": "fact", "records": ["event:battle-khandaq"], "units": ["event:battle-khandaq#duration"] },
+    { "id": "hijra-tell", "q": "احكيلي عن الهجرة", "style": "egyptian", "shape": "steps", "records": ["event:hijra-medina"] },
+    { "id": "hijra-bed", "q": "مين اللي نام في فرشة النبي؟", "style": "egyptian", "shape": "role", "records": ["event:hijra-medina"], "units": ["event:hijra-medina#role:1"] },
+    { "id": "hijra-cave", "q": "مين كان مع النبي في الغار؟", "style": "egyptian", "shape": "role", "records": ["event:hijra-medina"], "units": ["event:hijra-medina#role:0"] },
+    { "id": "ifk-what", "q": "إيه هي حادثة الإفك؟", "style": "egyptian", "shape": "overview", "records": ["event:incident_ifk"] },
+    { "id": "umar-who", "q": "مين عمر بن الخطاب؟", "style": "egyptian", "shape": "person", "records": ["companion:umar"] },
+    { "id": "abubakr-msa", "q": "ماذا تعرف عن أبي بكر الصديق؟", "style": "formal", "shape": "person", "records": ["companion:abu-bakr"] },
+    { "id": "khalid-yarmouk", "q": "خالد بن الوليد عمل إيه في اليرموك؟", "style": "egyptian", "shape": "role", "records": ["event:battle-yarmouk"], "units": ["event:battle-yarmouk#role:0"] },
+    { "id": "bilal-who", "q": "مين هو بلال؟", "style": "egyptian", "shape": "person", "records": ["companion:bilal"] },
+    { "id": "umar-death-misspelled", "q": "عمربن الخطاب اتوفى ازاي", "style": "misspelled", "shape": "specific", "records": ["companion:umar", "event:event-92-استشهاد-عمر-بن-الخطاب"] },
+    { "id": "salman-islam", "q": "سلمان الفارسي اسلم ازاي؟", "style": "egyptian", "shape": "specific", "records": ["companion:salman-al-farisi"] },
+    { "id": "khadija-short", "q": "مين خديجة؟", "style": "short", "shape": "person", "records": ["companion:khadija"] },
+    { "id": "yarmouk-where", "q": "فين حصلت معركة اليرموك؟", "style": "egyptian", "shape": "fact", "records": ["event:battle-yarmouk"], "units": ["event:battle-yarmouk#location"] },
+    { "id": "qadisiyyah-result", "q": "ما نتيجة معركة القادسية؟", "style": "formal", "shape": "specific", "records": ["event:battle-qadisiyyah"] },
+    { "id": "mecca-when-misspelled", "q": "فتح مكه كان امتى", "style": "misspelled", "shape": "fact", "records": ["event:conquest-mecca"], "units": ["event:conquest-mecca#date"] },
+    { "id": "mecca-how-many", "q": "كان عدد المسلمين كام في فتح مكة؟", "style": "egyptian", "shape": "fact", "records": ["event:conquest-mecca"] },
+    { "id": "ramada-story", "q": "ايه قصة عام الرمادة", "style": "egyptian", "shape": "overview", "records": ["event:famine-am-ramada"] },
+    { "id": "nahavand-name", "q": "معركة نهاوند سموها فتح الفتوح ليه؟", "style": "egyptian", "shape": "reason", "records": ["event:battle-nahavand"] },
+    { "id": "uthman-killer", "q": "مين قتل عثمان بن عفان؟", "style": "egyptian", "shape": "specific", "records": ["event:event-105-استشهاد-عثمان-بن-عفان-يوم-الدار", "companion:uthman"] },
+    { "id": "siffin-what", "q": "إيه اللي حصل في صفين؟", "style": "egyptian", "shape": "overview", "records": ["event:event-109-معركة-صفين"] },
+    { "id": "khawarij-who", "q": "مين الخوارج؟", "style": "egyptian", "shape": "overview", "records": ["event:event-110-ظهور-الخوارج"] },
+    { "id": "rashidun-list", "q": "مين هما الخلفاء الراشدين؟", "style": "egyptian", "shape": "list", "records": ["list:rashidun-caliphs"] },
+    { "id": "mothers-list", "q": "من هن أمهات المؤمنين؟", "style": "formal", "shape": "list", "records": ["list:mothers-of-the-believers"] },
+    { "id": "ghazawat-list", "q": "إيه غزوات النبي؟", "style": "egyptian", "shape": "list", "records": ["list:era:prophet", "list:era:medinan"] },
+    { "id": "umar-battles-list", "q": "ايه المعارك اللي حصلت ايام عمر؟", "style": "egyptian", "shape": "list", "records": ["list:era:umar"] },
+    { "id": "hijra-verse", "q": "إيه الآية اللي نزلت في الهجرة؟", "style": "egyptian", "shape": "quran", "records": ["event:hijra-medina"], "units": ["event:hijra-medina#quran:1"], "knownGap": "«الهجرة» alone links the migration to Abyssinia, not the Hijra; verse records fill the evidence" },
+    { "id": "fath-surah", "q": "ما سبب نزول سورة الفتح؟", "style": "formal", "shape": "quran", "records": ["event:treaty-hudaybiyyah"] },
+    { "id": "badr-short", "q": "بدر", "style": "short", "shape": "overview", "records": ["event:battle-badr"] },
+    { "id": "hudaybiyya-short", "q": "الحديبية", "style": "short", "shape": "overview", "records": ["event:treaty-hudaybiyyah"] },
+    { "id": "uthman-short", "q": "عثمان", "style": "short", "shape": "person", "records": ["companion:uthman"] },
+    { "id": "vague-tell", "q": "احكيلي حاجة", "style": "vague", "shape": "not_covered", "outOfScope": true },
+    { "id": "vague-bravest", "q": "مين أشجع صحابي؟", "style": "vague", "shape": "not_covered", "outOfScope": true },
+    { "id": "vague-most-important", "q": "إيه أهم حدث في التاريخ الإسلامي؟", "style": "vague", "shape": "not_covered", "outOfScope": true, "knownGap": "common words (حدث، التاريخ، الإسلامي) give keyword confidence high" },
+    { "id": "uncovered-electricity", "q": "مين اخترع الكهربا؟", "style": "uncovered", "shape": "not_covered", "outOfScope": true },
+    { "id": "uncovered-restaurant", "q": "إيه أحسن مطعم في القاهرة؟", "style": "uncovered", "shape": "not_covered", "outOfScope": true },
+    { "id": "uncovered-paris", "q": "ما هي عاصمة فرنسا؟", "style": "uncovered", "shape": "not_covered", "outOfScope": true },
+    { "id": "uncovered-saladin", "q": "مين صلاح الدين الأيوبي؟", "style": "uncovered", "shape": "not_covered", "outOfScope": true },
+    { "id": "badr-why-msa", "q": "لماذا خرج المسلمون إلى بدر؟", "style": "formal", "shape": "reason", "records": ["event:battle-badr"] },
+    { "id": "mutah-end", "q": "كيف انتهت معركة مؤتة؟", "style": "formal", "shape": "specific", "records": ["event:battle-mutah"] },
+    { "id": "prophet-death-when", "q": "متى توفي النبي ﷺ؟", "style": "formal", "shape": "fact", "records": ["event:prophet-death"], "units": ["event:prophet-death#date"], "knownGap": "facts are not embedded: semantic hits push the date past the 5-unit cap of a record the question does not name strongly" },
+    { "id": "musab-who", "q": "من هو مصعب بن عمير؟", "style": "formal", "shape": "person", "records": ["companion:musab-ibn-umayr"] },
+    { "id": "isra-when-misspelled", "q": "الاسراء والمعراج حصل امتي", "style": "misspelled", "shape": "fact", "records": ["event:isra-miraj"], "units": ["event:isra-miraj#date"] },
+    { "id": "khandaq-misspelled", "q": "غزوة الخندك", "style": "misspelled", "shape": "overview", "records": ["event:battle-khandaq"] },
+    { "id": "aqaba-misspelled", "q": "بيعه العقبه الاولي", "style": "misspelled", "shape": "overview", "records": ["event:first-aqaba"] }
+  ],
+  "flows": [
+    { "id": "hudaybiyya-follow-ups", "turns": [
+      { "q": "إيه هو صلح الحديبية؟", "records": ["event:treaty-hudaybiyyah"] },
+      { "q": "مين اللي كتب الصلح؟", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#role:2"] },
+      { "q": "عمر زعل ليه؟", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#role:1"] },
+      { "q": "كانوا كام واحد؟", "units": ["event:treaty-hudaybiyyah#army_size"], "notRecords": ["event:battle-uhud"], "knownGap": "«واحد» is stemmed to «احد» and links Uhud" }
+    ] },
+    { "id": "badr-suggestions", "turns": [
+      { "q": "احكيلي عن غزوة بدر", "records": ["event:battle-badr"] },
+      { "suggestion": 0, "records": ["event:battle-badr"] },
+      { "q": "وبعدين حصل إيه؟", "records": ["event:battle-badr"] }
+    ] },
+    { "id": "khalid-topic-switch", "turns": [
+      { "q": "مين خالد بن الوليد؟", "records": ["companion:khalid"] },
+      { "q": "عمل إيه في اليرموك؟", "records": ["event:battle-yarmouk"], "units": ["event:battle-yarmouk#role:0"] },
+      { "q": "طب وفي مؤتة؟", "records": ["event:battle-mutah"] }
+    ] },
+    { "id": "going-back", "turns": [
+      { "q": "إيه هو صلح الحديبية؟", "records": ["event:treaty-hudaybiyyah"] },
+      { "q": "احكيلي عن غزوة بدر", "records": ["event:battle-badr"] },
+      { "q": "طب نرجع للصلح، كان فين؟", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#location"] }
+    ] },
+    { "id": "uthman-pronouns", "turns": [
+      { "q": "مين عثمان بن عفان؟", "records": ["companion:uthman"] },
+      { "q": "طب عمل إيه في تبوك؟", "records": ["event:battle-tabuk"] },
+      { "q": "واستشهد إزاي؟", "records": ["event:event-105-استشهاد-عثمان-بن-عفان-يوم-الدار", "companion:uthman"] }
+    ] },
+    { "id": "uhud-short-follow-ups", "turns": [
+      { "q": "إيه اللي حصل في أحد؟", "records": ["event:battle-uhud"] },
+      { "q": "كانوا كام؟", "units": ["event:battle-uhud#army_size"] },
+      { "q": "ومين اللي استشهد؟", "records": ["event:battle-uhud"] }
+    ] },
+    { "id": "hijra-companion-verse", "turns": [
+      { "q": "احكيلي عن الهجرة", "records": ["event:hijra-medina"] },
+      { "q": "مين كان معاه؟", "units": ["event:hijra-medina#role:0"], "knownGap": "«الهجرة» alone links the migration to Abyssinia, not the Hijra" },
+      { "q": "وإيه الآية اللي نزلت فيها؟", "units": ["event:hijra-medina#quran:1"], "knownGap": "«الهجرة» alone links the migration to Abyssinia, not the Hijra" }
+    ] },
+    { "id": "umar-suggestion-chain", "turns": [
+      { "q": "مين عمر بن الخطاب؟", "records": ["companion:umar"] },
+      { "suggestion": 0, "records": ["companion:umar"] },
+      { "suggestion": 0 }
+    ] },
+    { "id": "uncovered-then-khandaq", "turns": [
+      { "q": "مين اخترع الكهربا؟", "outOfScope": true },
+      { "q": "طب إيه هي غزوة الخندق؟", "records": ["event:battle-khandaq"] },
+      { "q": "مين صاحب الفكرة؟", "units": ["event:battle-khandaq#role:0"] }
+    ] },
+    { "id": "isra-formal", "turns": [
+      { "q": "ما قصة الإسراء والمعراج؟", "records": ["event:isra-miraj"] },
+      { "q": "متى كانت؟", "units": ["event:isra-miraj#date"] },
+      { "q": "ما الآيات المتعلقة بها؟", "records": ["event:isra-miraj"] }
+    ] },
+    { "id": "event-to-event", "turns": [
+      { "q": "إمتى كانت غزوة بدر؟", "units": ["event:battle-badr#date"] },
+      { "q": "وأحد؟", "units": ["event:battle-uhud#date"], "knownGap": "an elliptic follow-up does not keep the previous question's intent (the date)" },
+      { "q": "والخندق؟", "units": ["event:battle-khandaq#date"], "knownGap": "an elliptic follow-up does not keep the previous question's intent (the date)" }
+    ] },
+    { "id": "caliphs-suggestion", "turns": [
+      { "q": "مين هما الخلفاء الراشدين؟", "records": ["list:rashidun-caliphs"] },
+      { "suggestion": 0, "knownGap": "a list answer gets no follow-up suggestions" }
+    ] },
+    { "id": "umm-salama-hudaybiyya", "turns": [
+      { "q": "مين أم سلمة؟", "records": ["companion:umm-salamah"] },
+      { "q": "عملت إيه في الحديبية؟", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#role:3"] }
+    ] },
+    { "id": "vague-then-starter", "turns": [
+      { "q": "احكيلي حاجة", "outOfScope": true },
+      { "suggestion": 0, "knownGap": "a refusal shows no starter questions (approved for 3J)" }
+    ] },
+    { "id": "ifk-follow-ups", "turns": [
+      { "q": "إيه هي حادثة الإفك؟", "records": ["event:incident_ifk"] },
+      { "q": "وإيه اللي نزل فيها؟", "units": ["event:incident_ifk#quran:0"] },
+      { "q": "حصلت إمتى؟", "units": ["event:incident_ifk#date"] }
+    ] }
+  ],
+  "liveSample": [
+    "hud-overview-eg",
+    "hud-overview-msa",
+    "hud-terms",
+    "hud-writer",
+    "hud-umar-why",
+    "badr-tell",
+    "badr-how-many",
+    "badr-ali",
+    "uhud-what",
+    "hamza-death",
+    "khandaq-idea",
+    "hijra-tell",
+    "hijra-cave",
+    "umar-who",
+    "khalid-yarmouk",
+    "qadisiyyah-result",
+    "ramada-story",
+    "uthman-killer",
+    "rashidun-list",
+    "uhud-verses",
+    "prophet-death-when",
+    "khandaq-misspelled",
+    "vague-tell",
+    "uncovered-paris",
+    "vague-bravest",
+    "hudaybiyya-follow-ups",
+    "badr-suggestions",
+    "khalid-topic-switch",
+    "uthman-pronouns",
+    "uncovered-then-khandaq"
+  ]
+}
