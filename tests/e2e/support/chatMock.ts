@@ -61,3 +61,24 @@ export const mockChatAnswer: ChatSuccessBody = {
 };
 
 export const defaultChatReply: ChatResponder = () => ({ json: mockChatAnswer });
+
+/**
+ * An answer in the 3J shapes, built by the server's own composer (the
+ * deterministic overview, no model): summary, numbered steps, other details,
+ * fact rows, roles, a verse.
+ */
+export async function shapedAnswer(recordId: string, style: 'overview' | 'narrative'): Promise<ChatSuccessBody> {
+  const { getKb } = await import('../../../api/_lib/kb');
+  const { composeOverview } = await import('../../../api/_lib/shapes');
+  const { answerBlockText } = await import('../../../shared/chatApi');
+  const composed = composeOverview(getKb(), recordId, style);
+  return {
+    answer: composed.blocks.map(answerBlockText).join('\n\n'),
+    blocks: composed.blocks,
+    citations: composed.citations,
+    grounded: true,
+    mode: 'composed',
+    context: { recordIds: [recordId], carried: [] },
+    followUps: [],
+  };
+}
