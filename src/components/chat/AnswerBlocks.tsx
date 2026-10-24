@@ -6,7 +6,9 @@ import { toArabicIndic } from '../../../shared/arabic';
 /**
  * Renders a structured chat answer. Every block's wording comes from Nibras's
  * own data (see api/_lib/validator.ts): text blocks are verified clauses,
- * quotes and lists are stored text, verses are the app's verified Qur'an text.
+ * quotes, lists, paragraphs, fact rows and steps are stored text (headings
+ * come from a fixed list, api/_lib/shapes.ts), verses are the app's verified
+ * Qur'an text.
  */
 
 /** **bold** labels + paragraph breaks, without ever interpreting other markup. */
@@ -29,6 +31,11 @@ export function FormattedText({ text }: { text: string }) {
 function BlockSources({ sources }: { sources?: string[] }) {
   if (!sources?.length) return null;
   return <p className="mt-1 text-[length:var(--chat-tiny)] text-[var(--color-ink)]/65">المصادر: {toArabicIndic(sources.join('؛ '))}</p>;
+}
+
+/** A section heading from the fixed list (api/_lib/shapes.ts), in the list block's style. */
+function BlockHeading({ heading }: { heading?: string }) {
+  return heading ? <p className="font-bold">{heading}:</p> : null;
 }
 
 interface AnswerBlocksProps {
@@ -65,6 +72,40 @@ export function AnswerBlocks({ blocks, onVerseOpen }: AnswerBlocksProps) {
                     <li key={j}>{item}</li>
                   ))}
                 </ul>
+              </div>
+            );
+          case 'paragraph':
+            return (
+              <div key={i}>
+                <BlockHeading heading={block.heading} />
+                <p className={block.heading ? 'mt-1' : undefined}>{block.text}</p>
+                <BlockSources sources={block.sources} />
+              </div>
+            );
+          case 'facts':
+            return (
+              <div key={i}>
+                <BlockHeading heading={block.heading} />
+                <dl className={cn('space-y-0.5', block.heading && 'mt-1')}>
+                  {block.rows.map((row, j) => (
+                    <div key={j}>
+                      <dt className="inline font-bold">{row.label}: </dt>
+                      <dd className="inline">{row.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            );
+          case 'steps':
+            return (
+              <div key={i}>
+                <BlockHeading heading={block.heading} />
+                <ol className="mt-1 list-[arabic-indic] ps-5 space-y-0.5 marker:text-[var(--color-accent)]">
+                  {block.items.map((item, j) => (
+                    <li key={j}>{item}</li>
+                  ))}
+                </ol>
+                <BlockSources sources={block.sources} />
               </div>
             );
           case 'quran':

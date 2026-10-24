@@ -94,6 +94,12 @@ export interface KbUnit {
    */
   list?: { heading: string; items: string[] };
   /**
+   * For fact and role units: the template label and the verbatim value, so an
+   * answer about the record can show «التاريخ: …» or «عمر بن الخطاب: …»
+   * without repeating the record's name (the text keeps it, for search).
+   */
+  fact?: { label: string; value: string };
+  /**
    * For a battle video's caption lines: the Arabic book references its sources
    * give for the line (content/battle-videos/<event id>/sources.md), shown with
    * any answer that uses it.

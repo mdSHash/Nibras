@@ -10,13 +10,14 @@ import type { KbRecord, KbUnit, UnitKind } from '../../shared/chatKb.js';
 import { analyze, normalizeForMatch, plainText, searchStems } from '../../shared/arabic.js';
 import { embedQueryWith, type EmbeddingProvider } from './embeddings.js';
 import { carryContext, type ChatContext } from './context.js';
-import { linkEntities, type LinkedEntity } from './entityLinker.js';
+import { linkEntities, withoutCountingWord, type LinkedEntity } from './entityLinker.js';
 import { getKb, type LoadedKb } from './kb.js';
 import { getProviderIndex, semanticScores } from './semanticIndex.js';
+import { hit, TRACE_MAX_CUT, TRACE_TOP, type ChatTrace } from './trace.js';
 
 export type Intent =
   | 'date' | 'location' | 'quantity' | 'duration' | 'role' | 'quran' | 'hadith' | 'sources'
-  | 'list' | 'outcome' | 'reason' | 'biography' | 'death' | 'birth' | 'appearances' | 'military' | 'how';
+  | 'list' | 'outcome' | 'reason' | 'biography' | 'death' | 'birth' | 'appearances' | 'military' | 'how' | 'agent';
 
 // Patterns run on normalizeForMatch() text (ة→ه, ى→ي, alef variants folded),
 // in both Modern Standard Arabic and Egyptian colloquial phrasing.
@@ -33,7 +34,10 @@ const INTENTS: [Intent, RegExp, UnitKind[]][] = [
   ['outcome', /(^| )(نتيجه|نتائج|النتيجه|انتهت|خلصت|انتصر|انتصروا|انتصار|كسب|كسبوا|هزم|اتهزم|اتهزموا|هزيمه|خسر|خسروا)( |$)/, ['battle_outcome', 'event_summary']],
   ['reason', /(^| )(لماذا|ليه|سبب|اسباب|اهميه|لم|عشان ايه|علشان ايه)( |$)/, ['event_description', 'battle_outcome', 'companion_bio']],
   ['how', /(^| )(كيف|ازاي|ازاى)( |$)/, ['event_step', 'event_description', 'event_role']],
-  ['biography', /(^| )(من هو|من هي|مين هو|مين هي|مين|سيره|حياه|ترجمه|نسب|لقب|سمي|يلقب|لقبه|اتسمي|اسمه)( |$)/, ['companion_profile', 'companion_bio']],
+  // «مين اللي نام في فرشة النبي؟» asks who did something: roles and the story,
+  // not biographies (a bare «مين» used to fill the evidence with profiles).
+  ['agent', /(^| )(مين اللي|من الذي|من اللي|مين كان|من كان|مين صاحب|من صاحب|مين قتل|من قتل|مين كتب|من كتب)( |$)/, ['event_role', 'event_description', 'event_step']],
+  ['biography', /(^| )(من هو|من هي|مين هو|مين هي|سيره|حياه|ترجمه|نسب|لقب|سمي|يلقب|لقبه|اتسمي|اسمه)( |$)/, ['companion_profile', 'companion_bio']],
   ['death', /(^| )(توفي|اتوفي|اتوفت|وفاه|استشهد|استشهدت|استشهاد|مات|ماتت|مقتل|قتل|اتقتل|اتقتلت|قتلوه|قتله)( |$)/, ['companion_profile', 'companion_bio', 'event_summary', 'event_role']],
   ['birth', /(^| )(ولد|ولدت|اتولد|اتولدت|مولد|ميلاد|مولده)( |$)/, ['companion_profile', 'event_date']],
   ['appearances', /(^| )(في اي|الاحداث التي|الاحداث اللي|اين ورد|ورد ذكر|اتذكر فين)( |$)/, ['companion_events']],
@@ -47,10 +51,12 @@ const QURAN_WORDS = /(^| )(اية|ايات|الاية|الايه|الايات|ق
 
 export function detectIntents(question: string): { intents: Intent[]; kinds: Set<UnitKind> } {
   const normalized = ` ${normalizeForMatch(question)} `;
+  // «واستشهد إزاي؟», «وليه؟», «وكام؟»: each word is also read without a leading و/ف.
+  const withoutConjunctions = normalized.replace(/ [وف](?=[^ ]{3,} )/g, ' ');
   const intents: Intent[] = [];
   const kinds = new Set<UnitKind>();
   for (const [intent, pattern, unitKinds] of INTENTS) {
-    if (pattern.test(normalized)) {
+    if (pattern.test(normalized) || pattern.test(withoutConjunctions)) {
       intents.push(intent);
       unitKinds.forEach(k => kinds.add(k));
     }
@@ -70,6 +76,10 @@ const KIND_PRIOR: Partial<Record<UnitKind, number>> = {
   event_date: 0.004, event_location: 0.003, battle_outcome: 0.002, event_description: 0.002,
   companion_bio: 0.002, event_step: 0.001,
 };
+
+const SUPERLATIVE = /(^| )[وف]?(اهم|اعظم|اشجع|افضل|احسن|اكبر|اقوي|اجمل|احب|اشهر)( |$)/;
+
+const FACT_KINDS: ReadonlySet<UnitKind> = new Set(['event_date', 'event_location', 'event_army', 'event_duration']);
 
 const BM25_K1 = 1.2;
 const BM25_B = 0.75;
@@ -99,6 +109,8 @@ const SYNONYM_GROUPS = [
   'راح خرج ذهب توجه',
   'دفن اتدفن مدفون',
   'بنى بناء اتبنى',
+  'غضب زعل اعترض حزن',
+  'كتب كاتب كتابة',
 ];
 
 const SYNONYMS = new Map<string, string[]>();
@@ -134,14 +146,24 @@ function bm25(kb: LoadedKb, stems: string[]): { unitIndex: number; score: number
   return results.sort((a, b) => b.score - a.score);
 }
 
-export type QueryEmbedder = (question: string) => Promise<{ provider: EmbeddingProvider; vector: number[] } | null>;
+/** `notes` (traces only) collects why a provider was skipped or failed. */
+export type QueryEmbedder = (question: string, notes?: string[]) => Promise<{ provider: EmbeddingProvider; vector: number[] } | null>;
 
 export function defaultEmbedder(kb: LoadedKb, keys: { gemini?: string; openrouter?: string }): QueryEmbedder {
-  return async question => {
+  return async (question, notes) => {
     for (const provider of ['gemini', 'openrouter'] as const) {
-      if (!getProviderIndex(kb, provider).usable) continue;
+      const index = getProviderIndex(kb, provider);
+      if (!index.usable) {
+        notes?.push(`${provider}: index not usable (coverage ${index.coverage.toFixed(3)})`);
+        continue;
+      }
+      if (!keys[provider]) {
+        notes?.push(`${provider}: no API key`);
+        continue;
+      }
       const vector = await embedQueryWith(provider, question, keys[provider]);
       if (vector) return { provider, vector };
+      notes?.push(`${provider}: query embedding failed`);
     }
     return null;
   };
@@ -158,19 +180,59 @@ export interface SearchOutcome {
   intents: Intent[];
   confidence: 'high' | 'medium' | 'none';
   semanticProvider?: EmbeddingProvider;
+  /** For an elliptic follow-up, the earlier question it asks again. */
+  askedAs?: string;
 }
 
-export async function search(question: string, embed?: QueryEmbedder, kb: LoadedKb = getKb(), context?: ChatContext): Promise<SearchOutcome> {
-  const stems = [...new Set(searchStems(question))];
+/** The question's search stems, without the colloquial «واحد» (entityLinker.ts). */
+export function questionStems(question: string): string[] {
+  return [...new Set(searchStems(withoutCountingWord(question)))];
+}
+
+export async function search(question: string, embed?: QueryEmbedder, kb: LoadedKb = getKb(), context?: ChatContext, trace?: ChatTrace): Promise<SearchOutcome> {
+  const stems = questionStems(question);
   const named = linkEntities(question, kb);
   const entities = [...named, ...carryContext(question, named, context, kb).filter(c => !named.some(n => n.recordId === c.recordId))];
-  const { intents, kinds } = detectIntents(question);
+  // «وأحد؟» after «إمتى كانت غزوة بدر؟»: a short question that names a new
+  // subject and asks nothing of its own asks the previous question again.
+  const own = detectIntents(question);
+  const elliptic = own.intents.length === 0 && stems.length <= 2 && named.some(e => e.strong) && !!context?.previousQuestion;
+  const { intents, kinds } = elliptic ? detectIntents(context!.previousQuestion!) : own;
+  if (trace && elliptic) trace.context.intentsFromPrevious = true;
+  // «مين خديجة؟»: «مين» before a person's name still asks who they were.
+  const startsWithWho = /^(مين|من) /.test(normalizeForMatch(question).trim());
+  const namesPerson = named.some(e => e.strong && kb.recordById.get(e.recordId)?.type === 'companion');
+  if (startsWithWho && namesPerson && !intents.includes('agent') && !intents.includes('biography')) {
+    intents.push('biography');
+    kinds.add('companion_profile');
+    kinds.add('companion_bio');
+  }
+  if (trace) {
+    trace.intents = intents;
+    trace.entities = entities.map(e => ({ id: e.recordId, phrase: e.phrase, strong: e.strong, carried: !!e.carried }));
+    trace.context.sent = context?.recordIds ?? [];
+    trace.context.carried = entities.filter(e => e.carried).map(e => e.recordId);
+  }
   if (stems.length === 0 && entities.length === 0) return { evidence: [], entities, intents, confidence: 'none' };
 
   const keyword = bm25(kb, stems);
-  const semanticResult = embed ? await embed(question) : null;
+  const embedStarted = Date.now();
+  const semanticResult = embed ? await embed(question, trace?.semantic.notes) : null;
   const semantic = semanticResult ? semanticScores(getProviderIndex(kb, semanticResult.provider), semanticResult.vector) : [];
   const semanticMin = semanticResult ? SEMANTIC_MIN[semanticResult.provider] : 1;
+  if (trace) {
+    trace.keyword = keyword.slice(0, TRACE_TOP).map(r => ({ ...hit(kb.units[r.unitIndex].id, r.score), matched: r.matched }));
+    if (semanticResult) {
+      trace.semantic = {
+        ...trace.semantic,
+        ran: true,
+        provider: semanticResult.provider,
+        ms: Date.now() - embedStarted,
+        min: semanticMin,
+        top: semantic.slice(0, TRACE_TOP).map(r => hit(kb.units[r.unitIndex].id, r.score)),
+      };
+    }
+  }
 
   const strong = new Set(entities.filter(e => e.strong).map(e => e.recordId));
   const weak = new Set(entities.filter(e => !e.strong).map(e => e.recordId));
@@ -223,6 +285,9 @@ export async function search(question: string, embed?: QueryEmbedder, kb: Loaded
     // "What did Ali do at Badr?" — the role unit tying both named records.
     if (linked.has(unit.recordId) && about.some(id => linked.has(id))) score += 0.05;
     if (kinds.has(unit.kind)) score += linked.has(unit.recordId) || about.some(id => linked.has(id)) ? 0.03 : 0.012;
+    // The fact asked for («متى توفي النبي ﷺ؟» → the date) leads its record: facts are
+    // not embedded, so semantic hits otherwise push it past the per-record cap.
+    if (kinds.has(unit.kind) && FACT_KINDS.has(unit.kind) && linked.has(unit.recordId)) score += 0.05;
     score += KIND_PRIOR[unit.kind] ?? 0;
     if (unit.trust === 'secondary') score *= 0.85;
     // When the question clearly names a record, other records only get in on
@@ -235,36 +300,90 @@ export async function search(question: string, embed?: QueryEmbedder, kb: Loaded
   const ranked = [...scores].sort((a, b) => b[1] - a[1]);
   const topKeyword = keyword[0];
   const topSemantic = semantic[0];
-  const confidence: SearchOutcome['confidence'] =
-    strong.size > 0 || (topKeyword && topKeyword.matched >= 2 && topKeyword.score >= 6)
+  // «إيه أهم حدث في التاريخ الإسلامي؟», «مين أشجع صحابي؟»: an opinion about no named
+  // subject; the reviewed content ranks nothing, so it is not covered.
+  const opinionOnly = entities.length === 0 && titleBoost.size === 0 && SUPERLATIVE.test(` ${normalizeForMatch(question)} `);
+  const confidence: SearchOutcome['confidence'] = opinionOnly
+    ? 'none'
+    : strong.size > 0 || (topKeyword && topKeyword.matched >= 2 && topKeyword.score >= 6)
       ? 'high'
       : (topKeyword && topKeyword.score >= BM25_MIN) || (topSemantic && topSemantic.score >= semanticMin) || weak.size > 0
         ? 'medium'
         : 'none';
 
-  const evidence = packEvidence(kb, ranked, intents.includes('list') || intents.includes('military'), strong, intents.includes('military'));
-  return { evidence, entities, intents, confidence, semanticProvider: semanticResult?.provider };
+  const cut: ChatTrace['evidence']['cut'] = [];
+  const listQuestion = intents.includes('list') || intents.includes('military');
+  // A question about a named event stays on it: other records only through a
+  // unit tied to it (a role, a verse). «كام واحد كانوا في غزوة بدر؟» filled up
+  // with Uhud, whose description mentions Badr.
+  const related = (unit: KbUnit) => linked.has(unit.recordId) || !!unit.alsoAbout?.some(id => linked.has(id));
+  // Only for an event the question names: one carried from context may be the wrong one.
+  const namesEvent = entities.some(e => e.strong && !e.carried && strongEvents.has(e.recordId));
+  const onTopic = namesEvent && !listQuestion ? related : () => true;
+  const evidence = packEvidence(kb, ranked, listQuestion, strong, intents.includes('military'), cut, onTopic);
+  if (trace) {
+    trace.confidence = confidence;
+    trace.fusion = ranked.slice(0, TRACE_TOP).map(([i, score]) => hit(kb.units[i].id, score));
+    trace.evidence = {
+      kept: evidence.map(e => ({ record: e.record.id, units: e.units.map(u => u.id), of: kb.units.filter(u => u.recordId === e.record.id).length })),
+      cut: cut.slice(0, TRACE_MAX_CUT),
+      chars: evidence.reduce((n, e) => n + e.units.reduce((m, u) => m + plainText(u.text).length, 0), 0),
+    };
+  }
+  return { evidence, entities, intents, confidence, semanticProvider: semanticResult?.provider, ...(elliptic ? { askedAs: context!.previousQuestion } : {}) };
 }
 
 const CHAR_BUDGET = 7000;
 
-function packEvidence(kb: LoadedKb, ranked: [number, number][], listQuestion: boolean, strong: Set<string>, militaryQuestion: boolean): EvidenceRecord[] {
+/**
+ * `cut` collects the units that ranked above the last one kept but were left
+ * out, with the limit that left them out (for traces; only units on a record
+ * already kept or ranked in the top 60 are listed).
+ */
+function packEvidence(
+  kb: LoadedKb,
+  ranked: [number, number][],
+  listQuestion: boolean,
+  strong: Set<string>,
+  militaryQuestion: boolean,
+  cut: ChatTrace['evidence']['cut'] = [],
+  onTopic: (unit: KbUnit) => boolean = () => true,
+): EvidenceRecord[] {
   const maxRecords = listQuestion ? 10 : 6;
   // A question about one or two named records gets their full narrative.
   const focused = strong.size > 0 && strong.size <= 2 && !listQuestion;
   const maxPerRecord = (recordId: string) => (focused && strong.has(recordId) ? 16 : listQuestion ? 4 : 5);
   const chosen = new Map<string, number[]>();
   let chars = 0;
-  for (const [unitIndex] of ranked) {
+  for (const [rank, [unitIndex]] of ranked.entries()) {
     const unit = kb.units[unitIndex];
+    const picked = chosen.get(unit.recordId);
+    const note = (by: ChatTrace['evidence']['cut'][number]['by']) => {
+      if (picked || rank < 60) cut.push({ unit: unit.id, by });
+    };
     // "Which battles…" must not get the era's non-military events list, and
     // vice versa "what happened…" keeps both.
-    if (militaryQuestion && unit.kind === 'list' && unit.id.endsWith('#events')) continue;
-    const picked = chosen.get(unit.recordId);
-    if (!picked && chosen.size >= maxRecords) continue;
-    if (picked && picked.length >= maxPerRecord(unit.recordId)) continue;
+    if (!onTopic(unit)) {
+      note('offTopic');
+      continue;
+    }
+    if (militaryQuestion && unit.kind === 'list' && unit.id.endsWith('#events')) {
+      note('listKind');
+      continue;
+    }
+    if (!picked && chosen.size >= maxRecords) {
+      note('maxRecords');
+      continue;
+    }
+    if (picked && picked.length >= maxPerRecord(unit.recordId)) {
+      note('maxPerRecord');
+      continue;
+    }
     const length = plainText(unit.text).length;
-    if (chars + length > CHAR_BUDGET) continue;
+    if (chars + length > CHAR_BUDGET) {
+      note('charBudget');
+      continue;
+    }
     chars += length;
     chosen.set(unit.recordId, [...(picked ?? []), unitIndex]);
   }

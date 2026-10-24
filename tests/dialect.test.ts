@@ -30,6 +30,26 @@ describe('Egyptian colloquial question words', () => {
     expect(detectIntents('إيه المعارك اللي حصلت أيام عمر؟').intents).toContain('military');
   });
 
+  it('read «مين اللي…» as who did it, not as a biography; «مين + name» stays a biography', async () => {
+    const who = detectIntents('مين اللي نام في فرشة النبي؟').intents;
+    expect(who).toContain('agent');
+    expect(who).not.toContain('biography');
+    expect(detectIntents('مين الخوارج؟').intents).not.toContain('biography');
+    expect((await search('مين خديجة؟', undefined, kb)).intents).toContain('biography');
+  });
+
+  it('find no confident subject in an opinion about nothing named («مين أشجع صحابي؟»)', async () => {
+    expect((await search('مين أشجع صحابي؟', undefined, kb)).confidence).toBe('none');
+    expect((await search('إيه أهم حدث في التاريخ الإسلامي؟', undefined, kb)).confidence).toBe('none');
+    expect((await search('ما أهم نتائج غزوة بدر؟', undefined, kb)).confidence).toBe('high');
+  });
+
+  it('see a question word behind a leading و/ف («واستشهد إزاي؟», «وليه؟»)', () => {
+    expect(detectIntents('واستشهد إزاي؟').intents).toEqual(expect.arrayContaining(['death', 'how']));
+    expect(detectIntents('وليه؟').intents).toContain('reason');
+    expect(detectIntents('وفين؟').intents).toContain('location');
+  });
+
   it('never read "إيه" (what) as "آية" (verse)', () => {
     expect(detectIntents('علي بن أبي طالب عمل إيه في غزوة الخندق؟').intents).not.toContain('quran');
     expect(detectIntents('ايه اللي حصل في بدر').intents).not.toContain('quran');

@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import type { AnswerBlock, AnswerMode, ChatErrorBody, ChatSuccessBody } from '../shared/chatApi.js';
+import { answerBlockText, type AnswerBlock, type AnswerMode, type ChatErrorBody, type ChatSuccessBody } from '../shared/chatApi.js';
 import { composeAnswer, extractiveAnswer, type ComposedAnswer } from './_lib/answer.js';
 import { answerCacheKey, cacheAnswer, getCachedAnswer } from './_lib/answerCache.js';
 import { sanitizeContext, type ChatContext } from './_lib/context.js';
@@ -19,7 +19,10 @@ import {
 import { reportServerError } from './_lib/monitoring.js';
 import { checkRateLimit, clientIp } from './_lib/rateLimit.js';
 import { buildPrompt, parseModelAnswer } from './_lib/prompt.js';
+import { composeOverview, composeSections, overviewTarget } from './_lib/shapes.js';
+import { pickExampleQuestions } from '../src/utils/chatExamples.js';
 import { defaultEmbedder, search, type QueryEmbedder, type SearchOutcome } from './_lib/search.js';
+import { formatTrace, newTrace, type ChatTrace } from './_lib/trace.js';
 
 export type { ChatSuccessBody };
 
@@ -36,16 +39,15 @@ export interface AnswerDeps {
   context?: ChatContext;
   /** Disable the answer cache (tests). */
   noCache?: boolean;
+  /** Filled with what each stage saw (eval, dev, tests); never built in production. */
+  trace?: ChatTrace;
 }
 
+/** Traces are returned and printed only off Vercel, when asked for. */
+const traceEnabled = () => process.env.CHAT_TRACE === '1' && !process.env.VERCEL;
+
 function plainAnswer(blocks: AnswerBlock[]): string {
-  return blocks
-    .map(b => {
-      if (b.type === 'quran') return `${b.key}: ${b.text}`;
-      if (b.type === 'list') return `${b.heading}:\n${b.items.map(item => `• ${item}`).join('\n')}`;
-      return b.text;
-    })
-    .join('\n\n');
+  return blocks.map(answerBlockText).join('\n\n');
 }
 
 /** Records the next question may refer back to: what this one named or carried, else what it cited. */
@@ -70,8 +72,9 @@ async function success(found: SearchOutcome, composed: ComposedAnswer, mode: Ans
       carried: found.entities
         .filter(e => e.carried)
         .map(e => ({ recordId: e.recordId, title: kb.recordById.get(e.recordId)?.title ?? '' })),
+      ...(found.askedAs ? { question: found.askedAs } : {}),
     },
-    followUps: await buildFollowUps(kb, recordIds, found.intents, question),
+    followUps: await buildFollowUps(kb, recordIds, found.intents, question, composed.shown),
   };
 }
 
@@ -82,7 +85,8 @@ const notCovered = (): ChatSuccessBody => ({
   grounded: false,
   mode: 'not_covered',
   context: { recordIds: [], carried: [] },
-  followUps: [],
+  // Starter questions (approved for 3J), so a refused or vague question still leads somewhere.
+  followUps: pickExampleQuestions(),
 });
 
 /** The whole question → answer pipeline, independent of the HTTP layer. */
@@ -91,9 +95,19 @@ export async function answerQuestion(question: string, deps: AnswerDeps = {}): P
   const started = now();
   const kb = getKb();
   const embed = deps.embed ?? defaultEmbedder(kb, { gemini: process.env.GEMINI_API_KEY, openrouter: process.env.OPENROUTER_API_KEY });
+  const trace = deps.trace;
 
-  const found = await search(question, embed, kb, deps.context);
+  const found = await search(question, embed, kb, deps.context, trace);
+  if (trace) trace.ms.search = now() - started;
   const carried = found.entities.filter(e => e.carried).map(e => e.recordId);
+  const finish = <T extends { log: Record<string, unknown> }>(result: T): T => {
+    if (trace) {
+      trace.mode = String(result.log.mode);
+      trace.cache ??= deps.noCache ? 'off' : 'miss';
+      trace.ms.total = now() - started;
+    }
+    return result;
+  };
   const log: Record<string, unknown> = {
     confidence: found.confidence,
     entities: found.entities.map(e => e.recordId),
@@ -103,21 +117,41 @@ export async function answerQuestion(question: string, deps: AnswerDeps = {}): P
     evidenceUnits: found.evidence.reduce((n, e) => n + e.units.length, 0),
   };
   if (found.confidence === 'none' || found.evidence.length === 0) {
-    return { status: 200, body: notCovered(), log: { ...log, mode: 'not_covered', ms: now() - started } };
+    return finish({ status: 200, body: notCovered(), log: { ...log, mode: 'not_covered', ms: now() - started } });
+  }
+
+  // An overview of one clear record: the whole record in order, without the model.
+  const overview = overviewTarget(question, found, kb);
+  if (overview) {
+    const composed = composeOverview(kb, overview.recordId, overview.style);
+    if (composed.blocks.length > 0) {
+      if (trace) {
+        trace.shape = overview.style;
+        trace.answerUnits = composed.shown;
+      }
+      const body = await success(found, composed, 'composed', question);
+      return finish({ status: 200, body, log: { ...log, mode: 'composed', shape: overview.style, ms: now() - started } });
+    }
   }
 
   const cacheKey = answerCacheKey(kb.kb.contentHash, question, carried);
   if (!deps.noCache) {
     const cached = await getCachedAnswer(cacheKey);
-    if (cached) return { status: 200, body: cached, log: { ...log, mode: cached.mode, cache: 'hit', ms: now() - started } };
+    if (cached) {
+      if (trace) trace.cache = 'hit';
+      return finish({ status: 200, body: cached, log: { ...log, mode: cached.mode, cache: 'hit', ms: now() - started } });
+    }
   }
 
   const { system, unitByRef } = buildPrompt(found.evidence);
-  // The previous question is shown only when this one borrowed its subject.
+  log.promptChars = system.length;
+  if (trace) trace.prompt = { chars: system.length, passages: unitByRef.size };
+  // The previous question is shown only when this one borrowed its subject or its question («وأحد؟»).
   const userContent =
-    carried.length > 0 && deps.context?.previousQuestion
+    (carried.length > 0 || found.askedAs) && deps.context?.previousQuestion
       ? `السؤال السابق في المحادثة (للسياق فقط): «${deps.context.previousQuestion}»\nالسؤال الحالي: ${question}`
       : question;
+  const llmStarted = now();
   const llm = await callWithFallback(
     [
       { role: 'system', content: system },
@@ -127,20 +161,35 @@ export async function answerQuestion(question: string, deps: AnswerDeps = {}): P
   );
   log.attempts = llm.attempts;
   log.provider = llm.providerUsed ?? null;
+  if (trace) {
+    trace.context.previousQuestionShown = userContent !== question;
+    trace.ms.llm = now() - llmStarted;
+    trace.llm = { attempts: llm.attempts, provider: llm.providerUsed ?? null, ms: trace.ms.llm };
+  }
 
   const model = llm.ok && llm.text ? parseModelAnswer(llm.text) : null;
+  if (trace && model) trace.model = { answerable: model.answerable, items: model.sections?.length || model.points.length };
   if (model && !model.answerable) {
     const body = notCovered();
     if (!deps.noCache) await cacheAnswer(cacheKey, body);
-    return { status: 200, body, log: { ...log, mode: 'not_covered', modelSaid: 'unanswerable', ms: now() - started } };
+    return finish({ status: 200, body, log: { ...log, mode: 'not_covered', modelSaid: 'unanswerable', ms: now() - started } });
   }
   if (model) {
-    const composed = composeAnswer(kb, model, unitByRef, found.entities.filter(e => e.strong).map(e => e.recordId));
+    const shape = model.sections?.length ? 'sections' : 'points';
+    const composed = model.sections?.length
+      ? composeSections(kb, model.sections, unitByRef)
+      : composeAnswer(kb, model, unitByRef, found.entities.filter(e => e.strong).map(e => e.recordId));
+    log.shape = shape;
+    if (trace) trace.shape = shape;
     log.rejected = composed.rejected;
+    if (trace) {
+      trace.rejected = composed.rejected;
+      trace.answerUnits = composed.shown;
+    }
     if (composed.blocks.some(b => b.type !== 'text' || b.citations.length > 0)) {
       const body = await success(found, composed, 'composed', question);
       if (!deps.noCache) await cacheAnswer(cacheKey, body);
-      return { status: 200, body, log: { ...log, mode: 'composed', ms: now() - started } };
+      return finish({ status: 200, body, log: { ...log, mode: 'composed', ms: now() - started } });
     }
   }
 
@@ -148,16 +197,17 @@ export async function answerQuestion(question: string, deps: AnswerDeps = {}): P
   if (found.confidence === 'high') {
     const extractive = extractiveAnswer(kb, found.evidence, found.intents);
     if (extractive.blocks.length > 0) {
+      if (trace) trace.answerUnits = extractive.shown;
       const body = await success(found, extractive, 'extractive', question, EXTRACTIVE_INTRO);
-      return { status: 200, body, log: { ...log, mode: 'extractive', ms: now() - started } };
+      return finish({ status: 200, body, log: { ...log, mode: 'extractive', ms: now() - started } });
     }
   }
   const status = llm.rateLimited ? 429 : 503;
-  return {
+  return finish({
     status,
     body: { error: llm.rateLimited ? 'rate_limited' : 'provider_unavailable', messageAr: SERVICE_BUSY_MESSAGE },
     log: { ...log, mode: 'busy', ms: now() - started },
-  };
+  });
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -194,8 +244,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const context = sanitizeContext(req.body?.context, getKb());
-    const { status, body, log } = await answerQuestion(message, { context });
+    const trace = traceEnabled() ? newTrace(message) : undefined;
+    const { status, body, log } = await answerQuestion(message, { context, trace });
     console.info(`[chat] ${JSON.stringify({ status, questionLength: message.length, rateLimit: limit.status, ...log })}`);
+    if (trace) {
+      trace.rateLimit = limit.status;
+      console.info(formatTrace(trace));
+      res.status(status).json({ ...body, trace });
+      return;
+    }
     res.status(status).json(body);
   } catch (err) {
     console.error('[chat] unexpected failure', err);

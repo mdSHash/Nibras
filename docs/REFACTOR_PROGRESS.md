@@ -1792,10 +1792,41 @@ Manual checks for Mostafa:
    on the live site.
 6. The Release page above lists the four files.
 
+**3D merged**: PR #13, merge commit `0a1e7cf` (2026-10-24).
+
+After the deploy (run 40052516004, all jobs green), checked once at the start of 3J (2026-10-24,
+headless Chromium, desktop 1440×900 and phone iPhone 13, returning visitor): `/event/battle-badr/`
+opens Badr with «مشاهدة المعركة»; «تشغيل السرد» makes one request, `GET
+audio/battle-badr.description.d6f5d2d9.m4a` (200, `audio/mp4`, 332 KB), and shows the pause button,
+on desktop and phone; no console errors. https://mdshash.github.io/Nibras/audio/manifest.json → 200,
+131 events. `/api/health` → `{"ok":true,"kbUnits":4178,"llmConfigured":true,"sharedStore":true,
+"release":"0a1e7cf"}`. (A first try a few minutes earlier still got the pre-3D site: the deploy was
+running.)
+
 ### 3J — chat answers that teach (planned, 2026-10-23)
 
-Not started. Planned after 3D (Mostafa, 2026-10-23: keep the normal sequence); the plan's Phase 3 item "Chat answers
+Planned after 3D (Mostafa, 2026-10-23: keep the normal sequence); the plan's Phase 3 item "Chat answers
 that teach (3J)" lists the steps.
+
+Started 2026-10-24 on `refactor/phase-3j-chat-answers` from `main` at `0a1e7cf` (PR #13 merged).
+Before any change, `npm run verify` passed: Vitest 289/289, chat index in sync, narration manifest,
+content snapshot, behavior map, build, bundle budget, feature tests 84 passed (0 known failures), 1
+skipped, phone smoke 44/44, visual 16/16.
+
+#### Decisions by Mostafa (3J, 2026-10-24)
+
+- The session plan approved («Approved», taken as the recommended option on each open point):
+  trace first; retrieval fixes each justified by a trace; answer shapes `paragraph`, `facts`,
+  `steps` beside the existing blocks; about 60 visitor questions and 15 flows.
+- **Verbatim only.** The model writes no sentence; section headings come from a fixed list in code
+  (القصة، أهم المعلومات، الأحداث بالترتيب، مواقف الشخصيات، الآيات).
+- **An overview of one clear record is answered without the model** (deterministic, from the
+  record in order).
+- **Not-covered and vague questions** show three starter questions under the message.
+- **Quota**: once, about 105 Gemini embedding texts (2 requests) for the fixture questions' query
+  vectors, stored in the fixture; one real-model before/after run on about 40 turns (25 questions +
+  5 flows), about 80 Groq calls, no further Gemini calls.
+- `tests/baseline/numbers.json`: Vitest 278 → 289 (the 3D count), approved.
 
 #### What Mostafa asked (2026-10-23)
 
@@ -1823,5 +1854,227 @@ that teach (3J)" lists the steps.
 - The prompt (`api/_lib/prompt.ts`) allows only verbatim whole phrases, at most 8 points, one list
   shape for every question.
 
-Open for Mostafa: answers verbatim only (recommended) or verbatim plus short connecting sentences
-written by the model.
+Decided 2026-10-24: verbatim only (see "Decisions by Mostafa (3J)" above).
+
+#### Design choices (3J)
+
+- **Trace** (`api/_lib/trace.ts`): one object per question, filled by each stage only when a caller
+  passes one in: intents; entities with the phrase that linked them; context sent, carried and
+  whether the previous question reached the model; the top 12 keyword (BM25) and semantic (cosine)
+  hits; why semantic search did not run (index not usable, no key, call failed); the top 12 fused
+  scores; evidence kept per record (`units/of`) and the units cut, with the limit that cut them
+  (`maxRecords`, `maxPerRecord`, `charBudget`, `listKind`); prompt size; every model attempt;
+  validator rejections; mode, cache, rate limit; time per stage. Shown by `npm run eval:chat`
+  (JSON + a readable `.md` in `test-results/`) and by `npm run dev:chat-api` with `CHAT_TRACE=1`
+  (printed, and returned as `trace`; ignored on Vercel). Production keeps its one-line log, with
+  no question text, plus `promptChars`.
+- **Visitor set** (`tests/fixtures/chat-visitors.json`): 61 questions (32 Egyptian, 11 formal, 7
+  misspelled, 4 short, 3 vague, 4 uncovered) and 15 flows (43 turns: typed
+  follow-ups, pressed suggestions, topic switches, going back). Each turn checks the records and
+  units retrieval must keep, records it must not, refusals. A failing case carries `knownGap` with
+  its cause from the trace; the test fails once a gap passes, so the mark goes with the fix.
+- **Offline** (`tests/chatVisitors.test.ts`, `npm run eval:chat -- --visitors --offline`): the real
+  pipeline with a copy model (`scripts/chat-eval/copyModel.ts`: answers by copying the first
+  record's passages) and stored query vectors (`tests/fixtures/chat-visitor-vectors.json`, 87
+  Gemini `RETRIEVAL_QUERY` vectors, int8, made once by `scripts/chat-eval/embed-visitors.ts`), so
+  semantic search runs as in production with no quota. Out-of-scope cases offline must reach no
+  confident subject (the copy model never refuses); live they must be refused.
+- **Live sample** (`liveSample`, `--sample`): 25 questions and 5 flows, 41 turns, for the one
+  real-model before/after run; it reuses the stored vectors (no Gemini call).
+
+#### Baseline traces (before any retrieval change, 2026-10-24)
+
+Offline, semantic on: **92/104 turns pass**; the 12 known gaps and their causes, from the traces:
+
+| Gap | Cause | Cases |
+| --- | --- | --- |
+| An overview misses parts of its record | at most 16 units per record (`maxPerRecord`) | «إيه هو صلح الحديبية؟» (description sentence 4, Ali and «رسول الله», cut) |
+| «كام واحد / كانوا كام واحد» answer about Uhud | «واحد» is stemmed to «احد» and links Uhud strongly, overriding the context | 2 |
+| «الهجرة» means the migration to Abyssinia | its alias wins; verse records then fill the evidence | «إيه الآية اللي نزلت في الهجرة؟», a Hijra flow (2 turns) |
+| «متى توفي النبي ﷺ؟» misses the date | facts are not embedded; semantic hits push the date past the 5-unit cap of a weakly linked record | 1 |
+| «وأحد؟ / والخندق؟» after «إمتى كانت غزوة بدر؟» miss the date | the previous question's intent is not kept for an elliptic follow-up | 2 |
+| «إيه أهم حدث في التاريخ الإسلامي؟» answered with confidence | common words give keyword confidence high | 1 |
+| No suggestion buttons under a list answer or a refusal | follow-ups only for records; starter questions approved for 3J | 2 |
+
+Keyword only (as when the Gemini call fails) 16 turns fail: semantic search fixes the «مين» cases
+(«مين» alone is read as a biography question, so profiles crowd out role and event units: «مين اللي
+نام في فرشة النبي؟», «مين كان مع النبي في الغار؟», «مين الخوارج؟»), «غزوة الخندك», the 16-unit cap for
+three overviews, «عمر زعل ليه؟» after Hudaybiyya and «واستشهد إزاي؟» after Uthman; and it breaks five
+(the date and «الهجرة» cases above). Retrieval fixes are checked both ways.
+
+Quota spent in 3J so far: **87 Gemini embedding texts, 1 request** (2026-10-24, approved: about 105).
+
+#### Retrieval fixes (3J), each from a trace
+
+Offline turns passing (of 104), semantic on / keyword only: baseline **92 / 88**.
+
+1. **«واحد» is not "and Uhud"** (`withoutCountingWord`, `api/_lib/entityLinker.ts`): the colloquial
+   counting word (without hamza) is dropped before linking and before keyword stems; «وأحد» still
+   links Uhud. Trace before: «كام واحد كانوا في غزوة بدر؟» linked `event:battle-uhud` «واحد» and kept
+   5 Uhud units; after: Badr only.
+2. **«الهجرة» links the Hijra** (`EVERYDAY_ALIASES`, `scripts/chat-kb/eventUnits.ts`: «الهجرة»، «هجرة
+   النبي»، «هجرة الرسول»، «الهجرة إلى المدينة» for the Hijra; «الهجرة إلى الحبشة»، «هجرة الحبشة» for
+   Abyssinia). Linking phrases only (never shown, not embedded: the index stays 3,246/3,246). Trace
+   before: «إيه الآية اللي نزلت في الهجرة؟» linked nothing and kept five verse records; a Hijra flow
+   carried `event:migration-abyssinia`.
+3. **A named event keeps the evidence on itself** (`onTopic`, `api/_lib/search.ts`): when the
+   question names an event (not one carried from context), other records get in only through a
+   unit tied to it (`alsoAbout`). Cut units show as `offTopic` in the trace. Applied to carried
+   events at first, it broke «طب نرجع للصلح، كان فين؟» (Badr carried) and «واستشهد إزاي؟» (Tabuk
+   carried): a carried event may be the wrong one, so it applies only to named events.
+
+After 1–3: **96 / 90**.
+4. **A named person keeps the event in context for what they felt, said or did, and why**
+   (`PERSON_IN_EVENT`, `api/_lib/context.ts`). Trace before: «عمر زعل ليه؟» after «إيه هو صلح
+   الحديبية؟» linked Umar only, dropped the treaty and kept Umar's biography (10/10) and his other
+   events; Umar's role in the treaty was not retrieved. After: the treaty is carried, the role is
+   kept, and the next turn's context holds both (so «كانوا كام واحد؟» then answers about the treaty).
+   A person's own life («عمر استشهد إزاي؟») still drops the event.
+5. **With no subject named, a life question carries the person** (`PERSON_LIFE`): «واستشهد إزاي؟»
+   after «طب عمل إيه في تبوك؟» (context Tabuk, Uthman) carried Tabuk; now Uthman.
+6. **An elliptic follow-up asks the previous question again** (`search.ts`): «وأحد؟» after «إمتى كانت
+   غزوة بدر؟» had no intent, so Uhud's date was cut (16-unit cap). Now it takes the previous
+   question's intents (trace: `intentsFromPrevious`), the model sees the previous question, and the
+   response's `context.question` names the question answered, which the client sends back as
+   `previousQuestion`, so «والخندق؟» after «وأحد؟» works too. Intentional change: the chat panel
+   sends that question instead of the last typed text when the server gives one.
+
+After 4–6: **99 / 92**.
+7. **«مين اللي / مين كان / مين صاحب…» asks who did it** (new intent `agent`: roles, description,
+   steps); a bare «مين» is no longer a biography question, and «مين + a person's name» still is.
+   Trace before (keyword only): «مين اللي نام في فرشة النبي؟», «مين كان مع النبي في الغار؟» and
+   «مين الخوارج؟» kept profiles (the Prophet's, al-Abbas', Ibn Muljam's) and cut the Hijra and
+   Khawarij units the keyword search ranked first or second.
+8. **Question words behind a leading و/ف** («واستشهد إزاي؟»، «وليه؟»، «وفين؟»): no intent was
+   detected, so Uthman's death was not looked for (keyword only).
+9. **The fact asked for leads its record** (`FACT_KINDS`): «متى توفي النبي ﷺ؟» cut the date (facts are
+   not embedded; five semantic hits filled the record's cap).
+10. **An opinion about nothing named is not covered** (`SUPERLATIVE`): «إيه أهم حدث في التاريخ
+    الإسلامي؟» had keyword confidence high from common words.
+11. Synonyms: «غضب زعل اعترض حزن», «كتب كاتب كتابة».
+
+After 7–11: **101 / 97**. Left: an overview misses part of its record (16-unit cap), and no
+suggestion buttons under a list answer or a refusal; both are the answer-shape work.
+
+#### Answer shapes (3J)
+
+- **KB**: fact and role units carry `fact: { label, value }` (620 units: «التاريخ»، «المكان»، «عدد
+  الجيش»، «عدد جيش الخصم»، «المدة»، «الوقت»، «السنة», or the person's name for a role; the value is
+  the stored text the unit's text ends with, checked by a test). Unit text is unchanged, so the
+  index stays 3,246/3,246. Everyday alias added: «الخوارج» → «ظهور الخوارج».
+- **Overview without the model** (`api/_lib/shapes.ts`): a whole-record question about one record
+  the question names («إيه هو / ماذا تعرف عن / ما قصة …», a bare name; for people also «مين + name»)
+  is composed from the record in order: summary; «القصة» (the description) or, for «احكيلي / إيه اللي
+  حصل», «الأحداث بالترتيب» (the steps, numbered); «تفاصيل أخرى» (the other one's sentences that add
+  to it, novelty ≥ 0.5); «أهم المعلومات» (facts); «مواقف الشخصيات» (roles); verses from the verified
+  text; the record's sources under the story. People: profile, «السيرة», the events list. Lists: the
+  stored list. A carried record is never replayed («وبعدين حصل إيه؟» goes to the model). Offline it
+  takes 34 of the 98 model calls; such answers are not cached (no model call to save).
+- **Model answers** are sections: the model returns passage ids grouped by shape (`paragraph`,
+  `steps`, `facts`, `list`) with an optional heading from the fixed list, and writes no text; the
+  server renders each passage whole (lists in full, verses and hadith from stored text, fact and
+  role passages as rows, prose in KB order) and drops a passage already shown or one that only
+  repeats what is shown. The older `points` answer is still accepted (validator unchanged).
+- **New blocks** `paragraph`, `facts`, `steps` (`shared/chatApi.ts`, `answerBlockText`).
+- **Refusals** show three starter questions (`pickExampleQuestions`); **list answers** suggest the
+  people the list names («ما قصة أبي بكر الصديق؟»), each checked to find that person.
+- **Answer cache** keys carry `ANSWER_FORMAT = 2`, so no old-shape answer is served after deploy.
+- Checks added to the visitor set: the shape the server arranges (overview, steps, person) offline,
+  the model's (facts, list, verses) live; no sentence twice in an answer; a refusal has three
+  starter questions. The Hudaybiyya overview leaves out step 4 (the terms) because description
+  sentence 3 already holds them, ten-year truce included; the case no longer expects step 4.
+
+Offline after the shapes: **103 / 102** of 104 (semantic / keyword only). One known gap left:
+«غزوة الخندك» (misspelled name, not linked, so no overview; the model answers from the record).
+- Suggestions: a role the answer already showed is not suggested again (after «ليه عمر بن الخطاب زعل
+  في صلح الحديبية؟» the first suggestion was «ما دور عمر بن الخطاب في صلح الحديبية؟»; found in the
+  live run below).
+
+#### Intentional behavior changes (3J)
+
+1. Overviews of one named record («إيه هو صلح الحديبية؟», «احكيلي عن غزوة بدر», «مين عمر بن الخطاب؟»,
+   a bare name) are answered from the record in order without a model call: the whole description
+   (or the numbered steps), the details that add to it, facts, roles, verses and sources.
+2. Other answers show whole stored passages, grouped as paragraphs, numbered steps, fact rows or
+   lists, with headings from a fixed list; fact and role rows no longer repeat the event's name.
+   The model writes no sentence (the older format is still read and validated).
+3. A refusal shows three starter questions; a list of people suggests those people.
+4. Context: a named person keeps the event in context for what they felt, said or did, and why; a
+   life question with no subject carries the person; an elliptic follow-up («وأحد؟») asks the
+   previous question again, and the chat panel sends back `context.question` when the server gives
+   it.
+5. Retrieval: «واحد» is not Uhud; «الهجرة» and «الخوارج» link their events; a named event keeps the
+   evidence on itself; «مين اللي…» asks who did it; the fact asked for leads; an opinion about
+   nothing named («مين أشجع صحابي؟») is not covered.
+6. Cached answers from before 3J are not served (answer format 2).
+
+#### Real-model before/after run (2026-10-24)
+
+The 41-turn sample asked to `groq:openai/gpt-oss-120b` with the stored query vectors (no Gemini
+call), 40 s apart. Before: commit `9a03367` (tracing only); after: the 3J code. Side by side in
+`docs/chat-eval/3j-before-after.md` (for Mostafa to read).
+
+| | Before | After |
+| --- | --- | --- |
+| Turns passing the current checks | 24/41 | 40/41 |
+| Model calls (all `gpt-oss-120b`, no fallback) | 39 | 26 (12 overviews and 4 refusals with none) |
+| Tokens (prompt + completion) | 75,031 + 6,990 | 50,658 + 1,936 |
+| Model sentences rejected by the validator | 8 | 0 (no model text) |
+
+Before, «إيه هو صلح الحديبية؟» got only the one-line summary; «ماذا تعرف عن صلح الحديبية؟» got seven
+blocks each headed «**صلح الحديبية**», with the terms twice (description sentence 3 and step 4)
+and Ali, Umm Salama and the dream left out. After, both get the whole record as in the
+«Answer shapes» section. The one turn left is «غزوة الخندك» (misspelled, known gap): the model
+answers from the Khandaq record, but not as an overview.
+
+Found by Groq's limits page (fetched 2026-10-24; the table may be the Developer plan's): the default
+chain's second model `qwen/qwen3.6-27b` is not listed (only `qwen/qwen3.8-27b`). Not changed in
+3J; open for Mostafa.
+
+**Quota spent in 3J**: 87 Gemini embedding texts (1 request) for the fixture vectors; 65 Groq calls
+(about 135K tokens) for the before/after run. No OpenRouter. Within the approved amounts.
+
+#### Baselines to approve (not updated yet)
+
+`tests/baseline/numbers.json` test counts only: Vitest 289 → 396; Playwright features 85 → 89 (88 +
+1 skipped); phone smoke (WebKit, Firefox) 44 → 46. Nothing else in it changes; the content
+snapshot, behavior map, bundle entries and the 16 visual snapshots are unchanged.
+
+#### 3J verification (2026-10-24, Windows 11, Node 20.19.5, Playwright 1.59.1)
+
+`npm run verify` on the final 3J code:
+
+| Step | Result |
+| --- | --- |
+| Content build (Zod), type check, ESLint | passed |
+| Vitest | 396/396 (289 before: `chatTrace`, `chatVisitors` with 61 questions and 15 flows, `shapes`, context, dialect, entity linker, follow-ups) |
+| Chat index in sync | 3,246/3,246 (unit texts unchanged) |
+| Narration manifest, content snapshot, behavior map | passed, unchanged |
+| Production build, bundle budget | passed |
+| Playwright features | 88 passed (new: the new blocks render, a refusal's starter question, an elliptic follow-up's context), 1 skipped |
+| Phone smoke (WebKit, Firefox) | 46/46 (new: the blocks render on phone) |
+| Visual snapshots | 16/16, unchanged |
+
+Offline visitor set (`npm run eval:chat -- --visitors --offline`): 103/104 turns with semantic
+search, 102/104 keyword only (baseline 92 / 88).
+
+Screenshots of the new blocks (Hudaybiyya overview, Badr steps, a fact row, a refusal; light and
+dark, desktop and phone) were sent to Mostafa with the PR; they are not committed and no visual
+baseline was added (rule 4: Mostafa approves first).
+
+Manual checks for Mostafa:
+
+1. Read `docs/chat-eval/3j-before-after.md`: the answers are accurate and read well.
+2. After the deploy, ask the chat «إيه هو صلح الحديبية؟»: the summary, «القصة» with the treaty's
+   terms, «تفاصيل أخرى», «أهم المعلومات», «مواقف الشخصيات», the two verses of Al-Fath.
+3. Then, in the same chat: «مين اللي كتب الصلح؟» (Ali), «عمر زعل ليه؟» (Umar's role in the treaty),
+   «كانوا كام واحد؟» (about 1,400, not Uhud).
+4. «إمتى كانت غزوة بدر؟» then «وأحد؟» then «والخندق؟»: three dates.
+5. «مين أشجع صحابي؟»: the not-covered message with three starter buttons; press one.
+6. On your phone: the same Hudaybiyya question; the headings, rows and numbered steps read well
+   in light and dark mode.
+7. Approve or change the test counts above, and the open qwen question.
+
+- 2026-10-24 (Mostafa, «all good, approved»): the 3J answers, the new blocks (screenshots) and the
+  test counts approved; `tests/baseline/numbers.json` updated to Vitest 396, features 89, phone
+  smoke 46 (nothing else). The `qwen/qwen3.6-27b` question stays open (chain unchanged).

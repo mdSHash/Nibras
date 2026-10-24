@@ -137,6 +137,12 @@ export function embedDocuments(provider: EmbeddingProvider, texts: string[], api
 }
 
 /** Query-time embedding for one provider, with a tight timeout. */
+/** Query embeddings in one batch, prepared exactly as embedQueryWith does (fixture vectors, scripts only). */
+export function embedQueries(provider: EmbeddingProvider, texts: string[], apiKey: string, timeoutMs = 30000): Promise<EmbedOutcome> {
+  const inputs = texts.map(text => stripDiacritics(text).slice(0, EMBEDDING_MODELS[provider].maxChars));
+  return provider === 'gemini' ? embedGemini(inputs, apiKey, 'RETRIEVAL_QUERY', timeoutMs) : embedOpenRouter(inputs, apiKey, timeoutMs);
+}
+
 export async function embedQueryWith(provider: EmbeddingProvider, text: string, apiKey: string | undefined, timeoutMs = 2500): Promise<number[] | null> {
   if (!apiKey) return null;
   const input = stripDiacritics(text).slice(0, EMBEDDING_MODELS[provider].maxChars);

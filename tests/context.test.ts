@@ -29,6 +29,18 @@ describe('carryContext', () => {
     expect(carried('ما عاصمة فرنسا وما عدد سكانها اليوم؟', ['companion:uthman'])).toEqual([]);
   });
 
+  it('keeps the event for what a named person felt or did, and why ("عمر زعل ليه؟" after Hudaybiyya)', () => {
+    expect(carried('عمر زعل ليه؟', ['event:treaty-hudaybiyyah'])).toEqual(['event:treaty-hudaybiyyah']);
+    expect(carried('أم سلمة قالت إيه؟', ['event:treaty-hudaybiyyah'])).toEqual(['event:treaty-hudaybiyyah']);
+    // A person's own life stays about the person.
+    expect(carried('عمر استشهد إزاي؟', ['event:treaty-hudaybiyyah'])).toEqual([]);
+  });
+
+  it('carries the person, not the event, for a life question with no subject ("واستشهد إزاي؟")', () => {
+    expect(carried('واستشهد إزاي؟', ['event:battle-tabuk', 'battle:tabuk', 'companion:uthman'])).toEqual(['companion:uthman']);
+    expect(carried('وبعدين حصل إيه؟', ['event:battle-tabuk', 'battle:tabuk', 'companion:uthman'])).toEqual(['event:battle-tabuk', 'battle:tabuk']);
+  });
+
   it('does nothing without context', () => {
     expect(carryContext('طب عمل إيه؟', [], undefined, kb)).toEqual([]);
   });
@@ -58,6 +70,20 @@ describe('search with context', () => {
     expect(carriedIds).toEqual(['companion:uthman']);
     const roleUnits = outcome.evidence.flatMap(e => e.units).filter(u => u.kind === 'event_role' && u.alsoAbout?.includes('companion:uthman'));
     expect(roleUnits.some(u => u.recordId === 'event:battle-tabuk')).toBe(true);
+  });
+});
+
+describe('elliptic follow-ups', () => {
+  it('asks the previous question again about the new subject ("وأحد؟" after "إمتى كانت غزوة بدر؟")', async () => {
+    const outcome = await search('وأحد؟', undefined, kb, { recordIds: ['event:battle-badr'], previousQuestion: 'إمتى كانت غزوة بدر؟' });
+    expect(outcome.intents).toEqual(['date']);
+    expect(outcome.askedAs).toBe('إمتى كانت غزوة بدر؟');
+    expect(outcome.evidence.flatMap(e => e.units).map(u => u.id)).toContain('event:battle-uhud#date');
+  });
+
+  it('keeps its own question when it has one, or names no subject', async () => {
+    expect((await search('وأحد كانت فين؟', undefined, kb, { recordIds: ['event:battle-badr'], previousQuestion: 'إمتى كانت غزوة بدر؟' })).askedAs).toBeUndefined();
+    expect((await search('وبعدين؟', undefined, kb, { recordIds: ['event:battle-badr'], previousQuestion: 'إمتى كانت غزوة بدر؟' })).askedAs).toBeUndefined();
   });
 });
 

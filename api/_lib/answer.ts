@@ -19,17 +19,93 @@ export interface ComposedAnswer {
   citations: ChatCitation[];
   /** How many model sentences were replaced by source text. */
   rejected: { text: string; reason: string }[];
+  /** Knowledge-base units the answer shows (traces and tests). */
+  shown: string[];
 }
 
 const verses: Record<string, { text: string; link?: string }> = Object.fromEntries(quranPassages.map(p => [p.key, p]));
 
-class Composer {
+/**
+ * A passage adds to an answer when at least half of its words are new to it.
+ * Measured over the 131 events (3J): steps share 40–60% of their words with
+ * the description; at 0.5, 334 of 711 steps still count as new.
+ */
+export const NOVELTY_MIN = 0.5;
+
+/** Share of the text's search stems not in `seen`. */
+export function novelty(text: string, seen: Set<string>): number {
+  const stems = [...new Set(searchStems(text))];
+  return stems.length === 0 ? 0 : stems.filter(s => !seen.has(s)).length / stems.length;
+}
+
+export class Composer {
   readonly blocks: AnswerBlock[] = [];
   private readonly citedRecords: string[] = [];
   private readonly shownUnits = new Set<string>();
   private readonly shownVerses = new Set<string>();
+  /** Stems of the prose shown so far, so a passage that only repeats it is left out. */
+  private readonly shownStems = new Set<string>();
 
   constructor(private readonly kb: LoadedKb) {}
+
+  /**
+   * The units not shown yet; for prose, only those that add to what is shown
+   * and to the ones kept before them (a step retelling the description is left out).
+   */
+  fresh(units: KbUnit[], prose = true): KbUnit[] {
+    const seen = new Set(this.shownStems);
+    const kept: KbUnit[] = [];
+    for (const unit of units) {
+      if (this.shownUnits.has(unit.id) || kept.includes(unit)) continue;
+      if (prose && seen.size > 0 && novelty(unit.text, seen) < NOVELTY_MIN) continue;
+      kept.push(unit);
+      if (prose) searchStems(unit.text).forEach(s => seen.add(s));
+    }
+    return kept;
+  }
+
+  private show(units: KbUnit[], prose: boolean): string[] {
+    for (const unit of units) {
+      this.shownUnits.add(unit.id);
+      if (prose) searchStems(unit.text).forEach(s => this.shownStems.add(s));
+    }
+    return [...new Set(units.flatMap(u => this.cite(u)))];
+  }
+
+  private static sources(units: KbUnit[], extra: string[] = []): { sources?: string[] } {
+    const sources = [...new Set([...units.flatMap(u => u.sources ?? []), ...extra])];
+    return sources.length > 0 ? { sources } : {};
+  }
+
+  /** Whole stored sentences, in the order given. */
+  paragraph(units: KbUnit[], heading?: string, extraSources?: string[]) {
+    if (units.length === 0) return;
+    const citations = this.show(units, true);
+    this.blocks.push({ type: 'paragraph', ...(heading ? { heading } : {}), text: units.map(u => u.text).join(' '), citations, ...Composer.sources(units, extraSources) });
+  }
+
+  steps(units: KbUnit[], heading?: string, extraSources?: string[]) {
+    if (units.length === 0) return;
+    const citations = this.show(units, true);
+    this.blocks.push({ type: 'steps', ...(heading ? { heading } : {}), items: units.map(u => u.text), citations, ...Composer.sources(units, extraSources) });
+  }
+
+  /** Fact and role units as label/value rows; the record's title joins the label when the rows span records. */
+  facts(units: KbUnit[], heading?: string) {
+    const rows = units.filter(u => u.fact);
+    if (rows.length === 0) return;
+    const spansRecords = new Set(rows.map(u => u.recordId)).size > 1;
+    const citations = this.show(rows, false);
+    this.blocks.push({
+      type: 'facts',
+      ...(heading ? { heading } : {}),
+      rows: rows.map(u => ({
+        label: spansRecords && u.kind !== 'event_role' ? `${u.fact!.label} — ${this.kb.recordById.get(u.recordId)?.title ?? ''}` : u.fact!.label,
+        value: u.fact!.value,
+      })),
+      citations,
+    });
+  }
 
   private cite(unit: KbUnit): string[] {
     const ids = [unit.recordId, ...(unit.alsoAbout ?? [])].filter(id => this.kb.recordById.has(id));
@@ -77,6 +153,10 @@ class Composer {
     }
   }
 
+  done(rejected: ComposedAnswer['rejected'] = []): ComposedAnswer {
+    return { blocks: this.blocks, citations: this.citations(), rejected, shown: [...this.shownUnits] };
+  }
+
   citations(): ChatCitation[] {
     return this.citedRecords.slice(0, 12).map(id => {
       const record = this.kb.recordById.get(id) as KbRecord;
@@ -122,7 +202,7 @@ export function composeAnswer(kb: LoadedKb, model: ModelAnswer, unitByRef: Map<s
     composer.attachVerbatim(units);
   }
 
-  return { blocks: composer.blocks, citations: composer.citations(), rejected };
+  return composer.done(rejected);
 }
 
 /**
@@ -187,5 +267,5 @@ export function extractiveAnswer(kb: LoadedKb, evidence: EvidenceRecord[], inten
     composer.quote(unit);
     composer.attachVerbatim([unit]);
   });
-  return { blocks: composer.blocks, citations: composer.citations(), rejected: [] };
+  return composer.done();
 }

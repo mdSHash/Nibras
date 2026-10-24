@@ -10,12 +10,14 @@ import type { ChatSuccessBody } from '../../shared/chatApi.js';
 import { normalizeForMatch } from '../../shared/arabic.js';
 import { storeGet, storeSet } from './store.js';
 
+// Bumped when answers change shape (3J: sections and new blocks), so no old-shape answer is served.
+const ANSWER_FORMAT = 2;
 const MEMORY_LIMIT = 300;
 const TTL_SECONDS = 12 * 60 * 60;
 const memory = new Map<string, { expires: number; body: ChatSuccessBody }>();
 
 export function answerCacheKey(kbHash: string, question: string, carriedRecordIds: string[]): string {
-  const material = `${normalizeForMatch(question)}|${[...carriedRecordIds].sort().join(',')}`;
+  const material = `${ANSWER_FORMAT}|${normalizeForMatch(question)}|${[...carriedRecordIds].sort().join(',')}`;
   return `nibras:chat:${kbHash.slice(0, 12)}:${crypto.createHash('sha1').update(material).digest('hex')}`;
 }
 

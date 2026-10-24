@@ -4,6 +4,8 @@
  *   npm run eval:chat -- "سؤال" "سؤال آخر"      ad-hoc questions, verbose
  *   npm run eval:chat -- --golden [--set egyptian|conversation] [--limit N]
  *                                               a golden set in tests/fixtures
+ *   npm run eval:chat -- --visitors [--offline] [--sample] [--only id,id]
+ *                                               the visitor set (scripts/chat-eval/run.ts)
  *
  * In the conversation set, a case with "followUp": true is asked with the
  * context returned by the previous case, like the chat panel does.
@@ -34,7 +36,13 @@ interface GoldenCase {
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 async function main() {
+  if (process.argv.includes('--visitors')) {
+    const { runVisitorsEval } = await import('./chat-eval/run');
+    await runVisitorsEval(process.argv.slice(2));
+    return;
+  }
   const { answerQuestion } = await import('../api/chat');
+  const { formatTrace, newTrace } = await import('../api/_lib/trace');
   const args = process.argv.slice(2);
   const golden = args.includes('--golden');
   const limitAt = args.indexOf('--limit');
@@ -53,7 +61,8 @@ async function main() {
   let previous: { recordIds: string[]; previousQuestion: string } | undefined;
   for (const [i, c] of cases.entries()) {
     if (i > 0 && gapMs) await sleep(gapMs);
-    const { status, body, log } = await answerQuestion(c.q, { noCache: true, context: c.followUp ? previous : undefined });
+    const trace = newTrace(c.q);
+    const { status, body, log } = await answerQuestion(c.q, { noCache: true, context: c.followUp ? previous : undefined, trace });
     const ctx = (body as { context?: { recordIds: string[] } }).context;
     if (ctx?.recordIds?.length) previous = { recordIds: ctx.recordIds, previousQuestion: c.q };
     const b = body as {
@@ -82,14 +91,12 @@ async function main() {
     console.log(`\n${problems.length ? '✗' : '✓'} [${i + 1}/${cases.length}] ${c.q}`);
     console.log(`  mode=${b.mode ?? status} provider=${log.provider ?? '-'} ms=${log.ms} confidence=${log.confidence} rejected=${rejected.length}${(log.carried as string[] | undefined)?.length ? ` carried=${(log.carried as string[]).join(',')}` : ''}`);
     if (!golden || problems.length) {
-      console.log(`  entities: ${(log.entities as string[]).join(', ')} | intents: ${(log.intents as string[]).join(', ')}`);
-      if (log.attempts) console.log(`  attempts: ${(log.attempts as string[]).join(' ; ')}`);
-      for (const r of rejected) console.log(`  rejected: ${r.reason}`);
+      console.log(formatTrace(trace).replace(/^/gm, '  '));
       for (const block of b.blocks ?? []) console.log(`  [${block.type}] ${block.key ? `${block.key}: ` : ''}${stripVowelMarks(blockText(block)).slice(0, 260)}`);
       console.log(`  citations: ${(b.citations ?? []).map(x => stripVowelMarks(x.sourceLabel)).join(' | ')}`);
     }
     for (const p of problems) console.log(`  problem: ${p}`);
-    results.push({ q: c.q, status, mode: b.mode, problems, log, blocks: b.blocks });
+    results.push({ q: c.q, status, mode: b.mode, problems, log, trace, blocks: b.blocks });
   }
 
   console.log(`\n${pass}/${cases.length} passed`);
@@ -99,7 +106,17 @@ async function main() {
   const out = path.join(process.env.EVAL_OUT_DIR ?? path.join(__dirname, '../test-results'), `chat-eval-${Date.now()}.json`);
   fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.writeFileSync(out, JSON.stringify(results, null, 1));
-  console.log(`report: ${path.relative(process.cwd(), out)}`);
+  // The same run, readable: one trace and the answer per question.
+  const md = results.map(r => {
+    const t = r.trace as Parameters<typeof formatTrace>[0];
+    const blocks = (r.blocks as { type: string; text?: string; heading?: string; items?: string[]; key?: string }[] | undefined) ?? [];
+    const answer = blocks.map(x => `> [${x.type}] ${x.key ? `${x.key}: ` : ''}${stripVowelMarks(x.text ?? `${x.heading}: ${(x.items ?? []).join('، ')}`)}`);
+    const problems = (r.problems as string[]).map(p => `- problem: ${p}`);
+    const fence = '```';
+    return [`### ${r.q}`, '', fence, formatTrace(t), fence, '', ...answer, ...problems].join('\n');
+  });
+  fs.writeFileSync(out.replace(/\.json$/, '.md'), [`# Chat eval ${new Date().toISOString()}`, '', `${pass}/${cases.length} passed`, '', ...md, ''].join('\n\n'));
+  console.log(`report: ${path.relative(process.cwd(), out)} (+ .md)`);
 }
 
 main().catch(err => {

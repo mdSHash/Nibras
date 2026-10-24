@@ -34,6 +34,7 @@ assistant (`api/`) is a separate Vercel project.
 | `npm run lint` | Type check (`tsc --noEmit`) |
 | `npm run lint:eslint` | ESLint |
 | `npm test` | Vitest unit tests |
+| `npm run eval:chat -- --visitors --offline` | The visitor question set and flows through the chat pipeline, one trace per question (no quota; without `--offline` it spends Groq quota, ask first). README, "How the chat answers" |
 | `npm run check:chat-index` | Fails if the chat embedding index (`api/_data/`) misses a KB unit; fix with the Chat index workflow on the branch (spends Gemini quota, ask first) |
 | `npm run narration -- check` | Lists stale or missing narration; `-- generate` records it with Gemini TTS, voice Charon (dry run unless `--yes`; spends quota, ask first) |
 | `npm run validate:content` | Zod validation of everything in `content/` and every link between records |

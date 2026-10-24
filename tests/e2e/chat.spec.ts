@@ -1,6 +1,6 @@
 import { test, expect, useChatResponder } from './support/fixtures';
 import { content, eventById, header, openAppWithEvent, panelTitle } from './support/app';
-import { CITATION_LABELS, MOCK_COMPANION_ID, MOCK_QURAN_KEY, mockChatAnswer } from './support/chatMock';
+import { CITATION_LABELS, MOCK_COMPANION_ID, MOCK_QURAN_KEY, mockChatAnswer, shapedAnswer } from './support/chatMock';
 import type { Page } from '@playwright/test';
 
 const QUESTION = 'ماذا حدث في غزوة بدر؟';
@@ -95,5 +95,66 @@ test.describe('API errors', () => {
     await chatDialog(page).getByPlaceholder('اكتب سؤالك هنا...').fill(QUESTION);
     await chatDialog(page).getByRole('button', { name: 'إرسال' }).click();
     await expect(chatDialog(page).getByText('الخدمة غير متاحة الآن')).toBeVisible();
+  });
+});
+
+test.describe('answer shapes and conversation flows (3J)', () => {
+  const typeAndSend = async (page: Page, question: string) => {
+    await openChat(page);
+    await chatDialog(page).getByPlaceholder('اكتب سؤالك هنا...').fill(question);
+    await chatDialog(page).getByRole('button', { name: 'إرسال' }).click();
+  };
+
+  test('paragraph, fact rows and numbered steps render with their headings @phone', async ({ page }, testInfo) => {
+    const answer = await shapedAnswer('event:battle-badr', 'narrative');
+    useChatResponder(page, () => ({ json: answer }));
+    await openAppWithEvent(page);
+    await typeAndSend(page, 'احكيلي عن غزوة بدر');
+    const dialog = chatDialog(page);
+    const steps = answer.blocks.find(b => b.type === 'steps')!;
+    await expect(dialog.getByText('الأحداث بالترتيب:')).toBeVisible();
+    await expect(dialog.getByRole('list').filter({ hasText: steps.type === 'steps' ? steps.items[0].slice(0, 20) : '' }).getByRole('listitem')).toHaveCount(steps.type === 'steps' ? steps.items.length : 0);
+    await expect(dialog.getByText('أهم المعلومات:')).toBeVisible();
+    await expect(dialog.getByRole('term').filter({ hasText: 'التاريخ' })).toBeVisible();
+    await expect(dialog.getByText('مواقف الشخصيات:')).toBeVisible();
+    await testInfo.attach('shaped-answer', { body: await dialog.screenshot(), contentType: 'image/png' });
+  });
+
+  test('a refusal offers starter questions, and pressing one asks it', async ({ page, network }) => {
+    const starters = ['ما قصة صلح الحديبية؟', 'ماذا تعرف عن عمر بن الخطاب؟', 'من هم الخلفاء الراشدون؟'];
+    const refusal = 'لا تتوفر لدي معلومات كافية عن هذا السؤال في بيانات نبراس.';
+    useChatResponder(page, ({ message }) =>
+      message === 'مين اخترع الكهربا؟'
+        ? { json: { ...mockChatAnswer, answer: refusal, blocks: [{ type: 'text', text: refusal, citations: [] }], citations: [], grounded: false, mode: 'not_covered', context: { recordIds: [], carried: [] }, followUps: starters } }
+        : { json: mockChatAnswer },
+    );
+    await openAppWithEvent(page);
+    await typeAndSend(page, 'مين اخترع الكهربا؟');
+    await expect(chatDialog(page).getByText(refusal)).toBeVisible();
+    await page.waitForTimeout(3_600);
+    await chatDialog(page).getByRole('button', { name: starters[0] }).click();
+    await expect.poll(() => network.chatRequests.length).toBe(2);
+    expect(network.chatRequests[1]).toEqual({ message: starters[0] });
+  });
+
+  test('an elliptic follow-up sends back the question the server answered («وأحد؟» then «والخندق؟»)', async ({ page, network }) => {
+    const first = 'إمتى كانت غزوة بدر؟';
+    useChatResponder(page, ({ message }) => ({
+      json:
+        message === 'وأحد؟'
+          ? { ...mockChatAnswer, context: { recordIds: ['event:battle-uhud'], carried: [], question: first } }
+          : mockChatAnswer,
+    }));
+    await openAppWithEvent(page);
+    for (const question of [first, 'وأحد؟', 'والخندق؟']) {
+      if (network.chatRequests.length > 0) await page.waitForTimeout(3_600);
+      const before = network.chatRequests.length;
+      await typeAndSend(page, question);
+      await expect.poll(() => network.chatRequests.length).toBe(before + 1);
+      await expect(chatDialog(page).getByText(mockChatAnswer.answer.slice(0, 40)).nth(before)).toBeVisible();
+    }
+    expect(network.chatRequests[1]).toEqual({ message: 'وأحد؟', context: { recordIds: ['event:battle-badr'], previousQuestion: first } });
+    // The server said «وأحد؟» asked «إمتى كانت غزوة بدر؟» again; the next question gets that, not «وأحد؟».
+    expect(network.chatRequests[2]).toEqual({ message: 'والخندق؟', context: { recordIds: ['event:battle-uhud'], previousQuestion: first } });
   });
 });
