@@ -6,6 +6,8 @@
  *
  * Usage: npm run dev:chat-api   (reads GROQ_API_KEY/OPENROUTER_API_KEY from .env.local)
  * Then point the frontend at it: VITE_CHAT_API_URL=http://localhost:3002/api/chat
+ * With CHAT_TRACE=1 (in .env.local or the shell) each question's pipeline trace
+ * is printed here and returned as `trace` in the response.
  */
 import { config } from 'dotenv';
 config({ path: '.env.local' });

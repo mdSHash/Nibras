@@ -13,6 +13,7 @@ import { carryContext, type ChatContext } from './context.js';
 import { linkEntities, type LinkedEntity } from './entityLinker.js';
 import { getKb, type LoadedKb } from './kb.js';
 import { getProviderIndex, semanticScores } from './semanticIndex.js';
+import { hit, TRACE_MAX_CUT, TRACE_TOP, type ChatTrace } from './trace.js';
 
 export type Intent =
   | 'date' | 'location' | 'quantity' | 'duration' | 'role' | 'quran' | 'hadith' | 'sources'
@@ -134,14 +135,24 @@ function bm25(kb: LoadedKb, stems: string[]): { unitIndex: number; score: number
   return results.sort((a, b) => b.score - a.score);
 }
 
-export type QueryEmbedder = (question: string) => Promise<{ provider: EmbeddingProvider; vector: number[] } | null>;
+/** `notes` (traces only) collects why a provider was skipped or failed. */
+export type QueryEmbedder = (question: string, notes?: string[]) => Promise<{ provider: EmbeddingProvider; vector: number[] } | null>;
 
 export function defaultEmbedder(kb: LoadedKb, keys: { gemini?: string; openrouter?: string }): QueryEmbedder {
-  return async question => {
+  return async (question, notes) => {
     for (const provider of ['gemini', 'openrouter'] as const) {
-      if (!getProviderIndex(kb, provider).usable) continue;
+      const index = getProviderIndex(kb, provider);
+      if (!index.usable) {
+        notes?.push(`${provider}: index not usable (coverage ${index.coverage.toFixed(3)})`);
+        continue;
+      }
+      if (!keys[provider]) {
+        notes?.push(`${provider}: no API key`);
+        continue;
+      }
       const vector = await embedQueryWith(provider, question, keys[provider]);
       if (vector) return { provider, vector };
+      notes?.push(`${provider}: query embedding failed`);
     }
     return null;
   };
@@ -160,17 +171,37 @@ export interface SearchOutcome {
   semanticProvider?: EmbeddingProvider;
 }
 
-export async function search(question: string, embed?: QueryEmbedder, kb: LoadedKb = getKb(), context?: ChatContext): Promise<SearchOutcome> {
+export async function search(question: string, embed?: QueryEmbedder, kb: LoadedKb = getKb(), context?: ChatContext, trace?: ChatTrace): Promise<SearchOutcome> {
   const stems = [...new Set(searchStems(question))];
   const named = linkEntities(question, kb);
   const entities = [...named, ...carryContext(question, named, context, kb).filter(c => !named.some(n => n.recordId === c.recordId))];
   const { intents, kinds } = detectIntents(question);
+  if (trace) {
+    trace.intents = intents;
+    trace.entities = entities.map(e => ({ id: e.recordId, phrase: e.phrase, strong: e.strong, carried: !!e.carried }));
+    trace.context.sent = context?.recordIds ?? [];
+    trace.context.carried = entities.filter(e => e.carried).map(e => e.recordId);
+  }
   if (stems.length === 0 && entities.length === 0) return { evidence: [], entities, intents, confidence: 'none' };
 
   const keyword = bm25(kb, stems);
-  const semanticResult = embed ? await embed(question) : null;
+  const embedStarted = Date.now();
+  const semanticResult = embed ? await embed(question, trace?.semantic.notes) : null;
   const semantic = semanticResult ? semanticScores(getProviderIndex(kb, semanticResult.provider), semanticResult.vector) : [];
   const semanticMin = semanticResult ? SEMANTIC_MIN[semanticResult.provider] : 1;
+  if (trace) {
+    trace.keyword = keyword.slice(0, TRACE_TOP).map(r => ({ ...hit(kb.units[r.unitIndex].id, r.score), matched: r.matched }));
+    if (semanticResult) {
+      trace.semantic = {
+        ...trace.semantic,
+        ran: true,
+        provider: semanticResult.provider,
+        ms: Date.now() - embedStarted,
+        min: semanticMin,
+        top: semantic.slice(0, TRACE_TOP).map(r => hit(kb.units[r.unitIndex].id, r.score)),
+      };
+    }
+  }
 
   const strong = new Set(entities.filter(e => e.strong).map(e => e.recordId));
   const weak = new Set(entities.filter(e => !e.strong).map(e => e.recordId));
@@ -242,29 +273,66 @@ export async function search(question: string, embed?: QueryEmbedder, kb: Loaded
         ? 'medium'
         : 'none';
 
-  const evidence = packEvidence(kb, ranked, intents.includes('list') || intents.includes('military'), strong, intents.includes('military'));
+  const cut: ChatTrace['evidence']['cut'] = [];
+  const evidence = packEvidence(kb, ranked, intents.includes('list') || intents.includes('military'), strong, intents.includes('military'), cut);
+  if (trace) {
+    trace.confidence = confidence;
+    trace.fusion = ranked.slice(0, TRACE_TOP).map(([i, score]) => hit(kb.units[i].id, score));
+    trace.evidence = {
+      kept: evidence.map(e => ({ record: e.record.id, units: e.units.map(u => u.id), of: kb.units.filter(u => u.recordId === e.record.id).length })),
+      cut: cut.slice(0, TRACE_MAX_CUT),
+      chars: evidence.reduce((n, e) => n + e.units.reduce((m, u) => m + plainText(u.text).length, 0), 0),
+    };
+  }
   return { evidence, entities, intents, confidence, semanticProvider: semanticResult?.provider };
 }
 
 const CHAR_BUDGET = 7000;
 
-function packEvidence(kb: LoadedKb, ranked: [number, number][], listQuestion: boolean, strong: Set<string>, militaryQuestion: boolean): EvidenceRecord[] {
+/**
+ * `cut` collects the units that ranked above the last one kept but were left
+ * out, with the limit that left them out (for traces; only units on a record
+ * already kept or ranked in the top 60 are listed).
+ */
+function packEvidence(
+  kb: LoadedKb,
+  ranked: [number, number][],
+  listQuestion: boolean,
+  strong: Set<string>,
+  militaryQuestion: boolean,
+  cut: ChatTrace['evidence']['cut'] = [],
+): EvidenceRecord[] {
   const maxRecords = listQuestion ? 10 : 6;
   // A question about one or two named records gets their full narrative.
   const focused = strong.size > 0 && strong.size <= 2 && !listQuestion;
   const maxPerRecord = (recordId: string) => (focused && strong.has(recordId) ? 16 : listQuestion ? 4 : 5);
   const chosen = new Map<string, number[]>();
   let chars = 0;
-  for (const [unitIndex] of ranked) {
+  for (const [rank, [unitIndex]] of ranked.entries()) {
     const unit = kb.units[unitIndex];
+    const picked = chosen.get(unit.recordId);
+    const note = (by: ChatTrace['evidence']['cut'][number]['by']) => {
+      if (picked || rank < 60) cut.push({ unit: unit.id, by });
+    };
     // "Which battles…" must not get the era's non-military events list, and
     // vice versa "what happened…" keeps both.
-    if (militaryQuestion && unit.kind === 'list' && unit.id.endsWith('#events')) continue;
-    const picked = chosen.get(unit.recordId);
-    if (!picked && chosen.size >= maxRecords) continue;
-    if (picked && picked.length >= maxPerRecord(unit.recordId)) continue;
+    if (militaryQuestion && unit.kind === 'list' && unit.id.endsWith('#events')) {
+      note('listKind');
+      continue;
+    }
+    if (!picked && chosen.size >= maxRecords) {
+      note('maxRecords');
+      continue;
+    }
+    if (picked && picked.length >= maxPerRecord(unit.recordId)) {
+      note('maxPerRecord');
+      continue;
+    }
     const length = plainText(unit.text).length;
-    if (chars + length > CHAR_BUDGET) continue;
+    if (chars + length > CHAR_BUDGET) {
+      note('charBudget');
+      continue;
+    }
     chars += length;
     chosen.set(unit.recordId, [...(picked ?? []), unitIndex]);
   }
