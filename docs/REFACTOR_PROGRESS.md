@@ -1986,3 +1986,91 @@ suggestion buttons under a list answer or a refusal; both are the answer-shape w
 
 Offline after the shapes: **103 / 102** of 104 (semantic / keyword only). One known gap left:
 «غزوة الخندك» (misspelled name, not linked, so no overview; the model answers from the record).
+- Suggestions: a role the answer already showed is not suggested again (after «ليه عمر بن الخطاب زعل
+  في صلح الحديبية؟» the first suggestion was «ما دور عمر بن الخطاب في صلح الحديبية؟»; found in the
+  live run below).
+
+#### Intentional behavior changes (3J)
+
+1. Overviews of one named record («إيه هو صلح الحديبية؟», «احكيلي عن غزوة بدر», «مين عمر بن الخطاب؟»,
+   a bare name) are answered from the record in order without a model call: the whole description
+   (or the numbered steps), the details that add to it, facts, roles, verses and sources.
+2. Other answers show whole stored passages, grouped as paragraphs, numbered steps, fact rows or
+   lists, with headings from a fixed list; fact and role rows no longer repeat the event's name.
+   The model writes no sentence (the older format is still read and validated).
+3. A refusal shows three starter questions; a list of people suggests those people.
+4. Context: a named person keeps the event in context for what they felt, said or did, and why; a
+   life question with no subject carries the person; an elliptic follow-up («وأحد؟») asks the
+   previous question again, and the chat panel sends back `context.question` when the server gives
+   it.
+5. Retrieval: «واحد» is not Uhud; «الهجرة» and «الخوارج» link their events; a named event keeps the
+   evidence on itself; «مين اللي…» asks who did it; the fact asked for leads; an opinion about
+   nothing named («مين أشجع صحابي؟») is not covered.
+6. Cached answers from before 3J are not served (answer format 2).
+
+#### Real-model before/after run (2026-10-24)
+
+The 41-turn sample asked to `groq:openai/gpt-oss-120b` with the stored query vectors (no Gemini
+call), 40 s apart. Before: commit `9a03367` (tracing only); after: the 3J code. Side by side in
+`docs/chat-eval/3j-before-after.md` (for Mostafa to read).
+
+| | Before | After |
+| --- | --- | --- |
+| Turns passing the current checks | 24/41 | 40/41 |
+| Model calls (all `gpt-oss-120b`, no fallback) | 39 | 26 (12 overviews and 3 refusals with none) |
+| Tokens (prompt + completion) | 75,031 + 6,990 | 50,658 + 1,936 |
+| Model sentences rejected by the validator | 8 | 0 (no model text) |
+
+Before, «إيه هو صلح الحديبية؟» got only the one-line summary; «ماذا تعرف عن صلح الحديبية؟» got seven
+blocks each headed «**صلح الحديبية**», with the terms twice (description sentence 3 and step 4)
+and Ali, Umm Salama and the dream left out. After, both get the whole record as in the
+«Answer shapes» section. The one turn left is «غزوة الخندك» (misspelled, known gap): the model
+answers from the Khandaq record, but not as an overview.
+
+Found by Groq's limits page (fetched 2026-10-24; the table may be the Developer plan's): the default
+chain's second model `qwen/qwen3.6-27b` is not listed (only `qwen/qwen3.8-27b`). Not changed in
+3J; open for Mostafa.
+
+**Quota spent in 3J**: 87 Gemini embedding texts (1 request) for the fixture vectors; 65 Groq calls
+(about 135K tokens) for the before/after run. No OpenRouter. Within the approved amounts.
+
+#### Baselines to approve (not updated yet)
+
+`tests/baseline/numbers.json` test counts only: Vitest 289 → 396; Playwright features 85 → 89 (88 +
+1 skipped); phone smoke (WebKit, Firefox) 44 → 46. Nothing else in it changes; the content
+snapshot, behavior map, bundle entries and the 16 visual snapshots are unchanged.
+
+#### 3J verification (2026-10-24, Windows 11, Node 20.19.5, Playwright 1.59.1)
+
+`npm run verify` on the final 3J code:
+
+| Step | Result |
+| --- | --- |
+| Content build (Zod), type check, ESLint | passed |
+| Vitest | 396/396 (289 before: `chatTrace`, `chatVisitors` with 61 questions and 15 flows, `shapes`, context, dialect, entity linker, follow-ups) |
+| Chat index in sync | 3,246/3,246 (unit texts unchanged) |
+| Narration manifest, content snapshot, behavior map | passed, unchanged |
+| Production build, bundle budget | passed |
+| Playwright features | 88 passed (new: the new blocks render, a refusal's starter question, an elliptic follow-up's context), 1 skipped |
+| Phone smoke (WebKit, Firefox) | 46/46 (new: the blocks render on phone) |
+| Visual snapshots | 16/16, unchanged |
+
+Offline visitor set (`npm run eval:chat -- --visitors --offline`): 103/104 turns with semantic
+search, 102/104 keyword only (baseline 92 / 88).
+
+Screenshots of the new blocks (Hudaybiyya overview, Badr steps, a fact row, a refusal; light and
+dark, desktop and phone) were sent to Mostafa with the PR; they are not committed and no visual
+baseline was added (rule 4: Mostafa approves first).
+
+Manual checks for Mostafa:
+
+1. Read `docs/chat-eval/3j-before-after.md`: the answers are accurate and read well.
+2. After the deploy, ask the chat «إيه هو صلح الحديبية؟»: the summary, «القصة» with the treaty's
+   terms, «تفاصيل أخرى», «أهم المعلومات», «مواقف الشخصيات», the two verses of Al-Fath.
+3. Then, in the same chat: «مين اللي كتب الصلح؟» (Ali), «عمر زعل ليه؟» (Umar's role in the treaty),
+   «كانوا كام واحد؟» (about 1,400, not Uhud).
+4. «إمتى كانت غزوة بدر؟» then «وأحد؟» then «والخندق؟»: three dates.
+5. «مين أشجع صحابي؟»: the not-covered message with three starter buttons; press one.
+6. On your phone: the same Hudaybiyya question; the headings, rows and numbered steps read well
+   in light and dark mode.
+7. Approve or change the test counts above, and the open qwen question.
