@@ -1746,6 +1746,52 @@ text uses (22.5 MB, 7.8 min). Every narrated text has a recording. All WAVs are 
 - `tests/baseline/content.json`: the 262 `narration.descriptionFile` / `titleFile` values, `.wav` hash
   names → `.m4a` event names (`descriptionExists` / `titleExists` stay true). No other difference.
 
+#### 3D verification (2026-10-24, Windows 11, Node 20.19.5, Playwright 1.59.1)
+
+`npm run verify` on the final 3D code:
+
+| Step | Result |
+| --- | --- |
+| Content build (Zod), type check, ESLint | passed |
+| Vitest | 289/289 (278 before: `tests/narration.test.tsx`, 13; the old "every text has a WAV" test removed) |
+| Narration manifest (new) | 131 events, 262 fresh recordings, 0 stale, 0 missing |
+| Chat index in sync, behavior map | passed, unchanged |
+| Content snapshot | passed against the approved baseline (262 file names `.wav` → `.m4a`, nothing else) |
+| Production build, bundle budget | passed; `src/generated/narration.json` adds 3.4 KB gzip |
+| Playwright features | 84 passed, 1 skipped, 0 known failures |
+| Phone smoke (WebKit, Firefox) | 44/44 |
+| Visual snapshots | 16/16, unchanged |
+
+The first full run failed one test, in WebKit only: "narration requests the event audio file". WebKit
+on Windows loads media outside the page's network layer (no request event, no resource timing; checked
+with a probe), and before 3D the test passed there only through the HEAD request the app no longer
+makes. The test now records the file the app hands its audio player (all engines) and the network
+request where the engine exposes it.
+
+`tests/baseline/numbers.json` test counts are not updated (Vitest 278 → 289; waiting for approval).
+
+Archive: Release `narration-archive-2026-10` (https://github.com/mdSHash/Nibras/releases/tag/narration-archive-2026-10,
+target `7504109`): `narration-wav-in-use.zip` (262 WAVs, 416.9 MB), `narration-wav-unused.zip` (118,
+22.6 MB), `audio-mapping.json`, `narration-archive.json`. Checked before the WAVs left the tree: each
+asset's SHA-256 on GitHub equals the local file's, and all 380 WAVs in the zips match the list.
+
+Quota: none spent. No Gemini call; VoiceStudio and Whisper ran locally.
+
+Not verified here: narration on the live site with `.m4a` (after the deploy); the CI job summary's
+"Narration" section (first CI run of the PR).
+
+Manual checks for Mostafa:
+
+1. Open an event (e.g. Badr) and press «تشغيل السرد»: the narration plays, sounds as before, the
+   time and ring move; pause and play again.
+2. Player mode (تشغيل) with narration on: each title is narrated and the timeline moves on.
+3. On your phone (Safari or Chrome): the same two checks.
+4. On the PR's CI run: the job summary shows "Narration: 131 events, 262 fresh recordings, 0 stale,
+   0 missing".
+5. After the deploy: https://mdshash.github.io/Nibras/audio/manifest.json opens, and narration plays
+   on the live site.
+6. The Release page above lists the four files.
+
 ### 3J — chat answers that teach (planned, 2026-10-23)
 
 Not started. Planned after 3D (Mostafa, 2026-10-23: keep the normal sequence); the plan's Phase 3 item "Chat answers
