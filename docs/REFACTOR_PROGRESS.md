@@ -1868,8 +1868,8 @@ Decided 2026-10-24: verbatim only (see "Decisions by Mostafa (3J)" above).
   (JSON + a readable `.md` in `test-results/`) and by `npm run dev:chat-api` with `CHAT_TRACE=1`
   (printed, and returned as `trace`; ignored on Vercel). Production keeps its one-line log, with
   no question text, plus `promptChars`.
-- **Visitor set** (`tests/fixtures/chat-visitors.json`): 61 questions (39 Egyptian, 12 formal, 6
-  misspelled, 4 short, 3 vague, 5 uncovered; some overlap) and 15 flows (43 turns: typed
+- **Visitor set** (`tests/fixtures/chat-visitors.json`): 61 questions (32 Egyptian, 11 formal, 7
+  misspelled, 4 short, 3 vague, 4 uncovered) and 15 flows (43 turns: typed
   follow-ups, pressed suggestions, topic switches, going back). Each turn checks the records and
   units retrieval must keep, records it must not, refusals. A failing case carries `knownGap` with
   its cause from the trace; the test fails once a gap passes, so the mark goes with the fix.
