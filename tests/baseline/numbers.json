@@ -78,7 +78,7 @@
     }
   },
   "tests": {
-    "vitestTests": 278,
+    "vitestTests": 289,
     "playwrightFeatureTests": 85,
     "playwrightFeatureKnownFailures": 0,
     "playwrightEnginesTests": 44,

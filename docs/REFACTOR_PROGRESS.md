@@ -1792,10 +1792,41 @@ Manual checks for Mostafa:
    on the live site.
 6. The Release page above lists the four files.
 
+**3D merged**: PR #13, merge commit `0a1e7cf` (2026-10-24).
+
+After the deploy (run 40052516004, all jobs green), checked once at the start of 3J (2026-10-24,
+headless Chromium, desktop 1440×900 and phone iPhone 13, returning visitor): `/event/battle-badr/`
+opens Badr with «مشاهدة المعركة»; «تشغيل السرد» makes one request, `GET
+audio/battle-badr.description.d6f5d2d9.m4a` (200, `audio/mp4`, 332 KB), and shows the pause button,
+on desktop and phone; no console errors. https://mdshash.github.io/Nibras/audio/manifest.json → 200,
+131 events. `/api/health` → `{"ok":true,"kbUnits":4178,"llmConfigured":true,"sharedStore":true,
+"release":"0a1e7cf"}`. (A first try a few minutes earlier still got the pre-3D site: the deploy was
+running.)
+
 ### 3J — chat answers that teach (planned, 2026-10-23)
 
-Not started. Planned after 3D (Mostafa, 2026-10-23: keep the normal sequence); the plan's Phase 3 item "Chat answers
+Planned after 3D (Mostafa, 2026-10-23: keep the normal sequence); the plan's Phase 3 item "Chat answers
 that teach (3J)" lists the steps.
+
+Started 2026-10-24 on `refactor/phase-3j-chat-answers` from `main` at `0a1e7cf` (PR #13 merged).
+Before any change, `npm run verify` passed: Vitest 289/289, chat index in sync, narration manifest,
+content snapshot, behavior map, build, bundle budget, feature tests 84 passed (0 known failures), 1
+skipped, phone smoke 44/44, visual 16/16.
+
+#### Decisions by Mostafa (3J, 2026-10-24)
+
+- The session plan approved («Approved», taken as the recommended option on each open point):
+  trace first; retrieval fixes each justified by a trace; answer shapes `paragraph`, `facts`,
+  `steps` beside the existing blocks; about 60 visitor questions and 15 flows.
+- **Verbatim only.** The model writes no sentence; section headings come from a fixed list in code
+  (القصة، أهم المعلومات، الأحداث بالترتيب، مواقف الشخصيات، الآيات).
+- **An overview of one clear record is answered without the model** (deterministic, from the
+  record in order).
+- **Not-covered and vague questions** show three starter questions under the message.
+- **Quota**: once, about 105 Gemini embedding texts (2 requests) for the fixture questions' query
+  vectors, stored in the fixture; one real-model before/after run on about 40 turns (25 questions +
+  5 flows), about 80 Groq calls, no further Gemini calls.
+- `tests/baseline/numbers.json`: Vitest 278 → 289 (the 3D count), approved.
 
 #### What Mostafa asked (2026-10-23)
 
