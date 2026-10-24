@@ -76,6 +76,7 @@ async function success(found: SearchOutcome, composed: ComposedAnswer, mode: Ans
       carried: found.entities
         .filter(e => e.carried)
         .map(e => ({ recordId: e.recordId, title: kb.recordById.get(e.recordId)?.title ?? '' })),
+      ...(found.askedAs ? { question: found.askedAs } : {}),
     },
     followUps: await buildFollowUps(kb, recordIds, found.intents, question),
   };
@@ -134,9 +135,9 @@ export async function answerQuestion(question: string, deps: AnswerDeps = {}): P
   const { system, unitByRef } = buildPrompt(found.evidence);
   log.promptChars = system.length;
   if (trace) trace.prompt = { chars: system.length, passages: unitByRef.size };
-  // The previous question is shown only when this one borrowed its subject.
+  // The previous question is shown only when this one borrowed its subject or its question («وأحد؟»).
   const userContent =
-    carried.length > 0 && deps.context?.previousQuestion
+    (carried.length > 0 || found.askedAs) && deps.context?.previousQuestion
       ? `السؤال السابق في المحادثة (للسياق فقط): «${deps.context.previousQuestion}»\nالسؤال الحالي: ${question}`
       : question;
   const llmStarted = now();

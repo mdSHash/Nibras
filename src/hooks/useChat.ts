@@ -83,7 +83,7 @@ export function useChat() {
 
         const recordIds = data.context?.recordIds ?? [];
         // A refusal keeps the earlier topic, so a follow-up still works after it.
-        if (recordIds.length > 0) contextRef.current = { recordIds, previousQuestion: text };
+        if (recordIds.length > 0) contextRef.current = { recordIds, previousQuestion: data.context?.question ?? text };
 
         setMessages(prev => [
           ...prev,

@@ -36,6 +36,11 @@ export interface ChatSuccessBody {
     recordIds: string[];
     /** Records assumed from the previous question (not named in this one). */
     carried: { recordId: string; title: string }[];
+    /**
+     * Send back as `previousQuestion` when set: an elliptic follow-up («وأحد؟»)
+     * answered an earlier question again, and the next one («والخندق؟») may too.
+     */
+    question?: string;
   };
   /** Suggested next questions, each answerable from Nibras's data. */
   followUps: string[];

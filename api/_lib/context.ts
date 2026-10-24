@@ -29,6 +29,16 @@ const FOLLOW_UP_CUES =
 const PERSON_ACTION =
   /(^| )(عمل|عملت|عملوا|فعل|دور|دوره|دورها|شارك|شاركت|قال|قالت|موقف|موقفه|استشهد|اتقتل|قتل|هاجر|اسلم|ولد|اتولد|توفي|اتوفي|مات|ساهم|قاد|ابلي)( |$)/;
 
+// What a person felt, said or did, and why: asked right after an event, about
+// that event («عمر زعل ليه؟» after Hudaybiyya). Life events (death, birth,
+// conversion) are left out: «عمر استشهد إزاي؟» is about Umar's own death.
+const PERSON_IN_EVENT =
+  /(^| )[وف]?(ليه|لماذا|لم|سبب|عشان ايه|علشان ايه|زعل|زعلان|غضب|غضبان|حزن|حزين|فرح|اعترض|رفض|وافق|عمل|عملت|عملوا|فعل|دور|دوره|دورها|موقف|موقفه|موقفها|قال|قالت|شارك|شاركت|ساهم|اشار|اشارت)( |$)/;
+
+// A person's own life: with no subject named, the person (not the event) comes from context.
+const PERSON_LIFE =
+  /(^| )[وف]?(استشهد|استشهدت|اتقتل|اتقتلت|قتل|قتلوه|مات|ماتت|توفي|اتوفي|اتوفت|وفاته|وفاتها|ولد|ولدت|اتولد|اتولدت|اسلم|اسلمت|هاجر|هاجرت|اتجوز|تزوج)( |$)/;
+
 // References to "that event" — the event can come from context.
 const EVENT_REFERENCE = /(^| )(فيها|فيه|هناك|وقتها|يومها|ساعتها|المعركه دي|الغزوه دي|الحدث ده|نفس المعركه|نفس الغزوه)( |$)/;
 
@@ -58,7 +68,11 @@ export function carryContext(question: string, current: LinkedEntity[], context:
 
   if (strongTypes.size === 0) {
     const shortQuestion = searchStems(question).length <= 2;
-    return FOLLOW_UP_CUES.test(normalized) || shortQuestion ? carry(previous.slice(0, 2).map(r => r.id)) : [];
+    if (!FOLLOW_UP_CUES.test(normalized) && !shortQuestion) return [];
+    // «واستشهد إزاي؟» after «طب عمل إيه في تبوك؟» (context: Tabuk, Uthman) is about Uthman.
+    const people = previous.filter(r => PERSON_TYPES.has(r.type));
+    if (PERSON_LIFE.test(normalized) && people.length > 0) return carry([people[0].id]);
+    return carry(previous.slice(0, 2).map(r => r.id));
   }
 
   const hasPerson = [...strongTypes].some(t => t && PERSON_TYPES.has(t));
@@ -67,6 +81,6 @@ export function carryContext(question: string, current: LinkedEntity[], context:
   const previousEvent = previous.find(r => EVENT_TYPES.has(r.type));
 
   if (!hasPerson && hasEvent && previousPerson && PERSON_ACTION.test(normalized)) return carry([previousPerson.id]);
-  if (hasPerson && !hasEvent && previousEvent && EVENT_REFERENCE.test(normalized)) return carry([previousEvent.id]);
+  if (hasPerson && !hasEvent && previousEvent && (EVENT_REFERENCE.test(normalized) || PERSON_IN_EVENT.test(normalized))) return carry([previousEvent.id]);
   return [];
 }

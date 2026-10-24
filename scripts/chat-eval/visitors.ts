@@ -112,7 +112,7 @@ export async function runFlow(flow: VisitorFlow, answer: AnswerFn, live: boolean
     const { status, body, trace } = await answer(q, context);
     results.push({ q, status, body, trace, problems: checkTurn(turn, status, body, trace, live) });
     if (isSuccess(body)) {
-      if (body.context.recordIds.length > 0) context = { recordIds: body.context.recordIds, previousQuestion: q };
+      if (body.context.recordIds.length > 0) context = { recordIds: body.context.recordIds, previousQuestion: body.context.question ?? q };
       followUps = body.followUps;
     } else {
       followUps = [];

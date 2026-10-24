@@ -68,7 +68,7 @@
       { "q": "إيه هو صلح الحديبية؟", "records": ["event:treaty-hudaybiyyah"] },
       { "q": "مين اللي كتب الصلح؟", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#role:2"] },
       { "q": "عمر زعل ليه؟", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#role:1"] },
-      { "q": "كانوا كام واحد؟", "units": ["event:treaty-hudaybiyyah#army_size"], "notRecords": ["event:battle-uhud"], "knownGap": "the previous turn («عمر زعل ليه؟») kept only Umar as context, not the treaty" }
+      { "q": "كانوا كام واحد؟", "units": ["event:treaty-hudaybiyyah#army_size"], "notRecords": ["event:battle-uhud"] }
     ] },
     { "id": "badr-suggestions", "turns": [
       { "q": "احكيلي عن غزوة بدر", "records": ["event:battle-badr"] },
@@ -117,8 +117,8 @@
     ] },
     { "id": "event-to-event", "turns": [
       { "q": "إمتى كانت غزوة بدر؟", "units": ["event:battle-badr#date"] },
-      { "q": "وأحد؟", "units": ["event:battle-uhud#date"], "knownGap": "an elliptic follow-up does not keep the previous question's intent (the date)" },
-      { "q": "والخندق؟", "units": ["event:battle-khandaq#date"], "knownGap": "an elliptic follow-up does not keep the previous question's intent (the date)" }
+      { "q": "وأحد؟", "units": ["event:battle-uhud#date"] },
+      { "q": "والخندق؟", "units": ["event:battle-khandaq#date"] }
     ] },
     { "id": "caliphs-suggestion", "turns": [
       { "q": "مين هما الخلفاء الراشدين؟", "records": ["list:rashidun-caliphs"] },

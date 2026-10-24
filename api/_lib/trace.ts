@@ -20,6 +20,8 @@ export interface ChatTrace {
     carried: string[];
     /** Whether the previous question was shown to the model. */
     previousQuestionShown: boolean;
+    /** The question asked nothing of its own, so the previous question's intents were used. */
+    intentsFromPrevious?: boolean;
   };
   keyword: (TraceHit & { matched: number })[];
   semantic: { ran: boolean; provider?: string; ms?: number; min?: number; notes: string[]; top: TraceHit[] };

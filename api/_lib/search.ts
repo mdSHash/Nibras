@@ -169,6 +169,8 @@ export interface SearchOutcome {
   intents: Intent[];
   confidence: 'high' | 'medium' | 'none';
   semanticProvider?: EmbeddingProvider;
+  /** For an elliptic follow-up, the earlier question it asks again. */
+  askedAs?: string;
 }
 
 /** The question's search stems, without the colloquial «واحد» (entityLinker.ts). */
@@ -180,7 +182,12 @@ export async function search(question: string, embed?: QueryEmbedder, kb: Loaded
   const stems = questionStems(question);
   const named = linkEntities(question, kb);
   const entities = [...named, ...carryContext(question, named, context, kb).filter(c => !named.some(n => n.recordId === c.recordId))];
-  const { intents, kinds } = detectIntents(question);
+  // «وأحد؟» after «إمتى كانت غزوة بدر؟»: a short question that names a new
+  // subject and asks nothing of its own asks the previous question again.
+  const own = detectIntents(question);
+  const elliptic = own.intents.length === 0 && stems.length <= 2 && named.some(e => e.strong) && !!context?.previousQuestion;
+  const { intents, kinds } = elliptic ? detectIntents(context!.previousQuestion!) : own;
+  if (trace && elliptic) trace.context.intentsFromPrevious = true;
   if (trace) {
     trace.intents = intents;
     trace.entities = entities.map(e => ({ id: e.recordId, phrase: e.phrase, strong: e.strong, carried: !!e.carried }));
@@ -297,7 +304,7 @@ export async function search(question: string, embed?: QueryEmbedder, kb: Loaded
       chars: evidence.reduce((n, e) => n + e.units.reduce((m, u) => m + plainText(u.text).length, 0), 0),
     };
   }
-  return { evidence, entities, intents, confidence, semanticProvider: semanticResult?.provider };
+  return { evidence, entities, intents, confidence, semanticProvider: semanticResult?.provider, ...(elliptic ? { askedAs: context!.previousQuestion } : {}) };
 }
 
 const CHAR_BUDGET = 7000;

@@ -1924,3 +1924,19 @@ Offline turns passing (of 104), semantic on / keyword only: baseline **92 / 88**
    carried): a carried event may be the wrong one, so it applies only to named events.
 
 After 1–3: **96 / 90**.
+4. **A named person keeps the event in context for what they felt, said or did, and why**
+   (`PERSON_IN_EVENT`, `api/_lib/context.ts`). Trace before: «عمر زعل ليه؟» after «إيه هو صلح
+   الحديبية؟» linked Umar only, dropped the treaty and kept Umar's biography (10/10) and his other
+   events; Umar's role in the treaty was not retrieved. After: the treaty is carried, the role is
+   kept, and the next turn's context holds both (so «كانوا كام واحد؟» then answers about the treaty).
+   A person's own life («عمر استشهد إزاي؟») still drops the event.
+5. **With no subject named, a life question carries the person** (`PERSON_LIFE`): «واستشهد إزاي؟»
+   after «طب عمل إيه في تبوك؟» (context Tabuk, Uthman) carried Tabuk; now Uthman.
+6. **An elliptic follow-up asks the previous question again** (`search.ts`): «وأحد؟» after «إمتى كانت
+   غزوة بدر؟» had no intent, so Uhud's date was cut (16-unit cap). Now it takes the previous
+   question's intents (trace: `intentsFromPrevious`), the model sees the previous question, and the
+   response's `context.question` names the question answered, which the client sends back as
+   `previousQuestion`, so «والخندق؟» after «وأحد؟» works too. Intentional change: the chat panel
+   sends that question instead of the last typed text when the server gives one.
+
+After 4–6: **99 / 92**.
