@@ -256,3 +256,23 @@ export interface GeneratedTerritoryPeriod {
 }
 /** A passage as src/generated/quranPassages.json carries it (scripts/build-content.ts). */
 export type GeneratedQuranPassage = QuranPassage & { text: string; link: string };
+
+// Narration manifest, public/audio/manifest.json (Phase 3D; shared/narration.ts).
+export const narrationEntrySchema = z.strictObject({
+  file: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*\.(title|description)\.[0-9a-f]{8}\.m4a$/),
+  /** SHA-256 (hex) of the normalized text the recording says. */
+  textHash: z.string().regex(/^[0-9a-f]{64}$/),
+  durationSec: z.number().positive(),
+  /** What made it, e.g. `gemini` (the 2026 recordings) or `voicestudio/omnivoice`. */
+  engine: z.string().min(1),
+  voice: z.string().min(1),
+});
+export type NarrationEntry = z.infer<typeof narrationEntrySchema>;
+
+export const narrationManifestSchema = z.strictObject({
+  events: z.record(
+    z.string(),
+    z.strictObject({ title: narrationEntrySchema.optional(), description: narrationEntrySchema.optional() }),
+  ),
+});
+export type NarrationManifest = z.infer<typeof narrationManifestSchema>;

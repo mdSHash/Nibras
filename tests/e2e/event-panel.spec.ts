@@ -117,12 +117,24 @@ test('narration requests the event audio file and shows the playing state @phone
     testInfo.project.name === 'phone-firefox' && process.platform === 'linux',
     'Firefox on the Linux CI runner cannot play audio (no sound device), so the app shows its playback error; Firefox on Windows runs this in npm run verify',
   );
+  // The file the app hands its audio player. WebKit on Windows loads media outside the page's
+  // network layer (no request event, no resource timing), so the network log alone cannot show it.
+  await page.addInitScript(() => {
+    const sources: string[] = ((window as unknown as { __audioSources: string[] }).__audioSources = []);
+    const NativeAudio = window.Audio;
+    window.Audio = function (src?: string) {
+      if (src) sources.push(src.split('/').pop() ?? '');
+      return new NativeAudio(src);
+    } as unknown as typeof Audio;
+  });
   await openAppWithEvent(page);
   await openEventBySearch(page, 'battle-badr', 'بدر');
   const play = panel(page).getByRole('button', { name: 'تشغيل السرد' });
   await play.click();
   await expect(panel(page).getByRole('button', { name: 'إيقاف السرد' })).toBeVisible();
-  expect(network.audioRequests).toContain(baseline('battle-badr').narration.descriptionFile);
+  const file = baseline('battle-badr').narration.descriptionFile;
+  expect(await page.evaluate(() => (window as unknown as { __audioSources: string[] }).__audioSources)).toContain(file);
+  if (testInfo.project.name !== 'phone-webkit') expect(network.audioRequests).toContain(file);
   await panel(page).getByRole('button', { name: 'إيقاف السرد' }).click();
   await expect(play).toBeVisible();
 });

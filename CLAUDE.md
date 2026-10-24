@@ -35,6 +35,7 @@ assistant (`api/`) is a separate Vercel project.
 | `npm run lint:eslint` | ESLint |
 | `npm test` | Vitest unit tests |
 | `npm run check:chat-index` | Fails if the chat embedding index (`api/_data/`) misses a KB unit; fix with the Chat index workflow on the branch (spends Gemini quota, ask first) |
+| `npm run narration -- check` | Lists stale or missing narration; `-- generate` records it with Gemini TTS, voice Charon (dry run unless `--yes`; spends quota, ask first) |
 | `npm run validate:content` | Zod validation of everything in `content/` and every link between records |
 | `npm run fetch:quran` | Fetch verse text from Quran.com into `content/quran/verses.json` (network) |
 | `npm run docs:content` | Rewrite the field reference in `docs/CONTENT_GUIDE.md` from the schemas |
@@ -67,7 +68,8 @@ only after Mostafa approves the list of intentional changes; never to make a tes
 - `shared/` — code shared by the app, the chat API and scripts (Arabic text in `shared/arabic.ts`,
   chat types, content schemas)
 - `api/` — chat assistant (Vercel functions); `api/_lib/` its modules
-- `public/audio/` — narration WAVs (SHA-256 names); `api/_data/` — chat KB and embedding index (Vercel only, not on GitHub Pages)
+- `public/audio/` — narration (`.m4a` by event, `manifest.json`; `npm run narration`, `scripts/README.md`;
+  stale or missing narration is not played); `api/_data/` — chat KB and embedding index (Vercel only, not on GitHub Pages)
 - `scripts/` — content, KB, audio and baseline scripts; `scripts/verify.ts` runs `npm run verify`
 - `tests/` — Vitest (`*.test.ts`); `tests/e2e/` — Playwright (desktop + phone in Chromium; the `@phone`
   subset also in WebKit and Firefox); `tests/baseline/` — frozen baseline

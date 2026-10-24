@@ -52,7 +52,7 @@ Nibras (نِبْرَاس — "lamp" or "light" in Arabic) is an interactive web 
 - **Map Visualization** — Leaflet-based interactive map with event markers, route polylines, territorial expansion polygons (Voronoi via Turf.js), and marker clustering via Supercluster
 - **Companion Profiles** — ~150 Sahaba biographies at Ibn Hajar / Ibn al-Athir / Ibn Sa'd source depth, indexed by name and alias for cross-event lookup
 - **Quran & Hadith References** — Events linked to relevant Quranic verses and canonical hadith (Bukhari, Muslim, Ahmad, Tirmidhi) with modal display
-- **Text-to-Speech Narration** — 262 pre-cached Charon-voice WAV files (Gemini 3.1 flash-tts, 24 kHz PCM) covering every event's title and full description, served as static assets from `public/audio/{sha256}.wav`
+- **Text-to-Speech Narration** — 262 recordings in the Charon voice (Gemini TTS, 2026; AAC 48 kbps) covering every event's title and full description, found by event id in `public/audio/manifest.json` and served as static files
 - **Synthesized Battle Audio** — Web Audio API generates clash, charge, defeat, takbir, and horn SFX for the battlefield engine — no asset files needed
 - **Diacritic-tolerant Arabic search** — Type `معركه بدر` or `بدر الكبرى` and match the vocalized title `مَعْرَكَةُ بَدْرٍ الْكُبْرَى`. Normalizes tashkeel, alef/yeh/teh-marbuta variants, and matches whitespace-separated tokens (all-of), against title, summary, full description, location, and year.
 - **Guided App Tour** — Step-by-step onboarding with spotlight highlighting; auto-repositions when targets resize/remount and after slide-in animations settle
@@ -97,20 +97,18 @@ cd server && npm install && cd ..
 
 ### Environment Variables
 
-Runtime doesn't require any secrets — the 262 narration WAVs are committed under `public/audio/` and served with the site. Environment variables are only needed at **build time** if you're regenerating audio.
+Runtime doesn't require any secrets — the 262 narration recordings (AAC `.m4a`) are committed under `public/audio/` and served with the site. Recording new narration reads its settings from `.env.local`:
 
-| Variable | Location | Description |
-|---|---|---|
-| `GEMINI_API_KEY` | `server/.env` | Google Gemini API key. Consumed by `server/index.js` (TTS proxy) and `scripts/cache-event-*.js`. Get one at https://aistudio.google.com/apikey. |
+| Variable | Description |
+|---|---|
+| `GEMINI_API_KEY` | Google Gemini API key: `npm run narration -- generate` records with Gemini TTS, voice Charon (spends free-tier quota; ask first), and the chat embeddings use it. Get one at https://aistudio.google.com/apikey. |
+| `VOICESTUDIO_PROFILE` | Only for `--engine voicestudio` (local fallback). Optional: `VOICESTUDIO_URL`, `VOICESTUDIO_ENGINE`, `VOICESTUDIO_LANGUAGE`, `VOICESTUDIO_SEED`. |
 
 ### Running Locally
 
 ```bash
 # Frontend dev server (port 3000)
 npm run dev
-
-# TTS backend server (separate terminal, only needed if you regenerate audio)
-npm run dev:server
 ```
 
 The app will be available at `http://localhost:3000`.
@@ -135,9 +133,8 @@ nibras/
 ├── content/                   # All content as JSON files: events, people, cities, eras, categories,
 │                              #   Qur'an passages, territories (see docs/CONTENT_GUIDE.md)
 ├── shared/                    # Code shared by the app, the chat API and scripts (content schemas, Arabic text)
-├── public/                    # Static assets — includes public/audio/*.wav (262 SHA-256-hashed narration files)
-├── scripts/                   # Content build, chat KB, audio, baseline and verify scripts
-├── server/                    # Express TTS proxy server (build-time only)
+├── public/                    # Static assets — includes public/audio/ (262 narration .m4a files and manifest.json)
+├── scripts/                   # Content build, chat KB, narration, baseline and verify scripts (retired ones in scripts/archive/)
 ├── src/
 │   ├── App.tsx                # Root application component
 │   ├── data.ts                # Loads the generated content (src/generated/, built from content/)
@@ -245,7 +242,6 @@ For the full engine architecture, scenario format, and authoring guide see [`src
 | Command | Description |
 |---------|-------------|
 | `npm run dev` | Start the Vite dev server (port 3000) |
-| `npm run dev:server` | Start the TTS backend server |
 | `npm run build` | Production build, then the pre-rendered pages, `sitemap.xml`, `robots.txt` and `404.html` (`scripts/prerender.ts`) |
 | `npm run preview` | Preview production build |
 | `npm run lint` | TypeScript type checking (`tsc --noEmit`) |
@@ -255,31 +251,23 @@ For the full engine architecture, scenario format, and authoring guide see [`src
 | `npm run docs:content` | Rewrite the field reference in `docs/CONTENT_GUIDE.md` from the schemas |
 | `npm run format -- <files>` | Prettier, on demand for the files you name (the repo is not bulk-formatted) |
 | `npm run verify` | Full check against the refactor baseline — see [Verify](#verify) |
-| `npm run cache-audio` | Pre-cache title audio for every event through the TTS proxy |
-| `npm run cache-details` | Pre-cache full-description audio (chunked at 4500 chars) |
-| `node scripts/verify-all-audio.js` | Check every event has both title + description WAVs in `public/audio/` — reports missing files with expected SHA-256 hashes |
+| `npm run narration -- check` | List events whose narration is stale (text edited) or missing; fails only on a broken `public/audio/manifest.json` |
+| `npm run narration -- generate` | Record the stale or missing narration (dry run unless `--yes`; see `scripts/README.md`) |
 | `node scripts/capture-yamama.mjs` | Playwright capture of the Yamama battle at key sim times — useful template for verifying any new scenario |
 | `node scripts/capture-nahavand.mjs` | Same for the Nahavand replay |
 | `node scripts/capture-contrast.mjs` | Playwright capture of the EventPanel in light + dark mode at desktop + mobile viewports |
 
-### TTS Setup
+### Narration
 
-Every event's title + `full_description` is pre-rendered as a WAV in `public/audio/`. Filenames are `SHA-256(normalizeText(text) + "|" + voice + "|" + rate)` — the front-end recomputes the same hash and fetches from that path, so audio playback is a static-file GET, not a live API call.
-
-To regenerate audio (e.g. after adding new events):
+Every event's title and full description has a recording in `public/audio/` (AAC, 48 kbps mono), listed by event id in `public/audio/manifest.json` with the hash of the text it says. The app looks the recording up by event id and plays it as a static file; when the text changes, the recording is no longer played until it is recorded again.
 
 ```bash
-# 1. Put a Gemini key in server/.env (see .env.example)
-# 2. Start the TTS proxy
-npm run dev:server &
-
-# 3. Cache titles + full descriptions
-npm run cache-audio
-npm run cache-details
-
-# 4. Sanity-check coverage
-node scripts/verify-all-audio.js
+npm run narration -- check              # what is stale or missing
+npm run narration -- generate           # dry run: what it would record
+npm run narration -- generate --yes     # record it with Gemini TTS, voice Charon (spends quota: ask first)
 ```
+
+Details, engines and settings: `scripts/README.md`. The 2026 Gemini WAV originals are in the GitHub Release `narration-archive-2026-10`.
 
 ---
 
@@ -334,16 +322,16 @@ They record every element's computed styles (colors compared as painted) and a s
 
 Production is hosted at **https://mdshash.github.io/Nibras/** on GitHub Pages. `.github/workflows/deploy.yml` runs a `check` job (the full `npm run verify`, on Ubuntu) on every pull request and every push to `main`; only when it passes on `main` does it build with Vite (`base: '/Nibras/'`), pre-render one page per event, person, replay and Qur'an passage, and publish `dist/` via `actions/deploy-pages@v4`. The deploy build carries the Sentry settings (crash reports, source maps); see `docs/OWNER_DASHBOARD.md` for Sentry, the uptime checks and the weekly owner routine. The chat API also has `GET /api/health`.
 
-Because all audio ships as static WAVs bundled into `dist/audio/`, no separate backend is required at runtime. The TTS proxy in `server/` is only used at authoring time when regenerating narration.
+Because all narration ships as static `.m4a` files in `dist/audio/`, no separate backend is required at runtime.
 
 To publish new content:
 
 ```bash
-# 1. Add or edit files in content/ (see docs/CONTENT_GUIDE.md), generate audio locally
+# 1. Add or edit files in content/ (see docs/CONTENT_GUIDE.md), record narration locally
 # 2. Check the content, the chat KB and the narration
 npm run validate:content
 npm run build:chat-kb
-node scripts/verify-all-audio.js
+npm run narration -- check
 
 # 3. Commit on a branch and open a pull request; merging to main deploys
 git add content/ api/_data/chat-kb.json public/audio/

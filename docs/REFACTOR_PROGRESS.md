@@ -1064,7 +1064,8 @@ through theme tokens (no visual change), **3C** chat (KB and index in `api/_data
 build, per-IP rate limit), **3D** audio (manifest by event id, compressed narration, archive),
 **3E** owner visibility (Umami, Search Console, Lighthouse budgets), **3F** territories research and
 3–4 visual directions, **3G** territories build, **3H** battle video pipeline, **3I** close-out. Added 2026-10-23:
-**3J** chat answers that teach (after 3C, before 3D; Mostafa).
+**3J** chat answers that teach (after 3D; Mostafa, 2026-10-23: keep the normal sequence, 3J stays
+planned).
 
 ### Decisions by Mostafa
 
@@ -1649,9 +1650,151 @@ After the merge (2026-10-23):
      the setting on is optional. The stray branch `bot/chat-index-40006657712` (only the reordered
      file) was deleted.
 
+### 3D — narration audio: manifest by event id, AAC, archive
+
+Started 2026-10-24 on `refactor/phase-3d-audio` from `main` at `7504109` (PRs #10, #11, #12
+merged). Before any change, `npm run verify` passed: Vitest 278/278, feature tests 84 passed (0
+known failures), 1 skipped, phone smoke 44/44, visual 16/16, bundle budget within limits.
+
+**Live site check** (once, 2026-10-24, headless Chromium against https://mdshash.github.io/Nibras/ as
+a returning visitor, desktop 1440×900 and phone 390×844): `/event/battle-badr/` opens Badr («غَزْوَةُ
+بَدْرٍ الْكُبْرَى — نبراس») with «مشاهدة المعركة»; «تشغيل السرد» plays the description (one HEAD and one
+GET of its WAV); no console errors. `GET https://nibras-chat-api.vercel.app/api/health` → 200
+`{"ok":true,"kbUnits":4178,"llmConfigured":true,"sharedStore":true,"release":"7504109"}`.
+
+Measured on `7504109` (the app's own key, 131 events): 131 description narrations (397.9 MB,
+138.1 min), 131 title narrations played in player mode (18.8 MB, 6.5 min), 118 files no current
+text uses (22.5 MB, 7.8 min). Every narrated text has a recording. All WAVs are 24 kHz mono 16-bit.
+
+#### Decisions by Mostafa (3D)
+
+- 2026-10-23: **3J after 3D** (keep the normal sequence); 3J stays planned.
+- 2026-10-24: the session plan approved (manifest `public/audio/manifest.json` by event id, AAC,
+  one Release with the WAV originals, one `scripts/narration.ts`, CI report, no quota).
+- 2026-10-24: **stale narration is hidden**: when an event's text no longer matches its recording,
+  the play button is hidden (player mode pauses 5 s on the title) until it is regenerated; the CI
+  report names the event.
+- 2026-10-24: **AAC-LC mono 24 kHz at 48 kbps**, chosen by listening to three narrations (the
+  shortest title, Hunayn's description, the longest description) at 40, 48 and 64 kbps beside the WAV.
+- 2026-10-24: ffmpeg installed on Mostafa's machine with `winget install Gyan.FFmpeg` (9.0.2), for
+  the narration script only (not CI, not `npm ci`).
+- 2026-10-24: **no Gemini quota in 3D**: `narration generate` is tested with a fake response only.
+
+- 2026-10-24: **VoiceStudio instead of Gemini for new narration** (Mostafa: Gemini and paid services
+  cost too much). VoiceStudio (github.com/debpalash/VoiceStudio, AGPL app, local) is installed on
+  Mostafa's machine: app in `B:\VoiceStudio\app`, runtime in `B:\Voice Studio`; model caches pointed
+  at `B:\VoiceStudio\models` and `B:\VoiceStudio\hf` (user variables `OMNIVOICE_CACHE_DIR`,
+  `HF_HOME`). Voice: **clone Charon** from one original recording, so new and old narration match.
+  The first runtime attempt on `C:` was deleted at Mostafa's request (2026-10-24).
+- 2026-10-24: **wrong tashkeel and pronunciation go to a new Phase 4**, "Content audit, enrichment
+  and narration" (Mostafa: fixing the texts and re-recording is a long task, and it is the same
+  operation as the planned enrichment). Every text is audited against the guide's "Reliable sources"
+  (Sunni, verified only); Mostafa approves each change; then the changed events are re-recorded.
+  It comes right after Phase 3, before the learning paths (now Phase 5) and accounts (now Phase 6),
+  because the quizzes are written from the event text. 3D only builds the tools:
+  `npm run narration -- review` (Whisper, local) and `-- generate`.
+- 2026-10-24: **narration stays with Gemini** (Mostafa, after listening). Tried in VoiceStudio with a
+  Charon clone (reference: the original 6.1 s title WAV of «اسْتِشْهَادُ مُحَمَّدِ بْنِ أَبِي بَكْرٍ رضي الله
+  عنه وَسُقُوطُ مِصْرَ»), on «فتح حلب», Hunayn, «عام الجماعة», Ibn ʿAbbas and the Khawarij, Abu Dharr:
+  - **OmniVoice** (default engine): rejected, "100% robot talking", one flat pace.
+  - **Lahgtna** (oddadmix/lahgtna-omnivoice-v2, Arabic fine-tune): "much better" and read every word,
+    but «ﷺ» needed spelling out for the engine, it read «هـ» as a letter, and it ran about 35% slower;
+    "Gemini is way ahead".
+  - Whisper word checks were close (3–9% differences either way, much of it Whisper itself), so the
+    choice is by ear. `npm run narration -- generate` now defaults to `--engine gemini`;
+    `voicestudio` stays as a free fallback, and VoiceStudio's Whisper runs `narration review`.
+  - The `tmp/` folder (scratch from earlier sessions and the trial) was deleted at Mostafa's request.
+
+#### Design choices (3D)
+
+- **Manifest** `public/audio/manifest.json`, keyed by event id; each entry `{ file, textHash,
+  durationSec, engine, voice }` (Zod schema in `shared/contentSchema.ts`, helpers in
+  `shared/narration.ts`, kept free of Zod so the app bundle does not carry it). `textHash` is
+  SHA-256 of the whitespace-folded text alone (the old key also had `|Charon|1`; the voice now has
+  its own field, and the old names are kept in the archive list).
+- **File names** `<event slug>.<title|description>.<first 8 hex of textHash>.m4a`: the slug, not the
+  id, because 25 legacy ids hold Arabic or `_`; a new recording gets a new URL.
+- **Where the app looks**: `scripts/build-content.ts` checks the manifest (a broken one fails the
+  build like a content error) and writes the fresh entries to `src/generated/narration.json`
+  (event id → kind → 8-hex hash; 9.3 KB, 3.4 KB gzip); `src/narration.ts` rebuilds the URL. The
+  pre-rendered pages boot the same bundle; `scripts/prerender.ts` is unchanged.
+- **Player**: `src/services/ttsGemini.ts` (580 lines, most of it an unused Gemini voice list) is
+  replaced by `src/services/narrationPlayer.ts`, which keeps the same playback and owner rules
+  (the panel stops the timeline) and plays a URL: no hashing, no HEAD request.
+- **AAC**: ffmpeg's built-in encoder, AAC-LC mono 24 kHz 48 kbps, `+faststart`. 262 files, 53 MB
+  (WAVs in use: 416.7 MB). Plays in Chromium, WebKit and Firefox on Windows (feature tests).
+- **`npm run narration`** (`scripts/narration.ts`, `scripts/narration/`): `check` (no network; the
+  `npm run verify` step "Narration manifest" and the CI job summary), `convert` (once, from the
+  WAVs), `generate` (dry run unless `--yes`; `--engine voicestudio|gemini`, `--max`, `--only`). It
+  fails when VoiceStudio reports a dropped chunk, keeps the engine's WAVs in the git-ignored
+  `audio-src/` and moves a replaced `.m4a` to `audio-src/replaced/`. Tested with fake engines.
+- **Archived** to `scripts/archive/` (not deleted): `server/` (its `.env` stays git-ignored),
+  `cache-event-audio.js`, `cache-event-details-audio.js`, `verify-all-audio.js`, `test-audio-hash.js`,
+  `fix-aqaba-audio-r2.js`, `migrate-to-cloudflare-r2.js`; their npm scripts are removed and
+  `scripts/archive/` leaves ESLint.
+
+#### Intentional behavior changes (3D)
+
+1. Narration files are `.m4a` named by event (were `.wav` named by hash); 87% smaller.
+2. Playing narration makes one request (was a HEAD and a GET).
+3. An event without a fresh recording shows **no play button**, and player mode pauses 5 s on its
+   title (before: the button showed an English error «Audio file not found: …»). Today every event
+   has both recordings, so nothing visible changes.
+
+#### Baselines to approve (not updated yet)
+
+- `tests/baseline/content.json`: the 262 `narration.descriptionFile` / `titleFile` values, `.wav` hash
+  names → `.m4a` event names (`descriptionExists` / `titleExists` stay true). No other difference.
+
+#### 3D verification (2026-10-24, Windows 11, Node 20.19.5, Playwright 1.59.1)
+
+`npm run verify` on the final 3D code:
+
+| Step | Result |
+| --- | --- |
+| Content build (Zod), type check, ESLint | passed |
+| Vitest | 289/289 (278 before: `tests/narration.test.tsx`, 13; the old "every text has a WAV" test removed) |
+| Narration manifest (new) | 131 events, 262 fresh recordings, 0 stale, 0 missing |
+| Chat index in sync, behavior map | passed, unchanged |
+| Content snapshot | passed against the approved baseline (262 file names `.wav` → `.m4a`, nothing else) |
+| Production build, bundle budget | passed; `src/generated/narration.json` adds 3.4 KB gzip |
+| Playwright features | 84 passed, 1 skipped, 0 known failures |
+| Phone smoke (WebKit, Firefox) | 44/44 |
+| Visual snapshots | 16/16, unchanged |
+
+The first full run failed one test, in WebKit only: "narration requests the event audio file". WebKit
+on Windows loads media outside the page's network layer (no request event, no resource timing; checked
+with a probe), and before 3D the test passed there only through the HEAD request the app no longer
+makes. The test now records the file the app hands its audio player (all engines) and the network
+request where the engine exposes it.
+
+`tests/baseline/numbers.json` test counts are not updated (Vitest 278 → 289; waiting for approval).
+
+Archive: Release `narration-archive-2026-10` (https://github.com/mdSHash/Nibras/releases/tag/narration-archive-2026-10,
+target `7504109`): `narration-wav-in-use.zip` (262 WAVs, 416.9 MB), `narration-wav-unused.zip` (118,
+22.6 MB), `audio-mapping.json`, `narration-archive.json`. Checked before the WAVs left the tree: each
+asset's SHA-256 on GitHub equals the local file's, and all 380 WAVs in the zips match the list.
+
+Quota: none spent. No Gemini call; VoiceStudio and Whisper ran locally.
+
+Not verified here: narration on the live site with `.m4a` (after the deploy); the CI job summary's
+"Narration" section (first CI run of the PR).
+
+Manual checks for Mostafa:
+
+1. Open an event (e.g. Badr) and press «تشغيل السرد»: the narration plays, sounds as before, the
+   time and ring move; pause and play again.
+2. Player mode (تشغيل) with narration on: each title is narrated and the timeline moves on.
+3. On your phone (Safari or Chrome): the same two checks.
+4. On the PR's CI run: the job summary shows "Narration: 131 events, 262 fresh recordings, 0 stale,
+   0 missing".
+5. After the deploy: https://mdshash.github.io/Nibras/audio/manifest.json opens, and narration plays
+   on the live site.
+6. The Release page above lists the four files.
+
 ### 3J — chat answers that teach (planned, 2026-10-23)
 
-Not started. Next session, before 3D (Mostafa, 2026-10-23); the plan's Phase 3 item "Chat answers
+Not started. Planned after 3D (Mostafa, 2026-10-23: keep the normal sequence); the plan's Phase 3 item "Chat answers
 that teach (3J)" lists the steps.
 
 #### What Mostafa asked (2026-10-23)

@@ -13,5 +13,8 @@ playwright/.cache/
 tmp/
 src/generated/
 
+# Narration WAVs from npm run narration -- generate, and the .m4a files they replace (Phase 3D)
+audio-src/
+
 # Battle videos as delivered (hosted outside git; Phase 3H)
 Video/

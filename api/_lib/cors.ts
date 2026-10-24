@@ -1,7 +1,7 @@
 /**
  * Allow-lists the production GitHub Pages origin (plus local dev ports) for
- * the chat API, mirroring the origin-restriction pattern already used by the
- * dev-only server/index.js TTS proxy.
+ * the chat API, mirroring the origin-restriction pattern of the old TTS proxy
+ * (scripts/archive/server/index.js).
  */
 const DEFAULT_ORIGINS = [
   'https://mdshash.github.io',

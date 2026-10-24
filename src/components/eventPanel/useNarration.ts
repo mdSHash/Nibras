@@ -1,17 +1,17 @@
 // The event panel's narration: plays the recorded description (public/audio,
-// found by src/services/ttsGemini.ts), with play/pause, a progress ring and
-// an Arabic error. Stops when the event changes or the panel closes. The file is
-// keyed by the full description, which loads with the event's details.
+// found by src/narration.ts), with play/pause, a progress ring and an Arabic
+// error. Stops when the event changes or the panel closes. `hasNarration` is false
+// when the event has no fresh recording; the panel then shows no play button.
 import { useEffect, useRef, useState } from 'react';
 import type { EventItem } from '../../data';
-import { eventDetails } from '../../lazyContent';
-import { eventSlug } from '../../../shared/routes';
-import geminiTTS, { releaseOwner } from '../../services/ttsGemini';
+import narrationPlayer, { releaseOwner } from '../../services/narrationPlayer';
+import { narrationUrl } from '../../narration';
 import { toArabicIndic } from '../../../shared/arabic';
 
 export type AudioState = 'idle' | 'playing' | 'paused';
 
 export interface Narration {
+  hasNarration: boolean;
   audioState: AudioState;
   isAudioLoading: boolean;
   audioError: string | null;
@@ -51,7 +51,7 @@ export function useNarration(event: EventItem | null): Narration {
       audioRef.current = null;
     }
     releaseOwner('panel');
-    geminiTTS.stop();
+    narrationPlayer.stop();
     setAudioState('idle');
     setCurrentTime(0);
     setDuration(0);
@@ -89,20 +89,15 @@ export function useNarration(event: EventItem | null): Narration {
     };
   };
 
+  const url = event ? narrationUrl(event, 'description') : null;
+
   const startAudio = async (restart = false) => {
-    if (!event || isAudioLoading) return;
+    if (!url || isAudioLoading) return;
     try {
       setAudioError(null);
       if (!audioRef.current) {
         setIsAudioLoading(true);
-        const { fullDescription } = await eventDetails.load(eventSlug(event)).catch(() => {
-          throw new Error('تعذّر تحميل الصوت');
-        });
-        const { audio, duration: audioDuration } = await geminiTTS.createAudio(fullDescription, {
-          voice: 'Charon',
-          rate: 1,
-          volume: 1,
-        });
+        const { audio, duration: audioDuration } = narrationPlayer.createAudio(url);
         audioRef.current = audio;
         setupAudioListeners(audio, audioDuration);
         setDuration(audioDuration || 0);
@@ -133,6 +128,7 @@ export function useNarration(event: EventItem | null): Narration {
   const progressFraction = duration > 0 ? Math.min(currentTime / duration, 1) : 0;
 
   return {
+    hasNarration: url !== null,
     audioState,
     isAudioLoading,
     audioError,

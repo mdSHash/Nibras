@@ -4,10 +4,11 @@ Handoff from a full review of `mdshash/nibras` at commit `35b37f0` (16 Sep 2026)
 Put this file at `docs/REFACTOR_PLAN.md` and treat it as the source of truth for the refactor.
 
 The goal is to fix the foundations **before** new features are added, without changing what users
-see or read (except the bugs listed here). Phases 0 to 3 are the refactor. Phases 4 and 5 are the
-first new features (learning paths, then optional accounts), specified at the end of this file;
-they start only after Phase 3 is merged. The site works today: `tsc` passes, all 179 Vitest tests
-pass, `vite build` succeeds. Keep it that way after every step.
+see or read (except the bugs listed here). Phases 0 to 3 are the refactor. Phase 4 audits and
+enriches the content (with new narration). Phases 5 and 6 are the first new features (learning
+paths, then optional accounts), specified at the end of this file; they start only after Phase 4 is
+merged. The site works today: `tsc` passes, all 179 Vitest tests pass, `vite build` succeeds. Keep
+it that way after every step.
 
 ---
 
@@ -42,7 +43,7 @@ pass, `vite build` succeeds. Keep it that way after every step.
   Actions secret or Vercel environment variable, and document the name in `.env.example`. Names used
   in this plan: `VITE_CHAT_API_URL` (exists), `VITE_SENTRY_DSN`, `SENTRY_AUTH_TOKEN`,
   `VITE_UMAMI_WEBSITE_ID`, `GEMINI_API_KEY` (embeddings Action), `VITE_SUPABASE_URL`,
-  `VITE_SUPABASE_ANON_KEY` (Phase 5).
+  `VITE_SUPABASE_ANON_KEY` (Phase 6).
 - Paid services and quotas: ask before creating accounts, enabling paid tiers, or running anything
   that spends Gemini, Groq or OpenRouter quota (audio generation, embeddings, chat evals).
 - Subagents: if Mostafa's setup has reviewer or tester subagents, use them for the independent
@@ -58,7 +59,7 @@ session or tool trusts outdated instructions:
 | File | Problem | What to do | When |
 | --- | --- | --- | --- |
 | `ADDING_NEW_CONTENT_GUIDE.md` | Documents `companion_roles` as `{companion_id, role}` (data uses `{name, role_in_event}`); silent on audio, chat rebuild and battle links | Phase 0: add a warning at the top that it is outdated and point to this plan. Phase 1: replace it with `docs/CONTENT_GUIDE.md` for the `content/` layout, with a field reference generated from the Zod schemas and the full add/edit workflow (validate, narration, chat rebuild); delete the old file | 0 and 1 |
-| `PRD.md` | Marked "Production Ready"; targets (bundle under 500 KB, Hijri-first dates, engagement KPIs) don't match the app; data section shows old types | Move to `docs/PRD.md`, add a "target vs today" column, update the data section after Phase 1, add learning paths and accounts after Phases 4 and 5 | 1, 3, 4, 5 |
+| `PRD.md` | Marked "Production Ready"; targets (bundle under 500 KB, Hijri-first dates, engagement KPIs) don't match the app; data section shows old types | Move to `docs/PRD.md`, add a "target vs today" column, update the data section after Phase 1, add learning paths and accounts after Phases 5 and 6 | 1, 3, 5, 6 |
 | `README.md` | Describes the current structure, TTS server and deploy steps | Update at the end of every phase: structure, commands (`npm run verify`), deploy, where content lives | Every phase |
 | `scripts/README.md` | Lists audio caching and capture scripts, several of which go away | Rewrite when scripts are consolidated | 3 |
 | `src/battlefield/README.md` | Says the systems live in one file | Update after splitting the systems and moving the loader | 3 |
@@ -319,7 +320,7 @@ custom admin panel; each covers one job and has a free tier (confirm current lim
 | Chat quality | Existing JSON logs and 👍/👎 feedback in Upstash | Questions with no grounded answer (content gaps), provider failures, latency. |
 
 One **owner dashboard** page in `docs/OWNER_DASHBOARD.md` links all of them and lists what to look at
-weekly. A small in-app admin page comes later, only for learning data (Phase 5): paths started and
+weekly. A small in-app admin page comes later, only for learning data (Phase 6): paths started and
 finished, and the percentage of learners who get each quiz question wrong (to find unclear
 questions or content).
 
@@ -381,7 +382,7 @@ blank-page crash can't recur.
 
 Goal: one place per kind of record, stable IDs, every link by ID, validated in CI. **No server
 database for content.** Content stays as files in git. (User data, such as progress and
-certificates, gets a database in Phase 5; content never moves there.)
+certificates, gets a database in Phase 6; content never moves there.)
 
 Target layout:
 
@@ -486,16 +487,17 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
 
 ## Phase 3 — Assets, chat and polish
 
-- [ ] Audio manifest `audio/manifest.json`: `eventId → { file, textHash, durationSec }`. The app looks
+- [x] Audio manifest `audio/manifest.json`: `eventId → { file, textHash, durationSec }`. The app looks
       up by event ID; CI reports events whose text changed since narration or that have no audio; the
       play button is hidden when an event has no narration.
-- [ ] One generation script that calls Gemini directly, generates only missing or stale entries and
+- [x] One generation script that calls Gemini directly, generates only missing or stale entries and
       writes the manifest. Delete `server/` and the old scripts once replaced. **Ask before spending
       quota.**
-- [ ] Convert narration to Opus (or AAC) at speech bitrate. **Ask Mostafa** where to host it (GitHub
+- [x] Convert narration to Opus (or AAC) at speech bitrate. **Ask Mostafa** where to host it (GitHub
       Release, Cloudflare R2, or similar) before moving files out of git or rewriting history.
       **No narration file is ever deleted** (Mostafa, 2026-10-15): the 118 files no current text uses
-      are archived, and the WAV originals are archived when converting.
+      are archived, and the WAV originals are archived when converting. (3D: AAC 48 kbps in
+      `public/audio/`, WAVs in the Release `narration-archive-2026-10`.)
 - [x] Move `chat-kb.json` and the embedding files from `public/data/` to `api/_data/`; build the KB in
       CI from `content/`; move the incremental embedding build to a scheduled GitHub Action (secrets
       in repository settings) so the index reaches 100% and semantic search turns on. Fail CI if KB and
@@ -605,6 +607,38 @@ otherwise), narration still works, and the live-site check passes after deploy.
 
 ---
 
+## Phase 4 — Content audit, enrichment and narration
+
+Added 2026-10-24 (Mostafa): one phase for every change to the content's text, because each one
+means new narration. It comes before the learning paths, whose quizzes are written from the event
+text. Planned; not started.
+
+Goal: every event, companion and city text checked against verified Sunni sources, its tashkeel
+corrected, enriched where the sources support it, and narrated again.
+
+- [ ] **Sources**: only the "Reliable sources" in `docs/CONTENT_GUIDE.md` (Ibn Hisham, al-Raheeq
+      al-Makhtum, Zad al-Maʿad; Ibn Kathir's al-Bidaya wa al-Nihaya, al-Tabari, Ibn al-Athir's
+      al-Kamil; al-Isaba, Usd al-Ghaba, al-Istiʿab; al-Durar al-Saniyya, IslamWeb, Qissat al-Islam).
+      Hadith grading from al-Durar al-Saniyya. A claim no listed source supports is not added.
+- [ ] **Audit**: per event, person and city, a list of findings (fact, figure, date, name, tashkeel)
+      with the source and page for each proposed change. Nothing changes until Mostafa approves
+      the list (CLAUDE.md, rule 1).
+- [ ] **Pronunciation**: `npm run narration -- review` (Whisper, local) lists the words each
+      recording says differently from its text; Mostafa listens to the flagged places. Wrong vowels
+      in the text go into the audit list; a correct text read wrong is only re-recorded.
+- [ ] **Enrichment**: new facts from the same sources, including the gaps collected so far (the
+      Badr video's figures and episodes the event does not state; see 3H, "Open for Mostafa").
+- [ ] **Narration**: `npm run narration -- generate --yes` re-records exactly the events whose text
+      changed, with Gemini TTS in the Charon voice of every recording (Mostafa, 2026-10-24, after
+      3D's listening trial). Free-tier quota: count the requests (the dry run prints them), ask
+      first, spread over days if needed. Mostafa listens before merge. The chat KB is rebuilt (`npm run build:chat-kb`; embeddings: ask first).
+- [ ] Sessions are split by era (prophetic, Abu Bakr, ʿUmar, ʿUthman, ʿAli), one PR each.
+
+Done when: every text has an approved audit entry, `npm run narration -- check` reports 0 stale and
+0 missing, and `npm run verify` passes.
+
+---
+
 ## New features (after the refactor)
 
 ### The idea
@@ -632,8 +666,8 @@ Two principles:
 | Paths, modules, steps | `content/paths/<id>.json` | Phase 1 (event IDs) |
 | Quiz questions | `content/quizzes/<pathId>.json` | Phase 1 |
 | Path, quiz and certificate pages | Routes `/path/:id`, `/path/:id/quiz/:moduleId`, `/certificate/:id` | Phase 2 (routing) |
-| Guest progress | Browser storage (IndexedDB), behind a `ProgressStore` interface | Phase 4 |
-| Accounts, synced progress, certificates | Supabase (Postgres + Auth), user data only | Phase 5 |
+| Guest progress | Browser storage (IndexedDB), behind a `ProgressStore` interface | Phase 5 |
+| Accounts, synced progress, certificates | Supabase (Postgres + Auth), user data only | Phase 6 |
 
 ### Path content shape
 
@@ -690,7 +724,7 @@ an event on the map, match a companion to their role, plus normal multiple choic
 - **No new content facts in quizzes**: every question must be answerable from the linked events'
   text in Nibras.
 
-### Phase 4 — Learning paths for guests
+### Phase 5 — Learning paths for guests
 
 Goal: the full learning experience, with progress in the browser. No backend yet, so the idea can be
 tested with real users first.
@@ -699,7 +733,7 @@ tested with real users first.
       `npm run verify`.
 - [ ] `ProgressStore` interface (`getProgress`, `markStepDone`, `recordQuizAttempt`, `getPathStatus`,
       `exportAll`, `importAll`) with an IndexedDB implementation. All UI talks to the interface only, so
-      Phase 5 can add a synced implementation without UI changes.
+      Phase 6 can add a synced implementation without UI changes.
 - [ ] Paths list page, path page (modules, steps, progress ring, "continue where you left off"), quiz
       page (all question types), result page with explanations.
 - [ ] Progress shown elsewhere: a done mark on events in the timeline, search and map for steps the
@@ -715,7 +749,7 @@ tested with real users first.
       8 steps (`src/data/tourSteps.ts`: welcome, timeline, map, search, filters, dark mode, event panel,
       tips) predate most of the app: they say nothing about the chat assistant, narration, battle
       replays and videos, era pills and player mode, shareable addresses, or learning paths. Done last
-      in Phase 4 so it can present the paths. Steps:
+      in Phase 5 so it can present the paths. Steps:
       - *Content.* Start from what a visitor can do with Nibras (follow the story on the map, open an
         event and listen, ask the assistant, take a path), not from where the buttons are. Short Arabic
         copy; Claude drafts, Mostafa approves every step's text.
@@ -733,7 +767,7 @@ Done when: a guest can finish مسار الرسالة end to end on phone and de
 all questions are reviewed, the new tour is approved and walks the current app, and `npm run verify`
 passes.
 
-### Phase 5 — Optional accounts, sync and certificates
+### Phase 6 — Optional accounts, sync and certificates
 
 Goal: signing in is optional and adds sync and verifiable certificates. Content stays in git; the
 database holds only user data.

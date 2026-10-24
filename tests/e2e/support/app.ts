@@ -14,7 +14,7 @@ export interface BaselineEvent {
   quran: { ref: string; key: string }[];
   battle: { battleId: string; scenarioId: string } | null;
   date: { hijriDisplay: string; gregorianDisplay: string };
-  narration: { descriptionFile: string; titleFile: string };
+  narration: { descriptionFile: string | null; titleFile: string | null };
 }
 
 export const content = JSON.parse(readFileSync(join(ROOT, 'tests', 'baseline', 'content.json'), 'utf8')) as {
