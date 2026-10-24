@@ -343,6 +343,27 @@ embedding index covers the new text (CI fails until it does; it spends one Gemin
 changed unit). The chat assistant itself (`api/`, its KB and index in `api/_data/`, the per-IP rate
 limit) is a separate Vercel project: `docs/OWNER_DASHBOARD.md`, "Chat".
 
+### How the chat answers, and how to check it
+
+Every answer is stored text: an overview of one record («إيه هو صلح الحديبية؟») is composed from the
+record in order without a model call (`api/_lib/shapes.ts`); other questions go to the model, which
+only picks passages and a shape (paragraph, numbered steps, fact rows, list), and the server shows
+each passage whole. Headings come from a fixed list in code.
+
+- `npm run eval:chat -- --visitors --offline` runs the visitor set (`tests/fixtures/chat-visitors.json`:
+  questions and multi-turn flows, mostly Egyptian Arabic) through the real pipeline with a stand-in
+  model and stored query vectors, and writes one trace per question (intent, entities, context,
+  keyword and semantic hits, evidence kept and cut, shape) to `test-results/chat-visitors-*.md`. No
+  quota. `--keyword-only` runs it as if the Gemini call failed. `tests/chatVisitors.test.ts` runs the
+  same set in `npm test`.
+- Without `--offline` it calls the real models (Groq quota: ask first; `--sample` runs the 41-turn
+  sample, `--gap 40000` spaces the calls for the free tier's per-minute tokens).
+- `CHAT_TRACE=1 npm run dev:chat-api` prints the same trace for each question asked in the dev app.
+- A new visitor question goes into the fixture with the records and units it must find; one that
+  fails today gets a `knownGap` with its cause (`npx tsx scripts/chat-eval/set-gap.ts`), and its
+  query vector is added with `npx tsx scripts/chat-eval/embed-visitors.ts --yes` (one Gemini text per
+  question; ask first).
+
 ---
 
 ## Contributing
