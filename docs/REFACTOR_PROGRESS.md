@@ -2074,3 +2074,7 @@ Manual checks for Mostafa:
 6. On your phone: the same Hudaybiyya question; the headings, rows and numbered steps read well
    in light and dark mode.
 7. Approve or change the test counts above, and the open qwen question.
+
+- 2026-10-24 (Mostafa, «all good, approved»): the 3J answers, the new blocks (screenshots) and the
+  test counts approved; `tests/baseline/numbers.json` updated to Vitest 396, features 89, phone
+  smoke 46 (nothing else). The `qwen/qwen3.6-27b` question stays open (chain unchanged).
