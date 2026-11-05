@@ -19,7 +19,7 @@ import {
 import { reportServerError } from './_lib/monitoring.js';
 import { checkRateLimit, clientIp } from './_lib/rateLimit.js';
 import { buildPrompt, parseModelAnswer } from './_lib/prompt.js';
-import { composeOverview, composeSections, overviewTarget } from './_lib/shapes.js';
+import { composeHeadcount, composeOverview, composeSections, overviewTarget } from './_lib/shapes.js';
 import { pickExampleQuestions } from '../src/utils/chatExamples.js';
 import { defaultEmbedder, search, type QueryEmbedder, type SearchOutcome } from './_lib/search.js';
 import { formatTrace, newTrace, type ChatTrace } from './_lib/trace.js';
@@ -132,6 +132,16 @@ export async function answerQuestion(question: string, deps: AnswerDeps = {}): P
       const body = await success(found, composed, 'composed', question);
       return finish({ status: 200, body, log: { ...log, mode: 'composed', shape: overview.style, ms: now() - started } });
     }
+  }
+
+  const headcount = composeHeadcount(question, found, kb);
+  if (headcount && headcount.blocks.length > 0) {
+    if (trace) {
+      trace.shape = 'facts';
+      trace.answerUnits = headcount.shown;
+    }
+    const body = await success(found, headcount, 'composed', question);
+    return finish({ status: 200, body, log: { ...log, mode: 'composed', shape: 'facts', ms: now() - started } });
   }
 
   const cacheKey = answerCacheKey(kb.kb.contentHash, question, carried);

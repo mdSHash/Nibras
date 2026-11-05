@@ -7,13 +7,41 @@ import type { AnswerBlock } from '../shared/chatApi';
 import { normalizeForMatch } from '../shared/arabic';
 import { getKb } from '../api/_lib/kb';
 import { search } from '../api/_lib/search';
-import { composeOverview, composeSections, overviewTarget } from '../api/_lib/shapes';
+import { composeHeadcount, composeOverview, composeSections, overviewTarget } from '../api/_lib/shapes';
 import { parseModelAnswer } from '../api/_lib/prompt';
 
 const kb = getKb();
 const unit = (id: string) => kb.units.find(u => u.id === id)!;
 const target = async (q: string) => overviewTarget(q, await search(q, undefined, kb), kb);
 const kinds = (blocks: AnswerBlock[]) => blocks.map(b => `${b.type}${'heading' in b && b.heading ? `:${b.heading}` : ''}`);
+
+describe('a headcount follow-up', () => {
+  const after = async (recordId: string, q: string) => {
+    const context = { recordIds: [recordId], previousQuestion: 'مين اللي كتب الصلح؟' };
+    return composeHeadcount(q, await search(q, undefined, kb, context), kb);
+  };
+
+  it('answers with the army row of the event it follows, without the model', async () => {
+    const answer = await after('event:treaty-hudaybiyyah', 'كانوا كام واحد؟');
+    expect(answer?.shown).toEqual(['event:treaty-hudaybiyyah#army_size']);
+    expect(answer?.blocks.map(b => b.type)).toEqual(['facts']);
+  });
+
+  it('gives both armies when the record has both', async () => {
+    const answer = await after('event:battle-uhud', 'كانوا كام واحد؟');
+    expect(answer?.shown).toEqual(['event:battle-uhud#army_size', 'event:battle-uhud#enemy_army_size']);
+  });
+
+  it('leaves every other question to the model', async () => {
+    expect(await after('event:treaty-hudaybiyyah', 'كام غزوة؟')).toBeNull();
+    expect(await after('event:treaty-hudaybiyyah', 'كام سنة؟')).toBeNull();
+    // Not a follow-up: no event to carry.
+    const q = 'كانوا كام واحد؟';
+    expect(composeHeadcount(q, await search(q, undefined, kb), kb)).toBeNull();
+    // It names another event.
+    expect(await after('event:treaty-hudaybiyyah', 'كانوا كام واحد في غزوة أحد؟')).toBeNull();
+  });
+});
 
 describe('fact units', () => {
   it('carry a label and the stored value their text ends with', () => {
