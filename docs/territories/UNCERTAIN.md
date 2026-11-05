@@ -58,7 +58,7 @@ These rows are about who held a region and from when. **Every border line betwee
 | مشارف الشام (غسان) | 634.3 | islam (contested) | Bosra. Report order disputed in the same chapter (Ma'ab before Bosra). |
 | الثغور | 638.25 | byz (contested) | Empty frontier: the castles between Antioch and Tarsus found abandoned (25 AH). A no man's land, not a line. |
 | الري وقومس | 644 | islam (treaty) |  |
-| أرمينية | 645.2 | islam (treaty) | Treaties under Habib ibn Maslama, not rule of the whole: Byzantines and Khazars stay on its edges. |
+| أرمينية | 645.85 | islam (treaty) | Treaties under Habib ibn Maslama, not rule of the whole: Byzantines and Khazars stay on its edges. |
 | الري وقومس | 646.5 | islam (state) | Al-Rayy kept breaking away and being retaken after Hudhayfa: a date here is a simplification. |
 | كرمان | 650.3 | islam (state) | Year inferred from Ibn 'Amir's march. |
 | طبرستان وجرجان | 651 | sas (contested) | A raid. Muslims were still wary of the region long after: not held. |
