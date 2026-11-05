@@ -77,6 +77,7 @@ only after Mostafa approves the list of intentional changes; never to make a tes
   subset also in WebKit and Firefox); `tests/baseline/` — frozen baseline
 - `docs/OWNER_DASHBOARD.md` — Sentry, uptime checks, `/api/health`, where each secret lives
 - `docs/PRD.md` — product requirements; `docs/CONTENT_GUIDE.md` — adding and editing content
+- `docs/territories/` — territory research (3F): the sourced ledger, uncertain rows and borders, factual conflicts; `scripts/territories/` checks it
 - `src/components/ErrorBoundary.tsx` — wrap any new major section or panel in one
 - `src/services/analytics.ts` — Umami, deploy build only; `track()` must never carry what a visitor typed
 

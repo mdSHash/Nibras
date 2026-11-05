@@ -595,6 +595,7 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
         directions and let him pick before building** (he rejected a solo redesign before).
       Polygons stay precomputed at build (`scripts/content/territories.ts`); the content snapshot
       records every changed period for approval.
+      3F research and directions done (`docs/territories/`); building the chosen direction is 3G.
 - [x] Add map attribution for the tile provider. (3A)
 - [x] Add a web manifest and icons. (3A)
 - [x] Add Umami with the custom events listed in "Owner visibility, SEO and domain"; write
