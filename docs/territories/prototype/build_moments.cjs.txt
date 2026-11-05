@@ -1,0 +1,164 @@
+// Builds the prototype's map data from the ledger and the draft region shapes. Run from the repo root.
+const fs = require('fs');
+const path = require('path');
+const turf = require(path.resolve('node_modules/@turf/turf'));
+
+const OUT = 'tmp/proto-app/public/proto';
+fs.mkdirSync(OUT, { recursive: true });
+const BBOX = [-14, -8, 88, 58];
+const read = f => JSON.parse(fs.readFileSync(f, 'utf8'));
+
+const MOMENTS = [
+  { id: 'before', from: 0, to: 622, at: 610 },
+  { id: 'badr', from: 622, to: 628, at: 624 },
+  { id: 'hudaybiyya', from: 628, to: 632.3, at: 631 },
+  { id: 'death', from: 632.3, to: 633, at: 632.3 },
+  { id: 'umar', from: 633, to: 651, at: 637.1 },
+  { id: 'khurasan', from: 651, to: 656.5, at: 651.95 },
+  { id: 'siffin', from: 656.5, to: 661.5, at: 657 },
+  { id: 'unity', from: 661.5, to: 9999, at: 661.6 },
+];
+
+const NAMES = {
+  byz: 'الإمبراطورية البيزنطية (الروم)', sas: 'الإمبراطورية الساسانية (الفرس)', qur: 'قريش', axum: 'مملكة أكسوم (الحبشة)',
+  nubia: 'النوبة', ghassan: 'الغساسنة (حلفاء الروم)', lakhmid: 'المناذرة (حلفاء الفرس)', sasinf: 'نفوذ الفرس',
+  jews: 'يهود خيبر ووادي القرى', aws: 'الأوس والخزرج', ridda: 'حروب الردة',
+  ali: 'علي بن أبي طالب رضي الله عنه', muawiya: 'معاوية بن أبي سفيان رضي الله عنه', tribal: 'القبائل العربية', local: 'حكام محليون',
+};
+const SHORT = { byz: 'الروم', sas: 'الفرس', axum: 'أكسوم', ghassan: 'الغساسنة', lakhmid: 'المناذرة', ali: 'علي رضي الله عنه', muawiya: 'معاوية رضي الله عنه' };
+const LABEL_AT = { byz: [33.5, 38.9] };
+const islamName = at => (at < 632.3 ? 'الدولة الإسلامية' : at < 661.5 ? 'دولة الخلفاء الراشدين' : 'الدولة الأموية');
+const KLASS = { treaty: 'صلح أو معاهدة، دون حكم مباشر', contested: 'أرض متنازع عليها', tribal: 'ديار القبائل (حدود غير ثابتة)' };
+
+function chaikin(ring, n = 2) {
+  let pts = ring.slice();
+  for (let i = 0; i < n; i++) {
+    const out = [];
+    for (let j = 0; j < pts.length; j++) {
+      const a = pts[j], b = pts[(j + 1) % pts.length];
+      out.push([a[0] * 0.75 + b[0] * 0.25, a[1] * 0.75 + b[1] * 0.25], [a[0] * 0.25 + b[0] * 0.75, a[1] * 0.25 + b[1] * 0.75]);
+    }
+    pts = out;
+  }
+  return [...pts, pts[0]];
+}
+
+console.log('land…');
+const landFeats = read('tmp/territories-research/geo/ne_10m_land.geojson').features
+  .flatMap(f => (f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates))
+  .map(c => turf.polygon(c))
+  .filter(p => { const b = turf.bbox(p); return !(b[2] < BBOX[0] || b[0] > BBOX[2] || b[3] < BBOX[1] || b[1] > BBOX[3]); });
+const clip = turf.bboxPolygon(BBOX);
+const land = landFeats.map(p => turf.intersect(turf.featureCollection([p, clip]))).filter(Boolean)
+  .map(p => turf.simplify(p, { tolerance: 0.015, highQuality: false }));
+console.log('land polygons', land.length);
+
+const landFor = poly => {
+  const b = turf.bbox(poly);
+  const hits = land.filter(l => { const c = turf.bbox(l); return !(c[2] < b[0] || c[0] > b[2] || c[3] < b[1] || c[1] > b[3]); });
+  const parts = hits.map(l => turf.intersect(turf.featureCollection([l, poly]))).filter(Boolean);
+  if (!parts.length) return null;
+  return parts.length === 1 ? parts[0] : turf.union(turf.featureCollection(parts));
+};
+
+const regions = read('docs/territories/regions-draft.json').regions;
+const cells = new Map();
+let taken = null;
+for (const r of regions) {
+  const ring = chaikin(r.ring);
+  let poly = turf.polygon([ring]);
+  if (taken) poly = turf.difference(turf.featureCollection([poly, taken])) || null;
+  if (!poly) { console.log('empty after overlap', r.id); continue; }
+  const onLand = landFor(poly);
+  if (!onLand) { console.log('no land', r.id); continue; }
+  cells.set(r.id, { ...r, geom: onLand });
+  taken = taken ? turf.union(turf.featureCollection([taken, turf.polygon([ring])])) : turf.polygon([ring]);
+}
+console.log('cells', cells.size);
+
+const rows = fs.readdirSync('docs/territories/ledger').sort().flatMap(f => read(path.join('docs/territories/ledger', f)));
+const stateAt = at => {
+  const s = new Map();
+  rows.map((row, i) => ({ row, i })).sort((a, b) => a.row.at - b.row.at || a.i - b.i).forEach(({ row }) => {
+    if (row.at > at) return;
+    for (const r of [row.r].flat()) s.set(r, row);
+  });
+  return s;
+};
+
+const dropHoles = f => {
+  const polys = f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates;
+  const kept = polys.map(c => [c[0], ...c.slice(1).filter(h => turf.area(turf.polygon([h])) > 1e13)]);
+  return turf.multiPolygon(kept);
+};
+
+const labelPoint = geom => {
+  const polys = geom.geometry.type === 'Polygon' ? [geom.geometry.coordinates] : geom.geometry.coordinates;
+  const big = polys.map(c => turf.polygon(c)).sort((a, b) => turf.area(b) - turf.area(a))[0];
+  const center = turf.centerOfMass(big);
+  const p = turf.booleanPointInPolygon(center, big) ? center : turf.pointOnFeature(big);
+  return p.geometry.coordinates;
+};
+
+const moments = MOMENTS.map(m => {
+  const state = stateAt(m.at);
+  const groups = new Map();
+  for (const [id, row] of state) {
+    const cell = cells.get(id);
+    if (!cell) continue;
+    const key = `${row.h}|${row.k}`;
+    if (!groups.has(key)) groups.set(key, { holder: row.h, klass: row.k, ids: [] });
+    groups.get(key).ids.push(id);
+  }
+  const features = [];
+  const labels = [];
+  const legend = new Map();
+  for (const g of groups.values()) {
+    const name = g.holder === 'islam' ? islamName(m.at) : NAMES[g.holder];
+    if (g.klass === 'tribal') {
+      for (const id of g.ids) {
+        const c = cells.get(id);
+        features.push({ type: 'Feature', properties: { id, holder: g.holder, klass: g.klass, nameAr: c.nameAr }, geometry: c.geom.geometry });
+      }
+    } else {
+      const u = g.ids.map(id => turf.buffer(cells.get(id).geom, 45, { units: 'kilometers', steps: 3 })).filter(Boolean);
+      let geom = u.length === 1 ? u[0] : turf.union(turf.featureCollection(u));
+      geom = turf.buffer(geom, -31, { units: 'kilometers', steps: 3 }) || geom;
+      geom = dropHoles(geom);
+      geom = landFor(geom) || geom;
+      geom = turf.simplify(geom, { tolerance: 0.012, highQuality: false });
+      features.push({ type: 'Feature', properties: { id: g.ids[0], holder: g.holder, klass: g.klass, nameAr: name }, geometry: geom.geometry });
+      const [lng, lat] = LABEL_AT[g.holder] || labelPoint(geom);
+      if (g.klass === 'state' || g.klass === 'client') labels.push({ text: name, short: SHORT[g.holder] || name, lat, lng, level: g.ids.length > 2 ? 1 : 2, klass: g.klass, holder: g.holder });
+    }
+    const named = ['state', 'client', 'city'].includes(g.klass);
+    if (g.holder === 'tribal' && g.klass === 'city') continue;
+    const legendKey = named ? g.holder : `k-${g.klass}`;
+    if (!legend.has(legendKey)) legend.set(legendKey, { holder: g.klass === 'treaty' ? 'islam' : g.holder, klass: g.klass, text: named ? name : KLASS[g.klass] });
+  }
+  // Region names: every tribe, town, treaty land and province, below the realm names.
+  for (const [id, row] of state) {
+    const c = cells.get(id);
+    if (!c) continue;
+    const [lng, lat] = labelPoint(c.geom);
+    const level = c.kind === 'province' && row.k === 'state' ? 4 : 3;
+    labels.push({ text: row.name || c.nameAr, lat, lng, level, klass: row.k, holder: row.h });
+  }
+  const seen = new Set();
+  const uniq = labels.filter(l => (seen.has(l.text) ? false : seen.add(l.text)));
+  const legendList = [...legend.values()].sort((a, b) => (['state','city','client'].includes(a.klass) ? 0 : 1) - (['state','city','client'].includes(b.klass) ? 0 : 1));
+  console.log(m.id, features.length, 'areas', uniq.length, 'labels');
+  return { from: m.from, to: m.to, areas: { type: 'FeatureCollection', features }, labels: uniq, legend: legendList };
+});
+fs.writeFileSync(path.join(OUT, 'moments.json'), JSON.stringify(moments));
+
+const RIVERS = /^(Nile|Euphrates|Tigris|Karun|Jordan|Amu Darya|Helmand|Blue Nile|White Nile|Kura|Aras|Atbara)/;
+const rivers = read('tmp/territories-research/geo/ne_10m_rivers_lake_centerlines.geojson').features
+  .filter(f => RIVERS.test(f.properties.name || ''))
+  .map(f => turf.simplify(f, { tolerance: 0.02 }));
+fs.writeFileSync(path.join(OUT, 'rivers.json'), JSON.stringify({ type: 'FeatureCollection', features: rivers.map(f => ({ type: 'Feature', properties: {}, geometry: f.geometry })) }));
+const coast = read('tmp/territories-research/geo/ne_10m_coastline.geojson').features
+  .filter(f => { const b = turf.bbox(f); return !(b[2] < BBOX[0] || b[0] > BBOX[2] || b[3] < BBOX[1] || b[1] > BBOX[3]); })
+  .map(f => turf.simplify(f, { tolerance: 0.02 }));
+fs.writeFileSync(path.join(OUT, 'coast.json'), JSON.stringify({ type: 'FeatureCollection', features: coast.map(f => ({ type: 'Feature', properties: {}, geometry: f.geometry })) }));
+for (const f of ['moments', 'rivers', 'coast']) console.log(f, Math.round(fs.statSync(path.join(OUT, f + '.json')).size / 1024), 'KB');

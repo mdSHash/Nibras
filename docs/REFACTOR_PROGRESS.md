@@ -2215,3 +2215,78 @@ Manual checks for Mostafa after the deploy:
 Changed after that approval, for Mostafa to see: the first enforced run on Windows failed on desktop home
 LCP, 205 ms against a limit of 193 ms, with no related code change. The recorded number was left alone;
 LCP and Speed Index limits gained a fixed 200 ms on top of the 15%, as the bundle budget has for tiny chunks.
+
+**3E merged** (PR #15, merge commit `8b0d697`).
+
+Post-deploy results, from Mostafa (2026-11-05):
+
+- Live chat: the Hudaybiyya questions pass; «كانوا كام واحد؟» now answers about 1,400.
+- Umami records real visits (a test visit appeared on the dashboard). It filters headless browsers as bots,
+  so a headless test only shows the tracker loading.
+- Google ownership verified; sitemap submitted, status "Couldn't fetch" on 2026-11-05. Checked from
+  outside the same day (3F): the sitemap answers 200, `application/xml`, 305 addresses, and `robots.txt`
+  points to it. Search Console itself not read (the browser extension was not connected); still open.
+- Bing imported from Search Console: 305 URLs, 0 errors.
+- UptimeRobot: both monitors up, 100% over 30 days on the chat API. That monitor is the HTTP type, not
+  Keyword as `OWNER_DASHBOARD.md` said (corrected); it still catches failures, because `/api/health`
+  returns 503.
+- Sentry loads and sends from the live site.
+- GitHub's Pages service returned a 500 on the first deploy, though the site went live; the re-run was green.
+
+---
+
+### 3F — territories research and visual directions
+
+Started 2026-11-05 on `refactor/phase-3f-territories` from `main` at `8b0d697` (PR #15 merged).
+
+Before any change, `npm run verify` **failed on one step**, the Lighthouse budget: phone home CLS 0.535
+against a limit of 0.504 (recorded 0.404), and 0.526 on a Lighthouse-only re-run. Everything else passed:
+Vitest 410/410, features 97 passed and 1 skipped, phone smoke 46/46, visual 16/16. The commits after the
+numbers were recorded touch no `src/` file. Windows has given 0.404, 0.463, 0.526 and 0.535 on this code and
+Linux recorded 0.517, so the recorded number was the low end of the spread.
+
+#### Decisions by Mostafa (3F, 2026-11-05)
+
+- **The CLS number**: re-record only the Windows phone home CLS, 0.404 → 0.53 (limit about 0.63). The shift
+  itself (the event panel moving as the first event opens) stays open for a later task.
+- **Sources**: verified and Sunni only. Who held what comes from the four chronicles the app cites. Other
+  Sunni works may locate places and tribes only, each named on its row. Al-Hamdani, proposed in the plan,
+  is dropped: his standing could not be confirmed.
+- **Ali and Muawiyah's division (656–661)** is shown, in separate styles with neutral labels.
+- **The 3F plan** and the four directions (satellite refined, relief, parchment, clean atlas) approved.
+
+Lighthouse re-run after the change: within limits, phone home CLS 0.409. The spread on unchanged code is now 0.404-0.535.
+
+- 2026-11-05 (Mostafa): **lighter testing while he is away**: the pictures already look solid, so recapture only what the last fixes touched and no full Playwright run before the PR; CI runs everything on it. Work does not stop for questions during his 1.5-hour match; open choices go in the report.
+
+#### What 3F produced
+
+Research and pictures only. **No app code, content or baseline changed** except the approved CLS number. Building is 3G.
+
+- `docs/territories/ledger/`: who held which region from when. 104 rows: 59 proven, 32 likely, 13 uncertain; 111 quoted phrases, each confirmed on its cited page by `scripts/territories/checkLedger.ts`. 9 rows have no quote yet.
+- `docs/territories/BORDERS.md`: every border and how far to trust it. **No line is proven**: the chronicles never draw one.
+- `docs/territories/UNCERTAIN.md` (generated), `CONFLICTS.md`: rows and factual conflicts for Mostafa. Nothing was changed for them.
+- `docs/territories/regions-draft.json`: 62 draft regions in the sources' own units. `docs/territories/prototype/`: the prototype's sources, as text.
+- Comparison page (private): https://claude.ai/artifact/SpPXGP83jS2dVkxToA4cWS. Four directions, 56 pictures from the real app, light and dark.
+
+#### Design choices (3F)
+
+- **Map changes follow the app's event dates**, so the map stays in step with the timeline even where a source differs; each difference is in `CONFLICTS.md`.
+- **Kinds of hold**: ruled, city, client, treaty, contested, tribal, because the sources often describe a treaty or a raid where the app's title says conquest.
+- **After Yazdegerd**, lands not held by Muslims are shown under local lords, not the Sasanian state. Found by looking at a picture.
+- **Basemap images are cheap**: B 4.7 + 1.9 MB, C 3.5 + 2.0 MB, D 1.7 + 0.9 MB (light + dark); A adds nothing. So size does not decide between directions.
+- **Pictures come from a throwaway worktree** (`tmp/proto-app`, ignored), so the real header, timeline and panel are in them.
+
+#### Contrast (56 pictures, 3F)
+
+Every map label and legend line, against the worst real pixel behind the text, with markers and panels hidden so only the ground counts. Text below 4.5:1: **0** in all four directions; lowest 14.1, 11.5, 8.4 and 10.5:1 for A, B, C and D. Removing the label backgrounds makes B fail on 21 of 33 texts, so the measure can fail. D in dark mode passes even without them.
+
+Not solved by the pictures, for 3G: event markers touch about ten labels per picture, in all four directions. On the live map, labels need placing around markers.
+
+The measure was wrong three times before this and was corrected each time (it read pill corners, marker pixels, then the selected event's name tag). The recorded numbers are from the corrected version. The zoomed and in-app pictures were not recaptured after the last data fix, which does not change them.
+
+#### 3F verification (2026-11-05, Windows 11, Node 20.19.5)
+
+Lighter, as Mostafa asked: type check, ESLint on the new scripts, `npm test`, `validate:content`, build and the ledger check, on code that differs from `main` only in docs, two standalone scripts and one baseline number. Full `npm run verify` before the change is reported at the top of this section. Playwright and the full verify were **not** re-run here; CI runs them on the PR. A capture run was stopped once by low memory; the rerun finished.
+
+Open for Mostafa: pick a direction (recommended: B, Relief); the uncertain rows, borders and conflicts; the Search Console sitemap status. Al-Thurayya's coordinates, if 3G uses them, must be credited (CC BY 4.0).

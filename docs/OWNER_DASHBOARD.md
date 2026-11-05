@@ -52,7 +52,7 @@ Create two monitors (Monitoring → New monitor):
 | Monitor | Type | URL | Interval | Condition |
 | --- | --- | --- | --- | --- |
 | Nibras site | HTTP(s) | `https://mdshash.github.io/Nibras/` | 5 min | status 200 |
-| Nibras chat API | Keyword | `https://nibras-chat-api.vercel.app/api/health` | 5 min | keyword `"ok":true` **exists** |
+| Nibras chat API | HTTP(s) | `https://nibras-chat-api.vercel.app/api/health` | 5 min | status 200 (a failing check answers 503, so it still alerts) |
 
 Alerts: your email (default contact); optionally add Telegram under *Integrations*. `/api/health`
 answers 200 with `"ok":true` when the knowledge base loads and an LLM provider key is set, and 503

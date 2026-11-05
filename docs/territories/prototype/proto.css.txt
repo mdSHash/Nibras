@@ -1,0 +1,78 @@
+/* 3F prototype: four directions. Throwaway. --p-* are set per direction and theme. */
+:root[data-proto] { --sys-map-filter: none; }
+:root[data-proto='A'] { --sys-map-filter: saturate(0.85) brightness(1.02); }
+:root[data-proto='A'].dark { --sys-map-filter: saturate(0.7) brightness(0.6); }
+
+:root[data-proto] {
+  --c-islam: #11845b; --c-byz: #6d3fd1; --c-sas: #c8540d; --c-qur: #b07d0a; --c-tribal: #8a7a5c;
+  --c-axum: #a33d2e; --c-nubia: #7c5a34; --c-ghassan: #9a6fc9; --c-lakhmid: #d98a4a; --c-ridda: #c62828;
+  --c-ali: #11845b; --c-muawiya: #1f6fb2; --c-sasinf: #e0975c; --c-jews: #5a7d8a; --c-aws: #2f9e6e;
+  --label-bg: rgb(255 252 244 / .95); --label-ink: #1c1a16; --label-font: 'Tajawal', sans-serif; --legend-bg: rgb(255 252 244 / .94); --legend-ink: #1c1a16;
+  --river: #4b86a8; --coast: #6b5a42; --stroke-boost: 1;
+}
+:root[data-proto].dark {
+  --c-islam: #3fcf95; --c-byz: #a98bf5; --c-sas: #f58f47; --c-qur: #e6b73a; --c-tribal: #b9a988;
+  --c-axum: #e0705f; --c-nubia: #c39a66; --c-ghassan: #c8a6ee; --c-lakhmid: #efb27c; --c-ridda: #ff6b6b;
+  --c-ali: #3fcf95; --c-muawiya: #67b3f0; --c-sasinf: #f0b283; --c-jews: #8ab6c6; --c-aws: #5fd3a0;
+  --label-bg: rgb(18 18 22 / .93); --label-ink: #f6f2e8; --legend-bg: rgb(18 18 22 / .92); --legend-ink: #f6f2e8;
+  --river: #6aa7cc; --coast: #a48d6c;
+}
+/* A: satellite. Labels are dark pills in both themes, imagery is too busy for anything else. */
+:root[data-proto='A'] { --label-bg: rgb(14 16 20 / .93); --label-ink: #fbf8f0; --legend-bg: rgb(14 16 20 / .9); --legend-ink: #fbf8f0;
+  --c-islam: #2fe0a0; --c-byz: #b79bff; --c-sas: #ff9a4d; --c-qur: #ffd25e; --c-tribal: #e4d6b4; --c-ali: #2fe0a0; --c-muawiya: #72c1ff; }
+/* C: parchment. Ink and paper, Amiri. */
+:root[data-proto='C'] { --label-font: 'Amiri', serif; --label-bg: rgb(240 225 190 / .95); --label-ink: #2e2013; --legend-bg: rgb(240 225 190 / .96); --legend-ink: #2e2013;
+  --c-islam: #1d6b49; --c-byz: #5b3a8c; --c-sas: #a3481a; --c-qur: #8a6410; --c-tribal: #6e5a3c; --c-muawiya: #1d5a8c; --c-ali: #1d6b49; --river: #5a7f8a; --coast: #4a3620; }
+:root[data-proto='C'].dark { --label-bg: rgb(46 36 26 / .95); --label-ink: #f3e6cc; --legend-bg: rgb(46 36 26 / .96); --legend-ink: #f3e6cc;
+  --c-islam: #58c594; --c-byz: #b39ae0; --c-sas: #e8955c; --c-qur: #dcb95a; --c-tribal: #c8b48f; --c-muawiya: #7fbbe6; --c-ali: #58c594; --river: #7ba3ae; --coast: #bda27a; }
+/* D: clean atlas. Flat fills; the label ground matches the land so no pill is seen. */
+:root[data-proto='D'] { --label-bg: rgb(243 239 229 / .93); --legend-bg: #f3efe5;
+  --c-islam: #9cdcbe; --c-byz: #cbbcf2; --c-sas: #f6c49c; --c-qur: #f1dc96; --c-tribal: #e3d9c2; --c-axum: #eeb4a8; --c-nubia: #dcc6a3; --c-ghassan: #dfccf2; --c-lakhmid: #f8dcc0; --c-ridda: #f4a6a6; --c-ali: #9cdcbe; --c-muawiya: #a9d0f0; --c-sasinf: #f9dcc4; --river: #8fb4c8; --coast: #8fa9b5; }
+:root[data-proto='D'].dark { --label-bg: rgb(32 36 42 / .93); --legend-bg: #20242a;
+  --c-islam: #23714f; --c-byz: #54408f; --c-sas: #8a4a1e; --c-qur: #7c6318; --c-tribal: #4c4638; --c-axum: #7c3b30; --c-nubia: #6a5232; --c-ghassan: #5f4b7c; --c-lakhmid: #80562f; --c-ridda: #8a3232; --c-ali: #23714f; --c-muawiya: #285f8c; --c-sasinf: #7a5433; --river: #4f7f9a; --coast: #566e7b; }
+
+.h-islam { --h: var(--c-islam); } .h-byz { --h: var(--c-byz); } .h-sas { --h: var(--c-sas); } .h-qur { --h: var(--c-qur); }
+.h-tribal, .h-local { --h: var(--c-tribal); } .h-axum { --h: var(--c-axum); } .h-nubia { --h: var(--c-nubia); } .h-ghassan { --h: var(--c-ghassan); }
+.h-lakhmid { --h: var(--c-lakhmid); } .h-ridda { --h: var(--c-ridda); } .h-ali { --h: var(--c-ali); } .h-muawiya { --h: var(--c-muawiya); }
+.h-sasinf { --h: var(--c-sasinf); } .h-jews { --h: var(--c-jews); } .h-aws { --h: var(--c-aws); }
+
+.proto-area { stroke: var(--h); fill: var(--h); stroke-linejoin: round; stroke-linecap: round; }
+.proto-area.k-tribal { stroke: none; filter: blur(5px); fill-opacity: .3; }
+.proto-area.k-client { stroke-dasharray: 2 6; }
+.proto-area.k-treaty { fill: url(#hatch-treaty); fill-opacity: 1; stroke-dasharray: 10 5; }
+.proto-area.k-contested { stroke-dasharray: 3 7; stroke-width: 3; fill-opacity: .14; }
+.proto-area.uncertain { stroke-dasharray: 6 8; }
+.pat-bg { fill: transparent; } .pat-islam { stroke: var(--c-islam); stroke-width: 2.4; } .pat-tribal { fill: var(--c-tribal); }
+
+:root[data-proto='A'] .proto-area { filter: drop-shadow(0 0 2px rgb(0 0 0 / .85)); }
+:root[data-proto='A'] .proto-area.k-tribal { filter: blur(6px); fill-opacity: .42; }
+:root[data-proto='C'] .proto-area { mix-blend-mode: multiply; }
+:root[data-proto='C'].dark .proto-area { mix-blend-mode: screen; }
+:root[data-proto='C'] .proto-area.k-tribal { fill: url(#dots-tribal); fill-opacity: 1; filter: none; }
+:root[data-proto='D'] .proto-area { stroke: #fff; }
+:root[data-proto='D'].dark .proto-area { stroke: #15191f; }
+:root[data-proto='D'] .proto-area.k-tribal { filter: none; fill-opacity: .55; stroke: none; }
+:root[data-proto='D'] .proto-area.k-treaty { stroke: var(--c-islam); }
+
+.proto-river { stroke: var(--river); opacity: .75; }
+.proto-coast { stroke: var(--coast); opacity: .8; }
+
+.proto-label-wrap { width: 0 !important; height: 0 !important; overflow: visible; }
+.proto-label { position: absolute; transform: translate(50%, -50%); right: 0; white-space: nowrap; font-family: var(--label-font); color: var(--label-ink); background: var(--label-bg);
+  padding: 1px 7px 2px; border-radius: 4px; font-weight: 500; line-height: 1.35; font-size: clamp(11px, 0.75vw + 3px, 13px); pointer-events: none; }
+.proto-label.l1 { font-weight: 800; font-size: clamp(13px, 1vw + 4px, 17px); padding: 2px 10px 3px; }
+.proto-label.l2 { font-weight: 700; font-size: clamp(12px, .85vw + 3px, 14.5px); }
+:root[data-proto='C'] .proto-label { font-weight: 400; border-radius: 1px; } :root[data-proto='C'] .proto-label.l1 { font-weight: 700; letter-spacing: 0; border-block: 1px solid var(--label-ink); }
+
+.proto-legend { position: absolute; z-index: 800; inset-inline-end: 64px; top: 72px; background: var(--legend-bg); color: var(--legend-ink); font-family: var(--label-font);
+  border-radius: 6px; padding: 8px 12px; font-size: 13px; display: grid; gap: 4px; pointer-events: none; box-shadow: 0 2px 10px rgb(0 0 0 / .25); max-width: 240px; }
+.proto-legend-row { display: flex; align-items: center; gap: 8px; }
+.proto-legend-text { color: var(--legend-ink); }
+.proto-swatch { width: 20px; height: 12px; border-radius: 2px; background: var(--h); flex: none; border: 1.5px solid var(--h); }
+.proto-swatch.k-tribal { background: transparent; background-image: radial-gradient(var(--h) 1.2px, transparent 1.4px); background-size: 5px 5px; border-color: transparent; }
+.proto-swatch.k-treaty { background: repeating-linear-gradient(45deg, var(--c-islam) 0 2px, transparent 2px 5px); border-style: dashed; border-color: var(--c-islam); }
+.proto-swatch.k-client { background: transparent; border-style: dotted; }
+.proto-swatch.k-contested { background: transparent; border-style: dashed; }
+@media (max-width: 640px) {
+  .proto-legend { top: 76px; bottom: auto; inset-inline-end: auto; inset-inline-start: 10px; font-size: 12px; padding: 5px 10px; }
+}

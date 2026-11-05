@@ -1,0 +1,127 @@
+// 3F prototype only (throwaway worktree): draws one visual direction over the real app.
+import React, { useEffect, useMemo, useState } from 'react';
+import { GeoJSON, Marker, Pane, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import type { Feature, FeatureCollection, MultiPolygon, Polygon } from 'geojson';
+import type { EventItem } from '../data';
+
+export const protoDir = (new URLSearchParams(location.search).get('dir') ?? 'B').toUpperCase();
+const base = import.meta.env.BASE_URL;
+
+export function tileUrl(dark: boolean): string {
+  if (protoDir === 'A') return 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+  return `${base}proto-tiles/${protoDir.toLowerCase()}-${dark ? 'dark' : 'light'}/{z}/{x}/{y}.webp`;
+}
+
+interface AreaProps { id: string; holder: string; klass: string; nameAr: string; uncertain?: boolean }
+interface Label { text: string; short?: string; lat: number; lng: number; level: number; klass: string; holder: string }
+interface Moment { from: number; to: number; areas: FeatureCollection<Polygon | MultiPolygon, AreaProps>; labels: Label[]; legend: { holder: string; klass: string; text: string }[] }
+
+const STYLE: Record<string, Partial<L.PathOptions>> = {
+  A: { weight: 2.2, fillOpacity: 0.34, opacity: 0.95 },
+  B: { weight: 2.4, fillOpacity: 0.24, opacity: 0.95 },
+  C: { weight: 1.6, fillOpacity: 0.3, opacity: 0.95 },
+  D: { weight: 1.4, fillOpacity: 0.72, opacity: 1 },
+};
+
+function Patterns(): null {
+  const map = useMap();
+  (window as unknown as { __protoMap: L.Map }).__protoMap = map;
+  useEffect(() => {
+    const t = setTimeout(() => {
+      map.getPanes().overlayPane.querySelectorAll('svg').forEach(svg => {
+        if (svg.querySelector('#proto-defs')) return;
+        const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+        defs.id = 'proto-defs';
+        defs.innerHTML = `
+          <pattern id="hatch-treaty" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="9" height="9" class="pat-bg"/><line x1="0" y1="0" x2="0" y2="9" class="pat-islam"/></pattern>
+          <pattern id="dots-tribal" width="11" height="11" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1.15" class="pat-tribal"/><circle cx="8.5" cy="8.5" r="1.15" class="pat-tribal"/></pattern>`;
+        svg.prepend(defs);
+      });
+    }, 300);
+    return () => clearTimeout(t);
+  });
+  return null;
+}
+
+/** Hides labels that would overlap a label of higher priority. */
+function LabelCollisions({ tick }: { tick: number }): null {
+  const map = useMap();
+  useEffect(() => {
+    const run = () => {
+      const els = [...document.querySelectorAll<HTMLElement>('.proto-label')];
+      els.sort((a, b) => Number(a.dataset.level) - Number(b.dataset.level));
+      const placed: DOMRect[] = [];
+      for (const el of els) {
+        el.style.visibility = 'visible';
+        const r = el.getBoundingClientRect();
+        const clash = placed.some(p => !(r.right + 4 < p.left || r.left - 4 > p.right || r.bottom + 2 < p.top || r.top - 2 > p.bottom));
+        if (clash || Number(el.dataset.level) > map.getZoom() - 2) el.style.visibility = 'hidden';
+        else placed.push(r);
+      }
+    };
+    const t = setTimeout(run, 400);
+    map.on('zoomend moveend', run);
+    return () => { clearTimeout(t); map.off('zoomend moveend', run); };
+  }, [map, tick]);
+  return null;
+}
+
+function Legend({ items }: { items: Moment['legend'] }): React.JSX.Element {
+  if (innerWidth < 640) return <div className="proto-legend proto-legend-chip" dir="rtl"><span className="proto-legend-text">مفتاح الخريطة ▾</span></div>;
+  return (
+    <div className="proto-legend" dir="rtl" role="group" aria-label="مفتاح الخريطة">
+      {items.map(i => (
+        <div key={i.holder + i.klass} className="proto-legend-row">
+          <span className={`proto-swatch h-${i.holder} k-${i.klass}`} />
+          <span className="proto-legend-text">{i.text}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function ProtoTerritories({ selectedEvent }: { selectedEvent: EventItem | null }): React.JSX.Element | null {
+  const [moments, setMoments] = useState<Moment[] | null>(null);
+  const [coast, setCoast] = useState<FeatureCollection | null>(null);
+  const [rivers, setRivers] = useState<FeatureCollection | null>(null);
+  useEffect(() => {
+    document.documentElement.dataset.proto = protoDir;
+    fetch(`${base}proto/moments.json`).then(r => r.json()).then(setMoments);
+    fetch(`${base}proto/rivers.json`).then(r => r.json()).then(setRivers);
+    if (protoDir === 'C' || protoDir === 'D') fetch(`${base}proto/coast.json`).then(r => r.json()).then(setCoast);
+  }, []);
+  const year = selectedEvent ? selectedEvent.date.sortKey : 610;
+  const moment = useMemo(() => moments?.find(m => year >= m.from && year < m.to) ?? null, [moments, year]);
+  if (!moment) return null;
+  const opts = STYLE[protoDir];
+  const style = (f?: Feature) => {
+    const p = f?.properties as AreaProps;
+    return { ...opts, className: `proto-area h-${p.holder} k-${p.klass}${p.uncertain ? ' uncertain' : ''}` };
+  };
+  return (
+    <>
+      <Patterns />
+      <LabelCollisions tick={year} />
+      {rivers && protoDir !== 'A' && <GeoJSON data={rivers} interactive={false} style={{ className: 'proto-river', weight: 1.3, fill: false }} />}
+      {coast && <GeoJSON data={coast} interactive={false} style={{ className: 'proto-coast', weight: 1.1, fill: false }} />}
+      <GeoJSON key={`${year}`} data={moment.areas} style={style} interactive={false} />
+      <Pane name="proto-labels" style={{ zIndex: 450, pointerEvents: 'none' }}>
+        {moment.labels.map(l => (
+          <Marker
+            key={`${year}-${l.text}`}
+            position={[l.lat, l.lng]}
+            interactive={false}
+            pane="proto-labels"
+            icon={L.divIcon({
+              className: 'proto-label-wrap',
+              html: `<span class="proto-label l${l.level} k-${l.klass}" data-level="${l.level}" dir="rtl">${(innerWidth < 640 && l.short) || l.text}</span>`,
+              iconSize: [0, 0],
+            })}
+          />
+        ))}
+      </Pane>
+      <Legend items={moment.legend} />
+    </>
+  );
+}

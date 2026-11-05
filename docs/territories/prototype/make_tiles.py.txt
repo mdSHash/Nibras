@@ -1,0 +1,125 @@
+"""Web Mercator tiles from Natural Earth rasters, for the 3F direction pictures.
+Sets: b-light, b-dark (Natural Earth II relief), c-light, c-dark (parchment), d-light, d-dark (clean atlas).
+Usage: python -I make_tiles.py <research dir>
+"""
+import json, math, os, sys
+import numpy as np
+from PIL import Image, ImageDraw, ImageFilter
+
+ROOT = sys.argv[1]
+GEO = os.path.join(ROOT, 'geo')
+OUT = os.path.join(ROOT, 'tiles')
+Image.MAX_IMAGE_PIXELS = None
+W, E, S, N = -14.0, 88.0, -8.0, 58.0
+PPD = 60  # source pixels per degree
+ZOOMS = [3, 4, 5, 6, 7]
+
+
+def crop(path):
+    im = Image.open(path)
+    box = (int((W + 180) * PPD), int((90 - N) * PPD), int((E + 180) * PPD), int((90 - S) * PPD))
+    return im.crop(box).copy()
+
+
+def base_arrays():
+    cache = os.path.join(GEO, 'crop.npz')
+    if os.path.exists(cache):
+        z = np.load(cache)
+        return z['relief'], z['hill'], z['land']
+    relief = np.asarray(crop(os.path.join(GEO, 'raster-NE2_HR_LC_SR_W', 'NE2_HR_LC_SR_W.tif')).convert('RGB'), dtype=np.uint8)
+    hill = np.asarray(crop(os.path.join(GEO, 'raster-SR_HR', 'SR_HR.tif')).convert('L'), dtype=np.uint8)
+    h, w = hill.shape
+    mask = Image.new('L', (w * 2, h * 2), 0)
+    d = ImageDraw.Draw(mask)
+
+    def xy(p):
+        return ((p[0] - W) * PPD * 2, (N - p[1]) * PPD * 2)
+
+    def polys(g):
+        return [g['coordinates']] if g['type'] == 'Polygon' else g['coordinates']
+
+    for f in json.load(open(os.path.join(GEO, 'ne_10m_land.geojson'), encoding='utf8'))['features']:
+        for poly in polys(f['geometry']):
+            d.polygon([xy(p) for p in poly[0]], fill=255)
+            for hole in poly[1:]:
+                d.polygon([xy(p) for p in hole], fill=0)
+    for f in json.load(open(os.path.join(GEO, 'ne_10m_lakes.geojson'), encoding='utf8'))['features']:
+        if f['properties'].get('scalerank', 9) <= 4:
+            for poly in polys(f['geometry']):
+                d.polygon([xy(p) for p in poly[0]], fill=0)
+    land = np.asarray(mask.resize((w, h), Image.LANCZOS), dtype=np.uint8)
+    np.savez_compressed(cache, relief=relief, hill=hill, land=land)
+    return relief, hill, land
+
+
+def lerp(a, b, t):
+    return a + (b - a) * t
+
+
+def grade_relief_dark(relief):
+    r = relief.astype(np.float32)
+    g = r.mean(axis=2, keepdims=True)
+    out = lerp(r, g, 0.35) * 0.42
+    return np.clip(out * np.array([0.95, 1.0, 1.1], dtype=np.float32), 0, 255).astype(np.uint8)
+
+
+def tinted(hill, land, land_rgb, water_rgb, coast_rgb, relief_strength, seed, paper):
+    h = (hill.astype(np.float32) / 255.0)[..., None]
+    m = (land.astype(np.float32) / 255.0)[..., None]
+    shade = 1 - relief_strength + relief_strength * np.clip(h / 0.72, 0, 1.15)
+    land_px = np.array(land_rgb, dtype=np.float32) * shade
+    water_px = np.array(water_rgb, dtype=np.float32) * np.ones_like(h)
+    # A soft band along the coast on the water side, as hand-tinted maps have.
+    pil = Image.fromarray(land)
+    near = np.asarray(pil.filter(ImageFilter.GaussianBlur(9)), dtype=np.float32) / 255.0
+    band = np.clip(near * 1.6, 0, 1)[..., None] * (1 - m)
+    water_px = lerp(water_px, np.array(coast_rgb, dtype=np.float32), band * 0.35)
+    out = lerp(water_px, land_px, m)
+    if paper:
+        rng = np.random.default_rng(seed)
+        small = rng.normal(0, 1, (land.shape[0] // 3 + 1, land.shape[1] // 3 + 1)).astype(np.float32)
+        fibre = np.asarray(Image.fromarray(small).resize((land.shape[1], land.shape[0]), Image.BICUBIC), dtype=np.float32)
+        out = out + fibre[..., None] * paper
+    return np.clip(out, 0, 255).astype(np.uint8)
+
+
+def merc_y(lat):
+    return math.log(math.tan(math.pi / 4 + math.radians(lat) / 2))
+
+
+def write_tiles(name, arr):
+    h, w = arr.shape[:2]
+    count, size = 0, 0
+    for z in ZOOMS:
+        n = 2 ** z
+        x0 = int((W + 180) / 360 * n)
+        x1 = int((E + 180) / 360 * n)
+        y0 = int((1 - merc_y(N) / math.pi) / 2 * n)
+        y1 = int((1 - merc_y(S) / math.pi) / 2 * n)
+        px = (np.arange(256) + 0.5) / 256
+        for x in range(x0, x1 + 1):
+            lng = (x + px) / n * 360 - 180
+            cols = np.clip(((lng - W) * PPD).astype(int), 0, w - 1)
+            valid_x = (lng >= W) & (lng <= E)
+            for y in range(y0, y1 + 1):
+                mercs = np.pi * (1 - 2 * (y + px) / n)
+                lat = np.degrees(2 * np.arctan(np.exp(mercs)) - np.pi / 2)
+                rows = np.clip(((N - lat) * PPD).astype(int), 0, h - 1)
+                tile = arr[np.ix_(rows, cols)]
+                d = os.path.join(OUT, name, str(z), str(x))
+                os.makedirs(d, exist_ok=True)
+                p = os.path.join(d, f'{y}.webp')
+                Image.fromarray(tile).save(p, 'WEBP', quality=72, method=4)
+                count += 1
+                size += os.path.getsize(p)
+    print(name, count, 'tiles', round(size / 1e6, 1), 'MB', flush=True)
+
+
+relief, hill, land = base_arrays()
+print('base', relief.shape, flush=True)
+write_tiles('b-light', relief)
+write_tiles('b-dark', grade_relief_dark(relief))
+write_tiles('c-light', tinted(hill, land, (233, 214, 172), (214, 203, 170), (150, 120, 80), 0.5, 1, 2.2))
+write_tiles('c-dark', tinted(hill, land, (74, 60, 45), (31, 28, 30), (120, 96, 66), 0.95, 2, 1.4))
+write_tiles('d-light', tinted(hill, land, (243, 239, 229), (205, 221, 229), (170, 195, 208), 0.24, 3, 0))
+write_tiles('d-dark', tinted(hill, land, (45, 50, 57), (21, 26, 34), (40, 56, 72), 0.6, 4, 0))
