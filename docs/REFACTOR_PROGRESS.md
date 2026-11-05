@@ -2290,3 +2290,17 @@ The measure was wrong three times before this and was corrected each time (it re
 Lighter, as Mostafa asked: type check, ESLint on the new scripts, `npm test`, `validate:content`, build and the ledger check, on code that differs from `main` only in docs, two standalone scripts and one baseline number. Full `npm run verify` before the change is reported at the top of this section. Playwright and the full verify were **not** re-run here; CI runs them on the PR. A capture run was stopped once by low memory; the rerun finished.
 
 Open for Mostafa: pick a direction (recommended: B, Relief); the uncertain rows, borders and conflicts; the Search Console sitemap status. Al-Thurayya's coordinates, if 3G uses them, must be credited (CC BY 4.0).
+
+### Event dates corrected (after 3F, 2026-11-05)
+
+Mostafa, reviewing the 3F conflicts: check the dates against the trusted Sunni sources and correct the site where wrong. He said "deeds"; taken to mean dates, and he was told. **Dates only**: titles, narrated text and summaries did not change, so no recording went stale and no quota was spent. Branch `fix/event-dates`, merged before 3G because the map follows event dates.
+
+- **33 events changed** (`docs/territories/date-changes.json`, applied and checked by `scripts/territories/applyDateChanges.ts`): 4 displayed dates, 9 displayed Gregorian years, 20 timeline positions only. Every quote listed is confirmed on its page; 11 order-only or year-only rows rest on the event's own label and carry no quote.
+- **Rule used:** corrected where no passage read supports the app, or where only Sayf's report does against the others. Kept where Sunni sources truly differ and the app holds one of the reports; those are listed in `docs/territories/CONFLICTS.md` (D1 to D10). Banu al-Mustaliq (5 or 6 AH) most needs Mostafa's decision.
+- **Still wrong in narrated text, not changed:** al-Saqatiya's "January 635" and Ibn Muljam's "after the pilgrimage of 40 AH". Fixing them means re-recording, so they wait for his word or Phase 4.
+- **Limits of the check:** the conquest-era and Medinan events were searched by year section in Khalifa and al-Tabari. Changed dates were read in the passage. Hadith collections were not searched. The pre-Hijra dates were only checked for agreement between label and year, not against a page.
+- **Knock-on effects:** the ledger's event-tied rows moved with their events (17 rows). The chat KB was rebuilt; the embedding index is unaffected because date units are not embedded. The content snapshot was re-recorded for these changes under his instruction to correct them.
+
+### Search Console sitemap (2026-11-05)
+
+Mostafa submitted `sitemap.xml` on 2026-11-05. It shows "Couldn't fetch" with no last-read date and 0 pages. Requested as Googlebot from here, the sitemap answers 200 `application/xml` with 305 addresses, all under the property, and robots.txt allows everything. To check again in 2 to 3 days.
