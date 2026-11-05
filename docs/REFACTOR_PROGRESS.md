@@ -2215,3 +2215,42 @@ Manual checks for Mostafa after the deploy:
 Changed after that approval, for Mostafa to see: the first enforced run on Windows failed on desktop home
 LCP, 205 ms against a limit of 193 ms, with no related code change. The recorded number was left alone;
 LCP and Speed Index limits gained a fixed 200 ms on top of the 15%, as the bundle budget has for tiny chunks.
+
+**3E merged** (PR #15, merge commit `8b0d697`).
+
+Post-deploy results, from Mostafa (2026-11-05):
+
+- Live chat: the Hudaybiyya questions pass; «كانوا كام واحد؟» now answers about 1,400.
+- Umami records real visits (a test visit appeared on the dashboard). It filters headless browsers as bots,
+  so a headless test only shows the tracker loading.
+- Google ownership verified; sitemap submitted, status "Couldn't fetch" on 2026-11-05. Checked from
+  outside the same day (3F): the sitemap answers 200, `application/xml`, 305 addresses, and `robots.txt`
+  points to it. Search Console itself not read (the browser extension was not connected); still open.
+- Bing imported from Search Console: 305 URLs, 0 errors.
+- UptimeRobot: both monitors up, 100% over 30 days on the chat API. That monitor is the HTTP type, not
+  Keyword as `OWNER_DASHBOARD.md` said (corrected); it still catches failures, because `/api/health`
+  returns 503.
+- Sentry loads and sends from the live site.
+- GitHub's Pages service returned a 500 on the first deploy, though the site went live; the re-run was green.
+
+---
+
+### 3F — territories research and visual directions
+
+Started 2026-11-05 on `refactor/phase-3f-territories` from `main` at `8b0d697` (PR #15 merged).
+
+Before any change, `npm run verify` **failed on one step**, the Lighthouse budget: phone home CLS 0.535
+against a limit of 0.504 (recorded 0.404), and 0.526 on a Lighthouse-only re-run. Everything else passed:
+Vitest 410/410, features 97 passed and 1 skipped, phone smoke 46/46, visual 16/16. The commits after the
+numbers were recorded touch no `src/` file. Windows has given 0.404, 0.463, 0.526 and 0.535 on this code and
+Linux recorded 0.517, so the recorded number was the low end of the spread.
+
+#### Decisions by Mostafa (3F, 2026-11-05)
+
+- **The CLS number**: re-record only the Windows phone home CLS, 0.404 → 0.53 (limit about 0.63). The shift
+  itself (the event panel moving as the first event opens) stays open for a later task.
+- **Sources**: verified and Sunni only. Who held what comes from the four chronicles the app cites. Other
+  Sunni works may locate places and tribes only, each named on its row. Al-Hamdani, proposed in the plan,
+  is dropped: his standing could not be confirmed.
+- **Ali and Muawiyah's division (656–661)** is shown, in separate styles with neutral labels.
+- **The 3F plan** and the four directions (satellite refined, relief, parchment, clean atlas) approved.
