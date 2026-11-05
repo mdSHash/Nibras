@@ -1,0 +1,117 @@
+// Takes the 3F direction pictures from the real app and measures text contrast on the real pixels.
+// node shots.mjs [dirs] [themes] [shots]   (preview on port 4190)
+import { chromium } from '@playwright/test';
+import fs from 'node:fs';
+import { createRequire } from 'node:module';
+const { PNG } = createRequire(import.meta.url)('../proto-tools/node_modules/pngjs');
+
+const OUT = '../territories-research/pictures';
+fs.mkdirSync(OUT, { recursive: true });
+const dirs = (process.argv[2] || 'A,B,C,D').split(',');
+const themes = (process.argv[3] || 'light,dark').split(',');
+const only = process.argv[4] ? process.argv[4].split(',') : null;
+const E = { badr: 'battle-badr', death: 'prophet-death', khurasan: 'conquest_khorasan', siffin: 'event-109-%D9%85%D8%B9%D8%B1%D9%83%D8%A9-%D8%B5%D9%81%D9%8A%D9%86' };
+// map: the whole region with the event panel set aside. app: as a visitor sees it, panel open. city: zoomed in.
+const SHOTS = [
+  { id: 'badr-map', ev: E.badr, view: 'desktop', center: [27, 42], zoom: 5, hidePanel: true },
+  { id: 'death-map', ev: E.death, view: 'desktop', center: [27, 42], zoom: 5, hidePanel: true },
+  { id: 'siffin-map', ev: E.siffin, view: 'desktop', center: [27, 42], zoom: 5, hidePanel: true },
+  { id: 'khurasan-map', ev: E.khurasan, view: 'desktop', center: [27, 42], zoom: 5, hidePanel: true },
+  { id: 'badr-app', ev: E.badr, view: 'desktop' },
+  { id: 'death-phone', ev: E.death, view: 'phone', center: [27, 42], zoom: 4, hidePanel: true },
+  { id: 'badr-city', ev: E.badr, view: 'desktop', center: [24, 39.8], zoom: 8, hidePanel: true },
+];
+const VIEWS = { desktop: { width: 1440, height: 900 }, phone: { width: 390, height: 844 } };
+
+const lum = ([r, g, b]) => {
+  const f = c => { c /= 255; return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; };
+  return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+};
+const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+const parse = s => (s.match(/[\d.]+/g) || []).slice(0, 3).map(Number);
+
+async function measure(page) {
+  if (process.env.NO_PILL) await page.addStyleTag({ content: '.proto-label{background:transparent !important}' });
+  const covered = await page.evaluate(() => {
+    const marks = [...document.querySelectorAll('.leaflet-marker-icon:not(.proto-label-wrap), .leaflet-tooltip')].map(e => e.getBoundingClientRect());
+    return [...document.querySelectorAll('.proto-label')].filter(l => getComputedStyle(l).visibility !== 'hidden').filter(l => { const r = l.getBoundingClientRect(); return marks.some(p => !(r.right < p.left || r.left > p.right || r.bottom < p.top || r.top > p.bottom)); }).length;
+  });
+  const boxes = await page.evaluate(() => {
+    const out = [];
+    const vw = innerWidth, vh = innerHeight;
+    const push = (el, kind) => {
+      const r = el.getBoundingClientRect();
+      if (getComputedStyle(el).visibility === 'hidden' || r.width < 2 || r.left < 0 || r.top < 0 || r.right > vw || r.bottom > vh) return;
+      // Text the app's own UI covers is not seen, so it is not measured.
+      if (kind === 'label') {
+        const pts = [[.5, .5], [.1, .15], [.9, .15], [.1, .85], [.9, .85]];
+        const covered = pts.some(([a, b]) => { const t = document.elementFromPoint(r.left + r.width * a, r.top + r.height * b); return !t || !t.closest('.leaflet-container'); });
+        if (covered) return;
+      }
+      const range = document.createRange(); range.selectNodeContents(el); const t = range.getBoundingClientRect();
+      const x0 = Math.max(t.left, r.left + 2), x1 = Math.min(t.right, r.right - 2), y0 = Math.max(t.top, r.top + 2), y1 = Math.min(t.bottom, r.bottom - 2);
+      out.push({ kind, text: el.textContent, x: x0, y: y0, w: x1 - x0, h: y1 - y0, color: getComputedStyle(el).color });
+    };
+    document.querySelectorAll('.proto-label').forEach(e => push(e, 'label'));
+    document.querySelectorAll('.proto-legend-text').forEach(e => push(e, 'legend'));
+    return out;
+  });
+  // The ground under the text: text made transparent, everything above the map hidden, worst pixel in each box.
+  await page.evaluate(() => {
+    const s = document.createElement('style');
+    s.id = 'measure';
+    s.textContent = `*{visibility:hidden !important}
+      .leaflet-tile-pane,.leaflet-tile-pane *,.leaflet-overlay-pane,.leaflet-overlay-pane *,.leaflet-tile-container,.proto-legend,.proto-legend *,.proto-label:not([style*="hidden"]){visibility:visible !important}
+      .proto-label,.proto-legend-text{color:transparent !important}`;
+    document.head.append(s);
+  });
+  const raw = await page.screenshot();
+  if (process.env.DEBUG_MEASURE) fs.writeFileSync(`${OUT}/../measure-debug.png`, raw);
+  const png = PNG.sync.read(raw);
+  await page.evaluate(() => document.getElementById('measure').remove());
+  let worst = 99, worstText = '';
+  const failures = [];
+  for (const b of boxes) {
+    const col = parse(b.color);
+    let min = 99;
+    for (let y = Math.floor(b.y); y < b.y + b.h && y < png.height; y++) {
+      for (let x = Math.floor(b.x); x < b.x + b.w && x < png.width; x++) {
+        const i = (png.width * y + x) * 4;
+        min = Math.min(min, ratio(col, [png.data[i], png.data[i + 1], png.data[i + 2]]));
+      }
+    }
+    if (min < worst) { worst = min; worstText = b.text; }
+    if (min < 4.5) failures.push({ text: b.text, kind: b.kind, ratio: +min.toFixed(2) });
+  }
+  return { texts: boxes.length, worst: +worst.toFixed(2), worstText, failures, covered };
+}
+
+const browser = await chromium.launch();
+const file = `${OUT}/contrast.json`;
+const results = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : {};
+for (const dir of dirs) for (const theme of themes) for (const view of Object.keys(VIEWS)) {
+  const list = SHOTS.filter(s => s.view === view && (!only || only.includes(s.id)));
+  if (!list.length) continue;
+  const ctx = await browser.newContext({ viewport: VIEWS[view], isMobile: view === 'phone', hasTouch: view === 'phone', deviceScaleFactor: 1 });
+  await ctx.addInitScript(t => {
+    localStorage.setItem('nibras_tour_prompted', 'true'); localStorage.setItem('nibras.intro.seen', 'true');
+    localStorage.setItem('nibras.help.seen', 'true'); localStorage.setItem('nibras.chat.seen', 'true'); localStorage.setItem('nibras.theme', t);
+  }, theme);
+  const page = await ctx.newPage();
+  page.on('pageerror', e => console.log('pageerror', e.message));
+  for (const s of list) {
+    const name = `${dir}-${s.id}-${theme}`;
+    await page.goto(`http://localhost:4190/Nibras/event/${s.ev}/?dir=${dir}`, { waitUntil: 'load' });
+    await page.waitForSelector('.proto-legend', { timeout: 30000 });
+    await page.waitForTimeout(3600); // the flight to the event
+    if (s.hidePanel) await page.addStyleTag({ content: '[data-tour-id="event-panel"]{display:none !important}' });
+    if (s.center) await page.evaluate(({ center, zoom }) => window.__protoMap.setView(center, zoom, { animate: false }), s);
+    await page.waitForTimeout(s.center ? 2600 : 800);
+    await page.screenshot({ path: `${OUT}/${name}.jpg`, type: 'jpeg', quality: 82 });
+    results[name] = await measure(page);
+    console.log(name, results[name].texts, 'texts, worst', results[name].worst, results[name].failures.length ? `FAIL ${results[name].failures.length}` : 'pass');
+  }
+  await ctx.close();
+  fs.writeFileSync(file, JSON.stringify(results, null, 1));
+}
+await browser.close();
