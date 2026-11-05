@@ -2290,3 +2290,30 @@ The measure was wrong three times before this and was corrected each time (it re
 Lighter, as Mostafa asked: type check, ESLint on the new scripts, `npm test`, `validate:content`, build and the ledger check, on code that differs from `main` only in docs, two standalone scripts and one baseline number. Full `npm run verify` before the change is reported at the top of this section. Playwright and the full verify were **not** re-run here; CI runs them on the PR. A capture run was stopped once by low memory; the rerun finished.
 
 Open for Mostafa: pick a direction (recommended: B, Relief); the uncertain rows, borders and conflicts; the Search Console sitemap status. Al-Thurayya's coordinates, if 3G uses them, must be credited (CC BY 4.0).
+
+### 3I, first part — scripts tidy-up and PRD
+
+Started 2026-11-06 on `refactor/phase-3i-scripts-prd` from `main` at `7264c80`, in the worktree `../Nibras-3i`, while another session works on `fix/event-dates` in the main folder. Docs and retired scripts only: no change to what the app shows or does, no quota spent, no baseline touched.
+
+**This is not the close-out.** The other 3I items and the final verification still wait for 3G.
+
+#### Scripts
+
+- **Archived** to `scripts/archive/`: `capture-yamama.mjs`, `capture-nahavand.mjs`, `capture-event-panel.mjs`, `capture-contrast.mjs`. The plan names them as one-offs. Nothing in `package.json`, CI, tests or other scripts runs them, and they set a first-visit key the app no longer reads. Playwright (`event-panel`, `theme-contrast`, `visual`) and the style snapshots now do their job. They were not run in this session.
+- ESLint's exception for those files is removed; `scripts/archive/` is already ignored. The README's command table no longer lists them.
+- **Kept**: everything else. Each is run by an npm script, CI, a test or another script, or is a documented by-hand tool (`make-site-images.ts`, `chat-eval/set-gap.ts`, `chat-eval/embed-visitors.ts`, `territories/`). `scripts/README.md` now documents them all.
+- **Nothing needs deleting.**
+
+#### PRD
+
+`docs/PRD.md` has a new "Target vs Today" section, checked against the code and content. The original targets stay as written, and the section takes precedence over them. "Production Ready" and "Approved for Production" are gone. Today's map is described as it is, with the new one marked as planned (3G, direction B, Relief).
+
+#### For Mostafa (outside this task, not changed)
+
+- `src/battlefield/README.md:118` still points at `scripts/capture-yamama.mjs` (now in `scripts/archive/`). Its step 3 also names `scripts/baseline/scenarios.ts`, which does not exist. The folder was off limits and is frozen.
+- `README.md` says timeline events filter "by era or category", but there is no filter by the seven categories. Its Verify list names `scripts/validate-content.ts`, which does not exist (the step is `scripts/build-content.ts`).
+- `npm run narration -- convert` was used once in 3D. It is a command inside a live script, so it stayed; it could be removed later.
+
+#### Verification (2026-11-06, Windows 11)
+
+Run locally: `npm run lint`, `npm run lint:eslint`, `npm test` (410 of 410), `npm run build`. Left to CI on the PR, as Mostafa asked because the machine is shared: the rest of `npm run verify`, including Playwright and the Lighthouse budget. Not run locally: Lighthouse and baseline updates.
