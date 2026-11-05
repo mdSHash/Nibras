@@ -2274,7 +2274,7 @@ Research and pictures only. **No app code, content or baseline changed** except 
 - **Map changes follow the app's event dates**, so the map stays in step with the timeline even where a source differs; each difference is in `CONFLICTS.md`.
 - **Kinds of hold**: ruled, city, client, treaty, contested, tribal, because the sources often describe a treaty or a raid where the app's title says conquest.
 - **After Yazdegerd**, lands not held by Muslims are shown under local lords, not the Sasanian state. Found by looking at a picture.
-- **Basemap images are cheap**, a few MB for each direction (Nothing added;4.7 + 1.9 MB;3.5 + 2.0 MB;1.7 + 0.9 MB; as light + dark on the page), so size does not decide between directions.
+- **Basemap images are cheap**: B 4.7 + 1.9 MB, C 3.5 + 2.0 MB, D 1.7 + 0.9 MB (light + dark); A adds nothing. So size does not decide between directions.
 - **Pictures come from a throwaway worktree** (`tmp/proto-app`, ignored), so the real header, timeline and panel are in them.
 
 #### Contrast (56 pictures, 3F)
