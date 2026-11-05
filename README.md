@@ -253,9 +253,6 @@ For the full engine architecture, scenario format, and authoring guide see [`src
 | `npm run verify` | Full check against the refactor baseline — see [Verify](#verify) |
 | `npm run narration -- check` | List events whose narration is stale (text edited) or missing; fails only on a broken `public/audio/manifest.json` |
 | `npm run narration -- generate` | Record the stale or missing narration (dry run unless `--yes`; see `scripts/README.md`) |
-| `node scripts/capture-yamama.mjs` | Playwright capture of the Yamama battle at key sim times — useful template for verifying any new scenario |
-| `node scripts/capture-nahavand.mjs` | Same for the Nahavand replay |
-| `node scripts/capture-contrast.mjs` | Playwright capture of the EventPanel in light + dark mode at desktop + mobile viewports |
 
 ### Narration
 

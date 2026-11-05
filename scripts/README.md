@@ -1,9 +1,58 @@
 # `scripts/`
 
-Utility scripts for Nibras. Two groups here: **narration** (recording and
-checking event audio) and **Playwright capture** (run against the local dev
-server to verify visual correctness). Content, chat and baseline scripts are
-described in the README's command table; retired scripts are in `archive/`.
+Every script still in use, by job. Retired scripts are in [`archive/`](archive/README.md) and are not
+maintained. Scripts are Node/TypeScript, run with `tsx` (Mostafa works on Windows; CI runs on Linux).
+
+**Quota:** the commands marked *quota* spend Gemini, Groq or OpenRouter quota. Ask Mostafa first.
+
+---
+
+## Content
+
+| Command or file | What it does |
+|---|---|
+| `npm run build:content` (`build-content.ts`) | Validates `content/` and writes `src/generated/`. Runs before `dev`, `test`, `lint` and `build`. |
+| `npm run validate:content` | The same with `--check`. |
+| `content/store.ts`, `content/battleVideos.ts`, `content/territories.ts`, `content/generated.ts` | The build's parts: reading and checking records and links, battle video captions, the precomputed territory polygons. |
+| `npm run fetch:quran` (`fetch-quran.ts`) | Fetches verse text from Quran.com into `content/quran/verses.json` (network, no quota). |
+| `data/tanzil/` | The Tanzil Qur'an text, kept as a cross-check (`chat-kb/quranVerify.ts`). |
+| `npm run docs:content` (`docs/content-guide.ts`, `docs/fieldReference.ts`) | Rewrites the field reference in `docs/CONTENT_GUIDE.md` from the schemas. `tests/contentGuide.test.ts` uses the same code. |
+| `territories/checkLedger.ts`, `territories/reportLedger.ts` | The territory research (3F): check the ledger and rewrite `docs/territories/UNCERTAIN.md`. See `docs/territories/README.md`. |
+
+## Site build
+
+| Command or file | What it does |
+|---|---|
+| `prerender.ts`, `prerender/pages.ts` | The second half of `npm run build`: the pre-rendered pages, `sitemap.xml`, `robots.txt` and `404.html`. |
+| `make-site-images.ts` | Run by hand with `npx tsx scripts/make-site-images.ts` after changing the logo, the favicon or the site description: redraws the share image and the icons in `public/`. Uses Playwright and needs the network for Google Fonts. |
+
+## Chat
+
+| Command or file | What it does |
+|---|---|
+| `npm run build:chat-kb` (`build-chat-kb.ts`, `chat-kb/`) | Builds the knowledge base in `api/_data/` from the content and writes the problems it finds to `chat-kb/data-report.md`. |
+| `npm run build:embeddings` (`build-chat-embeddings.ts`) | Builds the semantic index in `api/_data/`. With `gemini` it is *quota*; the Chat index workflow (`.github/workflows/chat-index.yml`) normally does this. |
+| `npm run check:chat-index` (`check-chat-index.ts`) | Fails if the index misses a knowledge-base unit. No quota; in `npm run verify` and CI. |
+| `npm run dev:chat-api` (`dev-chat-server.ts`) | Runs the real `api/chat.ts` handler locally for the dev server. Questions spend *quota*. |
+| `npm run eval:chat -- --visitors --offline` (`eval-chat.ts`, `chat-eval/run.ts`, `chat-eval/visitors.ts`, `chat-eval/copyModel.ts`) | The visitor question set with one trace per question, no quota. Without `--offline` it is *quota*. |
+| `chat-eval/set-gap.ts` | Sets or clears a question's `knownGap` in `tests/fixtures/chat-visitors.json`. |
+| `chat-eval/embed-visitors.ts` | Stores query vectors for new visitor questions. Dry run; *quota* with `--yes`. |
+
+## Checks and baselines
+
+Baselines change only after Mostafa approves the list of intentional changes (CLAUDE.md).
+
+| Command or file | What it does |
+|---|---|
+| `npm run verify` (`verify.ts`) | Runs every check in order. README, "Verify". |
+| `npm run baseline:content` (`baseline/content-snapshot.ts`) | Compares what the app shows with `tests/baseline/content.json`. |
+| `npm run baseline:behavior` (`baseline/behavior-map.ts`) | Compares timeline order, filters, era anchors and search results with `tests/baseline/behavior.json`. |
+| `npm run baseline:bundle` (`baseline/bundle-report.ts`) | Checks chunk sizes against `tests/baseline/numbers.json`. |
+| `npm run baseline:lighthouse` (`baseline/lighthouse.ts`, `baseline/lighthouse-budget.ts`) | Measures three pages against `tests/baseline/lighthouse-<platform>.json`. Run after a build, on an idle machine. |
+| `baseline/lib.ts` | Helpers shared by the baseline scripts. |
+
+To look at a change, use the Playwright tests in `tests/e2e/` and the style snapshots
+(`npx playwright test -c playwright.style.config.ts`; README, "Styling").
 
 ---
 
@@ -21,6 +70,7 @@ play button until it is recorded again.
 | `npm run narration -- check` | no | Lists stale and missing narration (also in CI, `npm run verify` step "Narration manifest"). Fails only on a broken manifest. |
 | `npm run narration -- generate` | no | Dry run: lists what is stale or missing and how many characters it would record. |
 | `npm run narration -- generate --yes` | engine | Records it, converts it to AAC (48 kbps mono 24 kHz) and updates the manifest. `--max N`, `--only <event id>`. |
+| `npm run narration -- review` | local | Whisper (VoiceStudio on this machine, no quota) lists the words said differently from the text, in `audio-src/review/report.json`. `--only <event id>`. |
 | `npm run narration -- convert` | no | Used once in Phase 3D: the Gemini WAVs → `.m4a`. |
 
 Engines (`--engine`, settings in `.env.local`, see `.env.example`):
@@ -37,40 +87,3 @@ The engine's WAVs are kept in the git-ignored `audio-src/`; a replaced
 `.m4a` moves to `audio-src/replaced/` (narration is never deleted). The
 Gemini WAV originals of 2026 are in the GitHub Release
 `narration-archive-2026-10`.
-
----
-
-## Playwright capture (visual verification)
-
-These open a headless Chromium against the local dev server, drive the
-UI, and screenshot critical surfaces. Useful as a "did the change I just
-made actually look right" smoke test, and as templates for verifying new
-scenarios.
-
-| Script | What it captures |
-|---|---|
-| `capture-yamama.mjs` | Yamama battle frames at 9 simulation-time markers (overview, initial clash, reorganization, counter-attack, Muhakkim falls, retreat-to-garden, Bara'a wall, Garden of Death, Musaylimah falls) + the end-of-battle summary. Run after editing scenario phases / camera scripts. |
-| `capture-event-panel.mjs` | EventPanel at 4 scroll positions on both desktop (1440×900) and mobile (390×844) viewports. Run after touching `EventPanel.tsx`. |
-| `capture-contrast.mjs` | EventPanel + Timeline in **both light and dark mode**, on desktop + mobile. Run after any theming / token change. |
-
-### Running them
-
-1. Start the dev server in another terminal: `npm run dev` (defaults to
-   port 3000; if 3000 is taken Vite falls back to 3001 — use the URL it
-   prints).
-2. From the repo root: `node scripts/capture-yamama.mjs` (or any other
-   capture-* script). Override the URL if needed:
-   ```bash
-   NIBRAS_URL=http://localhost:3001 node scripts/capture-yamama.mjs
-   ```
-3. Frames land under `tmp/<script-name>-frames/`. The `tmp/` directory
-   is gitignored.
-
-### Adding a capture for a new battle
-
-The `capture-yamama.mjs` file is the cleanest template. Copy it,
-swap the search term ("اليمامة") for the new battle's Arabic name, and
-update the `MARKERS` array with the simulation-time beats you want
-captured. The script unlocks the engine via `window.__nibrasEngine`
-(exposed in DEV mode by `BattlePlayer.tsx`) so it can drive playback
-deterministically.

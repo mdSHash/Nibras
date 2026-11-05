@@ -1,14 +1,16 @@
 # Product Requirements Document (PRD)
 # Nibras - Interactive Islamic History Timeline and Map Application
 
-**Version:** 1.0  
-**Last Updated:** April 25, 2026
-**Document Owner:** Product Team  
-**Status:** Production Ready
+**Version:** 1.2  
+**Last Updated:** November 6, 2026
+**Document Owner:** Mostafa  
+**Status:** Targets, with a [target vs today](#target-vs-today) view. The site is live and the refactor is in progress.
 
 ---
 
 ## Table of Contents
+
+- [Target vs Today](#target-vs-today)
 
 1. [Executive Summary](#1-executive-summary)
 2. [Project Overview](#2-project-overview)
@@ -25,6 +27,117 @@
 13. [Risk Assessment and Mitigation](#13-risk-assessment-and-mitigation)
 14. [Compliance and Cultural Considerations](#14-compliance-and-cultural-considerations)
 15. [Additional Requirements](#15-additional-requirements)
+
+## Target vs Today
+
+Checked against the code and content on 2026-11-06, from `main` at `7264c80`. The numbered sections
+below are the original targets. **Where they differ from this table, the "Today" column describes the
+app.** The work still planned is in `docs/REFACTOR_PLAN.md`.
+
+Status: **Met**, **Partly**, **Not built**, **Changed** (the app or the plan deliberately went another
+way), **Not measured**.
+
+### Map (4.1)
+
+| Requirement | Target | Today | Status |
+| --- | --- | --- | --- |
+| MAP-001 | Custom historical map without modern borders | Esri World Imagery: modern satellite photos without borders or labels, not a historical map | Partly |
+| MAP-002, 008 | Organic territories that follow the selected year | Voronoi cells around 46 seed regions, clipped to a land outline and precomputed at build, with 11 control periods. **Planned (3G, direction B, Relief):** drawn region shapes from the sourced research in `docs/territories/`, on a relief basemap. Not built yet | Met today; rebuild planned |
+| MAP-003, 004 | Event markers and major cities | Both shown, from `content/events/` and `content/cities/` | Met |
+| MAP-005 | Smooth camera movement | `flyTo` to the selected event, 1 s | Met |
+| MAP-006, 007 | Clustering and category icons | `use-supercluster`; markers carry category colors and icons | Met |
+
+### Timeline (4.2)
+
+| Requirement | Target | Today | Status |
+| --- | --- | --- | --- |
+| TIME-001, 004 | Horizontal timeline, 571–661 CE, event by event | Yes (`sortKey` 571 to 661.55) | Met |
+| TIME-002 | Filter by three eras | Six eras in `content/eras.json` (Meccan, Medinan, four caliphates). The timeline's era buttons jump to an era; the search drawer filters Prophet or Rashidun | Changed |
+| TIME-003 | Click, drag, keyboard | Click; arrow keys; wheel and touch scrolling. No mouse drag | Partly |
+| TIME-005, 007 | Auto-play and player controls | Yes, with narration | Met |
+| TIME-006 | Era colors | Yes, five color sets (`src/utils/eraColors.ts`), not the values in 7.3 | Changed |
+
+### Events, search, people, Qur'an (4.3–4.6)
+
+| Requirement | Target | Today | Status |
+| --- | --- | --- | --- |
+| EVENT-001, 002, 003 | Full details, with links to people and Qur'an | Yes | Met |
+| EVENT-004 | Swipe to navigate on phones | Swiping the panel resizes or closes it; it does not change the event | Changed |
+| EVENT-005 | Expandable details | Panel hides and expands | Met |
+| EVENT-006 | Army size and battle duration | Force sizes on 43 events. No duration field | Partly |
+| EVENT-007 | Route on the map | Supported; 3 events have a route | Met |
+| SEARCH-001 | Search companions by name, title, alias | The drawer searches events only (title, summary, description, place, date), so a name matches only through event text | Not built |
+| SEARCH-002 | Filter by category, era, date range | Prophet or Rashidun, and battles or other events. No filter by the seven categories, no date range | Partly |
+| SEARCH-003, 004, 005 | Results, debounce, shortcut | Debounce 300 ms; Ctrl+K | Met |
+| COMP-001, 002, 004 | Biographies, name variants, modal | 161 people, all with biography and aliases | Met |
+| COMP-003 | Link to related events | Links go from event to person; the person modal lists no events | Not built |
+| COMP-005 | Honorifics shown | As written in the content | Met |
+| QURAN-001–004 | Verses, links, modal, surah and ayah | Yes, 51 cited passages; text from Quran.com | Met |
+
+### Interface (4.7, 7)
+
+| Requirement | Target | Today | Status |
+| --- | --- | --- | --- |
+| UI-001 | Light and dark | Follows the system until chosen, then remembered | Met |
+| UI-002, 7.5 | Phone, tablet, desktop | Layout hooks for all three. Playwright tests desktop and phone only | Partly |
+| UI-003, 7.6 | WCAG 2.1 AA | Contrast tests in both themes (`theme-contrast.spec.ts`); Lighthouse accessibility 96. No full audit | Partly |
+| UI-004, 005 | Intro and tour | Yes | Met |
+| UI-006 | Toasts | Component exists; used today for one message (page not found) | Partly |
+| UI-007 | Loading states | Pulsing lines while lazy content loads, with retry on error | Met |
+| UI-008, 009, 010 | Touch feedback, shortcuts, RTL | Yes; shortcuts are Ctrl+K, Esc and the arrows | Met |
+| 7.2 | Amiri, Amiri Quran, Tajawal | Yes, served with the site | Met |
+| 7.4 | Fixed animation timings | Map camera matches (1 s); others vary and nothing enforces them | Partly |
+
+### Content (5, 10, 12.2)
+
+| Requirement | Target | Today | Status |
+| --- | --- | --- | --- |
+| Events | 200+ (11.1 claimed 50+) | 131 | Partly |
+| Companion biographies | 200+ (11.1 claimed 100+); the Caliphs and the Ten included | 161 files; the Caliphs and the Ten found by name | Partly |
+| Cities | The eight in 5.3 (11.1 claimed 30+) | 10: Mecca, Medina, Jerusalem, Damascus, Baghdad, Kufa, Basra, Fustat (no Cairo), Kairouan, Cordoba | Partly |
+| Qur'an | Complete text | The cited passages only | Changed |
+| Hadith | From the Sahih collections | 73 events carry hadith. Grading not checked here; Phase 4 audits it | Not measured |
+| Dates | Hijri first, Hijri and Gregorian together | 123 of 131 labels carry هـ, 8 are descriptive («عام الفيل»). The panel leads with Hijri; the timeline and search list show the Gregorian year | Partly |
+| Honorifics | Inserted automatically | No code inserts them; they are written in the content | Changed |
+| Geographic accuracy | 95%+ | No measurement exists | Not measured |
+
+### Technical (6)
+
+| Requirement | Target | Today | Status |
+| --- | --- | --- | --- |
+| 6.1–6.3 | React 19, TypeScript, Vite, Leaflet, Tailwind, Motion | Yes | Met |
+| 6.2 | Turf.js for Voronoi | Build time only; the browser gets finished polygons | Changed |
+| 6.4 | Vercel Analytics | Not used. Umami on the deploy build, Sentry for errors, UptimeRobot | Changed |
+| 6.5, 12.3 | JavaScript under 500 KB gzip | 259.4 KB gzip at start, 284.7 KB total, leaving out the battle replay chunks (this branch's build) | Met |
+| 6.5, 12.3 | Under 3 s on 3G, interactive under 5 s | Not tested on 3G. Lighthouse phone, Windows, recorded: LCP 1.8 s, Speed Index 4.8 s, TBT 883 ms, performance 56, CLS 0.53 (a known shift, still open) | Not measured |
+| 6.5, 12.3 | 60 FPS | No measurement exists | Not measured |
+| 6.6 | Last two browser versions, iOS 14+, Android 10+ | Tests run on Playwright's Chromium, WebKit (iPhone 13) and Firefox. Older versions are not tested | Partly |
+
+### Process and results (9, 11, 12, 13, 15)
+
+| Requirement | Target | Today | Status |
+| --- | --- | --- | --- |
+| 9.1 | At least two sources for major events | All 57 major events list two or more. Not yet checked against the books: Phase 4 | Partly |
+| 9.3 | Islamic scholar review | None recorded; the advisor in Appendix C is unassigned | Not built |
+| 9.4 | Zero type errors, tests | `tsc`, ESLint, Vitest, Playwright, baselines and Lighthouse budgets in `npm run verify` and CI | Met |
+| 12.1, 12.4 | Session length, bounce, returning visitors, educational impact | Umami collects visits since 3E; no figures or targets are tracked in this repo | Not measured |
+| 11.3 | Maintenance calendar | A weekly owner routine in `docs/OWNER_DASHBOARD.md`; no other schedule is recorded | Partly |
+| 15.1 | Audio narration | Done: every event's title and description, 262 recordings, one voice (Charon). Multiple narrators: no | Partly |
+| 15.1 | English, Urdu, Turkish | Not planned: every visible text is Arabic (CLAUDE.md, rule 5) | Changed |
+| 15.1 | Quizzes and progress | Planned: learning paths, Phase 5; accounts, Phase 6 | Not built |
+| 15.1 | Advanced search | Full-text across events: yes. Saved searches: no | Partly |
+| 15.2, 15.3 | More periods, community contributions | Neither built; not in the current plan | Not built |
+| 11.2 | Roadmap by quarter | Replaced by the phases in `docs/REFACTOR_PLAN.md` | Changed |
+
+### In the app, not in the targets above
+
+- **Chat assistant** in Arabic, answering from the site's content (`api/`, a separate Vercel project).
+- **Battles**: 12 replays (Pixi.js, frozen) and a narrated video replacing them one at a time; Badr's is done.
+- **Pages with their own address**: 356 pre-rendered pages, 305 in the sitemap.
+- **Web manifest and icons.** No service worker.
+
+**Not checked here:** 14.4 (no depiction of the Prophet or companions) was not audited
+against the replays or videos, because the replays are frozen (CLAUDE.md, rule 8).
 
 ---
 
@@ -418,7 +531,9 @@ The full field reference, generated from the schemas, is in `docs/CONTENT_GUIDE.
 
 ## 11. Timeline and Milestones
 
-### 11.1 Current State: Production Ready v1.0
+### 11.1 State in April 2026
+
+Kept as written then; the claims below are not all accurate. See [Target vs Today](#target-vs-today).
 
 **Completed Features:**
 - Interactive map with Leaflet and Voronoi territories
@@ -446,6 +561,8 @@ The full field reference, generated from the schemas, is in `docs/CONTENT_GUIDE.
 - Territory data for historical expansion visualization
 
 ### 11.2 Future Enhancements
+
+The original roadmap. The current one is `docs/REFACTOR_PLAN.md`.
 
 **Phase 2 (Q2-Q3 2026):** Content expansion  
 **Phase 3 (Q4 2026):** Audio narration, multi-language  
@@ -651,6 +768,8 @@ The full field reference, generated from the schemas, is in `docs/CONTENT_GUIDE.
 
 - [`README.md`](../README.md) - Project overview and setup
 - [`CONTENT_GUIDE.md`](./CONTENT_GUIDE.md) - Content addition guide and field reference
+- [`REFACTOR_PLAN.md`](./REFACTOR_PLAN.md) - Current plan and roadmap
+- [`territories/`](./territories/) - Territory research behind the planned map
 
 ### C. Contact Information
 
@@ -666,11 +785,12 @@ The full field reference, generated from the schemas, is in `docs/CONTENT_GUIDE.
 |---------|------|---------|--------|
 | 1.0 | April 23, 2026 | Initial PRD creation | Product Team |
 | 1.1 | April 25, 2026 | Updated to reflect actual implementation, added new features, corrected data structures, enhanced functional requirements | Product Team |
+| 1.2 | November 6, 2026 | Added Target vs Today, checked against the code; status lines corrected | Mostafa |
 
 ---
 
-**Document Status:** Approved for Production  
-**Next Review Date:** July 25, 2026
+**Document Status:** Targets; see Target vs Today for the current app  
+**Next Review:** after the territory map is built (3G)
 **Classification:** Public
 
 ---
