@@ -130,6 +130,8 @@ jobs:
           # Sentry crash reporting (docs/OWNER_DASHBOARD.md). The DSN is public by
           # design; the auth token (secret) uploads source maps for this release.
           VITE_SENTRY_DSN: ${{ vars.VITE_SENTRY_DSN }}
+          # Umami visitor analytics (docs/OWNER_DASHBOARD.md); only this build has it.
+          VITE_UMAMI_WEBSITE_ID: ${{ vars.VITE_UMAMI_WEBSITE_ID }}
           VITE_SENTRY_RELEASE: ${{ github.sha }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ vars.SENTRY_ORG }}

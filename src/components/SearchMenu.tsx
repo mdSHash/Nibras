@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { EventItem } from '../data';
 import { X, Search, MapPin, Filter, Play } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -12,6 +12,7 @@ import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useSwipeGesture } from '../hooks/useSwipeGesture';
 import { tokenizeQuery } from '../../shared/arabic';
 import { searchTexts, useLazyContent } from '../lazyContent';
+import { track } from '../services/analytics';
 import { ContentLoadState } from './ContentLoadState';
 
 interface SearchMenuProps {
@@ -54,6 +55,22 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
       return tokens.every(t => haystack.includes(t));
     });
   }, [debouncedSearch, events, haystacks]);
+
+  // Counted when the drawer closes, with how the last query ended; the query itself is never sent.
+  // The text stays in the drawer between openings, so a query already counted is not counted again.
+  const searched = useRef<{ query: string; results: 'none' | 'some' } | null>(null);
+  const countedQuery = useRef('');
+  useEffect(() => {
+    if (debouncedSearch.trim() && filteredEvents) {
+      searched.current = { query: debouncedSearch, results: filteredEvents.length > 0 ? 'some' : 'none' };
+    }
+  }, [debouncedSearch, filteredEvents]);
+  useEffect(() => {
+    const last = searched.current;
+    if (isOpen || !last || last.query === countedQuery.current) return;
+    countedQuery.current = last.query;
+    track('search_used', { results: last.results });
+  }, [isOpen]);
 
   return (
     <AnimatePresence>

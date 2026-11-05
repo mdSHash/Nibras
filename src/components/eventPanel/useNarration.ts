@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from 'react';
 import type { EventItem } from '../../data';
 import narrationPlayer, { releaseOwner } from '../../services/narrationPlayer';
 import { narrationUrl } from '../../narration';
+import { track } from '../../services/analytics';
+import { eventSlug } from '../../../shared/routes';
 import { toArabicIndic } from '../../../shared/arabic';
 
 export type AudioState = 'idle' | 'playing' | 'paused';
@@ -32,6 +34,8 @@ const formatAudioTime = (time: number) => {
 
 export function useNarration(event: EventItem | null): Narration {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  // Counts a narration once: resuming after a pause or restarting it is the same listen.
+  const countedRef = useRef(false);
   const [isAudioLoading, setIsAudioLoading] = useState(false);
   const [audioError, setAudioError] = useState<string | null>(null);
   const [audioState, setAudioState] = useState<AudioState>('idle');
@@ -99,6 +103,7 @@ export function useNarration(event: EventItem | null): Narration {
         setIsAudioLoading(true);
         const { audio, duration: audioDuration } = narrationPlayer.createAudio(url);
         audioRef.current = audio;
+        countedRef.current = false;
         setupAudioListeners(audio, audioDuration);
         setDuration(audioDuration || 0);
         setCurrentTime(0);
@@ -111,6 +116,10 @@ export function useNarration(event: EventItem | null): Narration {
         setCurrentTime(0);
       }
       await audio.play();
+      if (event && !countedRef.current) {
+        countedRef.current = true;
+        track('narration_played', { event: eventSlug(event) });
+      }
     } catch (error) {
       setIsAudioLoading(false);
       setAudioState('idle');
