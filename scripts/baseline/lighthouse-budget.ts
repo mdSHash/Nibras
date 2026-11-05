@@ -22,6 +22,8 @@ export type LighthouseBaseline = Record<string, LighthouseNumbers>;
 // score, which includes TBT, by up to 8 points. Tighter limits would fail at random.
 const PERFORMANCE_DROP = 15;
 const TIME_GROWTH = 0.15;
+// A percentage of a tiny time is less than its noise (desktop LCP: 168 ms, then 205 ms, same code).
+const TIME_SLACK_MS = 200;
 const TBT_GROWTH = 1;
 const CLS_GROWTH = 0.1;
 const SIZE_GROWTH = 0.03;
@@ -33,9 +35,9 @@ function limits(base: LighthouseNumbers): LighthouseNumbers {
     accessibility: base.accessibility,
     bestPractices: base.bestPractices,
     seo: base.seo,
-    lcp: Math.round(base.lcp * (1 + TIME_GROWTH)),
+    lcp: Math.round(base.lcp * (1 + TIME_GROWTH)) + TIME_SLACK_MS,
     tbt: Math.round(base.tbt * (1 + TBT_GROWTH)),
-    speedIndex: Math.round(base.speedIndex * (1 + TIME_GROWTH)),
+    speedIndex: Math.round(base.speedIndex * (1 + TIME_GROWTH)) + TIME_SLACK_MS,
     cls: Number((base.cls + CLS_GROWTH).toFixed(3)),
     kb: Math.round(base.kb * (1 + SIZE_GROWTH)),
   };

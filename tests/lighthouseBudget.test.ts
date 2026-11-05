@@ -16,11 +16,11 @@ const base: LighthouseNumbers = {
 describe('the Lighthouse budget', () => {
   it('passes the recorded numbers, and growth within the allowance', () => {
     expect(overBudget('p', base, base)).toEqual([]);
-    expect(overBudget('p', { ...base, performance: 35, lcp: 2300, tbt: 2000, speedIndex: 4600, cls: 0.2, kb: 618 }, base)).toEqual([]);
+    expect(overBudget('p', { ...base, performance: 35, lcp: 2500, tbt: 2000, speedIndex: 4800, cls: 0.2, kb: 618 }, base)).toEqual([]);
   });
 
   it('fails anything past the allowance, naming the page and the number', () => {
-    expect(overBudget('phone-home', { ...base, lcp: 2301 }, base)).toEqual(['phone-home: lcp 2301, budget 2300 (recorded 2000)']);
+    expect(overBudget('phone-home', { ...base, lcp: 2501 }, base)).toEqual(['phone-home: lcp 2501, budget 2500 (recorded 2000)']);
     expect(overBudget('p', { ...base, performance: 34 }, base)).toHaveLength(1);
     expect(overBudget('p', { ...base, cls: 0.201 }, base)).toHaveLength(1);
     expect(overBudget('p', { ...base, kb: 619 }, base)).toHaveLength(1);

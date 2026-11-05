@@ -145,7 +145,7 @@ const steps: Step[] = [
     command: 'npx tsx scripts/baseline/lighthouse.ts',
     after: () =>
       existsSync(join(ROOT, 'tests', 'baseline', `lighthouse-${process.platform}.json`))
-        ? 'within budget'
+        ? undefined
         : `no ${process.platform} numbers yet: reported, compared nothing`,
   },
 ];

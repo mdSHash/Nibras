@@ -1,0 +1,35 @@
+{
+  "phone-home": {
+    "performance": 56,
+    "accessibility": 96,
+    "bestPractices": 100,
+    "seo": 100,
+    "lcp": 1818,
+    "tbt": 883,
+    "speedIndex": 4753,
+    "cls": 0.404,
+    "kb": 599
+  },
+  "phone-badr": {
+    "performance": 69,
+    "accessibility": 96,
+    "bestPractices": 100,
+    "seo": 100,
+    "lcp": 1843,
+    "tbt": 1557,
+    "speedIndex": 5020,
+    "cls": 0.037,
+    "kb": 636
+  },
+  "desktop-home": {
+    "performance": 87,
+    "accessibility": 96,
+    "bestPractices": 100,
+    "seo": 100,
+    "lcp": 168,
+    "tbt": 161,
+    "speedIndex": 4630,
+    "cls": 0.004,
+    "kb": 599
+  }
+}
