@@ -1,7 +1,7 @@
 # Owner dashboard
 
 Everything Mostafa, as owner, uses to see whether Nibras is up, what breaks and how it is used. Each
-tool does one job; all are on free tiers. (Analytics with Umami and Search Console come in Phase 3.)
+tool does one job; all are on free tiers.
 
 | What | Where |
 | --- | --- |
@@ -9,6 +9,8 @@ tool does one job; all are on free tiers. (Analytics with Umami and Search Conso
 | Chat API health | https://nibras-chat-api.vercel.app/api/health |
 | Crashes and errors | Sentry, org `asu-ut` (EU region): https://asu-ut.sentry.io/issues/ |
 | Uptime | UptimeRobot: https://dashboard.uptimerobot.com/ |
+| Visitors and what they open | Umami: https://cloud.umami.is/ |
+| Search | Google Search Console: https://search.google.com/search-console; Bing Webmaster Tools: https://www.bing.com/webmasters |
 | Checks and deploys | GitHub Actions: https://github.com/mdSHash/Nibras/actions |
 | Chat API logs | Vercel → project `nibras-chat-api` → Logs |
 
@@ -56,6 +58,59 @@ Alerts: your email (default contact); optionally add Telegram under *Integration
 answers 200 with `"ok":true` when the knowledge base loads and an LLM provider key is set, and 503
 otherwise; it calls no LLM, so the checks use no quota. It also shows `"sharedStore": true` once
 Upstash is connected (below); that does not affect `ok`.
+
+## Umami (who visits, what they open)
+
+Free Hobby plan of Umami Cloud (at the time of writing 100,000 events a month, 1 website, 6 months of
+data). It sets no cookies, so no consent banner is needed. Only the deploy build has it
+(`VITE_UMAMI_WEBSITE_ID`); local builds, tests and pull-request checks send nothing. Visitors using
+an ad blocker are not counted, so read the numbers as a lower bound.
+
+**Set up 2026-11-05:** website `Nibras` for `mdshash.github.io`
+(https://cloud.umami.is/analytics/us/websites/ca8f4e4d-9459-4393-a2f5-a4bc7d0f83e2), its Website ID in
+GitHub → Settings → Secrets and variables → Actions → **Variables** as `VITE_UMAMI_WEBSITE_ID` (public
+by design, like the Sentry DSN). To move to another account, change that variable and deploy.
+
+So your own visits are not counted: in your browser, on the site, open the console (F12) and run
+`localStorage.setItem('umami.disabled', '1')`. Do it once per browser.
+
+**What it shows:** visitors, countries, devices, referrers and top pages, plus these events
+(`src/services/analytics.ts`). Nothing a visitor types is ever sent: no chat question, no search text.
+
+| Event | When | Data |
+| --- | --- | --- |
+| `event_opened` | A visitor opens an event (also by a shared link). Not the first event the app opens by itself, and not timeline autoplay; neither counts as a page view either | `event`: which one |
+| `battle_played` | A battle's video or replay opens | `event`, `kind`: `video` or `replay` |
+| `narration_played` | The panel's narration starts; pausing and resuming is the same listen | `event` |
+| `search_used` | The search drawer closes after a query | `results`: `some` or `none` |
+| `chat_asked` | The chat answers | `mode`: `composed`, `extractive`, `not_covered` or `error` |
+| `path_started`, `path_finished` | Reserved for the learning paths (Phases 5 and 6); nothing sends them yet | |
+
+## Google Search Console and Bing Webmaster Tools (how Nibras does in search)
+
+The site is ready: 305 addresses in the sitemap, and a title, description and canonical URL on each
+page. A `github.io` address cannot be a *domain* property, and `robots.txt` only counts at the host
+root, where `mdshash.github.io` has none (everything is allowed), so the sitemap is submitted by hand.
+
+**Google (once):**
+
+1. https://search.google.com/search-console → Add property → **URL prefix** →
+   `https://mdshash.github.io/Nibras/`.
+2. Choose **HTML file**, download it, and hand it to a Claude Code session: it goes in `public/`.
+3. After that deploy, click **Verify**.
+4. Sitemaps → submit `https://mdshash.github.io/Nibras/sitemap.xml`.
+
+**Bing (once, after Google):** https://www.bing.com/webmasters → **Import from Google Search Console**
+→ allow access → choose the site. If that fails, Bing's meta tag (`msvalidate.01`) can go on the home
+page instead. Results build over weeks, not days.
+
+## Lighthouse (page speed and accessibility)
+
+`npm run verify` measures three pages with Lighthouse (`scripts/baseline/lighthouse.ts`): phone home,
+phone Badr, desktop home. The budget (`tests/baseline/lighthouse-<platform>.json`) stops things getting
+worse from the recorded numbers; those numbers are not a target. The checks use real throttling. A
+tool that uses simulated throttling, such as PageSpeed Insights, can show a much higher score for the
+same page, so compare like with like.
 
 ## Chat: secrets, the embedding index and the rate limit
 
@@ -115,4 +170,6 @@ time of writing 256 MB and 500,000 commands a month); a question uses about 5 co
 5. **GitHub → Actions**: the last runs on `main` are green, the daily **Chat index** run among them.
 6. **Vercel → `nibras-chat-api` → Logs**, search `[chat-feedback]`: 👎 ratings point at unclear or
    missing content.
-7. Monthly: **Sentry → Settings → Stats & Usage** (free plan: 5,000 errors a month).
+7. **Umami**: visitors and top pages; `chat_asked` with `not_covered` and `search_used` with `none` point at missing content.
+8. **Search Console → Performance and Pages**: queries, clicks, and pages not indexed.
+9. Monthly: **Sentry → Settings → Stats & Usage** (free plan: 5,000 errors a month); **Umami** usage against its 100,000 events.
