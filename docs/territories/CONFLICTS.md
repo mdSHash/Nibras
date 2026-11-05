@@ -6,39 +6,41 @@ printed ones; the ledger has the page links. Gregorian equivalents are approxima
 
 ## Dates corrected
 
-`date-changes.json` lists all 33 events, each with its reason and quotes; `scripts/territories/applyDateChanges.ts --check`
+`date-changes.json` lists all 35 events, each with its reason and quotes; `scripts/territories/applyDateChanges.ts --check`
 confirms every quote on its page. In short:
 
 - **Ibn Kathir agrees** on Damascus, Fahl, Jerusalem and Yarmouk (al-Bidaya, Dar Hajar, 9:584, 9:659, 9:668).
-- **The date the panel shows changed (4):** Damascus 13 → Rajab 14 AH; Fahl 14 → Dhu al-Qa'da 13 AH; Jerusalem 15 → Rabi' II 16 AH; Ibn Muljam's plot "early Ramadan 40" → 40 AH.
+- **The date the panel shows changed (8):** Damascus 13 → Rajab 14 AH; Fahl 14 → Dhu al-Qa'da 13 AH; Jerusalem 15 → Rabi' II 16 AH; Ibn Muljam's plot "early Ramadan 40" → 40 AH; 'Ali's death 21 → 19 Ramadan 40 AH; Marj al-Saffar Jumada II → Jumada I 13 AH; al-Buwayb 14 → 13 AH; Banu al-Mustaliq 5 AH → Sha'ban 5 AH.
 - **The Gregorian year the panel shows changed (9):** Tabuk 631 → 630; Yarmouk 637 → 636; Nihawand 643 → 642; 'Umrat al-Qada 628 → 629; Tustar 642 → 641; Abu Dharr 652 → 651; al-Saqatiya and the Bridge 635 → 634; Muhammad ibn Abi Bakr 659 → 658. The Hijri dates of these were right.
-- **Order on the timeline only (20):** for example Banu al-Nadir now follows Bi'r Ma'una, and al-Namariq follows 'Umar's accession.
+- **Order on the timeline only (18):** for example Banu al-Nadir now follows Bi'r Ma'una, and al-Namariq follows 'Umar's accession.
 
-## Dates kept, where the sources disagree
+## Where the sources disagree on a date
 
-Not errors: Sunni sources give more than one date and the app holds one of them. Your call on any of them.
+Sunni sources give more than one date. Mostafa asked for the most accurate one (2026-11-06), so each row says what was chosen and why.
 
 | # | Event (id) | App | Other reports |
 | --- | --- | --- | --- |
-| D1 | Banu al-Mustaliq and the Ifk (`ghazwat_bani_mustaliq`, `incident_ifk`) | 5 AH | **Sha'ban 6 AH**: Ibn Hisham 2:289, Khalifa p. 80. 5 AH is, from memory, Ibn Sa'd's and Ibn al-Qayyim's date (not checked here). The app's own source list names Ibn Hisham, so this one most needs your decision |
-| D2 | Marj al-Saffar (`battle-marj-dabiq`) | Jumada II 13 AH | Jumada I 13 AH (Ibn Ishaq in Khalifa p. 120); Muharram 14 AH (al-Baladhuri p. 121). The event's id also says "Dabiq", a different place |
-| D3 | Al-Buwayb (`battle-buwaib`) | 14 AH | Ramadan 13 AH (al-Tabari 3:470). Al-Baladhuri p. 249 puts the Bridge, which came first, at the end of Ramadan 13, which fits the app |
+| D1 | Banu al-Mustaliq and the Ifk (`ghazwat_bani_mustaliq`, `incident_ifk`) | **5 AH, Sha'ban: kept** | Sha'ban 6 AH: Ibn Ishaq (Ibn Hisham 2:289), Khalifa p. 80, al-Tabari. 5 AH: Qatada, 'Urwa, Musa ibn 'Uqba, al-Waqidi, Abu Ma'shar, reported by Ibn Hajr (Fath al-Bari 7:430) and Ibn Kathir (6:181) |
+| D2 | Marj al-Saffar (`battle-marj-dabiq`) | **Jumada I 13 AH: corrected** | Muharram 14 AH (al-Baladhuri p. 121). The event's id also says "Dabiq", a different place |
+| D3 | Al-Buwayb (`battle-buwaib`) | **13 AH: corrected** | Al-Tabari 3:470 gives Ramadan 13 AH and Ibn Kathir (9:597) tells it under 13 AH. Al-Baladhuri p. 249 puts the Bridge, which came first, at the end of Ramadan, so the month stays open |
 | D4 | Qadisiyya (`battle-qadisiyyah`) | 15 AH | End of 16 AH: al-Baladhuri p. 252. Al-Tabari 3:590 reports 16 AH (al-Waqidi) and 15 AH (some Kufans) |
 | D5 | Nihawand (`battle-nahavand`) | 21 AH | 21 AH (Ibn Ishaq, al-Waqidi), 18 AH (Sayf): al-Tabari 4:114. 19 or 20 AH: al-Baladhuri p. 298 |
 | D6 | Jerusalem (`event-75`) | Rabi' II 16 AH (corrected) | 17 AH: al-Baladhuri p. 140 |
 | D7 | Calendar and diwans (`event-81`) | 16 AH | Al-Baladhuri p. 439 dates the diwans to 20 AH. I found no dated passage for the calendar in the pages read. The event joins the two |
-| D8 | 'Ali's death (`event-113`) | 21 Ramadan 40 AH | Al-Tabari 5:143 reports 17 Ramadan (Abu Ma'shar, al-Waqidi) |
+| D8 | 'Ali's death (`event-113`) | **19 Ramadan 40 AH: corrected** | Struck on 17 Ramadan (Ibn Kathir 11:22). Died with 11 nights left (al-Waqidi, Ibn Kathir 11:24). 23 Ramadan: Khalifa p. 198. 21 Ramadan appears in no passage read |
 | D9 | Tustar (`conquest_tustar`) | 20 AH | 17 AH: al-Tabari's placement |
 | D10 | Jalula (`conquest_jalula`) | 16 AH | 17 AH: Khalifa p. 136. 19 AH: a report in al-Tabari 4:102 |
 
 ## Narrated text that still states the wrong date
 
-Changing narrated text hides its recording until it is recorded again, which spends quota, so these wait for your word or Phase 4.
+Changing narrated text hides its recording until it is recorded again, which spends quota, so these wait for Phase 4 (Mostafa, 2026-11-06).
 
 | Event | Text says | Problem |
 | --- | --- | --- |
 | `battle-saqatiya` | «شعبان 13 هـ (يناير 635م)» | Sha'ban 13 AH is about October 634 |
 | `ibn-muljam-plot-mecca` | «بعد حج سنة 40 هـ» (three places) | The pilgrimage of 40 AH came after 'Ali's death in Ramadan 40 AH |
+| `ibn-muljam-plot-mecca`, `year-of-reconciliation` | «21 رمضان» | Now 19 Ramadan on 'Ali's own event |
+| `battle-marj-dabiq` | «جمادى الآخرة 13 هـ (أغسطس 634م)» | Now Jumada I 13 AH, about July 634 |
 
 ## Where an event's title says more than the sources do
 

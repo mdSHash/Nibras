@@ -2825,8 +2825,8 @@
       "date": {
         "gregorian": 627.05,
         "hijri": null,
-        "hijriRelative": "5 هـ",
-        "hijriDisplay": "٥ هـ",
+        "hijriRelative": "شعبان، 5 هـ",
+        "hijriDisplay": "شعبان، ٥ هـ",
         "gregorianDisplay": "٦٢٧ م"
       },
       "location": {
@@ -5249,10 +5249,10 @@
       "isRashidunEra": true,
       "isMajor": null,
       "date": {
-        "gregorian": 634.6,
+        "gregorian": 634.52,
         "hijri": null,
-        "hijriRelative": "جمادى الآخرة 13 هـ",
-        "hijriDisplay": "جمادى الآخرة ١٣ هـ",
+        "hijriRelative": "جمادى الأولى، 13 هـ",
+        "hijriDisplay": "جمادى الأولى، ١٣ هـ",
         "gregorianDisplay": "٦٣٤ م"
       },
       "location": {
@@ -5693,6 +5693,78 @@
       }
     },
     {
+      "id": "battle-buwaib",
+      "title": "مَعْرَكَةُ الْبُوَيْبِ",
+      "era": "عمر بن الخطاب",
+      "eraLabel": "خلافة الفاروق",
+      "ruler": "عمر بن الخطاب",
+      "category": "battle",
+      "isBattle": true,
+      "isProphetEra": false,
+      "isRashidunEra": true,
+      "isMajor": null,
+      "date": {
+        "gregorian": 634.95,
+        "hijri": null,
+        "hijriRelative": "13 هـ",
+        "hijriDisplay": "١٣ هـ",
+        "gregorianDisplay": "٦٣٤ م"
+      },
+      "location": {
+        "name": "البويب، العراق",
+        "coordinates": [
+          31.9,
+          44.6
+        ]
+      },
+      "text": {
+        "summary": "2f628d02b0900a76",
+        "fullDescription": "b8c2f92042dff1af",
+        "courseOfEvents": [
+          "d8b6636e0d7af84e",
+          "3639632541972d49",
+          "1abef47235c904e2",
+          "5dc3eb9e21e54491",
+          "771cd9096790ef5a",
+          "f2682d21b1f0af1a",
+          "c0b076e20a127f15"
+        ],
+        "durationDays": "يَوْمٌ وَاحِدٌ"
+      },
+      "armySize": "حَوَالَيْ 8,000 مُقَاتِلٍ",
+      "enemyArmySize": "حَوَالَيْ 12,000 مُقَاتِلٍ (الْفُرْسُ)",
+      "keyFigures": [
+        {
+          "name": "المثنى بن حارثة الشيباني رضي الله عنه",
+          "companionId": "al-muthanna-ibn-harithah"
+        }
+      ],
+      "companionRoles": [
+        {
+          "name": "الْمُثَنَّى بْنُ حَارِثَةَ الشَّيْبَانِيُّ",
+          "companionId": "al-muthanna-ibn-harithah",
+          "role": "559be96655a30a5c"
+        }
+      ],
+      "quran": [],
+      "hadith": [
+        "bf89b1951e2fc600"
+      ],
+      "sources": [
+        "bf89b1951e2fc600",
+        "1caa1246e96d2ee4",
+        "b46690a7244f3db8"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": "battle-buwaib.description.b8c2f920.m4a",
+        "descriptionExists": true,
+        "titleFile": "battle-buwaib.title.34d70bfa.m4a",
+        "titleExists": true
+      }
+    },
+    {
       "id": "battle_fahl",
       "title": "مَعْرَكَةُ فَحْلِ بَيْسَانَ",
       "era": "عمر بن الخطاب",
@@ -5767,78 +5839,6 @@
         "descriptionFile": "battle-fahl.description.230165cb.m4a",
         "descriptionExists": true,
         "titleFile": "battle-fahl.title.119a60fd.m4a",
-        "titleExists": true
-      }
-    },
-    {
-      "id": "battle-buwaib",
-      "title": "مَعْرَكَةُ الْبُوَيْبِ",
-      "era": "عمر بن الخطاب",
-      "eraLabel": "خلافة الفاروق",
-      "ruler": "عمر بن الخطاب",
-      "category": "battle",
-      "isBattle": true,
-      "isProphetEra": false,
-      "isRashidunEra": true,
-      "isMajor": null,
-      "date": {
-        "gregorian": 635.17,
-        "hijri": null,
-        "hijriRelative": "14 هـ",
-        "hijriDisplay": "١٤ هـ",
-        "gregorianDisplay": "٦٣٥ م"
-      },
-      "location": {
-        "name": "البويب، العراق",
-        "coordinates": [
-          31.9,
-          44.6
-        ]
-      },
-      "text": {
-        "summary": "2f628d02b0900a76",
-        "fullDescription": "b8c2f92042dff1af",
-        "courseOfEvents": [
-          "d8b6636e0d7af84e",
-          "3639632541972d49",
-          "1abef47235c904e2",
-          "5dc3eb9e21e54491",
-          "771cd9096790ef5a",
-          "f2682d21b1f0af1a",
-          "c0b076e20a127f15"
-        ],
-        "durationDays": "يَوْمٌ وَاحِدٌ"
-      },
-      "armySize": "حَوَالَيْ 8,000 مُقَاتِلٍ",
-      "enemyArmySize": "حَوَالَيْ 12,000 مُقَاتِلٍ (الْفُرْسُ)",
-      "keyFigures": [
-        {
-          "name": "المثنى بن حارثة الشيباني رضي الله عنه",
-          "companionId": "al-muthanna-ibn-harithah"
-        }
-      ],
-      "companionRoles": [
-        {
-          "name": "الْمُثَنَّى بْنُ حَارِثَةَ الشَّيْبَانِيُّ",
-          "companionId": "al-muthanna-ibn-harithah",
-          "role": "559be96655a30a5c"
-        }
-      ],
-      "quran": [],
-      "hadith": [
-        "bf89b1951e2fc600"
-      ],
-      "sources": [
-        "bf89b1951e2fc600",
-        "1caa1246e96d2ee4",
-        "b46690a7244f3db8"
-      ],
-      "battle": null,
-      "route": null,
-      "narration": {
-        "descriptionFile": "battle-buwaib.description.b8c2f920.m4a",
-        "descriptionExists": true,
-        "titleFile": "battle-buwaib.title.34d70bfa.m4a",
         "titleExists": true
       }
     },
@@ -10948,8 +10948,8 @@
       "date": {
         "gregorian": 661.07,
         "hijri": 40,
-        "hijriRelative": "21 رمضان 40 هـ",
-        "hijriDisplay": "٢١ رمضان ٤٠ هـ",
+        "hijriRelative": "19 رمضان 40 هـ",
+        "hijriDisplay": "١٩ رمضان ٤٠ هـ",
         "gregorianDisplay": "٦٦١ م"
       },
       "location": {
@@ -19318,7 +19318,7 @@
       ]
     },
     {
-      "id": "634.6",
+      "id": "634.52",
       "groups": [
         {
           "id": "isl",
@@ -19568,7 +19568,7 @@
       ]
     },
     {
-      "id": "635",
+      "id": "634.95",
       "groups": [
         {
           "id": "isl",
@@ -19618,7 +19618,7 @@
       ]
     },
     {
-      "id": "635.17",
+      "id": "635",
       "groups": [
         {
           "id": "isl",

@@ -6,7 +6,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const BOOKS: Record<string, string> = { futuh: '12221', sira: '23833', tabari: '9783', bidaya: '4445', khalifa: '6615' };
+const BOOKS: Record<string, string> = { futuh: '12221', sira: '23833', tabari: '9783', bidaya: '4445', khalifa: '6615', fath: '1673' };
 interface Change { id: string; label?: string; hijri?: number; key?: number; cite: { b: string; p: number; q: string }[] }
 const strip = (s: string): string => s.replace(/[ً-ْٰ]/g, '').replace(/\s+/g, ' ');
 
