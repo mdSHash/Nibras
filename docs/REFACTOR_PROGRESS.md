@@ -2078,3 +2078,38 @@ Manual checks for Mostafa:
 - 2026-10-24 (Mostafa, «all good, approved»): the 3J answers, the new blocks (screenshots) and the
   test counts approved; `tests/baseline/numbers.json` updated to Vitest 396, features 89, phone
   smoke 46 (nothing else). The `qwen/qwen3.6-27b` question stays open (chain unchanged).
+
+3J merged (PR #14, merge commit `63c512d`, 2026-10-24).
+
+### 3E — owner visibility: analytics, search engines, Lighthouse
+
+Started 2026-11-05 on `refactor/phase-3e-owner-visibility` from `main` at `63c512d` (PR #14 merged).
+Before any change, `npm run verify` passed: Vitest 396/396, chat index in sync, narration manifest,
+content snapshot, behavior map, build, bundle budget, feature tests 88 passed (0 known failures), 1
+skipped, phone smoke 46/46, visual 16/16.
+
+**Live site check** (once, 2026-11-05, headless Chromium against https://mdshash.github.io/Nibras/ as
+a returning visitor, desktop 1440×900 and phone 390×844): the app loads, the first event opens
+(«مِيلَادُ النَّبِيِّ ﷺ»), `/event/battle-badr/` opens Badr with «مشاهدة المعركة» and «تشغيل السرد» on both;
+on desktop the narration asks for `battle-badr.description.d6f5d2d9.m4a`; no console errors.
+`GET https://nibras-chat-api.vercel.app/api/health` → 200
+`{"ok":true,"kbUnits":4178,"llmConfigured":true,"sharedStore":true,"release":"63c512d"}`.
+
+The 3J after-deploy checks, 4 live questions as approved (desktop):
+
+| Question | Result |
+| --- | --- |
+| «إيه هو صلح الحديبية؟» | Passed: the summary, «القصة», «تفاصيل أخرى», «أهم المعلومات», «مواقف الشخصيات», two Qur'an blocks |
+| «مين اللي كتب الصلح؟» (same chat) | Passed: Ali ibn Abi Talib, as a fact row |
+| «كانوا كام واحد؟» (same chat) | **Failed**: the right record (Hudaybiyya, not Uhud) but the wrong sentence: the one about erasing «رسول الله», not «حوالي ١٤٠٠ مسلم» |
+| «مين أشجع صحابي؟» (new chat) | Passed: the not-covered message with three starter buttons (not pressed) |
+
+The failed turn: the offline replay of this exact order (no quota) keeps 16 of the record's passages,
+with intent `quantity`, so retrieval is right and the sentence is the real model's choice; the copy
+model cannot show that. The recorded 3J run passed with «عمر زعل ليه؟» asked before it, so the
+previous question differs. Whether the live answer came from the model or the answer cache is not
+known. Open for Mostafa.
+
+Also checked (no quota): the Groq model list for this key has `qwen/qwen3.8-27b` and no
+`qwen/qwen3.6-27b`; Vercel has no `LLM_PROVIDER_CHAIN`, so production uses the default chain with the
+missing model second.
