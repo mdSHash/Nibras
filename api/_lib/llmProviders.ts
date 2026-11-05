@@ -39,7 +39,7 @@ const ENDPOINTS: Record<ProviderSpec['platform'], string> = {
 
 // allam-2-7b was dropped: its 4K context cannot hold the evidence pack.
 export const DEFAULT_CHAIN =
-  'groq:openai/gpt-oss-120b,groq:qwen/qwen3.6-27b,groq:openai/gpt-oss-20b,openrouter:google/gemma-4-31b-it:free';
+  'groq:openai/gpt-oss-120b,groq:qwen/qwen3.8-27b,groq:openai/gpt-oss-20b,openrouter:google/gemma-4-31b-it:free';
 
 export function parseChain(raw: string | undefined): ProviderSpec[] {
   return (raw || DEFAULT_CHAIN)
