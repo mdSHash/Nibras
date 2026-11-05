@@ -48,12 +48,6 @@ export default tseslint.config(
     languageOptions: { globals: { ...globals.node, ...globals.browser } },
   },
   {
-    // One-off and legacy scripts that Phase 3 archives or replaces (plan, "Phase 3"):
-    // unused leftovers there are not worth editing before they go.
-    files: ['scripts/capture-*.mjs'],
-    rules: { '@typescript-eslint/no-unused-vars': 'off' },
-  },
-  {
     files: ['**/*.cjs'],
     languageOptions: { sourceType: 'commonjs' },
     rules: { '@typescript-eslint/no-require-imports': 'off' },

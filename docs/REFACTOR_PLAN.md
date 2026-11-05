@@ -602,8 +602,8 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
       `docs/OWNER_DASHBOARD.md`; register the site in Google Search Console and Bing Webmaster Tools
       and submit the sitemap (Mostafa verifies ownership); add Lighthouse checks with budgets to
       `npm run verify`. (3E; `path_*` wait for the learning paths, and Mostafa verifies ownership after the deploy)
-- [ ] Archive or delete the one-off scripts; document the remaining ones in `scripts/README.md`.
-- [ ] Update the PRD with a "target vs today" view.
+- [x] Archive or delete the one-off scripts; document the remaining ones in `scripts/README.md`. (3I)
+- [x] Update the PRD with a "target vs today" view. (3I)
 
 Done when: `npm run verify` passes, every battle opens (its video where one exists, its replay
 otherwise), narration still works, and the live-site check passes after deploy.
