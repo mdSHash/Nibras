@@ -96,8 +96,8 @@ root, where `mdshash.github.io` has none (everything is allowed), so the sitemap
 
 1. https://search.google.com/search-console → Add property → **URL prefix** →
    `https://mdshash.github.io/Nibras/`.
-2. Choose **HTML file**, download it, and hand it to a Claude Code session: it goes in `public/`.
-3. After that deploy, click **Verify**.
+2. Choose **HTML file**. Its file is already in `public/` (`google917a51a4ff8bfb02.html`; keep it there, Google checks it again from time to time).
+3. Once it is deployed, click **Verify**.
 4. Sitemaps → submit `https://mdshash.github.io/Nibras/sitemap.xml`.
 
 **Bing (once, after Google):** https://www.bing.com/webmasters → **Import from Google Search Console**
