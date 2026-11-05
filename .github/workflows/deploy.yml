@@ -59,6 +59,9 @@ jobs:
             browsers: webkit firefox
           - step: visual
             browsers: chromium
+          # Timings: alone on its runner.
+          - step: lighthouse
+            browsers: chromium
     env:
       REPLAYS: ${{ github.event_name == 'pull_request' && 'badr' || 'all' }}
     steps:

@@ -138,6 +138,16 @@ const steps: Step[] = [
         : summary;
     },
   },
+  {
+    // Last: it needs an otherwise idle machine, its numbers are timings.
+    id: 'lighthouse',
+    name: 'Lighthouse budget',
+    command: 'npx tsx scripts/baseline/lighthouse.ts',
+    after: () =>
+      existsSync(join(ROOT, 'tests', 'baseline', `lighthouse-${process.platform}.json`))
+        ? 'within budget'
+        : `no ${process.platform} numbers yet: reported, compared nothing`,
+  },
 ];
 
 function formatSeconds(ms: number): string {
