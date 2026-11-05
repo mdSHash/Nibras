@@ -45,6 +45,7 @@ assistant (`api/`) is a separate Vercel project.
 | `npx playwright test` | Feature + visual tests (build first with `VITE_CHAT_API_URL=http://chat.test/api/chat`) |
 | `npx playwright test -c playwright.style.config.ts` | Style snapshots: prove a change keeps the look (capture with `--update-snapshots` before it; see README, "Styling") |
 
+Lighthouse numbers: `npm run baseline:lighthouse` (after a build; `-- --update` records them, same approval rule).
 `npm run verify -- --update-numbers` rewrites `tests/baseline/numbers.json`. Baselines are updated
 only after Mostafa approves the list of intentional changes; never to make a test pass.
 
@@ -77,6 +78,7 @@ only after Mostafa approves the list of intentional changes; never to make a tes
 - `docs/OWNER_DASHBOARD.md` — Sentry, uptime checks, `/api/health`, where each secret lives
 - `docs/PRD.md` — product requirements; `docs/CONTENT_GUIDE.md` — adding and editing content
 - `src/components/ErrorBoundary.tsx` — wrap any new major section or panel in one
+- `src/services/analytics.ts` — Umami, deploy build only; `track()` must never carry what a visitor typed
 
 ## Session protocol
 

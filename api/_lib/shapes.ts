@@ -34,6 +34,24 @@ function eventFor(kb: LoadedKb, record: KbRecord): KbRecord {
   return kb.kb.records.find(r => r.type === 'event' && r.refs.battleId === record.refs.battleId) ?? record;
 }
 
+// «كانوا كام واحد؟»: how many people, not how many of something else («كام غزوة؟»).
+const HOW_MANY_PEOPLE = /(^| )(كانوا|عددهم|واحد|شخص|نفر|مقاتل|جيش|الجيش)( |$)/;
+
+/**
+ * The army rows of the one event a quantity question follows up on, without the model:
+ * nothing in such a question tells the model which of the record's passages it wants.
+ */
+export function composeHeadcount(question: string, found: SearchOutcome, kb: LoadedKb): ComposedAnswer | null {
+  if (!found.intents.includes('quantity') || found.intents.includes('duration')) return null;
+  if (found.entities.length !== 1 || !found.entities[0].carried) return null;
+  if (!HOW_MANY_PEOPLE.test(normalizeForMatch(question))) return null;
+  const army = (kb.unitsByRecord.get(found.entities[0].recordId) ?? []).filter(u => u.kind === 'event_army');
+  if (army.length === 0) return null;
+  const composer = new Composer(kb);
+  composer.facts(army);
+  return composer.done();
+}
+
 /** The record a question asks about as a whole, and how to tell it; null when it asks for a part. */
 export function overviewTarget(question: string, found: SearchOutcome, kb: LoadedKb): { recordId: string; style: OverviewStyle } | null {
   if (found.intents.some(i => PART_INTENTS.has(i))) return null;

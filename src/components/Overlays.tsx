@@ -9,6 +9,8 @@ import { useAppStore, type ChatReturnTo } from '../store/appStore';
 import { useFilteredEvents, useFilters, useOverlay, useSelectedEvent } from '../store/selectors';
 import { useIsMobile, useMatchMedia } from '../hooks/useMatchMedia';
 import { resolveScenarioId } from '../utils/battleScenario';
+import { track } from '../services/analytics';
+import { eventSlug } from '../../shared/routes';
 import { ErrorBoundary } from './ErrorBoundary';
 import { LoadingSpinner } from './LoadingSpinner';
 import type { EventItem } from '../data';
@@ -155,6 +157,11 @@ export function BattleOverlay() {
     if (!scenarioId) setReplayInstead(null);
   }, [scenarioId]);
   const video = event?.battleVideo && replayInstead !== scenarioId ? { ...event, battleVideo: event.battleVideo } : undefined;
+  const kind = video ? 'video' : 'replay';
+  useEffect(() => {
+    if (event) track('battle_played', { event: eventSlug(event), kind });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `event` follows scenarioId
+  }, [scenarioId, kind]);
   return (
     <>
 

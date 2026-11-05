@@ -214,6 +214,7 @@ export default function EventPanel({
                 onDragEnd={handleDragEnd}
                 className="absolute top-0 inset-x-0 z-30 flex flex-col items-center pt-2 pb-4 cursor-grab active:cursor-grabbing touch-none"
                 style={{ y: handleY }}
+                role="group"
                 aria-label="اسحب لتغيير الحجم"
               >
                 <div className="w-12 h-1.5 rounded-full bg-white/55 shadow-[0_0_4px_rgba(0,0,0,0.4)]" />

@@ -241,3 +241,12 @@ test.describe('dark mode is remembered', () => {
     });
   });
 });
+
+test('every map marker has a name for screen readers', async ({ page }) => {
+  await openAppWithEvent(page);
+  const markers = page.locator('.leaflet-marker-icon[role="button"]');
+  await expect(markers.first()).toBeVisible();
+  const names = await markers.evaluateAll((all) => all.map((m) => m.getAttribute('aria-label') ?? ''));
+  expect(names.length).toBeGreaterThan(0);
+  expect(names.filter((name) => !/[\u0600-\u06FF]/.test(name))).toEqual([]);
+});

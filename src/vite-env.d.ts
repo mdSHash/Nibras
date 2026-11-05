@@ -8,6 +8,8 @@ interface ImportMetaEnv {
   readonly VITE_SENTRY_DSN?: string;
   /** Release name for Sentry: the commit SHA in CI. */
   readonly VITE_SENTRY_RELEASE?: string;
+  /** Umami website id for visitor analytics; set only in the deploy build (docs/OWNER_DASHBOARD.md). */
+  readonly VITE_UMAMI_WEBSITE_ID?: string;
 }
 
 interface ImportMeta {

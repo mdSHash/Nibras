@@ -286,6 +286,7 @@ Details, engines and settings: `scripts/README.md`. The 2026 Gemini WAV original
 9. Playwright feature tests (`tests/e2e/`) on desktop 1440×900 and phone 375×812 (Chromium)
 10. the `@phone` smoke tests in WebKit (iPhone 13) and Firefox, functional only
 11. Playwright visual snapshots (`tests/baseline/visual/`, per platform; on a platform with no committed set yet — Linux in CI until it is reviewed — the images are written instead of compared)
+12. Lighthouse budget — phone home, phone Badr and desktop home against `tests/baseline/lighthouse-<platform>.json` (real throttling, map tiles blocked; on a platform with no numbers yet it only reports)
 
 Before the first run: `npm ci` and `npx playwright install chromium webkit firefox`. The Playwright tests run offline against `vite preview`: map tiles, the chat API and narration audio are all stubbed (the fonts are served with the site, `src/fonts.ts`).
 
@@ -297,6 +298,7 @@ Before the first run: `npm ci` and `npx playwright install chromium webkit firef
 npm run baseline:content -- --update
 npm run baseline:behavior -- --update
 npm run baseline:bundle -- --update                 # after a production build
+npm run baseline:lighthouse -- --update             # after a production build, on an otherwise idle machine
 UPDATE_BASELINE=1 npx playwright test -g "first load" --workers=1
 npx playwright test --grep @visual --update-snapshots
 ```

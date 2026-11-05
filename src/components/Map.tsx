@@ -8,6 +8,9 @@ import 'leaflet-gesture-handling/dist/leaflet-gesture-handling.css';
 // Register the gesture handler once at module load.
 // Requires two-finger pan on touch, ctrl+wheel zoom on desktop — prevents map
 // from stealing page scroll when the user is scrolling the surrounding UI.
+/** A marker's name for screen readers: Leaflet makes it a button, but a div icon gets no name of its own. */
+const nameMarker = (name: string) => (e: L.LeafletEvent) => (e.target as L.Marker).getElement()?.setAttribute('aria-label', name);
+
 const LeafletMapClass = L.Map as typeof L.Map & { _nibrasGestureHandlerRegistered?: boolean };
 if (!LeafletMapClass._nibrasGestureHandlerRegistered) {
   L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
@@ -265,6 +268,7 @@ const EventClusters = ({ events, selectedEvent, onSelectEvent }: Pick<MapViewPro
               key={`cluster-${cluster.id}`}
               position={[lat, lng]}
               icon={cIcon}
+              eventHandlers={{ add: nameMarker('أحداث متعددة هنا') }}
             >
               <Popup className="historical-popup" closeButton={false} maxWidth={300}>
                 <div className="font-sans text-right p-2 sm:p-1" dir="rtl">
@@ -302,6 +306,7 @@ const EventClusters = ({ events, selectedEvent, onSelectEvent }: Pick<MapViewPro
             icon={icon}
             zIndexOffset={0}
             eventHandlers={{
+              add: nameMarker(evt.title),
               click: () => onSelectEvent(evt),
             }}
           />
@@ -315,6 +320,7 @@ const EventClusters = ({ events, selectedEvent, onSelectEvent }: Pick<MapViewPro
           position={[unclusteredSelectedEvent.location.coordinates[0], unclusteredSelectedEvent.location.coordinates[1]]} 
           icon={selectedEventIcon ?? undefined}
           zIndexOffset={2000}
+          eventHandlers={{ add: nameMarker(unclusteredSelectedEvent.title) }}
         />
       )}
     </>
@@ -420,6 +426,7 @@ export default function HistoricalMap({ events, selectedEvent, onSelectEvent, sh
             key={city.id}
             position={city.coordinates}
             icon={cityIcon}
+            eventHandlers={{ add: nameMarker(city.name) }}
           >
             <Popup
               className="historical-popup"

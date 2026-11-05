@@ -46,7 +46,8 @@ export function SectionHeading({
   return (
     <div className="flex items-center gap-2 mb-2 pb-2 border-b border-border-dark/15" style={{ color }}>
       <span className="shrink-0">{icon}</span>
-      <h3 className="font-bold flex-1 min-w-0" style={fs(15)}>
+      {/* The first level under the panel's h1; the tag stays h3 so its styling cannot change. */}
+      <h3 aria-level={2} className="font-bold flex-1 min-w-0" style={fs(15)}>
         {label}
       </h3>
     </div>

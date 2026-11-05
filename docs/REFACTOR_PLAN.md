@@ -597,10 +597,10 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
       records every changed period for approval.
 - [x] Add map attribution for the tile provider. (3A)
 - [x] Add a web manifest and icons. (3A)
-- [ ] Add Umami with the custom events listed in "Owner visibility, SEO and domain"; write
+- [x] Add Umami with the custom events listed in "Owner visibility, SEO and domain"; write
       `docs/OWNER_DASHBOARD.md`; register the site in Google Search Console and Bing Webmaster Tools
       and submit the sitemap (Mostafa verifies ownership); add Lighthouse checks with budgets to
-      `npm run verify`.
+      `npm run verify`. (3E; `path_*` wait for the learning paths, and Mostafa verifies ownership after the deploy)
 - [ ] Archive or delete the one-off scripts; document the remaining ones in `scripts/README.md`.
 - [ ] Update the PRD with a "target vs today" view.
 

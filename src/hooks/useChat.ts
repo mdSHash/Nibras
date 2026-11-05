@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
+import { track } from '../services/analytics';
 import type { AnswerBlock, AnswerMode, ChatCitation, ChatErrorBody, ChatRequestContext, ChatSuccessBody, FeedbackRequest } from '../../shared/chatApi';
 
 export type { AnswerBlock, ChatCitation };
@@ -76,6 +77,8 @@ export function useChat() {
         });
         const data = (await res.json().catch(() => null)) as (Partial<ChatSuccessBody> & Partial<ChatErrorBody>) | null;
 
+        track('chat_asked', { mode: res.ok && data?.mode ? data.mode : 'error' });
+
         if (!res.ok || !data) {
           setMessages(prev => [...prev, { id: `a-${Date.now()}`, role: 'assistant', text: data?.messageAr || GENERIC_ERROR, isError: true }]);
           return;
@@ -101,6 +104,7 @@ export function useChat() {
         ]);
       } catch (err) {
         if ((err as Error).name === 'AbortError') return;
+        track('chat_asked', { mode: 'error' });
         setMessages(prev => [...prev, { id: `a-${Date.now()}`, role: 'assistant', text: NETWORK_ERROR, isError: true }]);
       } finally {
         setIsLoading(false);

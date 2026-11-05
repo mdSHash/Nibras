@@ -70,6 +70,11 @@
       { "q": "عمر زعل ليه؟", "records": ["event:treaty-hudaybiyyah"], "units": ["event:treaty-hudaybiyyah#role:1"] },
       { "q": "كانوا كام واحد؟", "units": ["event:treaty-hudaybiyyah#army_size"], "notRecords": ["event:battle-uhud"] }
     ] },
+    { "id": "hudaybiyya-count-after-who-wrote", "turns": [
+      { "q": "إيه هو صلح الحديبية؟", "records": ["event:treaty-hudaybiyyah"] },
+      { "q": "مين اللي كتب الصلح؟", "records": ["event:treaty-hudaybiyyah"] },
+      { "q": "كانوا كام واحد؟", "units": ["event:treaty-hudaybiyyah#army_size"], "notRecords": ["event:battle-uhud"] }
+    ] },
     { "id": "badr-suggestions", "turns": [
       { "q": "احكيلي عن غزوة بدر", "records": ["event:battle-badr"] },
       { "suggestion": 0, "records": ["event:battle-badr"] },
