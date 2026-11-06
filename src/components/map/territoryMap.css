@@ -1,0 +1,122 @@
+/* The territory map: direction B (Relief), recreated from the 3F prototype. Colors are tokens in
+   src/index.css (--sys-terr-*, --sys-map-label-*). */
+.h-islam { --h: var(--sys-terr-islam); }
+.h-byz { --h: var(--sys-terr-byz); }
+.h-sas { --h: var(--sys-terr-sas); }
+.h-qur { --h: var(--sys-terr-qur); }
+.h-tribal, .h-local { --h: var(--sys-terr-tribal); }
+.h-axum { --h: var(--sys-terr-axum); }
+.h-nubia { --h: var(--sys-terr-nubia); }
+.h-ghassan { --h: var(--sys-terr-ghassan); }
+.h-lakhmid { --h: var(--sys-terr-lakhmid); }
+.h-ridda { --h: var(--sys-terr-ridda); }
+.h-ali { --h: var(--sys-terr-ali); }
+.h-muawiya { --h: var(--sys-terr-muawiya); }
+.h-sasinf { --h: var(--sys-terr-sasinf); }
+.h-jews { --h: var(--sys-terr-jews); }
+.h-aws { --h: var(--sys-terr-aws); }
+
+.territory-area { stroke: var(--h); stroke-linejoin: round; stroke-linecap: round; }
+.territory-area:not(.k-treaty) { fill: var(--h); }
+.territory-area.k-tribal { stroke: none; filter: blur(5px); fill-opacity: 0.3; }
+.territory-area.k-client { stroke-dasharray: 2 6; }
+.territory-area.k-treaty { stroke-dasharray: 10 5; }
+.territory-area.k-contested { stroke-dasharray: 3 7; stroke-width: 3; fill-opacity: 0.14; }
+/* Land whose row is marked uncertain: a broken line and a fainter fill. */
+.territory-area.uncertain { stroke-dasharray: 6 8; }
+.territory-area.uncertain:not(.k-treaty, .k-tribal) { fill-opacity: 0.14; }
+.territory-hatch-line { stroke: var(--sys-terr-islam); stroke-width: 2.4; }
+.territory-river { stroke: var(--sys-terr-river); opacity: 0.75; }
+
+.territory-label-wrap { width: 0 !important; height: 0 !important; overflow: visible; }
+.territory-label {
+  --dx: 0px;
+  --dy: 0px;
+  position: absolute;
+  right: 0;
+  transform: translate(calc(50% + var(--dx)), calc(-50% + var(--dy)));
+  white-space: nowrap;
+  font-family: 'Tajawal', sans-serif;
+  color: var(--sys-map-label-ink);
+  background: var(--sys-map-label-bg);
+  padding: 1px 7px 2px;
+  border-radius: 4px;
+  font-weight: 500;
+  line-height: 1.35;
+  font-size: clamp(11px, 0.75vw + 3px, 13px);
+  pointer-events: none;
+}
+.territory-label.l1 { font-weight: 800; font-size: clamp(13px, 1vw + 4px, 17px); padding: 2px 10px 3px; }
+.territory-label.l2 { font-weight: 700; font-size: clamp(12px, 0.85vw + 3px, 14.5px); }
+
+.territory-legend {
+  position: absolute;
+  z-index: 800;
+  inset-inline-end: 64px;
+  top: 72px;
+  background: var(--sys-map-legend-bg);
+  color: var(--sys-map-label-ink);
+  font-family: 'Tajawal', sans-serif;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 13px;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.25);
+  max-width: 240px;
+}
+.territory-legend__list { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.territory-legend__row { display: flex; align-items: center; gap: 8px; }
+.territory-legend__text { color: var(--sys-map-label-ink); }
+.territory-swatch { width: 20px; height: 12px; border-radius: 2px; background: var(--h); flex: none; border: 1.5px solid var(--h); }
+.territory-swatch.k-tribal {
+  background: transparent;
+  background-image: radial-gradient(var(--h) 1.2px, transparent 1.4px);
+  background-size: 5px 5px;
+  border-color: transparent;
+}
+.territory-swatch.k-treaty {
+  background: repeating-linear-gradient(45deg, var(--sys-terr-islam) 0 2px, transparent 2px 5px);
+  border-style: dashed;
+  border-color: var(--sys-terr-islam);
+}
+.territory-swatch.k-client { background: transparent; border-style: dotted; }
+.territory-swatch.k-contested { background: transparent; border-style: dashed; }
+.territory-swatch.k-uncertain { background: transparent; border-style: dashed; border-color: var(--sys-map-label-ink); }
+
+.territory-legend--chip { padding: 0; top: 76px; inset-inline-end: auto; inset-inline-start: 10px; font-size: 12px; }
+.territory-legend__toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 5px 10px;
+  background: none;
+  border: 0;
+  border-radius: 6px;
+  font: inherit;
+  cursor: pointer;
+}
+.territory-legend__toggle:focus-visible { outline: 2px solid var(--sys-map-label-ink); outline-offset: 2px; }
+.territory-legend__chevron { color: var(--sys-map-label-ink); font-size: 10px; }
+.territory-legend--chip.is-open .territory-legend__chevron { transform: rotate(180deg); }
+.territory-legend--chip .territory-legend__list { padding: 2px 10px 8px; max-height: 50dvh; overflow-y: auto; }
+
+.territory-status {
+  position: absolute;
+  z-index: 800;
+  top: 72px;
+  inset-inline-start: 50%;
+  transform: translateX(50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--sys-map-legend-bg);
+  color: var(--sys-map-label-ink);
+  font-family: 'Tajawal', sans-serif;
+  font-size: 13px;
+  border-radius: 6px;
+  padding: 6px 12px;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.25);
+}
+.territory-status--loading { pointer-events: none; }
+.territory-status__retry { min-height: 32px; padding: 2px 10px; border-radius: 4px; border: 1px solid currentcolor; background: none; color: inherit; font: inherit; font-weight: 700; cursor: pointer; }
+.territory-status__retry:focus-visible { outline: 2px solid var(--sys-map-label-ink); outline-offset: 2px; }

@@ -575,7 +575,7 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
       drawer (2026-10-17).
 - [x] Timeline player: remove the 2× and 3× playback speeds and keep 1× only (no narration exists
       for other speeds; known failure 10). Approved removal of a visible control (Mostafa, 2026-10-15).
-- [ ] **Territory map: correct borders and a better look** (Mostafa, 2026-10-16: the borders between
+- [x] **Territory map: correct borders and a better look** (3F research, 3G build; Mostafa, 2026-10-16: the borders between
       empires, kingdoms and tribes need correcting, and the map "looks awful"). Two parts, content
       first:
       - *Accuracy.* Today's map is 46 seed points split into Voronoi cells and clipped to a 41-point
@@ -595,7 +595,7 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
         directions and let him pick before building** (he rejected a solo redesign before).
       Polygons stay precomputed at build (`scripts/content/territories.ts`); the content snapshot
       records every changed period for approval.
-      3F research and directions done (`docs/territories/`); building the chosen direction is 3G.
+      3F research and directions done (`docs/territories/`); 3G built direction B, Relief, from `content/territories/`.
 - [x] Add map attribution for the tile provider. (3A)
 - [x] Add a web manifest and icons. (3A)
 - [x] Add Umami with the custom events listed in "Owner visibility, SEO and domain"; write

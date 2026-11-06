@@ -17,6 +17,8 @@ maintained. Scripts are Node/TypeScript, run with `tsx` (Mostafa works on Window
 | `npm run fetch:quran` (`fetch-quran.ts`) | Fetches verse text from Quran.com into `content/quran/verses.json` (network, no quota). |
 | `data/tanzil/` | The Tanzil Qur'an text, kept as a cross-check (`chat-kb/quranVerify.ts`). |
 | `npm run docs:content` (`docs/content-guide.ts`, `docs/fieldReference.ts`) | Rewrites the field reference in `docs/CONTENT_GUIDE.md` from the schemas. `tests/contentGuide.test.ts` uses the same code. |
+| `territories/buildLand.ts`, `territories/checkPlaces.ts` | By hand, with the geo data in `tmp/territories-research/geo`: write `content/territories/land.json` and `rivers.json` from Natural Earth; check the region shapes against al-Thurayya's town coordinates |
+| `territories/reportMapChanges.ts` | Rewrites `docs/territories/MAP_CHANGES.md`: the old map against the new, period by period, for approving the content snapshot |
 | `territories/checkLedger.ts`, `territories/reportLedger.ts` | The territory research (3F): check the ledger and rewrite `docs/territories/UNCERTAIN.md`. See `docs/territories/README.md`. |
 
 ## Site build

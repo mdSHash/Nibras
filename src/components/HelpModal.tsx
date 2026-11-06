@@ -6,6 +6,7 @@ import { useScrollLock } from '../utils/scrollLock';
 import { Z_INDEX } from '../constants';
 import { cn } from '../utils/cn';
 import { categories } from '../data';
+import './map/territoryMap.css'; // The swatches of the map's kinds of land.
 
 interface HelpModalProps {
   isOpen: boolean;
@@ -14,6 +15,16 @@ interface HelpModalProps {
 
 // Legend rows: the event categories (content/categories.json), whose colours
 // the map markers use.
+// The kinds of land on the territory map, in the help window's map explanation.
+const TERRITORY_KINDS_HELP = [
+  { kind: 'state', text: 'أرض تحت حكم مباشر' },
+  { kind: 'treaty', text: 'صلح أو معاهدة، دون حكم مباشر' },
+  { kind: 'contested', text: 'أرض متنازع عليها' },
+  { kind: 'client', text: 'حليف لإحدى الإمبراطوريتين' },
+  { kind: 'tribal', text: 'ديار القبائل (حدود غير ثابتة)' },
+  { kind: 'uncertain', text: 'سيطرة غير مؤكدة (خط متقطع)' },
+] as const;
+
 const LEGEND: Array<{ color: string; ring?: string; labelAr: string }> = categories.map(c => ({
   color: c.color,
   labelAr: c.nameAr,
@@ -202,20 +213,15 @@ export default function HelpModal({ isOpen, onClose }: HelpModalProps) {
                       </span>
                       <span>معركة قابلة للمشاهدة</span>
                     </li>
-                    {/* Territory shading — a swatch like the map's polygons
-                        (emerald fill at 30 %, solid border). */}
-                    <li className="flex items-center gap-3 text-[13px] md:text-sm text-[var(--color-ink)]/85">
-                      <span
-                        className="inline-block shrink-0 rounded-sm"
-                        style={{
-                          width: 22,
-                          height: 16,
-                          backgroundColor: 'rgb(var(--sys-go-rgb) / 0.3)',
-                          border: '2px solid rgb(var(--sys-go-rgb) / 0.7)',
-                        }}
-                        aria-hidden="true"
-                      />
-                      <span>حدود الدول على الخريطة تقريبية</span>
+                    {/* The kinds of land on the map, each with a swatch like the map's own. */}
+                    {TERRITORY_KINDS_HELP.map(row => (
+                      <li key={row.kind} className="flex items-center gap-3 text-[13px] md:text-sm text-[var(--color-ink)]/85">
+                        <span className={`territory-swatch h-islam k-${row.kind} inline-block shrink-0`} aria-hidden="true" />
+                        <span>{row.text}</span>
+                      </li>
+                    ))}
+                    <li className="text-[13px] md:text-sm text-[var(--color-ink)]/85">
+                      تتغيّر الخريطة مع الحدث المختار في الخط الزمني. ولم ترسم كتب التاريخ خطوطًا للحدود، فكل خط مرسوم هنا تقريبي، ومفتاح الخريطة يشرح ما يظهر في كل وقت.
                     </li>
                   </ul>
                 </section>

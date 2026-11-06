@@ -19,8 +19,6 @@ export const GOLD_BRIGHT: Channels = [212, 175, 55];
 export const GOLD_BRIGHT_HEX = '#D4AF37';
 /** --sys-chrome-ink-rgb: text and glows on the always-dark chrome. */
 export const CHROME_INK: Channels = [244, 236, 225];
-/** --sys-ridda: the Ridda wars' borders on the map. */
-export const RIDDA = '#f87171';
 
 export function rgba([r, g, b]: Channels, alpha: number): string {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;

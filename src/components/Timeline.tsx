@@ -342,6 +342,7 @@ export default function Timeline({
   return (
     <>
       <div
+        data-map-cover
         className="fixed bottom-0 left-0 right-0 pointer-events-none"
         style={{ zIndex: Z_INDEX.timeline, isolation: 'isolate' }}
       >

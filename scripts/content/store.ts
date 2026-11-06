@@ -15,18 +15,19 @@ import {
   personSchema,
   quranPassageSchema,
   quranVersesSchema,
-  territoryControlSchema,
+  territoryHoldersSchema,
+  territoryLandSchema,
+  territoryLedgerSchema,
   territoryRegionsSchema,
+  territoryRiversSchema,
   type Category,
   type City,
   type ContentEvent,
   type Era,
   type Person,
   type GeneratedQuranPassage,
-  type TerritoryControl,
-  type TerritoryRegions,
 } from '../../shared/contentSchema';
-import { checkTerritories } from './territories';
+import { checkTerritories, type TerritorySource } from './territories';
 import { checkBattleVideos, readBattleVideos, type RawBattleVideo } from './battleVideos';
 import type { GeneratedBattleVideo } from '../../shared/battleVideo';
 import { passageLink, passageText, passageVerseKeys } from '../../shared/quranText';
@@ -69,15 +70,12 @@ export interface RawContent {
   quranPassages: RawFile;
   quranVerses: RawFile;
   territoryRegions: RawFile;
-  territoryControl: RawFile;
+  territoryHolders: RawFile;
+  territoryLedger: RawFile[];
+  territoryLand: RawFile;
+  territoryRivers: RawFile;
   /** content/battle-videos/<event id>/, as text. */
   battleVideos: RawBattleVideo[];
-}
-
-/** The territory files, validated; scripts/content/territories.ts turns them into polygons. */
-export interface TerritorySource {
-  regions: TerritoryRegions;
-  control: TerritoryControl;
 }
 
 export const passageRange = (p: { surah: number; from: number; to: number }): string => `${p.surah}:${p.from}-${p.to}`;
@@ -121,7 +119,10 @@ export function readContent(dir: string): { raw: RawContent; issues: ContentIssu
     quranPassages: readJson(dir, 'quran/passages.json', issues),
     quranVerses: readJson(dir, 'quran/verses.json', issues),
     territoryRegions: readJson(dir, 'territories/regions.json', issues),
-    territoryControl: readJson(dir, 'territories/control.json', issues),
+    territoryHolders: readJson(dir, 'territories/holders.json', issues),
+    territoryLedger: readJsonDir(dir, 'territories/ledger', issues),
+    territoryLand: readJson(dir, 'territories/land.json', issues),
+    territoryRivers: readJson(dir, 'territories/rivers.json', issues),
     battleVideos: readBattleVideos(dir),
   };
   return { raw, issues };
@@ -355,14 +356,26 @@ export function checkContent(
     return person ? [person] : [];
   });
 
-  // Territories: every land region has one owner in each period.
+  // Territories: the ledger's links to the regions, the holders and the events.
   const territoryRegions = parse(territoryRegionsSchema, raw.territoryRegions, issues);
-  const territoryControl = parse(territoryControlSchema, raw.territoryControl, issues);
+  const territoryHolders = parse(territoryHoldersSchema, raw.territoryHolders, issues);
+  const territoryLand = parse(territoryLandSchema, raw.territoryLand, issues);
+  const territoryRivers = parse(territoryRiversSchema, raw.territoryRivers, issues);
+  const territoryLedger = raw.territoryLedger.map(file => ({ file: file.file, rows: parse(territoryLedgerSchema, file, issues) }));
   let territories: TerritorySource | undefined;
-  if (territoryRegions && territoryControl) {
-    const territoryIssues = checkTerritories(territoryRegions, territoryControl, raw.territoryControl.file);
+  if (territoryRegions && territoryHolders && territoryLand && territoryRivers && territoryLedger.every(l => l.rows)) {
+    const ledger = territoryLedger.map(l => ({ file: l.file, rows: l.rows! }));
+    const territoryIssues = checkTerritories({ regions: territoryRegions, holders: territoryHolders, ledger }, events);
     issues.push(...territoryIssues);
-    if (territoryIssues.length === 0) territories = { regions: territoryRegions, control: territoryControl };
+    if (territoryIssues.length === 0) {
+      territories = {
+        regions: territoryRegions,
+        holders: territoryHolders,
+        ledger,
+        land: territoryLand as TerritorySource['land'],
+        rivers: territoryRivers as TerritorySource['rivers'],
+      };
+    }
   }
 
   return {

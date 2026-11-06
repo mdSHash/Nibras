@@ -1741,7 +1741,7 @@ text uses (22.5 MB, 7.8 min). Every narrated text has a recording. All WAVs are 
    title (before: the button showed an English error «Audio file not found: …»). Today every event
    has both recordings, so nothing visible changes.
 
-#### Baselines to approve (not updated yet)
+#### Baselines approved and recorded
 
 - `tests/baseline/content.json`: the 262 `narration.descriptionFile` / `titleFile` values, `.wav` hash
   names → `.m4a` event names (`descriptionExists` / `titleExists` stay true). No other difference.
@@ -2337,3 +2337,70 @@ Run locally: `npm run lint`, `npm run lint:eslint`, `npm test` (410 of 410), `np
 - `src/battlefield/README.md` keeps its old script path and missing file name: the folder is frozen (rule 8).
 - `npm run narration -- convert` stays. It is harmless.
 - The PRD's "123 of 131 date labels carry هـ" was checked after the date corrections and still holds.
+
+### 3G — the territory map, direction B (Relief)
+
+Started 2026-11-06 on `refactor/phase-3g-territories` from `main` at `1c9cb76` (PRs #16, #17 and #18 merged). Before any change, `npm run verify` passed every step: Vitest 410/410, features 97 passed and 1 skipped, phone smoke 46/46, visual 16/16, Lighthouse within budget.
+
+Review page (private): https://claude.ai/artifact/Dkqh7TaSq7c9QZBYY2Tv2u. Before and after pictures, numbers and the approval list.
+
+#### Decisions by Mostafa (3G)
+
+- **Direction B, Relief**, exactly as in the 3F comparison, with no new directions.
+- **Baselines approved (2026-11-06):** the list below, recorded on this branch.
+- **Conflicts and borders (2026-11-06):** he left the choice to the recommendation, so the map keeps what it shows and keeps labelling it honestly. Recorded in `docs/territories/CONFLICTS.md` and `BORDERS.md`.
+
+#### What 3G built
+
+- **Data:** the ledger and the shapes moved to `content/territories/`, with `holders.json`, Natural Earth's coast and rivers, Zod schemas and link checks. A row with `ev` has no `at`: it takes the event's `date.sortKey`, so the map and the timeline cannot drift apart (49 rows; `tests/territories.test.ts` holds it). 62 regions in 67 periods, against 40 cells in 11 periods.
+- **Basemap:** self-hosted Relief tiles in `public/map-tiles/`, under the base path, swapping with the theme. The credit is Natural Earth and al-Thurayya, in Arabic. The tile filter token is now `none`.
+- **Layer:** styles for state, client, treaty, contested and tribal land; uncertain land with a broken line and fainter fill; realm and region labels; a legend, a chip on phones; the help window's explanation; an Arabic error with retry when the data does not load.
+- **Labels and markers:** `src/components/map/labelPlacement.ts` places labels clear of markers, the selected event's name, the legend and the panels over the map. A label is whole on screen or not at all; one with no clear spot is hidden. Labels sit under the markers and take no clicks.
+
+#### Design choices (3G)
+
+- **Additions to the prototype, for honesty:** it never set its `uncertain` style, so 3G does, and the legend gains two lines ("سيطرة غير مؤكدة (خط متقطع)", "الحدود كلها مرسومة تقريبًا").
+- **Popups kept:** the prototype dropped the click on land, and removing a visible feature needs approval. They now also give the kind of hold and say the border is drawn.
+- **Enclaves kept:** the prototype closed every hole in a realm, which would paint over land held by someone else.
+- **Minimum zoom** 4 on desktop and 3 on phones: the tiles stop at the region's edge.
+- **Rings as text:** delta-encoded at 0.001° (`shared/territoryMap.ts`). Repeated coast then compresses: 605 KB gzipped as coordinates, 54 KB as text. The file is fetched on demand; the layer and its CSS are a lazy chunk, which keeps the first-load CSS within budget.
+- **Specks:** `turf.simplify` retries without end on rings of a few square metres, which hung the build, so land under 20 km² is dropped. Merging uses one buffer instead of `turf.union`. The full content build takes about a minute.
+- **Al-Thurayya check:** `scripts/territories/checkPlaces.ts`. 52 towns in 32 regions. It moved Amul, Sari and Jurjan into Tabaristan, Rayy out of the Jibal and al-Anbar into al-Hira's region. It checks towns, not lines: every border stays listed as drawn in `BORDERS.md`.
+- **No new factual conflict** was found. Narrated texts that disagree with the corrected dates still wait for Phase 4.
+
+#### Measured (3G)
+
+- **Tiles in the repo:** 6.67 MB, 2,944 files (light 4.73 MB, dark 1.94 MB).
+- **First load, gzipped:** JS 265.6 → 262.1 KB; CSS 32.2 → 32.5 KB. On demand: data 53.9, script 3.8, styles 1.3 KB.
+- **Tiles at the first view:** desktop 54 requests, 627 KB → 78 requests, 305 KB; phone 25 requests, 355 KB → 25 requests, 126 KB.
+- **Lighthouse, tiles blocked:** phone home 50 → 49, phone Badr 70 → 69, desktop 88 → 87. Only the page weight goes over its limit: 599 → 682, 636 → 710, 599 → 692 KB.
+- **Lighthouse, tiles allowed, old build measured the same way:** phone home 25, 11.1 s, 809 KB → 24, 11.2 s, 711 KB; phone Badr 69, 1.8 s, 839 KB → 69, 1.8 s, 737 KB; desktop 64, 5.2 s, 1480 KB → 65, 4.6 s, 776 KB. Old tiles came from Esri over the network and new ones from this machine, so the speeds are not a pure comparison. The 11 s phone LCP, a tile as the largest element, was there before and stays open.
+- **Contrast on real pixels** (`tests/e2e/territory-map.spec.ts`), every label and legend line: lowest 15.54 desktop light, 14.89 desktop dark, 12.51 phone light, 14.56 phone dark; none below 4.5:1. Negative control, with no label background: 20, 26, 2 and 4 labels fail. Labels touching a marker: 0 in 28 pictures, against about ten per picture in 3F.
+
+#### Baselines to approve (not updated yet)
+
+- **Content snapshot:** every territory entry; `docs/territories/MAP_CHANGES.md` lists the 67 periods.
+- **Visual snapshots:** 8 of 16 on Windows, 7 of 16 on Linux (start view, dark mode, event panel, help; the phone start view stays under the 1% limit on Linux). Correction: this log first said 15 of 16, from a rougher script than the test.
+- **First-load requests:** desktop and phone 11 → 14, WebKit 12 → 15, Firefox 13 → 16 (data, layer script, layer styles).
+- **Lighthouse page weight:** the numbers above.
+
+Windows was recorded here. Linux came from CI on `fcfefc0` (run 42144270451): its 7 actual pictures and its Lighthouse medians. First-load requests are compared off Linux only, so they never failed on CI.
+
+#### Seen, not changed
+
+- Cluster bubbles on phones look stretched at low zoom; the same on `main`.
+- A long realm name can sit just off a small land when markers crowd it, such as Muawiya's at Siffin.
+- The blur on tribal land was not measured on a real low-end phone.
+
+#### 3G verification (2026-11-06, Windows 11, Node 20.19.5, Playwright 1.59.1)
+
+First pass: a leftover `verify` and `vite preview` from 2026-11-05 17:04 held a file in `dist/`, so each step ran apart, on a build in `tmp/dist-3g` with the prerender step:
+
+- Type check, ESLint, Vitest 431/431, chat index, narration manifest, behavior map, bundle budget (on the temporary build): pass. Ledger: 111 quotes confirmed on their pages.
+- Content snapshot: differs, as listed above.
+- Features, desktop and phone, with the new map spec: only the first-load request count fails, on both, as listed. Temporary spec copies inflated that run's count, so it is not recorded as a total.
+- Phone smoke in WebKit and Firefox: the request count as listed. WebKit also found that Escape did not close the legend in Safari; fixed, and the map spec then passed in all three engines. The rest of the smoke set was not re-run after that fix, which touches only the legend.
+- Visual: compared with the recorded baseline by a share-of-pixels script; proposed pictures are in the review page, not in `tests/baseline/`.
+- Lighthouse: measured as above, on the temporary build.
+
+After Mostafa had that process stopped, the steps ran against the real `dist/` and failed only on the approved list. CI on `fcfefc0`: `engines` was cancelled once by a slow Ubuntu mirror (39 minutes in the browser install, usually about one) and passed on re-run, 49 passed, 25 skipped; `features` 127 passed, 2 skipped. `tmp/proto-app` was removed.

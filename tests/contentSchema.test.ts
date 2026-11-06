@@ -115,30 +115,31 @@ describe('the content check fails', () => {
 });
 
 describe('the territory check fails', () => {
-  type Control = { periods: { from?: number; to?: number; owners: { group: string; regions: string[] }[] }[] };
-  const withControl = (change: (control: Control) => void): RawContent => {
+  type Row = { r: string | string[]; at?: number; ev?: string; h: string };
+  const withRow = (change: (row: Row) => void): RawContent => {
     const copy = structuredClone(raw);
-    change(copy.territoryControl.data as Control);
+    change((copy.territoryLedger[0].data as Row[])[0]);
     return copy;
   };
-  const file = 'territories/control.json';
+  const file = 'territories/ledger/1-before-and-medina.json';
 
-  it('on an unknown region or a sea point', () => {
-    const copy = withControl(c => c.periods[0].owners[0].regions.push('atlantis', 'sea_med'));
-    expect(messages(copy)).toContain(`${file}: period 0 (…–622): unknown region "atlantis"`);
-    expect(messages(copy)).toContain(`${file}: period 0 (…–622): "sea_med" is a sea point`);
+  it('on an unknown region, holder or event', () => {
+    expect(messages(withRow(r => (r.r = 'atlantis')))).toContain(`${file}: row 0: unknown region "atlantis"`);
+    expect(messages(withRow(r => (r.h = 'atlantis')))).toContain(`${file}: row 0: unknown holder "atlantis"`);
+    expect(messages(withRow(r => { delete r.at; r.ev = 'no-such-event'; }))).toContain(`${file}: row 0: unknown event "no-such-event"`);
   });
 
-  it('when a region has two owners or none', () => {
-    const twice = withControl(c => c.periods[0].owners[1].regions.push(c.periods[0].owners[0].regions[0]));
-    expect(messages(twice).some(m => m.includes('"b_egypt1" has two owners'))).toBe(true);
-    const none = withControl(c => c.periods[0].owners[0].regions.shift());
-    expect(messages(none)).toContain(`${file}: period 0 (…–622): region "b_egypt1" has no owner`);
+  it('when a row has both a date of its own and an event, or neither', () => {
+    const both = messages(withRow(r => (r.ev = 'battle-badr')));
+    expect(both.some(m => m.includes('a row has either "ev" or "at", not both'))).toBe(true);
+    const neither = messages(withRow(r => delete r.at));
+    expect(neither.some(m => m.includes('a row has either "ev" or "at", not both'))).toBe(true);
   });
 
-  it('when the periods leave a gap', () => {
-    const copy = withControl(c => (c.periods[1].from = 623));
-    expect(messages(copy)).toContain(`${file}: period 1 (623–628): "from" must equal the previous period's "to"`);
+  it('when a region has no row', () => {
+    const copy = structuredClone(raw);
+    (copy.territoryRegions.data as { regions: { id: string }[] }).regions.push({ ...(copy.territoryRegions.data as { regions: { id: string }[] }).regions[0], id: 'atlantis' });
+    expect(messages(copy)).toContain('territories/regions.json: region "atlantis" has no row in the ledger');
   });
 });
 

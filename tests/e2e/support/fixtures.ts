@@ -21,6 +21,8 @@ interface Options {
   allowedConsoleErrors: RegExp[];
   /** Whether to start as a first-time visitor (intro and tour prompt shown). */
   firstVisit: boolean;
+  /** Serve the real Relief tiles instead of a plain color. */
+  realTiles: boolean;
 }
 
 interface Fixtures {
@@ -31,6 +33,7 @@ interface Fixtures {
 export const test = base.extend<Options & Fixtures>({
   allowedConsoleErrors: [[], { option: true }],
   firstVisit: [false, { option: true }],
+  realTiles: [false, { option: true }],
 
   // eslint-disable-next-line no-empty-pattern -- Playwright requires a destructured first argument
   network: async ({}, use) => {
@@ -42,12 +45,12 @@ export const test = base.extend<Options & Fixtures>({
     await use([]);
   },
 
-  page: async ({ page, network, errors, allowedConsoleErrors, firstVisit }, use, testInfo) => {
+  page: async ({ page, network, errors, allowedConsoleErrors, firstVisit, realTiles }, use, testInfo) => {
     let responder: ChatResponder = defaultChatReply;
     (page as Page & { __setChatResponder?: (r: ChatResponder) => void }).__setChatResponder = (r) => {
       responder = r;
     };
-    await installStubs(page, network, () => responder);
+    await installStubs(page, network, () => responder, { realTiles });
 
     // Seeded Math.random (mulberry32) so random visuals and picks repeat exactly.
     await page.addInitScript(

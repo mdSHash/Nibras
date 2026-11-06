@@ -4,6 +4,14 @@ Found in 3F. Mostafa asked (2026-11-05) for the dates to be checked and correcte
 event **dates** below were corrected. Titles and narrated text were not changed. Page numbers are the
 printed ones; the ledger has the page links. Gregorian equivalents are approximate.
 
+## Decisions (2026-11-06)
+
+Mostafa approved the draft and left the choice to the recommendation: the map keeps what it shows.
+
+- **Rows 6 to 14:** the "Draft uses" and "What the draft map shows" columns stand. Row 11: Nubia stays Nubian.
+- **Event titles and narrated text** are not changed here. They wait for Phase 4, with the dates table below.
+- **D1 to D10:** the dates in the App column stand.
+
 ## Dates corrected
 
 `date-changes.json` lists all 35 events, each with its reason and quotes; `scripts/territories/applyDateChanges.ts --check`
@@ -58,7 +66,7 @@ These affect the map most: the title says conquest, the source says something le
 
 | # | Question | Reports | Draft uses |
 | --- | --- | --- | --- |
-| 11 | Did Persia take Nubia about 618? | Al-Tabari says Egypt, Alexandria "and the land of Nubia" (2:182). No other passage read says so | Nubia stays Nubian; your call |
+| 11 | Did Persia take Nubia about 618? | Al-Tabari says Egypt, Alexandria "and the land of Nubia" (2:182). No other passage read says so | Nubia stays Nubian: one report, no other passage read says so |
 | 12 | When did Oman and Bahrain come in? | 8 AH, or 6 AH for the first envoy (al-Baladhuri pp. 84, 86) | 8 AH |
 | 13 | Was Alexandria's revolt in 23 or 25 AH? | Both (al-Baladhuri p. 219) | 25 AH, which matches the app's events |
 | 14 | Fustat: by force or by treaty? | Both reported, weighed (al-Baladhuri p. 212) | Muslim-held either way |
@@ -74,3 +82,9 @@ Since you asked for verified Sunni sources only:
 - **Fitna rows** record only who held which land, using the sources' own terms ("the people of Iraq", "the people of Syria"). They take no position on the dispute.
 - **Edition footnotes are not used.** The Dar al-Hilal edition of al-Baladhuri has modern editor's notes with sectarian remarks, for example on p. 68. Only al-Baladhuri's own text is quoted.
 - **For Phase 4**: four events cite «فتوح الشام للواقدي». From memory, scholars doubt that attribution. Not checked here and not changed.
+
+## Found while building the map (3G)
+
+No new conflict between the sources or with event text was found. The map follows the event dates as
+corrected; the narrated texts listed above still wait for Phase 4. What 3G changed is shapes, not who held
+what: `BORDERS.md` lists the towns the al-Thurayya check moved into their regions.

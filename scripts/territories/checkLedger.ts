@@ -1,5 +1,5 @@
 /**
- * Checks docs/territories/ledger/*.json (Phase 3F): every region id exists, every event id exists,
+ * Checks content/territories/ledger/*.json (Phase 3F): every region id exists, every event id exists,
  * and every quoted phrase is really on the Shamela page it cites. Pages are cached in
  * tmp/territories-research/cache and fetched once when missing. Not part of `npm run verify`:
  * it needs the network the first time. Usage: npx tsx scripts/territories/checkLedger.ts [--fix]
@@ -11,10 +11,10 @@ import path from 'node:path';
 
 const BOOKS: Record<string, string> = { futuh: '12221', sira: '23833', tabari: '9783', bidaya: '4445', khalifa: '6615', yaqut: '23735', bakri: '11802' };
 const CACHE = 'tmp/territories-research/cache';
-const LEDGER = 'docs/territories/ledger';
+const LEDGER = 'content/territories/ledger';
 
 interface Cite { b: string; p: number; q: string; printed?: string }
-interface Row { r: string | string[]; at: number; ev?: string; h: string; k: string; c: string; cite?: Cite[]; n?: string; name?: string }
+interface Row { r: string | string[]; at?: number; ev?: string; h: string; k: string; c: string; cite?: Cite[]; n?: string; name?: string }
 
 const strip = (s: string): string => s.replace(/[ً-ْٰ]/g, '').replace(/\s+/g, ' ');
 
@@ -37,7 +37,7 @@ async function pageFile(book: string, id: number): Promise<string> {
 
 async function main(): Promise<void> {
   const fix = process.argv.includes('--fix');
-  const regions = new Set<string>((JSON.parse(fs.readFileSync('docs/territories/regions-draft.json', 'utf8')) as { regions: { id: string }[] }).regions.map(r => r.id));
+  const regions = new Set<string>((JSON.parse(fs.readFileSync('content/territories/regions.json', 'utf8')) as { regions: { id: string }[] }).regions.map(r => r.id));
   const events = new Set(fs.readdirSync('content/events').map(f => (JSON.parse(fs.readFileSync(path.join('content/events', f), 'utf8')) as { id: string }).id));
   const bad: string[] = [];
   const seen = new Set<string>();

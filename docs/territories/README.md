@@ -1,17 +1,17 @@
-# Territory research (Phase 3F)
+# Territory research (Phase 3F, built in 3G)
 
-The basis for the territory map rebuild in 3G. The goal, from Mostafa: the map as it was in those
-days, rebuilt from the chronicles the app cites, with the source noted per region and period and
-every uncertain border listed. Nothing here changes the app yet.
+The basis of the territory map. The goal, from Mostafa: the map as it was in those days, rebuilt
+from the chronicles the app cites, with the source noted per region and period and every uncertain
+border listed. The data the app builds from is in `content/territories/`; the rest stays here.
 
 | File | What it is |
 | --- | --- |
-| `ledger/*.json` | Who held which region from when, one row per change, with sources |
-| `regions-draft.json` | The 62 draft region shapes (the sources' own units: junds, kuwar, tribal lands) |
+| `content/territories/ledger/*.json` | Who held which region from when, one row per change, with sources |
+| `content/territories/regions.json` | The 62 region shapes (the sources' own units: junds, kuwar, tribal lands) |
 | `UNCERTAIN.md` | Generated: every row not proven, and every row with no quote |
 | `BORDERS.md` | Every border line, what fixes it and how far to trust it |
 | `CONFLICTS.md` | Factual conflicts for Mostafa, including event dates. Nothing was changed |
-| `prototype/` | The prototype behind the pictures, as text files, for 3G to reuse |
+| `prototype/` | The prototype behind the 3F pictures, as text files: how the tiles were made (`make_tiles.py`) |
 
 ## What the sources can and cannot prove
 
@@ -36,7 +36,7 @@ Read on [al-Maktaba al-Shamela](https://shamela.ws), whose page numbers match th
 
 Geography only, not yet quoted in any row: Yaqut's *Mu'jam al-Buldan* (`yaqut`) and al-Bakri's *Mu'jam
 ma Ista'jam* (`bakri`). Coordinates: the [al-Thurayya gazetteer](https://althurayya.github.io) (CC BY
-4.0: credit it if 3G uses its coordinates). Map shapes: [Natural Earth](https://www.naturalearthdata.com)
+4.0, credited on the map: 3G checked the shapes against it with `scripts/territories/checkPlaces.ts`). Map shapes: [Natural Earth](https://www.naturalearthdata.com)
 (public domain).
 
 ## The ledger
@@ -45,9 +45,9 @@ One JSON row per change. A region's holder at any date is its latest row at or b
 
 | Field | Meaning |
 | --- | --- |
-| `r` | Region id, or a list of them, from `regions-draft.json` |
-| `at` | Gregorian year with a fraction; `0` means before the timeline starts (571) |
-| `ev` | The event that causes the change, when the app has one. `at` then follows the app's date, so the map stays in step with the timeline; any difference from the sources is in `CONFLICTS.md` |
+| `r` | Region id, or a list of them, from `regions.json` |
+| `at` | Gregorian year with a fraction, for a row with no event; `0` means before the timeline starts (571) |
+| `ev` | The event that causes the change, when the app has one. The row then has no `at`: it takes the event's `date.sortKey`, so the map stays in step with the timeline; any difference from the sources is in `CONFLICTS.md` |
 | `h` | Holder: `islam`, `byz`, `sas`, `qur`, `ali`, `muawiya`, `ridda`, `ghassan`, `lakhmid`, `sasinf`, `axum`, `nubia`, `jews`, `aws`, `tribal`, `local` (local lords after Yazdegerd) |
 | `k` | Kind of hold: `state`, `city`, `client` (an ally of an empire), `treaty` (terms, no direct rule), `contested`, `tribal` |
 | `c` | `proven` (quoted), `likely`, `uncertain` |

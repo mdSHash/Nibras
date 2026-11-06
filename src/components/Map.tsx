@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline, Polygon, useMap } from 'react-leaflet';
+import React, { lazy, Suspense, useEffect, useState, useCallback, useMemo, useRef } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { GestureHandling } from 'leaflet-gesture-handling';
@@ -20,14 +20,22 @@ import { EventItem, categories, citiesData } from '../data';
 import type { EventIcon } from '../../shared/contentSchema';
 import useSupercluster from 'use-supercluster';
 import { clusterHtml, markerHtml } from './map/markerIcons';
-import { getTerritoriesForYear } from '../territories';
+import { ErrorBoundary } from './ErrorBoundary';
+import { TERRITORY_BOUNDS } from '../territories';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { useAppStore } from '../store/appStore';
-import { RIDDA } from '../themeColors';
 
-// The tile provider's credit, required by Esri's terms (its "Source" line for World Imagery).
+// The territories load on demand: the layer, its styles and its data stay out of the first bundle.
+const TerritoryLayer = lazy(() => import('./map/TerritoryLayer').then(m => ({ default: m.TerritoryLayer })));
+
+// The map's credit: the Relief tiles and the coast come from Natural Earth (public domain); the region
+// shapes were checked against al-Thurayya's coordinates, whose license (CC BY 4.0) asks for this credit.
 const TILE_ATTRIBUTION =
-  'المصدر: <a href="https://www.esri.com/" target="_blank" rel="noopener">Esri</a> وMaxar وEarthstar Geographics ومجتمع مستخدمي GIS';
+  'الخريطة: <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener">Natural Earth</a> (ملكية عامة)، ' +
+  'ومواضع المدن: <a href="https://althurayya.github.io/" target="_blank" rel="noopener">الثريا al-Thurayya</a> ' +
+  '(<a href="https://creativecommons.org/licenses/by/4.0/deed.ar" target="_blank" rel="noopener">CC BY 4.0</a>)';
+// The tiles are self-hosted (public/map-tiles), at native zooms 3 to 7; the app zooms to 8 on an event.
+const reliefTiles = (dark: boolean): string => `${import.meta.env.BASE_URL}map-tiles/relief-${dark ? 'dark' : 'light'}/{z}/{x}/{y}.webp`;
 const ATTRIBUTION_PREFIX = '<a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>';
 
 /**
@@ -327,51 +335,9 @@ const EventClusters = ({ events, selectedEvent, onSelectEvent }: Pick<MapViewPro
   );
 };
 
-const TerritoryRenderer = ({ selectedEvent }: { selectedEvent: EventItem | null }) => {
-  const territoryGroups = useMemo(() => {
-    const currentYear = selectedEvent ? selectedEvent.date.sortKey : 610;
-    return getTerritoriesForYear(currentYear);
-  }, [selectedEvent]);
-
-  return (
-    <>
-      {territoryGroups.map(group => (
-        <React.Fragment key={group.id}>
-          {group.polygons.map((poly, idx) => {
-            const isRidda = group.id === 'ridda';
-            
-            return (
-              <Polygon
-                key={`${group.id}-${idx}`}
-                positions={poly.coordinates}
-                pathOptions={{
-                  color: isRidda ? RIDDA : poly.color,
-                  fillColor: poly.color,
-                  fillOpacity: isRidda ? 0.4 : 0.3,
-                  weight: isRidda ? 2.5 : 2,
-                  dashArray: isRidda ? '8, 8' : '0',
-                  opacity: isRidda ? 1 : 0.7,
-                  fill: true,
-                  lineCap: "round",
-                  lineJoin: "round"
-                }}
-              >
-                <Popup className="historical-popup" closeButton={false}>
-                  <div className="popup-title font-sans font-bold text-base px-4 py-3 text-center drop-shadow-lg bg-ink/90 rounded-lg border-2 border-white/20" dir="rtl">
-                    {poly.name}
-                  </div>
-                </Popup>
-              </Polygon>
-            );
-          })}
-        </React.Fragment>
-      ))}
-    </>
-  );
-};
-
 export default function HistoricalMap({ events, selectedEvent, onSelectEvent, showCities = true }: MapViewProps) {
   const [map, setMap] = useState<L.Map | null>(null);
+  const isDarkMode = useAppStore(s => s.isDarkMode);
 
   const resetView = useCallback(() => {
     if (map) {
@@ -395,6 +361,8 @@ export default function HistoricalMap({ events, selectedEvent, onSelectEvent, sh
       <MapContainer
         center={[24.4672, 39.6112]}
         zoom={6}
+        // Further out the map would be mostly beyond the tiles and the history it shows.
+        minZoom={window.innerWidth < 640 ? 3 : 4}
         style={{ width: '100%', height: '100%' }}
         zoomControl={false}
         attributionControl={false}
@@ -411,14 +379,21 @@ export default function HistoricalMap({ events, selectedEvent, onSelectEvent, sh
         }}
       >
         <TileLayer
-          url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+          url={reliefTiles(isDarkMode)}
+          bounds={TERRITORY_BOUNDS}
+          minNativeZoom={3}
+          maxNativeZoom={7}
           className="historical-map-tiles"
           keepBuffer={8}
         />
         <MapCredit />
         <MapUpdater selectedEvent={selectedEvent} />
 
-        <TerritoryRenderer selectedEvent={selectedEvent} />
+        <ErrorBoundary area="territories" variant="floating">
+          <Suspense fallback={null}>
+            <TerritoryLayer year={selectedEvent ? selectedEvent.date.sortKey : null} />
+          </Suspense>
+        </ErrorBoundary>
 
         {/* Render Cities */}
         {showCities && citiesData.map(city => (

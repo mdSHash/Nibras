@@ -77,7 +77,8 @@ only after Mostafa approves the list of intentional changes; never to make a tes
   subset also in WebKit and Firefox); `tests/baseline/` — frozen baseline
 - `docs/OWNER_DASHBOARD.md` — Sentry, uptime checks, `/api/health`, where each secret lives
 - `docs/PRD.md` — product requirements; `docs/CONTENT_GUIDE.md` — adding and editing content
-- `docs/territories/` — territory research (3F): the sourced ledger, uncertain rows and borders, factual conflicts; `scripts/territories/` checks it
+- `docs/territories/` — territory research (3F): uncertain rows and borders, factual conflicts, old-and-new list; `scripts/territories/` checks the ledger
+- `content/territories/` — the map's sources: `ledger/` (who held what, with sources; a row with `ev` follows that event's date), `regions.json`, `holders.json`, Natural Earth coast and rivers. `public/map-tiles/` — Relief tiles. `src/components/map/` — `TerritoryLayer` (loaded on demand), `labelPlacement.ts` (labels clear of markers)
 - `src/components/ErrorBoundary.tsx` — wrap any new major section or panel in one
 - `src/services/analytics.ts` — Umami, deploy build only; `track()` must never carry what a visitor typed
 

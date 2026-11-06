@@ -10,7 +10,9 @@ import { citiesData, eraOf, passageFor } from '../../src/data';
 import { fullEvents as eventsData, fullPeople as companionsData } from '../content/generated';
 import generatedQuranPassages from '../../src/generated/quranPassages.json';
 import generatedBattleVideos from '../../src/generated/battleVideos.json';
-import { getTerritoriesForYear } from '../../src/territories';
+import { readFileSync } from 'node:fs';
+import { NO_EVENT_YEAR, periodForYear } from '../../shared/territoryMap';
+import type { GeneratedTerritoryMap } from '../../shared/contentSchema';
 import { isBattle, isProphetEra, isRashidunEra } from '../../src/utils/eventHelpers';
 import { KB_ERA_LABEL, kbBattleId } from '../chat-kb/kbNames';
 import generatedNarration from '../../src/generated/narration.json';
@@ -116,24 +118,24 @@ const quranPassages = Object.keys(quran).map((key) => ({
 }));
 
 
-// The map draws territories for the selected event's gregorian value, or 610
-// with nothing selected (Map.tsx TerritoryRenderer). Geometry is rounded so a
-// build-time precompute (Phase 1) can match it.
-const round = (value: unknown): unknown =>
-  typeof value === 'number' ? Math.round(value * 1e4) / 1e4 : Array.isArray(value) ? value.map(round) : value;
-const territoryYears = [...new Set([610, ...eventsData.map((e) => e.date.sortKey)])].sort((a, b) => a - b);
-const territories = territoryYears.map((year) => ({
-  id: String(year),
-  groups: getTerritoriesForYear(year).map((g) => ({
-    id: g.id,
-    name: g.name,
-    color: g.color,
-    isEmpire: g.isEmpire ?? null,
-    specificName: g.specificName ?? null,
-    polygons: g.polygons.length,
-    geometry: hash16(JSON.stringify(round(g.polygons.map((p) => p.coordinates)))),
-  })),
-}));
+// What the map shows at each date the app can select: the date of each event, or the year with
+// nothing selected. Each period's areas, labels and legend; geometry as a hash.
+const territoryMap = JSON.parse(readFileSync(new URL('../../src/generated/territories.json', import.meta.url), 'utf8')) as GeneratedTerritoryMap;
+const territoryYears = [...new Set([NO_EVENT_YEAR, ...eventsData.map((e) => e.date.sortKey)])].sort((a, b) => a - b);
+const territories = territoryYears.map((year) => {
+  const period = periodForYear(territoryMap, year)!;
+  return {
+    id: String(year),
+    from: period.from,
+    causes: period.causes,
+    areas: period.areas.map((i) => {
+      const { rings, ...shape } = territoryMap.shapes[i];
+      return { ...shape, geometry: hash16(JSON.stringify(rings)) };
+    }),
+    labels: period.labels.map((l) => l.text),
+    legend: period.legend.map((l) => l.text),
+  };
+});
 
 writeOrCompare('content.json', {
   counts: {

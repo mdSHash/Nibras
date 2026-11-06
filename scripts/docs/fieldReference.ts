@@ -14,7 +14,8 @@ import {
   personSchema,
   quranPassageSchema,
   quranVersesSchema,
-  territoryControlSchema,
+  territoryHoldersSchema,
+  territoryLedgerRowSchema,
   territoryRegionsSchema,
 } from '../../shared/contentSchema';
 
@@ -30,7 +31,8 @@ const SECTIONS: { title: string; file: string; schema: z.ZodType; list?: boolean
   { title: "Qur'an passage", file: 'content/quran/passages.json', schema: quranPassageSchema, list: true },
   { title: "Qur'an verses", file: 'content/quran/verses.json', schema: quranVersesSchema },
   { title: 'Territory regions', file: 'content/territories/regions.json', schema: territoryRegionsSchema },
-  { title: 'Territory control', file: 'content/territories/control.json', schema: territoryControlSchema },
+  { title: 'Territory holders', file: 'content/territories/holders.json', schema: territoryHoldersSchema },
+  { title: 'Territory ledger row', file: 'content/territories/ledger/*.json', schema: territoryLedgerRowSchema },
 ];
 
 interface JsonSchema {
@@ -79,8 +81,9 @@ function range(s: JsonSchema): string {
 }
 
 function typeLabel(s: JsonSchema): string {
-  // Unions and nullable fields have no rendering yet: fail rather than document them wrongly.
-  if (s.anyOf || s.oneOf || s.allOf)
+  if (s.anyOf) return s.anyOf.map(typeLabel).join(', or ');
+  // Other unions and nullable fields have no rendering yet: fail rather than document them wrongly.
+  if (s.oneOf || s.allOf)
     throw new Error('scripts/docs/fieldReference.ts: add a rendering for union (anyOf/oneOf/allOf) fields');
   if (s.const !== undefined) return `\`${JSON.stringify(s.const)}\``;
   if (s.enum) return `one of ${s.enum.map(v => `\`${v}\``).join(', ')}`;

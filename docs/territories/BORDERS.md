@@ -4,9 +4,11 @@ No chronicle draws a line, so **every border on the map is drawn, and none is pr
 each one with what fixes it and how far to trust it. "Fair" means towns or a clear natural feature
 pin it down. "Weak" means it is mostly a judgement.
 
-The draft shapes are not surveyed: they were drawn by hand to lie between the named places and are
-then clipped to the real coast. 3G can tighten them with the al-Thurayya coordinates. **Your review
-matters most on the "Weak" rows.**
+The shapes are not surveyed: they were drawn by hand to lie between the named places and are then
+clipped to the real coast. In 3G, 52 towns named for 32 regions were checked against the al-Thurayya
+coordinates (`scripts/territories/checkPlaces.ts`), which moved four things: Amul and Sari into
+Tabaristan (they had fallen in Rayy), Jurjan into Tabaristan (it had fallen in Khurasan), Rayy itself out of the Jibal, and al-Anbar into al-Hira's region.
+That checks towns, not lines. **Decision (Mostafa, 2026-11-06):** every row stays as drafted, "Weak" ones included. They stay listed here as drawn, and the legend says all borders are drawn.
 
 | Border | What the draft follows | Trust |
 | --- | --- | --- |

@@ -13,7 +13,7 @@ test('first load: request count and markers at the start view match the UI basel
   let requests = 0;
   page.on('request', (request) => {
     const url = request.url();
-    if (!url.includes('server.arcgisonline.com') && !/\.woff2?$/.test(new URL(url).pathname)) requests++;
+    if (!url.includes('/map-tiles/') && !/\.woff2?$/.test(new URL(url).pathname)) requests++;
   });
   await openAppWithEvent(page);
   await page.waitForLoadState('networkidle');
@@ -179,7 +179,7 @@ test.describe('map moves to the selected event', () => {
 });
 
 // Were known failures 5, 6 and 7 in the Phase 0A baseline (fixed in Phase 3A).
-test('the map credits the tile provider behind a © button', async ({ page }) => {
+test('the map credits its sources behind a © button', async ({ page }) => {
   await openApp(page);
   const toggle = page.getByRole('button', { name: 'مصادر صور الخريطة' });
   const credit = page.locator('#nb-credit-text');
@@ -187,7 +187,9 @@ test('the map credits the tile provider behind a © button', async ({ page }) =>
   await toggle.click();
   await expect(toggle).toHaveAttribute('aria-expanded', 'true');
   await expect(credit).toBeVisible();
-  await expect(credit).toContainText('Esri');
+  await expect(credit).toContainText('Natural Earth');
+  await expect(credit).toContainText('al-Thurayya');
+  await expect(credit).toContainText('CC BY 4.0');
   await page.keyboard.press('Escape');
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
   // With a mouse the credit also shows on hover: move away to see it close.
