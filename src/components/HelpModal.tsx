@@ -6,6 +6,7 @@ import { useScrollLock } from '../utils/scrollLock';
 import { Z_INDEX } from '../constants';
 import { cn } from '../utils/cn';
 import { categories } from '../data';
+import './map/territoryMap.css'; // The swatches of the map's kinds of land.
 
 interface HelpModalProps {
   isOpen: boolean;

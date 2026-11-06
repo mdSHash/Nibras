@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
+import React, { lazy, Suspense, useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -20,11 +20,13 @@ import { EventItem, categories, citiesData } from '../data';
 import type { EventIcon } from '../../shared/contentSchema';
 import useSupercluster from 'use-supercluster';
 import { clusterHtml, markerHtml } from './map/markerIcons';
-import { TerritoryLayer } from './map/TerritoryLayer';
 import { ErrorBoundary } from './ErrorBoundary';
 import { TERRITORY_BOUNDS } from '../territories';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { useAppStore } from '../store/appStore';
+
+// The territories load on demand: the layer, its styles and its data stay out of the first bundle.
+const TerritoryLayer = lazy(() => import('./map/TerritoryLayer').then(m => ({ default: m.TerritoryLayer })));
 
 // The map's credit: the Relief tiles and the coast come from Natural Earth (public domain); the region
 // shapes were checked against al-Thurayya's coordinates, whose license (CC BY 4.0) asks for this credit.
@@ -388,7 +390,9 @@ export default function HistoricalMap({ events, selectedEvent, onSelectEvent, sh
         <MapUpdater selectedEvent={selectedEvent} />
 
         <ErrorBoundary area="territories" variant="floating">
-          <TerritoryLayer year={selectedEvent ? selectedEvent.date.sortKey : null} />
+          <Suspense fallback={null}>
+            <TerritoryLayer year={selectedEvent ? selectedEvent.date.sortKey : null} />
+          </Suspense>
         </ErrorBoundary>
 
         {/* Render Cities */}
