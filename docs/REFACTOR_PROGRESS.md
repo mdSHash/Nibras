@@ -1741,7 +1741,7 @@ text uses (22.5 MB, 7.8 min). Every narrated text has a recording. All WAVs are 
    title (before: the button showed an English error «Audio file not found: …»). Today every event
    has both recordings, so nothing visible changes.
 
-#### Baselines to approve (not updated yet)
+#### Baselines approved and recorded
 
 - `tests/baseline/content.json`: the 262 `narration.descriptionFile` / `titleFile` values, `.wav` hash
   names → `.m4a` event names (`descriptionExists` / `titleExists` stay true). No other difference.
@@ -2347,7 +2347,8 @@ Review page (private): https://claude.ai/artifact/Dkqh7TaSq7c9QZBYY2Tv2u. Before
 #### Decisions by Mostafa (3G)
 
 - **Direction B, Relief**, exactly as in the 3F comparison, with no new directions.
-- **Baselines change only after he approves the list.** None has changed.
+- **Baselines approved (2026-11-06):** the list below, recorded on this branch.
+- **Conflicts and borders (2026-11-06):** he left the choice to the recommendation, so the map keeps what it shows and keeps labelling it honestly. Recorded in `docs/territories/CONFLICTS.md` and `BORDERS.md`.
 
 #### What 3G built
 
@@ -2379,11 +2380,11 @@ Review page (private): https://claude.ai/artifact/Dkqh7TaSq7c9QZBYY2Tv2u. Before
 #### Baselines to approve (not updated yet)
 
 - **Content snapshot:** every territory entry; `docs/territories/MAP_CHANGES.md` lists the 67 periods.
-- **Visual snapshots:** 15 of 16 differ by more than 1%.
+- **Visual snapshots:** 8 of 16 on Windows, 7 of 16 on Linux (start view, dark mode, event panel, help; the phone start view stays under the 1% limit on Linux). Correction: this log first said 15 of 16, from a rougher script than the test.
 - **First-load requests:** desktop and phone 11 → 14, WebKit 12 → 15, Firefox 13 → 16 (data, layer script, layer styles).
 - **Lighthouse page weight:** the numbers above.
 
-Until he approves, these steps fail on CI as expected. Linux numbers come from CI after the approval.
+Windows was recorded here. Linux came from CI on `fcfefc0` (run 42144270451): its 7 actual pictures and its Lighthouse medians. First-load requests are compared off Linux only, so they never failed on CI.
 
 #### Seen, not changed
 
@@ -2393,7 +2394,7 @@ Until he approves, these steps fail on CI as expected. Linux numbers come from C
 
 #### 3G verification (2026-11-06, Windows 11, Node 20.19.5, Playwright 1.59.1)
 
-**The one-command `npm run verify` was not run after the change.** A leftover `verify` and `vite preview` from 2026-11-05 17:04, not from this session, hold a file in `dist/`, so `dist/` cannot be rebuilt. Each step ran apart, on a build in `tmp/dist-3g` with the prerender step:
+First pass: a leftover `verify` and `vite preview` from 2026-11-05 17:04 held a file in `dist/`, so each step ran apart, on a build in `tmp/dist-3g` with the prerender step:
 
 - Type check, ESLint, Vitest 431/431, chat index, narration manifest, behavior map, bundle budget (on the temporary build): pass. Ledger: 111 quotes confirmed on their pages.
 - Content snapshot: differs, as listed above.
@@ -2402,4 +2403,4 @@ Until he approves, these steps fail on CI as expected. Linux numbers come from C
 - Visual: compared with the recorded baseline by a share-of-pixels script; proposed pictures are in the review page, not in `tests/baseline/`.
 - Lighthouse: measured as above, on the temporary build.
 
-CI runs the whole of it on the PR.
+After Mostafa had that process stopped, the steps ran against the real `dist/` and failed only on the approved list. CI on `fcfefc0`: `engines` was cancelled once by a slow Ubuntu mirror (39 minutes in the browser install, usually about one) and passed on re-run, 49 passed, 25 skipped; `features` 127 passed, 2 skipped. `tmp/proto-app` was removed.
