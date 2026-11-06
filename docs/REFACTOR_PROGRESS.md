@@ -2404,3 +2404,7 @@ First pass: a leftover `verify` and `vite preview` from 2026-11-05 17:04 held a 
 - Lighthouse: measured as above, on the temporary build.
 
 After Mostafa had that process stopped, the steps ran against the real `dist/` and failed only on the approved list. CI on `fcfefc0`: `engines` was cancelled once by a slow Ubuntu mirror (39 minutes in the browser install, usually about one) and passed on re-run, 49 passed, 25 skipped; `features` 127 passed, 2 skipped. `tmp/proto-app` was removed.
+
+#### After the 3G merge (2026-11-06)
+
+The first run on `main` (`98f2aad`) failed in WebKit, so the deploy was skipped. A reload in `intro-tour.spec.ts` cut off the download of the map data; WebKit logged that as an error and Playwright reports such log lines as page errors (`wkPage.js`). The app handles the rejection. It did not reproduce on Windows: 12 runs cutting off the real download gave no unhandled rejection and no message. The fixture now ignores this one message for this one file. The same run had one flaky test, the Firefox search test in `search.spec.ts:62`, which passed on retry; not changed.
