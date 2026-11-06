@@ -69,7 +69,7 @@ const CORS = {
   'access-control-allow-methods': 'POST, OPTIONS',
 };
 
-export async function installStubs(page: Page, log: NetworkLog, chat: () => ChatResponder): Promise<void> {
+export async function installStubs(page: Page, log: NetworkLog, chat: () => ChatResponder, options: { realTiles?: boolean } = {}): Promise<void> {
   await page.route('**/*', async (route: Route) => {
     const request = route.request();
     const url = new URL(request.url());
@@ -83,15 +83,16 @@ export async function installStubs(page: Page, log: NetworkLog, chat: () => Chat
         ? route.fulfill({ status: 200, contentType: 'audio/mp4', body: SILENT_M4A })
         : route.fulfill({ status: 404, body: '' });
     }
+    // The Relief tiles are the map's own files; most tests see a plain color, so their pictures do not depend on them.
+    if (isLocal && url.pathname.includes('/map-tiles/')) {
+      return options.realTiles ? route.continue() : route.fulfill({ status: 200, contentType: 'image/png', body: TILE });
+    }
     if (isLocal) return route.continue();
 
     // The battle video player's YouTube IFrame API (3H): a stand-in, never the real one.
     if (url.href === 'https://www.youtube.com/iframe_api') {
       log.youtubeRequests.push(url.href);
       return route.fulfill({ status: 200, contentType: 'text/javascript', body: FAKE_YOUTUBE_API });
-    }
-    if (url.hostname === 'server.arcgisonline.com') {
-      return route.fulfill({ status: 200, contentType: 'image/png', body: TILE });
     }
     if (url.origin === new URL(CHAT_API_URL).origin) {
       if (request.method() === 'OPTIONS') return route.fulfill({ status: 204, headers: CORS });

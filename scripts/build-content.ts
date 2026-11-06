@@ -55,8 +55,7 @@ if (process.argv.includes('--check')) {
     writeFileSync(join(GENERATED_DIR, `${name}.json`), `${JSON.stringify(data)}\n`);
   }
   // checkContent returns the territory files whenever it reports no issues.
-  const periods = buildTerritories(territories!.regions, territories!.control);
-  writeFileSync(join(GENERATED_DIR, 'territories.json'), `${JSON.stringify(periods)}\n`);
+  writeFileSync(join(GENERATED_DIR, 'territories.json'), `${JSON.stringify(buildTerritories(territories!, content.events))}\n`);
   writeSplitContent();
   // Stale and missing narration is not played; `npm run narration -- check` lists it.
   writeFileSync(join(GENERATED_DIR, 'narration.json'), `${JSON.stringify(narration!.fresh)}\n`);

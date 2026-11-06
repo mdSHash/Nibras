@@ -8,6 +8,7 @@
  * from the old files, never reworded (CLAUDE.md, rule 1).
  */
 import { z } from 'zod';
+import type { LineString, MultiLineString } from 'geojson';
 
 // Field descriptions (`.describe()`) are documentation only: they feed the
 // field reference in docs/CONTENT_GUIDE.md (npm run docs:content) and never
@@ -169,49 +170,77 @@ const regionId = z.string().regex(/^[a-z0-9_]+$/, 'lowercase id with underscores
 const lngLat = z.tuple([z.number().min(-180).max(180), z.number().min(-90).max(90)]);
 
 /**
- * content/territories/regions.json: the seed points of the territory map (one
- * Voronoi cell each, clipped to the land outline) and the outline itself, both
- * as [lng, lat]. Sea points only keep cells from crossing the seas.
+ * content/territories/regions.json: the region shapes of the territory map, in the sources' own units
+ * (junds, kuwar, tribal lands). Drawn by hand past the coast and clipped to Natural Earth at build.
  */
 export const territoryRegionsSchema = z.strictObject({
-  landOutline: z.array(lngLat).min(4).describe('Land outline the cells are clipped to, `[longitude, latitude]` points.'),
+  note: text.describe('How the shapes were made.'),
   regions: z.array(
     z.strictObject({
-      id: regionId.describe('Region id; control.json lists it under its owner.'),
-      titleAr: text.describe("Region name (the map label of a group that isn't an empire)."),
-      lng: z.number().describe('Seed point longitude.'),
-      lat: z.number().describe('Seed point latitude.'),
-      sea: z.literal(true).optional().describe('A sea point: keeps cells from crossing the sea; has no owner.'),
+      id: regionId.describe('Region id; the ledger names it.'),
+      nameAr: text.describe('Region name (its label on the map, unless a ledger row gives another).'),
+      kind: z.enum(['city', 'province', 'tribal']).describe("A town and its land, a named unit in the sources, or where a tribe's pastures lay."),
+      ring: z.array(lngLat).min(3).describe('Outline, `[longitude, latitude]` points. Earlier regions win where two overlap; gaps stay unclaimed.'),
     }),
-  ).describe('Seed points, one map cell each.'),
+  ).describe('The shapes.'),
+});
+
+export const TERRITORY_KINDS = ['state', 'city', 'client', 'treaty', 'contested', 'tribal'] as const;
+
+/** content/territories/holders.json: the names of whoever holds land on the map. */
+export const territoryHoldersSchema = z.strictObject({
+  holders: z.array(
+    z.strictObject({
+      id: regionId.describe('Holder id; the ledger names it. Its colors are the `--sys-terr-<id>` tokens in src/index.css.'),
+      nameAr: text.describe('Name on the map and in the legend.'),
+      shortAr: text.optional().describe('Shorter name for phones.'),
+      labelAt: lngLat.optional().describe('Where the name goes, when the middle of the land is a poor place for it.'),
+      names: z.array(z.strictObject({
+        fromEvent: text.describe('From this event on the holder has the name below.'),
+        nameAr: text.describe('The name from then on.'),
+      })).optional().describe('Later names, in date order.'),
+    }),
+  ).describe('The holders.'),
+  kinds: z.strictObject({
+    treaty: text.describe('Legend line for land on terms.'),
+    contested: text.describe('Legend line for contested land.'),
+    tribal: text.describe('Legend line for tribal land.'),
+  }).describe('Legend lines of the kinds of hold that are not named after a holder.'),
+  uncertainAr: text.describe('Legend line for land whose row is marked uncertain.'),
+});
+
+const territoryCiteSchema = z.strictObject({
+  b: text.describe('Book key (docs/territories/README.md).'),
+  p: z.number().int().positive().describe("The site's page id."),
+  q: text.describe('The exact phrase; scripts/territories/checkLedger.ts confirms it is on that page.'),
+  printed: z.string().optional().describe('The printed page.'),
 });
 
 /**
- * content/territories/control.json: who holds each region, period by period.
- * A period runs from `from` (inclusive) to `to` (exclusive) on the event
- * date.sortKey scale; the first has no `from`, the last no `to`. Every land
- * region has exactly one owner per period.
+ * One row of content/territories/ledger/*.json: one change of hold. A region's holder at any date is
+ * its latest row at or before that date. A row with an event takes that event's date.sortKey, so
+ * the map and the timeline cannot drift apart; only a row with no event has its own date.
  */
-export const territoryControlSchema = z.strictObject({
-  empireGroups: z.array(regionId).describe("Groups whose map label is the group name; others show the region's name."),
-  periods: z
-    .array(
-      z.strictObject({
-        from: z.number().optional().describe('Start, inclusive, on the `date.sortKey` scale (absent on the first period).'),
-        to: z.number().optional().describe('End, exclusive (absent on the last period).'),
-        owners: z.array(
-          z.strictObject({
-            group: regionId.describe('Owner id.'),
-            nameAr: text.describe('Owner name on the map.'),
-            color: z.string().regex(/^#[0-9a-f]{6}$/).describe('Shading colour (lowercase hex).'),
-            regions: z.array(regionId).min(1).describe('The regions it holds in this period.'),
-          }),
-        ).describe('Who holds what; every land region exactly once.'),
-      }),
-    )
-    .min(1)
-    .describe('Periods in date order, joining up with no gap.'),
-});
+export const territoryLedgerRowSchema = z
+  .strictObject({
+    r: z.union([regionId, z.array(regionId).min(1)]).describe('Region id, or a list of them.'),
+    at: z.number().min(0).optional().describe('Gregorian year with a fraction, for a row with no event; `0` means before the timeline starts.'),
+    ev: text.optional().describe('The event that causes the change. The row then has no `at`.'),
+    h: regionId.describe('Holder id.'),
+    k: z.enum(TERRITORY_KINDS).describe('Kind of hold.'),
+    c: z.enum(['proven', 'likely', 'uncertain']).describe('How sure: quoted, implied, or drawn from context.'),
+    cite: z.array(territoryCiteSchema).optional().describe('The sources.'),
+    n: z.string().optional().describe('Why it is uncertain, what else is reported.'),
+    name: text.optional().describe("The region's label from this row on."),
+  })
+  .refine(row => (row.ev === undefined) !== (row.at === undefined), { message: 'a row has either "ev" or "at", not both' });
+export const territoryLedgerSchema = z.array(territoryLedgerRowSchema);
+
+const lines = z.strictObject({ type: z.enum(['LineString', 'MultiLineString']), coordinates: z.array(z.unknown()) });
+const polygonal = z.strictObject({ type: z.enum(['Polygon', 'MultiPolygon']), coordinates: z.array(z.unknown()) });
+/** content/territories/land.json and rivers.json: Natural Earth, written by scripts/territories/buildLand.ts. */
+export const territoryLandSchema = z.array(polygonal);
+export const territoryRiversSchema = z.array(lines);
 
 /** content/quran/verses.json, written by scripts/fetch-quran.ts; never edited by hand. */
 export const quranVersesSchema = z.strictObject({
@@ -231,28 +260,52 @@ export type City = z.infer<typeof citySchema>;
 export type QuranPassage = z.infer<typeof quranPassageSchema>;
 export type QuranVerses = z.infer<typeof quranVersesSchema>;
 export type TerritoryRegions = z.infer<typeof territoryRegionsSchema>;
-export type TerritoryControl = z.infer<typeof territoryControlSchema>;
+export type TerritoryHolders = z.infer<typeof territoryHoldersSchema>;
+export type TerritoryLedgerRow = z.infer<typeof territoryLedgerRowSchema>;
+export type TerritoryKind = (typeof TERRITORY_KINDS)[number];
 
-/** A territory polygon as the map draws it: rings of [lat, lng]. */
-export interface TerritoryPolygon {
-  name: string;
-  color: string;
-  coordinates: [number, number][][];
+/** One drawn area: one holder's land of one kind, or one tribe's. */
+export interface GeneratedTerritoryShape {
+  holder: string;
+  kind: TerritoryKind;
+  /** The row behind it is marked uncertain, so it must look uncertain. */
+  uncertain: boolean;
+  nameAr: string;
+  /** The outline: polygons of rings, each ring as text (shared/territoryMap.ts). */
+  rings: string[][];
 }
-export interface TerritoryGroup {
-  id: string;
-  name: string;
-  color: string;
-  isEmpire: boolean;
-  /** Name of the group's last region (the label of non-empire groups). */
-  specificName: string;
-  polygons: TerritoryPolygon[];
+export interface TerritoryLabel {
+  text: string;
+  /** Shorter text for phones. */
+  short?: string;
+  lat: number;
+  lng: number;
+  /** 1 realm, 2 small realm, 3 region, 4 province under a state. */
+  level: number;
+  kind: TerritoryKind;
+  holder: string;
 }
-/** src/generated/territories.json: the map for each control period, precomputed at build. */
+export interface TerritoryLegendItem {
+  holder: string;
+  kind: TerritoryKind | 'uncertain';
+  text: string;
+}
+/** The map between two changes: `from` is inclusive, `to` exclusive, on the date.sortKey scale. */
 export interface GeneratedTerritoryPeriod {
-  from?: number;
+  from: number;
   to?: number;
-  groups: TerritoryGroup[];
+  /** Indexes into `shapes`, largest land first. */
+  areas: number[];
+  labels: TerritoryLabel[];
+  legend: TerritoryLegendItem[];
+  /** The events that cause this period's changes. */
+  causes: string[];
+}
+/** src/generated/territories.json: the whole map, precomputed at build, loaded on demand. */
+export interface GeneratedTerritoryMap {
+  rivers: (LineString | MultiLineString)[];
+  shapes: GeneratedTerritoryShape[];
+  periods: GeneratedTerritoryPeriod[];
 }
 /** A passage as src/generated/quranPassages.json carries it (scripts/build-content.ts). */
 export type GeneratedQuranPassage = QuranPassage & { text: string; link: string };

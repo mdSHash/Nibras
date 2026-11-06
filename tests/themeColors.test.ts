@@ -4,7 +4,7 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { CHROME_INK, GOLD, GOLD_BRIGHT, GOLD_BRIGHT_HEX, RIDDA, rgba } from '../src/themeColors';
+import { CHROME_INK, GOLD, GOLD_BRIGHT, GOLD_BRIGHT_HEX, rgba } from '../src/themeColors';
 
 const ROOT = join(import.meta.dirname, '..');
 const css = readFileSync(join(ROOT, 'src', 'index.css'), 'utf8');
@@ -23,7 +23,6 @@ describe('src/themeColors.ts', () => {
     const hex = GOLD_BRIGHT_HEX.slice(1).match(/../g)!.map((h) => parseInt(h, 16));
     expect(hex.join(' ')).toBe(token('--sys-gold-bright-rgb'));
     expect(CHROME_INK.join(' ')).toBe(token('--sys-chrome-ink-rgb'));
-    expect(RIDDA).toBe(token('--sys-ridda'));
   });
 
   it('writes rgba() the way framer-motion parses it', () => {

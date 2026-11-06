@@ -82,7 +82,7 @@ async function measure(url: string, config: typeof desktopConfig | undefined): P
         port: chrome.port,
         logLevel: 'error',
         throttlingMethod: 'devtools',
-        blockedUrlPatterns: ['*arcgisonline*'],
+        blockedUrlPatterns: ['*/map-tiles/*'],
         onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
       },
       config,

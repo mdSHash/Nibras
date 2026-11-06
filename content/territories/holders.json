@@ -1,0 +1,29 @@
+{
+  "holders": [
+    { "id": "islam", "nameAr": "الدولة الإسلامية", "names": [
+      { "fromEvent": "prophet-death", "nameAr": "دولة الخلفاء الراشدين" },
+      { "fromEvent": "year-of-reconciliation", "nameAr": "الدولة الأموية" }
+    ] },
+    { "id": "byz", "nameAr": "الإمبراطورية البيزنطية (الروم)", "shortAr": "الروم", "labelAt": [33.5, 38.9] },
+    { "id": "sas", "nameAr": "الإمبراطورية الساسانية (الفرس)", "shortAr": "الفرس" },
+    { "id": "qur", "nameAr": "قريش" },
+    { "id": "axum", "nameAr": "مملكة أكسوم (الحبشة)", "shortAr": "أكسوم" },
+    { "id": "nubia", "nameAr": "النوبة" },
+    { "id": "ghassan", "nameAr": "الغساسنة (حلفاء الروم)", "shortAr": "الغساسنة" },
+    { "id": "lakhmid", "nameAr": "المناذرة (حلفاء الفرس)", "shortAr": "المناذرة" },
+    { "id": "sasinf", "nameAr": "نفوذ الفرس" },
+    { "id": "jews", "nameAr": "يهود خيبر ووادي القرى" },
+    { "id": "aws", "nameAr": "الأوس والخزرج" },
+    { "id": "ridda", "nameAr": "حروب الردة" },
+    { "id": "ali", "nameAr": "علي بن أبي طالب رضي الله عنه", "shortAr": "علي رضي الله عنه" },
+    { "id": "muawiya", "nameAr": "معاوية بن أبي سفيان رضي الله عنه", "shortAr": "معاوية رضي الله عنه" },
+    { "id": "tribal", "nameAr": "القبائل العربية" },
+    { "id": "local", "nameAr": "حكام محليون" }
+  ],
+  "kinds": {
+    "treaty": "صلح أو معاهدة، دون حكم مباشر",
+    "contested": "أرض متنازع عليها",
+    "tribal": "ديار القبائل (حدود غير ثابتة)"
+  },
+  "uncertainAr": "سيطرة غير مؤكدة (خط متقطع)"
+}

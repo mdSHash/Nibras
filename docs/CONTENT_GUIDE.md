@@ -49,8 +49,11 @@ content/
   cities/<id>.json          one file per city
   quran/passages.json       the passages events cite: {key, surah, from, to}
   quran/verses.json         verse text from Quran.com (written by npm run fetch:quran)
-  territories/regions.json  the territory map's seed points and land outline
-  territories/control.json  who holds each region, period by period
+  territories/regions.json  the territory map's region shapes
+  territories/holders.json  the names of whoever holds land
+  territories/ledger/*.json who held which region from when, with sources
+  territories/land.json     Natural Earth's coast (scripts/territories/buildLand.ts)
+  territories/rivers.json   Natural Earth's rivers (same script)
   battle-videos/<event id>/ a battle video's captions.ar.vtt, transcript.txt and sources.md
 ```
 
@@ -129,10 +132,14 @@ originals); deliveries arrive in `Video/<battle>/`, which git ignores.
 - `content/eras.json` and `content/categories.json` are fixed lists that the code relies on (era
   colours in `src/utils/eraColors.ts`, the era filter, the map legend). A new era or category is a
   code change: ask Mostafa first.
-- Territories: `content/territories/control.json` lists, for each period of the `date.sortKey`
-  scale, who holds every land region. Periods join up (each `from` is the previous `to`) and every
-  land region has exactly one owner in each. The build precomputes the map polygons from it. The
-  borders are approximate (the map legend says so).
+- Territories: `content/territories/ledger/*.json` holds one row per change of hold: which regions,
+  who holds them, the kind of hold, how sure it is, and the sources (`docs/territories/README.md`). A
+  row tied to an event names it in `ev` and takes that event's `date.sortKey`, so moving an event
+  moves the map with it; only a row with no event has its own `at`. The build precomputes the map from
+  the ledger and the shapes in `regions.json`. No chronicle draws a line, so every border is drawn; the
+  legend and the help window say so, and `docs/territories/BORDERS.md` lists how far to trust each.
+  After changing a row, run `npx tsx scripts/territories/checkLedger.ts` (it checks the quotes, needs
+  the network) and `npx tsx scripts/territories/reportLedger.ts` (rewrites `UNCERTAIN.md`).
 
 ## After a change
 
@@ -285,26 +292,47 @@ A list of objects, each with these fields.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `landOutline` | list of pair `[number, number]` (at least 4) | yes | Land outline the cells are clipped to, `[longitude, latitude]` points. |
-| `regions` | list of objects | yes | Seed points, one map cell each. |
-| `regions[].id` | id (`a-z`, `0-9`, `_`) | yes | Region id; control.json lists it under its owner. |
-| `regions[].titleAr` | text | yes | Region name (the map label of a group that isn't an empire). |
-| `regions[].lng` | number | yes | Seed point longitude. |
-| `regions[].lat` | number | yes | Seed point latitude. |
-| `regions[].sea` | `true` |  | A sea point: keeps cells from crossing the sea; has no owner. |
+| `note` | text | yes | How the shapes were made. |
+| `regions` | list of objects | yes | The shapes. |
+| `regions[].id` | id (`a-z`, `0-9`, `_`) | yes | Region id; the ledger names it. |
+| `regions[].nameAr` | text | yes | Region name (its label on the map, unless a ledger row gives another). |
+| `regions[].kind` | one of `city`, `province`, `tribal` | yes | A town and its land, a named unit in the sources, or where a tribe's pastures lay. |
+| `regions[].ring` | list of pair `[number, number]` (at least 3) | yes | Outline, `[longitude, latitude]` points. Earlier regions win where two overlap; gaps stay unclaimed. |
 
-### Territory control: `content/territories/control.json`
+### Territory holders: `content/territories/holders.json`
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `empireGroups` | list of id (`a-z`, `0-9`, `_`) | yes | Groups whose map label is the group name; others show the region's name. |
-| `periods` | list of objects (at least 1) | yes | Periods in date order, joining up with no gap. |
-| `periods[].from` | number |  | Start, inclusive, on the `date.sortKey` scale (absent on the first period). |
-| `periods[].to` | number |  | End, exclusive (absent on the last period). |
-| `periods[].owners` | list of objects | yes | Who holds what; every land region exactly once. |
-| `periods[].owners[].group` | id (`a-z`, `0-9`, `_`) | yes | Owner id. |
-| `periods[].owners[].nameAr` | text | yes | Owner name on the map. |
-| `periods[].owners[].color` | colour `#rrggbb` | yes | Shading colour (lowercase hex). |
-| `periods[].owners[].regions` | list of id (`a-z`, `0-9`, `_`) (at least 1) | yes | The regions it holds in this period. |
+| `holders` | list of objects | yes | The holders. |
+| `holders[].id` | id (`a-z`, `0-9`, `_`) | yes | Holder id; the ledger names it. Its colors are the `--sys-terr-<id>` tokens in src/index.css. |
+| `holders[].nameAr` | text | yes | Name on the map and in the legend. |
+| `holders[].shortAr` | text |  | Shorter name for phones. |
+| `holders[].labelAt` | pair `[number, number]` |  | Where the name goes, when the middle of the land is a poor place for it. |
+| `holders[].names` | list of objects |  | Later names, in date order. |
+| `holders[].names[].fromEvent` | text | yes | From this event on the holder has the name below. |
+| `holders[].names[].nameAr` | text | yes | The name from then on. |
+| `kinds` | object | yes | Legend lines of the kinds of hold that are not named after a holder. |
+| `kinds.treaty` | text | yes | Legend line for land on terms. |
+| `kinds.contested` | text | yes | Legend line for contested land. |
+| `kinds.tribal` | text | yes | Legend line for tribal land. |
+| `uncertainAr` | text | yes | Legend line for land whose row is marked uncertain. |
+
+### Territory ledger row: `content/territories/ledger/*.json`
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `r` | id (`a-z`, `0-9`, `_`), or list of id (`a-z`, `0-9`, `_`) (at least 1) | yes | Region id, or a list of them. |
+| `at` | number ≥ 0 |  | Gregorian year with a fraction, for a row with no event; `0` means before the timeline starts. |
+| `ev` | text |  | The event that causes the change. The row then has no `at`. |
+| `h` | id (`a-z`, `0-9`, `_`) | yes | Holder id. |
+| `k` | one of `state`, `city`, `client`, `treaty`, `contested`, `tribal` | yes | Kind of hold. |
+| `c` | one of `proven`, `likely`, `uncertain` | yes | How sure: quoted, implied, or drawn from context. |
+| `cite` | list of objects |  | The sources. |
+| `cite[].b` | text | yes | Book key (docs/territories/README.md). |
+| `cite[].p` | integer ≥ 1 | yes | The site's page id. |
+| `cite[].q` | text | yes | The exact phrase; scripts/territories/checkLedger.ts confirms it is on that page. |
+| `cite[].printed` | text (may be empty) |  | The printed page. |
+| `n` | text (may be empty) |  | Why it is uncertain, what else is reported. |
+| `name` | text |  | The region's label from this row on. |
 
 <!-- field-reference:end -->
