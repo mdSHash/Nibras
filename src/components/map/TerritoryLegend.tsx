@@ -39,8 +39,19 @@ export function TerritoryLegend({ items }: { items: TerritoryLegendItem[] }) {
     const close = (e: PointerEvent) => {
       if (!box.current?.contains(e.target as Node)) setOpen(false);
     };
+    // On the document: Safari does not focus a button on a click, so the key may not reach the legend.
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      e.stopPropagation(); // Escape here closes the legend, not the event panel.
+      setOpen(false);
+      box.current?.querySelector('button')?.focus();
+    };
     document.addEventListener('pointerdown', close);
-    return () => document.removeEventListener('pointerdown', close);
+    document.addEventListener('keydown', onKey, true);
+    return () => {
+      document.removeEventListener('pointerdown', close);
+      document.removeEventListener('keydown', onKey, true);
+    };
   }, [open]);
 
   if (!isPhone) {
@@ -57,12 +68,6 @@ export function TerritoryLegend({ items }: { items: TerritoryLegendItem[] }) {
       dir="rtl"
       role="group"
       aria-label="مفتاح الخريطة"
-      onKeyDown={e => {
-        if (e.key !== 'Escape' || !open) return;
-        e.stopPropagation(); // Escape here closes the legend, not the event panel.
-        setOpen(false);
-        box.current?.querySelector('button')?.focus();
-      }}
     >
       <button
         type="button"
