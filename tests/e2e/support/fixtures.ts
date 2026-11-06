@@ -86,7 +86,13 @@ export const test = base.extend<Options & Fixtures>({
       { prompted: !firstVisit, storage: STORAGE },
     );
 
-    page.on('pageerror', (error) => errors.push(`pageerror: ${error.message}`));
+    page.on('pageerror', (error) => {
+      // WebKit logs a same-origin fetch cut off by a reload as "...cannot load <url> due to access
+      // control checks", and Playwright reports that log line as a page error. The app handles the
+      // rejection (TerritoryLayer shows its retry). A real failure to load fails territory-map.spec.
+      if (/\/assets\/territories-[^/ ]+\.json due to access control checks/.test(error.message)) return;
+      errors.push(`pageerror: ${error.message}`);
+    });
     page.on('console', (message) => {
       if (message.type() !== 'error') return;
       const text = message.text();
