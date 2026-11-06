@@ -33,7 +33,7 @@ ${rows.length} rows: **${proven.length} proven**, **${likely.length} likely**, *
 
 - **Proven**: a source read here states it, and the phrase is checked against the page.
 - **Likely**: the sources imply it, or state part of it.
-- **Uncertain**: drawn from context or an estimate. Your call.
+- **Uncertain**: drawn from context or an estimate. Kept on the map with a broken line and a fainter fill (Mostafa, 2026-11-06).
 
 These rows are about who held a region and from when. **Every border line between regions is drawn, not read**: no chronicle gives a line, so all shapes follow towns, coasts, rivers, mountains and desert edges.
 

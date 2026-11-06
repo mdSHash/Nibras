@@ -8,7 +8,7 @@ The shapes are not surveyed: they were drawn by hand to lie between the named pl
 clipped to the real coast. In 3G, 52 towns named for 32 regions were checked against the al-Thurayya
 coordinates (`scripts/territories/checkPlaces.ts`), which moved four things: Amul and Sari into
 Tabaristan (they had fallen in Rayy), Jurjan into Tabaristan (it had fallen in Khurasan), Rayy itself out of the Jibal, and al-Anbar into al-Hira's region.
-That checks towns, not lines. **Your review matters most on the "Weak" rows.**
+That checks towns, not lines. **Decision (Mostafa, 2026-11-06):** every row stays as drafted, "Weak" ones included. They stay listed here as drawn, and the legend says all borders are drawn.
 
 | Border | What the draft follows | Trust |
 | --- | --- | --- |
