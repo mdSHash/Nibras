@@ -74,3 +74,9 @@ Since you asked for verified Sunni sources only:
 - **Fitna rows** record only who held which land, using the sources' own terms ("the people of Iraq", "the people of Syria"). They take no position on the dispute.
 - **Edition footnotes are not used.** The Dar al-Hilal edition of al-Baladhuri has modern editor's notes with sectarian remarks, for example on p. 68. Only al-Baladhuri's own text is quoted.
 - **For Phase 4**: four events cite «فتوح الشام للواقدي». From memory, scholars doubt that attribution. Not checked here and not changed.
+
+## Found while building the map (3G)
+
+No new conflict between the sources or with event text was found. The map follows the event dates as
+corrected; the narrated texts listed above still wait for Phase 4. What 3G changed is shapes, not who held
+what: `BORDERS.md` lists the towns the al-Thurayya check moved into their regions.

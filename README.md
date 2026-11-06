@@ -49,7 +49,7 @@ Nibras (نِبْرَاس — "lamp" or "light" in Arabic) is an interactive web 
   - **Time compression UI** — day counter for siege-length engagements (Khandaq 27d, Khaybar 20d, Tabuk 30d)
   - **End-of-battle summary** — Arabic verdict badge (نصر / انسحاب تكتيكي / غزوة بدون قتال) + casualty grid + historical significance
 - **Arabic-only UI** — Full RTL support with Arabic calligraphy intro (Amiri / Tajawal; first visit only, a tap or any key skips it). All user-facing strings, narration, and aria-labels are Arabic; numerals use Arabic-Eastern digits in summary panels.
-- **Map Visualization** — Leaflet-based interactive map with event markers, route polylines, territorial expansion polygons (Voronoi via Turf.js), and marker clustering via Supercluster
+- **Map Visualization** — Leaflet-based interactive map with event markers, route polylines, a territory map built from a sourced ledger of who held what (precomputed with Turf.js, on self-hosted Natural Earth relief tiles), and marker clustering via Supercluster
 - **Companion Profiles** — ~150 Sahaba biographies at Ibn Hajar / Ibn al-Athir / Ibn Sa'd source depth, indexed by name and alias for cross-event lookup
 - **Quran & Hadith References** — Events linked to relevant Quranic verses and canonical hadith (Bukhari, Muslim, Ahmad, Tirmidhi) with modal display
 - **Text-to-Speech Narration** — 262 recordings in the Charon voice (Gemini TTS, 2026; AAC 48 kbps) covering every event's title and full description, found by event id in `public/audio/manifest.json` and served as static files
@@ -283,7 +283,7 @@ Details, engines and settings: `scripts/README.md`. The 2026 Gemini WAV original
 9. Playwright feature tests (`tests/e2e/`) on desktop 1440×900 and phone 375×812 (Chromium)
 10. the `@phone` smoke tests in WebKit (iPhone 13) and Firefox, functional only
 11. Playwright visual snapshots (`tests/baseline/visual/`, per platform; on a platform with no committed set yet — Linux in CI until it is reviewed — the images are written instead of compared)
-12. Lighthouse budget — phone home, phone Badr and desktop home against `tests/baseline/lighthouse-<platform>.json` (real throttling, map tiles blocked; on a platform with no numbers yet it only reports)
+12. Lighthouse budget — phone home, phone Badr and desktop home against `tests/baseline/lighthouse-<platform>.json` (real throttling, map tiles blocked so the numbers do not depend on the view; on a platform with no numbers yet it only reports)
 
 Before the first run: `npm ci` and `npx playwright install chromium webkit firefox`. The Playwright tests run offline against `vite preview`: map tiles, the chat API and narration audio are all stubbed (the fonts are served with the site, `src/fonts.ts`).
 

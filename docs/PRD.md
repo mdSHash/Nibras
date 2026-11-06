@@ -41,8 +41,8 @@ way), **Not measured**.
 
 | Requirement | Target | Today | Status |
 | --- | --- | --- | --- |
-| MAP-001 | Custom historical map without modern borders | Esri World Imagery: modern satellite photos without borders or labels, not a historical map | Partly |
-| MAP-002, 008 | Organic territories that follow the selected year | Voronoi cells around 46 seed regions, clipped to a land outline and precomputed at build, with 11 control periods. **Planned (3G, direction B, Relief):** drawn region shapes from the sourced research in `docs/territories/`, on a relief basemap. Not built yet | Met today; rebuild planned |
+| MAP-001 | Custom historical map without modern borders | Self-hosted relief tiles from Natural Earth, light and dark: no modern borders or labels | Met |
+| MAP-002, 008 | Organic territories that follow the selected year | 62 drawn regions on the real coast, in 67 periods from a sourced ledger (`content/territories/`), precomputed at build. A change caused by an event follows that event's date. Every border is drawn, not read from a source: the legend, the help window and `docs/territories/BORDERS.md` say so. The 3G direction is Relief | Met, with drawn borders |
 | MAP-003, 004 | Event markers and major cities | Both shown, from `content/events/` and `content/cities/` | Met |
 | MAP-005 | Smooth camera movement | `flyTo` to the selected event, 1 s | Met |
 | MAP-006, 007 | Clustering and category icons | `use-supercluster`; markers carry category colors and icons | Met |
@@ -106,7 +106,7 @@ way), **Not measured**.
 | Requirement | Target | Today | Status |
 | --- | --- | --- | --- |
 | 6.1–6.3 | React 19, TypeScript, Vite, Leaflet, Tailwind, Motion | Yes | Met |
-| 6.2 | Turf.js for Voronoi | Build time only; the browser gets finished polygons | Changed |
+| 6.2 | Turf.js for the territory polygons (no longer Voronoi) | Build time only; the browser gets finished polygons | Changed |
 | 6.4 | Vercel Analytics | Not used. Umami on the deploy build, Sentry for errors, UptimeRobot | Changed |
 | 6.5, 12.3 | JavaScript under 500 KB gzip | 259.4 KB gzip at start, 284.7 KB total, leaving out the battle replay chunks (this branch's build) | Met |
 | 6.5, 12.3 | Under 3 s on 3G, interactive under 5 s | Not tested on 3G. Lighthouse phone, Windows, recorded: LCP 1.8 s, Speed Index 4.8 s, TBT 883 ms, performance 56, CLS 0.53 (a known shift, still open) | Not measured |
@@ -769,7 +769,7 @@ The original roadmap. The current one is `docs/REFACTOR_PLAN.md`.
 - [`README.md`](../README.md) - Project overview and setup
 - [`CONTENT_GUIDE.md`](./CONTENT_GUIDE.md) - Content addition guide and field reference
 - [`REFACTOR_PLAN.md`](./REFACTOR_PLAN.md) - Current plan and roadmap
-- [`territories/`](./territories/) - Territory research behind the planned map
+- [`territories/`](./territories/) - Territory research behind the map
 
 ### C. Contact Information
 
@@ -790,7 +790,7 @@ The original roadmap. The current one is `docs/REFACTOR_PLAN.md`.
 ---
 
 **Document Status:** Targets; see Target vs Today for the current app  
-**Next Review:** after the territory map is built (3G)
+**Next Review:** at the 3I close-out
 **Classification:** Public
 
 ---
