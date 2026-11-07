@@ -2408,3 +2408,22 @@ After Mostafa had that process stopped, the steps ran against the real `dist/` a
 #### After the 3G merge (2026-11-06)
 
 The first run on `main` (`98f2aad`) failed in WebKit, so the deploy was skipped. A reload in `intro-tour.spec.ts` cut off the download of the map data; WebKit logged that as an error and Playwright reports such log lines as page errors (`wkPage.js`). The app handles the rejection. It did not reproduce on Windows: 12 runs cutting off the real download gave no unhandled rejection and no message. The fixture now ignores this one message for this one file. The same run had one flaky test, the Firefox search test in `search.spec.ts:62`, which passed on retry; not changed.
+
+### 3I close-out — Phase 3 closed (2026-11-07)
+
+Started on `refactor/phase-3i-closeout` from `main` at `8036c7f` (PRs #19 and #20 merged). Docs only: no app code, content or baseline changed, no quota spent.
+
+#### What changed
+
+- `README.md`: the timeline filters by era and by type (battles or other events), not by category; the Verify list's content step is `scripts/build-content.ts`, not `scripts/validate-content.ts`.
+- `docs/REFACTOR_PLAN.md`: Phases 0, 1 and 2 ticked (each task is done in its phase's task list above), 3B's styling item ticked, Phase 3 marked closed. Battle videos stay open: Badr done, 11 to go, waiting on Mostafa's videos.
+
+#### Phase 3 "Done when"
+
+- **`npm run verify`** (Windows 11, Node 20.19.5, Playwright 1.59.1, on `8036c7f`'s app code): every step passed except the Lighthouse budget. Content build, type check, ESLint, Vitest 431/431, chat index, narration manifest, content snapshot, behavior map, build, bundle budget; features 127 passed and 2 skipped; phone smoke 50 passed and 24 skipped; visual 16/16. Lighthouse: phone home CLS 0.55, and 0.521 on a Lighthouse-only re-run, against a limit of 0.455 (recorded 0.355 in 3G). Every other number was within its limit. Nothing in this branch reaches the app, so this is the known spread of that one number on this machine (3F measured 0.404 to 0.535 on unchanged code), caused by the event panel moving as the first event opens (open since 3F). Not re-recorded: that needs Mostafa's approval. `main`'s CI on `8036c7f` passed, Linux Lighthouse included.
+- **Live site** (https://mdshash.github.io/Nibras/, deployed from `8036c7f`; Playwright Chromium 1440×900, analytics and Sentry requests blocked so the check counted no visits): 16 of 16 checks passed. The first visit loads and opens the first event (مِيلَادُ النَّبِيِّ ﷺ), with no page errors. The new map shows its territory areas and legend on the self-hosted Relief tiles (`/Nibras/map-tiles/relief-light/…`). Badr's narration plays (its `.m4a` is fetched, the button turns to «إيقاف السرد»). Badr opens its video player (YouTube frame and controls). The other 11 battles each open their replay at `/battle/<id>/` with a drawn canvas.
+
+#### Seen, not changed (for Mostafa)
+
+- The daily **Chat index** run failed on 2026-11-06 and 2026-11-07, as recorded in 3C: GitHub does not let Actions open its PR. Its branch `bot/chat-index-42363666862` changes no content: the same 3,246 units with the same hashes, only 419 in a different order (the order the builder writes), so the chat answers are not out of date and `npm run check:chat-index` passes. The run will fail every day until `main` has that order: merge that branch (one data file, no quota) or turn on Settings → Actions → General → "Allow GitHub Actions to create and approve pull requests". The older branch `bot/chat-index-42207156094` (2026-11-06) can be deleted then.
+- `docs/PRD.md` ends with "Next Review: at the 3I close-out"; the PRD was reviewed in the first part of 3I and is not changed here.
