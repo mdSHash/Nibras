@@ -2500,3 +2500,9 @@ characters, one Gemini TTS request each: **28 requests** (30 with enrichment E-0
   Mostafa listens to each day's batch before the PR is merged.
 - Google calls this TTS model a legacy preview and points to newer ones; switching would change the Charon sound
   between old and new recordings, so stay on it unless Mostafa decides otherwise.
+
+#### Review page
+
+Private page for Mostafa to read and mark up: https://claude.ai/artifact/3b3UYgzu7QapS5MgNjna8X (built from the
+same JSON by a local script in the git-ignored `tmp/`). Each finding has موافق / بتعديل / مرفوض and a note,
+saved in the page's database (collection `decisions`, one document per finding id); **4B starts by reading it.**
