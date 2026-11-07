@@ -40,7 +40,7 @@ Nibras (نِبْرَاس — "lamp" or "light" in Arabic) is an interactive web 
 
 ## Features
 
-- **Interactive Timeline** — 131 chronological events spanning the Prophetic era (571 CE) and all four Rashidun caliphates (632–661 CE). Filter by era or category. Events with a playable cinematic battle are marked with a gold ▷ badge on the timeline diamond, the search list, and the map pin so watchable moments are recognizable at a glance.
+- **Interactive Timeline** — 131 chronological events spanning the Prophetic era (571 CE) and all four Rashidun caliphates (632–661 CE). Filter by era (the Prophet's or the Rashidun caliphs') and by type (battles or other events). Events with a playable cinematic battle are marked with a gold ▷ badge on the timeline diamond, the search list, and the map pin so watchable moments are recognizable at a glance.
 - **Battle Videos** — a narrated video per battle is replacing the replays, one battle at a time (Badr first). It plays from YouTube (unlisted) with Nibras's own Arabic controls and the reviewed Arabic captions (on by default, Qur'an recitations in Quran.com text); battles without a video yet open their replay. Adding one: `docs/CONTENT_GUIDE.md`, "Adding a battle video".
 - **Cinematic Battle Replay Engine** — 12 fully scripted battles rendered with PixiJS WebGL at 60fps. Each unit is a stylized soldier silhouette per troop type (infantry, cavalry, archers, elephant, camel rider, …). Includes:
   - **Autonomous combat resolution** — units close to melee range, exchange damage, take visible casualties (fallen-soldier silhouettes appear in formation as numbers drop)
@@ -275,7 +275,7 @@ Details, engines and settings: `scripts/README.md`. The 2026 Gemini WAV original
 1. type check (`tsc --noEmit`)
 2. ESLint
 3. unit tests (Vitest)
-4. content validation with Zod (`scripts/validate-content.ts`)
+4. content validation with Zod (`scripts/build-content.ts`)
 5. content snapshot — every event, person, city, Quran passage, battle and territory year, compared with `tests/baseline/content.json`
 6. behavior map — timeline order, all filter combinations, era-pill anchors and fixed search queries, compared with `tests/baseline/behavior.json`
 7. production build (with the chat API pointed at a mocked host)
