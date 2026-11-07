@@ -345,34 +345,34 @@ Goal: nothing can silently break the live site while we refactor.
 Run this phase as two sessions: **0A** builds the baseline and `npm run verify` on unchanged code
 (first task below); **0B** does the rest.
 
-- [ ] **First, before touching anything else**: build the baseline and `npm run verify` as described
+- [x] **First, before touching anything else**: build the baseline and `npm run verify` as described
       in "Testing and verification", on the unchanged code, and commit it. Create
       `docs/REFACTOR_PROGRESS.md`.
-- [ ] Add `CLAUDE.md` (see ground rules and session protocol).
-- [ ] Add an "outdated, see docs/REFACTOR_PLAN.md" warning at the top of `ADDING_NEW_CONTENT_GUIDE.md`.
-- [ ] Playwright: also run the `@phone` smoke subset in WebKit (Safari engine; iPhone 13 profile) and
+- [x] Add `CLAUDE.md` (see ground rules and session protocol).
+- [x] Add an "outdated, see docs/REFACTOR_PLAN.md" warning at the top of `ADDING_NEW_CONTENT_GUIDE.md`.
+- [x] Playwright: also run the `@phone` smoke subset in WebKit (Safari engine; iPhone 13 profile) and
       Firefox, functional checks only (no visual snapshots in those engines). Recommended 2026-10-15;
       Mostafa to approve in the 0B plan.
-- [ ] CI: add a `check` job before deploy running type check, ESLint, Vitest and the build; deploy
+- [x] CI: add a `check` job before deploy running type check, ESLint, Vitest and the build; deploy
       needs `check`. Also run `check` on pull requests.
-- [ ] Add ESLint (TypeScript + `react-hooks` rules) and Prettier. Fix or explicitly disable existing
+- [x] Add ESLint (TypeScript + `react-hooks` rules) and Prettier. Fix or explicitly disable existing
       violations so the baseline is green; do not mass-reformat in the same commit as logic changes.
-- [ ] Add a React error boundary around the app root, the map, the battle player and each panel,
+- [x] Add a React error boundary around the app root, the map, the battle player and each panel,
       with an Arabic "something went wrong, reload" message.
-- [ ] Guard `MapUpdater`: skip `flyTo` when `map.getSize()` is zero (use `setView` once sized);
+- [x] Guard `MapUpdater`: skip `flyTo` when `map.getSize()` is zero (use `setView` once sized);
       use instant moves when reduced motion is on; shorten the flight to about 1 s.
-- [ ] Delete the unused files listed above; remove `xstate`, `@xstate/react`, `sharp`,
+- [x] Delete the unused files listed above; remove `xstate`, `@xstate/react`, `sharp`,
       `autoprefixer`; move `express`, `dotenv`, `@google/generative-ai` to devDependencies; dedupe
       `@vitejs/plugin-react`; rename the package to `nibras`; remove `metadata.json` and the AI Studio
       comment.
-- [ ] Add Sentry to the frontend and the chat API (errors and error-boundary catches, source maps
+- [x] Add Sentry to the frontend and the chat API (errors and error-boundary catches, source maps
       uploaded in CI, releases tagged by commit). Ask Mostafa to create the Sentry project and add
       the DSN; don't block the phase on it. Add a `GET /api/health` endpoint to the chat API, and write
       the uptime-check settings (URLs, interval, alert) into `docs/OWNER_DASHBOARD.md` for Mostafa to
       create in UptimeRobot or Better Stack.
-- [ ] Fix the known failures recorded in the baseline that belong to this phase (blank-page crash),
+- [x] Fix the known failures recorded in the baseline that belong to this phase (blank-page crash),
       and list them as intentional changes in the progress file.
-- [ ] Add a Zod schema for the current event, companion and city shapes, with a Vitest test that
+- [x] Add a Zod schema for the current event, companion and city shapes, with a Vitest test that
       parses every record. Start permissive enough to pass today; tighten it in Phase 1.
 
 Done when: the baseline is committed, `npm run verify` passes in CI and blocks a broken build, and the
@@ -430,28 +430,28 @@ type Count = { value?: number; min?: number; max?: number; approx: boolean; text
 Keep the original text for sizes in `textAr` so nothing is lost; add numbers alongside.
 
 Tasks:
-- [ ] Write a one-off migration script (`scripts/migrate-content.ts`) that reads the current files and
+- [x] Write a one-off migration script (`scripts/migrate-content.ts`) that reads the current files and
       writes `content/`. It must be re-runnable and print a report of everything it could not map.
-- [ ] Map eras and categories to the fixed lists; map people with the existing `findCompanion`; map
+- [x] Map eras and categories to the fixed lists; map people with the existing `findCompanion`; map
       Quran refs by parsing surah and ayah range; map `BATTLE_ID_MAP` + `battleScenario.ts` into
       `battleScenarioId`. Freeze current event IDs as they are (they will be URLs; do not rename).
-- [ ] Ambiguous or unresolved references go into the report, not guesses. Mostafa resolves them.
-- [ ] Generate verse text from Quran.com (decided 2026-10-16; was Tanzil) at build time from `{surah, from, to}`; the Quran modal and the
+- [x] Ambiguous or unresolved references go into the report, not guesses. Mostafa resolves them.
+- [x] Generate verse text from Quran.com (decided 2026-10-16; was Tanzil) at build time from `{surah, from, to}`; the Quran modal and the
       chat use the generated data. Remove `src/quranData.json` once nothing reads it.
-- [ ] Move territory control out of the `if` branches into `territories/control.json`; precompute
+- [x] Move territory control out of the `if` branches into `territories/control.json`; precompute
       the Voronoi polygons at build into a GeoJSON file; drop `@turf/turf` from the client bundle.
       Label borders "approximate" in the map legend (Arabic).
-- [ ] Battle scenarios: remove duplicated title/date/description/strength fields; read them from the
+- [x] Battle scenarios: remove duplicated title/date/description/strength fields; read them from the
       linked event. Keep choreography and phase narration in the scenario. List every number that
       differed between event and scenario for Mostafa (e.g. Badr 1,000 vs 950).
-- [ ] Add a build step (`scripts/build-content.ts`) that validates `content/` with Zod, fails on an
+- [x] Add a build step (`scripts/build-content.ts`) that validates `content/` with Zod, fails on an
       unknown ID or missing field, and emits: a slim event index for the bundle, per-record JSON for
       on-demand loading, the Quran passages, the territory GeoJSON. Run it in CI and before `vite build`.
-- [ ] Replace `src/data.ts`, `isBattle`, `getEraTitle`, `getRulerName`, `isRashidunEra`,
+- [x] Replace `src/data.ts`, `isBattle`, `getEraTitle`, `getRulerName`, `isRashidunEra`,
       `findEraAnchor` title-matching and `getCategoryIcon` title-matching with lookups on IDs.
-- [ ] One Arabic normalization module in `shared/` with named variants used by search, chat and
+- [x] One Arabic normalization module in `shared/` with named variants used by search, chat and
       people lookup; tests for each variant.
-- [ ] Replace `ADDING_NEW_CONTENT_GUIDE.md` with `docs/CONTENT_GUIDE.md` for the new layout (field
+- [x] Replace `ADDING_NEW_CONTENT_GUIDE.md` with `docs/CONTENT_GUIDE.md` for the new layout (field
       reference generated from the Zod schemas, full add/edit workflow), delete the old file, move the
       PRD to `docs/PRD.md` and update its data section.
 
@@ -460,32 +460,36 @@ apart from approved differences), CI fails on a bad reference, and the old data 
 
 ## Phase 2 — State, routing and pages
 
-- [ ] Path routes: `/event/:id`, `/person/:id`, `/battle/:id`, filters in the query string
+- [x] Path routes: `/event/:id`, `/person/:id`, `/battle/:id`, filters in the query string
       (`?era=rashidun&type=battles`). If the custom domain is set up, move the base path from `/Nibras/` to
       `/`; otherwise keep `/Nibras/`. Ask Mostafa which before starting.
-- [ ] Pre-render one static HTML page per event, person and battle at build time, each with its own
+- [x] Pre-render one static HTML page per event, person and battle at build time, each with its own
       `<title>`, meta description, canonical URL, Open Graph tags and JSON-LD (see "Owner visibility,
       SEO and domain"); add `robots.txt` and `sitemap.xml`. Add a
       `404.html` fallback for unknown paths. (Use path URLs, not `#/` hashes: hashes can't be
       pre-rendered or previewed.)
-- [ ] Move UI state into one Zustand store; replace overlay booleans with one `overlay` value derived
+- [x] Move UI state into one Zustand store; replace overlay booleans with one `overlay` value derived
       from the route. Remove the `window` event and `window.__nibrasOpenBattle` (Playwright can now
       navigate to `/battle/:id`).
       A battle's page shows its video where it has one, its replay otherwise (Phase 3, battle videos).
-- [ ] Split `App.tsx` into layout, `AppHeader` (with one `HeaderButton` component) and `Overlays`;
+- [x] Split `App.tsx` into layout, `AppHeader` (with one `HeaderButton` component) and `Overlays`;
       split `EventPanel.tsx` by job (audio player, header, people list, sections).
-- [ ] Load full event text, bios and Quran passages on demand from the files emitted in Phase 1.
-- [ ] Persist dark mode (default to system preference). Intro: tap to skip, show once per visitor.
-- [ ] Header on small screens: keep search and chat visible, move the rest into a menu; the Phase 0
+- [x] Load full event text, bios and Quran passages on demand from the files emitted in Phase 1.
+- [x] Persist dark mode (default to system preference). Intro: tap to skip, show once per visitor.
+- [x] Header on small screens: keep search and chat visible, move the rest into a menu; the Phase 0
       smoke test must pass at 375 px.
-- [ ] Point the `@` alias at `src`.
-- [ ] Desktop: the open event panel must not cover the timeline dock (its play button and first era
+- [x] Point the `@` alias at `src`.
+- [x] Desktop: the open event panel must not cover the timeline dock (its play button and first era
       pill); known failure 11 in the Phase 0A baseline. (Added 2026-10-15, Mostafa.)
 
 Done when: every panel has its own URL, Back works, shared links show a preview, main JS is roughly
 800 KB or less, and all feature tests pass (updated only for approved changes, such as routes).
 
 ## Phase 3 — Assets, chat and polish
+
+**Closed (3I close-out, 2026-11-07).** Every task is done except the battle videos: Badr's is in
+(3H); 11 battles wait on Mostafa's videos, each added as a content change when it arrives. The two
+struck-out battle tasks stay on hold with the engine. Check: `docs/REFACTOR_PROGRESS.md`, "3I close-out".
 
 - [x] Audio manifest `audio/manifest.json`: `eventId → { file, textHash, durationSec }`. The app looks
       up by event ID; CI reports events whose text changed since narration or that have no audio; the
@@ -568,8 +572,8 @@ Done when: every panel has its own URL, Back works, shared links show a preview,
       subtitle was done in Phase 1B.
 - [x] Self-host the Arabic fonts (subset, only weights in use); remove the second font link injected
       by `IntroScreen.tsx`. (3A)
-- [ ] Styling: colors only through theme tokens; move inline `style={{}}` colors into tokens/classes;
-      cut `!important` in `src/index.css`. No visual change.
+- [x] Styling: colors only through theme tokens; move inline `style={{}}` colors into tokens/classes;
+      cut `!important` in `src/index.css`. No visual change. (3B)
 - [x] Remove the toast on next/previous; dedupe the tour target `data-tour-id`. (3A) ~~Keep the event
       panel in place when search opens~~: dropped, Mostafa keeps the panel moving beside the search
       drawer (2026-10-17).
