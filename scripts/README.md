@@ -58,6 +58,16 @@ To look at a change, use the Playwright tests in `tests/e2e/` and the style snap
 
 ---
 
+## Content audit (`scripts/audit/`, Phase 4)
+
+| Command | Network | What it does |
+|---|---|---|
+| `npx tsx scripts/audit/shamela.ts fetch <book> <from> <to>` | Shamela | Caches page ids of a book (`sira`, `raheeq`, `isaba`, … or an id) in `tmp/territories-research/cache/`. |
+| `npx tsx scripts/audit/shamela.ts grep <book> <phrase>` / `find <file>` | no | Finds a phrase in the cached pages (without tashkeel, footnote numbers or punctuation). |
+| `npx tsx scripts/audit/dorar.ts <file>` | al-Durar | Hadith search, one «label|text» per line; results cached for the report check. |
+| `npx tsx scripts/audit/report.ts <era> [--check]` | no | Checks every quote in `docs/audit/<era>/*.json` and writes `docs/audit/<era>.md`. |
+| `npx tsx scripts/audit/quranQuotes.ts [eraId …]` | no | Every {…}/﴿…﴾ Qur'an quote in event text must match a verse (Tanzil check of the chat KB). |
+
 ## Narration (`npm run narration`)
 
 Each event has two recordings: its title (player mode) and its full
@@ -72,7 +82,7 @@ play button until it is recorded again.
 | `npm run narration -- check` | no | Lists stale and missing narration (also in CI, `npm run verify` step "Narration manifest"). Fails only on a broken manifest. |
 | `npm run narration -- generate` | no | Dry run: lists what is stale or missing and how many characters it would record. |
 | `npm run narration -- generate --yes` | engine | Records it, converts it to AAC (48 kbps mono 24 kHz) and updates the manifest. `--max N`, `--only <event id>`. |
-| `npm run narration -- review` | local | Whisper (VoiceStudio on this machine, no quota) lists the words said differently from the text, in `audio-src/review/report.json`. `--only <event id>`. |
+| `npm run narration -- review` | local | Whisper (VoiceStudio on this machine, no quota) lists the words said differently from the text, in `audio-src/review/report.json`. `--only <event id>`. **Not used since 2026-11-07** (Mostafa: VoiceStudio is not good for Arabic); pronunciation is checked by ear. |
 | `npm run narration -- convert` | no | Used once in Phase 3D: the Gemini WAVs → `.m4a`. |
 
 Engines (`--engine`, settings in `.env.local`, see `.env.example`):
