@@ -9,9 +9,10 @@ The log for `docs/REFACTOR_PLAN.md`. Each session reads this file first and upda
 | 0B Safety net | merged | `refactor/phase-0b-safety-net` | #4 |
 | 1 Content model | merged | `refactor/phase-1-content` | #5 |
 | 2 State, routing and pages | merged | `refactor/phase-2-routing` | #6 |
-| 3 Assets, chat and polish | 3A in review | `refactor/phase-3a-fixes` | #7 |
-| 4 Learning paths for guests | not started | `feature/phase-4-paths` | — |
-| 5 Optional accounts | not started | `feature/phase-5-accounts` | — |
+| 3 Assets, chat and polish | closed (3I close-out) | `refactor/phase-3*` | #7–#21 |
+| 4 Content audit, enrichment and narration | 4A (Prophetic audit) in review | `refactor/phase-4a-audit-prophetic` | — |
+| 5 Learning paths for guests | not started | `feature/phase-5-paths` | — |
+| 6 Optional accounts | not started | `feature/phase-6-accounts` | — |
 
 ---
 
@@ -2436,3 +2437,66 @@ Approved by Mostafa before Phase 4, so that it starts clean.
 - **Phone home CLS:** the cause was the event the app opens by itself on a phone. Its panel mounted at half height (60%), and an effect then set it to collapsed (30%), which the panel's CSS height transition animated: a layout shift of about 0.36. `EventPanel.tsx` now keeps the height with the event it was set for, so a newly shown event has its starting height in its first frame. Closing and reopening the same event still starts from that height. The end state is unchanged: collapsed for the auto-opened event, half height for the others. Measured with a layout-shift observer (412×823, 4× CPU, tiles blocked): 0.367 → 0. The visible 0.3 s shrink on start is gone; that is the one behavior change. Lighthouse numbers not re-recorded.
 - **Linux phone start-view picture, approved by Mostafa (2026-11-07):** CI's visual job failed on `tests/baseline/visual/phone/start-view-linux.png` (2% of pixels). The saved picture dated from before 3G finished: on Linux the territory layer had not finished drawing when it was taken (no legend chip, no tribe labels), and 3G left it as it was because it stayed under the 1% limit. With the panel settled at once, the layer now finishes before the picture, and Linux shows what the approved Windows picture shows. Replaced with CI's picture from run 42402402671; its two attempts differ by 0.2%.
 - **Local verify, one step at a time:** a full local `npm run verify` was stopped by Claude Code when the machine ran low on memory (15.8 GB, about 5.7 GB free). Run instead as five separate `--only` runs, one after another: static steps and build, Lighthouse, features, engines, visual, each passed. Lighthouse phone home: CLS 0.521 → 0.029, performance 53 → 72; phone Badr and desktop unchanged.
+
+---
+
+## Phase 4 — Content audit, enrichment and narration
+
+### 4A — audit list for the Prophetic era (2026-11-07)
+
+Started on `refactor/phase-4a-audit-prophetic` from `main` at `5521611` (3I close-out PR #21 merged, Phase 3 marked
+closed in the plan). `npm run verify` passed before any change, as five `--only` batches: static steps and build;
+Lighthouse; features 127 passed, 2 skipped; engines 50 passed, 24 skipped; visual 16/16. **No content, Qur'an text
+or narration changed. No Gemini, Groq or OpenRouter quota spent.**
+
+#### What was made
+
+- `docs/audit/prophetic.md`: the audit list (generated); its data in `docs/audit/prophetic/*.json`, its summary
+  and decisions in `docs/audit/prophetic/HEAD.md`.
+- `scripts/audit/`: `shamela.ts` (cache and search Shamela pages, in 3F's cache), `dorar.ts` (al-Durar search, cached),
+  `report.ts` (checks every quote, writes the list), `quranQuotes.ts` (in-text Qur'an quotes against Tanzil),
+  `types.ts`. The caches are in the git-ignored `tmp/territories-research/cache/`, so `report.ts --check` runs on
+  this machine; on another, fetch again (the page ids are in the JSON).
+
+#### Summary of the audit
+
+- Scope: 49 events (Meccan and Medinan), 82 people (75 whose first linked event is in the era, plus the 7 wives
+  and concubines with no linked event), Mecca and Medina. Every record read in full.
+- 78 findings (24 proven, 39 likely, 15 uncertain); 42 in narrated text, in 27 events. 9 enrichment proposals.
+  160 source quotes, each found on its page by script (Ibn Hisham ed. al-Saqqa, al-Raheeq al-Makhtum, al-Isaba,
+  al-Durar al-Saniyya). All 15 Qur'an quotes inside the era's texts match their verses.
+- Worst (proven, narrated): the Medina document's clause on Quraysh reversed (P-029); the Hudaybiyya condition on
+  returning Muslims reversed (P-044); ʿUmar's "raised like ʿIsa" for "gone like Musa" (P-056); the Farewell Sermon
+  placed on Jabal al-Rahma (P-054); Jaʿfar in the first Abyssinia group (P-014); «الفُجَّار» in a title (P-004).
+- «فتوح الشام للواقدي»: no event cites it; 3F's note was wrong. Four events of the era (and al-Yamama) cite
+  «مغازي الواقدي», not on the reliable list. Listed, not changed.
+- CONFLICTS.md's narrated old dates: none in this era. Badr video items (3H): E-01 to E-06.
+- Al-Baladhuri and Khalifa ibn Khayyat were not used.
+
+#### Decisions
+
+- **Mostafa, during the session: don't use VoiceStudio; it is not good for Arabic.** The Whisper review had already
+  run on the era's 98 recordings (55 flagged, nearly all transcription noise); its results are set aside and no
+  "re-record only" list was drawn from them. VoiceStudio and its backend were stopped. `scripts/README.md` notes it.
+- Al-Isaba's sidebar shows only a window of entries, so a full index was not built; pages were found by section.
+  Where a page was not reached, nothing is proposed ("Not checked against a page" in the list).
+- People's birth and death years were checked only where a page was reached; the rest are listed, not proposed.
+
+#### Narration count
+
+If every narrated finding is approved: 27 events, 28 recordings (27 descriptions, 1 title), about 25,800
+characters, one Gemini TTS request each: **28 requests** (30 with enrichment E-08 and E-09). The dry run
+(`npm run narration -- generate`) prints `0 recording(s) to make` now, since no text changed.
+
+#### Recording plan (Mostafa, 2026-11-07: Gemini, free tier only, spread over days)
+
+- The free-tier daily cap of `gemini-3.1-flash-tts-preview` is not published on Google's rate-limits page;
+  developer-forum reports range from 3 to 10 requests a day. **First step: read the project's real RPD in Google
+  AI Studio (rate-limit page).** The day resets at midnight Pacific time (about 10:00 Cairo time).
+- Each day: `npm run narration -- generate --yes --max N`, N = that cap. 28 recordings take 3 to 10 days for this
+  era; all five eras perhaps 100+ recordings, weeks at 3 a day. Recommended order: proven fixes first.
+- Recommended: a small `--resume` step: stop cleanly on HTTP 429 and keep what was recorded (check
+  `scripts/narration/generate.ts` first), then a Windows Task Scheduler entry running it once a day after the reset.
+  Mostafa listens to each day's batch before the PR is merged.
+- Google calls this TTS model a legacy preview and points to newer ones; switching would change the Charon sound
+  between old and new recordings, so stay on it unless Mostafa decides otherwise.
