@@ -88,8 +88,8 @@ describe('narration manifest check', () => {
 
 describe('the app finds narration by event id', () => {
   it('builds the URL from the slug, kind and hash; null when there is no fresh recording', () => {
-    const badr = eventsData.find((e) => e.id === 'battle-badr')!;
-    expect(narrationUrl(badr, 'description')).toMatch(/^\/audio\/battle-badr\.description\.[0-9a-f]{8}\.m4a$/);
+    const khandaq = eventsData.find((e) => e.id === 'battle-khandaq')!;
+    expect(narrationUrl(khandaq, 'description')).toMatch(/^\/audio\/battle-khandaq\.description\.[0-9a-f]{8}\.m4a$/);
     expect(narrationUrl({ id: 'no-such-event' }, 'title')).toBeNull();
   });
 });
