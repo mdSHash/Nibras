@@ -37,7 +37,30 @@ function recordField(record: string, field: string): string | null {
     v = (v as Record<string, unknown>)[m[1]];
     if (m[2] !== undefined) v = Array.isArray(v) ? v[Number(m[2])] : undefined;
   }
-  return typeof v === 'string' ? v : null;
+  return typeof v === 'string' ? v : v === undefined ? null : JSON.stringify(v);
+}
+
+const DECISION: Record<string, string> = { approve: 'موافق', change: 'بتعديل', reject: 'مرفوض', '': 'لم يُحسم' };
+
+/** Checks an applied finding against the content; returns its report lines. */
+function appliedLines(fd: Finding, rec: string, bad: string[]): string[] {
+  const a = fd.applied!;
+  const out: string[] = [];
+  if (a.kept) {
+    const cur = recordField(fd.record ?? rec, fd.field);
+    if (fd.current && !cur?.includes(fd.current)) bad.push(`${fd.id}: kept, but current text not found`);
+    out.push('- ما نُفِّذ: بقي النص كما هو.');
+  }
+  if (a.with) out.push(`- ما نُفِّذ: مع ${a.with}.`);
+  for (const c of a.changes) {
+    const where = c.record ?? fd.record ?? rec;
+    const cur = recordField(where, c.field);
+    if (cur === null) bad.push(`${fd.id}: no field ${c.field} in ${where}`);
+    else if (c.text && !cur.includes(c.text)) bad.push(`${fd.id}: applied text not found in ${where} ${c.field}`);
+    else if (c.removed && cur.includes(c.removed)) bad.push(`${fd.id}: removed text still in ${where} ${c.field}`);
+    out.push(c.text ? `- ما نُفِّذ (\`${c.field}\`): «${c.text}»` : `- ما نُفِّذ (\`${c.field}\`): حُذف «${c.removed}»`);
+  }
+  return out;
 }
 
 function checkCite(c: Cite): { ok: boolean; printed?: string; why?: string } {
@@ -87,11 +110,13 @@ function main(): void {
       }
       for (const fd of rec.findings) {
         findings++;
-        const cur = recordField(fd.record ?? rec.record, fd.field);
-        if (cur === null) bad.push(`${fd.id}: no field ${fd.field} in ${fd.record ?? rec.record}`);
-        else if (fd.kind !== 'إضافة' && (!fd.current || !cur.includes(fd.current))) bad.push(`${fd.id}: current text not found in ${fd.record ?? rec.record} ${fd.field}`);
+        if (!fd.applied) {
+          const cur = recordField(fd.record ?? rec.record, fd.field);
+          if (cur === null) bad.push(`${fd.id}: no field ${fd.field} in ${fd.record ?? rec.record}`);
+          else if (fd.kind !== 'إضافة' && (!fd.current || !cur.includes(fd.current))) bad.push(`${fd.id}: current text not found in ${fd.record ?? rec.record} ${fd.field}`);
+        }
         out.push(`\n**${fd.id}** · ${fd.kind} · \`${fd.field}\` · ${fd.narrated ? 'مسموع (يحتاج تسجيلًا جديدًا)' : 'غير مسموع'} · الدرجة: **${CONF[fd.confidence]}**\n`);
-        out.push(fd.kind === 'إضافة' ? '- النص الحالي: (لا يذكره)' : `- النص الحالي: «${fd.current}»`);
+        out.push(fd.kind === 'إضافة' ? '- النص السابق: (لا يذكره)' : `- النص ${fd.applied ? 'السابق' : 'الحالي'}: «${fd.current}»`);
         out.push(`- المقترح: ${fd.proposed}`);
         for (const c of fd.cites ?? []) {
           quotes++;
@@ -101,6 +126,17 @@ function main(): void {
         }
         if (fd.basis) out.push(`- الأساس: ${fd.basis}`);
         if (fd.note) out.push(`- ملاحظة: ${fd.note}`);
+        if (fd.decision) out.push(`- قرار مصطفى: **${DECISION[fd.decision.v]}**${fd.decision.note ? ` — «${fd.decision.note}»` : ''}`);
+        if (fd.applied) {
+          out.push(...appliedLines(fd, rec.record, bad));
+          for (const c of fd.applied.cites ?? []) {
+            quotes++;
+            const r = checkCite(c);
+            if (!r.ok) bad.push(`${fd.id} (applied): ${r.why}`);
+            out.push(`- مصدر المراجعة: ${citeLine(c, r.printed)}`);
+          }
+          if (fd.applied.note) out.push(`- ما وُجد: ${fd.applied.note}`);
+        }
       }
     }
     if (data.outro) out.push(`\n${data.outro}\n`);
