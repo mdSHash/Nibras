@@ -62,7 +62,17 @@ export default function EventPanel({
   // (x: 100%) and stay off-screen on phones when the variants switch.
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
   const [isDark, setIsDark] = useState(false);
-  const [mobileHeight, setMobileHeight] = useState(SNAP_HALF);
+  // The event the app opened by itself on start shows collapsed on phones, so
+  // the map stays in view (Mostafa, 2026-10-17); others open at half height.
+  // The height is kept with the event it was set for, so a newly shown event
+  // gets its starting height in its first frame: set later by an effect, the
+  // panel would mount at half height and shrink, a layout shift (phone home CLS).
+  const isAutoOpened = useAppStore(s => !!event && s.autoOpenedEventId === event.id);
+  const [sizing, setSizing] = useState<{ eventId: string | null; height: number }>({ eventId: null, height: SNAP_HALF });
+  const eventId = event?.id ?? null;
+  const mobileHeight =
+    sizing.eventId === eventId ? sizing.height : isAutoOpened ? SNAP_COLLAPSED : SNAP_HALF;
+  const setMobileHeight = (height: number) => setSizing({ eventId, height });
   const handleY = useMotionValue(0);
   const narration = useNarration(event);
   const details = useLazyContent(eventDetails, event ? eventSlug(event) : null);
@@ -82,16 +92,14 @@ export default function EventPanel({
     };
   }, []);
 
-  // The event the app opened by itself on start shows collapsed on phones, so
-  // the map stays in view (Mostafa, 2026-10-17); others open at half height.
-  const isAutoOpened = useAppStore(s => !!event && s.autoOpenedEventId === event.id);
+  // A new event starts at text size 0, not expanded; its height is chosen above.
   useEffect(() => {
     setFontSizeStep(0);
     setIsExpanded(false);
     handleY.set(0);
-    setMobileHeight(isAutoOpened ? SNAP_COLLAPSED : SNAP_HALF);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- the height is chosen when the event changes, on purpose
-  }, [event?.id, handleY]);
+    // Closed: the same event opened again starts from its starting height.
+    if (eventId === null) setSizing({ eventId: null, height: SNAP_HALF });
+  }, [eventId, handleY]);
 
   // Mobile drag-end: vertical resize / swipe-to-close
   const handleDragEnd = (_: unknown, info: PanInfo) => {

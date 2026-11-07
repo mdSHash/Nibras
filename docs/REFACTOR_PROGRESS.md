@@ -2427,3 +2427,10 @@ Started on `refactor/phase-3i-closeout` from `main` at `8036c7f` (PRs #19 and #2
 
 - The daily **Chat index** run failed on 2026-11-06 and 2026-11-07, as recorded in 3C: GitHub does not let Actions open its PR. Its branch `bot/chat-index-42363666862` changes no content: the same 3,246 units with the same hashes, only 419 in a different order (the order the builder writes), so the chat answers are not out of date and `npm run check:chat-index` passes. The run will fail every day until `main` has that order: merge that branch (one data file, no quota) or turn on Settings → Actions → General → "Allow GitHub Actions to create and approve pull requests". The older branch `bot/chat-index-42207156094` (2026-11-06) can be deleted then.
 - `docs/PRD.md` ends with "Next Review: at the 3I close-out"; the PRD was reviewed in the first part of 3I and is not changed here.
+
+### After the 3I close-out: chat index and phone home CLS (2026-11-07)
+
+Approved by Mostafa before Phase 4, so that it starts clean.
+
+- **Chat index:** PR #22 merged the daily run's branch (`bot/chat-index-42363666862`): the index on `main` is now in the order the builder writes, so the daily run stops failing. No embeddings and no quota. Both `bot/chat-index-*` branches deleted.
+- **Phone home CLS:** the cause was the event the app opens by itself on a phone. Its panel mounted at half height (60%), and an effect then set it to collapsed (30%), which the panel's CSS height transition animated: a layout shift of about 0.36. `EventPanel.tsx` now keeps the height with the event it was set for, so a newly shown event has its starting height in its first frame. Closing and reopening the same event still starts from that height. The end state is unchanged: collapsed for the auto-opened event, half height for the others. Measured with a layout-shift observer (412×823, 4× CPU, tiles blocked): 0.367 → 0. The visible 0.3 s shrink on start is gone; that is the one behavior change. Lighthouse numbers not re-recorded.
