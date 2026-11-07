@@ -10,7 +10,7 @@ The log for `docs/REFACTOR_PLAN.md`. Each session reads this file first and upda
 | 1 Content model | merged | `refactor/phase-1-content` | #5 |
 | 2 State, routing and pages | merged | `refactor/phase-2-routing` | #6 |
 | 3 Assets, chat and polish | closed (3I close-out) | `refactor/phase-3*` | #7–#21 |
-| 4 Content audit, enrichment and narration | 4A (Prophetic audit) in review | `refactor/phase-4a-audit-prophetic` | — |
+| 4 Content audit, enrichment and narration | 4A (Prophetic audit) and 4B (applied) in review | `refactor/phase-4a-audit-prophetic`, `refactor/phase-4b-apply-prophetic` | — |
 | 5 Learning paths for guests | not started | `feature/phase-5-paths` | — |
 | 6 Optional accounts | not started | `feature/phase-6-accounts` | — |
 
@@ -2506,3 +2506,50 @@ characters, one Gemini TTS request each: **28 requests** (30 with enrichment E-0
 Private page for Mostafa to read and mark up: https://claude.ai/artifact/3b3UYgzu7QapS5MgNjna8X (built from the
 same JSON by a local script in the git-ignored `tmp/`). Each finding has موافق / بتعديل / مرفوض and a note,
 saved in the page's database (collection `decisions`, one document per finding id); **4B starts by reading it.**
+
+### 4B — the approved Prophetic-era changes applied (2026-11-08)
+
+Branch `refactor/phase-4b-apply-prophetic`, cut from the 4A branch (PR #24 not merged yet; Mostafa asked to go
+straight on after marking the review page, so 4B is stacked on it and its PR includes 4A's commits until #24 merges).
+
+#### Decisions read from the review page
+
+87 entries: 84 approved (Mostafa, 2026-11-08: «موافق» means "apply the proposed change as written"), 1 rejected
+(P-081), 2 left open with a note (P-027, P-060). Ten had a note asking for more research. Each is now on the finding
+in `docs/audit/prophetic/*.json` (`decision`), with what was done (`applied`) and the research quotes, which
+`scripts/audit/report.ts` checks (176 quotes in all; every applied text checked against the content).
+
+Research on the notes, each on a cached page:
+- P-027 (check the Sahih): al-Bukhari 446 «مبنيًّا باللَّبِن، وسقفه الجريد، وعمده خشب النخل»; Bukhari's wording used.
+- P-037 / P-079 (check al-Bidaya): Ibn Kathir 5/314–316: Ibn Ishaq «ولم يلق كيدًا»; the Duʿthur story is al-Waqidi's.
+  The story stays in the narration, attributed to al-Waqidi; the wrong Bukhari source and the «صحيح مسلم» hadith tag went.
+- P-051 (look further): «لا تثريب عليكم اليوم» quoting Yusuf has a sound chain (al-Nasaʾi via ʿAbd al-Haqq; al-Albani,
+  Fiqh al-Sira 376: hasan); «اذهبوا فأنتم الطلقاء» has none. The first stays as his words, the second is attributed.
+- P-060 (look further): al-Bidaya 3/375 calls 12 Rabiʿ I «المشهور عند الجمهور». **Kept as is**, no re-recording.
+- P-072: al-Isaba 3/63 gives no birth year for Saʿd; birthDeath is now «؟ - 55 هـ» (al-Waqidi: «أثبت ما قيل»).
+- P-076: al-Bidaya gives both (Ibn Ishaq: Shayba; Abu Dawud 2665: ʿUtba); the bio names both.
+- P-080: al-Isaba's entry says nothing of seeking blessing at the grave; «ويتبرك به» removed, 52 AH confirmed.
+- P-081 (rejected the deletion; "research and correct"): «never defeated in over a hundred battles» is in neither al-Isaba
+  nor al-Bidaya. Replaced with Khalid's own words at death (al-Bidaya 10/131, from al-Waqidi).
+- E-06: Ibn Hisham 1/620 has Hubab's advice from Ibn Ishaq «فحُدِّثت عن رجال من بني سلمة»; added, attributed.
+- P-047: «وعصمه الله منها» kept, as Mostafa asked.
+
+Choices taken where a proposal gave options (reversible; Mostafa away): the first option for P-019, P-030, P-046;
+the sourced al-Waqidi line for P-028; E-02 adds nothing; E-04 went in with E-03. In P-054 the description says
+the sermon was in Batn al-Wadi and «ثم وقف بعرفة» went into the course of events only (it broke the sentence).
+
+#### What changed
+
+- 33 events and 11 people (`content/`), by `tmp/apply4b.ts` from an explicit old→new list: each old text had to
+  occur exactly once in its field. `validate:content` passes; the Quran-quote check: 16 quotes, all match.
+- `tests/narration.test.tsx`: the "builds the URL" test used Badr, whose recording is now stale; it uses al-Khandaq.
+- Chat KB rebuilt (`npm run build:chat-kb`, no quota).
+
+#### Not done: needs Mostafa (quota)
+
+- **Narration: 31 recordings stale** (30 descriptions + the Fijar title, 30,278 characters, so 31 Gemini TTS requests).
+  Stale narration is not played, so if this PR merges before re-recording, those 31 go silent on the site.
+  Recommended: don't merge until the recordings are made (the daily plan in 4A), or merge and accept the gap.
+- **Chat embedding index:** 85 units missing, 79 stale vectors. `check:chat-index` fails, and so does one visitor test
+  (`hud-terms`: the changed Hudaybiyya passage has no current vector). Fix: the Chat index workflow on this
+  branch (Gemini embedding quota, asked first).
