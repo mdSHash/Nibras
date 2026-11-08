@@ -2553,3 +2553,28 @@ the sermon was in Batn al-Wadi and «ثم وقف بعرفة» went into the cour
 - **Chat embedding index:** 85 units missing, 79 stale vectors. `check:chat-index` fails, and so does one visitor test
   (`hud-terms`: the changed Hudaybiyya passage has no current vector). Fix: the Chat index workflow on this
   branch (Gemini embedding quota, asked first).
+
+#### Later on 2026-11-08: quota approved, model switch, first recordings
+
+Mostafa approved all three (re-recording, the chat embedding index, the baselines) and asked to check Gemini's own
+answer about free TTS limits against Google's docs and look at newer models.
+
+- **Google's docs** (speech-generation, rate-limits, pricing, models, deprecations; ai.google.dev now redirects to
+  aistudio.google.com/docs): `gemini-3.1-flash-tts-preview`, the model of every 2026 recording, **shuts down on
+  2026-11-17** (deprecations page; "earliest possible date"). Replacements: `gemini-3.8-flash-tts` and
+  `gemini-3.8-flash-lite-tts` (released 2026-09-22, no shutdown date, free tier "Free of charge", Charon among the
+  30 voices, Standard and Egyptian Arabic in the language table). The rate-limits page gives no TTS numbers ("can
+  be viewed in Google AI Studio"); the "1,500 RPD" in Gemini's answer is the Google Search grounding limit, not TTS.
+  Its sample code (`gemini-2.5-flash` with `response_modalities`) is not what the docs show for TTS.
+- **Measured:** the free tier allows **10 TTS requests a day** for `gemini-3.8-flash-tts` (the 429 names
+  `generate_content_free_tier_requests, limit: 10`), plus a per-minute limit. Resets at midnight Pacific.
+- `scripts/narration/generate.ts`: default model `gemini-3.8-flash-tts` (`GEMINI_TTS_MODEL` overrides, in
+  `.env.example`); accepts a WAV or raw PCM reply; waits out a per-minute 429 and stops on the daily one, keeping
+  what was recorded, so the same command continues the next day. Tests added (fake fetch, no network).
+- **Recorded:** 11 of 31 (fijar-war title; birth, Fijar, Khadija, Hira, Abyssinia, ʿUmar, Year of Sorrow, Taʾif,
+  Israʾ, second ʿAqaba descriptions). Old files archived in `audio-src/replaced/`. **20 left: two more days**
+  (`npm run narration -- generate --yes` once a day after about 10:00 Cairo time).
+- Chat embedding index rebuilt (85 units): `check:chat-index` passes, the visitor tests pass (93/93).
+- **Baselines:** updated once the last recording is in, so the narration entries are captured once.
+- **Voice:** 231 recordings are from the 3.1 model, 11 from 3.8. Mostafa to listen and compare; if the new voice
+  differs too much, re-recording everything is 262 requests (about 27 days at 10 a day).
