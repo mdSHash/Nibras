@@ -24,8 +24,8 @@ describe('content/', () => {
   });
 
   it('covers the whole content set', () => {
-    expect(content.events).toHaveLength(135);
-    expect(content.people).toHaveLength(162);
+    expect(content.events).toHaveLength(140);
+    expect(content.people).toHaveLength(165);
     expect(content.cities).toHaveLength(10);
     expect(content.quranPassages).toHaveLength(51);
     expect(content.eras).toHaveLength(6);
@@ -81,11 +81,15 @@ describe('the content check fails', () => {
   });
 
   it('when events share a date without tieOrder', () => {
-    const date = { ...(badr.date as object) } as Record<string, unknown>;
-    delete date.tieOrder;
-    const issues = messages(withEvent('battle-badr', e => ({ ...e, date })));
+    // Abu Bakr's death and ʿUmar's accession share 634.65; drop the second one's tieOrder.
+    const umar = 'event-66-تولي-عمر-بن-الخطاب-الخلافة';
+    const issues = messages(withEvent(umar, e => {
+      const date = { ...(e.date as object) } as Record<string, unknown>;
+      delete date.tieOrder;
+      return { ...e, date };
+    }));
     expect(issues).toHaveLength(1);
-    expect(issues[0]).toMatch(/^events\/battle-badr\.json: shares date\.sortKey 624 with .*: set date\.tieOrder$/);
+    expect(issues[0]).toMatch(/shares date\.sortKey 634\.65 with .*: set date\.tieOrder$/);
   });
 
   it('when an event is dated inside another era', () => {

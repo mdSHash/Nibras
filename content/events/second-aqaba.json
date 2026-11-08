@@ -6,8 +6,7 @@
   "icon": "scroll",
   "title": "بَيْعَةُ الْعَقَبَةِ الثَّانِيَةُ",
   "date": {
-    "sortKey": 622,
-    "tieOrder": 0,
+    "sortKey": 622.488,
     "gregorian": {
       "year": 622
     },
@@ -43,6 +42,10 @@
     {
       "personId": "al-ansar",
       "labelAr": "الْأَنْصَارُ"
+    },
+    {
+      "personId": "usayd-ibn-hudayr",
+      "labelAr": "أُسَيْدُ بْنُ حُضَيْرٍ"
     }
   ],
   "roles": [

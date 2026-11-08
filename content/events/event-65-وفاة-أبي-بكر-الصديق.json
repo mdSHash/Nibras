@@ -45,6 +45,10 @@
     {
       "personId": "aisha",
       "labelAr": "عَائِشَةُ بِنْتُ أَبِي بَكْرٍ رضي الله عنها"
+    },
+    {
+      "personId": "usayd-ibn-hudayr",
+      "labelAr": "أُسَيْدُ بْنُ حُضَيْرٍ"
     }
   ],
   "roles": [],

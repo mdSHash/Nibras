@@ -1,7 +1,7 @@
 {
   "counts": {
-    "events": 135,
-    "companions": 162,
+    "events": 140,
+    "companions": 165,
     "cities": 10,
     "quranPassages": 51
   },
@@ -18,7 +18,7 @@
       "isRashidunEra": false,
       "isMajor": true,
       "date": {
-        "gregorian": 571,
+        "gregorian": 571.31,
         "hijri": -53,
         "hijriRelative": "عام الفيل",
         "hijriDisplay": "عام الفيل",
@@ -476,7 +476,7 @@
       "isRashidunEra": false,
       "isMajor": true,
       "date": {
-        "gregorian": 610,
+        "gregorian": 610.625,
         "hijri": null,
         "hijriRelative": "قَبْلَ الْهِجْرَةِ بِـ 13 عَامًا",
         "hijriDisplay": "قَبْلَ الْهِجْرَةِ بِـ ١٣ عَامًا",
@@ -654,11 +654,11 @@
       "isRashidunEra": false,
       "isMajor": null,
       "date": {
-        "gregorian": 615,
+        "gregorian": 614.329,
         "hijri": null,
         "hijriRelative": "الْعَامُ الْخَامِسُ مِنَ الْبَعْثَةِ",
         "hijriDisplay": "الْعَامُ الْخَامِسُ مِنَ الْبَعْثَةِ",
-        "gregorianDisplay": "٦١٥ م"
+        "gregorianDisplay": "٦١٤ م"
       },
       "location": {
         "name": "مَمْلَكَةُ أَكْسُومَ (الْحَبَشَةُ)",
@@ -694,6 +694,14 @@
         {
           "name": "عُثْمَانُ بْنُ عَفَّانَ رَضِيَ اللهُ عَنْهُ",
           "companionId": "uthman"
+        },
+        {
+          "name": "عُثْمَانُ بْنُ مَظْعُونٍ",
+          "companionId": "uthman-ibn-mazun"
+        },
+        {
+          "name": "أَبُو سَلَمَةَ بْنُ عَبْدِ الْأَسَدِ",
+          "companionId": "abu-salamah"
         }
       ],
       "companionRoles": [
@@ -743,7 +751,7 @@
       "isRashidunEra": false,
       "isMajor": true,
       "date": {
-        "gregorian": 615.1,
+        "gregorian": 615.704,
         "hijri": null,
         "hijriRelative": "السَّنَةُ السَّادِسَةُ مِنَ الْبَعْثَةِ",
         "hijriDisplay": "السَّنَةُ السَّادِسَةُ مِنَ الْبَعْثَةِ",
@@ -819,7 +827,7 @@
       "isRashidunEra": false,
       "isMajor": true,
       "date": {
-        "gregorian": 615.2,
+        "gregorian": 615.712,
         "hijri": null,
         "hijriRelative": "السَّنَةُ السَّادِسَةُ مِنَ الْبَعْثَةِ",
         "hijriDisplay": "السَّنَةُ السَّادِسَةُ مِنَ الْبَعْثَةِ",
@@ -909,11 +917,11 @@
       "isRashidunEra": false,
       "isMajor": null,
       "date": {
-        "gregorian": 616,
+        "gregorian": 615.745,
         "hijri": null,
         "hijriRelative": "7 ق.هـ",
         "hijriDisplay": "٧ ق.هـ",
-        "gregorianDisplay": "٦١٦ م"
+        "gregorianDisplay": "٦١٥ م"
       },
       "location": {
         "name": "شِعْبُ أَبِي طَالِبٍ، مَكَّةُ",
@@ -994,7 +1002,7 @@
       "isRashidunEra": false,
       "isMajor": null,
       "date": {
-        "gregorian": 619,
+        "gregorian": 619.181,
         "hijri": null,
         "hijriRelative": "3 ق.هـ",
         "hijriDisplay": "٣ ق.هـ",
@@ -1077,7 +1085,7 @@
       "isRashidunEra": false,
       "isMajor": null,
       "date": {
-        "gregorian": 619,
+        "gregorian": 619.425,
         "hijri": null,
         "hijriRelative": "3 ق.هـ",
         "hijriDisplay": "٣ ق.هـ",
@@ -1161,6 +1169,90 @@
       }
     },
     {
+      "id": "first-aqaba",
+      "title": "بَيْعَةُ الْعَقَبَةِ الْأُولَى",
+      "era": "العهد المكي",
+      "eraLabel": "العهد المكي",
+      "ruler": "النبي محمد ﷺ",
+      "category": "treaty",
+      "isBattle": false,
+      "isProphetEra": true,
+      "isRashidunEra": false,
+      "isMajor": null,
+      "date": {
+        "gregorian": 621.515,
+        "hijri": null,
+        "hijriRelative": "1 ق.هـ",
+        "hijriDisplay": "١ ق.هـ",
+        "gregorianDisplay": "٦٢١ م"
+      },
+      "location": {
+        "name": "منى، مكة المكرمة",
+        "coordinates": [
+          21.4133,
+          39.8933
+        ]
+      },
+      "text": {
+        "summary": "f499be1d685b22c4",
+        "fullDescription": "09334dc00bc73e7a",
+        "courseOfEvents": [
+          "b804697a69f8d624",
+          "6a42d4eafc95638a",
+          "b7a0bb05f2d59b0e",
+          "e9e60ca61d650d66",
+          "cf7bf2a2a9345623"
+        ],
+        "durationDays": null
+      },
+      "armySize": null,
+      "enemyArmySize": null,
+      "keyFigures": [
+        {
+          "name": "النَّبِيُّ مُحَمَّدٌ ﷺ",
+          "companionId": "prophet-muhammad"
+        },
+        {
+          "name": "مُصْعَبُ بْنُ عُمَيْرٍ رضي الله عنه",
+          "companionId": "musab-ibn-umayr"
+        },
+        {
+          "name": "أُسَيْدُ بْنُ حُضَيْرٍ",
+          "companionId": "usayd-ibn-hudayr"
+        }
+      ],
+      "companionRoles": [
+        {
+          "name": "مُصْعَبُ بْنُ عُمَيْرٍ",
+          "companionId": "musab-ibn-umayr",
+          "role": "0d3dbaac428844b6"
+        }
+      ],
+      "quran": [
+        {
+          "ref": "سورة الممتحنة: 12 (يَا أَيُّهَا النَّبِيُّ إِذَا جَاءَكَ الْمُؤْمِنَاتُ يُبَايِعْنَكَ...) - إشارة لاحقة",
+          "key": "سورة الممتحنة: 12",
+          "verseText": "561559e7c109ffc6"
+        }
+      ],
+      "hadith": [
+        "733e5b31788fc55d"
+      ],
+      "sources": [
+        "b31bf4ec31ee0ec0",
+        "edf4ad9a71280add",
+        "1caa1246e96d2ee4"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": "first-aqaba.description.09334dc0.m4a",
+        "descriptionExists": true,
+        "titleFile": "first-aqaba.title.da991944.m4a",
+        "titleExists": true
+      }
+    },
+    {
       "id": "isra-miraj",
       "title": "الْإِسْرَاءُ وَالْمِعْرَاجُ",
       "era": "العهد المكي",
@@ -1172,7 +1264,7 @@
       "isRashidunEra": false,
       "isMajor": null,
       "date": {
-        "gregorian": 621,
+        "gregorian": 621.767,
         "hijri": null,
         "hijriRelative": "قبل الهجرة بسنة",
         "hijriDisplay": "قبل الهجرة بسنة",
@@ -1258,86 +1350,6 @@
       }
     },
     {
-      "id": "first-aqaba",
-      "title": "بَيْعَةُ الْعَقَبَةِ الْأُولَى",
-      "era": "العهد المكي",
-      "eraLabel": "العهد المكي",
-      "ruler": "النبي محمد ﷺ",
-      "category": "treaty",
-      "isBattle": false,
-      "isProphetEra": true,
-      "isRashidunEra": false,
-      "isMajor": null,
-      "date": {
-        "gregorian": 621,
-        "hijri": null,
-        "hijriRelative": "1 ق.هـ",
-        "hijriDisplay": "١ ق.هـ",
-        "gregorianDisplay": "٦٢١ م"
-      },
-      "location": {
-        "name": "منى، مكة المكرمة",
-        "coordinates": [
-          21.4133,
-          39.8933
-        ]
-      },
-      "text": {
-        "summary": "f499be1d685b22c4",
-        "fullDescription": "09334dc00bc73e7a",
-        "courseOfEvents": [
-          "b804697a69f8d624",
-          "6a42d4eafc95638a",
-          "b7a0bb05f2d59b0e",
-          "e9e60ca61d650d66",
-          "cf7bf2a2a9345623"
-        ],
-        "durationDays": null
-      },
-      "armySize": null,
-      "enemyArmySize": null,
-      "keyFigures": [
-        {
-          "name": "النَّبِيُّ مُحَمَّدٌ ﷺ",
-          "companionId": "prophet-muhammad"
-        },
-        {
-          "name": "مُصْعَبُ بْنُ عُمَيْرٍ رضي الله عنه",
-          "companionId": "musab-ibn-umayr"
-        }
-      ],
-      "companionRoles": [
-        {
-          "name": "مُصْعَبُ بْنُ عُمَيْرٍ",
-          "companionId": "musab-ibn-umayr",
-          "role": "0d3dbaac428844b6"
-        }
-      ],
-      "quran": [
-        {
-          "ref": "سورة الممتحنة: 12 (يَا أَيُّهَا النَّبِيُّ إِذَا جَاءَكَ الْمُؤْمِنَاتُ يُبَايِعْنَكَ...) - إشارة لاحقة",
-          "key": "سورة الممتحنة: 12",
-          "verseText": "561559e7c109ffc6"
-        }
-      ],
-      "hadith": [
-        "733e5b31788fc55d"
-      ],
-      "sources": [
-        "b31bf4ec31ee0ec0",
-        "edf4ad9a71280add",
-        "1caa1246e96d2ee4"
-      ],
-      "battle": null,
-      "route": null,
-      "narration": {
-        "descriptionFile": "first-aqaba.description.09334dc0.m4a",
-        "descriptionExists": true,
-        "titleFile": "first-aqaba.title.da991944.m4a",
-        "titleExists": true
-      }
-    },
-    {
       "id": "second-aqaba",
       "title": "بَيْعَةُ الْعَقَبَةِ الثَّانِيَةُ",
       "era": "العهد المكي",
@@ -1349,7 +1361,7 @@
       "isRashidunEra": false,
       "isMajor": null,
       "date": {
-        "gregorian": 622,
+        "gregorian": 622.488,
         "hijri": null,
         "hijriRelative": "ذُو الْحِجَّةِ، قُبَيْلَ الْهِجْرَةِ",
         "hijriDisplay": "ذُو الْحِجَّةِ، قُبَيْلَ الْهِجْرَةِ",
@@ -1390,6 +1402,10 @@
         {
           "name": "الْأَنْصَارُ",
           "companionId": "al-ansar"
+        },
+        {
+          "name": "أُسَيْدُ بْنُ حُضَيْرٍ",
+          "companionId": "usayd-ibn-hudayr"
         }
       ],
       "companionRoles": [
@@ -1444,10 +1460,10 @@
       "isRashidunEra": false,
       "isMajor": true,
       "date": {
-        "gregorian": 622,
+        "gregorian": 622.729,
         "hijri": null,
-        "hijriRelative": "عام 1 هـ",
-        "hijriDisplay": "عام ١ هـ",
+        "hijriRelative": "ربيع الأول، 1 هـ",
+        "hijriDisplay": "ربيع الأول، ١ هـ",
         "gregorianDisplay": "٦٢٢ م"
       },
       "location": {
@@ -1484,6 +1500,10 @@
         {
           "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
           "companionId": "ali"
+        },
+        {
+          "name": "أَبُو سَلَمَةَ بْنُ عَبْدِ الْأَسَدِ",
+          "companionId": "abu-salamah"
         }
       ],
       "companionRoles": [
@@ -1582,7 +1602,7 @@
       "isRashidunEra": false,
       "isMajor": null,
       "date": {
-        "gregorian": 622,
+        "gregorian": 622.751,
         "hijri": null,
         "hijriRelative": "1 هـ",
         "hijriDisplay": "١ هـ",
@@ -1717,6 +1737,93 @@
       }
     },
     {
+      "id": "muakhat",
+      "title": "الْمُؤَاخَاةُ بَيْنَ الْمُهَاجِرِينَ وَالْأَنْصَارِ",
+      "era": "العهد المدني",
+      "eraLabel": "العهد المدني",
+      "ruler": "النبي محمد ﷺ",
+      "category": "events",
+      "isBattle": false,
+      "isProphetEra": true,
+      "isRashidunEra": false,
+      "isMajor": null,
+      "date": {
+        "gregorian": 623.1,
+        "hijri": 1,
+        "hijriRelative": "1 هـ",
+        "hijriDisplay": "١ هـ",
+        "gregorianDisplay": "٦٢٣ م"
+      },
+      "location": {
+        "name": "المدينة المنورة",
+        "coordinates": [
+          24.4672,
+          39.6112
+        ]
+      },
+      "text": {
+        "summary": "ecafda6c2c6f27ee",
+        "fullDescription": "ae8cc2513f16c91b",
+        "courseOfEvents": [
+          "39be37b2b500e1ff",
+          "d511348754914306",
+          "32363a1cab3b753b"
+        ],
+        "durationDays": null
+      },
+      "armySize": null,
+      "enemyArmySize": null,
+      "keyFigures": [
+        {
+          "name": "النبي محمد ﷺ",
+          "companionId": "prophet-muhammad"
+        },
+        {
+          "name": "حمزة بن عبد المطلب",
+          "companionId": "hamza"
+        },
+        {
+          "name": "زيد بن حارثة",
+          "companionId": "zayd"
+        },
+        {
+          "name": "أبو بكر الصديق",
+          "companionId": "abu-bakr"
+        },
+        {
+          "name": "عمر بن الخطاب",
+          "companionId": "umar"
+        },
+        {
+          "name": "أبو عبيدة بن الجراح",
+          "companionId": "abu-ubaidah-ibn-al-jarrah"
+        },
+        {
+          "name": "مصعب بن عمير",
+          "companionId": "musab-ibn-umayr"
+        },
+        {
+          "name": "أبو أيوب الأنصاري",
+          "companionId": "abu-ayyub-al-ansari"
+        }
+      ],
+      "companionRoles": [],
+      "quran": [],
+      "hadith": [],
+      "sources": [
+        "ed676e7ceb229bf1",
+        "6ea6dcf41be914af"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": null,
+        "descriptionExists": false,
+        "titleFile": null,
+        "titleExists": false
+      }
+    },
+    {
       "id": "sariyyat-hamza",
       "title": "سَرِيَّةُ حَمْزَةَ بْنِ عَبْدِ الْمُطَّلِبِ (سَيْفُ الْبَحْرِ)",
       "era": "العهد المدني",
@@ -1728,7 +1835,7 @@
       "isRashidunEra": false,
       "isMajor": null,
       "date": {
-        "gregorian": 623,
+        "gregorian": 623.222,
         "hijri": null,
         "hijriRelative": "1 هـ",
         "hijriDisplay": "١ هـ",
@@ -1794,7 +1901,7 @@
       "isRashidunEra": false,
       "isMajor": null,
       "date": {
-        "gregorian": 623,
+        "gregorian": 623.304,
         "hijri": null,
         "hijriRelative": "1 هـ",
         "hijriDisplay": "١ هـ",
@@ -1849,6 +1956,69 @@
       }
     },
     {
+      "id": "ghazwat-waddan",
+      "title": "غَزْوَةُ وَدَّانَ (الْأَبْوَاءِ)",
+      "era": "العهد المدني",
+      "eraLabel": "العهد المدني",
+      "ruler": "النبي محمد ﷺ",
+      "category": "battle",
+      "isBattle": true,
+      "isProphetEra": true,
+      "isRashidunEra": false,
+      "isMajor": null,
+      "date": {
+        "gregorian": 623.627,
+        "hijri": 2,
+        "hijriRelative": "صفر، 2 هـ",
+        "hijriDisplay": "صفر، ٢ هـ",
+        "gregorianDisplay": "٦٢٣ م"
+      },
+      "location": {
+        "name": "ودان، قرب الأبواء بين مكة والمدينة (تقريبي)",
+        "coordinates": [
+          23.1,
+          39.1
+        ]
+      },
+      "text": {
+        "summary": "ba8659164e1a1831",
+        "fullDescription": "858cc1f1aaa09939",
+        "courseOfEvents": [
+          "54883e46f32caea8",
+          "a9ff0c1d19553ff9",
+          "a245315fa2341201"
+        ],
+        "durationDays": null
+      },
+      "armySize": null,
+      "enemyArmySize": null,
+      "keyFigures": [
+        {
+          "name": "النبي محمد ﷺ",
+          "companionId": "prophet-muhammad"
+        },
+        {
+          "name": "سعد بن عبادة",
+          "companionId": "saad-ibn-ubadah"
+        }
+      ],
+      "companionRoles": [],
+      "quran": [],
+      "hadith": [],
+      "sources": [
+        "ed676e7ceb229bf1",
+        "d4c32db022260c36"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": null,
+        "descriptionExists": false,
+        "titleFile": null,
+        "titleExists": false
+      }
+    },
+    {
       "id": "sariyyat-nakhla",
       "title": "سَرِيَّةُ عَبْدِ اللهِ بْنِ جَحْشٍ (نَخْلَةُ)",
       "era": "العهد المدني",
@@ -1860,10 +2030,10 @@
       "isRashidunEra": false,
       "isMajor": null,
       "date": {
-        "gregorian": 624,
+        "gregorian": 624.068,
         "hijri": null,
-        "hijriRelative": "2 هـ",
-        "hijriDisplay": "٢ هـ",
+        "hijriRelative": "رجب، 2 هـ",
+        "hijriDisplay": "رجب، ٢ هـ",
         "gregorianDisplay": "٦٢٤ م"
       },
       "location": {
@@ -1931,7 +2101,7 @@
       "isRashidunEra": false,
       "isMajor": null,
       "date": {
-        "gregorian": 624,
+        "gregorian": 624.112,
         "hijri": null,
         "hijriRelative": "شعبان، 2 هـ",
         "hijriDisplay": "شعبان، ٢ هـ",
@@ -2002,7 +2172,7 @@
       "isRashidunEra": false,
       "isMajor": null,
       "date": {
-        "gregorian": 624,
+        "gregorian": 624.197,
         "hijri": null,
         "hijriRelative": "17 رمضان، 2 هـ",
         "hijriDisplay": "١٧ رمضان، ٢ هـ",
@@ -2126,7 +2296,7 @@
       "isRashidunEra": false,
       "isMajor": null,
       "date": {
-        "gregorian": 624,
+        "gregorian": 624.273,
         "hijri": null,
         "hijriRelative": "شوال، 2 هـ",
         "hijriDisplay": "شوال، ٢ هـ",
@@ -2214,8 +2384,8 @@
       "date": {
         "gregorian": 624.4,
         "hijri": null,
-        "hijriRelative": "2 هـ",
-        "hijriDisplay": "٢ هـ",
+        "hijriRelative": "ذو الحجة، 2 هـ",
+        "hijriDisplay": "ذو الحجة، ٢ هـ",
         "gregorianDisplay": "٦٢٤ م"
       },
       "location": {
@@ -2275,10 +2445,10 @@
       "isRashidunEra": false,
       "isMajor": false,
       "date": {
-        "gregorian": 624.8,
+        "gregorian": 624.516,
         "hijri": null,
-        "hijriRelative": "3 هـ",
-        "hijriDisplay": "٣ هـ",
+        "hijriRelative": "محرم، 3 هـ",
+        "hijriDisplay": "محرم، ٣ هـ",
         "gregorianDisplay": "٦٢٤ م"
       },
       "location": {
@@ -2345,7 +2515,7 @@
       "isRashidunEra": false,
       "isMajor": null,
       "date": {
-        "gregorian": 625,
+        "gregorian": 625.244,
         "hijri": null,
         "hijriRelative": "شوال، 3 هـ",
         "hijriDisplay": "شوال، ٣ هـ",
@@ -2442,6 +2612,74 @@
       }
     },
     {
+      "id": "ghazwat-hamra-al-asad",
+      "title": "غَزْوَةُ حَمْرَاءِ الْأَسَدِ",
+      "era": "العهد المدني",
+      "eraLabel": "العهد المدني",
+      "ruler": "النبي محمد ﷺ",
+      "category": "battle",
+      "isBattle": true,
+      "isProphetEra": true,
+      "isRashidunEra": false,
+      "isMajor": null,
+      "date": {
+        "gregorian": 625.247,
+        "hijri": 3,
+        "hijriRelative": "شوال، 3 هـ",
+        "hijriDisplay": "شوال، ٣ هـ",
+        "gregorianDisplay": "٦٢٥ م"
+      },
+      "location": {
+        "name": "حمراء الأسد، على ثمانية أميال من المدينة (تقريبي)",
+        "coordinates": [
+          24.37,
+          39.48
+        ]
+      },
+      "text": {
+        "summary": "fd68f18d378cea9f",
+        "fullDescription": "ebba1b4bacd93052",
+        "courseOfEvents": [
+          "4ec3f7d2767d1890",
+          "b2ee579caee5c6d1",
+          "8a6f885396096761",
+          "02eecef1ee767793"
+        ],
+        "durationDays": null
+      },
+      "armySize": null,
+      "enemyArmySize": null,
+      "keyFigures": [
+        {
+          "name": "النبي محمد ﷺ",
+          "companionId": "prophet-muhammad"
+        },
+        {
+          "name": "أبو سفيان",
+          "companionId": "abu-sufyan"
+        },
+        {
+          "name": "جابر بن عبد الله",
+          "companionId": "jabir-ibn-abdullah"
+        }
+      ],
+      "companionRoles": [],
+      "quran": [],
+      "hadith": [],
+      "sources": [
+        "ed676e7ceb229bf1",
+        "d4c32db022260c36"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": null,
+        "descriptionExists": false,
+        "titleFile": null,
+        "titleExists": false
+      }
+    },
+    {
       "id": "incident_rajeei",
       "title": "حَادِثَةُ الرَّجِيعِ",
       "era": "العهد المدني",
@@ -2533,8 +2771,8 @@
       "date": {
         "gregorian": 625.6,
         "hijri": null,
-        "hijriRelative": "4 هـ",
-        "hijriDisplay": "٤ هـ",
+        "hijriRelative": "صفر، 4 هـ",
+        "hijriDisplay": "صفر، ٤ هـ",
         "gregorianDisplay": "٦٢٥ م"
       },
       "location": {
@@ -2691,10 +2929,10 @@
       "isRashidunEra": false,
       "isMajor": false,
       "date": {
-        "gregorian": 626.1,
+        "gregorian": 626.052,
         "hijri": null,
-        "hijriRelative": "4 هـ",
-        "hijriDisplay": "٤ هـ",
+        "hijriRelative": "شعبان، 4 هـ",
+        "hijriDisplay": "شعبان، ٤ هـ",
         "gregorianDisplay": "٦٢٦ م"
       },
       "location": {
@@ -2763,8 +3001,8 @@
       "date": {
         "gregorian": 626.6,
         "hijri": null,
-        "hijriRelative": "5 هـ",
-        "hijriDisplay": "٥ هـ",
+        "hijriRelative": "ربيع الأول، 5 هـ",
+        "hijriDisplay": "ربيع الأول، ٥ هـ",
         "gregorianDisplay": "٦٢٦ م"
       },
       "location": {
@@ -2823,8 +3061,8 @@
       "date": {
         "gregorian": 627.05,
         "hijri": null,
-        "hijriRelative": "شعبان، 5 هـ",
-        "hijriDisplay": "شعبان، ٥ هـ",
+        "hijriRelative": "شعبان، 5 هـ (وقيل 6 هـ)",
+        "hijriDisplay": "شعبان، ٥ هـ (وقيل ٦ هـ)",
         "gregorianDisplay": "٦٢٧ م"
       },
       "location": {
@@ -3179,7 +3417,7 @@
       "isRashidunEra": false,
       "isMajor": null,
       "date": {
-        "gregorian": 628,
+        "gregorian": 628.197,
         "hijri": null,
         "hijriRelative": "ذو القعدة، 6 هـ",
         "hijriDisplay": "ذو القعدة، ٦ هـ",
@@ -3219,6 +3457,10 @@
         {
           "name": "سهيل بن عمرو",
           "companionId": "suhayl-ibn-amr"
+        },
+        {
+          "name": "عروة بن مسعود الثقفي",
+          "companionId": "urwah-ibn-masud-al-thaqafi"
         }
       ],
       "companionRoles": [
@@ -3273,6 +3515,67 @@
       }
     },
     {
+      "id": "letters-to-kings",
+      "title": "مُكَاتَبَةُ الْمُلُوكِ وَالْأُمَرَاءِ",
+      "era": "العهد المدني",
+      "eraLabel": "العهد المدني",
+      "ruler": "النبي محمد ﷺ",
+      "category": "politics",
+      "isBattle": false,
+      "isProphetEra": true,
+      "isRashidunEra": false,
+      "isMajor": null,
+      "date": {
+        "gregorian": 628.358,
+        "hijri": 7,
+        "hijriRelative": "محرم، 7 هـ",
+        "hijriDisplay": "محرم، ٧ هـ",
+        "gregorianDisplay": "٦٢٨ م"
+      },
+      "location": {
+        "name": "المدينة المنورة",
+        "coordinates": [
+          24.4672,
+          39.6112
+        ]
+      },
+      "text": {
+        "summary": "51258b9cf9a5ba0d",
+        "fullDescription": "fd41012f51fa3037",
+        "courseOfEvents": [
+          "f6b7cc27962ce6a9",
+          "92dbd7a5d940c423"
+        ],
+        "durationDays": null
+      },
+      "armySize": null,
+      "enemyArmySize": null,
+      "keyFigures": [
+        {
+          "name": "النبي محمد ﷺ",
+          "companionId": "prophet-muhammad"
+        },
+        {
+          "name": "النجاشي أصحمة",
+          "companionId": "al-najashi-ashamah"
+        }
+      ],
+      "companionRoles": [],
+      "quran": [],
+      "hadith": [],
+      "sources": [
+        "d4c32db022260c36"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": null,
+        "descriptionExists": false,
+        "titleFile": null,
+        "titleExists": false
+      }
+    },
+    {
       "id": "battle-khaybar",
       "title": "غَزْوَةُ خَيْبَرَ",
       "era": "العهد المدني",
@@ -3284,7 +3587,7 @@
       "isRashidunEra": false,
       "isMajor": null,
       "date": {
-        "gregorian": 628.1,
+        "gregorian": 628.41,
         "hijri": null,
         "hijriRelative": "محرم، 7 هـ",
         "hijriDisplay": "محرم، ٧ هـ",
@@ -3384,8 +3687,8 @@
       "date": {
         "gregorian": 629.2,
         "hijri": null,
-        "hijriRelative": "7 هـ",
-        "hijriDisplay": "٧ هـ",
+        "hijriRelative": "ذو القعدة، 7 هـ",
+        "hijriDisplay": "ذو القعدة، ٧ هـ",
         "gregorianDisplay": "٦٢٩ م"
       },
       "location": {
@@ -3451,7 +3754,7 @@
       "isRashidunEra": false,
       "isMajor": null,
       "date": {
-        "gregorian": 629.5,
+        "gregorian": 629.69,
         "hijri": null,
         "hijriRelative": "جمادى الأولى، 8 هـ",
         "hijriDisplay": "جمادى الأولى، ٨ هـ",
@@ -3552,10 +3855,10 @@
       "isRashidunEra": false,
       "isMajor": false,
       "date": {
-        "gregorian": 629.7,
+        "gregorian": 629.852,
         "hijri": null,
-        "hijriRelative": "8 هـ",
-        "hijriDisplay": "٨ هـ",
+        "hijriRelative": "رجب، 8 هـ",
+        "hijriDisplay": "رجب، ٨ هـ",
         "gregorianDisplay": "٦٢٩ م"
       },
       "location": {
@@ -3825,10 +4128,10 @@
       "isRashidunEra": false,
       "isMajor": true,
       "date": {
-        "gregorian": 630.2,
+        "gregorian": 630.11,
         "hijri": null,
-        "hijriRelative": "8 هـ",
-        "hijriDisplay": "٨ هـ",
+        "hijriRelative": "شوال، 8 هـ",
+        "hijriDisplay": "شوال، ٨ هـ",
         "gregorianDisplay": "٦٣٠ م"
       },
       "location": {
@@ -3990,6 +4293,72 @@
       }
     },
     {
+      "id": "abu-bakr-hajj-baraa",
+      "title": "حَجَّةُ أَبِي بَكْرٍ بِالنَّاسِ وَالْأَذَانُ بِبَرَاءَةَ",
+      "era": "العهد المدني",
+      "eraLabel": "العهد المدني",
+      "ruler": "النبي محمد ﷺ",
+      "category": "events",
+      "isBattle": false,
+      "isProphetEra": true,
+      "isRashidunEra": false,
+      "isMajor": null,
+      "date": {
+        "gregorian": 631.214,
+        "hijri": 9,
+        "hijriRelative": "ذو الحجة، 9 هـ",
+        "hijriDisplay": "ذو الحجة، ٩ هـ",
+        "gregorianDisplay": "٦٣١ م"
+      },
+      "location": {
+        "name": "منى، مكة المكرمة",
+        "coordinates": [
+          21.413,
+          39.893
+        ]
+      },
+      "text": {
+        "summary": "0fdb6318d0a546f2",
+        "fullDescription": "2a28509df7fbe99f",
+        "courseOfEvents": [
+          "3e82ee34d960ead0",
+          "f0a449202a1e5816",
+          "676e7eba399bc561"
+        ],
+        "durationDays": null
+      },
+      "armySize": null,
+      "enemyArmySize": null,
+      "keyFigures": [
+        {
+          "name": "النبي محمد ﷺ",
+          "companionId": "prophet-muhammad"
+        },
+        {
+          "name": "أبو بكر الصديق",
+          "companionId": "abu-bakr"
+        },
+        {
+          "name": "علي بن أبي طالب",
+          "companionId": "ali"
+        }
+      ],
+      "companionRoles": [],
+      "quran": [],
+      "hadith": [],
+      "sources": [
+        "ed676e7ceb229bf1"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": null,
+        "descriptionExists": false,
+        "titleFile": null,
+        "titleExists": false
+      }
+    },
+    {
       "id": "farewell-pilgrimage",
       "title": "حَجَّةُ الْوَدَاعِ",
       "era": "العهد المدني",
@@ -4001,7 +4370,7 @@
       "isRashidunEra": false,
       "isMajor": null,
       "date": {
-        "gregorian": 632.1,
+        "gregorian": 632.18,
         "hijri": null,
         "hijriRelative": "ذو الحجة، 10 هـ",
         "hijriDisplay": "ذو الحجة، ١٠ هـ",
@@ -4100,7 +4469,7 @@
       "isRashidunEra": false,
       "isMajor": true,
       "date": {
-        "gregorian": 632.3,
+        "gregorian": 632.432,
         "hijri": null,
         "hijriRelative": "12 ربيع الأول، 11 هـ",
         "hijriDisplay": "١٢ ربيع الأول، ١١ هـ",
@@ -5610,6 +5979,10 @@
         {
           "name": "عَائِشَةُ بِنْتُ أَبِي بَكْرٍ رضي الله عنها",
           "companionId": "aisha"
+        },
+        {
+          "name": "أُسَيْدُ بْنُ حُضَيْرٍ",
+          "companionId": "usayd-ibn-hudayr"
         }
       ],
       "companionRoles": [],
@@ -11393,7 +11766,7 @@
         "أبو بكر",
         "أبي بكر"
       ],
-      "bio": "015e3d6d6e4f5a4d"
+      "bio": "07a7bb0d617396fb"
     },
     {
       "id": "umar",
@@ -11405,7 +11778,7 @@
         "عمر بن الخطاب",
         "عمر"
       ],
-      "bio": "6f053e6e299c88fe"
+      "bio": "ab83d4d4a928ecd4"
     },
     {
       "id": "uthman",
@@ -11417,7 +11790,7 @@
         "عثمان بن عفان",
         "عثمان"
       ],
-      "bio": "cfaca211c65d22f1"
+      "bio": "e5259f8d4ea09bc7"
     },
     {
       "id": "ali",
@@ -11430,7 +11803,7 @@
         "علي",
         "عليّ"
       ],
-      "bio": "160c7275af20a1c8"
+      "bio": "f57965e323595ce4"
     },
     {
       "id": "khalid",
@@ -11442,7 +11815,7 @@
         "خالد بن الوليد",
         "خالد"
       ],
-      "bio": "eb495a8fd2ab1ce6"
+      "bio": "fd574867907375a4"
     },
     {
       "id": "khadija",
@@ -11454,7 +11827,7 @@
         "خديجة بنت خويلد",
         "خديجة"
       ],
-      "bio": "905ea3c1b589ea6e"
+      "bio": "a80b16e747047145"
     },
     {
       "id": "aisha",
@@ -11466,7 +11839,7 @@
         "عائشة بنت أبي بكر",
         "عائشة"
       ],
-      "bio": "93437b1c904bcff2"
+      "bio": "2d8e7b982718af90"
     },
     {
       "id": "hamza",
@@ -11478,7 +11851,7 @@
         "حمزة بن عبد المطلب",
         "حمزة"
       ],
-      "bio": "529fe13108102fe2"
+      "bio": "b3a053a4afd33ca0"
     },
     {
       "id": "bilal",
@@ -11490,7 +11863,7 @@
         "بلال بن رباح",
         "بلال"
       ],
-      "bio": "b3ea5569b62dcf20"
+      "bio": "466c250e0f9dd9a4"
     },
     {
       "id": "saad",
@@ -11502,7 +11875,7 @@
         "سعد بن أبي وقاص",
         "سعد"
       ],
-      "bio": "1e6d9671752bb14b"
+      "bio": "9b1d051e8b2b6dcc"
     },
     {
       "id": "amr",
@@ -11526,7 +11899,7 @@
         "زيد بن حارثة",
         "زيد"
       ],
-      "bio": "f4e13fe3c4cf820c"
+      "bio": "40aff4993e3ae358"
     },
     {
       "id": "jafar",
@@ -11539,7 +11912,7 @@
         "جعفر الطيار",
         "جعفر"
       ],
-      "bio": "069809a989670ca5"
+      "bio": "6cb0fc8c33baf231"
     },
     {
       "id": "prophet-muhammad",
@@ -11573,7 +11946,7 @@
         "أبو عبيدة عامر بن عبد الله بن الجراح",
         "أبو عبيدة رضي الله عنه"
       ],
-      "bio": "fee7f57565673faf"
+      "bio": "ff95e399eb3f978f"
     },
     {
       "id": "al-muthanna-ibn-harithah",
@@ -11603,7 +11976,7 @@
         "الحسن بن علي رضي الله عنه",
         "الحسن بن علي بن أبي طالب"
       ],
-      "bio": "5af286a8b2f61e03"
+      "bio": "12b196e44614e366"
     },
     {
       "id": "al-husayn-ibn-ali",
@@ -11618,7 +11991,7 @@
         "الحسين بن علي رضي الله عنه",
         "الحسين بن علي بن أبي طالب"
       ],
-      "bio": "ca6ac8075cf27d80"
+      "bio": "3eb0b0cddc5ce379"
     },
     {
       "id": "ubadah-ibn-al-samit",
@@ -11632,7 +12005,7 @@
         "عبادة بن الصامت رضي الله عنه",
         "أبو الوليد عبادة بن الصامت"
       ],
-      "bio": "6cd9942f58ab9709"
+      "bio": "884042439caa51b6"
     },
     {
       "id": "al-zubayr-ibn-al-awwam",
@@ -11646,7 +12019,7 @@
         "الزبير بن العوام رضي الله عنه",
         "أبو عبد الله الزبير بن العوام"
       ],
-      "bio": "f634a9051d6a3ce2"
+      "bio": "10c2e11905dbb864"
     },
     {
       "id": "iyad-ibn-ghanm",
@@ -11689,7 +12062,7 @@
         "مصعب بن عمير رضي الله عنه",
         "أبو عبد الله مصعب بن عمير"
       ],
-      "bio": "000290d699b57a21"
+      "bio": "02a23f6df6a3b745"
     },
     {
       "id": "abd-al-rahman-ibn-awf",
@@ -11704,7 +12077,7 @@
         "ابن عوف",
         "عبد الرحمن بن عوف رضي الله عنه"
       ],
-      "bio": "994d6fc7590e6662"
+      "bio": "692ebe39aa15be55"
     },
     {
       "id": "hudhayfah-ibn-al-yaman",
@@ -11718,7 +12091,7 @@
         "حذيفة بن اليمان رضي الله عنه",
         "أبو عبد الله حذيفة بن اليمان"
       ],
-      "bio": "1220b439f5f464c5"
+      "bio": "a0cfd0633c8d7c44"
     },
     {
       "id": "muawiyah-ibn-abi-sufyan",
@@ -11747,7 +12120,7 @@
         "حليمة بنت أبي ذؤيب السعدية",
         "حليمة السعدية رضي الله عنها"
       ],
-      "bio": "d4d7765a3b97a5ab"
+      "bio": "049065ed551e7e53"
     },
     {
       "id": "umm-salamah",
@@ -11762,7 +12135,7 @@
         "هند بنت أبي أمية",
         "أم سلمة رضي الله عنها"
       ],
-      "bio": "22159e90811e523b"
+      "bio": "2a66ae3d80d45e66"
     },
     {
       "id": "sawda-bint-zamah",
@@ -11776,7 +12149,7 @@
         "أم المؤمنين سودة",
         "سودة رضي الله عنها"
       ],
-      "bio": "b83b91eda4e2917c"
+      "bio": "ff2d5a10ed5a07ea"
     },
     {
       "id": "zainab-bint-khuzaymah",
@@ -11789,7 +12162,7 @@
         "أم المساكين",
         "أم المؤمنين زينب بنت خزيمة"
       ],
-      "bio": "40ee9f685f08fa35"
+      "bio": "cb2fdd0cdde85fa2"
     },
     {
       "id": "zainab-bint-jahsh",
@@ -11814,7 +12187,7 @@
         "صفية",
         "أم المؤمنين صفية"
       ],
-      "bio": "f1797becc0070ec2"
+      "bio": "97ed612e58409c3a"
     },
     {
       "id": "maymunah-bint-al-harith",
@@ -11827,7 +12200,7 @@
         "ميمونة",
         "أم المؤمنين ميمونة"
       ],
-      "bio": "f16c6803c6acc7ea"
+      "bio": "bbbaf35535b579e8"
     },
     {
       "id": "maria-al-qibtiyya",
@@ -11840,7 +12213,7 @@
         "مارية",
         "أم إبراهيم"
       ],
-      "bio": "e72ca85120496677"
+      "bio": "8b37cf4775150344"
     },
     {
       "id": "rayhanah-bint-zayd",
@@ -11852,7 +12225,7 @@
         "ريحانة بنت زيد",
         "ريحانة"
       ],
-      "bio": "405954aae2570ad3"
+      "bio": "524aba162b733cce"
     },
     {
       "id": "al-abbas-ibn-abd-al-muttalib",
@@ -11866,7 +12239,7 @@
         "العباس بن عبد المطلب رضي الله عنه",
         "عم النبي العباس"
       ],
-      "bio": "0fe5d6f3cfa21e74"
+      "bio": "5831e24baf17301d"
     },
     {
       "id": "asma-bint-abi-bakr",
@@ -11881,7 +12254,7 @@
         "ذات النطاقين",
         "أسماء بنت أبي بكر رضي الله عنها"
       ],
-      "bio": "c7f79a9404900b7e"
+      "bio": "e7664cfe359bbdb9"
     },
     {
       "id": "ammar-ibn-yasir",
@@ -11895,7 +12268,7 @@
         "عمار بن ياسر رضي الله عنه",
         "أبو اليقظان عمار بن ياسر"
       ],
-      "bio": "d48a4f7fd7cb8a76"
+      "bio": "b3a3ff4cd72b4296"
     },
     {
       "id": "muhammad-ibn-maslamah",
@@ -11909,7 +12282,7 @@
         "محمد بن مسلمة الأنصاري",
         "أبو عبد الرحمن محمد بن مسلمة"
       ],
-      "bio": "c0c8052caa9fee8f"
+      "bio": "f332e26ae5c44f5a"
     },
     {
       "id": "salman-al-farisi",
@@ -11923,7 +12296,7 @@
         "سلمان رضي الله عنه",
         "أبو عبد الله سلمان الفارسي"
       ],
-      "bio": "e3ab0cfb0beaa6bd"
+      "bio": "20a4b06ea9919f41"
     },
     {
       "id": "usamah-ibn-zayd",
@@ -11938,7 +12311,7 @@
         "أسامة بن زيد رضي الله عنه",
         "حب ابن حب رسول الله"
       ],
-      "bio": "9d6f64ac9bec5105"
+      "bio": "6f177d0912ae11a6"
     },
     {
       "id": "abu-talib",
@@ -11967,7 +12340,7 @@
         "فاطمة بنت محمد",
         "فاطمة الزهراء رضي الله عنها"
       ],
-      "bio": "ebbde558c304130a"
+      "bio": "bf27cab4a2703f95"
     },
     {
       "id": "al-bara-ibn-malik",
@@ -12038,7 +12411,7 @@
         "صخر بن حرب",
         "أبو سفيان رضي الله عنه"
       ],
-      "bio": "2afd061176570c96"
+      "bio": "d49217d62a4a5002"
     },
     {
       "id": "abdullah-ibn-ubayy",
@@ -12052,7 +12425,7 @@
         "ابن سلول",
         "عبد الله بن أبي"
       ],
-      "bio": "f2878ea46afdff72"
+      "bio": "ab47c3f2e25fd991"
     },
     {
       "id": "abu-ubaid-al-thaqafi",
@@ -12096,7 +12469,7 @@
         "الروح الأمين",
         "أمين الوحي"
       ],
-      "bio": "d07fd918987e90d9"
+      "bio": "9640e5c99ef566fd"
     },
     {
       "id": "jaban",
@@ -12211,7 +12584,7 @@
         "عبد المطلب بن هاشم",
         "جد النبي عبد المطلب"
       ],
-      "bio": "456f378be9bff281"
+      "bio": "90a2b2df9b1cd90e"
     },
     {
       "id": "aminah-bint-wahb",
@@ -12225,7 +12598,7 @@
         "آمنة",
         "أم النبي آمنة"
       ],
-      "bio": "36b00143b0788efa"
+      "bio": "bbe59dbbdd385ec3"
     },
     {
       "id": "al-shayma",
@@ -12242,7 +12615,7 @@
         "الشيماء (أخته من الرضاعة)",
         "الشيماء أخته من الرضاعه"
       ],
-      "bio": "094ca99ff10bc8df"
+      "bio": "ac36aa53cee64953"
     },
     {
       "id": "al-zubayr-ibn-abd-al-muttalib",
@@ -12284,7 +12657,7 @@
         "اصحمة",
         "النجاشي رحمه الله"
       ],
-      "bio": "582904bc75a4929e"
+      "bio": "664f178d57940893"
     },
     {
       "id": "saeed-ibn-zayd",
@@ -12298,7 +12671,7 @@
         "سعيد بن زيد رضي الله عنه",
         "أبو الأعور سعيد بن زيد"
       ],
-      "bio": "74e519b3900bc429"
+      "bio": "346693cd99ac6a4d"
     },
     {
       "id": "fatimah-bint-al-khattab",
@@ -12324,7 +12697,7 @@
         "عداس غلام الطائف",
         "عداس النينوي"
       ],
-      "bio": "b6a0e31ae8b4ad13"
+      "bio": "50da976b564ebbe0"
     },
     {
       "id": "al-bara-ibn-marur",
@@ -12337,7 +12710,7 @@
         "البراء بن معرور رضي الله عنه",
         "البراء"
       ],
-      "bio": "3e04dcd9a633ccc4"
+      "bio": "cc5ac90a643093d8"
     },
     {
       "id": "asad-ibn-zurarah",
@@ -12352,7 +12725,7 @@
         "أسعد بن زرارة رضي الله عنه",
         "أبو أمامة أسعد بن زرارة"
       ],
-      "bio": "2336c07caf9825e4"
+      "bio": "a8a064c29d97ddc9"
     },
     {
       "id": "nusaybah-bint-kaab",
@@ -12366,7 +12739,7 @@
         "أم عمارة",
         "نسيبة بنت كعب رضي الله عنها"
       ],
-      "bio": "a782f4e498c7a905"
+      "bio": "6e27fa024c67c446"
     },
     {
       "id": "al-ansar",
@@ -12380,7 +12753,7 @@
         "الأنصار رضي الله عنهم",
         "أهل المدينة من الصحابة"
       ],
-      "bio": "ec757e4a6aa5e8cf"
+      "bio": "7081833febd75a79"
     },
     {
       "id": "abdullah-ibn-urayqit",
@@ -12394,7 +12767,7 @@
         "ابن أريقط",
         "عبد الله بن اريقط"
       ],
-      "bio": "8f64b8ddccb3b9da"
+      "bio": "90766c8106447b6f"
     },
     {
       "id": "abu-ayyub-al-ansari",
@@ -12409,7 +12782,7 @@
         "أبو أيوب",
         "خالد بن زيد"
       ],
-      "bio": "2463333cb4d4f7bb"
+      "bio": "19703b4b9d55297e"
     },
     {
       "id": "ubaydah-ibn-al-harith",
@@ -12424,7 +12797,7 @@
         "عبيدة بن الحارث رضي الله عنه",
         "عبيدة بن الحارث بن المطلب"
       ],
-      "bio": "025c21ad6d3b3df3"
+      "bio": "6c21597a6c399cdc"
     },
     {
       "id": "abdullah-ibn-jahsh",
@@ -12439,7 +12812,7 @@
         "عبد الله بن جحش رضي الله عنه",
         "عبد الله بن جحش الأسدي"
       ],
-      "bio": "701f8972849cc370"
+      "bio": "38d7f911eac7820a"
     },
     {
       "id": "al-miqdad-ibn-amr",
@@ -12454,7 +12827,7 @@
         "المقداد بن عمرو رضي الله عنه",
         "المقداد بن الأسود رضي الله عنه"
       ],
-      "bio": "a6bbe723818ca881"
+      "bio": "7abfc18da2676f6c"
     },
     {
       "id": "abdullah-ibn-masud",
@@ -12469,7 +12842,7 @@
         "عبد الله بن مسعود رضي الله عنه",
         "أبو عبد الرحمن عبد الله بن مسعود"
       ],
-      "bio": "4ccbad24542ca0c9"
+      "bio": "81d4e2c5571ebb59"
     },
     {
       "id": "anas-ibn-al-nadr",
@@ -12499,7 +12872,7 @@
         "سماك بن خرشة",
         "سماك بن خرشة الأنصاري"
       ],
-      "bio": "7d583d8281ff8b09"
+      "bio": "7bcceabae8f7c820"
     },
     {
       "id": "asim-ibn-thabit",
@@ -12514,7 +12887,7 @@
         "عاصم بن ثابت الأنصاري",
         "عاصم بن ثابت بن أبي الأقلح"
       ],
-      "bio": "e346fcb1a8e5db93"
+      "bio": "36c43b75e331e156"
     },
     {
       "id": "dathur-ibn-al-harith",
@@ -12529,7 +12902,7 @@
         "دعثور المحاربي",
         "دعثور بن الحارث المحاربي"
       ],
-      "bio": "2e0ca4924ba2f8dc"
+      "bio": "cfb440f5b5d6f59b"
     },
     {
       "id": "khubayb-ibn-adi",
@@ -12544,7 +12917,7 @@
         "خبيب الأنصاري",
         "خبيب بن عدي الأنصاري"
       ],
-      "bio": "613e6c6b6f466230"
+      "bio": "05dda500861386e4"
     },
     {
       "id": "amir-ibn-fuhayrah",
@@ -12559,7 +12932,7 @@
         "عامر بن فهيره",
         "مولى أبي بكر عامر بن فهيرة"
       ],
-      "bio": "2cb16117782b7f4d"
+      "bio": "a99b06dea2fedf2e"
     },
     {
       "id": "amir-ibn-al-tufayl",
@@ -12573,7 +12946,7 @@
         "عامر الطفيل",
         "عامر بن الطفيل رضي الله عنه"
       ],
-      "bio": "64e1cfcf093c3a11"
+      "bio": "a54a6169fda20bbb"
     },
     {
       "id": "nuaym-ibn-masud",
@@ -12603,7 +12976,7 @@
         "سعد بن معاذ الأنصاري",
         "سيد الأوس سعد بن معاذ"
       ],
-      "bio": "de03cd655dd0df5e"
+      "bio": "f81d0eef155d4309"
     },
     {
       "id": "juwayriyyah-bint-al-harith",
@@ -12618,7 +12991,7 @@
         "أم المؤمنين جويرية",
         "جويرية المصطلقية"
       ],
-      "bio": "81be8a43020d19f8"
+      "bio": "ec728904317b7545"
     },
     {
       "id": "safwan-ibn-al-muattal",
@@ -12633,7 +13006,7 @@
         "صفوان السلمي",
         "صفوان بن المعطل السلمي"
       ],
-      "bio": "5441b45d675122b9"
+      "bio": "7c7e115d5a34c8b2"
     },
     {
       "id": "suhayl-ibn-amr",
@@ -12648,7 +13021,7 @@
         "سهيل القرشي",
         "خطيب قريش سهيل بن عمرو"
       ],
-      "bio": "df83959ef1d59c80"
+      "bio": "72f707a7d8ae69d3"
     },
     {
       "id": "mahmud-ibn-maslamah",
@@ -12662,7 +13035,7 @@
         "محمود بن مسلمة رضي الله عنه",
         "محمود بن مسلمة الأنصاري"
       ],
-      "bio": "93c969e502e8dafa"
+      "bio": "10709a7aff192453"
     },
     {
       "id": "abu-hurayrah",
@@ -12677,7 +13050,7 @@
         "عبد الرحمن بن صخر",
         "عبد الرحمن بن صخر الدوسي"
       ],
-      "bio": "03beda5ddea95b96"
+      "bio": "8c5f3d64d7ab0509"
     },
     {
       "id": "abdullah-ibn-rawahah",
@@ -12707,7 +13080,7 @@
         "قيس بن سعد بن عبادة رضي الله عنه",
         "قيس الأنصاري"
       ],
-      "bio": "a35f6064dac41539"
+      "bio": "374fa110a079fac2"
     },
     {
       "id": "jabir-ibn-abdullah",
@@ -12722,7 +13095,7 @@
         "جابر بن عبدالله",
         "جابر الأنصاري"
       ],
-      "bio": "6f6feae96777011e"
+      "bio": "c3a720a8e28748b2"
     },
     {
       "id": "abu-sufyan-ibn-al-harith",
@@ -12736,7 +13109,7 @@
         "أبو سفيان بن الحارث رضي الله عنه",
         "أبو سفيان بن الحارث بن عبد المطلب"
       ],
-      "bio": "29d34104a14f3383"
+      "bio": "f3607a28460f6cbe"
     },
     {
       "id": "malik-ibn-awf",
@@ -12750,7 +13123,7 @@
         "مالك بن عوف النصري",
         "مالك بن عوف رضي الله عنه"
       ],
-      "bio": "47d2c3f731f16ad8"
+      "bio": "ae33a09c125c87dc"
     },
     {
       "id": "urwah-ibn-masud-al-thaqafi",
@@ -12765,7 +13138,7 @@
         "عروة بن مسعود الثقفي رضي الله عنه",
         "عروة الثقفي"
       ],
-      "bio": "2b83188387239610"
+      "bio": "5c8079e2b3aca3a0"
     },
     {
       "id": "kaab-ibn-malik",
@@ -12780,7 +13153,7 @@
         "كعب الأنصاري",
         "كعب بن مالك الأنصاري"
       ],
-      "bio": "71419100f7716bd0"
+      "bio": "fa75a916080f1ee7"
     },
     {
       "id": "saad-ibn-ubadah",
@@ -13714,6 +14087,48 @@
         "أبو سعيد الأموي"
       ],
       "bio": "0280b9166b269035"
+    },
+    {
+      "id": "usayd-ibn-hudayr",
+      "name": "أسيد بن حضير رضي الله عنه",
+      "title": "نقيب بني عبد الأشهل",
+      "role": "17be43a4e52a44d9",
+      "birthDeath": "؟ - 20 هـ",
+      "aliases": [
+        "أسيد بن حضير",
+        "أسيد",
+        "أبو يحيى",
+        "أسيد بن حضير رضي الله عنه"
+      ],
+      "bio": "b612b8b9cbd839ee"
+    },
+    {
+      "id": "uthman-ibn-mazun",
+      "name": "عثمان بن مظعون رضي الله عنه",
+      "title": "أول من دفن بالبقيع",
+      "role": "e5e5afc44567e070",
+      "birthDeath": "؟ - 2 هـ",
+      "aliases": [
+        "عثمان بن مظعون",
+        "ابن مظعون",
+        "أبو السائب",
+        "عثمان بن مظعون رضي الله عنه"
+      ],
+      "bio": "f6fd778bec7194cb"
+    },
+    {
+      "id": "abu-salamah",
+      "name": "أبو سلمة بن عبد الأسد رضي الله عنه",
+      "title": "أول من هاجر إلى المدينة",
+      "role": "e5e5afc44567e070",
+      "birthDeath": "؟ - ؟",
+      "aliases": [
+        "أبو سلمة",
+        "أبو سلمة بن عبد الأسد",
+        "عبد الله بن عبد الأسد",
+        "أبو سلمة رضي الله عنه"
+      ],
+      "bio": "9ba198886268dcb6"
     }
   ],
   "cities": [
@@ -14230,7 +14645,7 @@
   ],
   "territories": [
     {
-      "id": "571",
+      "id": "571.31",
       "from": 0,
       "causes": [],
       "areas": [
@@ -16522,6 +16937,326 @@
       ]
     },
     {
+      "id": "610.625",
+      "from": 604,
+      "causes": [],
+      "areas": [
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "a1f0da8d4d1a6a43"
+        },
+        {
+          "holder": "byz",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "b632689a545db892"
+        },
+        {
+          "holder": "axum",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "مملكة أكسوم (الحبشة)",
+          "geometry": "12d4f033e885c3fe"
+        },
+        {
+          "holder": "nubia",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "النوبة",
+          "geometry": "3f60af3a781d5c57"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "03fe4eacfcaa2345"
+        },
+        {
+          "holder": "sasinf",
+          "kind": "client",
+          "uncertain": false,
+          "nameAr": "نفوذ الفرس",
+          "geometry": "1cc236c8dbf45654"
+        },
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "ab38e4067cf0ad47"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "d69829b5c3964349"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "عمان (الأزد)",
+          "geometry": "dbdf72c01c4e8e49"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مهرة",
+          "geometry": "420a0ef0c6d69390"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "حضرموت (كندة)",
+          "geometry": "e4d27b5f4d2a274e"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "البجة",
+          "geometry": "000a922bb36416e0"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "دومة الجندل (كلب)",
+          "geometry": "0e4ededad9ab1021"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "تبوك وأيلة (جذام وبلي)",
+          "geometry": "d7841dcbd2773c30"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو تميم",
+          "geometry": "9bd71d515d084d80"
+        },
+        {
+          "holder": "ghassan",
+          "kind": "client",
+          "uncertain": false,
+          "nameAr": "الغساسنة (حلفاء الروم)",
+          "geometry": "4ae853831b650c7b"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بكر بن وائل",
+          "geometry": "de8881615eac63db"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "طيئ",
+          "geometry": "5e5d4bb504d0ae06"
+        },
+        {
+          "holder": "jews",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "يهود خيبر ووادي القرى",
+          "geometry": "7485073a02c78298"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "هوازن",
+          "geometry": "7655cb832aa627a9"
+        },
+        {
+          "holder": "tribal",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "القبائل العربية",
+          "geometry": "dde67e3026f1f839"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "السراة (الأزد وخثعم)",
+          "geometry": "567952e0dd9b7869"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو أسد",
+          "geometry": "f9fb9c8cb4ec80ab"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مذحج",
+          "geometry": "19e72fc61d7f01eb"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "اليمامة (بنو حنيفة)",
+          "geometry": "cb06a798c136861b"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "جهينة",
+          "geometry": "ecc326a63684d739"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "سليم",
+          "geometry": "ec111fe6a4d9d3f2"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "غطفان",
+          "geometry": "3127a38a184d0e72"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "همدان",
+          "geometry": "38f1725527562c33"
+        },
+        {
+          "holder": "aws",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "الأوس والخزرج",
+          "geometry": "77fbf563fd319ce4"
+        },
+        {
+          "holder": "qur",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "قريش",
+          "geometry": "bfca00e5be7fceec"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "خزاعة",
+          "geometry": "160b7bc0dc997243"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "كنانة",
+          "geometry": "4e501d24bbcbb2fe"
+        }
+      ],
+      "labels": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "مملكة أكسوم (الحبشة)",
+        "النوبة",
+        "نفوذ الفرس",
+        "الغساسنة (حلفاء الروم)",
+        "جند فلسطين",
+        "جند الأردن",
+        "جند دمشق",
+        "جند حمص",
+        "جند قنسرين",
+        "الثغور",
+        "بلاد الروم",
+        "الإسكندرية",
+        "مصر (أسفل الأرض)",
+        "الصعيد",
+        "سيناء",
+        "برقة",
+        "طرابلس",
+        "إفريقية",
+        "قبرص",
+        "السواد",
+        "الأهواز",
+        "الجبال",
+        "الري وقومس",
+        "فارس",
+        "كرمان",
+        "سجستان",
+        "خراسان",
+        "طبرستان وجرجان",
+        "أذربيجان",
+        "مكران",
+        "أرمينية",
+        "الجزيرة",
+        "الحيرة والأنبار",
+        "مشارف الشام (غسان)",
+        "صنعاء (الأبناء)",
+        "حمير",
+        "تهامة اليمن (عك والأشعر)",
+        "البحرين (عبد القيس)",
+        "عمان (الأزد)",
+        "كنانة",
+        "خزاعة",
+        "سليم",
+        "هوازن",
+        "غطفان",
+        "طيئ",
+        "بنو أسد",
+        "بنو تميم",
+        "بكر بن وائل",
+        "جهينة",
+        "همدان",
+        "مذحج",
+        "السراة (الأزد وخثعم)",
+        "تبوك وأيلة (جذام وبلي)",
+        "دومة الجندل (كلب)",
+        "مهرة",
+        "البجة",
+        "اليمامة (بنو حنيفة)",
+        "حضرموت (كندة)",
+        "نجران",
+        "مكة (قريش)",
+        "الطائف (ثقيف)",
+        "يثرب (الأوس والخزرج)",
+        "خيبر ووادي القرى (يهود)",
+        "الحبشة (أكسوم)"
+      ],
+      "legend": [
+        "الإمبراطورية البيزنطية (الروم)",
+        "الإمبراطورية الساسانية (الفرس)",
+        "الغساسنة (حلفاء الروم)",
+        "نفوذ الفرس",
+        "قريش",
+        "الأوس والخزرج",
+        "يهود خيبر ووادي القرى",
+        "النوبة",
+        "مملكة أكسوم (الحبشة)",
+        "أرض متنازع عليها",
+        "ديار القبائل (حدود غير ثابتة)",
+        "سيطرة غير مؤكدة (خط متقطع)"
+      ]
+    },
+    {
       "id": "613",
       "from": 604,
       "causes": [],
@@ -16842,7 +17577,7 @@
       ]
     },
     {
-      "id": "615",
+      "id": "614.329",
       "from": 614,
       "causes": [],
       "areas": [
@@ -17153,7 +17888,7 @@
       ]
     },
     {
-      "id": "615.1",
+      "id": "615.704",
       "from": 614,
       "causes": [],
       "areas": [
@@ -17464,7 +18199,7 @@
       ]
     },
     {
-      "id": "615.2",
+      "id": "615.712",
       "from": 614,
       "causes": [],
       "areas": [
@@ -17775,7 +18510,7 @@
       ]
     },
     {
-      "id": "616",
+      "id": "615.745",
       "from": 614,
       "causes": [],
       "areas": [
@@ -18086,7 +18821,7 @@
       ]
     },
     {
-      "id": "619",
+      "id": "619.181",
       "from": 618,
       "causes": [],
       "areas": [
@@ -18397,7 +19132,7 @@
       ]
     },
     {
-      "id": "621",
+      "id": "619.425",
       "from": 618,
       "causes": [],
       "areas": [
@@ -18708,8 +19443,1255 @@
       ]
     },
     {
-      "id": "622",
-      "from": 622,
+      "id": "621.515",
+      "from": 618,
+      "causes": [],
+      "areas": [
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "e97a788c042fcaa8"
+        },
+        {
+          "holder": "byz",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "19fa24a34f5fb253"
+        },
+        {
+          "holder": "axum",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "مملكة أكسوم (الحبشة)",
+          "geometry": "12d4f033e885c3fe"
+        },
+        {
+          "holder": "nubia",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "النوبة",
+          "geometry": "3f60af3a781d5c57"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "03fe4eacfcaa2345"
+        },
+        {
+          "holder": "sasinf",
+          "kind": "client",
+          "uncertain": false,
+          "nameAr": "نفوذ الفرس",
+          "geometry": "1cc236c8dbf45654"
+        },
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "ab38e4067cf0ad47"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "d69829b5c3964349"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "عمان (الأزد)",
+          "geometry": "dbdf72c01c4e8e49"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مهرة",
+          "geometry": "420a0ef0c6d69390"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "حضرموت (كندة)",
+          "geometry": "e4d27b5f4d2a274e"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "البجة",
+          "geometry": "000a922bb36416e0"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "دومة الجندل (كلب)",
+          "geometry": "0e4ededad9ab1021"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "تبوك وأيلة (جذام وبلي)",
+          "geometry": "d7841dcbd2773c30"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو تميم",
+          "geometry": "9bd71d515d084d80"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بكر بن وائل",
+          "geometry": "de8881615eac63db"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "طيئ",
+          "geometry": "5e5d4bb504d0ae06"
+        },
+        {
+          "holder": "jews",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "يهود خيبر ووادي القرى",
+          "geometry": "7485073a02c78298"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "هوازن",
+          "geometry": "7655cb832aa627a9"
+        },
+        {
+          "holder": "tribal",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "القبائل العربية",
+          "geometry": "dde67e3026f1f839"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "السراة (الأزد وخثعم)",
+          "geometry": "567952e0dd9b7869"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو أسد",
+          "geometry": "f9fb9c8cb4ec80ab"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مذحج",
+          "geometry": "19e72fc61d7f01eb"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "اليمامة (بنو حنيفة)",
+          "geometry": "cb06a798c136861b"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "جهينة",
+          "geometry": "ecc326a63684d739"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "سليم",
+          "geometry": "ec111fe6a4d9d3f2"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "غطفان",
+          "geometry": "3127a38a184d0e72"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "همدان",
+          "geometry": "38f1725527562c33"
+        },
+        {
+          "holder": "aws",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "الأوس والخزرج",
+          "geometry": "77fbf563fd319ce4"
+        },
+        {
+          "holder": "qur",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "قريش",
+          "geometry": "bfca00e5be7fceec"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "خزاعة",
+          "geometry": "160b7bc0dc997243"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "كنانة",
+          "geometry": "4e501d24bbcbb2fe"
+        }
+      ],
+      "labels": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "مملكة أكسوم (الحبشة)",
+        "النوبة",
+        "نفوذ الفرس",
+        "جند فلسطين",
+        "جند الأردن",
+        "جند دمشق",
+        "جند حمص",
+        "جند قنسرين",
+        "الثغور",
+        "بلاد الروم",
+        "الإسكندرية",
+        "مصر (أسفل الأرض)",
+        "الصعيد",
+        "سيناء",
+        "برقة",
+        "طرابلس",
+        "إفريقية",
+        "قبرص",
+        "السواد",
+        "الأهواز",
+        "الجبال",
+        "الري وقومس",
+        "فارس",
+        "كرمان",
+        "سجستان",
+        "خراسان",
+        "طبرستان وجرجان",
+        "أذربيجان",
+        "مكران",
+        "أرمينية",
+        "الجزيرة",
+        "الحيرة والأنبار",
+        "مشارف الشام (غسان)",
+        "صنعاء (الأبناء)",
+        "حمير",
+        "تهامة اليمن (عك والأشعر)",
+        "البحرين (عبد القيس)",
+        "عمان (الأزد)",
+        "كنانة",
+        "خزاعة",
+        "سليم",
+        "هوازن",
+        "غطفان",
+        "طيئ",
+        "بنو أسد",
+        "بنو تميم",
+        "بكر بن وائل",
+        "جهينة",
+        "همدان",
+        "مذحج",
+        "السراة (الأزد وخثعم)",
+        "تبوك وأيلة (جذام وبلي)",
+        "دومة الجندل (كلب)",
+        "مهرة",
+        "البجة",
+        "اليمامة (بنو حنيفة)",
+        "حضرموت (كندة)",
+        "نجران",
+        "مكة (قريش)",
+        "الطائف (ثقيف)",
+        "يثرب (الأوس والخزرج)",
+        "خيبر ووادي القرى (يهود)",
+        "الحبشة (أكسوم)"
+      ],
+      "legend": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "نفوذ الفرس",
+        "قريش",
+        "الأوس والخزرج",
+        "يهود خيبر ووادي القرى",
+        "النوبة",
+        "مملكة أكسوم (الحبشة)",
+        "أرض متنازع عليها",
+        "ديار القبائل (حدود غير ثابتة)",
+        "سيطرة غير مؤكدة (خط متقطع)"
+      ]
+    },
+    {
+      "id": "621.767",
+      "from": 618,
+      "causes": [],
+      "areas": [
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "e97a788c042fcaa8"
+        },
+        {
+          "holder": "byz",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "19fa24a34f5fb253"
+        },
+        {
+          "holder": "axum",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "مملكة أكسوم (الحبشة)",
+          "geometry": "12d4f033e885c3fe"
+        },
+        {
+          "holder": "nubia",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "النوبة",
+          "geometry": "3f60af3a781d5c57"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "03fe4eacfcaa2345"
+        },
+        {
+          "holder": "sasinf",
+          "kind": "client",
+          "uncertain": false,
+          "nameAr": "نفوذ الفرس",
+          "geometry": "1cc236c8dbf45654"
+        },
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "ab38e4067cf0ad47"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "d69829b5c3964349"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "عمان (الأزد)",
+          "geometry": "dbdf72c01c4e8e49"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مهرة",
+          "geometry": "420a0ef0c6d69390"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "حضرموت (كندة)",
+          "geometry": "e4d27b5f4d2a274e"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "البجة",
+          "geometry": "000a922bb36416e0"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "دومة الجندل (كلب)",
+          "geometry": "0e4ededad9ab1021"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "تبوك وأيلة (جذام وبلي)",
+          "geometry": "d7841dcbd2773c30"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو تميم",
+          "geometry": "9bd71d515d084d80"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بكر بن وائل",
+          "geometry": "de8881615eac63db"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "طيئ",
+          "geometry": "5e5d4bb504d0ae06"
+        },
+        {
+          "holder": "jews",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "يهود خيبر ووادي القرى",
+          "geometry": "7485073a02c78298"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "هوازن",
+          "geometry": "7655cb832aa627a9"
+        },
+        {
+          "holder": "tribal",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "القبائل العربية",
+          "geometry": "dde67e3026f1f839"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "السراة (الأزد وخثعم)",
+          "geometry": "567952e0dd9b7869"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو أسد",
+          "geometry": "f9fb9c8cb4ec80ab"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مذحج",
+          "geometry": "19e72fc61d7f01eb"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "اليمامة (بنو حنيفة)",
+          "geometry": "cb06a798c136861b"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "جهينة",
+          "geometry": "ecc326a63684d739"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "سليم",
+          "geometry": "ec111fe6a4d9d3f2"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "غطفان",
+          "geometry": "3127a38a184d0e72"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "همدان",
+          "geometry": "38f1725527562c33"
+        },
+        {
+          "holder": "aws",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "الأوس والخزرج",
+          "geometry": "77fbf563fd319ce4"
+        },
+        {
+          "holder": "qur",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "قريش",
+          "geometry": "bfca00e5be7fceec"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "خزاعة",
+          "geometry": "160b7bc0dc997243"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "كنانة",
+          "geometry": "4e501d24bbcbb2fe"
+        }
+      ],
+      "labels": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "مملكة أكسوم (الحبشة)",
+        "النوبة",
+        "نفوذ الفرس",
+        "جند فلسطين",
+        "جند الأردن",
+        "جند دمشق",
+        "جند حمص",
+        "جند قنسرين",
+        "الثغور",
+        "بلاد الروم",
+        "الإسكندرية",
+        "مصر (أسفل الأرض)",
+        "الصعيد",
+        "سيناء",
+        "برقة",
+        "طرابلس",
+        "إفريقية",
+        "قبرص",
+        "السواد",
+        "الأهواز",
+        "الجبال",
+        "الري وقومس",
+        "فارس",
+        "كرمان",
+        "سجستان",
+        "خراسان",
+        "طبرستان وجرجان",
+        "أذربيجان",
+        "مكران",
+        "أرمينية",
+        "الجزيرة",
+        "الحيرة والأنبار",
+        "مشارف الشام (غسان)",
+        "صنعاء (الأبناء)",
+        "حمير",
+        "تهامة اليمن (عك والأشعر)",
+        "البحرين (عبد القيس)",
+        "عمان (الأزد)",
+        "كنانة",
+        "خزاعة",
+        "سليم",
+        "هوازن",
+        "غطفان",
+        "طيئ",
+        "بنو أسد",
+        "بنو تميم",
+        "بكر بن وائل",
+        "جهينة",
+        "همدان",
+        "مذحج",
+        "السراة (الأزد وخثعم)",
+        "تبوك وأيلة (جذام وبلي)",
+        "دومة الجندل (كلب)",
+        "مهرة",
+        "البجة",
+        "اليمامة (بنو حنيفة)",
+        "حضرموت (كندة)",
+        "نجران",
+        "مكة (قريش)",
+        "الطائف (ثقيف)",
+        "يثرب (الأوس والخزرج)",
+        "خيبر ووادي القرى (يهود)",
+        "الحبشة (أكسوم)"
+      ],
+      "legend": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "نفوذ الفرس",
+        "قريش",
+        "الأوس والخزرج",
+        "يهود خيبر ووادي القرى",
+        "النوبة",
+        "مملكة أكسوم (الحبشة)",
+        "أرض متنازع عليها",
+        "ديار القبائل (حدود غير ثابتة)",
+        "سيطرة غير مؤكدة (خط متقطع)"
+      ]
+    },
+    {
+      "id": "622.488",
+      "from": 618,
+      "causes": [],
+      "areas": [
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "e97a788c042fcaa8"
+        },
+        {
+          "holder": "byz",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "19fa24a34f5fb253"
+        },
+        {
+          "holder": "axum",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "مملكة أكسوم (الحبشة)",
+          "geometry": "12d4f033e885c3fe"
+        },
+        {
+          "holder": "nubia",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "النوبة",
+          "geometry": "3f60af3a781d5c57"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "03fe4eacfcaa2345"
+        },
+        {
+          "holder": "sasinf",
+          "kind": "client",
+          "uncertain": false,
+          "nameAr": "نفوذ الفرس",
+          "geometry": "1cc236c8dbf45654"
+        },
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "ab38e4067cf0ad47"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "d69829b5c3964349"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "عمان (الأزد)",
+          "geometry": "dbdf72c01c4e8e49"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مهرة",
+          "geometry": "420a0ef0c6d69390"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "حضرموت (كندة)",
+          "geometry": "e4d27b5f4d2a274e"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "البجة",
+          "geometry": "000a922bb36416e0"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "دومة الجندل (كلب)",
+          "geometry": "0e4ededad9ab1021"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "تبوك وأيلة (جذام وبلي)",
+          "geometry": "d7841dcbd2773c30"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو تميم",
+          "geometry": "9bd71d515d084d80"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بكر بن وائل",
+          "geometry": "de8881615eac63db"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "طيئ",
+          "geometry": "5e5d4bb504d0ae06"
+        },
+        {
+          "holder": "jews",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "يهود خيبر ووادي القرى",
+          "geometry": "7485073a02c78298"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "هوازن",
+          "geometry": "7655cb832aa627a9"
+        },
+        {
+          "holder": "tribal",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "القبائل العربية",
+          "geometry": "dde67e3026f1f839"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "السراة (الأزد وخثعم)",
+          "geometry": "567952e0dd9b7869"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو أسد",
+          "geometry": "f9fb9c8cb4ec80ab"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مذحج",
+          "geometry": "19e72fc61d7f01eb"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "اليمامة (بنو حنيفة)",
+          "geometry": "cb06a798c136861b"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "جهينة",
+          "geometry": "ecc326a63684d739"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "سليم",
+          "geometry": "ec111fe6a4d9d3f2"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "غطفان",
+          "geometry": "3127a38a184d0e72"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "همدان",
+          "geometry": "38f1725527562c33"
+        },
+        {
+          "holder": "aws",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "الأوس والخزرج",
+          "geometry": "77fbf563fd319ce4"
+        },
+        {
+          "holder": "qur",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "قريش",
+          "geometry": "bfca00e5be7fceec"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "خزاعة",
+          "geometry": "160b7bc0dc997243"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "كنانة",
+          "geometry": "4e501d24bbcbb2fe"
+        }
+      ],
+      "labels": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "مملكة أكسوم (الحبشة)",
+        "النوبة",
+        "نفوذ الفرس",
+        "جند فلسطين",
+        "جند الأردن",
+        "جند دمشق",
+        "جند حمص",
+        "جند قنسرين",
+        "الثغور",
+        "بلاد الروم",
+        "الإسكندرية",
+        "مصر (أسفل الأرض)",
+        "الصعيد",
+        "سيناء",
+        "برقة",
+        "طرابلس",
+        "إفريقية",
+        "قبرص",
+        "السواد",
+        "الأهواز",
+        "الجبال",
+        "الري وقومس",
+        "فارس",
+        "كرمان",
+        "سجستان",
+        "خراسان",
+        "طبرستان وجرجان",
+        "أذربيجان",
+        "مكران",
+        "أرمينية",
+        "الجزيرة",
+        "الحيرة والأنبار",
+        "مشارف الشام (غسان)",
+        "صنعاء (الأبناء)",
+        "حمير",
+        "تهامة اليمن (عك والأشعر)",
+        "البحرين (عبد القيس)",
+        "عمان (الأزد)",
+        "كنانة",
+        "خزاعة",
+        "سليم",
+        "هوازن",
+        "غطفان",
+        "طيئ",
+        "بنو أسد",
+        "بنو تميم",
+        "بكر بن وائل",
+        "جهينة",
+        "همدان",
+        "مذحج",
+        "السراة (الأزد وخثعم)",
+        "تبوك وأيلة (جذام وبلي)",
+        "دومة الجندل (كلب)",
+        "مهرة",
+        "البجة",
+        "اليمامة (بنو حنيفة)",
+        "حضرموت (كندة)",
+        "نجران",
+        "مكة (قريش)",
+        "الطائف (ثقيف)",
+        "يثرب (الأوس والخزرج)",
+        "خيبر ووادي القرى (يهود)",
+        "الحبشة (أكسوم)"
+      ],
+      "legend": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "نفوذ الفرس",
+        "قريش",
+        "الأوس والخزرج",
+        "يهود خيبر ووادي القرى",
+        "النوبة",
+        "مملكة أكسوم (الحبشة)",
+        "أرض متنازع عليها",
+        "ديار القبائل (حدود غير ثابتة)",
+        "سيطرة غير مؤكدة (خط متقطع)"
+      ]
+    },
+    {
+      "id": "622.729",
+      "from": 622.729,
+      "causes": [
+        "hijra-medina"
+      ],
+      "areas": [
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "e97a788c042fcaa8"
+        },
+        {
+          "holder": "byz",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "19fa24a34f5fb253"
+        },
+        {
+          "holder": "axum",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "مملكة أكسوم (الحبشة)",
+          "geometry": "12d4f033e885c3fe"
+        },
+        {
+          "holder": "nubia",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "النوبة",
+          "geometry": "3f60af3a781d5c57"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "03fe4eacfcaa2345"
+        },
+        {
+          "holder": "sasinf",
+          "kind": "client",
+          "uncertain": false,
+          "nameAr": "نفوذ الفرس",
+          "geometry": "1cc236c8dbf45654"
+        },
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "ab38e4067cf0ad47"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "d69829b5c3964349"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "عمان (الأزد)",
+          "geometry": "dbdf72c01c4e8e49"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مهرة",
+          "geometry": "420a0ef0c6d69390"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "حضرموت (كندة)",
+          "geometry": "e4d27b5f4d2a274e"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "البجة",
+          "geometry": "000a922bb36416e0"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "دومة الجندل (كلب)",
+          "geometry": "0e4ededad9ab1021"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "تبوك وأيلة (جذام وبلي)",
+          "geometry": "d7841dcbd2773c30"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو تميم",
+          "geometry": "9bd71d515d084d80"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بكر بن وائل",
+          "geometry": "de8881615eac63db"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "طيئ",
+          "geometry": "5e5d4bb504d0ae06"
+        },
+        {
+          "holder": "jews",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "يهود خيبر ووادي القرى",
+          "geometry": "7485073a02c78298"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "هوازن",
+          "geometry": "7655cb832aa627a9"
+        },
+        {
+          "holder": "tribal",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "القبائل العربية",
+          "geometry": "dde67e3026f1f839"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "السراة (الأزد وخثعم)",
+          "geometry": "567952e0dd9b7869"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو أسد",
+          "geometry": "f9fb9c8cb4ec80ab"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مذحج",
+          "geometry": "19e72fc61d7f01eb"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "اليمامة (بنو حنيفة)",
+          "geometry": "cb06a798c136861b"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "جهينة",
+          "geometry": "ecc326a63684d739"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "سليم",
+          "geometry": "ec111fe6a4d9d3f2"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "غطفان",
+          "geometry": "3127a38a184d0e72"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "همدان",
+          "geometry": "38f1725527562c33"
+        },
+        {
+          "holder": "islam",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الدولة الإسلامية",
+          "geometry": "77fbf563fd319ce4"
+        },
+        {
+          "holder": "qur",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "قريش",
+          "geometry": "bfca00e5be7fceec"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "خزاعة",
+          "geometry": "160b7bc0dc997243"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "كنانة",
+          "geometry": "4e501d24bbcbb2fe"
+        }
+      ],
+      "labels": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "مملكة أكسوم (الحبشة)",
+        "النوبة",
+        "نفوذ الفرس",
+        "الدولة الإسلامية",
+        "جند فلسطين",
+        "جند الأردن",
+        "جند دمشق",
+        "جند حمص",
+        "جند قنسرين",
+        "الثغور",
+        "بلاد الروم",
+        "الإسكندرية",
+        "مصر (أسفل الأرض)",
+        "الصعيد",
+        "سيناء",
+        "برقة",
+        "طرابلس",
+        "إفريقية",
+        "قبرص",
+        "السواد",
+        "الأهواز",
+        "الجبال",
+        "الري وقومس",
+        "فارس",
+        "كرمان",
+        "سجستان",
+        "خراسان",
+        "طبرستان وجرجان",
+        "أذربيجان",
+        "مكران",
+        "أرمينية",
+        "الجزيرة",
+        "الحيرة والأنبار",
+        "مشارف الشام (غسان)",
+        "صنعاء (الأبناء)",
+        "حمير",
+        "تهامة اليمن (عك والأشعر)",
+        "البحرين (عبد القيس)",
+        "عمان (الأزد)",
+        "كنانة",
+        "خزاعة",
+        "سليم",
+        "هوازن",
+        "غطفان",
+        "طيئ",
+        "بنو أسد",
+        "بنو تميم",
+        "بكر بن وائل",
+        "جهينة",
+        "همدان",
+        "مذحج",
+        "السراة (الأزد وخثعم)",
+        "تبوك وأيلة (جذام وبلي)",
+        "دومة الجندل (كلب)",
+        "مهرة",
+        "البجة",
+        "اليمامة (بنو حنيفة)",
+        "حضرموت (كندة)",
+        "نجران",
+        "مكة (قريش)",
+        "الطائف (ثقيف)",
+        "المدينة",
+        "خيبر ووادي القرى (يهود)",
+        "الحبشة (أكسوم)"
+      ],
+      "legend": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "نفوذ الفرس",
+        "قريش",
+        "الدولة الإسلامية",
+        "يهود خيبر ووادي القرى",
+        "النوبة",
+        "مملكة أكسوم (الحبشة)",
+        "أرض متنازع عليها",
+        "ديار القبائل (حدود غير ثابتة)",
+        "سيطرة غير مؤكدة (خط متقطع)"
+      ]
+    },
+    {
+      "id": "622.751",
+      "from": 622.729,
       "causes": [
         "hijra-medina"
       ],
@@ -19023,7 +21005,7 @@
     },
     {
       "id": "623",
-      "from": 622,
+      "from": 622.729,
       "causes": [
         "hijra-medina"
       ],
@@ -19336,8 +21318,2206 @@
       ]
     },
     {
-      "id": "624",
-      "from": 622,
+      "id": "623.1",
+      "from": 622.729,
+      "causes": [
+        "hijra-medina"
+      ],
+      "areas": [
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "e97a788c042fcaa8"
+        },
+        {
+          "holder": "byz",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "19fa24a34f5fb253"
+        },
+        {
+          "holder": "axum",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "مملكة أكسوم (الحبشة)",
+          "geometry": "12d4f033e885c3fe"
+        },
+        {
+          "holder": "nubia",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "النوبة",
+          "geometry": "3f60af3a781d5c57"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "03fe4eacfcaa2345"
+        },
+        {
+          "holder": "sasinf",
+          "kind": "client",
+          "uncertain": false,
+          "nameAr": "نفوذ الفرس",
+          "geometry": "1cc236c8dbf45654"
+        },
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "ab38e4067cf0ad47"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "d69829b5c3964349"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "عمان (الأزد)",
+          "geometry": "dbdf72c01c4e8e49"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مهرة",
+          "geometry": "420a0ef0c6d69390"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "حضرموت (كندة)",
+          "geometry": "e4d27b5f4d2a274e"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "البجة",
+          "geometry": "000a922bb36416e0"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "دومة الجندل (كلب)",
+          "geometry": "0e4ededad9ab1021"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "تبوك وأيلة (جذام وبلي)",
+          "geometry": "d7841dcbd2773c30"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو تميم",
+          "geometry": "9bd71d515d084d80"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بكر بن وائل",
+          "geometry": "de8881615eac63db"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "طيئ",
+          "geometry": "5e5d4bb504d0ae06"
+        },
+        {
+          "holder": "jews",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "يهود خيبر ووادي القرى",
+          "geometry": "7485073a02c78298"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "هوازن",
+          "geometry": "7655cb832aa627a9"
+        },
+        {
+          "holder": "tribal",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "القبائل العربية",
+          "geometry": "dde67e3026f1f839"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "السراة (الأزد وخثعم)",
+          "geometry": "567952e0dd9b7869"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو أسد",
+          "geometry": "f9fb9c8cb4ec80ab"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مذحج",
+          "geometry": "19e72fc61d7f01eb"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "اليمامة (بنو حنيفة)",
+          "geometry": "cb06a798c136861b"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "جهينة",
+          "geometry": "ecc326a63684d739"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "سليم",
+          "geometry": "ec111fe6a4d9d3f2"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "غطفان",
+          "geometry": "3127a38a184d0e72"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "همدان",
+          "geometry": "38f1725527562c33"
+        },
+        {
+          "holder": "islam",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الدولة الإسلامية",
+          "geometry": "77fbf563fd319ce4"
+        },
+        {
+          "holder": "qur",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "قريش",
+          "geometry": "bfca00e5be7fceec"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "خزاعة",
+          "geometry": "160b7bc0dc997243"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "كنانة",
+          "geometry": "4e501d24bbcbb2fe"
+        }
+      ],
+      "labels": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "مملكة أكسوم (الحبشة)",
+        "النوبة",
+        "نفوذ الفرس",
+        "الدولة الإسلامية",
+        "جند فلسطين",
+        "جند الأردن",
+        "جند دمشق",
+        "جند حمص",
+        "جند قنسرين",
+        "الثغور",
+        "بلاد الروم",
+        "الإسكندرية",
+        "مصر (أسفل الأرض)",
+        "الصعيد",
+        "سيناء",
+        "برقة",
+        "طرابلس",
+        "إفريقية",
+        "قبرص",
+        "السواد",
+        "الأهواز",
+        "الجبال",
+        "الري وقومس",
+        "فارس",
+        "كرمان",
+        "سجستان",
+        "خراسان",
+        "طبرستان وجرجان",
+        "أذربيجان",
+        "مكران",
+        "أرمينية",
+        "الجزيرة",
+        "الحيرة والأنبار",
+        "مشارف الشام (غسان)",
+        "صنعاء (الأبناء)",
+        "حمير",
+        "تهامة اليمن (عك والأشعر)",
+        "البحرين (عبد القيس)",
+        "عمان (الأزد)",
+        "كنانة",
+        "خزاعة",
+        "سليم",
+        "هوازن",
+        "غطفان",
+        "طيئ",
+        "بنو أسد",
+        "بنو تميم",
+        "بكر بن وائل",
+        "جهينة",
+        "همدان",
+        "مذحج",
+        "السراة (الأزد وخثعم)",
+        "تبوك وأيلة (جذام وبلي)",
+        "دومة الجندل (كلب)",
+        "مهرة",
+        "البجة",
+        "اليمامة (بنو حنيفة)",
+        "حضرموت (كندة)",
+        "نجران",
+        "مكة (قريش)",
+        "الطائف (ثقيف)",
+        "المدينة",
+        "خيبر ووادي القرى (يهود)",
+        "الحبشة (أكسوم)"
+      ],
+      "legend": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "نفوذ الفرس",
+        "قريش",
+        "الدولة الإسلامية",
+        "يهود خيبر ووادي القرى",
+        "النوبة",
+        "مملكة أكسوم (الحبشة)",
+        "أرض متنازع عليها",
+        "ديار القبائل (حدود غير ثابتة)",
+        "سيطرة غير مؤكدة (خط متقطع)"
+      ]
+    },
+    {
+      "id": "623.222",
+      "from": 622.729,
+      "causes": [
+        "hijra-medina"
+      ],
+      "areas": [
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "e97a788c042fcaa8"
+        },
+        {
+          "holder": "byz",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "19fa24a34f5fb253"
+        },
+        {
+          "holder": "axum",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "مملكة أكسوم (الحبشة)",
+          "geometry": "12d4f033e885c3fe"
+        },
+        {
+          "holder": "nubia",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "النوبة",
+          "geometry": "3f60af3a781d5c57"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "03fe4eacfcaa2345"
+        },
+        {
+          "holder": "sasinf",
+          "kind": "client",
+          "uncertain": false,
+          "nameAr": "نفوذ الفرس",
+          "geometry": "1cc236c8dbf45654"
+        },
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "ab38e4067cf0ad47"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "d69829b5c3964349"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "عمان (الأزد)",
+          "geometry": "dbdf72c01c4e8e49"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مهرة",
+          "geometry": "420a0ef0c6d69390"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "حضرموت (كندة)",
+          "geometry": "e4d27b5f4d2a274e"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "البجة",
+          "geometry": "000a922bb36416e0"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "دومة الجندل (كلب)",
+          "geometry": "0e4ededad9ab1021"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "تبوك وأيلة (جذام وبلي)",
+          "geometry": "d7841dcbd2773c30"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو تميم",
+          "geometry": "9bd71d515d084d80"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بكر بن وائل",
+          "geometry": "de8881615eac63db"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "طيئ",
+          "geometry": "5e5d4bb504d0ae06"
+        },
+        {
+          "holder": "jews",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "يهود خيبر ووادي القرى",
+          "geometry": "7485073a02c78298"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "هوازن",
+          "geometry": "7655cb832aa627a9"
+        },
+        {
+          "holder": "tribal",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "القبائل العربية",
+          "geometry": "dde67e3026f1f839"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "السراة (الأزد وخثعم)",
+          "geometry": "567952e0dd9b7869"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو أسد",
+          "geometry": "f9fb9c8cb4ec80ab"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مذحج",
+          "geometry": "19e72fc61d7f01eb"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "اليمامة (بنو حنيفة)",
+          "geometry": "cb06a798c136861b"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "جهينة",
+          "geometry": "ecc326a63684d739"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "سليم",
+          "geometry": "ec111fe6a4d9d3f2"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "غطفان",
+          "geometry": "3127a38a184d0e72"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "همدان",
+          "geometry": "38f1725527562c33"
+        },
+        {
+          "holder": "islam",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الدولة الإسلامية",
+          "geometry": "77fbf563fd319ce4"
+        },
+        {
+          "holder": "qur",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "قريش",
+          "geometry": "bfca00e5be7fceec"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "خزاعة",
+          "geometry": "160b7bc0dc997243"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "كنانة",
+          "geometry": "4e501d24bbcbb2fe"
+        }
+      ],
+      "labels": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "مملكة أكسوم (الحبشة)",
+        "النوبة",
+        "نفوذ الفرس",
+        "الدولة الإسلامية",
+        "جند فلسطين",
+        "جند الأردن",
+        "جند دمشق",
+        "جند حمص",
+        "جند قنسرين",
+        "الثغور",
+        "بلاد الروم",
+        "الإسكندرية",
+        "مصر (أسفل الأرض)",
+        "الصعيد",
+        "سيناء",
+        "برقة",
+        "طرابلس",
+        "إفريقية",
+        "قبرص",
+        "السواد",
+        "الأهواز",
+        "الجبال",
+        "الري وقومس",
+        "فارس",
+        "كرمان",
+        "سجستان",
+        "خراسان",
+        "طبرستان وجرجان",
+        "أذربيجان",
+        "مكران",
+        "أرمينية",
+        "الجزيرة",
+        "الحيرة والأنبار",
+        "مشارف الشام (غسان)",
+        "صنعاء (الأبناء)",
+        "حمير",
+        "تهامة اليمن (عك والأشعر)",
+        "البحرين (عبد القيس)",
+        "عمان (الأزد)",
+        "كنانة",
+        "خزاعة",
+        "سليم",
+        "هوازن",
+        "غطفان",
+        "طيئ",
+        "بنو أسد",
+        "بنو تميم",
+        "بكر بن وائل",
+        "جهينة",
+        "همدان",
+        "مذحج",
+        "السراة (الأزد وخثعم)",
+        "تبوك وأيلة (جذام وبلي)",
+        "دومة الجندل (كلب)",
+        "مهرة",
+        "البجة",
+        "اليمامة (بنو حنيفة)",
+        "حضرموت (كندة)",
+        "نجران",
+        "مكة (قريش)",
+        "الطائف (ثقيف)",
+        "المدينة",
+        "خيبر ووادي القرى (يهود)",
+        "الحبشة (أكسوم)"
+      ],
+      "legend": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "نفوذ الفرس",
+        "قريش",
+        "الدولة الإسلامية",
+        "يهود خيبر ووادي القرى",
+        "النوبة",
+        "مملكة أكسوم (الحبشة)",
+        "أرض متنازع عليها",
+        "ديار القبائل (حدود غير ثابتة)",
+        "سيطرة غير مؤكدة (خط متقطع)"
+      ]
+    },
+    {
+      "id": "623.304",
+      "from": 622.729,
+      "causes": [
+        "hijra-medina"
+      ],
+      "areas": [
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "e97a788c042fcaa8"
+        },
+        {
+          "holder": "byz",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "19fa24a34f5fb253"
+        },
+        {
+          "holder": "axum",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "مملكة أكسوم (الحبشة)",
+          "geometry": "12d4f033e885c3fe"
+        },
+        {
+          "holder": "nubia",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "النوبة",
+          "geometry": "3f60af3a781d5c57"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "03fe4eacfcaa2345"
+        },
+        {
+          "holder": "sasinf",
+          "kind": "client",
+          "uncertain": false,
+          "nameAr": "نفوذ الفرس",
+          "geometry": "1cc236c8dbf45654"
+        },
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "ab38e4067cf0ad47"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "d69829b5c3964349"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "عمان (الأزد)",
+          "geometry": "dbdf72c01c4e8e49"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مهرة",
+          "geometry": "420a0ef0c6d69390"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "حضرموت (كندة)",
+          "geometry": "e4d27b5f4d2a274e"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "البجة",
+          "geometry": "000a922bb36416e0"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "دومة الجندل (كلب)",
+          "geometry": "0e4ededad9ab1021"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "تبوك وأيلة (جذام وبلي)",
+          "geometry": "d7841dcbd2773c30"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو تميم",
+          "geometry": "9bd71d515d084d80"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بكر بن وائل",
+          "geometry": "de8881615eac63db"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "طيئ",
+          "geometry": "5e5d4bb504d0ae06"
+        },
+        {
+          "holder": "jews",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "يهود خيبر ووادي القرى",
+          "geometry": "7485073a02c78298"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "هوازن",
+          "geometry": "7655cb832aa627a9"
+        },
+        {
+          "holder": "tribal",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "القبائل العربية",
+          "geometry": "dde67e3026f1f839"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "السراة (الأزد وخثعم)",
+          "geometry": "567952e0dd9b7869"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو أسد",
+          "geometry": "f9fb9c8cb4ec80ab"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مذحج",
+          "geometry": "19e72fc61d7f01eb"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "اليمامة (بنو حنيفة)",
+          "geometry": "cb06a798c136861b"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "جهينة",
+          "geometry": "ecc326a63684d739"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "سليم",
+          "geometry": "ec111fe6a4d9d3f2"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "غطفان",
+          "geometry": "3127a38a184d0e72"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "همدان",
+          "geometry": "38f1725527562c33"
+        },
+        {
+          "holder": "islam",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الدولة الإسلامية",
+          "geometry": "77fbf563fd319ce4"
+        },
+        {
+          "holder": "qur",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "قريش",
+          "geometry": "bfca00e5be7fceec"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "خزاعة",
+          "geometry": "160b7bc0dc997243"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "كنانة",
+          "geometry": "4e501d24bbcbb2fe"
+        }
+      ],
+      "labels": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "مملكة أكسوم (الحبشة)",
+        "النوبة",
+        "نفوذ الفرس",
+        "الدولة الإسلامية",
+        "جند فلسطين",
+        "جند الأردن",
+        "جند دمشق",
+        "جند حمص",
+        "جند قنسرين",
+        "الثغور",
+        "بلاد الروم",
+        "الإسكندرية",
+        "مصر (أسفل الأرض)",
+        "الصعيد",
+        "سيناء",
+        "برقة",
+        "طرابلس",
+        "إفريقية",
+        "قبرص",
+        "السواد",
+        "الأهواز",
+        "الجبال",
+        "الري وقومس",
+        "فارس",
+        "كرمان",
+        "سجستان",
+        "خراسان",
+        "طبرستان وجرجان",
+        "أذربيجان",
+        "مكران",
+        "أرمينية",
+        "الجزيرة",
+        "الحيرة والأنبار",
+        "مشارف الشام (غسان)",
+        "صنعاء (الأبناء)",
+        "حمير",
+        "تهامة اليمن (عك والأشعر)",
+        "البحرين (عبد القيس)",
+        "عمان (الأزد)",
+        "كنانة",
+        "خزاعة",
+        "سليم",
+        "هوازن",
+        "غطفان",
+        "طيئ",
+        "بنو أسد",
+        "بنو تميم",
+        "بكر بن وائل",
+        "جهينة",
+        "همدان",
+        "مذحج",
+        "السراة (الأزد وخثعم)",
+        "تبوك وأيلة (جذام وبلي)",
+        "دومة الجندل (كلب)",
+        "مهرة",
+        "البجة",
+        "اليمامة (بنو حنيفة)",
+        "حضرموت (كندة)",
+        "نجران",
+        "مكة (قريش)",
+        "الطائف (ثقيف)",
+        "المدينة",
+        "خيبر ووادي القرى (يهود)",
+        "الحبشة (أكسوم)"
+      ],
+      "legend": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "نفوذ الفرس",
+        "قريش",
+        "الدولة الإسلامية",
+        "يهود خيبر ووادي القرى",
+        "النوبة",
+        "مملكة أكسوم (الحبشة)",
+        "أرض متنازع عليها",
+        "ديار القبائل (حدود غير ثابتة)",
+        "سيطرة غير مؤكدة (خط متقطع)"
+      ]
+    },
+    {
+      "id": "623.627",
+      "from": 622.729,
+      "causes": [
+        "hijra-medina"
+      ],
+      "areas": [
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "e97a788c042fcaa8"
+        },
+        {
+          "holder": "byz",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "19fa24a34f5fb253"
+        },
+        {
+          "holder": "axum",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "مملكة أكسوم (الحبشة)",
+          "geometry": "12d4f033e885c3fe"
+        },
+        {
+          "holder": "nubia",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "النوبة",
+          "geometry": "3f60af3a781d5c57"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "03fe4eacfcaa2345"
+        },
+        {
+          "holder": "sasinf",
+          "kind": "client",
+          "uncertain": false,
+          "nameAr": "نفوذ الفرس",
+          "geometry": "1cc236c8dbf45654"
+        },
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "ab38e4067cf0ad47"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "d69829b5c3964349"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "عمان (الأزد)",
+          "geometry": "dbdf72c01c4e8e49"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مهرة",
+          "geometry": "420a0ef0c6d69390"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "حضرموت (كندة)",
+          "geometry": "e4d27b5f4d2a274e"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "البجة",
+          "geometry": "000a922bb36416e0"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "دومة الجندل (كلب)",
+          "geometry": "0e4ededad9ab1021"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "تبوك وأيلة (جذام وبلي)",
+          "geometry": "d7841dcbd2773c30"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو تميم",
+          "geometry": "9bd71d515d084d80"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بكر بن وائل",
+          "geometry": "de8881615eac63db"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "طيئ",
+          "geometry": "5e5d4bb504d0ae06"
+        },
+        {
+          "holder": "jews",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "يهود خيبر ووادي القرى",
+          "geometry": "7485073a02c78298"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "هوازن",
+          "geometry": "7655cb832aa627a9"
+        },
+        {
+          "holder": "tribal",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "القبائل العربية",
+          "geometry": "dde67e3026f1f839"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "السراة (الأزد وخثعم)",
+          "geometry": "567952e0dd9b7869"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو أسد",
+          "geometry": "f9fb9c8cb4ec80ab"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مذحج",
+          "geometry": "19e72fc61d7f01eb"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "اليمامة (بنو حنيفة)",
+          "geometry": "cb06a798c136861b"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "جهينة",
+          "geometry": "ecc326a63684d739"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "سليم",
+          "geometry": "ec111fe6a4d9d3f2"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "غطفان",
+          "geometry": "3127a38a184d0e72"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "همدان",
+          "geometry": "38f1725527562c33"
+        },
+        {
+          "holder": "islam",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الدولة الإسلامية",
+          "geometry": "77fbf563fd319ce4"
+        },
+        {
+          "holder": "qur",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "قريش",
+          "geometry": "bfca00e5be7fceec"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "خزاعة",
+          "geometry": "160b7bc0dc997243"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "كنانة",
+          "geometry": "4e501d24bbcbb2fe"
+        }
+      ],
+      "labels": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "مملكة أكسوم (الحبشة)",
+        "النوبة",
+        "نفوذ الفرس",
+        "الدولة الإسلامية",
+        "جند فلسطين",
+        "جند الأردن",
+        "جند دمشق",
+        "جند حمص",
+        "جند قنسرين",
+        "الثغور",
+        "بلاد الروم",
+        "الإسكندرية",
+        "مصر (أسفل الأرض)",
+        "الصعيد",
+        "سيناء",
+        "برقة",
+        "طرابلس",
+        "إفريقية",
+        "قبرص",
+        "السواد",
+        "الأهواز",
+        "الجبال",
+        "الري وقومس",
+        "فارس",
+        "كرمان",
+        "سجستان",
+        "خراسان",
+        "طبرستان وجرجان",
+        "أذربيجان",
+        "مكران",
+        "أرمينية",
+        "الجزيرة",
+        "الحيرة والأنبار",
+        "مشارف الشام (غسان)",
+        "صنعاء (الأبناء)",
+        "حمير",
+        "تهامة اليمن (عك والأشعر)",
+        "البحرين (عبد القيس)",
+        "عمان (الأزد)",
+        "كنانة",
+        "خزاعة",
+        "سليم",
+        "هوازن",
+        "غطفان",
+        "طيئ",
+        "بنو أسد",
+        "بنو تميم",
+        "بكر بن وائل",
+        "جهينة",
+        "همدان",
+        "مذحج",
+        "السراة (الأزد وخثعم)",
+        "تبوك وأيلة (جذام وبلي)",
+        "دومة الجندل (كلب)",
+        "مهرة",
+        "البجة",
+        "اليمامة (بنو حنيفة)",
+        "حضرموت (كندة)",
+        "نجران",
+        "مكة (قريش)",
+        "الطائف (ثقيف)",
+        "المدينة",
+        "خيبر ووادي القرى (يهود)",
+        "الحبشة (أكسوم)"
+      ],
+      "legend": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "نفوذ الفرس",
+        "قريش",
+        "الدولة الإسلامية",
+        "يهود خيبر ووادي القرى",
+        "النوبة",
+        "مملكة أكسوم (الحبشة)",
+        "أرض متنازع عليها",
+        "ديار القبائل (حدود غير ثابتة)",
+        "سيطرة غير مؤكدة (خط متقطع)"
+      ]
+    },
+    {
+      "id": "624.068",
+      "from": 622.729,
+      "causes": [
+        "hijra-medina"
+      ],
+      "areas": [
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "e97a788c042fcaa8"
+        },
+        {
+          "holder": "byz",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "19fa24a34f5fb253"
+        },
+        {
+          "holder": "axum",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "مملكة أكسوم (الحبشة)",
+          "geometry": "12d4f033e885c3fe"
+        },
+        {
+          "holder": "nubia",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "النوبة",
+          "geometry": "3f60af3a781d5c57"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "03fe4eacfcaa2345"
+        },
+        {
+          "holder": "sasinf",
+          "kind": "client",
+          "uncertain": false,
+          "nameAr": "نفوذ الفرس",
+          "geometry": "1cc236c8dbf45654"
+        },
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "ab38e4067cf0ad47"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "d69829b5c3964349"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "عمان (الأزد)",
+          "geometry": "dbdf72c01c4e8e49"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مهرة",
+          "geometry": "420a0ef0c6d69390"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "حضرموت (كندة)",
+          "geometry": "e4d27b5f4d2a274e"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "البجة",
+          "geometry": "000a922bb36416e0"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "دومة الجندل (كلب)",
+          "geometry": "0e4ededad9ab1021"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "تبوك وأيلة (جذام وبلي)",
+          "geometry": "d7841dcbd2773c30"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو تميم",
+          "geometry": "9bd71d515d084d80"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بكر بن وائل",
+          "geometry": "de8881615eac63db"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "طيئ",
+          "geometry": "5e5d4bb504d0ae06"
+        },
+        {
+          "holder": "jews",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "يهود خيبر ووادي القرى",
+          "geometry": "7485073a02c78298"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "هوازن",
+          "geometry": "7655cb832aa627a9"
+        },
+        {
+          "holder": "tribal",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "القبائل العربية",
+          "geometry": "dde67e3026f1f839"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "السراة (الأزد وخثعم)",
+          "geometry": "567952e0dd9b7869"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو أسد",
+          "geometry": "f9fb9c8cb4ec80ab"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مذحج",
+          "geometry": "19e72fc61d7f01eb"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "اليمامة (بنو حنيفة)",
+          "geometry": "cb06a798c136861b"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "جهينة",
+          "geometry": "ecc326a63684d739"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "سليم",
+          "geometry": "ec111fe6a4d9d3f2"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "غطفان",
+          "geometry": "3127a38a184d0e72"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "همدان",
+          "geometry": "38f1725527562c33"
+        },
+        {
+          "holder": "islam",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الدولة الإسلامية",
+          "geometry": "77fbf563fd319ce4"
+        },
+        {
+          "holder": "qur",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "قريش",
+          "geometry": "bfca00e5be7fceec"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "خزاعة",
+          "geometry": "160b7bc0dc997243"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "كنانة",
+          "geometry": "4e501d24bbcbb2fe"
+        }
+      ],
+      "labels": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "مملكة أكسوم (الحبشة)",
+        "النوبة",
+        "نفوذ الفرس",
+        "الدولة الإسلامية",
+        "جند فلسطين",
+        "جند الأردن",
+        "جند دمشق",
+        "جند حمص",
+        "جند قنسرين",
+        "الثغور",
+        "بلاد الروم",
+        "الإسكندرية",
+        "مصر (أسفل الأرض)",
+        "الصعيد",
+        "سيناء",
+        "برقة",
+        "طرابلس",
+        "إفريقية",
+        "قبرص",
+        "السواد",
+        "الأهواز",
+        "الجبال",
+        "الري وقومس",
+        "فارس",
+        "كرمان",
+        "سجستان",
+        "خراسان",
+        "طبرستان وجرجان",
+        "أذربيجان",
+        "مكران",
+        "أرمينية",
+        "الجزيرة",
+        "الحيرة والأنبار",
+        "مشارف الشام (غسان)",
+        "صنعاء (الأبناء)",
+        "حمير",
+        "تهامة اليمن (عك والأشعر)",
+        "البحرين (عبد القيس)",
+        "عمان (الأزد)",
+        "كنانة",
+        "خزاعة",
+        "سليم",
+        "هوازن",
+        "غطفان",
+        "طيئ",
+        "بنو أسد",
+        "بنو تميم",
+        "بكر بن وائل",
+        "جهينة",
+        "همدان",
+        "مذحج",
+        "السراة (الأزد وخثعم)",
+        "تبوك وأيلة (جذام وبلي)",
+        "دومة الجندل (كلب)",
+        "مهرة",
+        "البجة",
+        "اليمامة (بنو حنيفة)",
+        "حضرموت (كندة)",
+        "نجران",
+        "مكة (قريش)",
+        "الطائف (ثقيف)",
+        "المدينة",
+        "خيبر ووادي القرى (يهود)",
+        "الحبشة (أكسوم)"
+      ],
+      "legend": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "نفوذ الفرس",
+        "قريش",
+        "الدولة الإسلامية",
+        "يهود خيبر ووادي القرى",
+        "النوبة",
+        "مملكة أكسوم (الحبشة)",
+        "أرض متنازع عليها",
+        "ديار القبائل (حدود غير ثابتة)",
+        "سيطرة غير مؤكدة (خط متقطع)"
+      ]
+    },
+    {
+      "id": "624.112",
+      "from": 622.729,
+      "causes": [
+        "hijra-medina"
+      ],
+      "areas": [
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "e97a788c042fcaa8"
+        },
+        {
+          "holder": "byz",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "19fa24a34f5fb253"
+        },
+        {
+          "holder": "axum",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "مملكة أكسوم (الحبشة)",
+          "geometry": "12d4f033e885c3fe"
+        },
+        {
+          "holder": "nubia",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "النوبة",
+          "geometry": "3f60af3a781d5c57"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "03fe4eacfcaa2345"
+        },
+        {
+          "holder": "sasinf",
+          "kind": "client",
+          "uncertain": false,
+          "nameAr": "نفوذ الفرس",
+          "geometry": "1cc236c8dbf45654"
+        },
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "ab38e4067cf0ad47"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "d69829b5c3964349"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "عمان (الأزد)",
+          "geometry": "dbdf72c01c4e8e49"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مهرة",
+          "geometry": "420a0ef0c6d69390"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "حضرموت (كندة)",
+          "geometry": "e4d27b5f4d2a274e"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "البجة",
+          "geometry": "000a922bb36416e0"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "دومة الجندل (كلب)",
+          "geometry": "0e4ededad9ab1021"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "تبوك وأيلة (جذام وبلي)",
+          "geometry": "d7841dcbd2773c30"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو تميم",
+          "geometry": "9bd71d515d084d80"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بكر بن وائل",
+          "geometry": "de8881615eac63db"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "طيئ",
+          "geometry": "5e5d4bb504d0ae06"
+        },
+        {
+          "holder": "jews",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "يهود خيبر ووادي القرى",
+          "geometry": "7485073a02c78298"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "هوازن",
+          "geometry": "7655cb832aa627a9"
+        },
+        {
+          "holder": "tribal",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "القبائل العربية",
+          "geometry": "dde67e3026f1f839"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "السراة (الأزد وخثعم)",
+          "geometry": "567952e0dd9b7869"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو أسد",
+          "geometry": "f9fb9c8cb4ec80ab"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مذحج",
+          "geometry": "19e72fc61d7f01eb"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "اليمامة (بنو حنيفة)",
+          "geometry": "cb06a798c136861b"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "جهينة",
+          "geometry": "ecc326a63684d739"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "سليم",
+          "geometry": "ec111fe6a4d9d3f2"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "غطفان",
+          "geometry": "3127a38a184d0e72"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "همدان",
+          "geometry": "38f1725527562c33"
+        },
+        {
+          "holder": "islam",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الدولة الإسلامية",
+          "geometry": "77fbf563fd319ce4"
+        },
+        {
+          "holder": "qur",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "قريش",
+          "geometry": "bfca00e5be7fceec"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "خزاعة",
+          "geometry": "160b7bc0dc997243"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "كنانة",
+          "geometry": "4e501d24bbcbb2fe"
+        }
+      ],
+      "labels": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "مملكة أكسوم (الحبشة)",
+        "النوبة",
+        "نفوذ الفرس",
+        "الدولة الإسلامية",
+        "جند فلسطين",
+        "جند الأردن",
+        "جند دمشق",
+        "جند حمص",
+        "جند قنسرين",
+        "الثغور",
+        "بلاد الروم",
+        "الإسكندرية",
+        "مصر (أسفل الأرض)",
+        "الصعيد",
+        "سيناء",
+        "برقة",
+        "طرابلس",
+        "إفريقية",
+        "قبرص",
+        "السواد",
+        "الأهواز",
+        "الجبال",
+        "الري وقومس",
+        "فارس",
+        "كرمان",
+        "سجستان",
+        "خراسان",
+        "طبرستان وجرجان",
+        "أذربيجان",
+        "مكران",
+        "أرمينية",
+        "الجزيرة",
+        "الحيرة والأنبار",
+        "مشارف الشام (غسان)",
+        "صنعاء (الأبناء)",
+        "حمير",
+        "تهامة اليمن (عك والأشعر)",
+        "البحرين (عبد القيس)",
+        "عمان (الأزد)",
+        "كنانة",
+        "خزاعة",
+        "سليم",
+        "هوازن",
+        "غطفان",
+        "طيئ",
+        "بنو أسد",
+        "بنو تميم",
+        "بكر بن وائل",
+        "جهينة",
+        "همدان",
+        "مذحج",
+        "السراة (الأزد وخثعم)",
+        "تبوك وأيلة (جذام وبلي)",
+        "دومة الجندل (كلب)",
+        "مهرة",
+        "البجة",
+        "اليمامة (بنو حنيفة)",
+        "حضرموت (كندة)",
+        "نجران",
+        "مكة (قريش)",
+        "الطائف (ثقيف)",
+        "المدينة",
+        "خيبر ووادي القرى (يهود)",
+        "الحبشة (أكسوم)"
+      ],
+      "legend": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "نفوذ الفرس",
+        "قريش",
+        "الدولة الإسلامية",
+        "يهود خيبر ووادي القرى",
+        "النوبة",
+        "مملكة أكسوم (الحبشة)",
+        "أرض متنازع عليها",
+        "ديار القبائل (حدود غير ثابتة)",
+        "سيطرة غير مؤكدة (خط متقطع)"
+      ]
+    },
+    {
+      "id": "624.197",
+      "from": 622.729,
+      "causes": [
+        "hijra-medina"
+      ],
+      "areas": [
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "e97a788c042fcaa8"
+        },
+        {
+          "holder": "byz",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "19fa24a34f5fb253"
+        },
+        {
+          "holder": "axum",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "مملكة أكسوم (الحبشة)",
+          "geometry": "12d4f033e885c3fe"
+        },
+        {
+          "holder": "nubia",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "النوبة",
+          "geometry": "3f60af3a781d5c57"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "03fe4eacfcaa2345"
+        },
+        {
+          "holder": "sasinf",
+          "kind": "client",
+          "uncertain": false,
+          "nameAr": "نفوذ الفرس",
+          "geometry": "1cc236c8dbf45654"
+        },
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "ab38e4067cf0ad47"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "d69829b5c3964349"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "عمان (الأزد)",
+          "geometry": "dbdf72c01c4e8e49"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مهرة",
+          "geometry": "420a0ef0c6d69390"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "حضرموت (كندة)",
+          "geometry": "e4d27b5f4d2a274e"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "البجة",
+          "geometry": "000a922bb36416e0"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "دومة الجندل (كلب)",
+          "geometry": "0e4ededad9ab1021"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "تبوك وأيلة (جذام وبلي)",
+          "geometry": "d7841dcbd2773c30"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو تميم",
+          "geometry": "9bd71d515d084d80"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بكر بن وائل",
+          "geometry": "de8881615eac63db"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "طيئ",
+          "geometry": "5e5d4bb504d0ae06"
+        },
+        {
+          "holder": "jews",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "يهود خيبر ووادي القرى",
+          "geometry": "7485073a02c78298"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "هوازن",
+          "geometry": "7655cb832aa627a9"
+        },
+        {
+          "holder": "tribal",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "القبائل العربية",
+          "geometry": "dde67e3026f1f839"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "السراة (الأزد وخثعم)",
+          "geometry": "567952e0dd9b7869"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو أسد",
+          "geometry": "f9fb9c8cb4ec80ab"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مذحج",
+          "geometry": "19e72fc61d7f01eb"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "اليمامة (بنو حنيفة)",
+          "geometry": "cb06a798c136861b"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "جهينة",
+          "geometry": "ecc326a63684d739"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "سليم",
+          "geometry": "ec111fe6a4d9d3f2"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "غطفان",
+          "geometry": "3127a38a184d0e72"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "همدان",
+          "geometry": "38f1725527562c33"
+        },
+        {
+          "holder": "islam",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الدولة الإسلامية",
+          "geometry": "77fbf563fd319ce4"
+        },
+        {
+          "holder": "qur",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "قريش",
+          "geometry": "bfca00e5be7fceec"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "خزاعة",
+          "geometry": "160b7bc0dc997243"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "كنانة",
+          "geometry": "4e501d24bbcbb2fe"
+        }
+      ],
+      "labels": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "مملكة أكسوم (الحبشة)",
+        "النوبة",
+        "نفوذ الفرس",
+        "الدولة الإسلامية",
+        "جند فلسطين",
+        "جند الأردن",
+        "جند دمشق",
+        "جند حمص",
+        "جند قنسرين",
+        "الثغور",
+        "بلاد الروم",
+        "الإسكندرية",
+        "مصر (أسفل الأرض)",
+        "الصعيد",
+        "سيناء",
+        "برقة",
+        "طرابلس",
+        "إفريقية",
+        "قبرص",
+        "السواد",
+        "الأهواز",
+        "الجبال",
+        "الري وقومس",
+        "فارس",
+        "كرمان",
+        "سجستان",
+        "خراسان",
+        "طبرستان وجرجان",
+        "أذربيجان",
+        "مكران",
+        "أرمينية",
+        "الجزيرة",
+        "الحيرة والأنبار",
+        "مشارف الشام (غسان)",
+        "صنعاء (الأبناء)",
+        "حمير",
+        "تهامة اليمن (عك والأشعر)",
+        "البحرين (عبد القيس)",
+        "عمان (الأزد)",
+        "كنانة",
+        "خزاعة",
+        "سليم",
+        "هوازن",
+        "غطفان",
+        "طيئ",
+        "بنو أسد",
+        "بنو تميم",
+        "بكر بن وائل",
+        "جهينة",
+        "همدان",
+        "مذحج",
+        "السراة (الأزد وخثعم)",
+        "تبوك وأيلة (جذام وبلي)",
+        "دومة الجندل (كلب)",
+        "مهرة",
+        "البجة",
+        "اليمامة (بنو حنيفة)",
+        "حضرموت (كندة)",
+        "نجران",
+        "مكة (قريش)",
+        "الطائف (ثقيف)",
+        "المدينة",
+        "خيبر ووادي القرى (يهود)",
+        "الحبشة (أكسوم)"
+      ],
+      "legend": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "نفوذ الفرس",
+        "قريش",
+        "الدولة الإسلامية",
+        "يهود خيبر ووادي القرى",
+        "النوبة",
+        "مملكة أكسوم (الحبشة)",
+        "أرض متنازع عليها",
+        "ديار القبائل (حدود غير ثابتة)",
+        "سيطرة غير مؤكدة (خط متقطع)"
+      ]
+    },
+    {
+      "id": "624.273",
+      "from": 622.729,
       "causes": [
         "hijra-medina"
       ],
@@ -19651,7 +23831,7 @@
     },
     {
       "id": "624.4",
-      "from": 622,
+      "from": 622.729,
       "causes": [
         "hijra-medina"
       ],
@@ -19964,8 +24144,8 @@
       ]
     },
     {
-      "id": "624.8",
-      "from": 622,
+      "id": "624.516",
+      "from": 622.729,
       "causes": [
         "hijra-medina"
       ],
@@ -20278,8 +24458,322 @@
       ]
     },
     {
-      "id": "625",
-      "from": 622,
+      "id": "625.244",
+      "from": 622.729,
+      "causes": [
+        "hijra-medina"
+      ],
+      "areas": [
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "e97a788c042fcaa8"
+        },
+        {
+          "holder": "byz",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "19fa24a34f5fb253"
+        },
+        {
+          "holder": "axum",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "مملكة أكسوم (الحبشة)",
+          "geometry": "12d4f033e885c3fe"
+        },
+        {
+          "holder": "nubia",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "النوبة",
+          "geometry": "3f60af3a781d5c57"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "03fe4eacfcaa2345"
+        },
+        {
+          "holder": "sasinf",
+          "kind": "client",
+          "uncertain": false,
+          "nameAr": "نفوذ الفرس",
+          "geometry": "1cc236c8dbf45654"
+        },
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "ab38e4067cf0ad47"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "d69829b5c3964349"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "عمان (الأزد)",
+          "geometry": "dbdf72c01c4e8e49"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مهرة",
+          "geometry": "420a0ef0c6d69390"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "حضرموت (كندة)",
+          "geometry": "e4d27b5f4d2a274e"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "البجة",
+          "geometry": "000a922bb36416e0"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "دومة الجندل (كلب)",
+          "geometry": "0e4ededad9ab1021"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "تبوك وأيلة (جذام وبلي)",
+          "geometry": "d7841dcbd2773c30"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو تميم",
+          "geometry": "9bd71d515d084d80"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بكر بن وائل",
+          "geometry": "de8881615eac63db"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "طيئ",
+          "geometry": "5e5d4bb504d0ae06"
+        },
+        {
+          "holder": "jews",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "يهود خيبر ووادي القرى",
+          "geometry": "7485073a02c78298"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "هوازن",
+          "geometry": "7655cb832aa627a9"
+        },
+        {
+          "holder": "tribal",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "القبائل العربية",
+          "geometry": "dde67e3026f1f839"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "السراة (الأزد وخثعم)",
+          "geometry": "567952e0dd9b7869"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو أسد",
+          "geometry": "f9fb9c8cb4ec80ab"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مذحج",
+          "geometry": "19e72fc61d7f01eb"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "اليمامة (بنو حنيفة)",
+          "geometry": "cb06a798c136861b"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "جهينة",
+          "geometry": "ecc326a63684d739"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "سليم",
+          "geometry": "ec111fe6a4d9d3f2"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "غطفان",
+          "geometry": "3127a38a184d0e72"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "همدان",
+          "geometry": "38f1725527562c33"
+        },
+        {
+          "holder": "islam",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الدولة الإسلامية",
+          "geometry": "77fbf563fd319ce4"
+        },
+        {
+          "holder": "qur",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "قريش",
+          "geometry": "bfca00e5be7fceec"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "خزاعة",
+          "geometry": "160b7bc0dc997243"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "كنانة",
+          "geometry": "4e501d24bbcbb2fe"
+        }
+      ],
+      "labels": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "مملكة أكسوم (الحبشة)",
+        "النوبة",
+        "نفوذ الفرس",
+        "الدولة الإسلامية",
+        "جند فلسطين",
+        "جند الأردن",
+        "جند دمشق",
+        "جند حمص",
+        "جند قنسرين",
+        "الثغور",
+        "بلاد الروم",
+        "الإسكندرية",
+        "مصر (أسفل الأرض)",
+        "الصعيد",
+        "سيناء",
+        "برقة",
+        "طرابلس",
+        "إفريقية",
+        "قبرص",
+        "السواد",
+        "الأهواز",
+        "الجبال",
+        "الري وقومس",
+        "فارس",
+        "كرمان",
+        "سجستان",
+        "خراسان",
+        "طبرستان وجرجان",
+        "أذربيجان",
+        "مكران",
+        "أرمينية",
+        "الجزيرة",
+        "الحيرة والأنبار",
+        "مشارف الشام (غسان)",
+        "صنعاء (الأبناء)",
+        "حمير",
+        "تهامة اليمن (عك والأشعر)",
+        "البحرين (عبد القيس)",
+        "عمان (الأزد)",
+        "كنانة",
+        "خزاعة",
+        "سليم",
+        "هوازن",
+        "غطفان",
+        "طيئ",
+        "بنو أسد",
+        "بنو تميم",
+        "بكر بن وائل",
+        "جهينة",
+        "همدان",
+        "مذحج",
+        "السراة (الأزد وخثعم)",
+        "تبوك وأيلة (جذام وبلي)",
+        "دومة الجندل (كلب)",
+        "مهرة",
+        "البجة",
+        "اليمامة (بنو حنيفة)",
+        "حضرموت (كندة)",
+        "نجران",
+        "مكة (قريش)",
+        "الطائف (ثقيف)",
+        "المدينة",
+        "خيبر ووادي القرى (يهود)",
+        "الحبشة (أكسوم)"
+      ],
+      "legend": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "نفوذ الفرس",
+        "قريش",
+        "الدولة الإسلامية",
+        "يهود خيبر ووادي القرى",
+        "النوبة",
+        "مملكة أكسوم (الحبشة)",
+        "أرض متنازع عليها",
+        "ديار القبائل (حدود غير ثابتة)",
+        "سيطرة غير مؤكدة (خط متقطع)"
+      ]
+    },
+    {
+      "id": "625.247",
+      "from": 622.729,
       "causes": [
         "hijra-medina"
       ],
@@ -20593,7 +25087,7 @@
     },
     {
       "id": "625.55",
-      "from": 622,
+      "from": 622.729,
       "causes": [
         "hijra-medina"
       ],
@@ -20907,7 +25401,7 @@
     },
     {
       "id": "625.6",
-      "from": 622,
+      "from": 622.729,
       "causes": [
         "hijra-medina"
       ],
@@ -21221,7 +25715,7 @@
     },
     {
       "id": "625.65",
-      "from": 622,
+      "from": 622.729,
       "causes": [
         "hijra-medina"
       ],
@@ -21534,7 +26028,7 @@
       ]
     },
     {
-      "id": "626.1",
+      "id": "626.052",
       "from": 626,
       "causes": [],
       "areas": [
@@ -23412,8 +27906,8 @@
       ]
     },
     {
-      "id": "628",
-      "from": 628,
+      "id": "628.197",
+      "from": 628.197,
       "causes": [
         "treaty-hudaybiyyah"
       ],
@@ -23727,8 +28221,323 @@
       ]
     },
     {
-      "id": "628.1",
-      "from": 628.1,
+      "id": "628.358",
+      "from": 628.197,
+      "causes": [
+        "treaty-hudaybiyyah"
+      ],
+      "areas": [
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "e97a788c042fcaa8"
+        },
+        {
+          "holder": "byz",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "19fa24a34f5fb253"
+        },
+        {
+          "holder": "axum",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "مملكة أكسوم (الحبشة)",
+          "geometry": "12d4f033e885c3fe"
+        },
+        {
+          "holder": "nubia",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "النوبة",
+          "geometry": "3f60af3a781d5c57"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "03fe4eacfcaa2345"
+        },
+        {
+          "holder": "sasinf",
+          "kind": "client",
+          "uncertain": false,
+          "nameAr": "نفوذ الفرس",
+          "geometry": "1cc236c8dbf45654"
+        },
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "ab38e4067cf0ad47"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "d69829b5c3964349"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "عمان (الأزد)",
+          "geometry": "dbdf72c01c4e8e49"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مهرة",
+          "geometry": "420a0ef0c6d69390"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "حضرموت (كندة)",
+          "geometry": "e4d27b5f4d2a274e"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "البجة",
+          "geometry": "000a922bb36416e0"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "دومة الجندل (كلب)",
+          "geometry": "0e4ededad9ab1021"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "تبوك وأيلة (جذام وبلي)",
+          "geometry": "d7841dcbd2773c30"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو تميم",
+          "geometry": "9bd71d515d084d80"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بكر بن وائل",
+          "geometry": "de8881615eac63db"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "طيئ",
+          "geometry": "5e5d4bb504d0ae06"
+        },
+        {
+          "holder": "jews",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "يهود خيبر ووادي القرى",
+          "geometry": "7485073a02c78298"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "هوازن",
+          "geometry": "7655cb832aa627a9"
+        },
+        {
+          "holder": "tribal",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "القبائل العربية",
+          "geometry": "dde67e3026f1f839"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "السراة (الأزد وخثعم)",
+          "geometry": "567952e0dd9b7869"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو أسد",
+          "geometry": "f9fb9c8cb4ec80ab"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مذحج",
+          "geometry": "19e72fc61d7f01eb"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": false,
+          "nameAr": "اليمامة (بنو حنيفة)",
+          "geometry": "cb06a798c136861b"
+        },
+        {
+          "holder": "islam",
+          "kind": "treaty",
+          "uncertain": true,
+          "nameAr": "الدولة الإسلامية",
+          "geometry": "d7cc929fd9b81b3d"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "سليم",
+          "geometry": "ec111fe6a4d9d3f2"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "غطفان",
+          "geometry": "3127a38a184d0e72"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "همدان",
+          "geometry": "38f1725527562c33"
+        },
+        {
+          "holder": "islam",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الدولة الإسلامية",
+          "geometry": "77fbf563fd319ce4"
+        },
+        {
+          "holder": "qur",
+          "kind": "city",
+          "uncertain": false,
+          "nameAr": "قريش",
+          "geometry": "bfca00e5be7fceec"
+        },
+        {
+          "holder": "islam",
+          "kind": "treaty",
+          "uncertain": false,
+          "nameAr": "الدولة الإسلامية",
+          "geometry": "f7153673d3590a6c"
+        },
+        {
+          "holder": "qur",
+          "kind": "treaty",
+          "uncertain": false,
+          "nameAr": "قريش",
+          "geometry": "1b089f045fa6c2c2"
+        }
+      ],
+      "labels": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "مملكة أكسوم (الحبشة)",
+        "النوبة",
+        "نفوذ الفرس",
+        "الدولة الإسلامية",
+        "جند فلسطين",
+        "جند الأردن",
+        "جند دمشق",
+        "جند حمص",
+        "جند قنسرين",
+        "الثغور",
+        "بلاد الروم",
+        "الإسكندرية",
+        "مصر (أسفل الأرض)",
+        "الصعيد",
+        "سيناء",
+        "برقة",
+        "طرابلس",
+        "إفريقية",
+        "قبرص",
+        "السواد",
+        "الأهواز",
+        "الجبال",
+        "الري وقومس",
+        "فارس",
+        "كرمان",
+        "سجستان",
+        "خراسان",
+        "طبرستان وجرجان",
+        "أذربيجان",
+        "مكران",
+        "أرمينية",
+        "الجزيرة",
+        "الحيرة والأنبار",
+        "مشارف الشام (غسان)",
+        "صنعاء (الأبناء)",
+        "حمير",
+        "تهامة اليمن (عك والأشعر)",
+        "البحرين (عبد القيس)",
+        "عمان (الأزد)",
+        "كنانة",
+        "خزاعة",
+        "سليم",
+        "هوازن",
+        "غطفان",
+        "طيئ",
+        "بنو أسد",
+        "بنو تميم",
+        "بكر بن وائل",
+        "جهينة",
+        "همدان",
+        "مذحج",
+        "السراة (الأزد وخثعم)",
+        "تبوك وأيلة (جذام وبلي)",
+        "دومة الجندل (كلب)",
+        "مهرة",
+        "البجة",
+        "اليمامة (بنو حنيفة)",
+        "حضرموت (كندة)",
+        "نجران",
+        "مكة (قريش)",
+        "الطائف (ثقيف)",
+        "المدينة",
+        "خيبر ووادي القرى (يهود)",
+        "الحبشة (أكسوم)"
+      ],
+      "legend": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "نفوذ الفرس",
+        "قريش",
+        "الدولة الإسلامية",
+        "يهود خيبر ووادي القرى",
+        "النوبة",
+        "مملكة أكسوم (الحبشة)",
+        "أرض متنازع عليها",
+        "ديار القبائل (حدود غير ثابتة)",
+        "صلح أو معاهدة، دون حكم مباشر",
+        "سيطرة غير مؤكدة (خط متقطع)"
+      ]
+    },
+    {
+      "id": "628.41",
+      "from": 628.41,
       "causes": [
         "battle-khaybar"
       ],
@@ -24350,8 +29159,8 @@
       ]
     },
     {
-      "id": "629.5",
-      "from": 629.5,
+      "id": "629.69",
+      "from": 629.6,
       "causes": [],
       "areas": [
         {
@@ -24376,6 +29185,13 @@
           "geometry": "12d4f033e885c3fe"
         },
         {
+          "holder": "islam",
+          "kind": "treaty",
+          "uncertain": false,
+          "nameAr": "الدولة الإسلامية",
+          "geometry": "d819a44af0f05a98"
+        },
+        {
           "holder": "nubia",
           "kind": "state",
           "uncertain": false,
@@ -24388,20 +29204,6 @@
           "uncertain": false,
           "nameAr": "الإمبراطورية الساسانية (الفرس)",
           "geometry": "03fe4eacfcaa2345"
-        },
-        {
-          "holder": "sasinf",
-          "kind": "client",
-          "uncertain": false,
-          "nameAr": "نفوذ الفرس",
-          "geometry": "1cc236c8dbf45654"
-        },
-        {
-          "holder": "islam",
-          "kind": "treaty",
-          "uncertain": false,
-          "nameAr": "الدولة الإسلامية",
-          "geometry": "d6d73bb99315f70e"
         },
         {
           "holder": "sas",
@@ -24430,6 +29232,13 @@
           "uncertain": true,
           "nameAr": "حضرموت (كندة)",
           "geometry": "e4d27b5f4d2a274e"
+        },
+        {
+          "holder": "sasinf",
+          "kind": "client",
+          "uncertain": false,
+          "nameAr": "نفوذ الفرس",
+          "geometry": "efd1089e6600ddb1"
         },
         {
           "holder": "tribal",
@@ -24658,7 +29467,7 @@
       ]
     },
     {
-      "id": "629.7",
+      "id": "629.852",
       "from": 629.6,
       "causes": [],
       "areas": [
@@ -25549,7 +30358,7 @@
       ]
     },
     {
-      "id": "630.2",
+      "id": "630.11",
       "from": 630.1,
       "causes": [
         "battle-hunayn"
@@ -26111,7 +30920,223 @@
       ]
     },
     {
-      "id": "632.1",
+      "id": "631.214",
+      "from": 631.2,
+      "causes": [],
+      "areas": [
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "a1f0da8d4d1a6a43"
+        },
+        {
+          "holder": "byz",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "b632689a545db892"
+        },
+        {
+          "holder": "islam",
+          "kind": "treaty",
+          "uncertain": false,
+          "nameAr": "الدولة الإسلامية",
+          "geometry": "67287e8bcaec2df3"
+        },
+        {
+          "holder": "axum",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "مملكة أكسوم (الحبشة)",
+          "geometry": "12d4f033e885c3fe"
+        },
+        {
+          "holder": "nubia",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "النوبة",
+          "geometry": "3f60af3a781d5c57"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "03fe4eacfcaa2345"
+        },
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "ab38e4067cf0ad47"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "d69829b5c3964349"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "مهرة",
+          "geometry": "420a0ef0c6d69390"
+        },
+        {
+          "holder": "sasinf",
+          "kind": "client",
+          "uncertain": false,
+          "nameAr": "نفوذ الفرس",
+          "geometry": "efd1089e6600ddb1"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "البجة",
+          "geometry": "000a922bb36416e0"
+        },
+        {
+          "holder": "ghassan",
+          "kind": "client",
+          "uncertain": false,
+          "nameAr": "الغساسنة (حلفاء الروم)",
+          "geometry": "4ae853831b650c7b"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بكر بن وائل",
+          "geometry": "de8881615eac63db"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "بنو أسد",
+          "geometry": "f9fb9c8cb4ec80ab"
+        },
+        {
+          "holder": "islam",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الدولة الإسلامية",
+          "geometry": "8100df0991ee54c4"
+        },
+        {
+          "holder": "islam",
+          "kind": "treaty",
+          "uncertain": true,
+          "nameAr": "الدولة الإسلامية",
+          "geometry": "d7cc929fd9b81b3d"
+        },
+        {
+          "holder": "islam",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "الدولة الإسلامية",
+          "geometry": "f9172c9321277c85"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "غطفان",
+          "geometry": "3127a38a184d0e72"
+        }
+      ],
+      "labels": [
+        "الإمبراطورية الساسانية (الفرس)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "مملكة أكسوم (الحبشة)",
+        "النوبة",
+        "نفوذ الفرس",
+        "الغساسنة (حلفاء الروم)",
+        "الدولة الإسلامية",
+        "جند فلسطين",
+        "جند الأردن",
+        "جند دمشق",
+        "جند حمص",
+        "جند قنسرين",
+        "الثغور",
+        "بلاد الروم",
+        "الإسكندرية",
+        "مصر (أسفل الأرض)",
+        "الصعيد",
+        "سيناء",
+        "برقة",
+        "طرابلس",
+        "إفريقية",
+        "قبرص",
+        "السواد",
+        "الأهواز",
+        "الجبال",
+        "الري وقومس",
+        "فارس",
+        "كرمان",
+        "سجستان",
+        "خراسان",
+        "طبرستان وجرجان",
+        "أذربيجان",
+        "مكران",
+        "أرمينية",
+        "الجزيرة",
+        "الحيرة والأنبار",
+        "مشارف الشام (غسان)",
+        "صنعاء (الأبناء)",
+        "حمير",
+        "تهامة اليمن (عك والأشعر)",
+        "البحرين (عبد القيس)",
+        "عمان (الأزد)",
+        "كنانة",
+        "خزاعة",
+        "سليم",
+        "هوازن",
+        "غطفان",
+        "طيئ",
+        "بنو أسد",
+        "بنو تميم",
+        "بكر بن وائل",
+        "جهينة",
+        "همدان",
+        "مذحج",
+        "السراة (الأزد وخثعم)",
+        "تبوك وأيلة (جذام وبلي)",
+        "دومة الجندل (كلب)",
+        "مهرة",
+        "البجة",
+        "اليمامة (بنو حنيفة)",
+        "حضرموت (كندة)",
+        "نجران",
+        "مكة",
+        "الطائف",
+        "المدينة",
+        "خيبر وفدك",
+        "وادي القرى وتيماء",
+        "الحبشة (أكسوم)"
+      ],
+      "legend": [
+        "الإمبراطورية البيزنطية (الروم)",
+        "الإمبراطورية الساسانية (الفرس)",
+        "الغساسنة (حلفاء الروم)",
+        "نفوذ الفرس",
+        "الدولة الإسلامية",
+        "النوبة",
+        "مملكة أكسوم (الحبشة)",
+        "أرض متنازع عليها",
+        "صلح أو معاهدة، دون حكم مباشر",
+        "ديار القبائل (حدود غير ثابتة)",
+        "سيطرة غير مؤكدة (خط متقطع)"
+      ]
+    },
+    {
+      "id": "632.18",
       "from": 631.5,
       "causes": [],
       "areas": [
@@ -26297,8 +31322,8 @@
       ]
     },
     {
-      "id": "632.3",
-      "from": 632.3,
+      "id": "632.432",
+      "from": 632.432,
       "causes": [
         "prophet-death"
       ],
@@ -26486,7 +31511,7 @@
     },
     {
       "id": "632.44",
-      "from": 632.3,
+      "from": 632.432,
       "causes": [
         "prophet-death"
       ],
@@ -26674,7 +31699,7 @@
     },
     {
       "id": "632.48",
-      "from": 632.3,
+      "from": 632.432,
       "causes": [
         "prophet-death"
       ],

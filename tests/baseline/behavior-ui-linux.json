@@ -2,29 +2,29 @@
   "desktop": {
     "markersAfterAutoSelect": {
       "icons": 10,
-      "clusters": 3,
-      "pointsInClusters": 22
+      "clusters": 4,
+      "pointsInClusters": 25
     }
   },
   "phone-firefox": {
     "markersAfterAutoSelect": {
-      "icons": 9,
+      "icons": 10,
       "clusters": 4,
-      "pointsInClusters": 26
+      "pointsInClusters": 27
     }
   },
   "phone-webkit": {
     "markersAfterAutoSelect": {
       "icons": 7,
-      "clusters": 3,
-      "pointsInClusters": 24
+      "clusters": 2,
+      "pointsInClusters": 23
     }
   },
   "phone": {
     "markersAfterAutoSelect": {
-      "icons": 9,
+      "icons": 10,
       "clusters": 4,
-      "pointsInClusters": 26
+      "pointsInClusters": 27
     }
   }
 }
