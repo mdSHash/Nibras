@@ -17,8 +17,9 @@ export const BOOKS: Record<string, string> = {
   bidaya: '4445', // البداية والنهاية، دار هجر
   tabari: '9783', // تاريخ الطبري، دار التراث
   isaba: '9767', // الإصابة في تمييز الصحابة، دار الكتب العلمية
-  usd: '', // أسد الغابة: fill in when first used
-  istiab: '', // الاستيعاب: fill in when first used
+  usd: '1110', // أسد الغابة، ط العلمية
+  istiab: '12288', // الاستيعاب، ت البجاوي
+  kamil: '21712', // الكامل في التاريخ، ت تدمري
 };
 
 export const CACHE = 'tmp/territories-research/cache';

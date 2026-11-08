@@ -21,6 +21,9 @@ const BOOK_NAMES: Record<string, string> = {
   bidaya: 'البداية والنهاية، ابن كثير (دار هجر)',
   tabari: 'تاريخ الطبري (دار التراث)',
   isaba: 'الإصابة في تمييز الصحابة، ابن حجر (دار الكتب العلمية)',
+  usd: 'أسد الغابة في معرفة الصحابة، ابن الأثير (دار الكتب العلمية)',
+  istiab: 'الاستيعاب في معرفة الأصحاب، ابن عبد البر (ت. البجاوي، دار الجيل)',
+  kamil: 'الكامل في التاريخ، ابن الأثير (ت. تدمري، دار الكتاب العربي)',
 };
 const CONF: Record<Finding['confidence'], string> = { proven: 'ثابت', likely: 'راجح', uncertain: 'غير مؤكد' };
 
@@ -138,6 +141,31 @@ function main(): void {
           if (fd.applied.note) out.push(`- ما وُجد: ${fd.applied.note}`);
         }
       }
+    }
+    for (const [i, nr] of (data.newRecords ?? []).entries()) {
+      findings++;
+      const label = `N-${String(i + 1).padStart(2, '0')}`;
+      const dir = nr.kind === 'event' ? 'content/events' : 'content/people';
+      const exists = fs.existsSync(path.join(dir, `${nr.id}.json`));
+      if (exists && !nr.applied) bad.push(`${nr.id}: a ${nr.kind} with this id already exists`);
+      if (!exists && nr.applied) bad.push(`${nr.id}: applied, but not in ${dir}`);
+      if (nr.record.id !== nr.id) bad.push(`${nr.id}: record.id differs`);
+      out.push(`\n### ${label} (\`${nr.id}\`): ${nr.heading}\n`);
+      out.push(`- ${nr.kind === 'event' ? 'حدث جديد' : 'ترجمة جديدة'} · ${nr.narrated ? 'مسموع (يحتاج تسجيلًا)' : 'غير مسموع'} · الدرجة: **${CONF[nr.confidence]}**`);
+      if (nr.ledger) out.push(`- سجل الأقاليم (3F): ${nr.ledger}`);
+      out.push('- السجل كما يُضاف:\n\n```json\n' + JSON.stringify(nr.record, null, 2) + '\n```\n');
+      for (const f of nr.facts) {
+        out.push(`- ${f.text}`);
+        for (const c of f.cites ?? []) {
+          quotes++;
+          const r = checkCite(c);
+          if (!r.ok) bad.push(`${nr.id}: ${r.why}`);
+          out.push(`  - ${citeLine(c, r.printed)}`);
+        }
+        if (f.basis) out.push(`  - الأساس: ${f.basis}`);
+      }
+      if (nr.note) out.push(`- ملاحظة: ${nr.note}`);
+      if (nr.decision) out.push(`- قرار مصطفى: **${DECISION[nr.decision.v]}**${nr.decision.note ? ` — «${nr.decision.note}»` : ''}`);
     }
     if (data.outro) out.push(`\n${data.outro}\n`);
   }

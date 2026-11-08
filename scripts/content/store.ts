@@ -340,6 +340,19 @@ export function checkContent(
     );
   }
   events.sort((a, b) => a.date.sortKey - b.date.sortKey || (a.date.tieOrder ?? 0) - (b.date.tieOrder ?? 0));
+  // On the timeline the eras follow each other: no event of a later era before one of an earlier era.
+  const eraOrder = new Map(eras.map(e => [e.id, e.order]));
+  let latest: ContentEvent | undefined;
+  for (const event of events) {
+    const order = eraOrder.get(event.eraId);
+    if (order === undefined) continue;
+    if (latest && order < eraOrder.get(latest.eraId)!) {
+      issues.push({
+        file: eventFile(event),
+        message: `era "${event.eraId}" but dated after ${latest.id} (era "${latest.eraId}"): check eraId or date.sortKey`,
+      });
+    } else latest = event;
+  }
   // Video folders go by event file name: a file that sets battleVideo claims its folder even when
   // it fails its schema or its id, so those problems are not reported twice.
   const askForVideo = new Set(
