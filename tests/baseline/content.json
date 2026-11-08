@@ -2972,8 +2972,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "incident-ifk.description.5a176546.m4a",
+        "descriptionExists": true,
         "titleFile": "incident-ifk.title.217d970e.m4a",
         "titleExists": true
       }
