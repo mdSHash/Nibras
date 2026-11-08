@@ -2865,3 +2865,49 @@ Fatima al-Zahraʾ «نحو 13 ق.هـ - 11 هـ», ʿUbayda «نحو 62 ق.هـ�
 - 4F (ʿUmar) and later eras: the dates in `birthDeath` are now settled; era sessions check bios against them rather than
   re-auditing the dates. Still open from 4C: the timeline positions of Damascus, Aleppo, Antioch and al-Raqqa (4F),
   and Siffin (4H).
+
+### 4F — ʿUmar's caliphate: the list (2026-11-08)
+
+Branch `refactor/phase-4f-umar` from `main` at `0541c29` (PR #32 merged). `npm run verify` passed before any change, as
+five `--only` batches: static steps and build (435 unit tests); Lighthouse; features 127 passed, 2 skipped; engines 50
+passed, 24 skipped; visual 16/16. **No content, Qur'an text or narration changed. No Gemini, Groq or OpenRouter quota
+spent.**
+
+#### Narration workflow (checked at the start)
+
+All of today's runs succeeded (09:53 by hand, 15:30 and 18:54 scheduled); the last recorded 1 and stopped at the used
+daily quota, as designed, and its bot PR #33 merged. Nothing fixed. Queue: 25 stale, 17 missing.
+
+#### What was made
+
+- `docs/audit/umar.md` (generated) from `docs/audit/umar/` `01`–`04` (the 28 events), `05-dates.json`, `06-people.json`,
+  `07-cities.json`, `08-new-records.json` and `HEAD.md` (summary, decisions, sources).
+- Caches (git-ignored): al-Kamil pages 991–1180 (years 14–31). Al-Tabari 1701–2140 and al-Bidaya 5440–5760 were already
+  cached.
+- Working scripts in the git-ignored `tmp/audit4f/`: `notes1-7.txt` and `newrec.txt` (the findings, one line each),
+  `build.ts` (notes to audit JSON; finds each quote's page and fails on any quote or current text not found),
+  `newrec.ts` (new records, checked against the content schema), `assemble.sh` (all files in order, ids sequential),
+  `g.ts`/`rng.ts`/`titles.cjs` (page search, page ranges, section titles), `page.ts` and `page-tpl.html` (review page).
+
+#### Summary
+
+- 28 events, 17 people (bios only, compared with their 4E dates), 5 cities (Damascus, Jerusalem, Basra, Kufa, Fustat).
+  171 findings (126 corrections, 8 enrichment, 19 dates, 18 bio; 20 proven, 135 likely, 16 uncertain) and 6 new records
+  (khalid-dismissal, kufa-basra-founding, conquest-caesarea, sariya-al-jabal, yazid-ibn-abi-sufyan, utbah-ibn-ghazwan).
+  390 quotes, each found on its page by script.
+- Worst: nine events written as generic text with invented tactics and numbers; "al-Hadir in the Jazira" does not exist
+  (it is Hadir Qinnasrin); Yarmouk dated 15 AH but told from Sayf's 13 AH account; Raqqa/Edessa, Aleppo/Antioch and ʿAmwas
+  out of order; nine bios with sentences about the app.
+- Sayf ibn ʿUmar's reports are marked as his. Al-Waqidi only as an option (D-007); Khalifa only inside Ibn Kathir's date
+  list for Caesarea; al-Baladhuri not used. Al-Isaba not used (index window); Usd al-Ghaba and al-Istiʿab used.
+- The timeline positions of Damascus, Aleppo, Antioch and al-Raqqa (open from 4C) are D-004, D-011, D-012, D-016.
+
+#### Narration count
+
+36 requests if all approved: 27 changed descriptions, al-Hadir's new title, title and description of the 4 new events.
+
+#### Review page
+
+https://claude.ai/artifact/3yAxdsJZ3Uix7sJ32SHypM (private). Decisions are saved in its database, collection
+`decisions`, one document per id (A-001 to A-126, E-001 to E-008, D-001 to D-019, B-001 to B-018, N-01 to N-06).
+**Part 2 of 4F starts by reading it.**
