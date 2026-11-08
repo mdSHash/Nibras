@@ -2578,3 +2578,20 @@ answer about free TTS limits against Google's docs and look at newer models.
 - **Baselines:** updated once the last recording is in, so the narration entries are captured once.
 - **Voice:** 231 recordings are from the 3.1 model, 11 from 3.8. Mostafa to listen and compare; if the new voice
   differs too much, re-recording everything is 262 requests (about 27 days at 10 a day).
+
+#### Daily recording and the CI fixes (2026-11-08, Mostafa: "record over the days for all phases; fix CI; merge")
+
+- **`.github/workflows/narration.yml`** (daily 08:30 UTC, and by hand on main): records what main is missing up to
+  the free daily limit, archives the replaced files (git history plus the run's `replaced-recordings` artifact),
+  updates only the narration entries of `tests/baseline/content.json` (`content-snapshot.ts --update-narration`),
+  runs the static checks, merges the recordings through a bot PR and starts "Check and deploy" on main, which runs
+  the full verification before deploying. So each era's flow is: era PR merged → its changed events are silent →
+  the daily run records 10 a day → they are on the site the same day for Mostafa to listen.
+  **Needs Mostafa once:** Settings → Actions → General → Workflow permissions → tick "Allow GitHub Actions to create
+  and approve pull requests" (the session was not allowed to change repository settings).
+- `generate` stops cleanly at the daily quota (exit 0, keeps what it recorded); tested.
+- **CI fixes:** the content snapshot and behavior map baselines updated (approved; the behavior map's 23 changes
+  are «الهجرة» and «مكة» search results that follow the new text); the Badr panel screenshots updated (Windows here,
+  Linux from the CI run); the narration e2e tests use al-Khandaq, whose recording does not change; the Badr panel
+  screenshot leaves out the play button, which comes and goes while events wait for their recording.
+- PR #24 (4A) merged.
