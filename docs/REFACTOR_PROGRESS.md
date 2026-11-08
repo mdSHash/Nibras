@@ -2780,3 +2780,51 @@ day the 4D recordings should be ready by about 2026-11-13 if every daily run wor
   the Waddan marker, the Medina labels; Windows stayed within tolerance). The three Linux pictures are CI's from that run
   (artifacts `baseline-linux-visual` and `playwright-report-visual`), checked by eye. Embedding index: two Chat index
   runs (42492848527: 200 of 269 changed units, its per-run limit; 42493325904: the other 69).
+
+### 4E — companions' birth and death dates: the list (2026-11-08)
+
+Branch `refactor/phase-4e-companion-dates` from `main` at `65a8748` (PR #30 merged). `npm run verify` passed before any
+change, as five `--only` batches: static steps and build (435 unit tests); Lighthouse; features 127 passed, 2 skipped;
+engines 50 passed, 24 skipped; visual 16/16. **No content, Qur'an text or narration changed. No Gemini, Groq or
+OpenRouter quota spent.**
+
+#### Narration workflow (checked at the start)
+
+Both of today's runs succeeded: the one started by hand at 09:53 UTC (bot PR #29, 10 recordings) and the 15:30 UTC
+scheduled run (bot PR #31, merged 15:37). The second recorded 1 and stopped with «the daily quota is used up» because the
+first had already used the Pacific-day quota: working as designed, nothing fixed. Queue: 25 stale, 18 missing.
+
+#### Plan change
+
+Phase 4, "Pronunciation": the Whisper check (`npm run narration -- review`) is replaced by "Mostafa listens on the site"
+(Mostafa, 2026-11-08).
+
+#### What was made
+
+- `docs/audit/companion-dates.md` (generated) from `docs/audit/companion-dates/` `00-format.json` (F-00), `01-people.json`
+  to `08-people.json` and `HEAD.md` (summary, decisions, sources).
+- Caches (git-ignored): Usd al-Ghaba and al-Istiʿab fetched in full (3,699 and 1,960 pages), al-Bidaya 5800–5950 and
+  6345–7700 (36–107 AH) and 4060–4200; al-Isaba's entries for the 13 people its index reaches.
+- Working scripts in the git-ignored `tmp/audit4e/`: `index.ts` (every entry heading of both companion books, with its
+  joined text), `ext3.ts` (each person's birth and death sentences), `obits.ts` (al-Bidaya's death sections by year
+  heading), `ent.ts`/`after.ts`/`rng.ts` (look-ups), the reading notes `notes1-8.txt` and `bio1-8.txt`, `build.ts` (notes
+  to audit JSON: finds each quote's page and fails on any not found), `page.ts` (the review page).
+
+#### Summary
+
+- All 165 people: F-00 plus **149 findings** (117 dates, 32 bio sentences; 47 proven, 81 likely, 21 uncertain) and 47
+  people checked clean. 364 quotes, each found on its page by script. If all are approved: 37 birth years and 42 death
+  years change, and 24 years without a source become «؟».
+- Computed years use the app's anchor (the Prophet ﷺ born 53 BH), lunar years and no year zero (born = death − age; a
+  result of 0 or less is 1 − result BH). Recorded as F-00's rule 5.
+- Al-Waqidi and Khalifa ibn Khayyat are quoted by the companion books; no year rests on them alone without saying so.
+  Al-Baladhuri and Sayf ibn ʿUmar not used.
+
+#### Narration count
+
+None: `scripts/narration/` reads only event titles and descriptions. The dry run lists the same 43 event recordings.
+
+#### Review page
+
+https://claude.ai/artifact/Hge4DEXaDXmgtdvgPpLCaS (private). Decisions are saved in its database, collection
+`decisions`, one document per id (F-00, C-001 to C-149). **Part 2 of 4E starts by reading it.**
