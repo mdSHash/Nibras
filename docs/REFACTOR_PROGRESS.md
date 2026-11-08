@@ -2602,3 +2602,48 @@ Phase 4 now also covers new events and companions, fuller companion bios, and a 
 companion's birth and death dates (plan, Phase 4). Sessions: 4C Abu Bakr, 4D the Prophetic era's bios and new
 records, 4E companions' dates (all people), 4F ʿUmar, 4G ʿUthman, 4H ʿAli. Documentation-only changes no
 longer start CI (deploy.yml, paths); [skip ci] in a commit message skips it once.
+
+### 4C — audit list for Abu Bakr's caliphate (2026-11-08)
+
+Branch `refactor/phase-4c-abu-bakr` from `main` at `3a5fdf8` (PRs #24, #25, #26 merged). `npm run verify` passed
+before any change, as five `--only` batches: static steps and build (434 unit tests); Lighthouse; features 127 passed,
+2 skipped; engines 50 passed, 24 skipped; visual 16/16. **No content, Qur'an text or narration changed. No Gemini,
+Groq or OpenRouter quota spent.**
+
+#### Narration workflow (checked at the start)
+
+The daily Narration workflow has **not run yet**: it reached `main` with PR #25 (01:18 UTC today) and its first
+scheduled run is 08:30 UTC today. Nothing failed, so nothing was changed. **20 Prophetic recordings are still stale**
+(`npm run narration -- check`: 242 fresh, 20 stale, 0 missing). "Allow GitHub Actions to create and approve pull
+requests" is on (`can_approve_pull_request_reviews: true`).
+
+#### What was made
+
+- `docs/audit/abu-bakr.md` (generated) from `docs/audit/abu-bakr/*.json` and `HEAD.md`.
+- `scripts/audit/`: Usd al-Ghaba (1110), al-Istiʿab (al-Bajawi, 12288) and al-Kamil (Tadmuri, 21712) added to the
+  books; a `newRecords` section in the audit files (`NewRecord` in `types.ts`): the full record as it would be added,
+  each fact with its quotes; `report.ts` checks the quotes and that each id is new (or, once applied, present).
+- Caches (git-ignored): al-Bidaya pages 5286–5486 (years 11–13), al-Kamil 855–990, Usd al-Ghaba and al-Istiʿab pages
+  found by binary search on page titles (their indexes list letters only), 13 al-Durar searches.
+
+#### Summary
+
+- Scope: 17 events, 13 people (first linked event in this era), no new cities. 65 findings (19 proven, 43 likely,
+  3 uncertain), 7 enrichment items, 6 new records (4 events, 2 companions); 219 quotes checked by script.
+- Worst: four Iraq battles credit al-Muthanna with Khalid's raids and invented tactics and numbers; Marj al-Saffar told
+  as a victory when the Abu Bakr-era sources report Khalid ibn Saʿid's defeat; ʿUmar's Saqifa words and the Quran
+  collection hadith misquoted; al-Yamama's numbers; Abu Bakr's death date.
+- 4A's note that no event cites «فتوح الشام للواقدي» was wrong: `battle-marj-dabiq` does.
+- Sayf ibn ʿUmar's reports are marked; al-Baladhuri and Khalifa ibn Khayyat were not used (option 2 of A-059 needs
+  al-Baladhuri, asked in the list). Al-Isaba's entries for this era were not reached; Usd al-Ghaba and al-Istiʿab used.
+
+#### Narration count
+
+If all approved: 16 changed descriptions + 4 new events = **20 requests**, after the 20 Prophetic ones in the daily
+queue. The dry run lists only the 20 Prophetic today.
+
+#### Review page
+
+https://claude.ai/artifact/MtdqzRFRKfESzpgaFiK5MY (private; built by the git-ignored `tmp/audit4c/page.ts` from
+4A's template). Decisions are saved in its database, collection `decisions`, one document per finding id (A-…, E-…,
+and N-01 to N-06 for the new records). **Part 2 of 4C starts by reading it.**

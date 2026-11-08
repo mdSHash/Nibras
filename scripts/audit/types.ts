@@ -56,9 +56,28 @@ export interface AuditRecord {
   findings: Finding[];
 }
 
+/** A proposed new event or person (4C on): the full record as it would be added to content/,
+ * and every fact in it with its source. The report checks the quotes and that the id is new
+ * (or, once `applied`, that the record is in content/). */
+export interface NewRecord {
+  id: string;
+  kind: 'event' | 'person';
+  heading: string;
+  narrated: boolean;
+  confidence: Finding['confidence'];
+  record: Record<string, unknown>;
+  facts: { text: string; cites?: Cite[]; basis?: string }[];
+  /** Where the map point falls in the territory ledger (3F), for an event. */
+  ledger?: string;
+  note?: string;
+  decision?: Finding['decision'];
+  applied?: Applied;
+}
+
 export interface AuditFile {
   title: string;
   intro?: string;
   records: AuditRecord[];
+  newRecords?: NewRecord[];
   outro?: string;
 }
