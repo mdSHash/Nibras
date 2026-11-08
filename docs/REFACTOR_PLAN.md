@@ -632,9 +632,8 @@ corrected, enriched where the sources support it, and narrated again.
 - [ ] **Audit**: per event, person and city, a list of findings (fact, figure, date, name, tashkeel)
       with the source and page for each proposed change. Nothing changes until Mostafa approves
       the list (CLAUDE.md, rule 1).
-- [ ] **Pronunciation**: `npm run narration -- review` (Whisper, local) lists the words each
-      recording says differently from its text; Mostafa listens to the flagged places. Wrong vowels
-      in the text go into the audit list; a correct text read wrong is only re-recorded.
+- [ ] **Pronunciation**: Mostafa listens on the site. Wrong vowels in the text go into the audit
+      list; a correct text read wrong is only re-recorded.
 - [ ] **Enrichment**: new facts from the same sources, including the gaps collected so far (the
       Badr video's figures and episodes the event does not state; see 3H, "Open for Mostafa").
 - [ ] **Companion bios** (added 2026-11-08, Mostafa): each era session also enriches the bios of
@@ -648,7 +647,7 @@ corrected, enriched where the sources support it, and narrated again.
       dates, bio, the events they link to) with a source and page for every fact. Nothing is
       added until Mostafa approves it; new events get narration from the daily run like changed
       ones, and new map points are checked against the territory ledger (3F).
-- [ ] **Birth and death dates of every companion** (added 2026-11-08, Mostafa: "not accurate, has
+- [x] **Birth and death dates of every companion** (done in 4E, PR #32, 2026-11-08) (added 2026-11-08, Mostafa: "not accurate, has
       issues"): one session, 4E, checks the `birthDeath` of all people (161 in 2026-11) against
       al-Isaba, Usd al-Ghaba, al-Istiʿab and al-Bidaya: the year each source gives, the
       disagreements stated as «وقيل», «؟» where no source gives a year (never an estimate
@@ -659,9 +658,9 @@ corrected, enriched where the sources support it, and narrated again.
       Charon voice (`gemini-3.8-flash-tts` since 2026-11-08). The daily Narration workflow does it
       after each merge, 10 recordings a day on the free tier, and publishes them; Mostafa
       listens on the site. The chat KB and its embedding index are rebuilt in each session.
-- [ ] Sessions: 4A–4B prophetic audit (done), 4C Abu Bakr, 4D the Prophetic era's bios and new
-      events and companions (4A–4B came before these were added), 4E companions' birth and death
-      dates (all people), 4F ʿUmar, 4G ʿUthman, 4H ʿAli; each era session covers audit, bios,
+- [ ] Sessions: 4A–4B prophetic audit (done), 4C Abu Bakr (done), 4D the Prophetic era's bios and new
+      events and companions (4A–4B came before these were added; done), 4E companions' birth and death
+      dates (all people; done), 4F ʿUmar, 4G ʿUthman, 4H ʿAli; each era session covers audit, bios,
       enrichment and new records, stops for Mostafa's marks on the review page, then applies and merges.
 
 Done when: every text has an approved audit entry, `npm run narration -- check` reports 0 stale and
