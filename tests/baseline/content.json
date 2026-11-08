@@ -1645,8 +1645,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "building-mosque.description.4a317f1d.m4a",
+        "descriptionExists": true,
         "titleFile": "building-mosque.title.a75cfb57.m4a",
         "titleExists": true
       }
@@ -1710,8 +1710,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "medina-constitution.description.7be5d721.m4a",
+        "descriptionExists": true,
         "titleFile": "medina-constitution.title.277a2c6d.m4a",
         "titleExists": true
       }
@@ -1842,8 +1842,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "sariyyat-ubaydah.description.9f9a783f.m4a",
+        "descriptionExists": true,
         "titleFile": "sariyyat-ubaydah.title.c107c41f.m4a",
         "titleExists": true
       }
@@ -1913,8 +1913,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "sariyyat-nakhla.description.6ab8d89a.m4a",
+        "descriptionExists": true,
         "titleFile": "sariyyat-nakhla.title.99531b06.m4a",
         "titleExists": true
       }
@@ -2108,8 +2108,8 @@
       },
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-badr.description.4db39d6e.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-badr.title.fdbca40c.m4a",
         "titleExists": true
       }
@@ -2257,8 +2257,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "ghazwat-sawiq.description.3e68368f.m4a",
+        "descriptionExists": true,
         "titleFile": "ghazwat-sawiq.title.7c0456a6.m4a",
         "titleExists": true
       }
@@ -2327,8 +2327,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "ghazwat-dhi-amar.description.38c508f4.m4a",
+        "descriptionExists": true,
         "titleFile": "ghazwat-dhi-amar.title.ff5914a8.m4a",
         "titleExists": true
       }
@@ -2435,8 +2435,8 @@
       },
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-uhud.description.ce04e528.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-uhud.title.4431831a.m4a",
         "titleExists": true
       }
@@ -2673,8 +2673,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "banu-nadir.description.fb7fff27.m4a",
+        "descriptionExists": true,
         "titleFile": "banu-nadir.title.0625c92b.m4a",
         "titleExists": true
       }
@@ -2885,8 +2885,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "ghazwat-bani-mustaliq.description.3253f667.m4a",
+        "descriptionExists": true,
         "titleFile": "ghazwat-bani-mustaliq.title.6fc97eb6.m4a",
         "titleExists": true
       }
