@@ -2689,3 +2689,11 @@ Same branch and PR (#27). Decisions read from the review page's database (77 ent
 24 requests: 16 changed descriptions + title and description of the 4 new events, after the 20 Prophetic ones.
 **The Narration workflow has not run yet:** its first scheduled run (08:30 UTC 2026-11-08) had not started by
 09:50 UTC; nothing failed. Not started by hand (TTS quota).
+
+#### The daily narration run (2026-11-08, Mostafa: "make sure the TTS runs every day; make today's run")
+
+- The first scheduled run (08:30 UTC) never started: GitHub may drop scheduled runs when busy. Nothing in the
+  workflow was wrong. Today's run was started by hand on main after #27 merged (run 42469071479), so its bot PR
+  could not conflict with #27's content baseline.
+- `narration.yml` now also runs at 14:30 UTC. If the morning run recorded, the afternoon one meets the used daily
+  quota, records nothing and spends nothing; if the morning run was dropped, it records the day's 10.
