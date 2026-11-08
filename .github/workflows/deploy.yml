@@ -5,11 +5,25 @@ name: Check and deploy
 # Playwright) on every pull request and every push to main, split into parallel
 # jobs. The site deploys only when all of them pass.
 
+#
+# A change that touches only documentation (docs/ other than CONTENT_GUIDE.md, which a test
+# checks, and the Markdown files at the root) starts no run. For any other one-off skip, put
+# [skip ci] in the commit message (the newest commit of a PR or push).
 on:
   push:
     branches:
       - main
+    paths:
+      - '**'
+      - '!docs/**'
+      - '!*.md'
+      - 'docs/CONTENT_GUIDE.md'
   pull_request:
+    paths:
+      - '**'
+      - '!docs/**'
+      - '!*.md'
+      - 'docs/CONTENT_GUIDE.md'
   workflow_dispatch:
 
 permissions:
