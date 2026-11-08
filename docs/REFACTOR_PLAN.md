@@ -632,9 +632,8 @@ corrected, enriched where the sources support it, and narrated again.
 - [ ] **Audit**: per event, person and city, a list of findings (fact, figure, date, name, tashkeel)
       with the source and page for each proposed change. Nothing changes until Mostafa approves
       the list (CLAUDE.md, rule 1).
-- [ ] **Pronunciation**: `npm run narration -- review` (Whisper, local) lists the words each
-      recording says differently from its text; Mostafa listens to the flagged places. Wrong vowels
-      in the text go into the audit list; a correct text read wrong is only re-recorded.
+- [ ] **Pronunciation**: Mostafa listens on the site. Wrong vowels in the text go into the audit
+      list; a correct text read wrong is only re-recorded.
 - [ ] **Enrichment**: new facts from the same sources, including the gaps collected so far (the
       Badr video's figures and episodes the event does not state; see 3H, "Open for Mostafa").
 - [ ] **Companion bios** (added 2026-11-08, Mostafa): each era session also enriches the bios of
