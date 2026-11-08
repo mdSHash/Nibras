@@ -2775,3 +2775,8 @@ option everywhere: al-Israʾ after the first ʿAqaba (D-09), Banu al-Mustaliq ke
 
 10 requests: title and description of the 5 new events. Queue after this branch: 44 (26 stale, 18 missing), so at 10 a
 day the 4D recordings should be ready by about 2026-11-13 if every daily run works.
+- CI (run 42493577657): all jobs passed except visual, as expected: the two Linux bio screenshots were missing, and the
+  desktop Badr event panel differed by 2% on Linux (the timeline strip now shows Waddan and the new order around Badr,
+  the Waddan marker, the Medina labels; Windows stayed within tolerance). The three Linux pictures are CI's from that run
+  (artifacts `baseline-linux-visual` and `playwright-report-visual`), checked by eye. Embedding index: two Chat index
+  runs (42492848527: 200 of 269 changed units, its per-run limit; 42493325904: the other 69).
