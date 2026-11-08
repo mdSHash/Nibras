@@ -659,8 +659,8 @@ corrected, enriched where the sources support it, and narrated again.
       after each merge, 10 recordings a day on the free tier, and publishes them; Mostafa
       listens on the site. The chat KB and its embedding index are rebuilt in each session.
 - [ ] Sessions: 4A–4B prophetic audit (done), 4C Abu Bakr (done), 4D the Prophetic era's bios and new
-      events and companions (4A–4B came before these were added), 4E companions' birth and death
-      dates (all people), 4F ʿUmar, 4G ʿUthman, 4H ʿAli; each era session covers audit, bios,
+      events and companions (4A–4B came before these were added; done), 4E companions' birth and death
+      dates (all people; done), 4F ʿUmar, 4G ʿUthman, 4H ʿAli; each era session covers audit, bios,
       enrichment and new records, stops for Mostafa's marks on the review page, then applies and merges.
 
 Done when: every text has an approved audit entry, `npm run narration -- check` reports 0 stale and
