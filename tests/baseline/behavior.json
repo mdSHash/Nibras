@@ -1023,7 +1023,7 @@
     },
     {
       "id": "مكة",
-      "count": 30,
+      "count": 31,
       "eventIds": [
         "event-0-ميلاد-النبي--عام-الفيل",
         "fijar-war",
@@ -1043,6 +1043,7 @@
         "second-aqaba",
         "hijra-medina",
         "change-qibla",
+        "battle-badr",
         "incident_rajeei",
         "ghazwat_badr_mawuid",
         "treaty-hudaybiyyah",
@@ -1082,12 +1083,10 @@
     },
     {
       "id": "الهجرة",
-      "count": 10,
+      "count": 8,
       "eventIds": [
         "revelation-hira",
         "migration-abyssinia",
-        "islam_hamza",
-        "islam_umar",
         "isra-miraj",
         "second-aqaba",
         "hijra-medina",
