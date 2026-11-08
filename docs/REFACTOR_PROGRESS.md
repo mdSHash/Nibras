@@ -10,7 +10,7 @@ The log for `docs/REFACTOR_PLAN.md`. Each session reads this file first and upda
 | 1 Content model | merged | `refactor/phase-1-content` | #5 |
 | 2 State, routing and pages | merged | `refactor/phase-2-routing` | #6 |
 | 3 Assets, chat and polish | closed (3I close-out) | `refactor/phase-3*` | #7–#21 |
-| 4 Content audit, enrichment and narration | 4A (Prophetic audit) and 4B (applied) in review | `refactor/phase-4a-audit-prophetic`, `refactor/phase-4b-apply-prophetic` | — |
+| 4 Content audit, enrichment and narration | 4A–4B (Prophetic) merged; next 4C (Abu Bakr), 4D (companions' dates) | `refactor/phase-4a-audit-prophetic`, `refactor/phase-4b-apply-prophetic` | #24, #25 |
 | 5 Learning paths for guests | not started | `feature/phase-5-paths` | — |
 | 6 Optional accounts | not started | `feature/phase-6-accounts` | — |
 
@@ -2595,3 +2595,9 @@ answer about free TTS limits against Google's docs and look at newer models.
   Linux from the CI run); the narration e2e tests use al-Khandaq, whose recording does not change; the Badr panel
   screenshot leaves out the play button, which comes and goes while events wait for their recording.
 - PR #24 (4A) merged.
+
+### Plan change (2026-11-08, Mostafa)
+
+Phase 4 now also covers new events and companions, fuller companion bios, and a check of every
+companion's birth and death dates (plan, Phase 4). Sessions: 4C Abu Bakr, 4D companions' dates
+(all people), 4E ʿUmar, 4F ʿUthman, 4G ʿAli.
