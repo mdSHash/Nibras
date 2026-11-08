@@ -4,13 +4,16 @@
 //
 //   npx tsx scripts/baseline/content-snapshot.ts            compare with tests/baseline/content.json
 //   npx tsx scripts/baseline/content-snapshot.ts --update   rewrite it (only after approval)
+//   npx tsx scripts/baseline/content-snapshot.ts --update-narration
+//       rewrite only the events' narration entries (new recordings of approved text, as the daily
+//       recording run does, .github/workflows/narration.yml), then compare everything as usual
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { citiesData, eraOf, passageFor } from '../../src/data';
 import { fullEvents as eventsData, fullPeople as companionsData } from '../content/generated';
 import generatedQuranPassages from '../../src/generated/quranPassages.json';
 import generatedBattleVideos from '../../src/generated/battleVideos.json';
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { NO_EVENT_YEAR, periodForYear } from '../../shared/territoryMap';
 import type { GeneratedTerritoryMap } from '../../shared/contentSchema';
 import { isBattle, isProphetEra, isRashidunEra } from '../../src/utils/eventHelpers';
@@ -136,6 +139,15 @@ const territories = territoryYears.map((year) => {
     legend: period.legend.map((l) => l.text),
   };
 });
+
+if (process.argv.includes('--update-narration')) {
+  const file = new URL('../../tests/baseline/content.json', import.meta.url);
+  const committed = JSON.parse(readFileSync(file, 'utf8')) as { events: { id: string; narration: unknown }[] };
+  const now = new Map(events.map((e) => [e.id, e.narration]));
+  for (const e of committed.events) if (now.has(e.id)) e.narration = now.get(e.id);
+  writeFileSync(file, `${JSON.stringify(committed, null, 2)}\n`);
+  console.log('Updated the narration entries of tests/baseline/content.json');
+}
 
 writeOrCompare('content.json', {
   counts: {

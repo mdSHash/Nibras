@@ -72,9 +72,9 @@ test('a search that finds nothing is counted as such, once, and only when the dr
 test('narration counts once per listen: pausing and resuming is the same one', async ({ page }) => {
   await recordCalls(page);
   await openAppWithEvent(page);
-  await openEventBySearch(page, 'battle-badr', 'بدر');
+  await openEventBySearch(page, 'battle-khandaq', 'الخندق'); // its recording stays fresh (see event-panel.spec.ts)
   await panel(page).getByRole('button', { name: 'تشغيل السرد' }).click();
-  await expect.poll(() => named(page, 'narration_played')).toEqual([['narration_played', { event: 'battle-badr' }]]);
+  await expect.poll(() => named(page, 'narration_played')).toEqual([['narration_played', { event: 'battle-khandaq' }]]);
 
   await panel(page).getByRole('button', { name: 'إيقاف السرد' }).click();
   await panel(page).getByRole('button', { name: /تشغيل السرد|استئناف السرد/ }).first().click();
