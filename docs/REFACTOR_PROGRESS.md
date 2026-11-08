@@ -2697,3 +2697,47 @@ Same branch and PR (#27). Decisions read from the review page's database (77 ent
   could not conflict with #27's content baseline.
 - `narration.yml` now also runs at 14:30 UTC. If the morning run recorded, the afternoon one meets the used daily
   quota, records nothing and spends nothing; if the morning run was dropped, it records the day's 10.
+
+### 4D — the Prophetic era's bios, dates and new records: the list (2026-11-08)
+
+Branch `refactor/phase-4d-prophetic-additions` from `main` at `e979d58` (PRs #27, #28, #29 merged). `npm run verify`
+passed before any change, as five `--only` batches: static steps and build (435 unit tests); Lighthouse; features 127
+passed, 2 skipped; engines 50 passed, 24 skipped; visual 16/16. **No content, Qur'an text or narration changed. No Gemini,
+Groq or OpenRouter quota spent.**
+
+#### Narration workflow (checked at the start)
+
+Today's 08:30 UTC scheduled run was dropped by GitHub (no run started; nothing in the workflow failed). The run started by
+hand after #27 merged (42469071479, 09:53 UTC) succeeded and its bot PR #29 merged at 10:00 UTC (10 recordings). The 14:30
+backup run (#28) had not come up yet. Nothing fixed. The dry run now lists 34 recordings (26 stale, 8 missing).
+
+#### What was made
+
+- `docs/audit/prophetic-additions.md` (generated) from `docs/audit/prophetic-additions/` `01-bios.json`, `02-dates.json`,
+  `03-new-records.json` and `HEAD.md` (summary, decisions, 4E conflicts, sources).
+- Working scripts in the git-ignored `tmp/audit4d/` (entry locator and extractor for Usd al-Ghaba and al-Istiʿab, the bio
+  chunks `bios-*.cjs` with a page auto-fix for quotes, `mkdates.cjs`, `newrec.cjs`, the review page builder).
+- Caches (git-ignored): about 400 more Usd al-Ghaba pages, al-Istiʿab pages found by binary search on page titles.
+
+#### Summary
+
+- 82 people (74 first linked in the era, 7 wives, ʿUrwa ibn Masʿud): 93 bio findings (72 proven, 21 likely), 10 checked
+  clean. 49 events' dates: 35 findings (16 proven, 16 likely, 3 uncertain), 14 checked clean. 5 new events, 3 new companions,
+  1 link (ʿUrwa to al-Hudaybiyya). 294 quotes, each found on its page by script; the new records pass the content schema.
+- Dates: the Hijri date each source gives (Ibn Hisham first, al-Raheeq for months Ibn Ishaq lacks), converted with the
+  tabular calendar as in 4C; pre-Hijra years counted back in lunar years (year N of the Prophethood = N − 13, al-Raheeq's
+  count). The proposed timeline keeps every era in order; one order change (al-Israʾ after the first ʿAqaba, D-09).
+  Ledger rows that follow moved events (the Hijra, al-Hudaybiyya, Khaybar) keep their order.
+- Al-Waqidi, al-Baladhuri, Khalifa ibn Khayyat and Sayf ibn ʿUmar not relied on. Al-Isaba not used (its index shows only a
+  window of entries); Usd al-Ghaba had every companion.
+- The bios' Qur'an quote (Kaʿb ibn Malik, al-Tawba 118) matches the verse (checked like `scripts/audit/quranQuotes.ts`).
+
+#### Narration count
+
+Bios and dates are not narrated: **10 requests** if all 5 new events are approved (title and description each), after
+the 34 in the queue.
+
+#### Review page
+
+https://claude.ai/artifact/Gi6Rfw9GWVX29xtqC6sbsh (private). Decisions are saved in its database, collection `decisions`,
+one document per id (B-001 to B-093, D-01 to D-35, L-01, N-01 to N-08). **Part 2 of 4D starts by reading it.**
