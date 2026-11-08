@@ -24,8 +24,8 @@ describe('content/', () => {
   });
 
   it('covers the whole content set', () => {
-    expect(content.events).toHaveLength(131);
-    expect(content.people).toHaveLength(161);
+    expect(content.events).toHaveLength(135);
+    expect(content.people).toHaveLength(162);
     expect(content.cities).toHaveLength(10);
     expect(content.quranPassages).toHaveLength(51);
     expect(content.eras).toHaveLength(6);
@@ -86,6 +86,12 @@ describe('the content check fails', () => {
     const issues = messages(withEvent('battle-badr', e => ({ ...e, date })));
     expect(issues).toHaveLength(1);
     expect(issues[0]).toMatch(/^events\/battle-badr\.json: shares date\.sortKey 624 with .*: set date\.tieOrder$/);
+  });
+
+  it('when an event is dated inside another era', () => {
+    expect(messages(withEvent('battle_namariq', e => ({ ...e, eraId: 'abu-bakr' })))).toEqual([
+      'events/battle_namariq.json: era "abu-bakr" but dated after event-66-تولي-عمر-بن-الخطاب-الخلافة (era "umar"): check eraId or date.sortKey',
+    ]);
   });
 
   it('when a person is missing from people-order.json', () => {

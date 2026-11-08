@@ -29,7 +29,7 @@ Sunni sources give more than one date. Mostafa asked for the most accurate one (
 | # | Event (id) | App | Other reports |
 | --- | --- | --- | --- |
 | D1 | Banu al-Mustaliq and the Ifk (`ghazwat_bani_mustaliq`, `incident_ifk`) | **5 AH, Sha'ban: kept** | Sha'ban 6 AH: Ibn Ishaq (Ibn Hisham 2:289), Khalifa p. 80, al-Tabari. 5 AH: Qatada, 'Urwa, Musa ibn 'Uqba, al-Waqidi, Abu Ma'shar, reported by Ibn Hajr (Fath al-Bari 7:430) and Ibn Kathir (6:181) |
-| D2 | Marj al-Saffar (`battle-marj-dabiq`) | **Jumada I 13 AH: corrected** | Muharram 14 AH (al-Baladhuri p. 121). The event's id also says "Dabiq", a different place |
+| D2 | Marj al-Saffar (`battle-marj-dabiq`) | **Early 13 AH, Khalid ibn Sa'id's defeat: rewritten in 4C** (A-059, approved; was Jumada I 13 AH from 3F) | Al-Tabari 3:391 (Sayf) and al-Bidaya tell the Marj al-Saffar of Abu Bakr's caliphate as Khalid ibn Sa'id's defeat, before the commanders camped at al-Yarmuk in Safar 13 (al-Tabari 3:393). Muharram 14 AH, a victory: Ibn Ishaq in al-Baladhuri p. 121 (not relied on). The Palestine ledger row it carried ("Ajnadayn, 13 AH") now follows the new Ajnadayn event. The event's id also says "Dabiq", a different place |
 | D3 | Al-Buwayb (`battle-buwaib`) | **13 AH: corrected** | Al-Tabari 3:470 gives Ramadan 13 AH and Ibn Kathir (9:597) tells it under 13 AH. Al-Baladhuri p. 249 puts the Bridge, which came first, at the end of Ramadan, so the month stays open |
 | D4 | Qadisiyya (`battle-qadisiyyah`) | 15 AH | End of 16 AH: al-Baladhuri p. 252. Al-Tabari 3:590 reports 16 AH (al-Waqidi) and 15 AH (some Kufans) |
 | D5 | Nihawand (`battle-nahavand`) | 21 AH | 21 AH (Ibn Ishaq, al-Waqidi), 18 AH (Sayf): al-Tabari 4:114. 19 or 20 AH: al-Baladhuri p. 298 |
