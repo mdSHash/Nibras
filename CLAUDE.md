@@ -77,6 +77,7 @@ only after Mostafa approves the list of intentional changes; never to make a tes
   subset also in WebKit and Firefox); `tests/baseline/` — frozen baseline
 - `docs/OWNER_DASHBOARD.md` — Sentry, uptime checks, `/api/health`, where each secret lives
 - `docs/PRD.md` — product requirements; `docs/CONTENT_GUIDE.md` — adding and editing content
+- `docs/audit/` — Phase 4 content audit, one list per era (`<era>.md`, generated from `docs/audit/<era>/*.json` by `scripts/audit/report.ts`, which checks every quote against its cached page); `scripts/audit/shamela.ts` fetches and searches Shamela pages
 - `docs/territories/` — territory research (3F): uncertain rows and borders, factual conflicts, old-and-new list; `scripts/territories/` checks the ledger
 - `content/territories/` — the map's sources: `ledger/` (who held what, with sources; a row with `ev` follows that event's date), `regions.json`, `holders.json`, Natural Earth coast and rivers. `public/map-tiles/` — Relief tiles. `src/components/map/` — `TerritoryLayer` (loaded on demand), `labelPlacement.ts` (labels clear of markers)
 - `src/components/ErrorBoundary.tsx` — wrap any new major section or panel in one
