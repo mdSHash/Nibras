@@ -94,7 +94,8 @@ Engines (`--engine`, settings in `.env.local`, see `.env.example`):
   limit and stops cleanly at the daily one, keeping what it recorded.
 
 **Daily recording** (`.github/workflows/narration.yml`, Mostafa 2026-11-08): every
-day at 08:30 UTC it records what main is missing, up to the daily limit, updates
+day at 08:30 UTC (and again at 14:30 UTC, in case GitHub dropped the first run;
+that second run spends nothing when the quota is already used) it records what main is missing, up to the daily limit, updates
 only the narration entries of the content baseline, runs the static checks,
 merges the recordings through a bot pull request and starts the deploy, so new
 recordings are on the site the same day. Replaced files stay in git history and

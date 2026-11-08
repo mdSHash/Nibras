@@ -20,7 +20,11 @@ name: Narration
 
 on:
   schedule:
+    # GitHub may drop a scheduled run when it is busy (the first one, 2026-11-08, never started),
+    # so a second run each day picks up a missed one. When the first ran, the second finds the
+    # daily quota used: `generate` stops at the first 429, nothing is recorded, nothing is spent.
     - cron: '30 8 * * *'
+    - cron: '30 14 * * *'
   workflow_dispatch:
     inputs:
       max:
