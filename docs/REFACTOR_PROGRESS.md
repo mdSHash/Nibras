@@ -10,7 +10,7 @@ The log for `docs/REFACTOR_PLAN.md`. Each session reads this file first and upda
 | 1 Content model | merged | `refactor/phase-1-content` | #5 |
 | 2 State, routing and pages | merged | `refactor/phase-2-routing` | #6 |
 | 3 Assets, chat and polish | closed (3I close-out) | `refactor/phase-3*` | #7–#21 |
-| 4 Content audit, enrichment and narration | 4A–4B (Prophetic) merged; 4C (Abu Bakr) applied, PR #27; next 4D (Prophetic additions), 4E (companions' dates) | `refactor/phase-4a-audit-prophetic`, `refactor/phase-4b-apply-prophetic` | #24, #25 |
+| 4 Content audit, enrichment and narration | 4A–4E merged (4C #27, 4D #30, 4E #32: companions' dates); next 4F (ʿUmar) | `refactor/phase-4a-audit-prophetic`, `refactor/phase-4b-apply-prophetic` | #24, #25 |
 | 5 Learning paths for guests | not started | `feature/phase-5-paths` | — |
 | 6 Optional accounts | not started | `feature/phase-6-accounts` | — |
 
@@ -2828,3 +2828,40 @@ None: `scripts/narration/` reads only event titles and descriptions. The dry run
 
 https://claude.ai/artifact/Hge4DEXaDXmgtdvgPpLCaS (private). Decisions are saved in its database, collection
 `decisions`, one document per id (F-00, C-001 to C-149). **Part 2 of 4E starts by reading it.**
+
+### 4E, part 2: the approved dates applied (2026-11-08)
+
+Same branch and PR (#32). Decisions read from the review page's database: **all 150 approved**, the only note «موافق» on
+F-00, so F-00 option 1 and the first option everywhere: al-Yamama «11 هـ (وقيل 12 هـ)» for Abu Dujana, Musaylima and
+Zayd ibn al-Khattab (the event's date stays 11 AH), Abu Hurayra «؟ - 59 هـ (وقيل 57، وقيل 58 هـ)», and the first
+option of each uncertain entry (Hafsa 41 with «وقيل 45، وقيل 27», Ubayy «في خلافة عمر», al-Miqdad «نحو 38 ق.هـ - 33 هـ»,
+Fatima al-Zahraʾ «نحو 13 ق.هـ - 11 هـ», ʿUbayda «نحو 62 ق.هـ», Jarjir «27 هـ»).
+
+#### What changed
+
+- 118 people: 117 `birthDeath` fields in the one format, and 32 bio sentences in 30 bios (28 corrected, 4 removed:
+  al-Qaʿqaʿ's, Asmaʾ bint ʿUmays's, Naʾila's and Nusayba's death sentences, which no source carries). Applied by the
+  git-ignored `tmp/audit4e/apply4e.cjs`: the new text is the first «…» of each proposal, and every current text was found
+  exactly once in its field. Decisions and what was applied are recorded in the audit JSON; the report checks each
+  applied text is in the content (150 findings, 364 quotes).
+- Chat KB rebuilt (0 errors; the 3 warnings are the existing ones); embedding index by the Chat index workflow on the
+  branch (run 42514389227, approved quota): 3389/3389 units current.
+- Baselines (approved with the list): content snapshot (117 `birthDeath` and 30 `bio` hashes, nothing else), and the
+  desktop Windows bio screenshot (ʿAli now «نحو 23 ق.هـ - 40 هـ»; it passed within tolerance, re-recorded so the picture
+  shows the approved text). The behavior map is unchanged; the phone screenshot does not reach the dates.
+- No narration: bios and dates are not narrated; the queue stays at 43.
+- Checked locally: `npm run verify` as five batches (435 unit tests; Lighthouse within budget; features 127 + 2 skipped;
+  engines 50 + 24 skipped; visual 16/16). Report: 150 findings, 364 quotes, every applied text found.
+- CI (run 42514736734): all jobs passed after one rerun of the engines job. Its first try failed on Firefox only: the
+  intro-tour test's reload aborted a Tajawal 900 font download («downloadable font: download failed», status
+  NS_BINDING_ABORTED), twice in a row; nothing in this branch touches fonts, and the rerun and the local run passed. If it
+  comes back, the fix is in `tests/e2e/support/fixtures.ts` (allow that console error in Firefox), not here. The Linux
+  desktop bio screenshot stayed within tolerance, so it was not re-recorded.
+
+#### Open items for later sessions
+
+- Al-Yamama: the companion books put it in 12 AH; the app (event, three people) keeps 11 with «وقيل 12». Revisit only
+  if an era session reopens the event's date.
+- 4F (ʿUmar) and later eras: the dates in `birthDeath` are now settled; era sessions check bios against them rather than
+  re-auditing the dates. Still open from 4C: the timeline positions of Damascus, Aleppo, Antioch and al-Raqqa (4F),
+  and Siffin (4H).
