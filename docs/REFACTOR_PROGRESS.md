@@ -10,7 +10,7 @@ The log for `docs/REFACTOR_PLAN.md`. Each session reads this file first and upda
 | 1 Content model | merged | `refactor/phase-1-content` | #5 |
 | 2 State, routing and pages | merged | `refactor/phase-2-routing` | #6 |
 | 3 Assets, chat and polish | closed (3I close-out) | `refactor/phase-3*` | #7–#21 |
-| 4 Content audit, enrichment and narration | 4A–4B (Prophetic) merged; next 4C (Abu Bakr), 4D (Prophetic additions), 4E (companions' dates) | `refactor/phase-4a-audit-prophetic`, `refactor/phase-4b-apply-prophetic` | #24, #25 |
+| 4 Content audit, enrichment and narration | 4A–4B (Prophetic) merged; 4C (Abu Bakr) applied, PR #27; next 4D (Prophetic additions), 4E (companions' dates) | `refactor/phase-4a-audit-prophetic`, `refactor/phase-4b-apply-prophetic` | #24, #25 |
 | 5 Learning paths for guests | not started | `feature/phase-5-paths` | — |
 | 6 Optional accounts | not started | `feature/phase-6-accounts` | — |
 
@@ -2647,3 +2647,45 @@ queue. The dry run lists only the 20 Prophetic today.
 https://claude.ai/artifact/MtdqzRFRKfESzpgaFiK5MY (private; built by the git-ignored `tmp/audit4c/page.ts` from
 4A's template). Decisions are saved in its database, collection `decisions`, one document per finding id (A-…, E-…,
 and N-01 to N-06 for the new records). **Part 2 of 4C starts by reading it.**
+
+### 4C, part 2: the approved Abu Bakr-era changes applied, and the era's timeline in source order (2026-11-08)
+
+Same branch and PR (#27). Decisions read from the review page's database (77 entries).
+
+#### Decisions
+
+- 76 approved, A-007 rejected (kept), **N-06 (Thabit ibn Qays) not marked: not added** (E-03 and E-04 went in
+  without him in the key figures). A-003's note «لا تجمعهم ولكن أبقِ على الاثنين كما هما»: both reports, each in its
+  own words; al-Thani and al-Zumayl stay two events. A-012 and A-015 ("keep or remove"): the first option, keep.
+- **Mostafa, after marking: "no event of Abu Bakr in ʿUmar's era or the reverse; all events ordered, with accurate
+  dates."** Done for this era as `docs/audit/abu-bakr/08-dates.json` (D-01 to D-14, each with its page quote): the
+  Hijri date converted with the tabular calendar to the Julian fraction the existing values use (al-Saqifa 632.44,
+  Abu Bakr's death 634.65 reproduce). Main moves: al-Hira after Ullays and al-Walaja; the Quran collection right after
+  al-Yamama (it was mid-Iraq); the Ridda brigades after Dhu al-Qassa; Marj al-Saffar to early 13 AH (with A-059);
+  al-Walaja into Safar 12 (proposed in mid-12). Al-Namariq moved to ʿUmar's era; across the whole timeline it was the
+  only event dated inside another era.
+- New check: `scripts/content/store.ts` fails validation when an event comes, on the timeline, after an event of a
+  later era (test in `tests/contentSchema.test.ts`).
+- Other eras' order is right; their positions vs their own date labels are listed in `docs/audit/abu-bakr/HEAD.md`
+  for 4D (Prophetic) and 4F (ʿUmar), not changed here.
+
+#### What changed
+
+- 17 events, 12 people; new: `battle-ajnadayn`, `battle-walaja`, `conquest-ayn-al-tamr`, `day-dhu-al-qassa`,
+  `khalid-ibn-said` (in `people-order.json`). Applied by the git-ignored `tmp/audit4c/apply4c.ts` from an explicit
+  old→new list; the whole rewrites (A-030, A-033, A-035, A-037, A-059) read from the approved findings, not retyped.
+  The al-Tawba 128 words in E-01 come from the Tanzil file by script; the Qur'an-quote check passes (2 quotes).
+- Ledger: the Palestine row (note "Ajnadayn, 13 AH") now follows `battle-ajnadayn`, so Marj al-Saffar, a defeat,
+  no longer changes the map; Dumat al-Jandal 633.7 → 633.58 (before al-Husayd, as al-Tabari tells it). CONFLICTS.md D2.
+- Chat KB rebuilt; embedding index by the Chat index workflow on the branch (run 42466992690, approved quota).
+- Baselines (approved for the changed records): content snapshot, behavior map. No screenshot changed.
+- `tests/e2e/search.spec.ts`: the listing check retries; «ابو بكر» and «أبي بكر» now both list 22, so the count
+  matched before the list updated (a race in the test, not the app).
+- Checked: `npm run verify` in its five batches (435 unit tests; 126 features + 2 skipped; 50 engines; 16 visual;
+  Lighthouse); report: 92 findings, 234 quotes.
+
+#### Narration (not recorded here; the daily workflow does it after merge)
+
+24 requests: 16 changed descriptions + title and description of the 4 new events, after the 20 Prophetic ones.
+**The Narration workflow has not run yet:** its first scheduled run (08:30 UTC 2026-11-08) had not started by
+09:50 UTC; nothing failed. Not started by hand (TTS quota).

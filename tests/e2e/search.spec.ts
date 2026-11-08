@@ -24,7 +24,9 @@ async function listedEventIds(page: Page): Promise<string[]> {
 async function expectListing(page: Page, count: number, eventIds: string[]): Promise<void> {
   await expect(drawer(page).getByText(`${count} حدث`, { exact: true })).toBeVisible();
   await expect(drawer(page).getByRole('option')).toHaveCount(count);
-  expect(await listedEventIds(page)).toEqual(eventIds);
+  // Retried: the search waits for typing to pause, so when two queries in a row have the same
+  // count («ابو بكر» and «أبي بكر» both list 22), the count is right before the list is.
+  await expect.poll(() => listedEventIds(page)).toEqual(eventIds);
 }
 
 async function setFilters(page: Page, era: keyof typeof ERA_LABEL, type: keyof typeof TYPE_LABEL): Promise<void> {
