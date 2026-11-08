@@ -193,6 +193,24 @@ describe('narration generate (fake engines, no network)', () => {
     );
     expect(wavDurationSec(await engine.synthesize('نص'))).toBe(1);
   });
+
+  it('keeps a WAV the newer TTS models return, and reads the PCM rate from the MIME type', async () => {
+    const wav = pcmToWav(Buffer.alloc(24000 * 2), 24000);
+    const asWav = geminiEngine({ GEMINI_API_KEY: 'k' }, fakeFetch(() => Response.json({ candidates: [{ content: { parts: [{ inlineData: { data: wav.toString('base64'), mimeType: 'audio/wav' } }] } }] })));
+    expect((await asWav.synthesize('نص')).equals(wav)).toBe(true);
+    const pcm16k = Buffer.alloc(16000 * 2);
+    const asPcm = geminiEngine({ GEMINI_API_KEY: 'k' }, fakeFetch(() => Response.json({ candidates: [{ content: { parts: [{ inlineData: { data: pcm16k.toString('base64'), mimeType: 'audio/L16;rate=16000' } }] } }] })));
+    expect(wavDurationSec(await asPcm.synthesize('نص'))).toBe(1);
+  });
+
+  it('waits out a per-minute 429 and stops on the daily one', async () => {
+    const ok = Response.json({ candidates: [{ content: { parts: [{ inlineData: { data: Buffer.alloc(48000).toString('base64') } }] } }] });
+    const replies = [new Response('{"error":{"code":429,"details":[{"quotaId":"GenerateRequestsPerMinutePerProject"},{"retryDelay":"3s"}]}}', { status: 429 }), ok];
+    const perMinute = geminiEngine({ GEMINI_API_KEY: 'k' }, fakeFetch(() => replies.shift()!), 0);
+    expect(wavDurationSec(await perMinute.synthesize('نص'))).toBe(1);
+    const perDay = geminiEngine({ GEMINI_API_KEY: 'k' }, fakeFetch(() => new Response('{"error":{"details":[{"quotaId":"GenerateRequestsPerDayPerProject"}]}}', { status: 429 })), 0);
+    await expect(perDay.synthesize('نص')).rejects.toThrow(/daily quota/);
+  });
 });
 
 describe('narration review (word alignment)', () => {
