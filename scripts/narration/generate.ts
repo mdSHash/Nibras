@@ -168,7 +168,17 @@ export async function generate(options: GenerateOptions): Promise<GenerateTarget
     const hash = textHash(text);
     const file = narrationFileName(eventSlug(t.event), t.kind, hash);
     const wav = join(options.sourceDir, file.replace(/\.m4a$/, '.wav'));
-    const audio = await engine.synthesize(text);
+    let audio: Buffer;
+    try {
+      audio = await engine.synthesize(text);
+    } catch (error) {
+      // The free tier's daily limit: keep what was recorded; the next run continues from here.
+      if (error instanceof Error && /daily quota/.test(error.message)) {
+        log(`Stopped: the daily quota is used up (${targets.indexOf(t)} of ${targets.length} recorded). Run again after midnight Pacific time.`);
+        break;
+      }
+      throw error;
+    }
     writeFileSync(wav, audio);
     options.encode(wav, join(options.audioDir, file));
     // The old recording is never deleted (Mostafa, 2026-10-15): it moves to audio-src/replaced/.

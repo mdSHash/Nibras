@@ -1,0 +1,114 @@
+name: Narration
+
+# Records the narration that main is missing (stale or missing recordings), within Gemini's
+# free tier, and publishes it. Phase 4 changes event text era by era; each merged era leaves its
+# changed events without narration until this run records them (Mostafa, 2026-11-08: record
+# daily, listen on the published site). See scripts/README.md ("Narration").
+#
+# Daily, after the free-tier day resets (midnight Pacific):
+#   1. records up to the daily limit (10 a day for gemini-3.8-flash-tts on the free tier) with
+#      `npm run narration -- generate --yes`; it stops cleanly at the limit, keeping what it made;
+#   2. updates only the narration entries of tests/baseline/content.json and runs the static checks;
+#   3. commits to bot/narration-<run>, opens a pull request and merges it, then starts
+#      "Check and deploy" on main (a push made with this token starts no workflow by itself),
+#      which runs the full verification before it deploys.
+# Replaced recordings are never lost: they stay in git history and are uploaded as the run's
+# artifact "replaced-recordings" (audio-src/replaced/).
+#
+# Spends nothing when nothing is stale or missing. Needs the GEMINI_API_KEY secret and
+# Settings → Actions → General → "Allow GitHub Actions to create and approve pull requests".
+
+on:
+  schedule:
+    - cron: '30 8 * * *'
+  workflow_dispatch:
+    inputs:
+      max:
+        description: 'Record at most this many (each is one request of the free daily quota)'
+        required: false
+        default: '10'
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+
+concurrency:
+  group: narration
+  cancel-in-progress: false
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    if: github.ref == 'refs/heads/main'
+    env:
+      MAX: ${{ inputs.max || '10' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install ffmpeg
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg
+
+      - name: What needs recording
+        id: need
+        run: |
+          npm run narration -- check | tee check.txt
+          if grep -qE ' 0 stale, 0 missing' check.txt; then echo "todo=0" >> "$GITHUB_OUTPUT"; else echo "todo=1" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Record
+        if: steps.need.outputs.todo == '1'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run narration -- generate --yes --max "$MAX"
+
+      - name: Keep the replaced recordings
+        if: steps.need.outputs.todo == '1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: replaced-recordings
+          path: audio-src/replaced/
+          if-no-files-found: ignore
+          retention-days: 90
+
+      - name: Update the baseline's narration entries and check
+        id: check
+        if: steps.need.outputs.todo == '1'
+        run: |
+          if git diff --quiet -- public/audio && [ -z "$(git ls-files --others --exclude-standard public/audio)" ]; then
+            echo "Nothing recorded (daily quota already used?)."; echo "changed=0" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          npm run build:content
+          npx tsx scripts/baseline/content-snapshot.ts --update-narration
+          npm run verify -- --only=content,tsc,vitest,audio,snapshot,behavior
+          echo "changed=1" >> "$GITHUB_OUTPUT"
+
+      - name: Commit, open the pull request and merge it
+        if: steps.check.outputs.changed == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          target="bot/narration-${GITHUB_RUN_ID}"
+          git switch -c "$target"
+          git add -A -- public/audio tests/baseline/content.json
+          made=$(git diff --cached --name-only --diff-filter=A -- 'public/audio/*.m4a' | wc -l)
+          git commit -m "audio: ${made} new narration recording(s) (daily run)"
+          git push origin "HEAD:refs/heads/$target"
+          npm run narration -- check > after.txt || true
+          gh pr create --base main --head "$target" \
+            --title "audio: ${made} new narration recording(s)" \
+            --body "Daily narration run: ${made} recording(s), Gemini TTS (Charon). $(grep '^Narration:' after.txt) Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          gh pr merge "$target" --squash --delete-branch
+          gh workflow run deploy.yml --ref main

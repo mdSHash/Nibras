@@ -161,6 +161,16 @@ describe('narration generate (fake engines, no network)', () => {
     expect(lines.at(-1)).toContain('Dry run');
   });
 
+  it('stops cleanly at the daily quota and keeps what it recorded', async () => {
+    let calls = 0;
+    const engine = { id: 'gemini', voice: 'Charon', synthesize: async () => (calls++ ? Promise.reject(new Error('Gemini 429, daily quota used up')) : wav(1)) };
+    const { audio, encoded, lines, done } = run(() => engine);
+    await done;
+    expect(encoded).toHaveLength(1);
+    expect(lines.at(-1)).toContain('daily quota');
+    expect(Object.keys(checkNarration([event], audio).fresh[event.id])).toEqual(['title']);
+  });
+
   it('records with VoiceStudio and writes fresh manifest entries', async () => {
     const env = { VOICESTUDIO_PROFILE: 'charon-clone' };
     const { audio, encoded, done } = run(() => voiceStudioEngine(env, fakeFetch(() => new Response(new Uint8Array(wav(2))))));
