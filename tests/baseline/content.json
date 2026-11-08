@@ -33,10 +33,10 @@
       },
       "text": {
         "summary": "babd3f341b3009b7",
-        "fullDescription": "bba874cf46461941",
+        "fullDescription": "3914f865c4dce3bc",
         "courseOfEvents": [
-          "7e3a7f304f638a16",
-          "2adcdc56177969bd",
+          "6a016981ecb75f7b",
+          "f99af47e41151162",
           "2b86dc719da53e72",
           "ccca915c8d48fffd"
         ],
@@ -67,7 +67,7 @@
         }
       ],
       "hadith": [
-        "12a37e5160c6df7e"
+        "73383660dfb29531"
       ],
       "sources": [
         "ed676e7ceb229bf1",
@@ -77,7 +77,7 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "birth-of-the-prophet.description.bba874cf.m4a",
+        "descriptionFile": "birth-of-the-prophet.description.3914f865.m4a",
         "descriptionExists": true,
         "titleFile": "birth-of-the-prophet.title.77c38088.m4a",
         "titleExists": true
@@ -162,7 +162,7 @@
     },
     {
       "id": "fijar-war",
-      "title": "حَرْبُ الْفُجَّارِ",
+      "title": "حَرْبُ الْفِجَارِ",
       "era": "العهد المكي",
       "eraLabel": "العهد المكي",
       "ruler": "النبي محمد ﷺ",
@@ -187,11 +187,11 @@
       },
       "text": {
         "summary": "799d204da18634e3",
-        "fullDescription": "1d90ed7728f05aaf",
+        "fullDescription": "75bf491932f0b49c",
         "courseOfEvents": [
           "cb13eb3fff34fbc9",
           "b5f70d4c5649ce9b",
-          "0e0326c5b1168c20",
+          "f92486132a7e10d9",
           "564d441f1db153a9",
           "8f38ba4b1764f430"
         ],
@@ -228,9 +228,9 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "fijar-war.description.1d90ed77.m4a",
+        "descriptionFile": "fijar-war.description.75bf4919.m4a",
         "descriptionExists": true,
-        "titleFile": "fijar-war.title.af5fbcf0.m4a",
+        "titleFile": "fijar-war.title.e53e3529.m4a",
         "titleExists": true
       }
     },
@@ -279,7 +279,7 @@
           "companionId": "prophet-muhammad"
         },
         {
-          "name": "الزُّبَيْرُ بْنُ عَبْدِ الْمُطَّلِبِ رَضِيَ اللهُ عَنْهُ",
+          "name": "الزُّبَيْرُ بْنُ عَبْدِ الْمُطَّلِبِ",
           "companionId": "al-zubayr-ibn-abd-al-muttalib"
         }
       ],
@@ -297,7 +297,7 @@
       ],
       "quran": [],
       "hadith": [
-        "23052ebe109a9c4f"
+        "edf4ad9a71280add"
       ],
       "sources": [
         "edf4ad9a71280add",
@@ -340,12 +340,12 @@
       },
       "text": {
         "summary": "c6359cf270505d94",
-        "fullDescription": "3b2a3c1f0d1d43d0",
+        "fullDescription": "8aab689d107c78cd",
         "courseOfEvents": [
           "88270dd267b0251a",
-          "e58e8faba73a2794",
+          "c022584f801e0d42",
           "ba6efccf09e9aff1",
-          "38d5fe1e3a2d8fa0",
+          "5e197904b18ab6be",
           "f909c6b8943f947a"
         ],
         "durationDays": null
@@ -387,7 +387,7 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "marriage-khadija.description.3b2a3c1f.m4a",
+        "descriptionFile": "marriage-khadija.description.8aab689d.m4a",
         "descriptionExists": true,
         "titleFile": "marriage-khadija.title.1f30b9e9.m4a",
         "titleExists": true
@@ -491,10 +491,10 @@
       },
       "text": {
         "summary": "0032f7862b11d8cb",
-        "fullDescription": "61f2dac8495a2983",
+        "fullDescription": "c847ca665c295a6a",
         "courseOfEvents": [
           "c313d012edbbc043",
-          "0a341bd60fc04261",
+          "8de7396c0ac9257d",
           "b9559075a427caad",
           "7bb013eb79d62f10",
           "19de01e41063dacb",
@@ -545,7 +545,7 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "revelation-hira.description.61f2dac8.m4a",
+        "descriptionFile": "revelation-hira.description.c847ca66.m4a",
         "descriptionExists": true,
         "titleFile": "revelation-hira.title.7308ae6c.m4a",
         "titleExists": true
@@ -669,10 +669,10 @@
       },
       "text": {
         "summary": "b9236dcc99528ea8",
-        "fullDescription": "7fb746e50b15af76",
+        "fullDescription": "4a45bc789d2de113",
         "courseOfEvents": [
           "4429a59263898e95",
-          "235a9b4e751aabf8",
+          "7099efb257907782",
           "805ea4be7a6c2111",
           "392749aa1f62ddd7",
           "9b2e2985b5ea1591",
@@ -725,7 +725,7 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "migration-abyssinia.description.7fb746e5.m4a",
+        "descriptionFile": "migration-abyssinia.description.4a45bc78.m4a",
         "descriptionExists": true,
         "titleFile": "migration-abyssinia.title.504dd9e3.m4a",
         "titleExists": true
@@ -745,8 +745,8 @@
       "date": {
         "gregorian": 615.1,
         "hijri": null,
-        "hijriRelative": "6 قَبْلَ الْهِجْرَةِ",
-        "hijriDisplay": "٦ قَبْلَ الْهِجْرَةِ",
+        "hijriRelative": "السَّنَةُ السَّادِسَةُ مِنَ الْبَعْثَةِ",
+        "hijriDisplay": "السَّنَةُ السَّادِسَةُ مِنَ الْبَعْثَةِ",
         "gregorianDisplay": "٦١٥ م"
       },
       "location": {
@@ -821,8 +821,8 @@
       "date": {
         "gregorian": 615.2,
         "hijri": null,
-        "hijriRelative": "6 قَبْلَ الْهِجْرَةِ",
-        "hijriDisplay": "٦ قَبْلَ الْهِجْرَةِ",
+        "hijriRelative": "السَّنَةُ السَّادِسَةُ مِنَ الْبَعْثَةِ",
+        "hijriDisplay": "السَّنَةُ السَّادِسَةُ مِنَ الْبَعْثَةِ",
         "gregorianDisplay": "٦١٥ م"
       },
       "location": {
@@ -834,7 +834,7 @@
       },
       "text": {
         "summary": "b07280e283757c93",
-        "fullDescription": "d5119a946f688d0e",
+        "fullDescription": "4ecff6e8289f1a9b",
         "courseOfEvents": [
           "3856255fc38399e2",
           "0ca0e648dacd777b",
@@ -891,7 +891,7 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "islam-umar.description.d5119a94.m4a",
+        "descriptionFile": "islam-umar.description.4ecff6e8.m4a",
         "descriptionExists": true,
         "titleFile": "islam-umar.title.1dc5a5c2.m4a",
         "titleExists": true
@@ -1009,11 +1009,11 @@
       },
       "text": {
         "summary": "aebf059a5d70bdf8",
-        "fullDescription": "8b30d7ae7bd4bb3a",
+        "fullDescription": "3a3c2216ea3d1b30",
         "courseOfEvents": [
           "a669133b6ec55573",
           "8ad5802f19a2b062",
-          "b7f62a48503f5456",
+          "837a556e5a707c14",
           "a46f405707c953f2",
           "24b6b74106051b9d"
         ],
@@ -1059,7 +1059,7 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "year-of-sorrow.description.8b30d7ae.m4a",
+        "descriptionFile": "year-of-sorrow.description.3a3c2216.m4a",
         "descriptionExists": true,
         "titleFile": "year-of-sorrow.title.3edd7e8f.m4a",
         "titleExists": true
@@ -1092,15 +1092,15 @@
       },
       "text": {
         "summary": "306784996fa87c7b",
-        "fullDescription": "3defa72a38dca424",
+        "fullDescription": "ddfb9dd8ef7c0a7e",
         "courseOfEvents": [
           "e3de0e5fd2c6d1d6",
-          "554edf2c68ec2604",
+          "8fbef872b9c06a22",
           "ab44c258878cd179",
           "fde071e3b627920b",
           "67f827d80dcdd0a1",
-          "c4ff23c713112b66",
-          "b954854b7ad19b6f"
+          "a8f0928e45ba52cf",
+          "d584dbf00b83d8f7"
         ],
         "durationDays": null
       },
@@ -1154,7 +1154,7 @@
         ]
       ],
       "narration": {
-        "descriptionFile": "journey-taif.description.3defa72a.m4a",
+        "descriptionFile": "journey-taif.description.ddfb9dd8.m4a",
         "descriptionExists": true,
         "titleFile": "journey-taif.title.c56e7500.m4a",
         "titleExists": true
@@ -1187,7 +1187,7 @@
       },
       "text": {
         "summary": "fce8a3f2ad5da448",
-        "fullDescription": "3ecbfbd184cce663",
+        "fullDescription": "09bff2a00308acf3",
         "courseOfEvents": [
           "ebf8f964b319e1e5",
           "1fbc20502b9c49d5",
@@ -1251,7 +1251,7 @@
         ]
       ],
       "narration": {
-        "descriptionFile": "isra-miraj.description.3ecbfbd1.m4a",
+        "descriptionFile": "isra-miraj.description.09bff2a0.m4a",
         "descriptionExists": true,
         "titleFile": "isra-miraj.title.70b61fb3.m4a",
         "titleExists": true
@@ -1364,7 +1364,7 @@
       },
       "text": {
         "summary": "7523e8187257ef1b",
-        "fullDescription": "48716066b26c58ea",
+        "fullDescription": "364fb27298a0f638",
         "courseOfEvents": [
           "b96375619987b7ab",
           "dbafbb8995a1e724",
@@ -1426,7 +1426,7 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "second-aqaba.description.48716066.m4a",
+        "descriptionFile": "second-aqaba.description.364fb272.m4a",
         "descriptionExists": true,
         "titleFile": "second-aqaba.title.fedb5e68.m4a",
         "titleExists": true
@@ -1597,14 +1597,14 @@
       },
       "text": {
         "summary": "8913217688763cea",
-        "fullDescription": "ff49e910da571183",
+        "fullDescription": "4a317f1d06a19f38",
         "courseOfEvents": [
           "cfcd9c37eff89a3c",
           "d20462e4dcf03ee0",
-          "6c14631d60a3a7d6",
+          "66823e33c8afe554",
           "b410b89cbeb7182a",
           "10ce7f6312d68bde",
-          "1a4652d3f4e18172",
+          "243d12040748c442",
           "285144709a2ad2a6"
         ],
         "durationDays": null
@@ -1645,8 +1645,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "building-mosque.description.ff49e910.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "building-mosque.title.a75cfb57.m4a",
         "titleExists": true
       }
@@ -1678,7 +1678,7 @@
       },
       "text": {
         "summary": "d09ed874e0839645",
-        "fullDescription": "cd45cd49862055cf",
+        "fullDescription": "7be5d7215f41209d",
         "courseOfEvents": [
           "3e048625a93f3f92",
           "d20deecac49cb688",
@@ -1710,8 +1710,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "medina-constitution.description.cd45cd49.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "medina-constitution.title.277a2c6d.m4a",
         "titleExists": true
       }
@@ -1809,7 +1809,7 @@
       },
       "text": {
         "summary": "c6b44e9da6c30d6a",
-        "fullDescription": "ac67357ccc9b162d",
+        "fullDescription": "9f9a783fc03609a7",
         "courseOfEvents": [
           "ff2a8225d97ef593",
           "07e4b1adedb0698d",
@@ -1842,8 +1842,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "sariyyat-ubaydah.description.ac67357c.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "sariyyat-ubaydah.title.c107c41f.m4a",
         "titleExists": true
       }
@@ -1874,8 +1874,8 @@
         ]
       },
       "text": {
-        "summary": "607d888b84f7a452",
-        "fullDescription": "7f0d2b2fba653bc7",
+        "summary": "4e2868f4123ee188",
+        "fullDescription": "6ab8d89a15a1f815",
         "courseOfEvents": [
           "bf587973315bbd2a",
           "9c7bb6b58ac3c09d"
@@ -1913,8 +1913,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "sariyyat-nakhla.description.7f0d2b2f.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "sariyyat-nakhla.title.99531b06.m4a",
         "titleExists": true
       }
@@ -2017,7 +2017,7 @@
       },
       "text": {
         "summary": "17bc145b0bdd1395",
-        "fullDescription": "d6f5d2d956815f89",
+        "fullDescription": "4db39d6ecc9f198b",
         "courseOfEvents": [
           "06629bcd62e295eb",
           "8c729fdfa0815322",
@@ -2108,8 +2108,8 @@
       },
       "route": null,
       "narration": {
-        "descriptionFile": "battle-badr.description.d6f5d2d9.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "battle-badr.title.fdbca40c.m4a",
         "titleExists": true
       }
@@ -2148,7 +2148,7 @@
           "9a48ef2d4b5930a4",
           "f7357bcfc235a2b7",
           "9b3684dc4b3be62f",
-          "156b4bfbe83ac4e4"
+          "1dd6b6eced86d714"
         ],
         "durationDays": "١٥ يَوْمًا (حِصَارٌ)"
       },
@@ -2227,7 +2227,7 @@
       },
       "text": {
         "summary": "773d42739bc43983",
-        "fullDescription": "61e936c3c4d54051",
+        "fullDescription": "3e68368fe7ae0733",
         "courseOfEvents": [
           "b083a9bb86e0a631",
           "171e7bd07a6e4fb8",
@@ -2257,8 +2257,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "ghazwat-sawiq.description.61e936c3.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "ghazwat-sawiq.title.7c0456a6.m4a",
         "titleExists": true
       }
@@ -2290,7 +2290,7 @@
       },
       "text": {
         "summary": "ad43e282764c13c5",
-        "fullDescription": "43acdf23a743ff0c",
+        "fullDescription": "38c508f4af651ff7",
         "courseOfEvents": [
           "fbdaada40ecbd608",
           "1a4b995c591a2ddf",
@@ -2318,19 +2318,17 @@
           "verseText": "b40ab8af8c10f139"
         }
       ],
-      "hadith": [
-        "3511f42c6cd25d19"
-      ],
+      "hadith": [],
       "sources": [
-        "baecc01b0cc142fd",
+        "7943d9d4a8aea0c5",
         "ed676e7ceb229bf1",
         "d4c32db022260c36"
       ],
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "ghazwat-dhi-amar.description.43acdf23.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "ghazwat-dhi-amar.title.ff5914a8.m4a",
         "titleExists": true
       }
@@ -2362,7 +2360,7 @@
       },
       "text": {
         "summary": "0a1207cbf3079f55",
-        "fullDescription": "acd06d0c0407b86a",
+        "fullDescription": "ce04e52821d97eb7",
         "courseOfEvents": [
           "e66e76f707e5b458",
           "b4153e5e4cd6899e",
@@ -2437,8 +2435,8 @@
       },
       "route": null,
       "narration": {
-        "descriptionFile": "battle-uhud.description.acd06d0c.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "battle-uhud.title.4431831a.m4a",
         "titleExists": true
       }
@@ -2626,16 +2624,16 @@
       },
       "text": {
         "summary": "57a978b958c2b595",
-        "fullDescription": "8e847500843acbcd",
+        "fullDescription": "fb7fff27a8de1d2f",
         "courseOfEvents": [
           "9b28950e000e1b43",
           "93da8d6c71761431",
           "074f1820a136a572",
           "b8faa64f6da222f7",
-          "16016a9ff13a6ad3",
+          "15e0d487b525b440",
           "24c5091cf08b51a9"
         ],
-        "durationDays": "حَوَالَيْ ١٥ يَوْمًا (حِصَارٌ)"
+        "durationDays": "سِتُّ لَيَالٍ (وَقِيلَ: خَمْسَ عَشْرَةَ لَيْلَةً)"
       },
       "armySize": null,
       "enemyArmySize": null,
@@ -2675,8 +2673,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "banu-nadir.description.8e847500.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "banu-nadir.title.0625c92b.m4a",
         "titleExists": true
       }
@@ -2838,7 +2836,7 @@
       },
       "text": {
         "summary": "9f603dbd782f1353",
-        "fullDescription": "f30cc36a79187db6",
+        "fullDescription": "3253f667743246b2",
         "courseOfEvents": [
           "f51f2725d1b901a0",
           "8b5c15910853457e",
@@ -2887,8 +2885,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "ghazwat-bani-mustaliq.description.f30cc36a.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "ghazwat-bani-mustaliq.title.6fc97eb6.m4a",
         "titleExists": true
       }
@@ -2920,7 +2918,7 @@
       },
       "text": {
         "summary": "b9bf9c8f55f65746",
-        "fullDescription": "1580fb91e824061e",
+        "fullDescription": "5a176546fa51e668",
         "courseOfEvents": [
           "8b001f4fd6b3893c",
           "8ff6cccfe2885845",
@@ -2974,8 +2972,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "incident-ifk.description.1580fb91.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "incident-ifk.title.217d970e.m4a",
         "titleExists": true
       }
@@ -3196,7 +3194,7 @@
       },
       "text": {
         "summary": "4329f514144d27e5",
-        "fullDescription": "8953af6e951e8447",
+        "fullDescription": "470fe5af6ec61d26",
         "courseOfEvents": [
           "8dc544fc98879794",
           "1def1d0ac772c6da",
@@ -3268,8 +3266,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "treaty-hudaybiyyah.description.8953af6e.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "treaty-hudaybiyyah.title.68aa971d.m4a",
         "titleExists": true
       }
@@ -3301,7 +3299,7 @@
       },
       "text": {
         "summary": "69cc31a49695bb10",
-        "fullDescription": "b22ade7e2b73decb",
+        "fullDescription": "778dd047a7e693d8",
         "courseOfEvents": [
           "1b26599a23bc2afe",
           "cf3898d6db778a55",
@@ -3366,8 +3364,8 @@
       },
       "route": null,
       "narration": {
-        "descriptionFile": "battle-khaybar.description.b22ade7e.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "battle-khaybar.title.57a30587.m4a",
         "titleExists": true
       }
@@ -3399,7 +3397,7 @@
       },
       "text": {
         "summary": "1deece55c9fafeb3",
-        "fullDescription": "a0594c093431d2ea",
+        "fullDescription": "f2a9f2fd10e23a18",
         "courseOfEvents": [
           "d009b66b88f67822",
           "0bf3b3b76ed9886d",
@@ -3435,8 +3433,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "umrat-alqada.description.a0594c09.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "umrat-alqada.title.938a139a.m4a",
         "titleExists": true
       }
@@ -3468,7 +3466,7 @@
       },
       "text": {
         "summary": "21f01e9b1ba980b6",
-        "fullDescription": "69fea8ab9953246f",
+        "fullDescription": "f5fbec17307e8d0c",
         "courseOfEvents": [
           "1b405523180ffe03",
           "3154124a52c2a61a",
@@ -3477,7 +3475,7 @@
           "d852e9e93eeb7bec",
           "1e03979522870ab6"
         ],
-        "durationDays": "٦ أَيَّامٍ مِنَ الْقِتَالِ الضَّارِي"
+        "durationDays": "قِتَالٌ ضَارٍ ثُمَّ انْسِحَابٌ مُنَظَّمٌ"
       },
       "armySize": "٣٠٠٠ مُقَاتِلٍ",
       "enemyArmySize": "حَوَالَيْ ٢٠٠٠٠٠ مُقَاتِلٍ (الرُّومُ وَحُلَفَاؤُهُمْ مِنَ الْغَسَاسِنَةِ)",
@@ -3536,8 +3534,8 @@
       },
       "route": null,
       "narration": {
-        "descriptionFile": "battle-mutah.description.69fea8ab.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "battle-mutah.title.9f466589.m4a",
         "titleExists": true
       }
@@ -3645,7 +3643,7 @@
       },
       "text": {
         "summary": "f4a4b6c92a620cc9",
-        "fullDescription": "b8c2f33857171b05",
+        "fullDescription": "9b8f473a5ff0a880",
         "courseOfEvents": [
           "5d72d64f417f8598",
           "d6c30d63f623a909",
@@ -3715,8 +3713,8 @@
       },
       "route": null,
       "narration": {
-        "descriptionFile": "conquest-mecca.description.b8c2f338.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "conquest-mecca.title.578b90db.m4a",
         "titleExists": true
       }
@@ -3842,7 +3840,7 @@
       },
       "text": {
         "summary": "4538019ffcb5b77c",
-        "fullDescription": "2214e822e56f6ddb",
+        "fullDescription": "4629bb7b39e635e7",
         "courseOfEvents": [
           "76487902b6b070a6",
           "b56b8e4968879f0a",
@@ -3861,10 +3859,6 @@
         {
           "name": "مالك بن عوف",
           "companionId": "malik-ibn-awf"
-        },
-        {
-          "name": "عروة بن مسعود الثقفي",
-          "companionId": "urwah-ibn-masud-al-thaqafi"
         }
       ],
       "companionRoles": [
@@ -3886,8 +3880,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "siege-of-taif.description.2214e822.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "siege-of-taif.title.86d0bf31.m4a",
         "titleExists": true
       }
@@ -3919,11 +3913,11 @@
       },
       "text": {
         "summary": "e0c7bd55c22cd2f7",
-        "fullDescription": "1179a358c5c6d1bf",
+        "fullDescription": "97dac45771f359ca",
         "courseOfEvents": [
           "45aa9dcb72576221",
           "776c460eb61ea153",
-          "26369ec124009564",
+          "c1818efef6817583",
           "76cd6d1925143d4d",
           "3fce4588ed8d7a7a",
           "b96ad1df74b3d921"
@@ -3989,8 +3983,8 @@
       },
       "route": null,
       "narration": {
-        "descriptionFile": "battle-tabuk.description.1179a358.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "battle-tabuk.title.55b8c088.m4a",
         "titleExists": true
       }
@@ -4014,7 +4008,7 @@
         "gregorianDisplay": "٦٣٢ م"
       },
       "location": {
-        "name": "جبل الرحمة، عرفات",
+        "name": "عرفات",
         "coordinates": [
           21.3547,
           39.9841
@@ -4022,14 +4016,14 @@
       },
       "text": {
         "summary": "8d7040f918425a79",
-        "fullDescription": "4f8ff1f23004ea4f",
+        "fullDescription": "997225a022205869",
         "courseOfEvents": [
           "04d175fdf389dbaa",
           "02256506c566221b",
-          "89f18609179d8cdf",
+          "0800473a3e357018",
           "b889f4dfa0a53339",
           "e12b2d197a7ff662",
-          "af761978c646cbf7"
+          "909e49b2d7d3874d"
         ],
         "durationDays": null
       },
@@ -4088,8 +4082,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "farewell-pilgrimage.description.4f8ff1f2.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "farewell-pilgrimage.title.f792d604.m4a",
         "titleExists": true
       }
@@ -4121,13 +4115,13 @@
       },
       "text": {
         "summary": "042e6c7aaf5449c6",
-        "fullDescription": "347352eb7f39c535",
+        "fullDescription": "e96884234a32c13c",
         "courseOfEvents": [
           "497463e053030101",
           "840eb3bb1155539b",
-          "f42eda7c261948f7",
+          "30c9c3cdaec29e5a",
           "2966534c6c61ec25",
-          "073325840ae4555f",
+          "5508bd5499e1f426",
           "b1126ac370606c1f",
           "c3c21f376c285088"
         ],
@@ -4202,8 +4196,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "prophet-death.description.347352eb.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "prophet-death.title.aa12b172.m4a",
         "titleExists": true
       }
@@ -11202,7 +11196,7 @@
         "خالد بن الوليد",
         "خالد"
       ],
-      "bio": "68339ce6f1efd3f8"
+      "bio": "eb495a8fd2ab1ce6"
     },
     {
       "id": "khadija",
@@ -11214,7 +11208,7 @@
         "خديجة بنت خويلد",
         "خديجة"
       ],
-      "bio": "6413c0cf5811168d"
+      "bio": "905ea3c1b589ea6e"
     },
     {
       "id": "aisha",
@@ -11238,7 +11232,7 @@
         "حمزة بن عبد المطلب",
         "حمزة"
       ],
-      "bio": "6285a6c01cfb0980"
+      "bio": "529fe13108102fe2"
     },
     {
       "id": "bilal",
@@ -11257,12 +11251,12 @@
       "name": "سعد بن أبي وقاص",
       "title": "خال الرسول",
       "role": "9c4051ccbfd3cbe7",
-      "birthDeath": "23 ق.هـ - 55 هـ",
+      "birthDeath": "؟ - 55 هـ",
       "aliases": [
         "سعد بن أبي وقاص",
         "سعد"
       ],
-      "bio": "4e2c40b9c237539f"
+      "bio": "1e6d9671752bb14b"
     },
     {
       "id": "amr",
@@ -11587,7 +11581,7 @@
         "ميمونة",
         "أم المؤمنين ميمونة"
       ],
-      "bio": "4ad9ee288bd40380"
+      "bio": "f16c6803c6acc7ea"
     },
     {
       "id": "maria-al-qibtiyya",
@@ -11662,7 +11656,7 @@
       "name": "محمد بن مسلمة رضي الله عنه",
       "title": "فارس من الأنصار",
       "role": "0b02f91a929ed65f",
-      "birthDeath": "22 ق.هـ تقريبا - 43 هـ",
+      "birthDeath": "31 ق.هـ تقريبا - 46 هـ (وقيل 43)",
       "aliases": [
         "محمد بن مسلمة",
         "محمد بن مسلمة رضي الله عنه",
@@ -12112,7 +12106,7 @@
         "أسعد بن زرارة رضي الله عنه",
         "أبو أمامة أسعد بن زرارة"
       ],
-      "bio": "d9dd565f74ab79c8"
+      "bio": "2336c07caf9825e4"
     },
     {
       "id": "nusaybah-bint-kaab",
@@ -12169,7 +12163,7 @@
         "أبو أيوب",
         "خالد بن زيد"
       ],
-      "bio": "dd38386ddfb16a86"
+      "bio": "2463333cb4d4f7bb"
     },
     {
       "id": "ubaydah-ibn-al-harith",
@@ -12289,7 +12283,7 @@
         "دعثور المحاربي",
         "دعثور بن الحارث المحاربي"
       ],
-      "bio": "6544dfe1ceef2b7c"
+      "bio": "2e0ca4924ba2f8dc"
     },
     {
       "id": "khubayb-ibn-adi",
@@ -12383,7 +12377,7 @@
     {
       "id": "safwan-ibn-al-muattal",
       "name": "صفوان بن المعطل رضي الله عنه",
-      "title": "الصحابي البرئ مما رمي به",
+      "title": "الصحابي البريء مما رُمي به",
       "role": "cfcd0c79006e318a",
       "birthDeath": "؟ - بعد 19 هـ",
       "aliases": [
@@ -12531,7 +12525,7 @@
       "id": "kaab-ibn-malik",
       "name": "كعب بن مالك رضي الله عنه",
       "title": "شاعر من الأنصار",
-      "role": "1392a1db1ffd5558",
+      "role": "5f91efc840cbaca1",
       "birthDeath": "؟ - 50 هـ",
       "aliases": [
         "كعب بن مالك",

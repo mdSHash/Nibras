@@ -43,7 +43,7 @@ export function voiceStudioEngine(env: NodeJS.ProcessEnv, fetchImpl: Fetch = fet
       form.set('wav_bits', '16');
       if (engine) form.set('engine', engine);
       const response = await fetchImpl(`${base}/generate`, { method: 'POST', body: form });
-      if (!response.ok) throw new Error(`VoiceStudio ${response.status}: ${(await response.text()).slice(0, 300)}`);
+      if (!response.ok) throw new Error(`VoiceStudio ${response.status}: ${(await response.text()).slice(0, 1200)}`);
       // VoiceStudio skips a chunk it cannot render; narration must say every word.
       const dropped = Number(response.headers.get('X-OmniVoice-Dropped-Chunks') ?? 0);
       if (dropped > 0) throw new Error(`VoiceStudio dropped ${dropped} chunk(s) of the text`);
@@ -53,33 +53,51 @@ export function voiceStudioEngine(env: NodeJS.ProcessEnv, fetchImpl: Fetch = fet
 }
 
 /** The request shape of the 2026 recordings (archived cache-event-details-audio.js). */
-export function geminiEngine(env: NodeJS.ProcessEnv, fetchImpl: Fetch = fetch): Engine {
+export function geminiEngine(env: NodeJS.ProcessEnv, fetchImpl: Fetch = fetch, retryDelayScale = 1000): Engine {
   const key = env.GEMINI_API_KEY;
   if (!key) throw new Error('Set GEMINI_API_KEY (.env.local).');
-  const model = 'gemini-3.1-flash-tts-preview';
+  // gemini-3.1-flash-tts-preview (the 2026 recordings) shuts down on 2026-11-17; Google's replacement
+  // is gemini-3.8-flash-tts (free tier, Charon, Arabic). GEMINI_TTS_MODEL overrides it.
+  const model = env.GEMINI_TTS_MODEL || 'gemini-3.8-flash-tts';
   const voice = 'Charon';
   return {
     id: 'gemini',
     voice,
     async synthesize(text) {
-      const response = await fetchImpl(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', 'x-goog-api-key': key },
-        body: JSON.stringify({
-          contents: [{ role: 'user', parts: [{ text }] }],
-          generationConfig: {
-            responseModalities: ['AUDIO'],
-            speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: voice } } },
-          },
-        }),
-      });
-      if (!response.ok) throw new Error(`Gemini ${response.status}: ${(await response.text()).slice(0, 300)}`);
+      const request = () =>
+        fetchImpl(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', 'x-goog-api-key': key },
+          body: JSON.stringify({
+            contents: [{ role: 'user', parts: [{ text }] }],
+            generationConfig: {
+              responseModalities: ['AUDIO'],
+              speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: voice } } },
+            },
+          }),
+        });
+      let response = await request();
+      // A per-minute limit (429 without a per-day quota) waits Google's retryDelay and tries again;
+      // the daily limit stops the run, keeping what was recorded (run it again after midnight Pacific).
+      for (let tries = 0; response.status === 429 && tries < 5; tries++) {
+        const body = await response.text();
+        if (/PerDay/i.test(body)) throw new Error(`Gemini 429, daily quota used up: ${body.slice(0, 1200)}`);
+        const seconds = Number(body.match(/"retryDelay":\s*"(\d+)/)?.[1] ?? 60);
+        console.log(`  Gemini per-minute limit; waiting ${seconds + 1} s`);
+        await new Promise((r) => setTimeout(r, (seconds + 1) * retryDelayScale));
+        response = await request();
+      }
+      if (!response.ok) throw new Error(`Gemini ${response.status}: ${(await response.text()).slice(0, 1200)}`);
       const json = (await response.json()) as {
-        candidates?: { content?: { parts?: { inlineData?: { data?: string } }[] } }[];
+        candidates?: { content?: { parts?: { inlineData?: { data?: string; mimeType?: string } }[] } }[];
       };
-      const data = json.candidates?.[0]?.content?.parts?.find((p) => p.inlineData?.data)?.inlineData?.data;
-      if (!data) throw new Error('Gemini returned no audio');
-      return pcmToWav(Buffer.from(data, 'base64'), 24000);
+      const part = json.candidates?.[0]?.content?.parts?.find((p) => p.inlineData?.data)?.inlineData;
+      if (!part?.data) throw new Error('Gemini returned no audio');
+      const audio = Buffer.from(part.data, 'base64');
+      // The 3.8 models may answer with a WAV file; the older ones with raw PCM (audio/L16;rate=24000).
+      if (audio.subarray(0, 4).toString('ascii') === 'RIFF') return audio;
+      const rate = Number((part.mimeType ?? '').match(/rate=(\d+)/)?.[1] ?? 24000);
+      return pcmToWav(audio, rate);
     },
   };
 }
@@ -150,7 +168,17 @@ export async function generate(options: GenerateOptions): Promise<GenerateTarget
     const hash = textHash(text);
     const file = narrationFileName(eventSlug(t.event), t.kind, hash);
     const wav = join(options.sourceDir, file.replace(/\.m4a$/, '.wav'));
-    const audio = await engine.synthesize(text);
+    let audio: Buffer;
+    try {
+      audio = await engine.synthesize(text);
+    } catch (error) {
+      // The free tier's daily limit: keep what was recorded; the next run continues from here.
+      if (error instanceof Error && /daily quota/.test(error.message)) {
+        log(`Stopped: the daily quota is used up (${targets.indexOf(t)} of ${targets.length} recorded). Run again after midnight Pacific time.`);
+        break;
+      }
+      throw error;
+    }
     writeFileSync(wav, audio);
     options.encode(wav, join(options.audioDir, file));
     // The old recording is never deleted (Mostafa, 2026-10-15): it moves to audio-src/replaced/.

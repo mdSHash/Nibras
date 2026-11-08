@@ -87,9 +87,19 @@ play button until it is recorded again.
 
 Engines (`--engine`, settings in `.env.local`, see `.env.example`):
 
-- `gemini` (default): Gemini TTS, voice Charon, the voice of every recording.
-  Spends free-tier quota: **ask Mostafa first**, and count the requests (the
-  dry run prints them).
+- `gemini` (default): Gemini TTS, voice Charon, model `gemini-3.8-flash-tts`
+  since 2026-11-08 (`GEMINI_TTS_MODEL`; the earlier recordings used
+  `gemini-3.1-flash-tts-preview`, shut down 2026-11-17). Free tier: **10
+  recordings a day**, reset at midnight Pacific; a run waits out the per-minute
+  limit and stops cleanly at the daily one, keeping what it recorded.
+
+**Daily recording** (`.github/workflows/narration.yml`, Mostafa 2026-11-08): every
+day at 08:30 UTC it records what main is missing, up to the daily limit, updates
+only the narration entries of the content baseline, runs the static checks,
+merges the recordings through a bot pull request and starts the deploy, so new
+recordings are on the site the same day. Replaced files stay in git history and
+in the run's `replaced-recordings` artifact. It spends nothing when nothing is
+stale. Run it by hand from Actions → Narration → Run workflow (on main).
 - `voicestudio`: VoiceStudio running on this machine (`http://localhost:3900`)
   with a saved voice profile. Free, no quota; tried in Phase 3D and found
   clearly behind Gemini (kept as a fallback).

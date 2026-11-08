@@ -128,11 +128,12 @@ test('narration requests the event audio file and shows the playing state @phone
     } as unknown as typeof Audio;
   });
   await openAppWithEvent(page);
-  await openEventBySearch(page, 'battle-badr', 'بدر');
+  // al-Khandaq: audited in 4A with no change, so its recording stays fresh while other events wait for theirs.
+  await openEventBySearch(page, 'battle-khandaq', 'الخندق');
   const play = panel(page).getByRole('button', { name: 'تشغيل السرد' });
   await play.click();
   await expect(panel(page).getByRole('button', { name: 'إيقاف السرد' })).toBeVisible();
-  const file = baseline('battle-badr').narration.descriptionFile;
+  const file = baseline('battle-khandaq').narration.descriptionFile;
   expect(await page.evaluate(() => (window as unknown as { __audioSources: string[] }).__audioSources)).toContain(file);
   if (testInfo.project.name !== 'phone-webkit') expect(network.audioRequests).toContain(file);
   await panel(page).getByRole('button', { name: 'إيقاف السرد' }).click();

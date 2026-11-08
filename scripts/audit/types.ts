@@ -28,6 +28,22 @@ export interface Finding {
   /** For a finding no quote can carry, e.g. a grammar rule or the record's own other field. */
   basis?: string;
   note?: string;
+  /** Mostafa's decision from the review page (4B): approve, change, reject, or '' (left open). */
+  decision?: { v: 'approve' | 'change' | 'reject' | ''; note?: string };
+  /** What was done (4B). Once set, the report checks each change's text is in the content in
+   * place of `current` (or, with `kept`, that `current` is still there). */
+  applied?: Applied;
+}
+
+export interface Applied {
+  /** Approved with no text change. */
+  kept?: boolean;
+  /** Applied together with another finding's change. */
+  with?: string;
+  changes: { record?: string; field: string; text?: string; removed?: string }[];
+  /** Sources for the research done on Mostafa's note. */
+  cites?: Cite[];
+  note?: string;
 }
 
 export interface AuditRecord {

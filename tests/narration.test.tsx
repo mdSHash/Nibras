@@ -88,8 +88,8 @@ describe('narration manifest check', () => {
 
 describe('the app finds narration by event id', () => {
   it('builds the URL from the slug, kind and hash; null when there is no fresh recording', () => {
-    const badr = eventsData.find((e) => e.id === 'battle-badr')!;
-    expect(narrationUrl(badr, 'description')).toMatch(/^\/audio\/battle-badr\.description\.[0-9a-f]{8}\.m4a$/);
+    const khandaq = eventsData.find((e) => e.id === 'battle-khandaq')!;
+    expect(narrationUrl(khandaq, 'description')).toMatch(/^\/audio\/battle-khandaq\.description\.[0-9a-f]{8}\.m4a$/);
     expect(narrationUrl({ id: 'no-such-event' }, 'title')).toBeNull();
   });
 });
@@ -161,6 +161,16 @@ describe('narration generate (fake engines, no network)', () => {
     expect(lines.at(-1)).toContain('Dry run');
   });
 
+  it('stops cleanly at the daily quota and keeps what it recorded', async () => {
+    let calls = 0;
+    const engine = { id: 'gemini', voice: 'Charon', synthesize: async () => (calls++ ? Promise.reject(new Error('Gemini 429, daily quota used up')) : wav(1)) };
+    const { audio, encoded, lines, done } = run(() => engine);
+    await done;
+    expect(encoded).toHaveLength(1);
+    expect(lines.at(-1)).toContain('daily quota');
+    expect(Object.keys(checkNarration([event], audio).fresh[event.id])).toEqual(['title']);
+  });
+
   it('records with VoiceStudio and writes fresh manifest entries', async () => {
     const env = { VOICESTUDIO_PROFILE: 'charon-clone' };
     const { audio, encoded, done } = run(() => voiceStudioEngine(env, fakeFetch(() => new Response(new Uint8Array(wav(2))))));
@@ -192,6 +202,24 @@ describe('narration generate (fake engines, no network)', () => {
       fakeFetch(() => Response.json({ candidates: [{ content: { parts: [{ inlineData: { data: pcm.toString('base64') } }] } }] })),
     );
     expect(wavDurationSec(await engine.synthesize('نص'))).toBe(1);
+  });
+
+  it('keeps a WAV the newer TTS models return, and reads the PCM rate from the MIME type', async () => {
+    const wav = pcmToWav(Buffer.alloc(24000 * 2), 24000);
+    const asWav = geminiEngine({ GEMINI_API_KEY: 'k' }, fakeFetch(() => Response.json({ candidates: [{ content: { parts: [{ inlineData: { data: wav.toString('base64'), mimeType: 'audio/wav' } }] } }] })));
+    expect((await asWav.synthesize('نص')).equals(wav)).toBe(true);
+    const pcm16k = Buffer.alloc(16000 * 2);
+    const asPcm = geminiEngine({ GEMINI_API_KEY: 'k' }, fakeFetch(() => Response.json({ candidates: [{ content: { parts: [{ inlineData: { data: pcm16k.toString('base64'), mimeType: 'audio/L16;rate=16000' } }] } }] })));
+    expect(wavDurationSec(await asPcm.synthesize('نص'))).toBe(1);
+  });
+
+  it('waits out a per-minute 429 and stops on the daily one', async () => {
+    const ok = Response.json({ candidates: [{ content: { parts: [{ inlineData: { data: Buffer.alloc(48000).toString('base64') } }] } }] });
+    const replies = [new Response('{"error":{"code":429,"details":[{"quotaId":"GenerateRequestsPerMinutePerProject"},{"retryDelay":"3s"}]}}', { status: 429 }), ok];
+    const perMinute = geminiEngine({ GEMINI_API_KEY: 'k' }, fakeFetch(() => replies.shift()!), 0);
+    expect(wavDurationSec(await perMinute.synthesize('نص'))).toBe(1);
+    const perDay = geminiEngine({ GEMINI_API_KEY: 'k' }, fakeFetch(() => new Response('{"error":{"details":[{"quotaId":"GenerateRequestsPerDayPerProject"}]}}', { status: 429 })), 0);
+    await expect(perDay.synthesize('نص')).rejects.toThrow(/daily quota/);
   });
 });
 

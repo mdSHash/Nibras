@@ -34,6 +34,12 @@ test.describe('visual @phone @visual', () => {
     await openAppWithEvent(page);
     await openEventBySearch(page, 'battle-badr', 'بدر');
     await settle(page, 3_500);
+    // The play button shows only while the event has a fresh recording, and Phase 4 re-records
+    // events over days; take it out so this shot shows the panel the same way with or without it
+    // (narration itself: event-panel.spec.ts).
+    await page.evaluate(() => {
+      for (const b of document.querySelectorAll('button[aria-label="تشغيل السرد"]')) b.closest('.relative.shrink-0')?.remove();
+    });
     await shot(page, 'event-panel-badr');
   });
 
