@@ -6,7 +6,7 @@
   "icon": "scroll",
   "title": "صُلْحُ الْحُدَيْبِيَةِ",
   "date": {
-    "sortKey": 628,
+    "sortKey": 628.197,
     "gregorian": {
       "year": 628
     },
@@ -48,6 +48,10 @@
     {
       "personId": "suhayl-ibn-amr",
       "labelAr": "سهيل بن عمرو"
+    },
+    {
+      "personId": "urwah-ibn-masud-al-thaqafi",
+      "labelAr": "عروة بن مسعود الثقفي"
     }
   ],
   "roles": [

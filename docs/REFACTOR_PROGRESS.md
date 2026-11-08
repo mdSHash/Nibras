@@ -2741,3 +2741,37 @@ the 34 in the queue.
 
 https://claude.ai/artifact/Gi6Rfw9GWVX29xtqC6sbsh (private). Decisions are saved in its database, collection `decisions`,
 one document per id (B-001 to B-093, D-01 to D-35, L-01, N-01 to N-08). **Part 2 of 4D starts by reading it.**
+
+### 4D, part 2: the approved Prophetic-era changes applied (2026-11-08)
+
+Same branch and PR (#30). Decisions read from the review page's database: **all 137 approved, no notes**, so the first
+option everywhere: al-Israʾ after the first ʿAqaba (D-09), Banu al-Mustaliq kept at Shaʿban 5 AH with «(وقيل 6 هـ)»
+(D-27), Nusayba's Uhud passage from her own account in Ibn Hisham (B-056), all 5 new events and 3 companions, and L-01.
+
+#### What changed
+
+- 82 bios (93 findings: 48 additions inserted after their anchor, 42 corrections, 3 removals of text about the app),
+  35 event dates (30 new timeline positions, 12 months added to the shown date; `tieOrder` dropped where its tie is gone,
+  al-Israʾ's included), 5 new events (`ghazwat-waddan`, `muakhat`, `ghazwat-hamra-al-asad`, `letters-to-kings`,
+  `abu-bakr-hajj-baraa`), 3 new people (`usayd-ibn-hudayr`, `uthman-ibn-mazun`, `abu-salamah`, appended to
+  `people-order.json`) and their links in 6 events' key figures, ʿUrwa ibn Masʿud in al-Hudaybiyya's. Applied by the
+  git-ignored `tmp/audit4d/apply4d.cjs` from the approved findings (every anchor and current text found exactly once;
+  the dates recomputed from the same rows as the list, and each checked against the number and label it proposed).
+  Decisions and what was applied are recorded in the audit JSON; the report checks each applied text is in the content.
+- Qur'an quotes: 15 in the era's events (new ones included) and 1 in the bios, all matching their verses.
+- Tests: `tests/contentSchema.test.ts` counts 140 events and 165 people; its shared-date fixture now uses Abu Bakr's
+  death and ʿUmar's accession (634.65), the only events still sharing a timeline position (Badr no longer does).
+- Chat KB rebuilt (0 errors; the 3 warnings are the existing ones in other eras); embedding index by the Chat index
+  workflow on the branch (approved quota).
+- Baselines (approved with the list): content snapshot (the changed records; the map state is now sampled at the new
+  dates, and the Medina state starts at the Hijra's new date 622.729, since its ledger row follows that event), behavior
+  map (timeline order), start-view marker counts (the new events add points near Medina: desktop 3 clusters/22 points →
+  4/25, phone 9 icons/26 points → 10/27, WebKit 3/24 → 2/23; the Linux file given the same values, CI checks it), and
+  ʿAli's bio screenshot (desktop and phone: longer bio). The two Linux bio screenshots were removed for CI to record.
+- Checked locally: `npm run verify` as five batches (435 unit tests; features 127 + 2 skipped; engines 50 + 24 skipped;
+  visual 16/16; Lighthouse within budget). Report: 137 findings, 294 quotes.
+
+#### Narration (not recorded here; the daily workflow does it after merge)
+
+10 requests: title and description of the 5 new events. Queue after this branch: 44 (26 stale, 18 missing), so at 10 a
+day the 4D recordings should be ready by about 2026-11-13 if every daily run works.

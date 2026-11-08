@@ -6,8 +6,7 @@
   "icon": "scroll",
   "title": "بَيْعَةُ الْعَقَبَةِ الْأُولَى",
   "date": {
-    "sortKey": 621,
-    "tieOrder": 1,
+    "sortKey": 621.515,
     "gregorian": {
       "year": 621
     },
@@ -37,6 +36,10 @@
     {
       "personId": "musab-ibn-umayr",
       "labelAr": "مُصْعَبُ بْنُ عُمَيْرٍ رضي الله عنه"
+    },
+    {
+      "personId": "usayd-ibn-hudayr",
+      "labelAr": "أُسَيْدُ بْنُ حُضَيْرٍ"
     }
   ],
   "roles": [
