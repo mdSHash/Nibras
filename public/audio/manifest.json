@@ -297,9 +297,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "building-mosque.description.ff49e910.m4a",
-        "textHash": "ff49e910da57118388c61dc99545e74e0a02b017fb2c5e70fd6be2e363357997",
-        "durationSec": 53.68,
+        "file": "building-mosque.description.4a317f1d.m4a",
+        "textHash": "4a317f1d06a19f380b622994015a85e2540d227f84d3825b92c1ffd862c47adf",
+        "durationSec": 53.28,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -313,9 +313,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "medina-constitution.description.cd45cd49.m4a",
-        "textHash": "cd45cd49862055cf7bbd88457831a52e9be78345798cae360b5ae783c393061f",
-        "durationSec": 51.92,
+        "file": "medina-constitution.description.7be5d721.m4a",
+        "textHash": "7be5d7215f41209d374daef61698b7255778279c95a51c98943c9f57fd480f10",
+        "durationSec": 46.56,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -345,9 +345,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "sariyyat-ubaydah.description.ac67357c.m4a",
-        "textHash": "ac67357ccc9b162d23af02524df23bbbf839bcca22f384305fe879d7a7a56b3c",
-        "durationSec": 28.44,
+        "file": "sariyyat-ubaydah.description.9f9a783f.m4a",
+        "textHash": "9f9a783fc03609a76accdf1299df155e07eb2b5b8ef16dacdbd585124aa5aa3c",
+        "durationSec": 29.04,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -361,9 +361,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "sariyyat-nakhla.description.7f0d2b2f.m4a",
-        "textHash": "7f0d2b2fba653bc71691699c4a4b80a88b666c4d79c4b6921deaaeb380f17f1b",
-        "durationSec": 51.2,
+        "file": "sariyyat-nakhla.description.6ab8d89a.m4a",
+        "textHash": "6ab8d89a15a1f81511b719314b018373a41b8065bdeb68864b77094f8b92d5b9",
+        "durationSec": 53.24,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -393,9 +393,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-badr.description.d6f5d2d9.m4a",
-        "textHash": "d6f5d2d956815f89e6c0d801fa863caa7948228ede9c43e064fdd9b36341019e",
-        "durationSec": 52.88,
+        "file": "battle-badr.description.4db39d6e.m4a",
+        "textHash": "4db39d6ecc9f198b14a86a07218ed02a9ca0aede165a47e883683de359ee56e9",
+        "durationSec": 98.44,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -425,9 +425,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "ghazwat-sawiq.description.61e936c3.m4a",
-        "textHash": "61e936c3c4d540511542d978f68bb1af7f67b6229949f2de98282ebf08107ba1",
-        "durationSec": 41.92,
+        "file": "ghazwat-sawiq.description.3e68368f.m4a",
+        "textHash": "3e68368fe7ae0733c7fc0f77da1dcd40d4c013a1598e38f20dd5a797f1102ad0",
+        "durationSec": 41.32,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -441,9 +441,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "ghazwat-dhi-amar.description.43acdf23.m4a",
-        "textHash": "43acdf23a743ff0c53ba699a5fbd72ac6a3d28076b4b49595f848d674da3fefc",
-        "durationSec": 52.48,
+        "file": "ghazwat-dhi-amar.description.38c508f4.m4a",
+        "textHash": "38c508f4af651ff7988be1718b39c85b828d21d84218554cabd2d18538ffbc51",
+        "durationSec": 55.16,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -457,9 +457,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-uhud.description.acd06d0c.m4a",
-        "textHash": "acd06d0c0407b86a35c707e0e252296d75fefa0ba41b037317789ad75590233e",
-        "durationSec": 67.2,
+        "file": "battle-uhud.description.ce04e528.m4a",
+        "textHash": "ce04e52821d97eb7d85966d7444e930492b42515d152e3701d8509870378b3d8",
+        "durationSec": 75.72,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -505,9 +505,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "banu-nadir.description.8e847500.m4a",
-        "textHash": "8e847500843acbcd365f365222f5f89d9e0231793f68307e7954f8e95f3d64e6",
-        "durationSec": 48.96,
+        "file": "banu-nadir.description.fb7fff27.m4a",
+        "textHash": "fb7fff27a8de1d2ffa0b1d0a3bcf8ddcb08458adc2ced67b9ae9579767963e4f",
+        "durationSec": 53.76,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -553,9 +553,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "ghazwat-bani-mustaliq.description.f30cc36a.m4a",
-        "textHash": "f30cc36a79187db67b1ecfce7cded7e493d58bf31450809a7eace96a10f2a264",
-        "durationSec": 57.24,
+        "file": "ghazwat-bani-mustaliq.description.3253f667.m4a",
+        "textHash": "3253f667743246b2874e2dc10975526d088156a5780d74d8538335b6dd008a73",
+        "durationSec": 58.48,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -864,22 +864,6 @@
         "voice": "Charon"
       }
     },
-    "conquest-iraq-start": {
-      "title": {
-        "file": "conquest-iraq-start.title.0480f9d0.m4a",
-        "textHash": "0480f9d07d2c038e6df7e3c2c90d10dfd5a063af0e0c683a27362b9ee1c72a40",
-        "durationSec": 4.52,
-        "engine": "gemini",
-        "voice": "Charon"
-      },
-      "description": {
-        "file": "conquest-iraq-start.description.621b75f0.m4a",
-        "textHash": "621b75f0718b7d623309138c639f0ca4e5c09e9c1e5f8134bc2aa686ed21537b",
-        "durationSec": 57.6,
-        "engine": "gemini",
-        "voice": "Charon"
-      }
-    },
     "event-55-جمع-القرن-الكريم-الأول": {
       "title": {
         "file": "first-compilation-of-the-quran.title.1b6c30f7.m4a",
@@ -896,18 +880,18 @@
         "voice": "Charon"
       }
     },
-    "conquest_hira": {
+    "conquest-iraq-start": {
       "title": {
-        "file": "conquest-hira.title.86eaee9b.m4a",
-        "textHash": "86eaee9b609f88b0f25a51e15eee5698848cd41f08f6ca3fef05b6d5a880476e",
-        "durationSec": 2.2,
+        "file": "conquest-iraq-start.title.0480f9d0.m4a",
+        "textHash": "0480f9d07d2c038e6df7e3c2c90d10dfd5a063af0e0c683a27362b9ee1c72a40",
+        "durationSec": 4.52,
         "engine": "gemini",
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-hira.description.30093253.m4a",
-        "textHash": "300932530e343a3bc38296a38f1829876e5a6f6ae96a8a71318e5c7747a1ca97",
-        "durationSec": 50.64,
+        "file": "conquest-iraq-start.description.621b75f0.m4a",
+        "textHash": "621b75f0718b7d623309138c639f0ca4e5c09e9c1e5f8134bc2aa686ed21537b",
+        "durationSec": 57.6,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -924,6 +908,22 @@
         "file": "battle-ullais.description.e9ace8f4.m4a",
         "textHash": "e9ace8f4b4f7b7cec52486a13e60ee6d521156b6fc98a5a1025b0176c0f575dc",
         "durationSec": 57.36,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest_hira": {
+      "title": {
+        "file": "conquest-hira.title.86eaee9b.m4a",
+        "textHash": "86eaee9b609f88b0f25a51e15eee5698848cd41f08f6ca3fef05b6d5a880476e",
+        "durationSec": 2.2,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-hira.description.30093253.m4a",
+        "textHash": "300932530e343a3bc38296a38f1829876e5a6f6ae96a8a71318e5c7747a1ca97",
+        "durationSec": 50.64,
         "engine": "gemini",
         "voice": "Charon"
       }
