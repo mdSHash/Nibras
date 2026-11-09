@@ -1817,8 +1817,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "muakhat.description.ae8cc251.m4a",
+        "descriptionExists": true,
         "titleFile": "muakhat.title.288eb92d.m4a",
         "titleExists": true
       }
@@ -2012,10 +2012,10 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "descriptionFile": "ghazwat-waddan.description.858cc1f1.m4a",
+        "descriptionExists": true,
+        "titleFile": "ghazwat-waddan.title.d36a9f9c.m4a",
+        "titleExists": true
       }
     },
     {
@@ -2673,10 +2673,10 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "descriptionFile": "ghazwat-hamra-al-asad.description.ebba1b4b.m4a",
+        "descriptionExists": true,
+        "titleFile": "ghazwat-hamra-al-asad.title.cefc55df.m4a",
+        "titleExists": true
       }
     },
     {
@@ -3508,8 +3508,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "treaty-hudaybiyyah.description.470fe5af.m4a",
+        "descriptionExists": true,
         "titleFile": "treaty-hudaybiyyah.title.68aa971d.m4a",
         "titleExists": true
       }
@@ -3569,10 +3569,10 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "descriptionFile": "letters-to-kings.description.fd41012f.m4a",
+        "descriptionExists": true,
+        "titleFile": "letters-to-kings.title.b0af19da.m4a",
+        "titleExists": true
       }
     },
     {
@@ -3667,8 +3667,8 @@
       },
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-khaybar.description.778dd047.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-khaybar.title.57a30587.m4a",
         "titleExists": true
       }
@@ -3736,8 +3736,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "umrat-alqada.description.f2a9f2fd.m4a",
+        "descriptionExists": true,
         "titleFile": "umrat-alqada.title.938a139a.m4a",
         "titleExists": true
       }
