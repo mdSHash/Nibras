@@ -327,6 +327,13 @@
         "durationSec": 4.12,
         "engine": "gemini",
         "voice": "Charon"
+      },
+      "description": {
+        "file": "muakhat.description.ae8cc251.m4a",
+        "textHash": "ae8cc2513f16c91bdbf2f1db1772b87f5c846a59942c0079f82e2fff608e6866",
+        "durationSec": 34.88,
+        "engine": "gemini",
+        "voice": "Charon"
       }
     },
     "sariyyat-hamza": {
@@ -357,6 +364,22 @@
         "file": "sariyyat-ubaydah.description.9f9a783f.m4a",
         "textHash": "9f9a783fc03609a76accdf1299df155e07eb2b5b8ef16dacdbd585124aa5aa3c",
         "durationSec": 29.04,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "ghazwat-waddan": {
+      "title": {
+        "file": "ghazwat-waddan.title.d36a9f9c.m4a",
+        "textHash": "d36a9f9ca5ba7e4427595b386053c0fa875ac013c3a7dd27aef03cfad9bfaf79",
+        "durationSec": 3.56,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "ghazwat-waddan.description.858cc1f1.m4a",
+        "textHash": "858cc1f1aaa09939f78dee9ec6287008a768d154bde5b7c556779fa91f39a823",
+        "durationSec": 37.4,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -469,6 +492,22 @@
         "file": "battle-uhud.description.ce04e528.m4a",
         "textHash": "ce04e52821d97eb7d85966d7444e930492b42515d152e3701d8509870378b3d8",
         "durationSec": 75.72,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "ghazwat-hamra-al-asad": {
+      "title": {
+        "file": "ghazwat-hamra-al-asad.title.cefc55df.m4a",
+        "textHash": "cefc55df4d4e6dbb64736626f4757e064bcbc21588e352a3963f563531231a1a",
+        "durationSec": 2.24,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "ghazwat-hamra-al-asad.description.ebba1b4b.m4a",
+        "textHash": "ebba1b4bacd9305208a6e240d84c2cf2618cf4fb9e256935ece1888922c96c52",
+        "durationSec": 75.16,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -626,9 +665,25 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "treaty-hudaybiyyah.description.8953af6e.m4a",
-        "textHash": "8953af6e951e84479cb6c5a2aaba850bc223800ac7241e0f8086cbaf4eb620c7",
-        "durationSec": 90.32,
+        "file": "treaty-hudaybiyyah.description.470fe5af.m4a",
+        "textHash": "470fe5af6ec61d2634ecd7cdea0103e085ef65aa9f9ecb522dfae36cb565f5b2",
+        "durationSec": 89.52,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "letters-to-kings": {
+      "title": {
+        "file": "letters-to-kings.title.b0af19da.m4a",
+        "textHash": "b0af19da6b0ce9d744ab7b90fbd55ea2d24743fbabd39d492c094e130abbf178",
+        "durationSec": 3.24,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "letters-to-kings.description.fd41012f.m4a",
+        "textHash": "fd41012f51fa3037f9a30623097dc0b45e39cb83b041fe0ecb59f50f18830cd7",
+        "durationSec": 49.8,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -642,9 +697,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-khaybar.description.b22ade7e.m4a",
-        "textHash": "b22ade7e2b73decb66548f9f505f4ebd60736a52323be34fceeb910a7ef2af5b",
-        "durationSec": 60.04,
+        "file": "battle-khaybar.description.778dd047.m4a",
+        "textHash": "778dd047a7e693d8ea2a7f52f897a8af062fe6d507575bfe54f64ed82785bb1f",
+        "durationSec": 59.72,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -658,9 +713,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "umrat-alqada.description.a0594c09.m4a",
-        "textHash": "a0594c093431d2ea7ff550505b4d299ab67c5cdc3eee8ed83fbbbb5d01a5c4fc",
-        "durationSec": 44.88,
+        "file": "umrat-alqada.description.f2a9f2fd.m4a",
+        "textHash": "f2a9f2fd10e23a186c5f2625c2a1fbfaced5c92aef363d582b4d6df42f7e29d8",
+        "durationSec": 45.8,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1209,6 +1264,22 @@
         "voice": "Charon"
       }
     },
+    "event-81-وضع-التقويم-الهجري-وتأسيس-الدواوين": {
+      "title": {
+        "file": "hijri-calendar-and-diwans.title.6c1c28df.m4a",
+        "textHash": "6c1c28dff5987ea3676157af07a1dcb2f037da7cd9131e16442039078dd7d33a",
+        "durationSec": 4.84,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "hijri-calendar-and-diwans.description.7d754f04.m4a",
+        "textHash": "7d754f04715ea8ca6a2c8e6375017f451b808f4537a5bcb977c096923cfbe537",
+        "durationSec": 57.4,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
     "conquest-madain": {
       "title": {
         "file": "conquest-madain.title.bad21e9a.m4a",
@@ -1241,6 +1312,22 @@
         "voice": "Charon"
       }
     },
+    "battle-hadir": {
+      "title": {
+        "file": "battle-hadir.title.24a5f80c.m4a",
+        "textHash": "24a5f80ce217ca692e02246e77b581fbe71080511a5aa4bf4c1b05ba1d206d5b",
+        "durationSec": 2.28,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-hadir.description.a572661a.m4a",
+        "textHash": "a572661a09b3f08dc20da48833ce6b115fbe7e9d19a68b90033ea7a787d32d78",
+        "durationSec": 49.08,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
     "conquest-qinnasrin": {
       "title": {
         "file": "conquest-qinnasrin.title.649ac31e.m4a",
@@ -1253,38 +1340,6 @@
         "file": "conquest-qinnasrin.description.7fbfd68d.m4a",
         "textHash": "7fbfd68df2402b4e9187a90efa95a248d63d4a426165ffa93dfc933d8cb27721",
         "durationSec": 39.88,
-        "engine": "gemini",
-        "voice": "Charon"
-      }
-    },
-    "conquest_jalula": {
-      "title": {
-        "file": "conquest-jalula.title.1f66e2fe.m4a",
-        "textHash": "1f66e2fe9153db58069dab15d6f948faf6042cd74d48fd48d9165c8c4279d606",
-        "durationSec": 1.88,
-        "engine": "gemini",
-        "voice": "Charon"
-      },
-      "description": {
-        "file": "conquest-jalula.description.bbae06a6.m4a",
-        "textHash": "bbae06a695dc6512f3737d9dc0c45bba439261e4d443a07697c70b862413c3d8",
-        "durationSec": 53.8,
-        "engine": "gemini",
-        "voice": "Charon"
-      }
-    },
-    "event-81-وضع-التقويم-الهجري-وتأسيس-الدواوين": {
-      "title": {
-        "file": "hijri-calendar-and-diwans.title.6c1c28df.m4a",
-        "textHash": "6c1c28dff5987ea3676157af07a1dcb2f037da7cd9131e16442039078dd7d33a",
-        "durationSec": 4.84,
-        "engine": "gemini",
-        "voice": "Charon"
-      },
-      "description": {
-        "file": "hijri-calendar-and-diwans.description.7d754f04.m4a",
-        "textHash": "7d754f04715ea8ca6a2c8e6375017f451b808f4537a5bcb977c096923cfbe537",
-        "durationSec": 57.4,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1321,18 +1376,18 @@
         "voice": "Charon"
       }
     },
-    "battle-hadir": {
+    "conquest_jalula": {
       "title": {
-        "file": "battle-hadir.title.24a5f80c.m4a",
-        "textHash": "24a5f80ce217ca692e02246e77b581fbe71080511a5aa4bf4c1b05ba1d206d5b",
-        "durationSec": 2.28,
+        "file": "conquest-jalula.title.1f66e2fe.m4a",
+        "textHash": "1f66e2fe9153db58069dab15d6f948faf6042cd74d48fd48d9165c8c4279d606",
+        "durationSec": 1.88,
         "engine": "gemini",
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-hadir.description.a572661a.m4a",
-        "textHash": "a572661a09b3f08dc20da48833ce6b115fbe7e9d19a68b90033ea7a787d32d78",
-        "durationSec": 49.08,
+        "file": "conquest-jalula.description.bbae06a6.m4a",
+        "textHash": "bbae06a695dc6512f3737d9dc0c45bba439261e4d443a07697c70b862413c3d8",
+        "durationSec": 53.8,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1349,22 +1404,6 @@
         "file": "famine-am-ramada.description.caa062e6.m4a",
         "textHash": "caa062e6ab1113791fc575ea0a1db59bbd871ca652500dd42af440a90a2341bb",
         "durationSec": 69.36,
-        "engine": "gemini",
-        "voice": "Charon"
-      }
-    },
-    "conquest-edessa": {
-      "title": {
-        "file": "conquest-edessa.title.a565444e.m4a",
-        "textHash": "a565444e12b6af0e92b7fba2e70652985155158132a87d78178557942a1e3e02",
-        "durationSec": 1.64,
-        "engine": "gemini",
-        "voice": "Charon"
-      },
-      "description": {
-        "file": "conquest-edessa.description.cf3a96d1.m4a",
-        "textHash": "cf3a96d1191b7f8597defd29a33ac2182728926cdc3cb0f45ffa29ef304665f4",
-        "durationSec": 43.56,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1397,6 +1436,22 @@
         "file": "conquest-raqqa.description.79322ad2.m4a",
         "textHash": "79322ad2cb15d3249585c9fa45dd6140e004eb05c0716338bc663c59109df9e7",
         "durationSec": 48.08,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest-edessa": {
+      "title": {
+        "file": "conquest-edessa.title.a565444e.m4a",
+        "textHash": "a565444e12b6af0e92b7fba2e70652985155158132a87d78178557942a1e3e02",
+        "durationSec": 1.64,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-edessa.description.cf3a96d1.m4a",
+        "textHash": "cf3a96d1191b7f8597defd29a33ac2182728926cdc3cb0f45ffa29ef304665f4",
+        "durationSec": 43.56,
         "engine": "gemini",
         "voice": "Charon"
       }
