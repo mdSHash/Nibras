@@ -58,6 +58,36 @@ what he approves.
   and description of the 4 new events. The daily queue now holds 42 (25 stale, 17 missing), so at 10 a day these would
   be ready about 8 days after merge if every daily run works.
 
+## Part 2: what was decided and done (2026-11-09)
+
+Mostafa marked every entry on the review page (175 documents): 166 موافق, 5 مرفوض, 1 بتعديل, 3 with a note only; A-102
+and A-103 were left unmarked. His research notes («راجع / دقق / ابحث») were answered against the pages before anything
+was applied, and the sources are on each finding in `docs/audit/umar.md`.
+
+- **Notes that changed the outcome:**
+  - **Yarmouk (A-040, rejected, «في عهد عمر»):** the withdrawal and the request for reinforcements stay, now addressed to
+    ʿUmar: al-Azdi's letters (*Jamharat Rasaʾil al-ʿArab* 1/166–167). Only Sayf has the request go to Abu Bakr.
+  - **«ستة أيام» at Yarmouk (A-047, rejected):** kept as Mostafa decided; no source read carries it, only modern writing.
+  - **ʿUmar's prayer (A-002):** kept; found in Ibn Saʿd 3/208. The report tied to his first words on the minbar has
+    «شديد», so that one word changed.
+  - **Theft in the famine year (A-086):** not deleted; found in Ibn Abi Shayba 5/521 and *Iʿlam al-Muwaqqiʿin* 3/17.
+    Corrected to the sources' wording.
+  - **The poisoned dagger (A-123):** my proposal is withdrawn: Usd al-Ghaba has «فاصطنع له خنجرا له راسان وشحذه وسمه».
+  - **Egypt and Alexandria (A-101, A-112, A-113):** *Futuh Misr* was read in full for the conquest (pp. 77–108). Most of
+    the details are in it with their chains, so they stay, attributed to Ibn ʿAbd al-Hakam; the text now also gives
+    Sayf's account. The one figure with no page was corrected: 50,000 at Alexandria became more
+    than 100,000 (Heraclius's letter, *Futuh Misr* p. 94). «فتح العريش» and «أقوى حصون الروم» were removed.
+  - **Homs (D-005):** 15 AH as approved, and the label now shows «وقيل 14 هـ»: Khalifa p. 127 gives 14 on Ibn Ishaq's
+    word, which my list had missed.
+  - **First mosque (A-126):** «first in Africa» is modern only; al-Maqrizi has "the first mosque founded in Egypt after
+    the conquest", and that is now the text (also in the Egypt event).
+- **Kept as they were:** the four «keep or remove» sources (first option, keep), A-008 (rejected without a note: note
+  that the course of events at Saqatiya still says «خط دفاع أخير» while the new description does not), A-047, A-058, A-123.
+- **Choices taken because Mostafa was away:** A-102 and A-103 (unmarked) follow A-101; A-114 keeps *Futuh Misr* in the
+  sources (with al-Bidaya added) because A-112 and A-113 now rely on it.
+- **New records:** all six added; N-05's closing sentence about the book was removed; Yazid is linked to Damascus and
+  ʿAmwas, ʿUtba to the Kufa and Basra event.
+
 ## Decisions for Mostafa
 
 - **Ibn ʿAbd al-Hakam's *Futuh Misr*** (A-101, A-112): not on the reliable list, and the source of most of the Egypt and
