@@ -3837,8 +3837,8 @@
       },
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-mutah.description.f5fbec17.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-mutah.title.9f466589.m4a",
         "titleExists": true
       }
