@@ -2865,3 +2865,95 @@ Fatima al-Zahraʾ «نحو 13 ق.هـ - 11 هـ», ʿUbayda «نحو 62 ق.هـ�
 - 4F (ʿUmar) and later eras: the dates in `birthDeath` are now settled; era sessions check bios against them rather than
   re-auditing the dates. Still open from 4C: the timeline positions of Damascus, Aleppo, Antioch and al-Raqqa (4F),
   and Siffin (4H).
+
+### 4F — ʿUmar's caliphate: the list (2026-11-08)
+
+Branch `refactor/phase-4f-umar` from `main` at `0541c29` (PR #32 merged). `npm run verify` passed before any change, as
+five `--only` batches: static steps and build (435 unit tests); Lighthouse; features 127 passed, 2 skipped; engines 50
+passed, 24 skipped; visual 16/16. **No content, Qur'an text or narration changed. No Gemini, Groq or OpenRouter quota
+spent.**
+
+#### Narration workflow (checked at the start)
+
+All of today's runs succeeded (09:53 by hand, 15:30 and 18:54 scheduled); the last recorded 1 and stopped at the used
+daily quota, as designed, and its bot PR #33 merged. Nothing fixed. Queue: 25 stale, 17 missing.
+
+#### What was made
+
+- `docs/audit/umar.md` (generated) from `docs/audit/umar/` `01`–`04` (the 28 events), `05-dates.json`, `06-people.json`,
+  `07-cities.json`, `08-new-records.json` and `HEAD.md` (summary, decisions, sources).
+- Caches (git-ignored): al-Kamil pages 991–1180 (years 14–31). Al-Tabari 1701–2140 and al-Bidaya 5440–5760 were already
+  cached.
+- Working scripts in the git-ignored `tmp/audit4f/`: `notes1-7.txt` and `newrec.txt` (the findings, one line each),
+  `build.ts` (notes to audit JSON; finds each quote's page and fails on any quote or current text not found),
+  `newrec.ts` (new records, checked against the content schema), `assemble.sh` (all files in order, ids sequential),
+  `g.ts`/`rng.ts`/`titles.cjs` (page search, page ranges, section titles), `page.ts` and `page-tpl.html` (review page).
+
+#### Summary
+
+- 28 events, 17 people (bios only, compared with their 4E dates), 5 cities (Damascus, Jerusalem, Basra, Kufa, Fustat).
+  171 findings (126 corrections, 8 enrichment, 19 dates, 18 bio; 20 proven, 135 likely, 16 uncertain) and 6 new records
+  (khalid-dismissal, kufa-basra-founding, conquest-caesarea, sariya-al-jabal, yazid-ibn-abi-sufyan, utbah-ibn-ghazwan).
+  390 quotes, each found on its page by script.
+- Worst: nine events written as generic text with invented tactics and numbers; "al-Hadir in the Jazira" does not exist
+  (it is Hadir Qinnasrin); Yarmouk dated 15 AH but told from Sayf's 13 AH account; Raqqa/Edessa, Aleppo/Antioch and ʿAmwas
+  out of order; nine bios with sentences about the app.
+- Sayf ibn ʿUmar's reports are marked as his. Al-Waqidi only as an option (D-007); Khalifa only inside Ibn Kathir's date
+  list for Caesarea; al-Baladhuri not used. Al-Isaba not used (index window); Usd al-Ghaba and al-Istiʿab used.
+- The timeline positions of Damascus, Aleppo, Antioch and al-Raqqa (open from 4C) are D-004, D-011, D-012, D-016.
+
+#### Narration count
+
+36 requests if all approved: 27 changed descriptions, al-Hadir's new title, title and description of the 4 new events.
+
+#### Review page
+
+https://claude.ai/artifact/3yAxdsJZ3Uix7sJ32SHypM (private). Decisions are saved in its database, collection
+`decisions`, one document per id (A-001 to A-126, E-001 to E-008, D-001 to D-019, B-001 to B-018, N-01 to N-06).
+**Part 2 of 4F starts by reading it.**
+
+### 4F — ʿUmar's caliphate: applied (2026-11-09)
+
+Mostafa marked the page (175 documents): 166 موافق, 5 مرفوض, 1 بتعديل, 3 with a note only; A-102 and A-103 were left
+unmarked. Every research note was answered against the pages first; what was found is on each finding in
+`docs/audit/umar.md` and summarised in `docs/audit/umar/HEAD.md` ("Part 2").
+
+#### Decisions and what the research changed
+
+- **Yarmouk:** the request for reinforcements now goes to ʿUmar (al-Azdi, in *Jamharat Rasaʾil al-ʿArab*; Sayf alone
+  has Abu Bakr). «ستة أيام» stays (A-047 rejected) although no source read carries it.
+- **Withdrawn or reversed after research:** the poisoned dagger stays (Usd al-Ghaba); ʿUmar's prayer stays with «شديد»
+  (Ibn Saʿd 3/208); the theft sentence is corrected, not deleted (Ibn Abi Shayba 5/521, *Iʿlam* 3/17).
+- **Egypt and Alexandria:** *Futuh Misr* read; its documented details stay, attributed, beside Sayf's account. 50,000 at
+  Alexandria became "more than 100,000" (Heraclius's letter there). Sources keep *Futuh Misr* and add al-Bidaya and
+  al-Kamil.
+- **Dates:** Homs «15 هـ (وقيل 14 هـ)» (Khalifa, on Ibn Ishaq's word); the Damascus, Aleppo, Antioch and al-Raqqa positions
+  from 4C are settled.
+- **Taken while he was away (reversible):** A-102 and A-103 follow A-101; A-114 keeps *Futuh Misr*.
+
+#### What changed
+
+- 43 existing records (27 events, 15 bios, Fustat) from an exact old→new list (git-ignored `tmp/audit4f/apply.ts`: every
+  old text had to occur exactly once; 203 changes). 6 new records (4 events, 2 companions; Yazid linked to Damascus and
+  ʿAmwas, ʿUtba to Kufa and Basra). Decisions and applied text are in the audit JSON; the report checks them: 177
+  findings, 422 quotes.
+- Seven books were added to `scripts/audit/shamela.ts` and the report (Ibn Saʿd, Khalifa, *Futuh Misr*, *Jamharat
+  Rasaʾil al-ʿArab*, Ibn Abi Shayba, *Iʿlam al-Muwaqqiʿin*, al-Maqrizi's *Khitat*).
+- No Qur'an text changed (the 17 quotes check still passes).
+- Chat KB rebuilt (0 errors; the 3 warnings are the existing ones); embedding index by the Chat index workflow on the
+  branch (run 42619134238, approved quota): 3412/3412 units current.
+- Baselines (approved with the list): content snapshot and behavior map for these records only (31 events, 17 people,
+  Fustat, and the map periods keyed by the moved dates). `tests/contentSchema.test.ts` counts now 144 events and 167
+  people. No screenshot changed.
+- Narration: 36 recordings added to the queue, which is now 78 (53 stale, 25 missing). The daily workflow records them
+  after merge; none were made here.
+- Checked locally: `npm run verify` as five batches (435 unit tests; Lighthouse within budget; features 127 + 2 skipped;
+  engines 50 + 24 skipped; visual 16/16).
+
+#### Open items for later sessions
+
+- A-047: «ستة أيام» at Yarmouk stands on no source read; Mostafa's call if he wants it attributed or changed.
+- A-008: Saqatiya's course of events still says «خط دفاع أخير», its forces and ʿUmar's chip stay, as he decided.
+- Mihran: al-Tabari has him killed after Jalula (16 AH) while his `birthDeath` is «؟ - ؟» (4E's field, not changed).
+- *Futuh Misr* is now cited for Egypt and Alexandria; the reliable-source list in `docs/CONTENT_GUIDE.md` does not name it.
+  4G (ʿUthman's Egypt) will meet the same question. Also open: Siffin (4H).
