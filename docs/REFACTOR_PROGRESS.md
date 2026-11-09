@@ -2933,7 +2933,7 @@ unmarked. Every research note was answered against the pages first; what was fou
 
 #### What changed
 
-- 39 existing records (27 events, 15 bios, Fustat) from an exact old→new list (git-ignored `tmp/audit4f/apply.ts`: every
+- 43 existing records (27 events, 15 bios, Fustat) from an exact old→new list (git-ignored `tmp/audit4f/apply.ts`: every
   old text had to occur exactly once; 203 changes). 6 new records (4 events, 2 companions; Yazid linked to Damascus and
   ʿAmwas, ʿUtba to Kufa and Basra). Decisions and applied text are in the audit JSON; the report checks them: 177
   findings, 422 quotes.
@@ -2956,4 +2956,4 @@ unmarked. Every research note was answered against the pages first; what was fou
 - A-008: Saqatiya's course of events still says «خط دفاع أخير», its forces and ʿUmar's chip stay, as he decided.
 - Mihran: al-Tabari has him killed after Jalula (16 AH) while his `birthDeath` is «؟ - ؟» (4E's field, not changed).
 - *Futuh Misr* is now cited for Egypt and Alexandria; the reliable-source list in `docs/CONTENT_GUIDE.md` does not name it.
-  4H (ʿUthman's Egypt) will meet the same question. Also open: Siffin (4H).
+  4G (ʿUthman's Egypt) will meet the same question. Also open: Siffin (4H).
