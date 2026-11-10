@@ -4016,8 +4016,8 @@
       },
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-mecca.description.9b8f473a.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-mecca.title.578b90db.m4a",
         "titleExists": true
       }
@@ -4183,8 +4183,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "siege-of-taif.description.4629bb7b.m4a",
+        "descriptionExists": true,
         "titleFile": "siege-of-taif.title.86d0bf31.m4a",
         "titleExists": true
       }
@@ -4286,8 +4286,8 @@
       },
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-tabuk.description.97dac457.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-tabuk.title.55b8c088.m4a",
         "titleExists": true
       }
@@ -4352,10 +4352,10 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "descriptionFile": "abu-bakr-hajj-baraa.description.2a28509d.m4a",
+        "descriptionExists": true,
+        "titleFile": "abu-bakr-hajj-baraa.title.36984cf1.m4a",
+        "titleExists": true
       }
     },
     {
@@ -4451,8 +4451,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "farewell-pilgrimage.description.997225a0.m4a",
+        "descriptionExists": true,
         "titleFile": "farewell-pilgrimage.title.f792d604.m4a",
         "titleExists": true
       }
@@ -4565,8 +4565,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "prophet-death.description.e9688423.m4a",
+        "descriptionExists": true,
         "titleFile": "prophet-death.title.aa12b172.m4a",
         "titleExists": true
       }
@@ -4642,8 +4642,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "abu-bakr-caliphate-saqifah.description.9a502dd8.m4a",
+        "descriptionExists": true,
         "titleFile": "abu-bakr-caliphate-saqifah.title.4f106682.m4a",
         "titleExists": true
       }
@@ -4715,8 +4715,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "expedition-of-usama.description.a5fad39e.m4a",
+        "descriptionExists": true,
         "titleFile": "expedition-of-usama.title.9019034b.m4a",
         "titleExists": true
       }
@@ -4781,8 +4781,8 @@
       "narration": {
         "descriptionFile": null,
         "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "titleFile": "day-dhu-al-qassa.title.dce1a64e.m4a",
+        "titleExists": true
       }
     },
     {

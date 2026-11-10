@@ -761,9 +761,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-mecca.description.b8c2f338.m4a",
-        "textHash": "b8c2f33857171b05a56e8bbbdaa4ba1447914e025b758ffb7f1cabe5f5ee0fa8",
-        "durationSec": 71.12,
+        "file": "conquest-mecca.description.9b8f473a.m4a",
+        "textHash": "9b8f473a5ff0a88089a2dbd9d894e962c925d82020953707b0f8ecdc69d9c7e5",
+        "durationSec": 75.92,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -793,9 +793,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "siege-of-taif.description.2214e822.m4a",
-        "textHash": "2214e822e56f6ddb57cc82248f72c093027720557eb709a5e55fe92543282283",
-        "durationSec": 65.8,
+        "file": "siege-of-taif.description.4629bb7b.m4a",
+        "textHash": "4629bb7b39e635e7b155f241bb51c56f1e4c09b317eaaed61c010b3cbc9cc7d6",
+        "durationSec": 52.2,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -809,9 +809,25 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-tabuk.description.1179a358.m4a",
-        "textHash": "1179a358c5c6d1bf59d9a2db6dafafd385e7f34b644b23a29826afa609203ddb",
-        "durationSec": 66.68,
+        "file": "battle-tabuk.description.97dac457.m4a",
+        "textHash": "97dac45771f359caf00f02a174e3ca30b2cfa0f310527946ad4d3074457f56a1",
+        "durationSec": 62.68,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "abu-bakr-hajj-baraa": {
+      "title": {
+        "file": "abu-bakr-hajj-baraa.title.36984cf1.m4a",
+        "textHash": "36984cf147fda7075ec3b3dad7da5b80dda22add308e88f4e98bcf70ed58b49f",
+        "durationSec": 4.32,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "abu-bakr-hajj-baraa.description.2a28509d.m4a",
+        "textHash": "2a28509df7fbe99f953f339a4565cc8a52b9e046abae79ee7acf7d9295ae75cf",
+        "durationSec": 54.28,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -825,9 +841,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "farewell-pilgrimage.description.4f8ff1f2.m4a",
-        "textHash": "4f8ff1f23004ea4f169540d688006244904ff4b2b2711bea5c7dd18134da09f7",
-        "durationSec": 70.2,
+        "file": "farewell-pilgrimage.description.997225a0.m4a",
+        "textHash": "997225a022205869ddf3f3cd5479b4253a55262f8b03b85dd060728c1ca0f1cb",
+        "durationSec": 62.08,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -841,9 +857,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "prophet-death.description.347352eb.m4a",
-        "textHash": "347352eb7f39c535f09b5b079acdc95ffd5f0194922443d4897ee137c940b8cd",
-        "durationSec": 74.32,
+        "file": "prophet-death.description.e9688423.m4a",
+        "textHash": "e96884234a32c13cadbae8e95abeffb14bccb1513deb9589f4ec81fcc4b4d3d0",
+        "durationSec": 72.92,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -857,9 +873,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "abu-bakr-caliphate-saqifah.description.c1dd92f2.m4a",
-        "textHash": "c1dd92f25d2653e4ab1050523a92f1177b0434b1e19b05386bafa91453032753",
-        "durationSec": 66.36,
+        "file": "abu-bakr-caliphate-saqifah.description.9a502dd8.m4a",
+        "textHash": "9a502dd82713d5f693e9585aa8cf7459a6b06afb53f74a7a468cfa28e31faa75",
+        "durationSec": 84.2,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -873,9 +889,18 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "expedition-of-usama.description.c1020607.m4a",
-        "textHash": "c102060772937b6fe4f52aa60408cac23deeecad0628ac4e3b756b58894d4fef",
-        "durationSec": 59.04,
+        "file": "expedition-of-usama.description.a5fad39e.m4a",
+        "textHash": "a5fad39e2f2047e6d195b72ebe8aa81e6f86423e9e8c4993aee973ffc10f48a2",
+        "durationSec": 84.44,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "day-dhu-al-qassa": {
+      "title": {
+        "file": "day-dhu-al-qassa.title.dce1a64e.m4a",
+        "textHash": "dce1a64e162babed70c5b4fbda3a22e6dae6a5e95dc25cf0c4fec39e254a99ff",
+        "durationSec": 2.08,
         "engine": "gemini",
         "voice": "Charon"
       }
