@@ -903,6 +903,13 @@
         "durationSec": 2.08,
         "engine": "gemini",
         "voice": "Charon"
+      },
+      "description": {
+        "file": "day-dhu-al-qassa.description.dc810406.m4a",
+        "textHash": "dc8104060f82db8115ddda24772d98bff8166c7376e3012f01b1a0099e4d824e",
+        "durationSec": 79.12,
+        "engine": "gemini",
+        "voice": "Charon"
       }
     },
     "ridda-wars-start": {
@@ -914,9 +921,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "ridda-wars-start.description.e213a336.m4a",
-        "textHash": "e213a336b287fde68503064bb901a52140075d06ec7fcc60f030c707e0dd9d1c",
-        "durationSec": 60.36,
+        "file": "ridda-wars-start.description.1b443b79.m4a",
+        "textHash": "1b443b799e4c4acb60b023e8c7ce1ca8fbc6e3802b34dbd429c679f30f9c0cb7",
+        "durationSec": 54.16,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -930,9 +937,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-buzakha.description.5724b308.m4a",
-        "textHash": "5724b30886f2e949dbdcda9163d90cd333601129215e1a79291ea8973c61ecdd",
-        "durationSec": 51.88,
+        "file": "battle-buzakha.description.24d9f825.m4a",
+        "textHash": "24d9f8250b7317bd9a3ba812595bb9e8f778fb176122a14f2ce2937f9374562e",
+        "durationSec": 58.12,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -946,9 +953,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-yamama.description.32f1023a.m4a",
-        "textHash": "32f1023a04139da4129f09e1e27a993cbd9c1cdef59ac3b361f870127e9b1e14",
-        "durationSec": 76.16,
+        "file": "battle-yamama.description.7ed14786.m4a",
+        "textHash": "7ed147865097841a2ab392b14369307bb4c326365f3178f69aeb95ac1a1fd68f",
+        "durationSec": 82.44,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -962,9 +969,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "first-compilation-of-the-quran.description.5e3a7aed.m4a",
-        "textHash": "5e3a7aed7864a920c1312cef8ac042cc3f3abcd58052b69fbb4013ad7ebb5a7d",
-        "durationSec": 69.48,
+        "file": "first-compilation-of-the-quran.description.59569611.m4a",
+        "textHash": "59569611886d8eba85f2fdc65d967defca05f0538cd83480e51b7852d15cba63",
+        "durationSec": 83.6,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -985,6 +992,22 @@
         "voice": "Charon"
       }
     },
+    "battle-walaja": {
+      "title": {
+        "file": "battle-walaja.title.9db7364e.m4a",
+        "textHash": "9db7364e285e1e5f87cd55e3124f9a8d8f84e39755f1d375e2179d6f61bac146",
+        "durationSec": 2.04,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-walaja.description.6f07f288.m4a",
+        "textHash": "6f07f2883e50e33b1aabcae2dd86b895d62e308acdd86da131ecbf064fa00035",
+        "durationSec": 51.56,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
     "battle_ullais": {
       "title": {
         "file": "battle-ullais.title.2e970f6e.m4a",
@@ -994,9 +1017,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-ullais.description.e9ace8f4.m4a",
-        "textHash": "e9ace8f4b4f7b7cec52486a13e60ee6d521156b6fc98a5a1025b0176c0f575dc",
-        "durationSec": 57.36,
+        "file": "battle-ullais.description.ea0e13a8.m4a",
+        "textHash": "ea0e13a89b06dcb65cf0b72fc47247bc5055a34830842fab76ed8590322f2693",
+        "durationSec": 64.16,
         "engine": "gemini",
         "voice": "Charon"
       }

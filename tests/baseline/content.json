@@ -4779,8 +4779,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "day-dhu-al-qassa.description.dc810406.m4a",
+        "descriptionExists": true,
         "titleFile": "day-dhu-al-qassa.title.dce1a64e.m4a",
         "titleExists": true
       }
@@ -4857,8 +4857,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "ridda-wars-start.description.1b443b79.m4a",
+        "descriptionExists": true,
         "titleFile": "ridda-wars-start.title.341630ea.m4a",
         "titleExists": true
       }
@@ -4932,8 +4932,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-buzakha.description.24d9f825.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-buzakha.title.40a6a208.m4a",
         "titleExists": true
       }
@@ -5022,8 +5022,8 @@
       },
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-yamama.description.7ed14786.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-yamama.title.3944ed5c.m4a",
         "titleExists": true
       }
@@ -5100,8 +5100,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "first-compilation-of-the-quran.description.59569611.m4a",
+        "descriptionExists": true,
         "titleFile": "first-compilation-of-the-quran.title.1b6c30f7.m4a",
         "titleExists": true
       }
@@ -5231,10 +5231,10 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "descriptionFile": "battle-walaja.description.6f07f288.m4a",
+        "descriptionExists": true,
+        "titleFile": "battle-walaja.title.9db7364e.m4a",
+        "titleExists": true
       }
     },
     {
@@ -5296,8 +5296,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-ullais.description.ea0e13a8.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-ullais.title.2e970f6e.m4a",
         "titleExists": true
       }
