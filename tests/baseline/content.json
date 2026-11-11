@@ -1,7 +1,7 @@
 {
   "counts": {
-    "events": 144,
-    "companions": 167,
+    "events": 148,
+    "companions": 168,
     "cities": 10,
     "quranPassages": 51
   },
@@ -8432,10 +8432,10 @@
       "isRashidunEra": true,
       "isMajor": true,
       "date": {
-        "gregorian": 644.85,
+        "gregorian": 644.855,
         "hijri": 24,
-        "hijriRelative": "1 محرم 24 هـ",
-        "hijriDisplay": "١ محرم ٢٤ هـ",
+        "hijriRelative": "3 محرم 24 هـ",
+        "hijriDisplay": "٣ محرم ٢٤ هـ",
         "gregorianDisplay": "٦٤٤ م"
       },
       "location": {
@@ -8447,7 +8447,7 @@
       },
       "text": {
         "summary": "1ba8ae2c73ae1b53",
-        "fullDescription": "f212e1395d289164",
+        "fullDescription": "e88fde69969741dc",
         "courseOfEvents": [
           "4ede6f0ebe331c15",
           "6bfe0b0685d7264f",
@@ -8483,8 +8483,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "uthman-caliphate-shura.description.f212e139.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "uthman-caliphate-shura.title.8e9697ae.m4a",
         "titleExists": true
       }
@@ -8503,8 +8503,8 @@
       "date": {
         "gregorian": 645.85,
         "hijri": null,
-        "hijriRelative": "25 هـ",
-        "hijriDisplay": "٢٥ هـ",
+        "hijriRelative": "25 هـ (وقيل 24، وقيل 26 هـ)",
+        "hijriDisplay": "٢٥ هـ (وقيل ٢٤، وقيل ٢٦ هـ)",
         "gregorianDisplay": "٦٤٥ م"
       },
       "location": {
@@ -8516,9 +8516,9 @@
       },
       "text": {
         "summary": "2128139ce2ec6192",
-        "fullDescription": "b2c2dab233a502e6",
+        "fullDescription": "3d90d6e04cf96894",
         "courseOfEvents": [
-          "764f1257996bb135",
+          "ae9d8e995854d0e7",
           "f5c739593dc29dd4",
           "aeec8544f5a10752"
         ],
@@ -8534,27 +8534,30 @@
         {
           "name": "سَلْمَانُ بْنُ رَبِيعَةَ رضي الله عنه",
           "companionId": "salman-ibn-rabiah"
+        },
+        {
+          "name": "الْوَلِيدُ بْنُ عُقْبَةَ رضي الله عنه",
+          "companionId": "al-walid-ibn-uqbah"
         }
       ],
       "companionRoles": [
         {
           "name": "حَبِيبُ بْنُ مَسْلَمَةَ الْفِهْرِيُّ رضي الله عنه",
           "companionId": "habib-ibn-maslamah",
-          "role": "264cbf76908794fe"
+          "role": "5e66f97c87e159e0"
         }
       ],
       "quran": [],
       "hadith": [],
       "sources": [
         "b46690a7244f3db8",
-        "478ba10db49d236f",
         "bf89b1951e2fc600"
       ],
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "conquest-armenia.description.b2c2dab2.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "conquest-armenia.title.563279b4.m4a",
         "titleExists": true
       }
@@ -8586,15 +8589,15 @@
       },
       "text": {
         "summary": "180947b7214afa7b",
-        "fullDescription": "8e003b313df18c8f",
+        "fullDescription": "77093e83b060fb30",
         "courseOfEvents": [
           "7bd7c742d0b50897",
-          "5a25a4114cd18b7a",
+          "18b98db75dc798a5",
           "4f69d89e274a8282",
-          "23b70630c92c81e7",
-          "e550b1e3554bbdf6",
-          "8ba66bfc68e43cc4",
-          "bd61a9756bfa4059",
+          "a68a68ef23b7274e",
+          "dbb71b9ad59e94a3",
+          "9704146119b377c4",
+          "aa3becd90cd606a8",
           "d31bfa7ff739d24c"
         ],
         "durationDays": "بِضْعَةُ أَشْهُرٍ فِي سَنَةِ 25 هـ"
@@ -8619,17 +8622,17 @@
         {
           "name": "عَمْرُو بْنُ الْعَاصِ رضي الله عنه",
           "companionId": "amr",
-          "role": "d880ef682bfc0354"
+          "role": "064214c3e4dee628"
         },
         {
           "name": "عَبْدُ اللهِ بْنُ سَعْدِ بْنِ أَبِي السَّرْحِ رضي الله عنه",
           "companionId": "abdullah-ibn-saad-ibn-abi-sarh",
-          "role": "11c0c56ac2bc6b77"
+          "role": "ebf530755c02e5e2"
         },
         {
           "name": "عُثْمَانُ بْنُ عَفَّانَ رضي الله عنه",
           "companionId": "uthman",
-          "role": "ed16664bda49cb6a"
+          "role": "be7a23f8f5ac63aa"
         }
       ],
       "quran": [],
@@ -8638,14 +8641,13 @@
         "8567ce5684c61070",
         "6a734ed4eed9db97",
         "38010b68a650891d",
-        "4c768b2f9e9e8751",
         "43ce27506e770c17"
       ],
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "alexandria-reconquest.description.8e003b31.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "alexandria-reconquest.title.9dea294e.m4a",
         "titleExists": true
       }
@@ -8677,7 +8679,7 @@
       },
       "text": {
         "summary": "b2dbb9db91f96378",
-        "fullDescription": "55f0ae387726eead",
+        "fullDescription": "6fdfddb0b43d9e2a",
         "courseOfEvents": [
           "61273700c4fbf882",
           "97f022c2ece919a9",
@@ -8705,6 +8707,14 @@
         {
           "name": "حَفْصَةُ بِنْتُ عُمَرَ رضي الله عنها",
           "companionId": "hafsah-bint-umar"
+        },
+        {
+          "name": "سَعِيدُ بْنُ الْعَاصِ رضي الله عنه",
+          "companionId": "saeed-ibn-al-as"
+        },
+        {
+          "name": "عَبْدُ اللهِ بْنُ الزُّبَيْرِ رضي الله عنه",
+          "companionId": "abdullah-ibn-al-zubayr"
         }
       ],
       "companionRoles": [],
@@ -8720,20 +8730,21 @@
       ],
       "sources": [
         "b890e422cd07f4ad",
-        "baac26a2bd076831"
+        "1caa1246e96d2ee4",
+        "b46690a7244f3db8"
       ],
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "uthmanic-mushaf.description.55f0ae38.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "uthmanic-mushaf.title.003aa978.m4a",
         "titleExists": true
       }
     },
     {
       "id": "conquest-rayy-jurjan",
-      "title": "إِتْمَامُ فَتْحِ فَارِسَ (الرَّيُّ وَجُرْجَانُ وَأَذْرَبِيجَانُ)",
+      "title": "أَذْرَبِيجَانُ وَجُرْجَانُ: تَجْدِيدُ الصُّلْحِ وَغَزْوُ سَعِيدِ بْنِ الْعَاصِ",
       "era": "عهد عثمان بن عفان",
       "eraLabel": "خلافة ذي النورين",
       "ruler": "عثمان بن عفان",
@@ -8750,27 +8761,27 @@
         "gregorianDisplay": "٦٤٦ م"
       },
       "location": {
-        "name": "الرَّيُّ وَجُرْجَانُ (شَمَالَ إِيرَانَ الْيَوْمَ)",
+        "name": "جُرْجَانُ (شَمَالَ إِيرَانَ الْيَوْمَ)",
         "coordinates": [
-          35.5943,
-          51.431
+          37.25,
+          55.17
         ]
       },
       "text": {
-        "summary": "578a3d25bc9e6137",
-        "fullDescription": "e69da36283f3866f",
+        "summary": "f842c492af8b61e9",
+        "fullDescription": "493029459de5fef8",
         "courseOfEvents": [
-          "ca774c9abe0c0774",
-          "4b31696e6830acfa",
+          "d7b95a9b8d52ad93",
+          "bcfa87cc5384a74b",
           "764548974486d985",
           "184405df076033a4",
           "25b98987fbbd8837",
-          "05c6b3e3c6f6ac36",
-          "49fbf405b00ce7ed"
+          "0f2e285c35fc5ecb",
+          "d03da70095655ae1"
         ],
         "durationDays": "حَمْلَاتٌ مُتَتَابِعَةٌ عَلَى مَدَى سَنَوَاتٍ (25-30 هـ)"
       },
-      "armySize": "جَيْشُ الْكُوفَةِ وَجَيْشُ الْبَصْرَةِ (بِضْعَةُ عَشَرَ أَلْفًا)",
+      "armySize": "جَيْشُ الْكُوفَةِ (لَمْ تَذْكُرِ الْمَصَادِرُ عَدَدَهُ)",
       "enemyArmySize": "مَرَازِبَةُ الْجِبَالِ وَبَقَايَا السَّاسَانِيِّينَ",
       "keyFigures": [
         {
@@ -8796,23 +8807,35 @@
         {
           "name": "الحسين بن علي رضي الله عنه",
           "companionId": "al-husayn-ibn-ali"
+        },
+        {
+          "name": "الوليد بن عقبة رضي الله عنه",
+          "companionId": "al-walid-ibn-uqbah"
+        },
+        {
+          "name": "عبد الله بن عمر رضي الله عنهما",
+          "companionId": "abdullah-ibn-umar"
+        },
+        {
+          "name": "عبد الله بن الزبير رضي الله عنهما",
+          "companionId": "abdullah-ibn-al-zubayr"
         }
       ],
       "companionRoles": [
         {
           "name": "سَعِيدُ بْنُ الْعَاصِ بْنِ أُمَيَّةَ رضي الله عنه",
           "companionId": "saeed-ibn-al-as",
-          "role": "88f2e1bc1204a357"
+          "role": "4817e83735a908c4"
         },
         {
           "name": "سَلْمَانُ بْنُ رَبِيعَةَ الْبَاهِلِيُّ رضي الله عنه",
           "companionId": "salman-ibn-rabiah",
-          "role": "ca9eb59adafd2bb8"
+          "role": "9113fcf0b37a9586"
         },
         {
           "name": "حُذَيْفَةُ بْنُ الْيَمَانِ رضي الله عنه",
           "companionId": "hudhayfah-ibn-al-yaman",
-          "role": "99a71b92eef7d05c"
+          "role": "1249360962a76b0c"
         }
       ],
       "quran": [
@@ -8826,16 +8849,15 @@
       "sources": [
         "1a830c64a9f5e68e",
         "6a5cced81d340a6a",
-        "a212c46eb4c100e8",
-        "8016c3c2d67862e5"
+        "99dc20fae598551b"
       ],
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "conquest-rayy-jurjan.description.e69da362.m4a",
-        "descriptionExists": true,
-        "titleFile": "conquest-rayy-jurjan.title.b99484d9.m4a",
-        "titleExists": true
+        "descriptionFile": null,
+        "descriptionExists": false,
+        "titleFile": null,
+        "titleExists": false
       }
     },
     {
@@ -8865,11 +8887,11 @@
       },
       "text": {
         "summary": "21d9a703d33e3f43",
-        "fullDescription": "60c1a2040d22106b",
+        "fullDescription": "708aa31c76a9f23c",
         "courseOfEvents": [
           "745f20ebeb9b7c82",
           "3463c2ddef1d67e0",
-          "c92a0d437b3fa9a6"
+          "f6827185a77ee58f"
         ],
         "durationDays": null
       },
@@ -8893,13 +8915,13 @@
       "sources": [
         "bf89b1951e2fc600",
         "1caa1246e96d2ee4",
-        "69e6fea59e532ab1"
+        "b46690a7244f3db8"
       ],
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "expansion-of-masjid-al-haram.description.60c1a204.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "expansion-of-masjid-al-haram.title.b58c6601.m4a",
         "titleExists": true
       }
@@ -8931,17 +8953,17 @@
       },
       "text": {
         "summary": "d157d018fc8b68ea",
-        "fullDescription": "a61cdef9d13c1db2",
+        "fullDescription": "83e407da39f223e5",
         "courseOfEvents": [
           "6c5e59bd2589b45f",
           "906ac84bbf6a1f29",
-          "3bf8bc84bc7969ee",
+          "951440e9191e76e7",
           "1743050e1c023065"
         ],
         "durationDays": "غَيْرُ مُحَدَّدٍ بِدِقَّةٍ (أَيَّامٌ قَلِيلَةٌ)"
       },
-      "armySize": "20,000 مُقَاتِلٍ",
-      "enemyArmySize": "120,000 مُقَاتِلٍ (حَسَبَ الْمَصَادِرِ التَّارِيخِيَّةِ)",
+      "armySize": "20,000 مُقَاتِلٍ (وَعِنْدَ الْوَاقِدِيِّ خَرَجَ مِنَ الْمَدِينَةِ عَشَرَةُ آلَافٍ)",
+      "enemyArmySize": "120,000 (وَقِيلَ 200,000)",
       "keyFigures": [
         {
           "name": "عَبْدُ اللهِ بْنُ سَعْدِ بْنِ أَبِي السَّرْحِ",
@@ -8954,27 +8976,35 @@
         {
           "name": "جُرْجِيرُ",
           "companionId": "jarjir"
+        },
+        {
+          "name": "عُثْمَانُ بْنُ عَفَّانَ رضي الله عنه",
+          "companionId": "uthman"
+        },
+        {
+          "name": "عَبْدُ اللهِ بْنُ عُمَرَ رضي الله عنهما",
+          "companionId": "abdullah-ibn-umar"
         }
       ],
       "companionRoles": [
         {
           "name": "عَبْدُ اللهِ بْنُ الزُّبَيْرِ رضي الله عنه",
           "companionId": "abdullah-ibn-al-zubayr",
-          "role": "b069b7723a8adfec"
+          "role": "9cb78c10917004eb"
         }
       ],
       "quran": [],
       "hadith": [],
       "sources": [
         "bf89b1951e2fc600",
-        "165aa22f99253805",
+        "1caa1246e96d2ee4",
         "b46690a7244f3db8"
       ],
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "conquest-north-africa.description.a61cdef9.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "conquest-north-africa.title.7f5e0c8a.m4a",
         "titleExists": true
       }
@@ -9005,13 +9035,13 @@
         ]
       },
       "text": {
-        "summary": "0fcd7f4ec762302c",
-        "fullDescription": "af0ffbec4e2bd82a",
+        "summary": "a2a1a16c6e1ec54b",
+        "fullDescription": "3ee0d478aaf39108",
         "courseOfEvents": [
-          "c72778c63b931955",
+          "21244c6e4026c6d7",
           "3e15f9ef62823d0f",
-          "e39327c67d7a27ed",
-          "6c045f5540bddbce",
+          "7b3def2cb577b677",
+          "f52936f6511ce750",
           "d2f1d73bf519aeaa",
           "96f58d2634a0ae73",
           "207e41bfd8a0b7a0",
@@ -9041,6 +9071,10 @@
         {
           "name": "أبو ذر الغفاري رضي الله عنه",
           "companionId": "abu-dharr-al-ghifari"
+        },
+        {
+          "name": "أبو الدرداء رضي الله عنه",
+          "companionId": "abu-al-darda"
         }
       ],
       "companionRoles": [
@@ -9052,7 +9086,7 @@
         {
           "name": "عُثْمَانُ بْنُ عَفَّانَ رضي الله عنه",
           "companionId": "uthman",
-          "role": "892fd68678865b22"
+          "role": "287f753502d25cfa"
         },
         {
           "name": "عُبَادَةُ بْنُ الصَّامِتِ رضي الله عنه",
@@ -9073,14 +9107,14 @@
       "sources": [
         "042045d69a70494c",
         "8653045900aaea3c",
-        "3c67ac16d759eda9",
-        "8016c3c2d67862e5"
+        "99dc20fae598551b",
+        "b46690a7244f3db8"
       ],
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "first-muslim-fleet.description.af0ffbec.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "first-muslim-fleet.title.eb0f22ba.m4a",
         "titleExists": true
       }
@@ -9112,13 +9146,13 @@
       },
       "text": {
         "summary": "c67756a28956a140",
-        "fullDescription": "d5c8ff89622f5099",
+        "fullDescription": "b3a1388b72e22274",
         "courseOfEvents": [
           "7806d1723a86774d",
           "c8db63ada7407a6b",
           "5e397ef676d22ed4",
           "70f801fdbeddec59",
-          "f661af00d230e7ba",
+          "c419500c5939230b",
           "5d84edbcee09d9b1"
         ],
         "durationDays": null
@@ -9137,6 +9171,18 @@
         {
           "name": "أم حرام بنت ملحان رضي الله عنها",
           "companionId": "umm-haram-bint-milhan"
+        },
+        {
+          "name": "عبادة بن الصامت رضي الله عنه",
+          "companionId": "ubadah-ibn-al-samit"
+        },
+        {
+          "name": "عبد الله بن سعد بن أبي السرح رضي الله عنه",
+          "companionId": "abdullah-ibn-saad-ibn-abi-sarh"
+        },
+        {
+          "name": "أبو الدرداء رضي الله عنه",
+          "companionId": "abu-al-darda"
         }
       ],
       "companionRoles": [
@@ -9148,7 +9194,7 @@
         {
           "name": "أُمُّ حَرَامٍ بِنْتُ مِلْحَانَ رضي الله عنها",
           "companionId": "umm-haram-bint-milhan",
-          "role": "387d5bb23c1c9b48"
+          "role": "c3b461f501a6d4d1"
         },
         {
           "name": "عُبَادَةُ بْنُ الصَّامِتِ رضي الله عنه",
@@ -9163,13 +9209,14 @@
       "sources": [
         "dfbec969d3c8fc4b",
         "bf89b1951e2fc600",
-        "1caa1246e96d2ee4"
+        "1caa1246e96d2ee4",
+        "b46690a7244f3db8"
       ],
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "conquest-cyprus.description.d5c8ff89.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "conquest-cyprus.title.10a3632a.m4a",
         "titleExists": true
       }
@@ -9186,11 +9233,11 @@
       "isRashidunEra": true,
       "isMajor": null,
       "date": {
-        "gregorian": 650.5,
+        "gregorian": 649.86,
         "hijri": 29,
-        "hijriRelative": "29 هـ",
-        "hijriDisplay": "٢٩ هـ",
-        "gregorianDisplay": "٦٥٠ م"
+        "hijriRelative": "ربيع الأول 29 هـ",
+        "hijriDisplay": "ربيع الأول ٢٩ هـ",
+        "gregorianDisplay": "٦٤٩ م"
       },
       "location": {
         "name": "المدينة المنورة",
@@ -9201,9 +9248,9 @@
       },
       "text": {
         "summary": "2641e8dd93ac35aa",
-        "fullDescription": "285954dc4b620224",
+        "fullDescription": "3a7ee71f5d5d87c2",
         "courseOfEvents": [
-          "bc5cea2140bcae27",
+          "1ed211be9e2df910",
           "570603f14d2d33fe",
           "540fe34b08eaab76",
           "ead5fe1dd852b8fd"
@@ -9230,15 +9277,151 @@
       "sources": [
         "bf89b1951e2fc600",
         "1caa1246e96d2ee4",
-        "3d81d5d6c492619d"
+        "b46690a7244f3db8"
       ],
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "expansion-of-the-prophets-mosque.description.285954dc.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "expansion-of-the-prophets-mosque.title.b40447eb.m4a",
         "titleExists": true
+      }
+    },
+    {
+      "id": "istakhr-reconquest",
+      "title": "فَتْحُ إِصْطَخْرَ وَفَارِسَ",
+      "era": "عهد عثمان بن عفان",
+      "eraLabel": "خلافة ذي النورين",
+      "ruler": "عثمان بن عفان",
+      "category": "battle",
+      "isBattle": true,
+      "isProphetEra": false,
+      "isRashidunEra": true,
+      "isMajor": null,
+      "date": {
+        "gregorian": 650.3,
+        "hijri": 29,
+        "hijriRelative": "29 هـ",
+        "hijriDisplay": "٢٩ هـ",
+        "gregorianDisplay": "٦٥٠ م"
+      },
+      "location": {
+        "name": "إِصْطَخْرُ، فَارِسُ (جَنُوبَ إِيرَانَ الْيَوْمَ)",
+        "coordinates": [
+          29.98,
+          52.91
+        ]
+      },
+      "text": {
+        "summary": "196383136b361005",
+        "fullDescription": "06f39b07a4c13ed6",
+        "courseOfEvents": [
+          "6b6f2f9d2c9ec0e6",
+          "6b18e205400f9be4",
+          "74a3756d9827500f",
+          "73813de258721407"
+        ],
+        "durationDays": null
+      },
+      "armySize": null,
+      "enemyArmySize": null,
+      "keyFigures": [
+        {
+          "name": "عُثْمَانُ بْنُ عَفَّانَ رضي الله عنه",
+          "companionId": "uthman"
+        },
+        {
+          "name": "عَبْدُ اللهِ بْنُ عَامِرٍ",
+          "companionId": "abdullah-ibn-amir"
+        },
+        {
+          "name": "أَبُو مُوسَى الْأَشْعَرِيُّ رضي الله عنه",
+          "companionId": "abu-musa-al-ashari"
+        }
+      ],
+      "companionRoles": [
+        {
+          "name": "عَبْدُ اللهِ بْنُ عَامِرٍ",
+          "companionId": "abdullah-ibn-amir",
+          "role": "5dc3d376030d99ea"
+        }
+      ],
+      "quran": [],
+      "hadith": [],
+      "sources": [
+        "7379dfa4cc053854",
+        "a7745958df2db363"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": null,
+        "descriptionExists": false,
+        "titleFile": null,
+        "titleExists": false
+      }
+    },
+    {
+      "id": "lost-ring-bir-aris",
+      "title": "سُقُوطُ خَاتَمِ النَّبِيِّ ﷺ فِي بِئْرِ أَرِيسٍ",
+      "era": "عهد عثمان بن عفان",
+      "eraLabel": "خلافة ذي النورين",
+      "ruler": "عثمان بن عفان",
+      "category": "events",
+      "isBattle": false,
+      "isProphetEra": false,
+      "isRashidunEra": true,
+      "isMajor": null,
+      "date": {
+        "gregorian": 650.8,
+        "hijri": 30,
+        "hijriRelative": "30 هـ",
+        "hijriDisplay": "٣٠ هـ",
+        "gregorianDisplay": "٦٥٠ م"
+      },
+      "location": {
+        "name": "بِئْرُ أَرِيسٍ، قُبَاءُ، الْمَدِينَةُ الْمُنَوَّرَةُ",
+        "coordinates": [
+          24.4396,
+          39.6177
+        ]
+      },
+      "text": {
+        "summary": "9eb39e4e2cf0550f",
+        "fullDescription": "b8918e37e102e4a6",
+        "courseOfEvents": [
+          "91d150773437a674",
+          "52626639d92a4aae",
+          "263ae362454ec4b5",
+          "6bc30c52a56fa1bd"
+        ],
+        "durationDays": null
+      },
+      "armySize": null,
+      "enemyArmySize": null,
+      "keyFigures": [
+        {
+          "name": "عُثْمَانُ بْنُ عَفَّانَ رضي الله عنه",
+          "companionId": "uthman"
+        }
+      ],
+      "companionRoles": [],
+      "quran": [],
+      "hadith": [
+        "bf3e560b305fe6d3"
+      ],
+      "sources": [
+        "2d8a9ff263cf095f",
+        "9a7cfbc6301038a6"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": null,
+        "descriptionExists": false,
+        "titleFile": null,
+        "titleExists": false
       }
     },
     {
@@ -9268,12 +9451,12 @@
       },
       "text": {
         "summary": "533dad84349ec92e",
-        "fullDescription": "2ae28df0ec380ecb",
+        "fullDescription": "3353091f1beb0687",
         "courseOfEvents": [
           "e85285d9d2b8bcf0",
-          "865403d51f38139a",
-          "e4764ed8869b2573",
-          "1589affafe61065b"
+          "439df9e261d164e9",
+          "e13643f4be60815a",
+          "19bfb43a38481c7f"
         ],
         "durationDays": null
       },
@@ -9287,6 +9470,26 @@
         {
           "name": "سَعِيدُ بْنُ الْعَاصِ رضي الله عنه",
           "companionId": "saeed-ibn-al-as"
+        },
+        {
+          "name": "حُذَيْفَةُ بْنُ الْيَمَانِ رضي الله عنه",
+          "companionId": "hudhayfah-ibn-al-yaman"
+        },
+        {
+          "name": "الْحَسَنُ بْنُ عَلِيٍّ رضي الله عنهما",
+          "companionId": "al-hasan-ibn-ali"
+        },
+        {
+          "name": "الْحُسَيْنُ بْنُ عَلِيٍّ رضي الله عنهما",
+          "companionId": "al-husayn-ibn-ali"
+        },
+        {
+          "name": "عَبْدُ اللهِ بْنُ عُمَرَ رضي الله عنهما",
+          "companionId": "abdullah-ibn-umar"
+        },
+        {
+          "name": "عَبْدُ اللهِ بْنُ الزُّبَيْرِ رضي الله عنهما",
+          "companionId": "abdullah-ibn-al-zubayr"
         }
       ],
       "companionRoles": [
@@ -9300,14 +9503,13 @@
       "hadith": [],
       "sources": [
         "bf89b1951e2fc600",
-        "478ba10db49d236f",
         "b46690a7244f3db8"
       ],
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "conquest-of-tabaristan.description.2ae28df0.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "conquest-of-tabaristan.title.18d33640.m4a",
         "titleExists": true
       }
@@ -9339,7 +9541,7 @@
       },
       "text": {
         "summary": "81c61803d794c67a",
-        "fullDescription": "30f6509826d62c35",
+        "fullDescription": "5adfddc4376990b8",
         "courseOfEvents": [
           "e69fac03e0fcf1e5",
           "f5453fc3d639ae08",
@@ -9404,29 +9606,27 @@
         }
       ],
       "hadith": [
-        "cc9758b5e1ce3d69",
-        "2a7ee94e92efbbf1"
+        "f946a7c7d9a34f29",
+        "47eca0787c058142"
       ],
       "sources": [
-        "a76512a2833008d2",
         "3581d36a4bab0aad",
         "bf89b1951e2fc600",
-        "3740fc6f71878f97",
-        "3f431be2cc2825b2",
-        "5b3fcebe420b9859"
+        "5b3fcebe420b9859",
+        "2d8a9ff263cf095f"
       ],
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "abu-dharr-rabadhah.description.30f65098.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "abu-dharr-rabadhah.title.48c5bb67.m4a",
         "titleExists": true
       }
     },
     {
       "id": "conquest-sijistan",
-      "title": "فَتْحُ سِجِسْتَانَ وَبَدْءُ الطَّرِيقِ إِلَى كَابُلَ",
+      "title": "فَتْحُ سِجِسْتَانَ وَكَابُلَ",
       "era": "عهد عثمان بن عفان",
       "eraLabel": "خلافة ذي النورين",
       "ruler": "عثمان بن عفان",
@@ -9436,10 +9636,10 @@
       "isRashidunEra": true,
       "isMajor": true,
       "date": {
-        "gregorian": 651.6,
-        "hijri": 30,
-        "hijriRelative": "30 هـ",
-        "hijriDisplay": "٣٠ هـ",
+        "gregorian": 651.75,
+        "hijri": 31,
+        "hijriRelative": "31 هـ",
+        "hijriDisplay": "٣١ هـ",
         "gregorianDisplay": "٦٥١ م"
       },
       "location": {
@@ -9450,19 +9650,19 @@
         ]
       },
       "text": {
-        "summary": "11372b3875f2de67",
-        "fullDescription": "636459cef154e1a3",
+        "summary": "9bcac74838ed58d0",
+        "fullDescription": "0352604ff3d0ef1a",
         "courseOfEvents": [
           "fa7f946725fa9f0f",
           "76defb110f4a3e27",
           "edddb0a537b0a9e4",
           "06ac0da681eb8706",
-          "f52cf0f83be741ef",
-          "b191aa771563ec15"
+          "604c456ec92d8c31",
+          "16903cc7621f1479"
         ],
         "durationDays": "حَمْلَةٌ طَوِيلَةٌ مُتَوَاصِلَةٌ لِسَنَوَاتٍ"
       },
-      "armySize": "حَوَالَيْ 6,000 مُقَاتِلٍ مِنْ أَهْلِ الْبَصْرَةِ",
+      "armySize": "جَيْشٌ مِنْ أَهْلِ الْبَصْرَةِ (لَمْ تَذْكُرِ الْمَصَادِرُ الْمَقْرُوءَةُ عَدَدَهُ)",
       "enemyArmySize": null,
       "keyFigures": [
         {
@@ -9491,7 +9691,7 @@
         {
           "name": "الرَّبِيعُ بْنُ زِيَادٍ الْحَارِثِيُّ رضي الله عنه",
           "companionId": "al-rabi-ibn-ziyad-al-harithi",
-          "role": "7d73694af5172045"
+          "role": "5df765613f381eb7"
         },
         {
           "name": "عَبْدُ اللهِ بْنُ عَامِرِ بْنِ كُرَيْزٍ",
@@ -9505,17 +9705,16 @@
       ],
       "sources": [
         "1a830c64a9f5e68e",
-        "87fdec55e046a5e5",
         "6a5cced81d340a6a",
         "3581d36a4bab0aad"
       ],
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "conquest-sijistan.description.636459ce.m4a",
-        "descriptionExists": true,
-        "titleFile": "conquest-sijistan.title.0758c42c.m4a",
-        "titleExists": true
+        "descriptionFile": null,
+        "descriptionExists": false,
+        "titleFile": null,
+        "titleExists": false
       }
     },
     {
@@ -9544,12 +9743,12 @@
         ]
       },
       "text": {
-        "summary": "2e1c2d1421bbe6e5",
-        "fullDescription": "d2ffdb678c4b89a7",
+        "summary": "ecbe19c18036add1",
+        "fullDescription": "57b0378227997221",
         "courseOfEvents": [
           "12f398cb8874b162",
-          "bb293835e76424cb",
-          "c8e1f5f9635aae9e"
+          "2d9f03e3fb8fb428",
+          "f5267bf484fb199d"
         ],
         "durationDays": null
       },
@@ -9573,21 +9772,26 @@
         {
           "name": "عَبْدُ اللهِ بْنُ عَامِرٍ",
           "companionId": "abdullah-ibn-amir",
-          "role": "e259970f8573d54d"
+          "role": "737906dc1433f47f"
+        },
+        {
+          "name": "الْأَحْنَفُ بْنُ قَيْسٍ",
+          "companionId": "al-ahnaf-ibn-qays",
+          "role": "2105c7b67b811448"
         }
       ],
       "quran": [],
       "hadith": [],
       "sources": [
         "bf89b1951e2fc600",
-        "0438cd26872c5934",
+        "b46690a7244f3db8",
         "458a78f556f22fae"
       ],
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "conquest-khorasan.description.d2ffdb67.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "conquest-khorasan.title.826723ee.m4a",
         "titleExists": true
       }
@@ -9618,21 +9822,20 @@
         ]
       },
       "text": {
-        "summary": "5618bdae671de434",
-        "fullDescription": "bbf49a40aa59ed0e",
+        "summary": "273f063ce1d33c5a",
+        "fullDescription": "e9b3ddb8cc41f20f",
         "courseOfEvents": [
-          "ce8d696cc828de9c",
-          "20f087c09d0c0b69",
-          "c1077f59f6e58929",
+          "22e55485b7c95aa3",
+          "3b558e6add44b6ef",
+          "b0028ba97612ec19",
           "a0cde77f8b816810",
           "0435e5fb7572eaa2",
-          "68c9eae705ff4479",
-          "1c6d502e08f6f2fb",
-          "9da3c6223d203dcb"
+          "0bcaa3666cb3ec23",
+          "0ba0dfb6fb73d6be"
         ],
         "durationDays": null
       },
-      "armySize": "حَوَالَيْ 20,000 مِنْ أَهْلِ الصَّعِيدِ",
+      "armySize": "جُنْدُ مِصْرَ (لَمْ يَذْكُرِ ابْنُ عَبْدِ الْحَكَمِ عَدَدَهُمْ)",
       "enemyArmySize": "رُمَاةُ مَمْلَكَةِ الْمُقُرَّةِ النُّوبِيَّةِ",
       "keyFigures": [
         {
@@ -9659,24 +9862,98 @@
       "quran": [],
       "hadith": [],
       "sources": [
-        "133bfa96a23cac46",
-        "05b00b46c27e729e",
-        "6092dd075d1e1709",
-        "6a5cced81d340a6a",
-        "3581d36a4bab0aad"
+        "133bfa96a23cac46"
       ],
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "conquest-nubia-baqt.description.bbf49a40.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "conquest-nubia-baqt.title.413ce6ab.m4a",
         "titleExists": true
       }
     },
     {
+      "id": "battle-balanjar",
+      "title": "وَقْعَةُ بَلَنْجَرَ",
+      "era": "عهد عثمان بن عفان",
+      "eraLabel": "خلافة ذي النورين",
+      "ruler": "عثمان بن عفان",
+      "category": "battle",
+      "isBattle": true,
+      "isProphetEra": false,
+      "isRashidunEra": true,
+      "isMajor": null,
+      "date": {
+        "gregorian": 652.7,
+        "hijri": 32,
+        "hijriRelative": "32 هـ",
+        "hijriDisplay": "٣٢ هـ",
+        "gregorianDisplay": "٦٥٢ م"
+      },
+      "location": {
+        "name": "بَلَنْجَرُ، بِلَادُ الْخَزَرِ (شَمَالَ الْقَوْقَازِ)",
+        "coordinates": [
+          43.1,
+          47
+        ]
+      },
+      "text": {
+        "summary": "63228798323c91bb",
+        "fullDescription": "86aee7fd5cccddd9",
+        "courseOfEvents": [
+          "a71329d3c8556f85",
+          "2f6a852dbdfcdc6e",
+          "07a874f7e44e84d8",
+          "b5c7619c89098ce0"
+        ],
+        "durationDays": null
+      },
+      "armySize": null,
+      "enemyArmySize": null,
+      "keyFigures": [
+        {
+          "name": "عَبْدُ الرَّحْمَنِ بْنُ رَبِيعَةَ الْبَاهِلِيُّ",
+          "companionId": "abd-al-rahman-ibn-rabiah"
+        },
+        {
+          "name": "سَلْمَانُ بْنُ رَبِيعَةَ رضي الله عنه",
+          "companionId": "salman-ibn-rabiah"
+        },
+        {
+          "name": "عُثْمَانُ بْنُ عَفَّانَ رضي الله عنه",
+          "companionId": "uthman"
+        },
+        {
+          "name": "سَعِيدُ بْنُ الْعَاصِ رضي الله عنه",
+          "companionId": "saeed-ibn-al-as"
+        }
+      ],
+      "companionRoles": [
+        {
+          "name": "عَبْدُ الرَّحْمَنِ بْنُ رَبِيعَةَ الْبَاهِلِيُّ",
+          "companionId": "abd-al-rahman-ibn-rabiah",
+          "role": "10369f931191412a"
+        }
+      ],
+      "quran": [],
+      "hadith": [],
+      "sources": [
+        "59a975860262896c",
+        "e0f105c0319dfe55"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": null,
+        "descriptionExists": false,
+        "titleFile": null,
+        "titleExists": false
+      }
+    },
+    {
       "id": "year-of-passing-32ah",
-      "title": "سَنَةُ الرَّحِيلِ — وَفَاةُ الْأَعْلَامِ (32 هـ)",
+      "title": "وَفَاةُ أَعْلَامٍ مِنَ الصَّحَابَةِ (32 هـ)",
       "era": "عهد عثمان بن عفان",
       "eraLabel": "خلافة ذي النورين",
       "ruler": "عثمان بن عفان",
@@ -9700,17 +9977,17 @@
         ]
       },
       "text": {
-        "summary": "f0fc81febd17020b",
-        "fullDescription": "cb87f2f44fbd428a",
+        "summary": "77596dfd700820c3",
+        "fullDescription": "3945b448e6bbf6d4",
         "courseOfEvents": [
           "54d79354de9e2e0d",
           "9827a3c97211ad09",
           "e4f8b38bf572d7ee",
           "062a44121acdfe6c",
-          "2373759d3d192620",
+          "6547d6eb72bc4fbf",
           "0480358a955694e1",
           "6d998afc259f5eba",
-          "e831d9bcb69a1544"
+          "a3bf2b70aef8873a"
         ],
         "durationDays": null
       },
@@ -9760,12 +10037,12 @@
         {
           "name": "عَبْدُ اللهِ بْنُ مَسْعُودٍ رضي الله عنه",
           "companionId": "abdullah-ibn-masud",
-          "role": "ff56e38070abe548"
+          "role": "1bfca196e0c41c82"
         },
         {
           "name": "أُبَيُّ بْنُ كَعْبٍ رضي الله عنه",
           "companionId": "ubay-ibn-kab",
-          "role": "9b9e2af016a2f10b"
+          "role": "3df51a9a727fa1fa"
         },
         {
           "name": "أَبُو الدَّرْدَاءِ عُوَيْمِرُ بْنُ زَيْدٍ رضي الله عنه",
@@ -9779,8 +10056,6 @@
         "3667e0d30425c0ca"
       ],
       "sources": [
-        "dcc4ab8c5c418065",
-        "3f431be2cc2825b2",
         "4be175d57d2fea19",
         "14d0842677d7f972",
         "cd2577ad37923aef"
@@ -9788,10 +10063,82 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "year-of-passing-32ah.description.cb87f2f4.m4a",
-        "descriptionExists": true,
-        "titleFile": "year-of-passing-32ah.title.bd22958f.m4a",
-        "titleExists": true
+        "descriptionFile": null,
+        "descriptionExists": false,
+        "titleFile": null,
+        "titleExists": false
+      }
+    },
+    {
+      "id": "kufa-exiles-to-sham",
+      "title": "تَسْيِيرُ نَفَرٍ مِنْ أَهْلِ الْكُوفَةِ إِلَى الشَّامِ",
+      "era": "عهد عثمان بن عفان",
+      "eraLabel": "خلافة ذي النورين",
+      "ruler": "عثمان بن عفان",
+      "category": "politics",
+      "isBattle": false,
+      "isProphetEra": false,
+      "isRashidunEra": true,
+      "isMajor": null,
+      "date": {
+        "gregorian": 653.8,
+        "hijri": 33,
+        "hijriRelative": "33 هـ",
+        "hijriDisplay": "٣٣ هـ",
+        "gregorianDisplay": "٦٥٣ م"
+      },
+      "location": {
+        "name": "الْكُوفَةُ",
+        "coordinates": [
+          32.0256,
+          44.4002
+        ]
+      },
+      "text": {
+        "summary": "4897a25cc7d9a0b8",
+        "fullDescription": "8c7f2606b0f0ab6a",
+        "courseOfEvents": [
+          "38949844659feade",
+          "9d29ae66e1449201",
+          "b8511eabea49de1b",
+          "8aa583d7f0804932"
+        ],
+        "durationDays": null
+      },
+      "armySize": null,
+      "enemyArmySize": null,
+      "keyFigures": [
+        {
+          "name": "سَعِيدُ بْنُ الْعَاصِ رضي الله عنه",
+          "companionId": "saeed-ibn-al-as"
+        },
+        {
+          "name": "مَالِكٌ الْأَشْتَرُ",
+          "companionId": "malik-al-ashtar"
+        },
+        {
+          "name": "عُثْمَانُ بْنُ عَفَّانَ رضي الله عنه",
+          "companionId": "uthman"
+        },
+        {
+          "name": "مُعَاوِيَةُ بْنُ أَبِي سُفْيَانَ رضي الله عنه",
+          "companionId": "muawiyah-ibn-abi-sufyan"
+        }
+      ],
+      "companionRoles": [],
+      "quran": [],
+      "hadith": [],
+      "sources": [
+        "ecf59bfa3fe192a0",
+        "5f28d78ee3b5b09d"
+      ],
+      "battle": null,
+      "route": null,
+      "narration": {
+        "descriptionFile": null,
+        "descriptionExists": false,
+        "titleFile": null,
+        "titleExists": false
       }
     },
     {
@@ -9808,8 +10155,8 @@
       "date": {
         "gregorian": 655,
         "hijri": null,
-        "hijriRelative": "34 هـ",
-        "hijriDisplay": "٣٤ هـ",
+        "hijriRelative": "34 هـ (وقيل 31 هـ)",
+        "hijriDisplay": "٣٤ هـ (وقيل ٣١ هـ)",
         "gregorianDisplay": "٦٥٥ م"
       },
       "location": {
@@ -9820,20 +10167,20 @@
         ]
       },
       "text": {
-        "summary": "74998341e4d92200",
-        "fullDescription": "7407452f6925dbb2",
+        "summary": "7589241bac459187",
+        "fullDescription": "4e05421d575a9451",
         "courseOfEvents": [
-          "62422497e4fb209b",
-          "acb37f0647409aae",
-          "ccb362ef8b1b8439",
-          "f3fee494a0edaf65",
+          "7a67bebf79986e72",
+          "7b417c91676a1ac2",
+          "8428ebd74c83db13",
+          "56fbbdc647362eec",
           "4072bdc3efd39158",
-          "8f67e44ec82cbdcf"
+          "7af18a47944c1e32"
         ],
         "durationDays": "يَوْمَانِ"
       },
-      "armySize": "حَوَالَيْ 200 سَفِينَةٍ",
-      "enemyArmySize": "حَوَالَيْ 500 إِلَى 600 سَفِينَةٍ (الْأُسْطُولُ الْبِيزَنْطِيُّ)",
+      "armySize": "مِائَتَا مَرْكَبٍ وَنَيِّفٌ",
+      "enemyArmySize": "خَمْسُمِائَةِ مَرْكَبٍ أَوْ سِتُّمِائَةٍ (وَفِي فُتُوحِ مِصْرَ: بَلَغَهُمْ أَنَّهُ أَلْفُ مَرْكَبٍ)",
       "keyFigures": [
         {
           "name": "عَبْدُ اللهِ بْنُ سَعْدِ بْنِ أَبِي السَّرْحِ رضي الله عنه",
@@ -9842,29 +10189,36 @@
         {
           "name": "قُسْطَنْطِينُ الثَّانِي",
           "companionId": "constantine-ii"
+        },
+        {
+          "name": "مُعَاوِيَةُ بْنُ أَبِي سُفْيَانَ رضي الله عنه",
+          "companionId": "muawiyah-ibn-abi-sufyan"
+        },
+        {
+          "name": "عُثْمَانُ بْنُ عَفَّانَ رضي الله عنه",
+          "companionId": "uthman"
         }
       ],
       "companionRoles": [
         {
           "name": "عَبْدُ اللهِ بْنُ سَعْدِ بْنِ أَبِي السَّرْحِ",
           "companionId": "abdullah-ibn-saad-ibn-abi-sarh",
-          "role": "11e0bfee648ce7db"
+          "role": "5343c23e052c5132"
         }
       ],
       "quran": [],
-      "hadith": [
-        "bf89b1951e2fc600"
-      ],
+      "hadith": [],
       "sources": [
         "bf89b1951e2fc600",
         "e1d446fd214ae4d9",
-        "1caa1246e96d2ee4"
+        "1caa1246e96d2ee4",
+        "b46690a7244f3db8"
       ],
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "battle-masts.description.7407452f.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "battle-masts.title.8460a737.m4a",
         "titleExists": true
       }
@@ -9895,17 +10249,16 @@
         ]
       },
       "text": {
-        "summary": "2477aaf60813a7ce",
-        "fullDescription": "2ad3b21cc31b2700",
+        "summary": "a278c50844e06ba8",
+        "fullDescription": "da47261613ecefb7",
         "courseOfEvents": [
           "51c91faa8a107b80",
           "5a24ed82740ef4ba",
           "540554c8bc02f082",
           "e682461daede8ad2",
-          "6c1010d4d70e8b6d",
-          "e0c765429bf95086",
-          "1cfe50899b61d97c",
-          "1ccb5de1392c5ee5"
+          "badd68460ffd6261",
+          "ac20235cfc49b21f",
+          "311e7ef200783d12"
         ],
         "durationDays": null
       },
@@ -9939,6 +10292,22 @@
         {
           "name": "عبد الله بن سبأ",
           "companionId": "abdullah-ibn-saba"
+        },
+        {
+          "name": "سعيد بن العاص رضي الله عنه",
+          "companionId": "saeed-ibn-al-as"
+        },
+        {
+          "name": "عبد الله بن عامر",
+          "companionId": "abdullah-ibn-amir"
+        },
+        {
+          "name": "عبد الله بن سعد بن أبي السرح رضي الله عنه",
+          "companionId": "abdullah-ibn-saad-ibn-abi-sarh"
+        },
+        {
+          "name": "أبو موسى الأشعري رضي الله عنه",
+          "companionId": "abu-musa-al-ashari"
         }
       ],
       "companionRoles": [
@@ -9971,19 +10340,18 @@
         }
       ],
       "hadith": [
-        "0c47fba4375cac8f"
+        "ec433c087eb9c9e8"
       ],
       "sources": [
-        "6be8ef97d949e3dc",
-        "ba8c712beb6b5af6",
+        "2aeadd64a7c3c6ab",
         "74ff5bd803ec9980",
         "81c3542ceddc093f"
       ],
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "wufud-amsar-complaints.description.2ad3b21c.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "wufud-amsar-complaints.title.f7ccfa76.m4a",
         "titleExists": true
       }
@@ -10000,10 +10368,10 @@
       "isRashidunEra": true,
       "isMajor": true,
       "date": {
-        "gregorian": 656.3,
+        "gregorian": 656.27,
         "hijri": 35,
-        "hijriRelative": "35 هـ",
-        "hijriDisplay": "٣٥ هـ",
+        "hijriRelative": "شوال 35 هـ",
+        "hijriDisplay": "شوال ٣٥ هـ",
         "gregorianDisplay": "٦٥٦ م"
       },
       "location": {
@@ -10015,11 +10383,11 @@
       },
       "text": {
         "summary": "84c8f61eff3fbab0",
-        "fullDescription": "adfc8dddc8638e17",
+        "fullDescription": "5101f787471bbc80",
         "courseOfEvents": [
-          "2b3dc0de8752ab78",
-          "a494838c5cbdf274",
-          "29d591779f77f89f",
+          "9618cd53a76dc2c6",
+          "4e0392680f3b9f8f",
+          "cf3ff72204d53b9f",
           "0536c03b4c48ac4a"
         ],
         "durationDays": null
@@ -10030,6 +10398,18 @@
         {
           "name": "عُثْمَانُ بْنُ عَفَّانَ رضي الله عنه",
           "companionId": "uthman"
+        },
+        {
+          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
+          "companionId": "ali"
+        },
+        {
+          "name": "طَلْحَةُ بْنُ عُبَيْدِ اللهِ رضي الله عنه",
+          "companionId": "talhah-ibn-ubaydullah"
+        },
+        {
+          "name": "الزُّبَيْرُ بْنُ الْعَوَّامِ رضي الله عنه",
+          "companionId": "al-zubayr-ibn-al-awwam"
         }
       ],
       "companionRoles": [
@@ -10040,24 +10420,26 @@
         }
       ],
       "quran": [],
-      "hadith": [],
+      "hadith": [
+        "8d16cd56c71d360d"
+      ],
       "sources": [
         "bf89b1951e2fc600",
         "1caa1246e96d2ee4",
-        "9b2b4c39e9edc4ca"
+        "b46690a7244f3db8"
       ],
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "beginning-of-the-great-fitna.description.adfc8ddd.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "beginning-of-the-great-fitna.title.e46a6e35.m4a",
         "titleExists": true
       }
     },
     {
       "id": "siege-of-uthman-house",
-      "title": "الْحِصَارُ الْأَكْبَرُ لِدَارِ عُثْمَانَ رضي الله عنه",
+      "title": "حِصَارُ دَارِ عُثْمَانَ رضي الله عنه",
       "era": "عهد عثمان بن عفان",
       "eraLabel": "خلافة ذي النورين",
       "ruler": "عثمان بن عفان",
@@ -10067,7 +10449,7 @@
       "isRashidunEra": true,
       "isMajor": true,
       "date": {
-        "gregorian": 656.4,
+        "gregorian": 656.35,
         "hijri": 35,
         "hijriRelative": "ذو القعدة - ذو الحجة 35 هـ",
         "hijriDisplay": "ذو القعدة - ذو الحجة ٣٥ هـ",
@@ -10081,8 +10463,8 @@
         ]
       },
       "text": {
-        "summary": "a0c2960f60425ea0",
-        "fullDescription": "976c45a160a3fbe5",
+        "summary": "a2054b6dbde2106c",
+        "fullDescription": "40f785272f97ba45",
         "courseOfEvents": [
           "3486ebc1ae106384",
           "4b26957a8dd288a8",
@@ -10093,7 +10475,7 @@
           "7a358008c7c0c285",
           "c1cb8a1f27ecddc8"
         ],
-        "durationDays": "نَحْوَ 40 يَوْمًا (وَقِيلَ 49)"
+        "durationDays": "أَرْبَعُونَ يَوْمًا عَلَى الْمَشْهُورِ (وَقِيلَ بِضْعٌ وَأَرْبَعُونَ، وَقَالَ الشَّعْبِيُّ: اثْنَتَانِ وَعِشْرُونَ لَيْلَةً)"
       },
       "armySize": null,
       "enemyArmySize": null,
@@ -10125,6 +10507,10 @@
         {
           "name": "نائلة بنت الفرافصة رضي الله عنها",
           "companionId": "nailah-bint-al-farafisah"
+        },
+        {
+          "name": "أم حبيبة بنت أبي سفيان رضي الله عنها",
+          "companionId": "umm-habibah"
         }
       ],
       "companionRoles": [
@@ -10136,12 +10522,12 @@
         {
           "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
           "companionId": "ali",
-          "role": "41d4d0cbe544d606"
+          "role": "a49736bf18bb3ca7"
         },
         {
           "name": "الْحَسَنُ بْنُ عَلِيٍّ رضي الله عنهما",
           "companionId": "al-hasan-ibn-ali",
-          "role": "c6f9529d2afcd761"
+          "role": "d861c70f0c0b87e8"
         },
         {
           "name": "الْحُسَيْنُ بْنُ عَلِيٍّ رضي الله عنهما",
@@ -10151,7 +10537,7 @@
         {
           "name": "عَبْدُ اللهِ بْنُ الزُّبَيْرِ رضي الله عنه",
           "companionId": "abdullah-ibn-al-zubayr",
-          "role": "8a89ddeaf29b16b5"
+          "role": "3b7a6485488b8641"
         },
         {
           "name": "نَائِلَةُ بِنْتُ الْفَرَافِصَةِ رضي الله عنها",
@@ -10161,7 +10547,7 @@
         {
           "name": "أُمُّ حَبِيبَةَ بِنْتُ أَبِي سُفْيَانَ رضي الله عنها",
           "companionId": "umm-habibah",
-          "role": "97de5922573d9275"
+          "role": "3e92456778f51570"
         }
       ],
       "quran": [
@@ -10172,24 +10558,21 @@
         }
       ],
       "hadith": [
-        "dbe310a53046a556",
-        "980655dc3d355dbe",
+        "5a40155e730074e4",
+        "ba1b17524fb126c8",
         "74965643c29e6947"
       ],
       "sources": [
-        "fb39c9c4a1b360cb",
-        "04101645a417b815",
-        "0820508ab7235bf2",
-        "94144b95c1178985",
+        "867ee9d37e701de7",
         "835c9c1f74df8e13"
       ],
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "siege-of-uthman-house.description.976c45a1.m4a",
-        "descriptionExists": true,
-        "titleFile": "siege-of-uthman-house.title.bae1bfd7.m4a",
-        "titleExists": true
+        "descriptionFile": null,
+        "descriptionExists": false,
+        "titleFile": null,
+        "titleExists": false
       }
     },
     {
@@ -10218,14 +10601,14 @@
         ]
       },
       "text": {
-        "summary": "b3d485da8e3088da",
-        "fullDescription": "43fa63436f4a0745",
+        "summary": "6ec51e1792b9ab3c",
+        "fullDescription": "c7028fe6b86634fe",
         "courseOfEvents": [
           "c32474a5d6e660e2",
           "24faf99c36cd9ca4",
           "fe91e6668564cb8e",
           "54be4f4d1e5e8489",
-          "f4bd2f835a3bb776"
+          "70a297f4c5f7f6f0"
         ],
         "durationDays": null
       },
@@ -10239,6 +10622,22 @@
         {
           "name": "نَائِلَةُ بِنْتُ الْفَرَافِصَةِ رضي الله عنها",
           "companionId": "nailah-bint-al-farafisah"
+        },
+        {
+          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
+          "companionId": "ali"
+        },
+        {
+          "name": "الْحَسَنُ بْنُ عَلِيٍّ رضي الله عنهما",
+          "companionId": "al-hasan-ibn-ali"
+        },
+        {
+          "name": "الْحُسَيْنُ بْنُ عَلِيٍّ رضي الله عنهما",
+          "companionId": "al-husayn-ibn-ali"
+        },
+        {
+          "name": "عَبْدُ اللهِ بْنُ الزُّبَيْرِ رضي الله عنهما",
+          "companionId": "abdullah-ibn-al-zubayr"
         }
       ],
       "companionRoles": [],
@@ -10253,13 +10652,13 @@
       "sources": [
         "bf89b1951e2fc600",
         "1caa1246e96d2ee4",
-        "4cb8dd688248a577"
+        "b46690a7244f3db8"
       ],
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": "martyrdom-of-uthman.description.43fa6343.m4a",
-        "descriptionExists": true,
+        "descriptionFile": null,
+        "descriptionExists": false,
         "titleFile": "martyrdom-of-uthman.title.5a2f31cd.m4a",
         "titleExists": true
       }
@@ -12766,7 +13165,7 @@
         "عبد الله بن سعد",
         "عبد الله بن سعد بن أبي السرح رضي الله عنه"
       ],
-      "bio": "8338166577415a7e"
+      "bio": "ad73b240aefdd648"
     },
     {
       "id": "talhah-ibn-ubaydullah",
@@ -13667,6 +14066,19 @@
       "bio": "63103c069e764df6"
     },
     {
+      "id": "abd-al-rahman-ibn-rabiah",
+      "name": "عبد الرحمن بن ربيعة الباهلي",
+      "title": "ذو النور، أمير الباب",
+      "role": "f95d38637550f3fc",
+      "birthDeath": "؟ - 32 هـ",
+      "aliases": [
+        "عبد الرحمن بن ربيعة",
+        "ذو النور",
+        "عبد الرحمن الباهلي"
+      ],
+      "bio": "9be7b3dffcaa8d99"
+    },
+    {
       "id": "salman-ibn-rabiah",
       "name": "سلمان بن ربيعة رضي الله عنه",
       "title": "من قادة الفتوح",
@@ -13679,7 +14091,7 @@
         "سلمان الباهلي",
         "سلمان بن ربيعة الباهلي"
       ],
-      "bio": "f7ba7fd214648d19"
+      "bio": "8f7568e9567c6f43"
     },
     {
       "id": "abdullah-ibn-al-zubayr",
@@ -13694,7 +14106,7 @@
         "عبد الله بن الزبير رضي الله عنه",
         "عبد الله بن الزبير بن العوام"
       ],
-      "bio": "c45db01263b437e1"
+      "bio": "a60219443b4cba9d"
     },
     {
       "id": "jarjir",
@@ -13707,7 +14119,7 @@
         "جرجير قائد إفريقية",
         "جرجير حاكم إفريقية"
       ],
-      "bio": "3daf45d481f3f3b8"
+      "bio": "07b4de8d80510821"
     },
     {
       "id": "umm-haram-bint-milhan",
@@ -13741,7 +14153,7 @@
         "سعيد بن العاص القرشي",
         "سعيد بن العاص بن أمية بن عبد شمس"
       ],
-      "bio": "72b1383390e8cf36"
+      "bio": "834df53a1fe54ea9"
     },
     {
       "id": "abdullah-ibn-amir",
@@ -13771,7 +14183,7 @@
         "الأحنف بن قيس رضي الله عنه",
         "الأحنف التميمي"
       ],
-      "bio": "b15e928e56c870d1"
+      "bio": "d1e10813c082a7db"
     },
     {
       "id": "constantine-ii",
@@ -13785,7 +14197,7 @@
         "قسطنطين ٢",
         "الإمبراطور قسطنطين الثاني"
       ],
-      "bio": "b1d06fb431f8080d"
+      "bio": "677195e35cb878ad"
     },
     {
       "id": "nailah-bint-al-farafisah",
@@ -13799,7 +14211,7 @@
         "نائلة بنت الفرافصة رضي الله عنها",
         "زوجة عثمان نائلة"
       ],
-      "bio": "8feee98db161ddaf"
+      "bio": "026b4ddfd5855314"
     },
     {
       "id": "abd-al-rahman-ibn-muljam",
@@ -13832,7 +14244,7 @@
         "جندب بن جنادة الغفاري",
         "الغفاري"
       ],
-      "bio": "ca72feea36d0f98c"
+      "bio": "0cd13bcf9ae753b8"
     },
     {
       "id": "muhammad-ibn-abi-bakr",
@@ -13879,12 +14291,12 @@
         "عبد الرحمن بن سمرة القرشي رضي الله عنه",
         "عبد الرحمن بن سمرة العبشمي"
       ],
-      "bio": "5bb206ba93a650c4"
+      "bio": "aebac2f7f125bcd7"
     },
     {
       "id": "al-rabi-ibn-ziyad-al-harithi",
       "name": "الربيع بن زياد الحارثي رضي الله عنه",
-      "title": "أول فاتح لسجستان",
+      "title": "فاتح زرنج في عهد عثمان",
       "role": "0d1623bc92653c34",
       "birthDeath": "؟ - 53 هـ",
       "aliases": [
@@ -13893,7 +14305,7 @@
         "الحارثي",
         "الربيع الحارثي"
       ],
-      "bio": "c85b61fdb3f0b059"
+      "bio": "52b979f01c5bf76d"
     },
     {
       "id": "muawiyah-ibn-hudayj",
@@ -13939,7 +14351,7 @@
         "سيد القراء",
         "أبيّ بن كعب رضي الله عنه"
       ],
-      "bio": "01d2f0db7f5ba3af"
+      "bio": "b588d0d5e1162617"
     },
     {
       "id": "abu-al-darda",
@@ -13957,7 +14369,7 @@
         "أبو الدرداء عويمر بن زيد رضي الله عنه",
         "أبو الدرداء الأنصاري"
       ],
-      "bio": "8ec3d97612d348e5"
+      "bio": "f2699f9ab3ec1636"
     },
     {
       "id": "jarir-ibn-abdullah-al-bajali",
@@ -14017,7 +14429,7 @@
         "ابن السوداء",
         "السبئي"
       ],
-      "bio": "634c9b33f8988359"
+      "bio": "bf80b71805732b8d"
     },
     {
       "id": "busr-ibn-abi-artaah",
@@ -14153,7 +14565,7 @@
         "أم حبيبة بنت أبي سفيان رضي الله عنها",
         "رملة الأموية"
       ],
-      "bio": "1432b4622aec51eb"
+      "bio": "532e1b39c84e05d8"
     },
     {
       "id": "uthman-ibn-hunayf",
@@ -14199,7 +14611,7 @@
         "الوليد الأموي",
         "الوليد بن عقبة رضي الله عنه"
       ],
-      "bio": "0b7a408b5d1a1142"
+      "bio": "cc0972ec5d464432"
     },
     {
       "id": "sufyan-ibn-awf-al-ghamidi",
@@ -14257,7 +14669,7 @@
         "أم ذر رضي الله عنها",
         "زوج أبي ذر"
       ],
-      "bio": "aad7f0bbfc8f467b"
+      "bio": "d316cc3ec6ad1925"
     },
     {
       "id": "al-burak-ibn-abdullah",
@@ -41011,7 +41423,7 @@
       ]
     },
     {
-      "id": "644.85",
+      "id": "644.855",
       "from": 644.5,
       "causes": [
         "conquest_istakhr"
@@ -42643,7 +43055,370 @@
       ]
     },
     {
-      "id": "650.5",
+      "id": "649.86",
+      "from": 649,
+      "causes": [
+        "conquest-cyprus"
+      ],
+      "areas": [
+        {
+          "holder": "islam",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "دولة الخلفاء الراشدين",
+          "geometry": "5654d5a0df57ebfa"
+        },
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "2c7a0ab856533aaa"
+        },
+        {
+          "holder": "islam",
+          "kind": "treaty",
+          "uncertain": false,
+          "nameAr": "دولة الخلفاء الراشدين",
+          "geometry": "98f65eebf265f945"
+        },
+        {
+          "holder": "axum",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "مملكة أكسوم (الحبشة)",
+          "geometry": "12d4f033e885c3fe"
+        },
+        {
+          "holder": "byz",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "9491de84cf3fdc7a"
+        },
+        {
+          "holder": "islam",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "دولة الخلفاء الراشدين",
+          "geometry": "410325d02cea0ddc"
+        },
+        {
+          "holder": "nubia",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "النوبة",
+          "geometry": "3f60af3a781d5c57"
+        },
+        {
+          "holder": "islam",
+          "kind": "contested",
+          "uncertain": true,
+          "nameAr": "دولة الخلفاء الراشدين",
+          "geometry": "2b21b28cfb4eb91d"
+        },
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "ab38e4067cf0ad47"
+        },
+        {
+          "holder": "byz",
+          "kind": "treaty",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "531767fdc13c9e3b"
+        },
+        {
+          "holder": "sas",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "b1b5d8f98f1abdc3"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "البجة",
+          "geometry": "000a922bb36416e0"
+        },
+        {
+          "holder": "byz",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "bbf7e71fedb20ba7"
+        },
+        {
+          "holder": "islam",
+          "kind": "treaty",
+          "uncertain": true,
+          "nameAr": "دولة الخلفاء الراشدين",
+          "geometry": "d7cc929fd9b81b3d"
+        }
+      ],
+      "labels": [
+        "دولة الخلفاء الراشدين",
+        "الإمبراطورية الساسانية (الفرس)",
+        "مملكة أكسوم (الحبشة)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "النوبة",
+        "جند فلسطين",
+        "جند الأردن",
+        "جند دمشق",
+        "جند حمص",
+        "جند قنسرين",
+        "الثغور",
+        "بلاد الروم",
+        "الإسكندرية",
+        "مصر (أسفل الأرض)",
+        "الصعيد",
+        "سيناء",
+        "برقة",
+        "طرابلس",
+        "إفريقية",
+        "قبرص",
+        "السواد",
+        "الأهواز",
+        "الجبال",
+        "الري وقومس",
+        "فارس",
+        "كرمان",
+        "سجستان",
+        "خراسان",
+        "طبرستان وجرجان",
+        "أذربيجان",
+        "مكران",
+        "أرمينية",
+        "الجزيرة",
+        "الحيرة والأنبار",
+        "مشارف الشام (غسان)",
+        "صنعاء (الأبناء)",
+        "حمير",
+        "تهامة اليمن (عك والأشعر)",
+        "البحرين (عبد القيس)",
+        "عمان (الأزد)",
+        "كنانة",
+        "خزاعة",
+        "سليم",
+        "هوازن",
+        "غطفان",
+        "طيئ",
+        "بنو أسد",
+        "بنو تميم",
+        "بكر بن وائل",
+        "جهينة",
+        "همدان",
+        "مذحج",
+        "السراة (الأزد وخثعم)",
+        "تبوك وأيلة (جذام وبلي)",
+        "دومة الجندل (كلب)",
+        "مهرة",
+        "البجة",
+        "اليمامة (بنو حنيفة)",
+        "حضرموت (كندة)",
+        "نجران",
+        "مكة",
+        "الطائف",
+        "المدينة",
+        "خيبر وفدك",
+        "وادي القرى وتيماء",
+        "الحبشة (أكسوم)"
+      ],
+      "legend": [
+        "دولة الخلفاء الراشدين",
+        "الإمبراطورية البيزنطية (الروم)",
+        "الإمبراطورية الساسانية (الفرس)",
+        "النوبة",
+        "مملكة أكسوم (الحبشة)",
+        "أرض متنازع عليها",
+        "صلح أو معاهدة، دون حكم مباشر",
+        "ديار القبائل (حدود غير ثابتة)",
+        "سيطرة غير مؤكدة (خط متقطع)"
+      ]
+    },
+    {
+      "id": "650.3",
+      "from": 650.3,
+      "causes": [],
+      "areas": [
+        {
+          "holder": "islam",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "دولة الخلفاء الراشدين",
+          "geometry": "896585dab24277bc"
+        },
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "34e581b0517c3c7a"
+        },
+        {
+          "holder": "islam",
+          "kind": "treaty",
+          "uncertain": false,
+          "nameAr": "دولة الخلفاء الراشدين",
+          "geometry": "98f65eebf265f945"
+        },
+        {
+          "holder": "axum",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "مملكة أكسوم (الحبشة)",
+          "geometry": "12d4f033e885c3fe"
+        },
+        {
+          "holder": "byz",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "9491de84cf3fdc7a"
+        },
+        {
+          "holder": "islam",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "دولة الخلفاء الراشدين",
+          "geometry": "410325d02cea0ddc"
+        },
+        {
+          "holder": "nubia",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "النوبة",
+          "geometry": "3f60af3a781d5c57"
+        },
+        {
+          "holder": "islam",
+          "kind": "contested",
+          "uncertain": true,
+          "nameAr": "دولة الخلفاء الراشدين",
+          "geometry": "2b21b28cfb4eb91d"
+        },
+        {
+          "holder": "sas",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "الإمبراطورية الساسانية (الفرس)",
+          "geometry": "ab38e4067cf0ad47"
+        },
+        {
+          "holder": "byz",
+          "kind": "treaty",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "531767fdc13c9e3b"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "البجة",
+          "geometry": "000a922bb36416e0"
+        },
+        {
+          "holder": "byz",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "bbf7e71fedb20ba7"
+        },
+        {
+          "holder": "islam",
+          "kind": "treaty",
+          "uncertain": true,
+          "nameAr": "دولة الخلفاء الراشدين",
+          "geometry": "d7cc929fd9b81b3d"
+        }
+      ],
+      "labels": [
+        "دولة الخلفاء الراشدين",
+        "الإمبراطورية الساسانية (الفرس)",
+        "مملكة أكسوم (الحبشة)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "النوبة",
+        "جند فلسطين",
+        "جند الأردن",
+        "جند دمشق",
+        "جند حمص",
+        "جند قنسرين",
+        "الثغور",
+        "بلاد الروم",
+        "الإسكندرية",
+        "مصر (أسفل الأرض)",
+        "الصعيد",
+        "سيناء",
+        "برقة",
+        "طرابلس",
+        "إفريقية",
+        "قبرص",
+        "السواد",
+        "الأهواز",
+        "الجبال",
+        "الري وقومس",
+        "فارس",
+        "كرمان",
+        "سجستان",
+        "خراسان",
+        "طبرستان وجرجان",
+        "أذربيجان",
+        "مكران",
+        "أرمينية",
+        "الجزيرة",
+        "الحيرة والأنبار",
+        "مشارف الشام (غسان)",
+        "صنعاء (الأبناء)",
+        "حمير",
+        "تهامة اليمن (عك والأشعر)",
+        "البحرين (عبد القيس)",
+        "عمان (الأزد)",
+        "كنانة",
+        "خزاعة",
+        "سليم",
+        "هوازن",
+        "غطفان",
+        "طيئ",
+        "بنو أسد",
+        "بنو تميم",
+        "بكر بن وائل",
+        "جهينة",
+        "همدان",
+        "مذحج",
+        "السراة (الأزد وخثعم)",
+        "تبوك وأيلة (جذام وبلي)",
+        "دومة الجندل (كلب)",
+        "مهرة",
+        "البجة",
+        "اليمامة (بنو حنيفة)",
+        "حضرموت (كندة)",
+        "نجران",
+        "مكة",
+        "الطائف",
+        "المدينة",
+        "خيبر وفدك",
+        "وادي القرى وتيماء",
+        "الحبشة (أكسوم)"
+      ],
+      "legend": [
+        "دولة الخلفاء الراشدين",
+        "الإمبراطورية البيزنطية (الروم)",
+        "الإمبراطورية الساسانية (الفرس)",
+        "النوبة",
+        "مملكة أكسوم (الحبشة)",
+        "أرض متنازع عليها",
+        "صلح أو معاهدة، دون حكم مباشر",
+        "ديار القبائل (حدود غير ثابتة)",
+        "سيطرة غير مؤكدة (خط متقطع)"
+      ]
+    },
+    {
+      "id": "650.8",
       "from": 650.3,
       "causes": [],
       "areas": [
@@ -43192,8 +43967,8 @@
       ]
     },
     {
-      "id": "651.6",
-      "from": 651.6,
+      "id": "651.75",
+      "from": 651.75,
       "causes": [
         "conquest-sijistan"
       ],
@@ -43717,7 +44492,345 @@
       ]
     },
     {
+      "id": "652.7",
+      "from": 652.3,
+      "causes": [
+        "conquest-nubia-baqt"
+      ],
+      "areas": [
+        {
+          "holder": "islam",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "دولة الخلفاء الراشدين",
+          "geometry": "896585dab24277bc"
+        },
+        {
+          "holder": "islam",
+          "kind": "treaty",
+          "uncertain": false,
+          "nameAr": "دولة الخلفاء الراشدين",
+          "geometry": "8be25f518f2b24b5"
+        },
+        {
+          "holder": "axum",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "مملكة أكسوم (الحبشة)",
+          "geometry": "12d4f033e885c3fe"
+        },
+        {
+          "holder": "byz",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "9491de84cf3fdc7a"
+        },
+        {
+          "holder": "islam",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "دولة الخلفاء الراشدين",
+          "geometry": "410325d02cea0ddc"
+        },
+        {
+          "holder": "local",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "حكام محليون",
+          "geometry": "be12eb83a7cfd83e"
+        },
+        {
+          "holder": "nubia",
+          "kind": "treaty",
+          "uncertain": false,
+          "nameAr": "النوبة",
+          "geometry": "3f60af3a781d5c57"
+        },
+        {
+          "holder": "islam",
+          "kind": "contested",
+          "uncertain": true,
+          "nameAr": "دولة الخلفاء الراشدين",
+          "geometry": "2b21b28cfb4eb91d"
+        },
+        {
+          "holder": "byz",
+          "kind": "treaty",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "531767fdc13c9e3b"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "البجة",
+          "geometry": "000a922bb36416e0"
+        },
+        {
+          "holder": "byz",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "bbf7e71fedb20ba7"
+        },
+        {
+          "holder": "islam",
+          "kind": "treaty",
+          "uncertain": true,
+          "nameAr": "دولة الخلفاء الراشدين",
+          "geometry": "d7cc929fd9b81b3d"
+        }
+      ],
+      "labels": [
+        "دولة الخلفاء الراشدين",
+        "مملكة أكسوم (الحبشة)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "جند فلسطين",
+        "جند الأردن",
+        "جند دمشق",
+        "جند حمص",
+        "جند قنسرين",
+        "الثغور",
+        "بلاد الروم",
+        "الإسكندرية",
+        "مصر (أسفل الأرض)",
+        "الصعيد",
+        "سيناء",
+        "برقة",
+        "طرابلس",
+        "إفريقية",
+        "قبرص",
+        "السواد",
+        "الأهواز",
+        "الجبال",
+        "الري وقومس",
+        "فارس",
+        "كرمان",
+        "سجستان",
+        "خراسان",
+        "طبرستان وجرجان",
+        "أذربيجان",
+        "مكران",
+        "أرمينية",
+        "الجزيرة",
+        "الحيرة والأنبار",
+        "مشارف الشام (غسان)",
+        "صنعاء (الأبناء)",
+        "حمير",
+        "تهامة اليمن (عك والأشعر)",
+        "البحرين (عبد القيس)",
+        "عمان (الأزد)",
+        "كنانة",
+        "خزاعة",
+        "سليم",
+        "هوازن",
+        "غطفان",
+        "طيئ",
+        "بنو أسد",
+        "بنو تميم",
+        "بكر بن وائل",
+        "جهينة",
+        "همدان",
+        "مذحج",
+        "السراة (الأزد وخثعم)",
+        "تبوك وأيلة (جذام وبلي)",
+        "دومة الجندل (كلب)",
+        "مهرة",
+        "البجة",
+        "اليمامة (بنو حنيفة)",
+        "حضرموت (كندة)",
+        "نجران",
+        "مكة",
+        "الطائف",
+        "المدينة",
+        "خيبر وفدك",
+        "وادي القرى وتيماء",
+        "النوبة",
+        "الحبشة (أكسوم)"
+      ],
+      "legend": [
+        "دولة الخلفاء الراشدين",
+        "الإمبراطورية البيزنطية (الروم)",
+        "مملكة أكسوم (الحبشة)",
+        "أرض متنازع عليها",
+        "صلح أو معاهدة، دون حكم مباشر",
+        "ديار القبائل (حدود غير ثابتة)",
+        "سيطرة غير مؤكدة (خط متقطع)"
+      ]
+    },
+    {
       "id": "652.8",
+      "from": 652.3,
+      "causes": [
+        "conquest-nubia-baqt"
+      ],
+      "areas": [
+        {
+          "holder": "islam",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "دولة الخلفاء الراشدين",
+          "geometry": "896585dab24277bc"
+        },
+        {
+          "holder": "islam",
+          "kind": "treaty",
+          "uncertain": false,
+          "nameAr": "دولة الخلفاء الراشدين",
+          "geometry": "8be25f518f2b24b5"
+        },
+        {
+          "holder": "axum",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "مملكة أكسوم (الحبشة)",
+          "geometry": "12d4f033e885c3fe"
+        },
+        {
+          "holder": "byz",
+          "kind": "state",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "9491de84cf3fdc7a"
+        },
+        {
+          "holder": "islam",
+          "kind": "state",
+          "uncertain": true,
+          "nameAr": "دولة الخلفاء الراشدين",
+          "geometry": "410325d02cea0ddc"
+        },
+        {
+          "holder": "local",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "حكام محليون",
+          "geometry": "be12eb83a7cfd83e"
+        },
+        {
+          "holder": "nubia",
+          "kind": "treaty",
+          "uncertain": false,
+          "nameAr": "النوبة",
+          "geometry": "3f60af3a781d5c57"
+        },
+        {
+          "holder": "islam",
+          "kind": "contested",
+          "uncertain": true,
+          "nameAr": "دولة الخلفاء الراشدين",
+          "geometry": "2b21b28cfb4eb91d"
+        },
+        {
+          "holder": "byz",
+          "kind": "treaty",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "531767fdc13c9e3b"
+        },
+        {
+          "holder": "tribal",
+          "kind": "tribal",
+          "uncertain": true,
+          "nameAr": "البجة",
+          "geometry": "000a922bb36416e0"
+        },
+        {
+          "holder": "byz",
+          "kind": "contested",
+          "uncertain": false,
+          "nameAr": "الإمبراطورية البيزنطية (الروم)",
+          "geometry": "bbf7e71fedb20ba7"
+        },
+        {
+          "holder": "islam",
+          "kind": "treaty",
+          "uncertain": true,
+          "nameAr": "دولة الخلفاء الراشدين",
+          "geometry": "d7cc929fd9b81b3d"
+        }
+      ],
+      "labels": [
+        "دولة الخلفاء الراشدين",
+        "مملكة أكسوم (الحبشة)",
+        "الإمبراطورية البيزنطية (الروم)",
+        "جند فلسطين",
+        "جند الأردن",
+        "جند دمشق",
+        "جند حمص",
+        "جند قنسرين",
+        "الثغور",
+        "بلاد الروم",
+        "الإسكندرية",
+        "مصر (أسفل الأرض)",
+        "الصعيد",
+        "سيناء",
+        "برقة",
+        "طرابلس",
+        "إفريقية",
+        "قبرص",
+        "السواد",
+        "الأهواز",
+        "الجبال",
+        "الري وقومس",
+        "فارس",
+        "كرمان",
+        "سجستان",
+        "خراسان",
+        "طبرستان وجرجان",
+        "أذربيجان",
+        "مكران",
+        "أرمينية",
+        "الجزيرة",
+        "الحيرة والأنبار",
+        "مشارف الشام (غسان)",
+        "صنعاء (الأبناء)",
+        "حمير",
+        "تهامة اليمن (عك والأشعر)",
+        "البحرين (عبد القيس)",
+        "عمان (الأزد)",
+        "كنانة",
+        "خزاعة",
+        "سليم",
+        "هوازن",
+        "غطفان",
+        "طيئ",
+        "بنو أسد",
+        "بنو تميم",
+        "بكر بن وائل",
+        "جهينة",
+        "همدان",
+        "مذحج",
+        "السراة (الأزد وخثعم)",
+        "تبوك وأيلة (جذام وبلي)",
+        "دومة الجندل (كلب)",
+        "مهرة",
+        "البجة",
+        "اليمامة (بنو حنيفة)",
+        "حضرموت (كندة)",
+        "نجران",
+        "مكة",
+        "الطائف",
+        "المدينة",
+        "خيبر وفدك",
+        "وادي القرى وتيماء",
+        "النوبة",
+        "الحبشة (أكسوم)"
+      ],
+      "legend": [
+        "دولة الخلفاء الراشدين",
+        "الإمبراطورية البيزنطية (الروم)",
+        "مملكة أكسوم (الحبشة)",
+        "أرض متنازع عليها",
+        "صلح أو معاهدة، دون حكم مباشر",
+        "ديار القبائل (حدود غير ثابتة)",
+        "سيطرة غير مؤكدة (خط متقطع)"
+      ]
+    },
+    {
+      "id": "653.8",
       "from": 652.3,
       "causes": [
         "conquest-nubia-baqt"
@@ -44224,7 +45337,7 @@
       ]
     },
     {
-      "id": "656.3",
+      "id": "656.27",
       "from": 652.3,
       "causes": [
         "conquest-nubia-baqt"
@@ -44393,7 +45506,7 @@
       ]
     },
     {
-      "id": "656.4",
+      "id": "656.35",
       "from": 652.3,
       "causes": [
         "conquest-nubia-baqt"
