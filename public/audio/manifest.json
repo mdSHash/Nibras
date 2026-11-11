@@ -1033,9 +1033,25 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-hira.description.30093253.m4a",
-        "textHash": "300932530e343a3bc38296a38f1829876e5a6f6ae96a8a71318e5c7747a1ca97",
-        "durationSec": 50.64,
+        "file": "conquest-hira.description.eff03ff7.m4a",
+        "textHash": "eff03ff7a16942f75f0cb53f2cbc394a401a83cc5e10caa0e8c6e9d259403d4b",
+        "durationSec": 68.96,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "conquest-ayn-al-tamr": {
+      "title": {
+        "file": "conquest-ayn-al-tamr.title.27058156.m4a",
+        "textHash": "270581560207581a5925793477f0019cdf31eab3501ba22e82b8ed197ce26c26",
+        "durationSec": 2,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-ayn-al-tamr.description.ed2ac1f3.m4a",
+        "textHash": "ed2ac1f37979913b066746d6c5f82aa000854cb77e53d99051c2731090272ff6",
+        "durationSec": 58.68,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1049,9 +1065,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-hasid.description.ca7fb91f.m4a",
-        "textHash": "ca7fb91f3033c8074b3d52baa5fc75d6d2fcef5a980429713c81d073725f233a",
-        "durationSec": 34.76,
+        "file": "battle-hasid.description.a4995de4.m4a",
+        "textHash": "a4995de41bbdd10f16965f86271eaec19064f889877b39711eda40dfc9fd4c50",
+        "durationSec": 43.24,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1065,9 +1081,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-musayyakh.description.5e432429.m4a",
-        "textHash": "5e432429983a86ff12c828076a7e6253223d674bb96dc5220dd18d658b1a1980",
-        "durationSec": 41.96,
+        "file": "battle-musayyakh.description.112a191b.m4a",
+        "textHash": "112a191baeafc078f7967daaa9d0075ba0475fb4923271f12b367452011c95be",
+        "durationSec": 43.04,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1081,9 +1097,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-thani.description.9c17396f.m4a",
-        "textHash": "9c17396f176ff5bb063e4b7332b3ed490eb2f7d8be8ee9c28fb890f466009621",
-        "durationSec": 40.4,
+        "file": "battle-thani.description.58aa736e.m4a",
+        "textHash": "58aa736e4dd3c9da5addf0e1ab7d5bef937efb4724d52d1da1b6a2dca72d1907",
+        "durationSec": 33.84,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1097,9 +1113,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-zumail.description.b36ac55c.m4a",
-        "textHash": "b36ac55c9da7659d48c494d1f5ccba70858e6f7b78bb85e2d7fa703fdb98fbf8",
-        "durationSec": 44.32,
+        "file": "battle-zumail.description.1d69cd13.m4a",
+        "textHash": "1d69cd13a23ef67b223e501410f0b0d4cf5096171f7324d42f3e7da2b0da9aac",
+        "durationSec": 36.52,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1113,9 +1129,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-firaz.description.b97ee4f2.m4a",
-        "textHash": "b97ee4f2ac0c6dd760865a38e9407d1d663f3a9497fef8033a21cf30a3bcd831",
-        "durationSec": 61.8,
+        "file": "battle-firaz.description.5cea0fc4.m4a",
+        "textHash": "5cea0fc4e9f86bee175b1fd53ee38da963649c15e2fcc1205a8ca8a4f6142345",
+        "durationSec": 47.6,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1129,9 +1145,18 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-marj-dabiq.description.fb79fb8a.m4a",
-        "textHash": "fb79fb8a21f2eef833680b6778b19edb7df2a57168cf3e1f06f58cdf268fcd9d",
-        "durationSec": 63.68,
+        "file": "battle-marj-dabiq.description.1e93ff7b.m4a",
+        "textHash": "1e93ff7bc2717c77cc765ce5088761d486f3a771b92d1917ededb7d6859e5420",
+        "durationSec": 52.64,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-ajnadayn": {
+      "title": {
+        "file": "battle-ajnadayn.title.c1325ba4.m4a",
+        "textHash": "c1325ba433ea7dc089c754f93064f80e8761ac20dbd684c51e67e7d27cd4c405",
+        "durationSec": 2.56,
         "engine": "gemini",
         "voice": "Charon"
       }

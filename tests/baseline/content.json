@@ -5360,8 +5360,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-hira.description.eff03ff7.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-hira.title.86eaee9b.m4a",
         "titleExists": true
       }
@@ -5420,10 +5420,10 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "descriptionFile": "conquest-ayn-al-tamr.description.ed2ac1f3.m4a",
+        "descriptionExists": true,
+        "titleFile": "conquest-ayn-al-tamr.title.27058156.m4a",
+        "titleExists": true
       }
     },
     {
@@ -5495,8 +5495,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-hasid.description.a4995de4.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-hasid.title.7b2cc28f.m4a",
         "titleExists": true
       }
@@ -5567,8 +5567,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-musayyakh.description.112a191b.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-musayyakh.title.cc9b28a4.m4a",
         "titleExists": true
       }
@@ -5638,8 +5638,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-thani.description.58aa736e.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-thani.title.93619ff7.m4a",
         "titleExists": true
       }
@@ -5709,8 +5709,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-zumail.description.1d69cd13.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-zumail.title.0b65041f.m4a",
         "titleExists": true
       }
@@ -5769,8 +5769,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-firaz.description.5cea0fc4.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-firaz.title.a03e06c5.m4a",
         "titleExists": true
       }
@@ -5850,8 +5850,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-marj-dabiq.description.1e93ff7b.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-marj-dabiq.title.613c3809.m4a",
         "titleExists": true
       }
@@ -5925,8 +5925,8 @@
       "narration": {
         "descriptionFile": null,
         "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "titleFile": "battle-ajnadayn.title.c1325ba4.m4a",
+        "titleExists": true
       }
     },
     {
