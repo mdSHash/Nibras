@@ -4,6 +4,7 @@
  * loads for performance; no session replay, no personal data.
  */
 import * as Sentry from '@sentry/react';
+import { isReloadingForStaleChunk } from './staleChunkReload';
 
 export function initSentry(dsn: string, release: string | undefined): void {
   Sentry.init({
@@ -28,6 +29,9 @@ export function initSentry(dsn: string, release: string | undefined): void {
     tracePropagationTargets: [],
     // Errors thrown by browser extensions aren't ours.
     denyUrls: [/^chrome-extension:\/\//i, /^moz-extension:\/\//i, /^safari-(web-)?extension:\/\//i],
+    // A tab left open across a deploy reloads itself once (staleChunkReload.ts);
+    // what fails meanwhile is the old files, not a bug.
+    beforeSend: event => (isReloadingForStaleChunk() ? null : event),
   });
 }
 

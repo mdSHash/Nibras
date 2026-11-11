@@ -44,6 +44,9 @@ real files and lines (linked to GitHub).
 3. Real bug: paste the issue link or stack trace into a Claude Code session and ask for a fix;
    click **Resolve** once the fix is deployed (Sentry reopens it and emails you if it comes back).
    Noise (an old browser, a visitor's extension, a network blip): **Archive** it.
+4. "Failed to fetch dynamically imported module" means a tab left open across a deploy. The page now
+   reloads itself once and reports nothing (`src/services/staleChunkReload.ts`). If this error still
+   arrives, a file is really missing from the deploy.
 
 ## UptimeRobot (is it up?)
 
