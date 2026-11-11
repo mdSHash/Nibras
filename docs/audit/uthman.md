@@ -97,6 +97,39 @@ script checks every quote: each "current text" against the record exactly as wri
 quote against its cached page (compared without tashkeel, footnote numbers or punctuation), each al-Durar quote against
 its cached search, and each proposed new record's id against `content/` (it must be new).
 
+## Part 2: what was applied (2026-11-12)
+
+Mostafa marked all 236 entries: 234 موافق and 2 مرفوض (A-144, B-021). About 130 carry «ابحث و راجع و دقق و صحح» and four
+(A-164, A-172, A-173, B-008) add «واذكر الحديث إن كان صحيحًا». Each was checked again before it was applied; the result
+is on each finding (`applied.note`, with the new quotes in `applied.cites`) and the report checks the applied text in
+`content/`.
+
+- **What the research changed:**
+  - **The siege's Hira hadith (A-172, A-173):** the list was wrong. ʿUthman's reminder of Hira from the roof of his house
+    is in al-Tirmidhi 3699 with «اثبت حراء فليس عليك إلا نبي أو صديق أو شهيد» («حسن صحيح غريب»; al-Albani: صحيح), so
+    «اثبت» stays. The reference becomes al-Tirmidhi 3699 instead of «البخاري 3699», the sentence follows al-Tirmidhi's
+    wording, and the Uhud detail «مع أبي بكر وعمر وعثمان» goes.
+  - **The start of the fitna (A-164):** the warning is named: al-Bukhari 3693, «افتح له وبشره بالجنة على بلوى تصيبه»,
+    in the description and the `hadith` field.
+  - **Abu Dharr (B-008, A-087):** «إذا بلغ البناء سلعًا» is graded weak by al-Albani (الضعيفة 5719) and mursal by
+    al-Arnaʾut, so the bio gives al-Bukhari's account instead («إن شئت تنحيت فكنت قريبا», 1406). The event keeps it as
+    Sayf's report (as proposed), not as an authentic hadith.
+  - **Dhat al-Sawari (A-144, rejected):** the chains are in *Futuh Misr* (Yazid ibn Abi Habib, p. 213); only «والخطاطيف»
+    is removed.
+  - **Al-Walid's verse (B-021, rejected):** the verse passes the Qur'an check as written, so the bio is unchanged.
+  - **Abu Dharr's al-Tirmidhi 3801 (A-092):** al-Durar shows no grading by al-Tirmidhi; the entry gives al-Albani's
+    (صحيح بطرقه) and Ibn Kathir's (فيه ضعف) instead.
+  - **New records:** Istakhr's year of Abu Musa's removal is «فيما قيل» (al-Kamil); the Kufans' exile follows al-Kamil
+    2/513 (Saʿid and the leading men of Kufa wrote, ʿUthman ordered them sent to Muʿawiya). The Istakhr event is
+    `istakhr-reconquest`, because `conquest_istakhr` (the first conquest, 23 AH) already takes the slug.
+- **Choices made in applying (reversible):** the Haram expansion names al-Waqidi after the fact itself («فيما ذكره
+  الواقدي») so the reason that follows is not his; the Rayy/Jurjan map point moved to Jurjan (A-043's note); Umm Habiba
+  joined the siege's key figures (A-185's note); new date labels write «وقيل» without tashkeel, like the others; bios
+  written without tashkeel got their new sentences without it.
+- **Not changed, for a later session (no finding covered them):** the siege's course of events still says ʿAli sent
+  al-Hasan and al-Husayn with the water (step 3); Sijistan's step 3 still says «على الجزية»; Dhat al-Sawari's step 5
+  still explains the name by tangled masts; Abu Dharr's bio still says «(رواه الترمذي وحسنه)».
+
 ## من البيعة إلى قبرص والمسجد النبوي (24–29 هـ)
 
 أخبار هذا العهد عند الطبري من روايات مختلفة: سيف بن عمر (السري عن شعيب عن سيف)، والواقدي، وأبو معشر، والمدائني، وأبو مخنف؛ وابن كثير وابن الأثير ينقلون عنها. يُذكر عند كل خبر صاحبه حيث يتعين. وخبر الإسكندرية الثانية من فتوح مصر لابن عبد الحكم (معزوًّا، كما قُبل في 4F)، وتوسعة المسجد الحرام من رواية الواقدي وحدها.
