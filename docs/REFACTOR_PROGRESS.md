@@ -2957,3 +2957,49 @@ unmarked. Every research note was answered against the pages first; what was fou
 - Mihran: al-Tabari has him killed after Jalula (16 AH) while his `birthDeath` is «؟ - ؟» (4E's field, not changed).
 - *Futuh Misr* is now cited for Egypt and Alexandria; the reliable-source list in `docs/CONTENT_GUIDE.md` does not name it.
   4G (ʿUthman's Egypt) will meet the same question. Also open: Siffin (4H).
+
+### 4G — ʿUthman's caliphate: the list (2026-11-11)
+
+Branch `refactor/phase-4g-uthman` from `main` at `ceea1d4` (PR #34 merged 2026-11-09, then the narration bot PRs #35–#38).
+`npm run verify` passed before any change, as five `--only` batches: static steps and build (435 unit tests); Lighthouse
+(the first run, made while page fetches and searches were running, missed the desktop-home LCP budget at 4.8 s; run
+again alone it passed); features 127 passed, 2 skipped; engines 50 passed, 24 skipped; visual 16/16. **No content, Qur'an
+text or narration changed. No Gemini, Groq or OpenRouter quota spent.**
+
+#### Narration workflow (checked at the start and before the PR)
+
+Yesterday's runs (16:33 and 20:55 UTC, both scheduled, both late) succeeded and their bot PRs #37 and #38 merged. Today's
+08:30 run had not started by 13:30 UTC; nothing failed, so nothing was changed. Queue: 49 (37 stale, 12 missing).
+
+#### What was made
+
+- `docs/audit/uthman.md` (generated) from `docs/audit/uthman/` `01`–`03` (the 21 events), `04-dates.json`,
+  `05-people.json`, `06-new-records.json` and `HEAD.md` (summary, decisions, sources).
+- Caches (git-ignored): al-Kamil pages 1181–1300 (years 31–36); 19 al-Durar searches. Al-Tabari, al-Bidaya, Usd al-Ghaba,
+  al-Istiʿab and *Futuh Misr* were already cached.
+- Working scripts in the git-ignored `tmp/audit4g/` (copied from 4F): `notes1-9.txt`, `newrec.txt`, `build.ts` (now also
+  takes al-Durar quotes, and marks only event titles and descriptions as narrated), `newrec.ts`, `assemble.sh`,
+  `qlabels.ts` (the era's hand-typed Qur'an text against Tanzil), `page.ts`, `page-tpl.html`, `summary.html`.
+
+#### Summary
+
+- 21 events, 20 people plus al-Walid ibn ʿUqba (bios only, compared with their 4E dates); no city is first used in this
+  era. 231 findings (194 corrections, 7 enrichment, 8 dates, 22 bio; 17 proven, 194 likely, 20 uncertain) and 5 new records
+  (conquest-istakhr, lost-ring-bir-aris, battle-balanjar, kufa-exiles-to-sham, abd-al-rahman-ibn-rabiah). 392 quotes, each
+  found on its page by script.
+- Worst: the fitna events out of order (the march put in the Hajj of 34, Sayf himself has Shawwal 35) and Ibn Sabaʾ's story
+  unattributed; the siege's Hira/Uhud hadith mix-up and the water carried by ʿAli, not his sons; invented details in the
+  Haram expansion, Alexandria, the fleet, Dhat al-Sawari, Nubia and Khorasan; Kabul, Persia's «end», «سنة الرحيل».
+- Sayf's reports are marked; al-Waqidi is the only source for the Haram expansion (asked in the list); Abu Mikhnaf and
+  al-Madaʾini named where used; al-Baladhuri and Khalifa not used. *Futuh Misr* used attributed (Alexandria, Nubia, Dhat
+  al-Sawari), as approved in 4F.
+- The five hand-typed Qur'an texts of this era match the verses letter for letter (no finding).
+
+#### Narration count
+
+33 requests if all approved: 21 changed descriptions, 4 changed titles, title and description of the 4 new events.
+
+#### Review page
+
+https://claude.ai/artifact/SX6XoWAYe8rQ1737J16aKk (private). Decisions are saved in its database, collection
+`decisions`, one document per id (A-, E-, D-, B- and N-01 to N-05). **Part 2 of 4G starts by reading it.**
