@@ -2957,3 +2957,39 @@ unmarked. Every research note was answered against the pages first; what was fou
 - Mihran: al-Tabari has him killed after Jalula (16 AH) while his `birthDeath` is «؟ - ؟» (4E's field, not changed).
 - *Futuh Misr* is now cited for Egypt and Alexandria; the reliable-source list in `docs/CONTENT_GUIDE.md` does not name it.
   4G (ʿUthman's Egypt) will meet the same question. Also open: Siffin (4H).
+
+### Stale-chunk reload (2026-11-11)
+
+Branch `fix/stale-chunk-reload` from `main` at `1eb35fc`, alongside 4G (no content touched).
+
+**Sentry NIBRAS-WEB-1** (71 events over 25 days, last on 2026-11-11 from Cairo): `Failed to fetch dynamically
+imported module …/TerritoryLayer-wjnRmZSh.js`, with `CompanionModal`, `HelpModal`, `SearchMenu` and `ChatPanel` failing
+in the same session. Cause: a tab left open across a deploy. Each deploy renames the lazy-loaded files, so the old page
+asks for files GitHub Pages no longer has, and the territories, search, chat and help stay broken until a reload.
+
+Fix: `src/services/staleChunkReload.ts`, installed first in `src/main.tsx`. On Vite's `vite:preloadError`, or when an
+error boundary catches a "failed to fetch / import a module script" error, the page reloads once and the new files load.
+Session storage remembers the reload for a minute: a second failure within that minute means the file really is missing,
+so the page does not reload again and the error shows and is reported as before. It cannot loop, and without session
+storage it never reloads. While the reload is under way the boundary shows and reports nothing, and Sentry's `beforeSend`
+drops what it catches. The `vite:preloadError` event is not cancelled: cancelling makes the import resolve to nothing,
+which React then logs as a second error (WebKit's phone smoke test caught this). No visible change. Five unit tests are
+in `tests/staleChunkReload.test.ts`.
+
+Checked locally: `npm run verify` as five batches (440 unit tests; bundle and Lighthouse within budget; features
+127 + 2 skipped; engines 50 + 24 skipped; visual 16/16). The existing error-boundary test still passes in every engine.
+It blocks `HelpModal` on every load, so after the one reload the Arabic fallback shows as before.
+
+After merge: resolve NIBRAS-WEB-1 in Sentry; it reopens and emails if the error comes back.
+
+**Search Console** (2026-11-12, with Mostafa's approval):
+
+- **Sitemap:** the entry stuck at "Couldn't fetch" since 2026-11-05 was removed; its own page said "Sitemap could not be
+  read". `sitemap.xml` was submitted again. Right after the submit it shows "Couldn't fetch" with today's date, which
+  Search Console often shows before its first real read.
+- **Home page:** indexed. Last crawl 2026-11-11, by Googlebot smartphone; the sitemap line on its report says "Temporary
+  processing error". Indexing had already been requested, so nothing more was requested.
+- **`event/battle-badr/`:** not on Google («URL is unknown to Google»), with no sitemap or referring page detected.
+- **The sitemap itself:** the site serves it correctly (200, `application/xml`, 324 addresses).
+
+Check again in about a week. If the sitemap still cannot be read, request indexing for a few event pages by hand.

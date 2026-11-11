@@ -1,5 +1,6 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { reportError } from '../services/monitoring';
+import { reloadForStaleChunk } from '../services/staleChunkReload';
 
 type Variant = 'page' | 'fill' | 'floating';
 
@@ -22,6 +23,8 @@ interface ErrorBoundaryProps {
 
 interface ErrorBoundaryState {
   error: Error | null;
+  /** A stale file after a deploy: the page is reloading, so show and report nothing. */
+  reloading?: boolean;
 }
 
 /**
@@ -32,22 +35,23 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   state: ErrorBoundaryState = { error: null };
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return { error };
+    return { error, reloading: reloadForStaleChunk(error) };
   }
 
   componentDidCatch(error: Error, info: ErrorInfo): void {
+    if (this.state.reloading) return;
     reportError(error, { area: this.props.area, componentStack: info.componentStack ?? undefined });
   }
 
   componentDidUpdate(prevProps: ErrorBoundaryProps): void {
     if (this.state.error && !Object.is(prevProps.resetKey, this.props.resetKey)) {
-      this.setState({ error: null });
+      this.setState({ error: null, reloading: false });
     }
   }
 
   render(): ReactNode {
     if (!this.state.error) return this.props.children;
-    if (this.props.hidden) return null;
+    if (this.props.hidden || this.state.reloading) return null;
     return <ErrorFallback variant={this.props.variant ?? 'floating'} onDismiss={this.props.onDismiss} />;
   }
 }
