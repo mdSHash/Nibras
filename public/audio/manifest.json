@@ -1159,6 +1159,13 @@
         "durationSec": 2.56,
         "engine": "gemini",
         "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-ajnadayn.description.7de338cc.m4a",
+        "textHash": "7de338ccf989ab372991ac053f4f23d2b4bd4e0cd6f83741b419169f9159d86d",
+        "durationSec": 73.12,
+        "engine": "gemini",
+        "voice": "Charon"
       }
     },
     "event-65-وفاة-أبي-بكر-الصديق": {
@@ -1170,9 +1177,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "death-of-abu-bakr.description.0767a1f4.m4a",
-        "textHash": "0767a1f4cd8a1ca93323feb9aa19e5b0e2b4177c7619cb2f7d7d2ca4c984cab8",
-        "durationSec": 65.8,
+        "file": "death-of-abu-bakr.description.982d37eb.m4a",
+        "textHash": "982d37eba05c55381dd85d46cf8c21227630cf08596903061e14eda1bcf5f931",
+        "durationSec": 76.04,
         "engine": "gemini",
         "voice": "Charon"
       }

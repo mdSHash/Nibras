@@ -5923,8 +5923,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-ajnadayn.description.7de338cc.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-ajnadayn.title.c1325ba4.m4a",
         "titleExists": true
       }
@@ -6002,8 +6002,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "death-of-abu-bakr.description.982d37eb.m4a",
+        "descriptionExists": true,
         "titleFile": "death-of-abu-bakr.title.7fe1dcc3.m4a",
         "titleExists": true
       }
