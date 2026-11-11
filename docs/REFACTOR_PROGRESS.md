@@ -2993,3 +2993,97 @@ After merge: resolve NIBRAS-WEB-1 in Sentry; it reopens and emails if the error 
 - **The sitemap itself:** the site serves it correctly (200, `application/xml`, 324 addresses).
 
 Check again in about a week. If the sitemap still cannot be read, request indexing for a few event pages by hand.
+
+### 4G — ʿUthman's caliphate: the list (2026-11-11)
+
+Branch `refactor/phase-4g-uthman` from `main` at `ceea1d4` (PR #34 merged 2026-11-09, then the narration bot PRs #35–#38).
+`npm run verify` passed before any change, as five `--only` batches: static steps and build (435 unit tests); Lighthouse
+(the first run, made while page fetches and searches were running, missed the desktop-home LCP budget at 4.8 s; run
+again alone it passed); features 127 passed, 2 skipped; engines 50 passed, 24 skipped; visual 16/16. **No content, Qur'an
+text or narration changed. No Gemini, Groq or OpenRouter quota spent.**
+
+#### Narration workflow (checked at the start and before the PR)
+
+Yesterday's runs (16:33 and 20:55 UTC, both scheduled, both late) succeeded and their bot PRs #37 and #38 merged. Today's
+08:30 run had not started by 13:30 UTC; nothing failed, so nothing was changed. Queue: 49 (37 stale, 12 missing).
+
+#### What was made
+
+- `docs/audit/uthman.md` (generated) from `docs/audit/uthman/` `01`–`03` (the 21 events), `04-dates.json`,
+  `05-people.json`, `06-new-records.json` and `HEAD.md` (summary, decisions, sources).
+- Caches (git-ignored): al-Kamil pages 1181–1300 (years 31–36); 19 al-Durar searches. Al-Tabari, al-Bidaya, Usd al-Ghaba,
+  al-Istiʿab and *Futuh Misr* were already cached.
+- Working scripts in the git-ignored `tmp/audit4g/` (copied from 4F): `notes1-9.txt`, `newrec.txt`, `build.ts` (now also
+  takes al-Durar quotes, and marks only event titles and descriptions as narrated), `newrec.ts`, `assemble.sh`,
+  `qlabels.ts` (the era's hand-typed Qur'an text against Tanzil), `page.ts`, `page-tpl.html`, `summary.html`.
+
+#### Summary
+
+- 21 events, 20 people plus al-Walid ibn ʿUqba (bios only, compared with their 4E dates); no city is first used in this
+  era. 231 findings (194 corrections, 7 enrichment, 8 dates, 22 bio; 17 proven, 194 likely, 20 uncertain) and 5 new records
+  (conquest-istakhr, lost-ring-bir-aris, battle-balanjar, kufa-exiles-to-sham, abd-al-rahman-ibn-rabiah). 392 quotes, each
+  found on its page by script.
+- Worst: the fitna events out of order (the march put in the Hajj of 34, Sayf himself has Shawwal 35) and Ibn Sabaʾ's story
+  unattributed; the siege's Hira/Uhud hadith mix-up and the water carried by ʿAli, not his sons; invented details in the
+  Haram expansion, Alexandria, the fleet, Dhat al-Sawari, Nubia and Khorasan; Kabul, Persia's «end», «سنة الرحيل».
+- Sayf's reports are marked; al-Waqidi is the only source for the Haram expansion (asked in the list); Abu Mikhnaf and
+  al-Madaʾini named where used; al-Baladhuri and Khalifa not used. *Futuh Misr* used attributed (Alexandria, Nubia, Dhat
+  al-Sawari), as approved in 4F.
+- The five hand-typed Qur'an texts of this era match the verses letter for letter (no finding).
+
+#### Narration count
+
+33 requests if all approved: 21 changed descriptions, 4 changed titles, title and description of the 4 new events.
+
+#### Review page
+
+https://claude.ai/artifact/SX6XoWAYe8rQ1737J16aKk (private). Decisions are saved in its database, collection
+`decisions`, one document per id (A-, E-, D-, B- and N-01 to N-05). **Part 2 of 4G starts by reading it.**
+
+### 4G — ʿUthman's caliphate: applied (2026-11-12)
+
+Mostafa marked the page (236 documents): 234 موافق, 2 مرفوض (A-144, B-021). About 130 notes say «ابحث و راجع و دقق و صحح»
+and four add «واذكر الحديث إن كان صحيحًا»; each was answered against the pages before applying. Results are on each
+finding in `docs/audit/uthman.md` and summarised in `docs/audit/uthman/HEAD.md` ("Part 2").
+
+#### Decisions and what the research changed
+
+- **The fitna:** the march, the forged letter and the mediation moved to «بداية الفتنة الكبرى» (Shawwal 35, Sayf's account
+  attributed); the 34 AH event now has the governors' council (both versions) and al-Jaraʿa. Ibn Sabaʾ's story is Sayf's.
+- **Hadith (his notes):** the siege's Hira hadith is al-Tirmidhi 3699 with «اثبت حراء» (authentic), so the list's claim of
+  an Uhud/Hira mix-up was withdrawn and only the reference and the Uhud detail changed; al-Bukhari 3693 («على بلوى
+  تصيبه») names the warning at the start of the fitna; «إذا بلغ البناء سلعًا» (weak per al-Albani) is not given as a
+  hadith in Abu Dharr's bio, which gets al-Bukhari 1406.
+- **Rejected:** A-144 (the chains are in *Futuh Misr*; only the hooks go); B-021 (the verse passes the Qur'an check, kept).
+- **First options taken:** the Haram expansion attributed to al-Waqidi; the Mushaf stays 25 AH; Dhat al-Sawari «34 هـ (وقيل
+  31 هـ)»; duplicates kept, each with its part; *al-ʿAwasim*, Ibn Saʿd, al-Dhahabi, al-Azraqi, al-Samhudi and al-Dani
+  removed from the sources where the list proposed it; *Futuh al-Buldan* removed everywhere.
+
+#### What changed
+
+- 21 events and 17 bios from an exact old→new list (git-ignored `tmp/audit4g/apply.ts`, `edits1.ts`, `edits2.ts`: every
+  old text had to occur exactly once; 215 changes). 5 new records: `istakhr-reconquest`, `lost-ring-bir-aris`,
+  `battle-balanjar`, `kufa-exiles-to-sham` and `abd-al-rahman-ibn-rabiah` (added to `people-order.json`). Decisions and
+  applied text are in the audit JSON (`tmp/audit4g/merge.ts`); the report checks them: 236 findings, 400 quotes.
+- The Rayy/Jurjan point moved to Jurjan; the ledger rows tied to it, to Sijistan (now 31 AH) and to the moved dates follow
+  their events (ledger and place checks pass).
+- No Qur'an text changed (the quotes check: 19 quotes, all matching).
+- Chat KB rebuilt (0 errors; the 3 warnings are the existing ones).
+- Baselines (approved for the changed records): content snapshot (the 25 events, 18 people and the map periods keyed by
+  the new and moved dates) and behavior map (search results that now include the new text). `tests/contentSchema.test.ts`
+  counts now 148 events and 168 people.
+- Narration: 33 recordings added to the queue, now 82 (62 stale, 20 missing). The daily workflow records them after merge.
+- Embedding index: the Chat index workflow on the branch (run 43118985850, approved quota) embedded the 289 new or changed
+  units; 3459/3459 units current.
+- Checked locally: `npm run verify` as five batches (435 unit tests; Lighthouse within budget, run alone; features 127 + 2
+  skipped; engines 50 + 24 skipped; visual 16/16, no screenshot changed). The first batch failed on ESLint only because the
+  Sentry side task's worktree (`.claude/worktrees/`, PR #42, already pushed) was inside the repo; removed, then it passed.
+
+#### Open items for later sessions
+
+- Steps no finding covered, now out of step with their descriptions: the siege's step 3 (ʿAli sending al-Hasan and
+  al-Husayn), Sijistan's step 3 («على الجزية»), Dhat al-Sawari's step 5 (the name from tangled masts), Abu Dharr's bio
+  «(رواه الترمذي وحسنه)».
+- From the list, unchanged: Salman ibn Rabiʿa's 4E date against al-Kamil (alive in 32 AH, Balanjar); Abu al-Dardaʾ's 32 AH
+  against Ibn Kathir; al-Isaba and *Futuh Misr*'s Ifriqiya pages not read; *Futuh Misr* still not named in the
+  reliable-source list of `docs/CONTENT_GUIDE.md`.
