@@ -6071,8 +6071,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "umar-caliphate.description.9ab3a7e5.m4a",
+        "descriptionExists": true,
         "titleFile": "umar-caliphate.title.33c75854.m4a",
         "titleExists": true
       }
@@ -6145,8 +6145,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-namariq.description.58c5a421.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-namariq.title.0667426b.m4a",
         "titleExists": true
       }
@@ -6219,8 +6219,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-saqatiya.description.aa26f0cb.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-saqatiya.title.78ebc331.m4a",
         "titleExists": true
       }
@@ -6299,8 +6299,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-bridge.description.f581624e.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-bridge.title.15294020.m4a",
         "titleExists": true
       }
@@ -6371,8 +6371,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-buwaib.description.9919ca13.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-buwaib.title.34d70bfa.m4a",
         "titleExists": true
       }
@@ -6449,8 +6449,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-fahl.description.7b23d0f2.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-fahl.title.119a60fd.m4a",
         "titleExists": true
       }
@@ -6532,8 +6532,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-damascus.description.103f973b.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-damascus.title.3fb485bd.m4a",
         "titleExists": true
       }
@@ -6608,8 +6608,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-homs.description.8beb1db2.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-homs.title.d0509da6.m4a",
         "titleExists": true
       }
@@ -6699,8 +6699,8 @@
       },
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-yarmouk.description.ade71ee3.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-yarmouk.title.27af333a.m4a",
         "titleExists": true
       }
@@ -6787,8 +6787,8 @@
       },
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-qadisiyyah.description.80623b81.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-qadisiyyah.title.faf384e0.m4a",
         "titleExists": true
       }

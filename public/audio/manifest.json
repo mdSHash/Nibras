@@ -1193,9 +1193,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "umar-caliphate.description.47816eeb.m4a",
-        "textHash": "47816eeb393bfe31a639d9edd1998ec04d999ef374a0d61148e69a2270d6ef4e",
-        "durationSec": 69.84,
+        "file": "umar-caliphate.description.9ab3a7e5.m4a",
+        "textHash": "9ab3a7e5eecb906f17de531df7c90ed2b874e2d5d631b2f2221b427a16473c62",
+        "durationSec": 64.4,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1209,9 +1209,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-namariq.description.7d0e9f6c.m4a",
-        "textHash": "7d0e9f6cfabfec638551c92b9064fd4044398ff7935e659ff108db31cbaca967",
-        "durationSec": 69.68,
+        "file": "battle-namariq.description.58c5a421.m4a",
+        "textHash": "58c5a421c41f76d05df408c7b06e814f632041a00e9119a6eb115677edacf8f3",
+        "durationSec": 74,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1225,9 +1225,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-saqatiya.description.af964d7a.m4a",
-        "textHash": "af964d7a824258f3e03ab832c43937ea1ac5fc8cfd90fca3027955245086e3e4",
-        "durationSec": 64.16,
+        "file": "battle-saqatiya.description.aa26f0cb.m4a",
+        "textHash": "aa26f0cb5371862412c1138c745612f71f3103b1b56eadae6f4d7ffe14f76fe1",
+        "durationSec": 65.96,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1241,9 +1241,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-bridge.description.ba2d2d9c.m4a",
-        "textHash": "ba2d2d9c6b7cf2db3a143403de16cc3ab363e8af94ae8ae8f8e4f5ded47a0a1f",
-        "durationSec": 66.52,
+        "file": "battle-bridge.description.f581624e.m4a",
+        "textHash": "f581624e764fa40d3311c1b00f172e7ee76cd299e5b27ce2ab1224fecc17a696",
+        "durationSec": 70.4,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1257,9 +1257,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-buwaib.description.b8c2f920.m4a",
-        "textHash": "b8c2f92042dff1af554cba25969be133d227f0ea6917d71f00ae88fee156e175",
-        "durationSec": 63.2,
+        "file": "battle-buwaib.description.9919ca13.m4a",
+        "textHash": "9919ca134777266b1130801f78007b17e921f307e93ff12bfeb8a5fa8a9b9a5c",
+        "durationSec": 82.24,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1273,9 +1273,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-fahl.description.230165cb.m4a",
-        "textHash": "230165cbab30b45400bc7e92458ff18f6e9b0a657d8ac316e3674cf489ce1769",
-        "durationSec": 56.68,
+        "file": "battle-fahl.description.7b23d0f2.m4a",
+        "textHash": "7b23d0f26cbec62b29ebe5b9456a4024c8b7fd6715f3ba197fbd31b1c94e22ee",
+        "durationSec": 65.64,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1289,9 +1289,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-damascus.description.7dfb79f4.m4a",
-        "textHash": "7dfb79f43f9084983a81c7fa8ce956ba6949b8348f95bf7f0a05684454105345",
-        "durationSec": 68.96,
+        "file": "conquest-damascus.description.103f973b.m4a",
+        "textHash": "103f973b8810448c497949f27604e048cf4c8917032a92e0eefb1aae7c2e19c9",
+        "durationSec": 71.16,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1305,9 +1305,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-homs.description.ce97caa3.m4a",
-        "textHash": "ce97caa3f506e63f0f081ce067b56e2098d49a6cbb3804190151f0726316f790",
-        "durationSec": 52.28,
+        "file": "conquest-homs.description.8beb1db2.m4a",
+        "textHash": "8beb1db2588e5fe6fd7e6aea093ce95f19f5be05d98f78d262b9bd9fef8b932d",
+        "durationSec": 66.92,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1321,9 +1321,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-yarmouk.description.54b53707.m4a",
-        "textHash": "54b537073523848f8ffaab872e56221b34086460b9579f256650317cc9b32723",
-        "durationSec": 79.8,
+        "file": "battle-yarmouk.description.ade71ee3.m4a",
+        "textHash": "ade71ee37b683f82632a0bbd1b9662884f5fae0003735424ca8bdb7f3f7b899c",
+        "durationSec": 104.64,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1337,9 +1337,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-qadisiyyah.description.575de036.m4a",
-        "textHash": "575de036d0ed22c51c94c3d7499527a5dc6b65805873a230500256e553f6ed5e",
-        "durationSec": 83.12,
+        "file": "battle-qadisiyyah.description.80623b81.m4a",
+        "textHash": "80623b81b49f7ba72233f08a0bb00423806cd66fd9c9e9d6a785355ae834c2f4",
+        "durationSec": 88.2,
         "engine": "gemini",
         "voice": "Charon"
       }
