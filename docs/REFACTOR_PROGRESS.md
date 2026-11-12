@@ -3134,3 +3134,46 @@ Yesterday's runs (16:29 and 21:29 UTC) succeeded and their bot PRs #40 and #41 m
 
 https://claude.ai/artifact/MbpVUxy5LHEjESdU7QpYSq (private). Decisions are saved in its database, collection
 `decisions`, one document per id (A-, E-, D-, B- and N-01 to N-03). **Part 2 of 4H starts by reading it.**
+
+### 4H — ʿAli's caliphate: applied (2026-11-12)
+
+Mostafa marked the page (166 documents): 156 موافق, 5 بتعديل, none مرفوض; five notes without a button were treated as
+موافق. 105 notes say «راجع وصحح وابحث ودقق» (eight add «وارفق الحديث إن كان صحيحًا»). Before part 2 he confirmed how
+the marks are read: موافق = apply the first option; a note = research it again in more sources and apply only what
+holds; مرفوض = keep the current text and research, never change it without asking. Results are on each finding in
+`docs/audit/ali.md` and summarised in `docs/audit/ali/HEAD.md` ("Part 2").
+
+#### What the research changed
+
+- Al-Hawʾab follows Ahmad's authentic report (A-009, A-010); Ibn Hajar's grading kept in his words (A-012).
+- The ʿAmmar hadith keeps «متواتر», now credited to Ibn ʿAbd al-Barr (al-Istiʿab) (A-038, A-043, A-045).
+- Hadith attached where he asked: «بشّر قاتل ابن صفية بالنار» (A-018), al-Bukhari 447 (A-042), al-Albani on Safina's
+  hadith (A-110).
+- A-075: Muhammad ibn Abi Bakr did not govern Egypt under ʿUthman (al-Kamil, al-Bidaya); his appointment is ʿAli's, 36 AH.
+- A-078: Abu Mikhnaf called «لا يُعتمد عليه» (no unverified «تالف»).
+
+#### What changed
+
+- 19 events and 18 bios edited from an exact old→new list (git-ignored `tmp/audit4h/apply.ts`, `auto.json`, `edits1.ts`,
+  `edits2.ts`: every old text had to occur exactly once; 162 changes in 38 files). 3 new records: `ali-muawiyah-truce`,
+  `muawiyah-caliph-iliya`, `khuzaymah-ibn-thabit` (added to `people-order.json` after ʿAmmar). Abu al-Ghadiya, Sufyan ibn
+  ʿAwf, Hashim ibn ʿUtba and Khuzayma linked to their events. Decisions and applied text are in the audit JSON
+  (`tmp/audit4h/merge.ts`); the report checks them: 166 findings, 270 quotes.
+- No Qur'an text changed. The debate's three verses are now in { }; the quotes check finds 22 quotes, all matching.
+- Chat KB rebuilt (0 errors; the 3 warnings are the existing ones).
+- Baselines (approved for the changed records): content snapshot (22 events, 19 people, the map periods keyed by the new
+  and moved dates) and behavior map (search results that now include the new text). `tests/contentSchema.test.ts` counts
+  now 150 events and 169 people. No screenshot changed.
+- Embedding index: the Chat index workflow on the branch (run 43286943886, approved quota); 3495/3495 units current.
+- Narration: 21 recordings added to the queue; after today's daily run (bot PR #44, merged into the branch) the queue is
+  81 (61 stale, 20 missing). The daily workflow records them after merge.
+- Checked locally: `npm run verify` as five batches (440 unit tests; Lighthouse within budget; features 127 + 2 skipped;
+  engines 50 + 24 skipped; visual 16/16). The first features run failed on a stale build (batch 1 had stopped at the
+  chat-index step before rebuilding); rebuilt, it passed.
+
+#### Open items for later sessions
+
+- Phase 4 close-out: the cities never audited (Mecca, Medina, Kairouan, Baghdad, Cordoba); ʿAbd Allah ibn Jaʿfar's 4E
+  date against Ibn ʿAbd al-Barr's «ابن تسعين»; from 4G, Salman ibn Rabiʿa's and Abu al-Dardaʾ's dates, *Futuh Misr*'s
+  Ifriqiya pages, *Futuh Misr* in the reliable-source list; bios that cite Siyar in their last line; al-Isaba where its
+  index did not reach. Phase 4 is done when narration reports 0 stale and 0 missing.

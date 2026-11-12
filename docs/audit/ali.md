@@ -115,6 +115,37 @@ script checks every quote: each "current text" against the record exactly as wri
 quote against its cached page (compared without tashkeel, footnote numbers or punctuation), each al-Durar quote against
 its cached search, and each proposed new record's id against `content/` (it must be new).
 
+## Part 2: what was applied (2026-11-12)
+
+Mostafa marked all 166 entries: 156 موافق, 5 بتعديل (A-042, A-044, A-075, A-091, A-110), none مرفوض. Five entries (A-012,
+A-052 to A-055) had a note and no button, and were treated as موافق with the note. 105 entries carry «راجع وصحح وابحث
+ودقق». Eight of those add «وارفق/وضّح الحديث إن كان صحيحًا», and one asks «أظنه تولى في عهد عثمان». Each was checked again
+before applying, in a second source where one exists: al-Kamil for al-Tabari's and al-Bidaya's reports, Usd al-Ghaba and
+al-Istiʿab for the bios, and al-Durar for hadith. The result is on each finding (`applied.note`, with the new quotes in
+`applied.cites`), and the report checks the applied text in `content/`.
+
+- **What the research changed:**
+  - **Al-Hawʾab (A-009, A-010):** Ahmad's report is authentic (al-Arnaʾut: «إسناده صحيح»; Ibn Kathir: «على شرط
+    الصحيحين»): «ما أظنني إلا راجعة… فقال لها الزبير: ترجعين؟ عسى الله أن يصلح بك بين الناس». It replaces the other
+    account the list had proposed (Ibn al-Zubayr: «قد كذب»). Ibn Hajar's grading was found («رجاله ثقات», Fath 13/59), so
+    A-012 keeps his name, with his own words.
+  - **The ʿAmmar hadith's tawatur (A-038, A-043, A-045):** Ibn ʿAbd al-Barr writes in al-Istiʿab «وتواترت الآثار عن النبي
+    ﷺ أنه قال: تقتل عمارًا الفئة الباغية». So «متواتر» stays, credited to him instead of Ibn Hajar and al-Dhahabi.
+  - **Hadith attached (his notes):** «بشّر قاتل ابن صفية بالنار» in al-Zubayr's role (Ahmad 681, al-Arnaʾut: حسن; Ibn
+    Hajar: إسناده صحيح); al-Bukhari 447 named after ʿAbd Allah ibn ʿAmr's words; al-Albani's grading after Safina's hadith.
+  - **A-075 («أظنه تولى في عهد عثمان»):** under ʿUthman, Muhammad ibn Abi Bakr was in Egypt «يحرّض على عثمان» (al-Kamil)
+    but did not govern it. It is reported («يقال», Ibn Kathir) that ʿUthman agreed to appoint him, and then came the forged
+    letter. His governorship came from ʿAli in 36 AH, after Qays. The proposal stands.
+  - **A-078:** «تالف» was not found on a page, so Abu Mikhnaf is called «إخباري لا يُعتمد عليه» with no imam named.
+  - **The Umayyad mosque (A-030):** Ibn Kathir has it completed by al-Walid ibn ʿAbd al-Malik (vol. 12, p. 560).
+  - **New records:** al-Kamil and al-Bidaya confirm Muʿawiya's bayʿa at Iliyaʾ («ببيت المقدس»), and al-Istiʿab confirms
+    Khuzayma. The truce is in al-Tabari and al-Bidaya only.
+- **Choices made in applying (reversible):** Khuzayma's chip label is «خُزَيْمَةُ بْنُ ثَابِتٍ رضي الله عنه», because «ذو
+  الشهادتين» in the label did not resolve to his record. The debate event moved to 657.85 (Gregorian year 657). The
+  Ibn Muljam event keeps its title and Mecca map point (first option). Bios without tashkeel got new sentences without it.
+- **Not changed (first options or kept):** A-038 (kept, see above), B-005 (ʿAbd Allah ibn Jaʿfar's age, a point for you),
+  D-004 (the arbitration's Ramadan).
+
 ## خطوات تركتها جلسة 4G (عهد عثمان)
 
 
