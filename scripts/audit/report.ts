@@ -31,6 +31,7 @@ const BOOK_NAMES: Record<string, string> = {
   musannaf: 'المصنف، ابن أبي شيبة (ت. الحوت)',
   ilam: 'إعلام الموقعين، ابن القيم (ط. العلمية)',
   khitat: 'المواعظ والاعتبار، المقريزي (ط. العلمية)',
+  awasim: 'العواصم من القواصم، ابن العربي (ت. محب الدين الخطيب، دار الجيل)',
 };
 const CONF: Record<Finding['confidence'], string> = { proven: 'ثابت', likely: 'راجح', uncertain: 'غير مؤكد' };
 

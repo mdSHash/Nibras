@@ -3087,3 +3087,50 @@ finding in `docs/audit/uthman.md` and summarised in `docs/audit/uthman/HEAD.md` 
 - From the list, unchanged: Salman ibn Rabiʿa's 4E date against al-Kamil (alive in 32 AH, Balanjar); Abu al-Dardaʾ's 32 AH
   against Ibn Kathir; al-Isaba and *Futuh Misr*'s Ifriqiya pages not read; *Futuh Misr* still not named in the
   reliable-source list of `docs/CONTENT_GUIDE.md`.
+
+### 4H — ʿAli's caliphate: the list (2026-11-12)
+
+Branch `refactor/phase-4h-ali` from `main` at `375515b` (PR #39 merged 2026-11-11, then #40–#42). `npm run verify` passed
+before any change, as five `--only` batches: static steps and build (440 unit tests); Lighthouse within budget; features
+127 passed, 2 skipped; engines 50 passed, 24 skipped; visual 16/16. **No content, Qur'an text or narration changed. No
+Gemini, Groq or OpenRouter quota spent.**
+
+#### Narration workflow
+
+Yesterday's runs (16:29 and 21:29 UTC) succeeded and their bot PRs #40 and #41 merged. Today's run had not started by
+12:00 UTC; nothing failed, so nothing was changed. Queue: 70 (54 stale, 16 missing).
+
+#### What was made
+
+- `docs/audit/ali.md` (generated) from `docs/audit/ali/` `00`–`07` (4G's four steps, the 17 events in four parts, dates,
+  people, new records) and `HEAD.md` (summary, decisions, sources).
+- `scripts/audit/shamela.ts` and `report.ts`: *al-ʿAwasim min al-Qawasim* added as `awasim` (Shamela 8314, al-Khatib's
+  edition, Dar al-Jil; Mostafa allowed it to be read and cited by page).
+- Caches (git-ignored): al-Kamil pages 1301–1480 (years 36–43), al-ʿAwasim pages 1–300, 23 al-Durar searches. Al-Tabari
+  (2316–2633), al-Bidaya (5952–6366), Usd al-Ghaba and al-Istiʿab were already cached.
+- Working scripts in the git-ignored `tmp/audit4h/` (copied from 4G): `notes0`–`notes6.txt`, `newrec.txt`,
+  `assemble.sh`, `qlabels.ts` (now checks verse labels and verses in ( ) in the descriptions), `page.ts`,
+  `page-tpl.html`; `edits1.ts`/`edits2.ts` are empty placeholders for part 2.
+
+#### Summary
+
+- 17 events, 20 people, and two unlinked people (Abu al-Ghadiya, Sufyan ibn ʿAwf) proposed for linking. No city is first
+  used in this era. 163 findings (114 corrections, 14 enrichment, 7 dates, 28 bio; 29 proven, 119 likely, 15 uncertain),
+  including 4G's four leftover steps. 3 new records: `ali-muawiyah-truce`, `muawiyah-caliph-iliya` and
+  `khuzaymah-ibn-thabit`. 239 quotes, each found on its page by script.
+- Worst: sayings given to the wrong person or occasion («كلمة حق يراد بها باطل», «فزت ورب الكعبة», «يوسف هذه الأمة»,
+  «جئتك أمرد», «ويح عمار» labelled Muslim); Nahj al-Balagha wording; the debate placed after an unattributed «deception»
+  at Dumat al-Jandal; the mushafs told only in Abu Mikhnaf's version (Ahmad's authentic report has ʿAli accept); invented
+  witnesses, numbers and terms; Dhu al-Thudayya as «leader»; the plot «after the Hajj of 40».
+- Sayf, Abu Mikhnaf and al-Waqidi are named wherever the app already rests on them; no new fact relies on them (asked in
+  the list). Al-Baladhuri and Khalifa are not used.
+- All hand-typed Qur'an text in the era matches Tanzil; the debate's three verses are proposed in { } so the check covers them.
+
+#### Narration count
+
+21 requests if everything is approved: 17 changed descriptions, plus the title and description of the 2 new events.
+
+#### Review page
+
+https://claude.ai/artifact/MbpVUxy5LHEjESdU7QpYSq (private). Decisions are saved in its database, collection
+`decisions`, one document per id (A-, E-, D-, B- and N-01 to N-03). **Part 2 of 4H starts by reading it.**
