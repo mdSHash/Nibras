@@ -32,6 +32,7 @@ const BOOK_NAMES: Record<string, string> = {
   ilam: 'إعلام الموقعين، ابن القيم (ط. العلمية)',
   khitat: 'المواعظ والاعتبار، المقريزي (ط. العلمية)',
   awasim: 'العواصم من القواصم، ابن العربي (ت. محب الدين الخطيب، دار الجيل)',
+  barzanji: 'صحيح وضعيف تاريخ الطبري، ت. محمد بن طاهر البرزنجي (دار ابن كثير)',
 };
 const CONF: Record<Finding['confidence'], string> = { proven: 'ثابت', likely: 'راجح', uncertain: 'غير مؤكد' };
 

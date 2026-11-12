@@ -28,6 +28,7 @@ export const BOOKS: Record<string, string> = {
   ilam: '11496', // إعلام الموقعين، ط العلمية
   khitat: '11566', // المواعظ والاعتبار، المقريزي، ط العلمية
   awasim: '8314', // العواصم من القواصم، ابن العربي، ت محب الدين الخطيب، دار الجيل
+  barzanji: '145435', // صحيح وضعيف تاريخ الطبري، ت محمد بن طاهر البرزنجي، دار ابن كثير
 };
 
 export const CACHE = 'tmp/territories-research/cache';
