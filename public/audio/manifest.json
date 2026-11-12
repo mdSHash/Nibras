@@ -1353,9 +1353,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "hijri-calendar-and-diwans.description.7d754f04.m4a",
-        "textHash": "7d754f04715ea8ca6a2c8e6375017f451b808f4537a5bcb977c096923cfbe537",
-        "durationSec": 57.4,
+        "file": "hijri-calendar-and-diwans.description.d3c30607.m4a",
+        "textHash": "d3c3060713e6fc03bf650db9e0ceae0209b3b8bd0cb9f62c0a168b8c7f95d77b",
+        "durationSec": 51.2,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -2112,22 +2112,6 @@
         "voice": "Charon"
       }
     },
-    "event-112-التحكيم-بين-علي-ومعاوية": {
-      "title": {
-        "file": "arbitration-between-ali-and-muawiyah.title.e4a07aaa.m4a",
-        "textHash": "e4a07aaa1aa832a9a600940f1394ee0afde856d77d369a1f22d2fe6b473bbf43",
-        "durationSec": 3.36,
-        "engine": "gemini",
-        "voice": "Charon"
-      },
-      "description": {
-        "file": "arbitration-between-ali-and-muawiyah.description.28570819.m4a",
-        "textHash": "28570819dbda131ea67fdd8d81b060049a2519b7e069fb00613158934074c067",
-        "durationSec": 46.28,
-        "engine": "gemini",
-        "voice": "Charon"
-      }
-    },
     "ibn-abbas-debates-khawarij": {
       "title": {
         "file": "ibn-abbas-debates-khawarij.title.063b19d1.m4a",
@@ -2140,6 +2124,22 @@
         "file": "ibn-abbas-debates-khawarij.description.df6ada68.m4a",
         "textHash": "df6ada68fcd346572b100d8cb2952dfed25fa4161462e1edce087813876f5861",
         "durationSec": 116.56,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "event-112-التحكيم-بين-علي-ومعاوية": {
+      "title": {
+        "file": "arbitration-between-ali-and-muawiyah.title.e4a07aaa.m4a",
+        "textHash": "e4a07aaa1aa832a9a600940f1394ee0afde856d77d369a1f22d2fe6b473bbf43",
+        "durationSec": 3.36,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "arbitration-between-ali-and-muawiyah.description.28570819.m4a",
+        "textHash": "28570819dbda131ea67fdd8d81b060049a2519b7e069fb00613158934074c067",
+        "durationSec": 46.28,
         "engine": "gemini",
         "voice": "Charon"
       }
