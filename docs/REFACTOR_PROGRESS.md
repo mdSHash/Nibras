@@ -3177,3 +3177,11 @@ holds; مرفوض = keep the current text and research, never change it without 
   date against Ibn ʿAbd al-Barr's «ابن تسعين»; from 4G, Salman ibn Rabiʿa's and Abu al-Dardaʾ's dates, *Futuh Misr*'s
   Ifriqiya pages, *Futuh Misr* in the reliable-source list; bios that cite Siyar in their last line; al-Isaba where its
   index did not reach. Phase 4 is done when narration reports 0 stale and 0 missing.
+
+#### CI runner (2026-11-12)
+
+The PR's CI failed in every e2e job at «Install Playwright browsers»: `ubuntu-latest` moved to Ubuntu 26.04, which
+Playwright 1.59 does not support («Playwright does not support chromium on ubuntu26.04-x64»). `deploy.yml` now pins its
+jobs to `ubuntu-24.04`, the image the Linux baselines (screenshots, Lighthouse, UI numbers) were made on. Revert the pin
+when Playwright is upgraded and the Linux baselines are re-recorded with approval. `chat-index.yml` and `narration.yml`
+do not install browsers and stay on `ubuntu-latest`.
