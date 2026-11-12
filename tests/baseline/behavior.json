@@ -140,13 +140,15 @@
     "ammar-martyrdom-siffin",
     "raising-mushafs-siffin",
     "event-110-ظهور-الخوارج",
-    "event-112-التحكيم-بين-علي-ومعاوية",
     "ibn-abbas-debates-khawarij",
+    "event-112-التحكيم-بين-علي-ومعاوية",
     "battle-nahrawan",
     "muhammad-abi-bakr-egypt",
     "muawiyah-raids-iraq-hijaz",
+    "ali-muawiyah-truce",
     "ibn-muljam-plot-mecca",
     "event-113-استشهاد-الإمام-علي-بن-أبي-طالب",
+    "muawiyah-caliph-iliya",
     "year-of-reconciliation"
   ],
   "autoSelectedEventId": "event-0-ميلاد-النبي--عام-الفيل",
@@ -155,7 +157,7 @@
       "id": "type=all&era=all",
       "type": "all",
       "era": "all",
-      "count": 148,
+      "count": 150,
       "eventIds": [
         "event-0-ميلاد-النبي--عام-الفيل",
         "event-1-حادثة-شق-الصدر",
@@ -297,13 +299,15 @@
         "ammar-martyrdom-siffin",
         "raising-mushafs-siffin",
         "event-110-ظهور-الخوارج",
-        "event-112-التحكيم-بين-علي-ومعاوية",
         "ibn-abbas-debates-khawarij",
+        "event-112-التحكيم-بين-علي-ومعاوية",
         "battle-nahrawan",
         "muhammad-abi-bakr-egypt",
         "muawiyah-raids-iraq-hijaz",
+        "ali-muawiyah-truce",
         "ibn-muljam-plot-mecca",
         "event-113-استشهاد-الإمام-علي-بن-أبي-طالب",
+        "muawiyah-caliph-iliya",
         "year-of-reconciliation"
       ],
       "eraAnchors": {
@@ -387,7 +391,7 @@
       "id": "type=all&era=rashidun",
       "type": "all",
       "era": "rashidun",
-      "count": 94,
+      "count": 96,
       "eventIds": [
         "event-49-تولي-أبي-بكر-الخلافة-السقيفة",
         "event-50-إنفاذ-جيش-أسامة-بن-زيد",
@@ -475,13 +479,15 @@
         "ammar-martyrdom-siffin",
         "raising-mushafs-siffin",
         "event-110-ظهور-الخوارج",
-        "event-112-التحكيم-بين-علي-ومعاوية",
         "ibn-abbas-debates-khawarij",
+        "event-112-التحكيم-بين-علي-ومعاوية",
         "battle-nahrawan",
         "muhammad-abi-bakr-egypt",
         "muawiyah-raids-iraq-hijaz",
+        "ali-muawiyah-truce",
         "ibn-muljam-plot-mecca",
         "event-113-استشهاد-الإمام-علي-بن-أبي-طالب",
+        "muawiyah-caliph-iliya",
         "year-of-reconciliation"
       ],
       "eraAnchors": {
@@ -701,7 +707,7 @@
       "id": "type=events&era=all",
       "type": "events",
       "era": "all",
-      "count": 68,
+      "count": 70,
       "eventIds": [
         "event-0-ميلاد-النبي--عام-الفيل",
         "event-1-حادثة-شق-الصدر",
@@ -764,12 +770,14 @@
         "ammar-martyrdom-siffin",
         "raising-mushafs-siffin",
         "event-110-ظهور-الخوارج",
-        "event-112-التحكيم-بين-علي-ومعاوية",
         "ibn-abbas-debates-khawarij",
+        "event-112-التحكيم-بين-علي-ومعاوية",
         "muhammad-abi-bakr-egypt",
         "muawiyah-raids-iraq-hijaz",
+        "ali-muawiyah-truce",
         "ibn-muljam-plot-mecca",
         "event-113-استشهاد-الإمام-علي-بن-أبي-طالب",
+        "muawiyah-caliph-iliya",
         "year-of-reconciliation"
       ],
       "eraAnchors": {
@@ -829,7 +837,7 @@
       "id": "type=events&era=rashidun",
       "type": "events",
       "era": "rashidun",
-      "count": 38,
+      "count": 40,
       "eventIds": [
         "event-49-تولي-أبي-بكر-الخلافة-السقيفة",
         "event-50-إنفاذ-جيش-أسامة-بن-زيد",
@@ -862,12 +870,14 @@
         "ammar-martyrdom-siffin",
         "raising-mushafs-siffin",
         "event-110-ظهور-الخوارج",
-        "event-112-التحكيم-بين-علي-ومعاوية",
         "ibn-abbas-debates-khawarij",
+        "event-112-التحكيم-بين-علي-ومعاوية",
         "muhammad-abi-bakr-egypt",
         "muawiyah-raids-iraq-hijaz",
+        "ali-muawiyah-truce",
         "ibn-muljam-plot-mecca",
         "event-113-استشهاد-الإمام-علي-بن-أبي-طالب",
+        "muawiyah-caliph-iliya",
         "year-of-reconciliation"
       ],
       "eraAnchors": {
@@ -934,7 +944,7 @@
     },
     {
       "id": "أحد",
-      "count": 37,
+      "count": 41,
       "eventIds": [
         "fijar-war",
         "hilf-al-fudul",
@@ -971,7 +981,11 @@
         "year-of-passing-32ah",
         "event-104-بداية-الفتنة-الكبرى",
         "ammar-martyrdom-siffin",
+        "muawiyah-raids-iraq-hijaz",
+        "ali-muawiyah-truce",
         "ibn-muljam-plot-mecca",
+        "event-113-استشهاد-الإمام-علي-بن-أبي-طالب",
+        "muawiyah-caliph-iliya",
         "year-of-reconciliation"
       ]
     },
@@ -1017,7 +1031,7 @@
     },
     {
       "id": "ابو بكر",
-      "count": 26,
+      "count": 27,
       "eventIds": [
         "islam_hamza",
         "isra-miraj",
@@ -1043,6 +1057,7 @@
         "conquest-qinnasrin",
         "lost-ring-bir-aris",
         "siege-of-uthman-house",
+        "muhammad-abi-bakr-egypt",
         "muawiyah-raids-iraq-hijaz",
         "ibn-muljam-plot-mecca"
       ]
@@ -1080,7 +1095,7 @@
     },
     {
       "id": "عمر",
-      "count": 83,
+      "count": 87,
       "eventIds": [
         "event-1-حادثة-شق-الصدر",
         "fijar-war",
@@ -1157,11 +1172,15 @@
         "wufud-amsar-complaints",
         "siege-of-uthman-house",
         "event-105-استشهاد-عثمان-بن-عفان-يوم-الدار",
+        "event-106-تولي-علي-بن-أبي-طالب-الخلافة",
+        "march-to-basra-pre-jamal",
+        "battle-camel",
+        "event-108-نقل-العاصمة-إلى-الكوفة",
         "muawiyah-refuses-bayah",
+        "event-109-معركة-صفين",
         "ammar-martyrdom-siffin",
         "raising-mushafs-siffin",
         "event-112-التحكيم-بين-علي-ومعاوية",
-        "ibn-abbas-debates-khawarij",
         "muhammad-abi-bakr-egypt",
         "ibn-muljam-plot-mecca",
         "event-113-استشهاد-الإمام-علي-بن-أبي-طالب"

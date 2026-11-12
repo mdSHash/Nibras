@@ -660,7 +660,7 @@ corrected, enriched where the sources support it, and narrated again.
       listens on the site. The chat KB and its embedding index are rebuilt in each session.
 - [ ] Sessions: 4A–4B prophetic audit (done), 4C Abu Bakr (done), 4D the Prophetic era's bios and new
       events and companions (4A–4B came before these were added; done), 4E companions' birth and death
-      dates (all people; done), 4F ʿUmar (done), 4G ʿUthman (done), 4H ʿAli; each era session covers audit, bios,
+      dates (all people; done), 4F ʿUmar (done), 4G ʿUthman (done), 4H ʿAli (done); each era session covers audit, bios,
       enrichment and new records, stops for Mostafa's marks on the review page, then applies and merges.
 
 Done when: every text has an approved audit entry, `npm run narration -- check` reports 0 stale and

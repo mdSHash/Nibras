@@ -27,6 +27,7 @@ export const BOOKS: Record<string, string> = {
   musannaf: '9944', // مصنف ابن أبي شيبة، ت الحوت
   ilam: '11496', // إعلام الموقعين، ط العلمية
   khitat: '11566', // المواعظ والاعتبار، المقريزي، ط العلمية
+  awasim: '8314', // العواصم من القواصم، ابن العربي، ت محب الدين الخطيب، دار الجيل
 };
 
 export const CACHE = 'tmp/territories-research/cache';

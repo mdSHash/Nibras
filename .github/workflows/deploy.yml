@@ -38,7 +38,7 @@ jobs:
   # Content build, type check, ESLint, Vitest, the chat index check, baseline comparisons, the test build
   # and the bundle budget. Runs in parallel with the browser jobs below.
   static:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - name: Checkout
@@ -61,7 +61,7 @@ jobs:
   # 30 s; dist/ holds 420 MB of narration audio, slower to pass between jobs).
   # Pull requests run the Badr replay only (REPLAYS=badr); pushes to main run all 12.
   e2e:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 40
     strategy:
       fail-fast: false
@@ -123,7 +123,7 @@ jobs:
   build:
     needs: [static, e2e]
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -173,7 +173,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
