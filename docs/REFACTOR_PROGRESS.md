@@ -3379,3 +3379,20 @@ queue stays 78 (60 stale, 18 missing). The daily workflow records them after mer
 Every era and city now has an approved audit entry. Phase 4 is done when narration reports 0 stale and 0 missing (about
 8 days of daily runs). Left from the 4H log for a later session: Salman ibn Rabiʿa's and Abu al-Dardaʾ's dates, *Futuh
 Misr*, bios citing Siyar, al-Isaba where its index did not reach; and Hujr's cause if al-Durar shows more.
+
+## Phase 5 — Learning paths for guests
+
+### 5A — directions (2026-11-13)
+
+Branch `feature/phase-5-learning-paths` from `main` after PR #47 (merged 2026-11-13; the merged tree passed all five
+verify batches locally and in CI). No code yet: the plan says options first, Mostafa picks.
+
+- Review page (private): https://claude.ai/artifact/AaE2hHkL51Q9dm1HxCXESL — four concept directions for مسار الرسالة,
+  each a different interaction idea with desktop and phone previews in Nibras's tokens and fonts: **A** map journey (the
+  path is a route on the map), **B** book (a calm reader, a review page per chapter), **C** caravan stations (the whole
+  path on one screen, each module a station with its «مجلس» quiz; the event opens in Nibras itself), **D** study circle (a
+  pre-written dialogue, no AI quota). Recommended: **C**. His pick and note are saved in its database, collection
+  `choice`, document `pick`. **Building starts by reading it.**
+- Material: 54 Meccan and Medinan events today (17 + 37; the plan said 49). Draft modules for C: Meccan 16, the Hijra 5
+  (second ʿAqaba to the muʾakhat), Medinan 33 (may split in two).
+- Question examples on the page are marked «مثال لم يُراجع» and come only from event text (titles, roles, dates).
