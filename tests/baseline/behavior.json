@@ -145,8 +145,6 @@
     "battle-nahrawan",
     "muhammad-abi-bakr-egypt",
     "muawiyah-raids-iraq-hijaz",
-    "ali-muawiyah-truce",
-    "ibn-muljam-plot-mecca",
     "event-113-استشهاد-الإمام-علي-بن-أبي-طالب",
     "muawiyah-caliph-iliya",
     "year-of-reconciliation"
@@ -157,7 +155,7 @@
       "id": "type=all&era=all",
       "type": "all",
       "era": "all",
-      "count": 150,
+      "count": 148,
       "eventIds": [
         "event-0-ميلاد-النبي--عام-الفيل",
         "event-1-حادثة-شق-الصدر",
@@ -304,8 +302,6 @@
         "battle-nahrawan",
         "muhammad-abi-bakr-egypt",
         "muawiyah-raids-iraq-hijaz",
-        "ali-muawiyah-truce",
-        "ibn-muljam-plot-mecca",
         "event-113-استشهاد-الإمام-علي-بن-أبي-طالب",
         "muawiyah-caliph-iliya",
         "year-of-reconciliation"
@@ -391,7 +387,7 @@
       "id": "type=all&era=rashidun",
       "type": "all",
       "era": "rashidun",
-      "count": 96,
+      "count": 94,
       "eventIds": [
         "event-49-تولي-أبي-بكر-الخلافة-السقيفة",
         "event-50-إنفاذ-جيش-أسامة-بن-زيد",
@@ -484,8 +480,6 @@
         "battle-nahrawan",
         "muhammad-abi-bakr-egypt",
         "muawiyah-raids-iraq-hijaz",
-        "ali-muawiyah-truce",
-        "ibn-muljam-plot-mecca",
         "event-113-استشهاد-الإمام-علي-بن-أبي-طالب",
         "muawiyah-caliph-iliya",
         "year-of-reconciliation"
@@ -707,7 +701,7 @@
       "id": "type=events&era=all",
       "type": "events",
       "era": "all",
-      "count": 70,
+      "count": 68,
       "eventIds": [
         "event-0-ميلاد-النبي--عام-الفيل",
         "event-1-حادثة-شق-الصدر",
@@ -774,8 +768,6 @@
         "event-112-التحكيم-بين-علي-ومعاوية",
         "muhammad-abi-bakr-egypt",
         "muawiyah-raids-iraq-hijaz",
-        "ali-muawiyah-truce",
-        "ibn-muljam-plot-mecca",
         "event-113-استشهاد-الإمام-علي-بن-أبي-طالب",
         "muawiyah-caliph-iliya",
         "year-of-reconciliation"
@@ -837,7 +829,7 @@
       "id": "type=events&era=rashidun",
       "type": "events",
       "era": "rashidun",
-      "count": 40,
+      "count": 38,
       "eventIds": [
         "event-49-تولي-أبي-بكر-الخلافة-السقيفة",
         "event-50-إنفاذ-جيش-أسامة-بن-زيد",
@@ -874,8 +866,6 @@
         "event-112-التحكيم-بين-علي-ومعاوية",
         "muhammad-abi-bakr-egypt",
         "muawiyah-raids-iraq-hijaz",
-        "ali-muawiyah-truce",
-        "ibn-muljam-plot-mecca",
         "event-113-استشهاد-الإمام-علي-بن-أبي-طالب",
         "muawiyah-caliph-iliya",
         "year-of-reconciliation"
@@ -980,10 +970,10 @@
         "battle-balanjar",
         "year-of-passing-32ah",
         "event-104-بداية-الفتنة-الكبرى",
+        "event-106-تولي-علي-بن-أبي-طالب-الخلافة",
+        "battle-camel",
         "ammar-martyrdom-siffin",
-        "muawiyah-raids-iraq-hijaz",
-        "ali-muawiyah-truce",
-        "ibn-muljam-plot-mecca",
+        "muhammad-abi-bakr-egypt",
         "event-113-استشهاد-الإمام-علي-بن-أبي-طالب",
         "muawiyah-caliph-iliya",
         "year-of-reconciliation"
@@ -1031,7 +1021,7 @@
     },
     {
       "id": "ابو بكر",
-      "count": 27,
+      "count": 24,
       "eventIds": [
         "islam_hamza",
         "isra-miraj",
@@ -1056,15 +1046,12 @@
         "event-66-تولي-عمر-بن-الخطاب-الخلافة",
         "conquest-qinnasrin",
         "lost-ring-bir-aris",
-        "siege-of-uthman-house",
-        "muhammad-abi-bakr-egypt",
-        "muawiyah-raids-iraq-hijaz",
-        "ibn-muljam-plot-mecca"
+        "siege-of-uthman-house"
       ]
     },
     {
       "id": "أبي بكر",
-      "count": 25,
+      "count": 24,
       "eventIds": [
         "islam_hamza",
         "hijra-medina",
@@ -1089,13 +1076,12 @@
         "event-104-بداية-الفتنة-الكبرى",
         "siege-of-uthman-house",
         "muhammad-abi-bakr-egypt",
-        "muawiyah-raids-iraq-hijaz",
-        "ibn-muljam-plot-mecca"
+        "muawiyah-raids-iraq-hijaz"
       ]
     },
     {
       "id": "عمر",
-      "count": 87,
+      "count": 82,
       "eventIds": [
         "event-1-حادثة-شق-الصدر",
         "fijar-war",
@@ -1172,23 +1158,18 @@
         "wufud-amsar-complaints",
         "siege-of-uthman-house",
         "event-105-استشهاد-عثمان-بن-عفان-يوم-الدار",
-        "event-106-تولي-علي-بن-أبي-طالب-الخلافة",
-        "march-to-basra-pre-jamal",
-        "battle-camel",
-        "event-108-نقل-العاصمة-إلى-الكوفة",
         "muawiyah-refuses-bayah",
         "event-109-معركة-صفين",
         "ammar-martyrdom-siffin",
         "raising-mushafs-siffin",
         "event-112-التحكيم-بين-علي-ومعاوية",
         "muhammad-abi-bakr-egypt",
-        "ibn-muljam-plot-mecca",
-        "event-113-استشهاد-الإمام-علي-بن-أبي-طالب"
+        "year-of-reconciliation"
       ]
     },
     {
       "id": "مكة",
-      "count": 33,
+      "count": 31,
       "eventIds": [
         "event-0-ميلاد-النبي--عام-الفيل",
         "fijar-war",
@@ -1220,14 +1201,12 @@
         "event-81-وضع-التقويم-الهجري-وتأسيس-الدواوين",
         "event-96-نسخ-المصحف-الإمام-المصحف-العثماني",
         "event-98-توسعة-المسجد-الحرام",
-        "march-to-basra-pre-jamal",
-        "muawiyah-raids-iraq-hijaz",
-        "ibn-muljam-plot-mecca"
+        "march-to-basra-pre-jamal"
       ]
     },
     {
       "id": "دمشق",
-      "count": 8,
+      "count": 7,
       "eventIds": [
         "battle-marj-dabiq",
         "battle_fahl",
@@ -1235,8 +1214,7 @@
         "conquest-homs",
         "event-75-فتح-القدس-والعهدة-العمرية",
         "year-of-passing-32ah",
-        "muawiyah-refuses-bayah",
-        "ibn-muljam-plot-mecca"
+        "muawiyah-refuses-bayah"
       ]
     },
     {

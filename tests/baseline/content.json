@@ -1,7 +1,7 @@
 {
   "counts": {
-    "events": 150,
-    "companions": 169,
+    "events": 148,
+    "companions": 165,
     "cities": 10,
     "quranPassages": 51
   },
@@ -10690,7 +10690,7 @@
       },
       "text": {
         "summary": "e201b2b04cd791ed",
-        "fullDescription": "4270b8b1acf0f604",
+        "fullDescription": "da5c64f5cf08d9a3",
         "courseOfEvents": [
           "dc407283aa5ba015",
           "64d72bbc6adeb1dd",
@@ -10759,12 +10759,12 @@
       },
       "text": {
         "summary": "59930854f59b76cf",
-        "fullDescription": "3e2b8355865b3ac3",
+        "fullDescription": "0e62c8e924ebce50",
         "courseOfEvents": [
           "18f89d6a59bac18f",
           "d1fcb88ccb2c18bc",
-          "301cf7ab97e474c1",
-          "927cf0cfe87f262c",
+          "7df8ec99ba1e11ee",
+          "3ec98c7e78fd1f47",
           "d769d330568215e2",
           "1212539d30b2c506",
           "d3aae5f83390bf32"
@@ -10873,16 +10873,16 @@
       },
       "text": {
         "summary": "7901ea384d4690dc",
-        "fullDescription": "12639d97e5e9e692",
+        "fullDescription": "808728fd412bab68",
         "courseOfEvents": [
           "a3d47281b1a34242",
           "271ca484bfe1f5e5",
-          "1872ecf077904ccd",
-          "1f900a028b257613",
-          "643b2a7b88f403df",
+          "f042793c02ceffbf",
+          "b0d0e1a5ba3782ef",
+          "2723e9320dfc2c01",
           "067c3a539220be50",
           "684bb39065278ad4",
-          "b8642edefd89f9ff"
+          "6db21ca1789b5b96"
         ],
         "durationDays": "يَوْمٌ وَاحِدٌ"
       },
@@ -10928,7 +10928,7 @@
         {
           "name": "الزُّبَيْرُ بْنُ الْعَوَّامِ رضي الله عنه",
           "companionId": "al-zubayr-ibn-al-awwam",
-          "role": "c9a7f1442638b257"
+          "role": "88253831efe5d338"
         },
         {
           "name": "طَلْحَةُ بْنُ عُبَيْدِ اللهِ رضي الله عنه",
@@ -10979,7 +10979,7 @@
       },
       "text": {
         "summary": "520cda3cb069fec4",
-        "fullDescription": "4bb078cf65390a95",
+        "fullDescription": "d2f413826fb8b110",
         "courseOfEvents": [
           "4d2014d6e28676a7",
           "85e947bc3a18803b",
@@ -11039,7 +11039,7 @@
       },
       "text": {
         "summary": "f81f3add25fe186d",
-        "fullDescription": "52e2bdfa0cc751ec",
+        "fullDescription": "3656447bdb351bea",
         "courseOfEvents": [
           "1c873cf1bf466ad7",
           "6753a38444445e41",
@@ -11093,7 +11093,7 @@
         {
           "name": "عَمْرُو بْنُ الْعَاصِ رضي الله عنه",
           "companionId": "amr",
-          "role": "351ff51dd63dff38"
+          "role": "bb50d0332d3a0c54"
         },
         {
           "name": "النُّعْمَانُ بْنُ بَشِيرٍ الْأَنْصَارِيُّ رضي الله عنه",
@@ -11145,13 +11145,13 @@
         ]
       },
       "text": {
-        "summary": "27d71e698bb93abd",
-        "fullDescription": "78bfa59909bec6b2",
+        "summary": "18b736c5e800a4df",
+        "fullDescription": "3d7e41c87d8ab865",
         "courseOfEvents": [
           "0cd25cfbb71888f5",
           "c9663aa6db0c92ca",
-          "506b25d221d1f7bf",
-          "024e2e8a0c94e085",
+          "5ff59413fe422361",
+          "a64b97d7cf9cd19b",
           "ba69614e0681b84d"
         ],
         "durationDays": null
@@ -11248,12 +11248,12 @@
       },
       "text": {
         "summary": "6f7766f7fe0b7863",
-        "fullDescription": "eb173b9e2b8a97d6",
+        "fullDescription": "b8435d637212f5fe",
         "courseOfEvents": [
           "02c42222078f69f4",
           "c9393f393c2f3816",
           "a4f946d0164af9aa",
-          "02845f251cd3c75e",
+          "9fdc21e7a78c6236",
           "c8989bf4fececb3a",
           "66a9b5c99ea3d415",
           "ca7ebbc95681a24c"
@@ -11332,7 +11332,7 @@
     },
     {
       "id": "raising-mushafs-siffin",
-      "title": "رَفْعُ الْمَصَاحِفِ فِي صِفِّينَ",
+      "title": "الدَّعْوَةُ إِلَى كِتَابِ اللهِ فِي صِفِّينَ",
       "era": "عهد علي بن أبي طالب",
       "eraLabel": "خلافة الإمام علي",
       "ruler": "علي بن أبي طالب",
@@ -11344,8 +11344,8 @@
       "date": {
         "gregorian": 657.6,
         "hijri": 37,
-        "hijriRelative": "صفر 37 هـ (فَجْرَ يَوْمِ الْهَرِيرِ)",
-        "hijriDisplay": "صفر ٣٧ هـ (فَجْرَ يَوْمِ الْهَرِيرِ)",
+        "hijriRelative": "صفر 37 هـ",
+        "hijriDisplay": "صفر ٣٧ هـ",
         "gregorianDisplay": "٦٥٧ م"
       },
       "location": {
@@ -11356,15 +11356,15 @@
         ]
       },
       "text": {
-        "summary": "1a82f8e51eee7090",
-        "fullDescription": "48241738f81431f2",
+        "summary": "1e87111c613150d3",
+        "fullDescription": "106e957528873578",
         "courseOfEvents": [
-          "2f4ab585d9dabf6b",
-          "0ca7193e3dd729cf",
-          "fa2bcf1ccd0c1970",
+          "7867c592d3ee2ca8",
+          "a999ae1ef2e65c10",
+          "8ef29a0f57f244cf",
           "dae2b5bc52cd2c33",
-          "46545d272d2c24fe",
-          "85c4b9cd48e73146",
+          "e669dc35fb326b74",
+          "8876b4761ff31c20",
           "a6ccf6ac37d2bef7"
         ],
         "durationDays": null
@@ -11383,41 +11383,23 @@
         {
           "name": "عمرو بن العاص رضي الله عنه",
           "companionId": "amr"
-        },
-        {
-          "name": "مالك الأشتر النخعي",
-          "companionId": "malik-al-ashtar"
-        },
-        {
-          "name": "الأشعث بن قيس رضي الله عنه",
-          "companionId": "al-ashath-ibn-qays"
         }
       ],
       "companionRoles": [
         {
           "name": "عَمْرُو بْنُ الْعَاصِ رضي الله عنه",
           "companionId": "amr",
-          "role": "557d26d2bcdf8d7c"
+          "role": "368ea9a3640640de"
         },
         {
           "name": "مُعَاوِيَةُ بْنُ أَبِي سُفْيَانَ رضي الله عنه",
           "companionId": "muawiyah-ibn-abi-sufyan",
-          "role": "3bb5c35f1e7a42ef"
+          "role": "f8ed5ecacaf7bca4"
         },
         {
           "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
           "companionId": "ali",
           "role": "c50808e7514c13f9"
-        },
-        {
-          "name": "مَالِكٌ الْأَشْتَرُ النَّخَعِيُّ",
-          "companionId": "malik-al-ashtar",
-          "role": "fcfe8dcc797a8ac2"
-        },
-        {
-          "name": "الْأَشْعَثُ بْنُ قَيْسٍ رضي الله عنه",
-          "companionId": "al-ashath-ibn-qays",
-          "role": "2965278543bd71c4"
         }
       ],
       "quran": [
@@ -11438,15 +11420,15 @@
         "8016c3c2d67862e5",
         "6a5cced81d340a6a",
         "a76512a2833008d2",
-        "73e80d9e425de9c5"
+        "0e56995b2afb6858"
       ],
       "battle": null,
       "route": null,
       "narration": {
         "descriptionFile": null,
         "descriptionExists": false,
-        "titleFile": "raising-mushafs-siffin.title.a6f64962.m4a",
-        "titleExists": true
+        "titleFile": null,
+        "titleExists": false
       }
     },
     {
@@ -11476,7 +11458,7 @@
       },
       "text": {
         "summary": "7802c79cc854c3fe",
-        "fullDescription": "cd772ff854f83b7d",
+        "fullDescription": "8ce2ce22966fd2d1",
         "courseOfEvents": [
           "fe6464a6f6f61f53",
           "e63b9a5f3f0391fa",
@@ -11665,7 +11647,7 @@
       },
       "text": {
         "summary": "420aa58cb2490141",
-        "fullDescription": "8600cb576e0e24cc",
+        "fullDescription": "5ed54308aa947696",
         "courseOfEvents": [
           "665c89d877c10ec7",
           "39ad038b880425c6",
@@ -11761,19 +11743,18 @@
       },
       "text": {
         "summary": "ea189acf6e258be2",
-        "fullDescription": "ebee7853d6157f99",
+        "fullDescription": "d03f27923a78fa29",
         "courseOfEvents": [
           "59df876d2684a342",
           "484fefdb7dbaeabe",
           "87604d96a87707f7",
-          "8852ce8ac719491a",
-          "643de5beb1eae041",
-          "c416bf668b8c0b46"
+          "bbf7e32e007684a2",
+          "ad84ce3078289a3b"
         ],
         "durationDays": "يَوْمٌ وَاحِدٌ"
       },
       "armySize": null,
-      "enemyArmySize": "حَوَالَيْ 4,000 (الْخَوَارِجُ)",
+      "enemyArmySize": null,
       "keyFigures": [
         {
           "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
@@ -11837,15 +11818,14 @@
       },
       "text": {
         "summary": "45b97d5f29e2c548",
-        "fullDescription": "38eff606c86b0e84",
+        "fullDescription": "8838f8afdbba33a9",
         "courseOfEvents": [
           "ea493d254a29669b",
           "99a446cd17576c23",
-          "806855edf7bd8162",
+          "dec7871b07c4564f",
           "3c244b819cf23c23",
           "bf0d5d60bb31755f",
-          "8bfbe4e227610899",
-          "b46dce333e7df4ca"
+          "2f5e84ea58367749"
         ],
         "durationDays": null
       },
@@ -11890,12 +11870,12 @@
         {
           "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
           "companionId": "ali",
-          "role": "9f5c5aa46a33acea"
+          "role": "42b9a4999596169c"
         },
         {
           "name": "مَالِكٌ الْأَشْتَرُ النَّخَعِيُّ",
           "companionId": "malik-al-ashtar",
-          "role": "0589511ae358619d"
+          "role": "055dda36975e6a7f"
         },
         {
           "name": "عَمْرُو بْنُ الْعَاصِ رضي الله عنه",
@@ -11905,12 +11885,12 @@
         {
           "name": "مُعَاوِيَةُ بْنُ حُدَيْجٍ السَّكُونِيُّ الْكِنْدِيُّ رضي الله عنه",
           "companionId": "muawiyah-ibn-hudayj",
-          "role": "2a20a7f753bf0448"
+          "role": "71c2951aafad24f4"
         },
         {
           "name": "أَسْمَاءُ بِنْتُ عُمَيْسٍ رضي الله عنها",
           "companionId": "asma-bint-umays",
-          "role": "040bdfdec28f8f8b"
+          "role": "c4f9c1921c082bca"
         }
       ],
       "quran": [],
@@ -11957,16 +11937,13 @@
         ]
       },
       "text": {
-        "summary": "75b34cef8c61b12b",
-        "fullDescription": "25d4f08643b3e15d",
+        "summary": "a8a49394e23a6e85",
+        "fullDescription": "01334958937dac2b",
         "courseOfEvents": [
-          "faee6fbdffdd2148",
           "4dd219d21166cd39",
           "bf8f6da457327e44",
-          "75e89a1489552fbe",
           "fc3c479daeb5c9d6",
-          "355d03f27504477c",
-          "1eb126ad83687dc8",
+          "4a6985dfa799f9a1",
           "145fbc446951d6db"
         ],
         "durationDays": null
@@ -12015,17 +11992,17 @@
         {
           "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
           "companionId": "ali",
-          "role": "e43175dd374e2bc0"
+          "role": "35e8043c6f7c2b44"
         },
         {
           "name": "مُعَاوِيَةُ بْنُ أَبِي سُفْيَانَ رضي الله عنه",
           "companionId": "muawiyah-ibn-abi-sufyan",
-          "role": "200b12f8fc8958f0"
+          "role": "0143c5b0f0dbf5cc"
         },
         {
           "name": "بُسْرُ بْنُ أَبِي أَرْطَأَةَ الْقُرَشِيُّ",
           "companionId": "busr-ibn-abi-artaah",
-          "role": "b2f57cfe0257b82c"
+          "role": "12c6994c1ffa48c3"
         },
         {
           "name": "الضَّحَّاكُ بْنُ قَيْسٍ الْفِهْرِيُّ رضي الله عنه",
@@ -12065,193 +12042,6 @@
       }
     },
     {
-      "id": "ali-muawiyah-truce",
-      "title": "الْمُهَادَنَةُ بَيْنَ عَلِيٍّ وَمُعَاوِيَةَ",
-      "era": "عهد علي بن أبي طالب",
-      "eraLabel": "خلافة الإمام علي",
-      "ruler": "علي بن أبي طالب",
-      "category": "treaty",
-      "isBattle": false,
-      "isProphetEra": false,
-      "isRashidunEra": true,
-      "isMajor": true,
-      "date": {
-        "gregorian": 660.7,
-        "hijri": 40,
-        "hijriRelative": "40 هـ",
-        "hijriDisplay": "٤٠ هـ",
-        "gregorianDisplay": "٦٦٠ م"
-      },
-      "location": {
-        "name": "الْكُوفَةُ",
-        "coordinates": [
-          32.0256,
-          44.4002
-        ]
-      },
-      "text": {
-        "summary": "7e36af0543d0aab3",
-        "fullDescription": "470f7f50af014a16",
-        "courseOfEvents": [
-          "ba09eb64782473cd",
-          "ff9f9cf858f69ff5",
-          "e215131b07f57d3b",
-          "4be5077afdd4bcdc"
-        ],
-        "durationDays": null
-      },
-      "armySize": null,
-      "enemyArmySize": null,
-      "keyFigures": [
-        {
-          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
-          "companionId": "ali"
-        },
-        {
-          "name": "مُعَاوِيَةُ بْنُ أَبِي سُفْيَانَ رضي الله عنه",
-          "companionId": "muawiyah-ibn-abi-sufyan"
-        }
-      ],
-      "companionRoles": [
-        {
-          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
-          "companionId": "ali",
-          "role": "b950ebfcac7f03cd"
-        },
-        {
-          "name": "مُعَاوِيَةُ بْنُ أَبِي سُفْيَانَ رضي الله عنه",
-          "companionId": "muawiyah-ibn-abi-sufyan",
-          "role": "e43383dd5b6beea8"
-        }
-      ],
-      "quran": [],
-      "hadith": [],
-      "sources": [
-        "bf89b1951e2fc600",
-        "1caa1246e96d2ee4"
-      ],
-      "battle": null,
-      "route": null,
-      "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
-      }
-    },
-    {
-      "id": "ibn-muljam-plot-mecca",
-      "title": "مُؤَامَرَةُ ابْنِ مُلْجَمٍ فِي مَكَّةَ",
-      "era": "عهد علي بن أبي طالب",
-      "eraLabel": "خلافة الإمام علي",
-      "ruler": "علي بن أبي طالب",
-      "category": "events",
-      "isBattle": false,
-      "isProphetEra": false,
-      "isRashidunEra": true,
-      "isMajor": true,
-      "date": {
-        "gregorian": 660.95,
-        "hijri": 40,
-        "hijriRelative": "40 هـ",
-        "hijriDisplay": "٤٠ هـ",
-        "gregorianDisplay": "٦٦٠ م"
-      },
-      "location": {
-        "name": "مَكَّةُ الْمُكَرَّمَةُ",
-        "coordinates": [
-          21.4225,
-          39.8262
-        ]
-      },
-      "text": {
-        "summary": "ff5bdb7b32a91cc9",
-        "fullDescription": "1316a7303662a2a1",
-        "courseOfEvents": [
-          "7beee83392cd41a4",
-          "b1915980236e22f3",
-          "fd70291353e7c402",
-          "992db125b798743d",
-          "1dfcd7d6e5ce5674",
-          "202329284a1fd5a9",
-          "0fedec0aa33508c9",
-          "e9262abce90bbdda"
-        ],
-        "durationDays": null
-      },
-      "armySize": null,
-      "enemyArmySize": null,
-      "keyFigures": [
-        {
-          "name": "علي بن أبي طالب رضي الله عنه",
-          "companionId": "ali"
-        },
-        {
-          "name": "معاوية بن أبي سفيان رضي الله عنه",
-          "companionId": "muawiyah-ibn-abi-sufyan"
-        },
-        {
-          "name": "عمرو بن العاص رضي الله عنه",
-          "companionId": "amr"
-        },
-        {
-          "name": "عبد الرحمن بن ملجم المرادي",
-          "companionId": "abd-al-rahman-ibn-muljam"
-        },
-        {
-          "name": "البرك بن عبد الله التميمي",
-          "companionId": "al-burak-ibn-abdullah"
-        },
-        {
-          "name": "عمرو بن بكر التميمي",
-          "companionId": "amr-ibn-bakr-al-tamimi"
-        },
-        {
-          "name": "قطام بنت الشجنة",
-          "companionId": "qattam-bint-al-shajnah"
-        },
-        {
-          "name": "خارجة بن أبي حبيبة",
-          "companionId": "kharijah-ibn-abi-habibah"
-        }
-      ],
-      "companionRoles": [
-        {
-          "name": "عَلِيُّ بْنُ أَبِي طَالِبٍ رضي الله عنه",
-          "companionId": "ali",
-          "role": "b6ddb67aee18f35a"
-        },
-        {
-          "name": "مُعَاوِيَةُ بْنُ أَبِي سُفْيَانَ رضي الله عنه",
-          "companionId": "muawiyah-ibn-abi-sufyan",
-          "role": "f4e2277f8c8110a4"
-        },
-        {
-          "name": "عَمْرُو بْنُ الْعَاصِ رضي الله عنه",
-          "companionId": "amr",
-          "role": "c08eba728a6bf668"
-        }
-      ],
-      "quran": [],
-      "hadith": [
-        "f93ff99face6f7dc",
-        "239cdbf4e6c73db7"
-      ],
-      "sources": [
-        "87dd7382e1c20ca4",
-        "3581d36a4bab0aad",
-        "81c3542ceddc093f"
-      ],
-      "battle": null,
-      "route": null,
-      "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
-        "titleFile": "ibn-muljam-plot-mecca.title.2fdf3187.m4a",
-        "titleExists": true
-      }
-    },
-    {
       "id": "event-113-استشهاد-الإمام-علي-بن-أبي-طالب",
       "title": "اسْتِشْهَادُ الْإِمَامِ عَلِيِّ بْنِ أَبِي طَالِبٍ",
       "era": "عهد علي بن أبي طالب",
@@ -12278,12 +12068,10 @@
       },
       "text": {
         "summary": "67d0afec226e524e",
-        "fullDescription": "faf849b036593264",
+        "fullDescription": "901a1a7dfb42cba2",
         "courseOfEvents": [
-          "805a6d9618362842",
-          "9a73c2ba593b8393",
+          "c68cadaba793fdbc",
           "046fa47bfbacc67d",
-          "80534c7c588aaf15",
           "7f8208a4eca45006"
         ],
         "durationDays": null
@@ -12422,13 +12210,13 @@
       },
       "text": {
         "summary": "980d20e333436142",
-        "fullDescription": "c9401c41f4fb1a7c",
+        "fullDescription": "c1666307c80c8bda",
         "courseOfEvents": [
           "7e8ca9cdc397b6f7",
           "9793933a57fff2c6",
-          "e23f090bf36dea5c",
+          "8fe677b0e95a98a8",
           "4365c6045fe96efe",
-          "cbfa93c7c6601cd0",
+          "c6a4d9cdca748b0f",
           "7c491d25e7101003",
           "e541e76a49700220",
           "d09789a9cf5cdba2"
@@ -12481,7 +12269,7 @@
         {
           "name": "الْحُسَيْنُ بْنُ عَلِيِّ بْنِ أَبِي طَالِبٍ رضي الله عنهما",
           "companionId": "al-husayn-ibn-ali",
-          "role": "12b6914b0107f1de"
+          "role": "f0f3d4673c1325b6"
         },
         {
           "name": "عَبْدُ اللهِ بْنُ عَامِرِ بْنِ كُرَيْزٍ",
@@ -12496,7 +12284,7 @@
         {
           "name": "قَيْسُ بْنُ سَعْدِ بْنِ عُبَادَةَ رضي الله عنه",
           "companionId": "qays-ibn-saad-ibn-ubadah",
-          "role": "763d8fb674ba67ed"
+          "role": "48902affef266523"
         }
       ],
       "quran": [
@@ -14387,7 +14175,7 @@
         "ابن ملجم المرادي",
         "ابن ملجم الخارجي"
       ],
-      "bio": "5b1382367612f4ee"
+      "bio": "bc284ea92dcd043f"
     },
     {
       "id": "abu-dharr-al-ghifari",
@@ -14418,7 +14206,7 @@
         "ابن الصديق",
         "ابن أبي بكر"
       ],
-      "bio": "5752ad8a19741ffb"
+      "bio": "422ee4aa833fc606"
     },
     {
       "id": "malik-al-ashtar",
@@ -14495,7 +14283,7 @@
         "أم عبد الله",
         "زوجة جعفر بن أبي طالب"
       ],
-      "bio": "101b6b0ddb9d4140"
+      "bio": "e9c9505952b21cf5"
     },
     {
       "id": "ubay-ibn-kab",
@@ -14543,7 +14331,7 @@
         "أبو عمرو البجلي",
         "يوسف هذه الأمة"
       ],
-      "bio": "064a37e42ec5cfc3"
+      "bio": "79f7182386b9fe38"
     },
     {
       "id": "al-numan-ibn-bashir",
@@ -14560,7 +14348,7 @@
         "النعمان بن بشير الخزرجي",
         "ابن بشير"
       ],
-      "bio": "f9374b6ab39946b3"
+      "bio": "da8318eb46025d1e"
     },
     {
       "id": "al-ashath-ibn-qays",
@@ -14606,7 +14394,7 @@
         "بسر بن أبي أرطاة القرشي",
         "بسر العامري"
       ],
-      "bio": "42067292589c551e"
+      "bio": "95bfda9f348ba97a"
     },
     {
       "id": "abdullah-ibn-jafar",
@@ -14635,7 +14423,7 @@
         "الضحاك الفهري",
         "الضحاك القرشي"
       ],
-      "bio": "a978d639b3f50281"
+      "bio": "ce65c7d2104dc28c"
     },
     {
       "id": "jariyah-ibn-qudamah",
@@ -14740,7 +14528,7 @@
         "عثمان بن حنيف الأنصاري رضي الله عنه",
         "عثمان بن حنيف الأوسي"
       ],
-      "bio": "9a6a2e24b75a1ab2"
+      "bio": "10b554bed75f58cc"
     },
     {
       "id": "muhammad-ibn-talhah-al-sajjad",
@@ -14800,21 +14588,7 @@
         "يسار بن سبع",
         "قاتل عمار"
       ],
-      "bio": "1f8850f336b72610"
-    },
-    {
-      "id": "kharijah-ibn-abi-habibah",
-      "name": "خارجة بن أبي حبيبة",
-      "title": "الذي قتل مكان عمرو بن العاص رضي الله عنه",
-      "role": "6fd4856eaa72d95c",
-      "birthDeath": "؟ - 40 هـ",
-      "aliases": [
-        "خارجة بن أبي حبيبة",
-        "خارجة",
-        "خارجة بن حذافة",
-        "خارجة الفسطاط"
-      ],
-      "bio": "091b43479844abc3"
+      "bio": "ba7005dc50b1b070"
     },
     {
       "id": "umm-dharr",
@@ -14829,47 +14603,6 @@
         "زوج أبي ذر"
       ],
       "bio": "d316cc3ec6ad1925"
-    },
-    {
-      "id": "al-burak-ibn-abdullah",
-      "name": "البرك بن عبد الله التميمي",
-      "title": "من الخوارج",
-      "role": "b3eded793274d4d9",
-      "birthDeath": "؟ - 40 هـ",
-      "aliases": [
-        "البرك بن عبد الله",
-        "البرك بن عبد الله التميمي",
-        "البرك التميمي",
-        "البرك"
-      ],
-      "bio": "73029a143c254f8c"
-    },
-    {
-      "id": "amr-ibn-bakr-al-tamimi",
-      "name": "عمرو بن بكر التميمي",
-      "title": "من الخوارج",
-      "role": "bec9d26ab74735a4",
-      "birthDeath": "؟ - 40 هـ",
-      "aliases": [
-        "عمرو بن بكر",
-        "عمرو بن بكر التميمي",
-        "عمرو التميمي"
-      ],
-      "bio": "6472a30208358081"
-    },
-    {
-      "id": "qattam-bint-al-shajnah",
-      "name": "قطام بنت الشجنة",
-      "title": "المرأة التي شرطت قتل علي رضي الله عنه مهرا",
-      "role": "84bb6791886568be",
-      "birthDeath": "؟ - ؟",
-      "aliases": [
-        "قطام",
-        "قطام بنت الشجنة",
-        "قطام بنت علقمة",
-        "قطام التيمية"
-      ],
-      "bio": "d6b4b2c8db72771e"
     },
     {
       "id": "khalid-ibn-said",
@@ -48161,330 +47894,6 @@
     },
     {
       "id": "660.5",
-      "from": 658.9,
-      "causes": [],
-      "areas": [
-        {
-          "holder": "ali",
-          "kind": "state",
-          "uncertain": false,
-          "nameAr": "علي بن أبي طالب رضي الله عنه",
-          "geometry": "f2dfd04d3487ccd4"
-        },
-        {
-          "holder": "muawiya",
-          "kind": "state",
-          "uncertain": false,
-          "nameAr": "معاوية بن أبي سفيان رضي الله عنه",
-          "geometry": "77bf0f79f67de11a"
-        },
-        {
-          "holder": "axum",
-          "kind": "state",
-          "uncertain": false,
-          "nameAr": "مملكة أكسوم (الحبشة)",
-          "geometry": "12d4f033e885c3fe"
-        },
-        {
-          "holder": "byz",
-          "kind": "state",
-          "uncertain": false,
-          "nameAr": "الإمبراطورية البيزنطية (الروم)",
-          "geometry": "9491de84cf3fdc7a"
-        },
-        {
-          "holder": "local",
-          "kind": "contested",
-          "uncertain": false,
-          "nameAr": "حكام محليون",
-          "geometry": "be12eb83a7cfd83e"
-        },
-        {
-          "holder": "nubia",
-          "kind": "treaty",
-          "uncertain": false,
-          "nameAr": "النوبة",
-          "geometry": "3f60af3a781d5c57"
-        },
-        {
-          "holder": "islam",
-          "kind": "contested",
-          "uncertain": true,
-          "nameAr": "دولة الخلفاء الراشدين",
-          "geometry": "2b21b28cfb4eb91d"
-        },
-        {
-          "holder": "islam",
-          "kind": "treaty",
-          "uncertain": false,
-          "nameAr": "دولة الخلفاء الراشدين",
-          "geometry": "03fe4eacfcaa2345"
-        },
-        {
-          "holder": "byz",
-          "kind": "treaty",
-          "uncertain": false,
-          "nameAr": "الإمبراطورية البيزنطية (الروم)",
-          "geometry": "531767fdc13c9e3b"
-        },
-        {
-          "holder": "muawiya",
-          "kind": "contested",
-          "uncertain": true,
-          "nameAr": "معاوية بن أبي سفيان رضي الله عنه",
-          "geometry": "d69829b5c3964349"
-        },
-        {
-          "holder": "tribal",
-          "kind": "tribal",
-          "uncertain": true,
-          "nameAr": "البجة",
-          "geometry": "000a922bb36416e0"
-        }
-      ],
-      "labels": [
-        "علي بن أبي طالب رضي الله عنه",
-        "معاوية بن أبي سفيان رضي الله عنه",
-        "مملكة أكسوم (الحبشة)",
-        "الإمبراطورية البيزنطية (الروم)",
-        "جند فلسطين",
-        "جند الأردن",
-        "جند دمشق",
-        "جند حمص",
-        "جند قنسرين",
-        "الثغور",
-        "بلاد الروم",
-        "الإسكندرية",
-        "مصر (أسفل الأرض)",
-        "الصعيد",
-        "سيناء",
-        "برقة",
-        "طرابلس",
-        "إفريقية",
-        "قبرص",
-        "السواد",
-        "الأهواز",
-        "الجبال",
-        "الري وقومس",
-        "فارس",
-        "كرمان",
-        "سجستان",
-        "خراسان",
-        "طبرستان وجرجان",
-        "أذربيجان",
-        "مكران",
-        "أرمينية",
-        "الجزيرة",
-        "الحيرة والأنبار",
-        "مشارف الشام (غسان)",
-        "صنعاء (الأبناء)",
-        "حمير",
-        "تهامة اليمن (عك والأشعر)",
-        "البحرين (عبد القيس)",
-        "عمان (الأزد)",
-        "كنانة",
-        "خزاعة",
-        "سليم",
-        "هوازن",
-        "غطفان",
-        "طيئ",
-        "بنو أسد",
-        "بنو تميم",
-        "بكر بن وائل",
-        "جهينة",
-        "همدان",
-        "مذحج",
-        "السراة (الأزد وخثعم)",
-        "تبوك وأيلة (جذام وبلي)",
-        "دومة الجندل (كلب)",
-        "مهرة",
-        "البجة",
-        "اليمامة (بنو حنيفة)",
-        "حضرموت (كندة)",
-        "نجران",
-        "مكة",
-        "الطائف (ثقيف)",
-        "يثرب",
-        "خيبر وفدك",
-        "وادي القرى وتيماء",
-        "النوبة",
-        "الحبشة (أكسوم)"
-      ],
-      "legend": [
-        "معاوية بن أبي سفيان رضي الله عنه",
-        "الإمبراطورية البيزنطية (الروم)",
-        "علي بن أبي طالب رضي الله عنه",
-        "مملكة أكسوم (الحبشة)",
-        "أرض متنازع عليها",
-        "صلح أو معاهدة، دون حكم مباشر",
-        "ديار القبائل (حدود غير ثابتة)",
-        "سيطرة غير مؤكدة (خط متقطع)"
-      ]
-    },
-    {
-      "id": "660.7",
-      "from": 658.9,
-      "causes": [],
-      "areas": [
-        {
-          "holder": "ali",
-          "kind": "state",
-          "uncertain": false,
-          "nameAr": "علي بن أبي طالب رضي الله عنه",
-          "geometry": "f2dfd04d3487ccd4"
-        },
-        {
-          "holder": "muawiya",
-          "kind": "state",
-          "uncertain": false,
-          "nameAr": "معاوية بن أبي سفيان رضي الله عنه",
-          "geometry": "77bf0f79f67de11a"
-        },
-        {
-          "holder": "axum",
-          "kind": "state",
-          "uncertain": false,
-          "nameAr": "مملكة أكسوم (الحبشة)",
-          "geometry": "12d4f033e885c3fe"
-        },
-        {
-          "holder": "byz",
-          "kind": "state",
-          "uncertain": false,
-          "nameAr": "الإمبراطورية البيزنطية (الروم)",
-          "geometry": "9491de84cf3fdc7a"
-        },
-        {
-          "holder": "local",
-          "kind": "contested",
-          "uncertain": false,
-          "nameAr": "حكام محليون",
-          "geometry": "be12eb83a7cfd83e"
-        },
-        {
-          "holder": "nubia",
-          "kind": "treaty",
-          "uncertain": false,
-          "nameAr": "النوبة",
-          "geometry": "3f60af3a781d5c57"
-        },
-        {
-          "holder": "islam",
-          "kind": "contested",
-          "uncertain": true,
-          "nameAr": "دولة الخلفاء الراشدين",
-          "geometry": "2b21b28cfb4eb91d"
-        },
-        {
-          "holder": "islam",
-          "kind": "treaty",
-          "uncertain": false,
-          "nameAr": "دولة الخلفاء الراشدين",
-          "geometry": "03fe4eacfcaa2345"
-        },
-        {
-          "holder": "byz",
-          "kind": "treaty",
-          "uncertain": false,
-          "nameAr": "الإمبراطورية البيزنطية (الروم)",
-          "geometry": "531767fdc13c9e3b"
-        },
-        {
-          "holder": "muawiya",
-          "kind": "contested",
-          "uncertain": true,
-          "nameAr": "معاوية بن أبي سفيان رضي الله عنه",
-          "geometry": "d69829b5c3964349"
-        },
-        {
-          "holder": "tribal",
-          "kind": "tribal",
-          "uncertain": true,
-          "nameAr": "البجة",
-          "geometry": "000a922bb36416e0"
-        }
-      ],
-      "labels": [
-        "علي بن أبي طالب رضي الله عنه",
-        "معاوية بن أبي سفيان رضي الله عنه",
-        "مملكة أكسوم (الحبشة)",
-        "الإمبراطورية البيزنطية (الروم)",
-        "جند فلسطين",
-        "جند الأردن",
-        "جند دمشق",
-        "جند حمص",
-        "جند قنسرين",
-        "الثغور",
-        "بلاد الروم",
-        "الإسكندرية",
-        "مصر (أسفل الأرض)",
-        "الصعيد",
-        "سيناء",
-        "برقة",
-        "طرابلس",
-        "إفريقية",
-        "قبرص",
-        "السواد",
-        "الأهواز",
-        "الجبال",
-        "الري وقومس",
-        "فارس",
-        "كرمان",
-        "سجستان",
-        "خراسان",
-        "طبرستان وجرجان",
-        "أذربيجان",
-        "مكران",
-        "أرمينية",
-        "الجزيرة",
-        "الحيرة والأنبار",
-        "مشارف الشام (غسان)",
-        "صنعاء (الأبناء)",
-        "حمير",
-        "تهامة اليمن (عك والأشعر)",
-        "البحرين (عبد القيس)",
-        "عمان (الأزد)",
-        "كنانة",
-        "خزاعة",
-        "سليم",
-        "هوازن",
-        "غطفان",
-        "طيئ",
-        "بنو أسد",
-        "بنو تميم",
-        "بكر بن وائل",
-        "جهينة",
-        "همدان",
-        "مذحج",
-        "السراة (الأزد وخثعم)",
-        "تبوك وأيلة (جذام وبلي)",
-        "دومة الجندل (كلب)",
-        "مهرة",
-        "البجة",
-        "اليمامة (بنو حنيفة)",
-        "حضرموت (كندة)",
-        "نجران",
-        "مكة",
-        "الطائف (ثقيف)",
-        "يثرب",
-        "خيبر وفدك",
-        "وادي القرى وتيماء",
-        "النوبة",
-        "الحبشة (أكسوم)"
-      ],
-      "legend": [
-        "معاوية بن أبي سفيان رضي الله عنه",
-        "الإمبراطورية البيزنطية (الروم)",
-        "علي بن أبي طالب رضي الله عنه",
-        "مملكة أكسوم (الحبشة)",
-        "أرض متنازع عليها",
-        "صلح أو معاهدة، دون حكم مباشر",
-        "ديار القبائل (حدود غير ثابتة)",
-        "سيطرة غير مؤكدة (خط متقطع)"
-      ]
-    },
-    {
-      "id": "660.95",
       "from": 658.9,
       "causes": [],
       "areas": [
