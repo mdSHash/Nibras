@@ -3396,3 +3396,15 @@ verify batches locally and in CI). No code yet: the plan says options first, Mos
 - Material: 54 Meccan and Medinan events today (17 + 37; the plan said 49). Draft modules for C: Meccan 16, the Hijra 5
   (second ʿAqaba to the muʾakhat), Medinan 33 (may split in two).
 - Question examples on the page are marked «مثال لم يُراجع» and come only from event text (titles, roles, dates).
+- **Round 2 (same day).** Mostafa turned down all four. B was the closest, but he found it boring: the paths serve children,
+  teenagers, adults and researchers, so they must be fun and impressive. That covers the backgrounds, how progress shows,
+  the transitions between events, how events are displayed, and a creative name. The same page now has four live
+  prototypes, each running on six real Meccan summaries:
+  - **أ المخطوطة المذهّبة**: B reworked. The page turns, the frame is drawn in ink, a rosette is gilded and a wax seal closes the chapter.
+  - **ب سماء السُّرى**: each event is a star placed from its map position; lit stars draw constellations, and the sky moves toward dawn.
+  - **ج الشمسة**: each tile flips to show its event and comes back glazed in its category colour; the path builds a ceiling of rosettes.
+  - **د صندوق الدنيا**: a paper-cut peep box showing places only, never people. A crank moves to the next scene and tickets are punched.
+
+  All four share the «عدسة العمق» lens. It goes summary → fullDescription → courseOfEvents → sources, using existing
+  fields only. Recommended: B as the path view, with A's manuscript as the event page. The page offers four names (سُرى،
+  قناديل، أثَر، دروب النور) or one of his own. The pick is saved in the page database, collection `choice`, document `pick2`.
