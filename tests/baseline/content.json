@@ -6852,8 +6852,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "hijri-calendar-and-diwans.description.d3c30607.m4a",
+        "descriptionExists": true,
         "titleFile": "hijri-calendar-and-diwans.title.6c1c28df.m4a",
         "titleExists": true
       }
