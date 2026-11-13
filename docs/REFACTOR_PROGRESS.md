@@ -3289,3 +3289,48 @@ Queue now 78 (60 stale, 18 missing). The daily workflow records them after merge
 - Event 113 keeps two steps not in the list: «ضرب الإمام علي أثناء استيقاظه للصلاة أو في محرابه» and «بعد يومين من
   ضربته»; for the close-out.
 - Hujr ibn ʿAdi's bio: al-Barzanji covers his killing in the authentic part (page 1257); for the close-out.
+
+### Phase 4 close-out: the list (2026-11-13)
+
+Branch `refactor/phase-4-closeout` from `main` after PR #46 (merged 2026-11-13). `npm run verify` passed before any change,
+as five `--only` batches: static steps and build (440 unit tests); features 127 passed, 2 skipped; engines 50 passed, 24
+skipped; visual 16/16; Lighthouse within budget. **No content, Qur'an text or narration changed. No Gemini, Groq or
+OpenRouter quota spent.**
+
+#### Narration workflow
+
+Yesterday's runs (16:59 and 21:30 UTC) succeeded; bot PRs #44 and #45 merged. Today's run had not started at 15:00 UTC;
+nothing failed, nothing changed. Queue: 78 (60 stale, 18 missing).
+
+#### What was made
+
+- `docs/audit/closeout.md` (generated) from `docs/audit/closeout/` `01-cities`, `02-open-items`, `03-i002` and `HEAD.md`
+  (summary, decisions, sources, what is left).
+- Sources cached (git-ignored): Khalifa pages 171–260 and 370–380; al-Kamil 1481–1512, 3470–3500, 3655–3699; al-Bidaya
+  7960–8110, 9200–9270 and probes; al-Barzanji 3641–3700 (year 51, Hujr). Three al-Durar hadith searches saved in
+  `tmp/territories-research/cache/dorar/` (`yathrib`, `mecca-khayr`, `masjid-alf`), fetched through the site's API in
+  Chrome; article 1207 read in Chrome.
+- Working scripts in the git-ignored `tmp/audit4i/` (from 4H-2): notes `n01-cities`, `n02-open`, `n03-i002`, `build.ts`
+  (ids A-, E-, B-), `page.ts`, `page-tpl.html` (new header), `apply.ts`, `merge.ts`.
+
+#### Summary
+
+- 25 findings (11 proven, 10 likely, 4 uncertain), 36 quotes checked by script.
+- Cities: Mecca and Medina hold (4A had listed them without sources); three sound hadiths offered as enrichment. Kairouan:
+  laid out in 50 AH by order of Muʿawiya, finished 55; «أول مدينة إسلامية» and «الأندلس» unsourced. Baghdad: dates and
+  «مدينة السلام» added, «بيت الحكمة» and «العصر الذهبي» unsourced. Cordoba: 92 and 138 added, «منارة العلم والحضارة في أوروبا»
+  unsourced. Coordinates right.
+- Hujr ibn ʿAdi: the cause of his killing and Marj ʿAdhra are Abu Mikhnaf's only (al-Barzanji 3699); the sound report
+  (Ibn Abi Mulayka, 1257) and Khalifa's year 51 replace them.
+- Event 113's two steps follow the approved description. ʿAbd Allah ibn Jaʿfar's «90 years» is al-Madaʾini's.
+- «قتلانا وقتلاهم في الجنة» proposed for Siffin. ʿAli's grief (Musannaf «39007»): not found (another edition's numbering).
+- I-002: 8 findings, one per approved text of ʿAli's era still naming Sayf, al-Waqidi or al-Madaʾini/ʿAwana.
+
+#### Narration count
+
+3 recordings if approved as recommended (Siffin, «رفض معاوية البيعة», Egypt). City text, steps and bios are not narrated.
+
+#### Review page
+
+https://claude.ai/artifact/6XsH4bonjNvNKXWUf8zJ54 (private). Decisions are saved in its database, collection
+`decisions`, one document per id (A-, E-, B-). **Part 2 starts by reading it.**
