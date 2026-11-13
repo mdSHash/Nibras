@@ -3289,3 +3289,93 @@ Queue now 78 (60 stale, 18 missing). The daily workflow records them after merge
 - Event 113 keeps two steps not in the list: «ضرب الإمام علي أثناء استيقاظه للصلاة أو في محرابه» and «بعد يومين من
   ضربته»; for the close-out.
 - Hujr ibn ʿAdi's bio: al-Barzanji covers his killing in the authentic part (page 1257); for the close-out.
+
+### Phase 4 close-out: the list (2026-11-13)
+
+Branch `refactor/phase-4-closeout` from `main` after PR #46 (merged 2026-11-13). `npm run verify` passed before any change,
+as five `--only` batches: static steps and build (440 unit tests); features 127 passed, 2 skipped; engines 50 passed, 24
+skipped; visual 16/16; Lighthouse within budget. **No content, Qur'an text or narration changed. No Gemini, Groq or
+OpenRouter quota spent.**
+
+#### Narration workflow
+
+Yesterday's runs (16:59 and 21:30 UTC) succeeded; bot PRs #44 and #45 merged. Today's run had not started at 15:00 UTC;
+nothing failed, nothing changed. Queue: 78 (60 stale, 18 missing).
+
+#### What was made
+
+- `docs/audit/closeout.md` (generated) from `docs/audit/closeout/` `01-cities`, `02-open-items`, `03-i002` and `HEAD.md`
+  (summary, decisions, sources, what is left).
+- Sources cached (git-ignored): Khalifa pages 171–260 and 370–380; al-Kamil 1481–1512, 3470–3500, 3655–3699; al-Bidaya
+  7960–8110, 9200–9270 and probes; al-Barzanji 3641–3700 (year 51, Hujr). Three al-Durar hadith searches saved in
+  `tmp/territories-research/cache/dorar/` (`yathrib`, `mecca-khayr`, `masjid-alf`), fetched through the site's API in
+  Chrome; article 1207 read in Chrome.
+- Working scripts in the git-ignored `tmp/audit4i/` (from 4H-2): notes `n01-cities`, `n02-open`, `n03-i002`, `build.ts`
+  (ids A-, E-, B-), `page.ts`, `page-tpl.html` (new header), `apply.ts`, `merge.ts`.
+
+#### Summary
+
+- 25 findings (11 proven, 10 likely, 4 uncertain), 36 quotes checked by script.
+- Cities: Mecca and Medina hold (4A had listed them without sources); three sound hadiths offered as enrichment. Kairouan:
+  laid out in 50 AH by order of Muʿawiya, finished 55; «أول مدينة إسلامية» and «الأندلس» unsourced. Baghdad: dates and
+  «مدينة السلام» added, «بيت الحكمة» and «العصر الذهبي» unsourced. Cordoba: 92 and 138 added, «منارة العلم والحضارة في أوروبا»
+  unsourced. Coordinates right.
+- Hujr ibn ʿAdi: the cause of his killing and Marj ʿAdhra are Abu Mikhnaf's only (al-Barzanji 3699); the sound report
+  (Ibn Abi Mulayka, 1257) and Khalifa's year 51 replace them.
+- Event 113's two steps follow the approved description. ʿAbd Allah ibn Jaʿfar's «90 years» is al-Madaʾini's.
+- «قتلانا وقتلاهم في الجنة» proposed for Siffin. ʿAli's grief (Musannaf «39007»): not found (another edition's numbering).
+- I-002: 8 findings, one per approved text of ʿAli's era still naming Sayf, al-Waqidi or al-Madaʾini/ʿAwana.
+
+#### Narration count
+
+3 recordings if approved as recommended (Siffin, «رفض معاوية البيعة», Egypt). City text, steps and bios are not narrated.
+
+#### Review page
+
+https://claude.ai/artifact/6XsH4bonjNvNKXWUf8zJ54 (private). Decisions are saved in its database, collection
+`decisions`, one document per id (A-, E-, B-). **Part 2 starts by reading it.**
+
+### Phase 4 close-out: applied (2026-11-13)
+
+Mostafa marked all 25 findings: 18 «موافق» (3 with a note), 2 «بتعديل» (1 with a note), 5 «مرفوض» (1 with a note).
+Decisions and what was applied are in `docs/audit/closeout/*.json` (`decision`, `applied`) and the generated report (25
+findings, 36 quotes checked, applied text checked against the content).
+
+#### How the marks were read
+
+- «موافق»: the proposal. Notes on E-001 and E-002 («ارفق الحديث إن كان صحيحًا»): both hadiths are sound (al-Tirmidhi 3925
+  graded by al-Albani; al-Bukhari 1871), added with their numbers. A-005's note: rechecked, the proposal holds.
+- «بتعديل»: the alternative. A-002 (Kairouan) after research found no source for «أول» or for Kairouan as the base of the
+  Andalus conquest; A-007 removes Sayf's Jamal sentence.
+- «مرفوض»: the text stays (A-012 the raids event, B-005 al-Dahhak's bio, E-007 nothing added).
+- **Id bug:** two cards were numbered B-001 (Hujr's cause/Marj ʿAdhra and Hujr's raid sentence; `build.ts` keyed both
+  `person:hujr-ibn-adi:bio:0`), so they shared one decision. Mostafa confirmed his «مرفوض» covers both: Hujr's bio keeps
+  both sentences. The note asked for more research; al-Durar was not reachable (the Chrome extension was not connected and
+  the site answers scripts with a Cloudflare page), so there is nothing beyond al-Barzanji's ruling. **Fix for the next
+  list:** key ids by the finding's position in the notes, not by record and field.
+- **Widened by Mostafa in this session:** A-009 also removes the shirt from the summary, step 3, and al-Nuʿman ibn Bashir's
+  role and key figure (his only part in that event; he stays linked to the raids event). A-011 also changes the Egypt
+  date label from «صفر 38 هـ» to «38 هـ» (sort key unchanged).
+
+#### Changed
+
+- 5 cities, 5 events (Siffin, the Jamal, event 113's steps, «رفض معاوية البيعة», Egypt), 2 bios (Hujr's role and Ibn
+  Abi Mulayka's report, ʿAbd Allah ibn Jaʿfar's age): 25 edits in 12 files (`tmp/audit4i/apply2.ts`).
+- `validate:content` passes; the Qur'an quotes check: 22 quotes, all matching. No Qur'an text changed.
+- Chat KB rebuilt (0 errors, the 3 known warnings); embedding index by the Chat index workflow on the branch (run
+  43461115149, approved Gemini embedding quota): 3415/3415 units current.
+- Baselines (approved for the changed records): content snapshot, 30 differences in exactly the 12 changed records. The
+  behavior map did not change. No screenshot changed.
+- `npm run verify` as five batches: static steps and build (440 unit tests), features 127 passed and 2 skipped, engines
+  50 passed and 24 skipped, visual 16/16, Lighthouse within budget.
+
+#### Narration
+
+The four changed descriptions (Siffin, the Jamal, «رفض معاوية البيعة», Egypt) were already stale from 4H/4H-2, so the
+queue stays 78 (60 stale, 18 missing). The daily workflow records them after merge.
+
+#### Phase 4 status
+
+Every era and city now has an approved audit entry. Phase 4 is done when narration reports 0 stale and 0 missing (about
+8 days of daily runs). Left from the 4H log for a later session: Salman ibn Rabiʿa's and Abu al-Dardaʾ's dates, *Futuh
+Misr*, bios citing Siyar, al-Isaba where its index did not reach; and Hujr's cause if al-Durar shows more.
