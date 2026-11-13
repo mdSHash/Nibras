@@ -3233,3 +3233,59 @@ failed, nothing changed. Queue: 80 (60 stale, 20 missing).
 
 https://claude.ai/artifact/G97y8fbs1cRKhhH89P6s1C (private). Decisions are saved in its database, collection
 `decisions`, one document per id (I-, E-, P-). **Part 2 of 4H-2 starts by reading it.**
+
+### 4H-2 — ʿAli's caliphate by isnad: applied (2026-11-13)
+
+Mostafa marked all 105 on the review page: 90 «موافق», 3 «موافق» with a note, 7 a note only, 3 «بتعديل» without a note,
+2 «بتعديل» with a note; none «مرفوض». His decisions and what was applied are now in `docs/audit/ali-isnad/*.json`
+(`decision`, `applied`) and in the generated report (105 findings, 248 quotes checked).
+
+#### How the marks were read
+
+- «موافق»: the first option (85 edits by script from an exact old→new list, `tmp/audit4h2/edits1.ts`, `edits2.ts`).
+- A note («راجع و ابحث و دقق و صحح»): researched again and only what holds applied. **New source (Mostafa, this
+  session):** al-Durar al-Saniyya — the hadith encyclopedia (graded), the historical encyclopedia and its articles. The
+  historical encyclopedia is a short narrative without chains or gradings («سرد تاريخي مختصر مجرد من التعليق»): its entry
+  on ʿAli's killing tells the Mecca plot and the poisoned sword, so it cannot overturn al-Barzanji's ruling; on Busr it
+  gives Khalifa's account (no killing of the two boys), which matches the proposal.
+- His note on I-002, «اذا كانت ضعيفة فلا حاجه لنا بها، اريد معلومات صحيحة مؤكده», was applied to the other noted items
+  that rested only on Sayf, al-Waqidi or ʿAwana: Sayf's numbers and Hafsa (I-002), ʿAwana's route for Busr (I-067), the
+  washing (al-Waqidi, I-079), ʿUthman's shirt in two bios (Sayf, P-008, P-010). Findings he approved as «موافق» keep their
+  attributed Sayf/al-Waqidi details as approved; whether to remove those too is a question for him (below).
+- «بتعديل» without a note: the alternative written on the page. I-007 (the Jamal's start): the authentic report, then
+  Sayf's version attributed. I-043/I-044 (the Khawarij's number): current text kept.
+- I-048, «ارفق حديث رسول الله ان كان صحيحا»: the hadith (Muslim 1064) was already in the event's hadith field; the step
+  now also has ʿAli's oath to ʿAbida al-Salmani that he heard it (Muslim 1066).
+
+#### Changed
+
+- 15 events, 9 bios: 88 edits (`tmp/audit4h2/apply.ts`, every old text matched exactly once).
+- **Removed** (approved, rule 6): the events «مؤامرة ابن ملجم في مكة» and «المهادنة بين علي ومعاوية», and the bios of
+  al-Burak, ʿAmr ibn Bakr, Kharija ibn Abi Habiba and Qatam (also out of `people-order.json`). The plot's two recordings
+  were moved to `audio-src/replaced/` and out of the manifest (archived, not deleted); the truce had none.
+- Mushafs event: al-Ashtar and al-Ashʿath out of its roles and key figures; al-Nahrawan's `forces` removed.
+- `validate:content` passes; the Qur'an quotes check: 22 quotes, all matching. No Qur'an text changed.
+- Chat KB rebuilt; embedding index by the Chat index workflow on the branch (run 43439980907, Gemini embedding quota
+  approved): 3417/3417 units current.
+- Baselines (approved for the changed records): content snapshot (the changed events and bios, counts 148/165, the two
+  map periods keyed by the removed events' dates), behavior map (search results), the UI baseline's start-view marker
+  count (one point fewer in every project, Windows and Linux: the Mecca plot's marker). `tests/contentSchema.test.ts`
+  counts 148 events, 165 people.
+- `npm run verify` as five batches: static steps and build (440 unit tests), features 127 passed and 2 skipped, engines
+  50 passed and 24 skipped, visual 16/16, Lighthouse within budget.
+
+#### Narration
+
+17 of this era's recordings are in the queue (16 descriptions and the mushafs title); some were already waiting from 4H.
+Queue now 78 (60 stale, 18 missing). The daily workflow records them after merge; nothing generated in this session.
+
+#### Open, for Mostafa
+
+- Extend his I-002 note to the approved items that keep Sayf or al-Waqidi attributed (e.g. Sayf's al-Qaʿqaʿ version in
+  the Jamal, I-007 alternative)? Not done without his word.
+- Authentic additions found after the list, not applied: «قتلانا وقتلاهم في الجنة» (ʿAli on the Siffin dead, Musannaf
+  42691, Yazid ibn al-Asamm; graded «سنده صحيح» in al-ʿUmayri's al-Durar article 1207) and ʿAli's grief over Siffin
+  (Musannaf no. 39007, page not yet found).
+- Event 113 keeps two steps not in the list: «ضرب الإمام علي أثناء استيقاظه للصلاة أو في محرابه» and «بعد يومين من
+  ضربته»; for the close-out.
+- Hujr ibn ʿAdi's bio: al-Barzanji covers his killing in the authentic part (page 1257); for the close-out.

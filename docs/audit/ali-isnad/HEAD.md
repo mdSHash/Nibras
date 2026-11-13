@@ -99,3 +99,10 @@ authentic report on the same point.
   authentic part for year 51; his weak-part pages for that year were not fetched. For the Phase 4 close-out.
 - Bios with no report-based problem were not given findings: ʿAbd Allah ibn Jaʿfar (his 4E date stays open from 4H), Sufyan
   ibn ʿAwf (not a Companion on the likelier view; the raid details are ʿAwana's, plain), Abu Dharr (4G's step, settled in 4H).
+
+## Part 2: applied (2026-11-13)
+
+All 105 marked: 90 approved, 10 with a note (researched again, al-Durar added as a source), 5 «بتعديل». Applied: 88 edits
+on 15 events and 9 bios; the plot and truce events and the plot's four bios removed (recordings archived). Each finding now
+carries `decision` and `applied` (with the research on noted items). Details: `docs/REFACTOR_PROGRESS.md`, «4H-2 — ʿAli's
+caliphate by isnad: applied».
