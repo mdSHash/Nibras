@@ -7517,10 +7517,10 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "descriptionFile": "khalid-dismissal.description.837a2808.m4a",
+        "descriptionExists": true,
+        "titleFile": "khalid-dismissal.title.a1be5460.m4a",
+        "titleExists": true
       }
     },
     {
@@ -7595,8 +7595,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "famine-am-ramada.description.7e4b2d5a.m4a",
+        "descriptionExists": true,
         "titleFile": "famine-am-ramada.title.04a4d84c.m4a",
         "titleExists": true
       }
@@ -7685,8 +7685,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "plague-amwas.description.945e1499.m4a",
+        "descriptionExists": true,
         "titleFile": "plague-amwas.title.5adfc2b0.m4a",
         "titleExists": true
       }
@@ -7751,8 +7751,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-raqqa.description.e19bf7f8.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-raqqa.title.ed78bfa6.m4a",
         "titleExists": true
       }
@@ -7818,8 +7818,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-edessa.description.3b17577c.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-edessa.title.a565444e.m4a",
         "titleExists": true
       }

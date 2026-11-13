@@ -1488,6 +1488,22 @@
         "voice": "Charon"
       }
     },
+    "khalid-dismissal": {
+      "title": {
+        "file": "khalid-dismissal.title.a1be5460.m4a",
+        "textHash": "a1be5460538453b0e07f8eb9072a6237106bfa85a42a10bd0818d051479e590d",
+        "durationSec": 2.2,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "khalid-dismissal.description.837a2808.m4a",
+        "textHash": "837a2808971ac6ddc7801704c3f2fa45b4cae09463da2ba1cdc9faf77378ad34",
+        "durationSec": 72.04,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
     "famine-am-ramada": {
       "title": {
         "file": "famine-am-ramada.title.04a4d84c.m4a",
@@ -1497,9 +1513,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "famine-am-ramada.description.caa062e6.m4a",
-        "textHash": "caa062e6ab1113791fc575ea0a1db59bbd871ca652500dd42af440a90a2341bb",
-        "durationSec": 69.36,
+        "file": "famine-am-ramada.description.7e4b2d5a.m4a",
+        "textHash": "7e4b2d5ad54b7ccb2abf520303e29199ba7cd95e5ddb455e508ba32bda7249c1",
+        "durationSec": 83.04,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1513,9 +1529,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "plague-amwas.description.3237485b.m4a",
-        "textHash": "3237485bf561ee3ada116ec85ed8634e35de06ac28cfa0d4ec25730792bba2a1",
-        "durationSec": 75.04,
+        "file": "plague-amwas.description.945e1499.m4a",
+        "textHash": "945e14991e0b2b58154a11cc1e2bff203af29811a7b4f52d74046d00e197cd5d",
+        "durationSec": 68.96,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1529,9 +1545,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-raqqa.description.79322ad2.m4a",
-        "textHash": "79322ad2cb15d3249585c9fa45dd6140e004eb05c0716338bc663c59109df9e7",
-        "durationSec": 48.08,
+        "file": "conquest-raqqa.description.e19bf7f8.m4a",
+        "textHash": "e19bf7f8102c4b03c1953b498d0d90511809b7acc6e2c7f39dc8d06a2ef5da04",
+        "durationSec": 47.12,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1545,9 +1561,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-edessa.description.cf3a96d1.m4a",
-        "textHash": "cf3a96d1191b7f8597defd29a33ac2182728926cdc3cb0f45ffa29ef304665f4",
-        "durationSec": 43.56,
+        "file": "conquest-edessa.description.3b17577c.m4a",
+        "textHash": "3b17577c9971f15f3ae70f7392d50b670042fabf45efe70503fa09f4a6972680",
+        "durationSec": 44.76,
         "engine": "gemini",
         "voice": "Charon"
       }
