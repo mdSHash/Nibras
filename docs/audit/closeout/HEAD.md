@@ -67,3 +67,12 @@ If everything is approved as recommended: **3 recordings** (Siffin's addition, �
 Salman ibn Rabiʿa's and Abu al-Dardaʾ's dates; *Futuh Misr*'s Ifriqiya pages and its place in the reliable-source list;
 bios that cite Siyar in their last line; al-Isaba where its index did not reach. Phase 4 is done when narration reports 0
 stale and 0 missing.
+
+## Part 2: applied (2026-11-13)
+
+All 25 marked (24 documents: B-001 was shown on two cards by an id bug; Mostafa confirmed his «مرفوض» covers both).
+18 «موافق» (3 with a note), 2 «بتعديل» (1 with a note), 5 «مرفوض» (1 with a note). Applied: 25 edits in 12 files
+(`tmp/audit4i/apply2.ts`, every old text matched exactly once). Kept: Hujr's bio on the cause and on the raid (B-001), the
+raids event (A-012), al-Dahhak's bio (B-005); nothing added for ʿAli's grief (E-007). Mostafa's answers in this session
+widened two findings: A-009 also takes the shirt out of the summary, step 3 and al-Nuʿman's role and key figure (his only
+part in that event); A-011 also changes the Egypt date label to «38 هـ». Each finding carries `decision` and `applied`.

@@ -3334,3 +3334,48 @@ nothing failed, nothing changed. Queue: 78 (60 stale, 18 missing).
 
 https://claude.ai/artifact/6XsH4bonjNvNKXWUf8zJ54 (private). Decisions are saved in its database, collection
 `decisions`, one document per id (A-, E-, B-). **Part 2 starts by reading it.**
+
+### Phase 4 close-out: applied (2026-11-13)
+
+Mostafa marked all 25 findings: 18 «موافق» (3 with a note), 2 «بتعديل» (1 with a note), 5 «مرفوض» (1 with a note).
+Decisions and what was applied are in `docs/audit/closeout/*.json` (`decision`, `applied`) and the generated report (25
+findings, 36 quotes checked, applied text checked against the content).
+
+#### How the marks were read
+
+- «موافق»: the proposal. Notes on E-001 and E-002 («ارفق الحديث إن كان صحيحًا»): both hadiths are sound (al-Tirmidhi 3925
+  graded by al-Albani; al-Bukhari 1871), added with their numbers. A-005's note: rechecked, the proposal holds.
+- «بتعديل»: the alternative. A-002 (Kairouan) after research found no source for «أول» or for Kairouan as the base of the
+  Andalus conquest; A-007 removes Sayf's Jamal sentence.
+- «مرفوض»: the text stays (A-012 the raids event, B-005 al-Dahhak's bio, E-007 nothing added).
+- **Id bug:** two cards were numbered B-001 (Hujr's cause/Marj ʿAdhra and Hujr's raid sentence; `build.ts` keyed both
+  `person:hujr-ibn-adi:bio:0`), so they shared one decision. Mostafa confirmed his «مرفوض» covers both: Hujr's bio keeps
+  both sentences. The note asked for more research; al-Durar was not reachable (the Chrome extension was not connected and
+  the site answers scripts with a Cloudflare page), so there is nothing beyond al-Barzanji's ruling. **Fix for the next
+  list:** key ids by the finding's position in the notes, not by record and field.
+- **Widened by Mostafa in this session:** A-009 also removes the shirt from the summary, step 3, and al-Nuʿman ibn Bashir's
+  role and key figure (his only part in that event; he stays linked to the raids event). A-011 also changes the Egypt
+  date label from «صفر 38 هـ» to «38 هـ» (sort key unchanged).
+
+#### Changed
+
+- 5 cities, 5 events (Siffin, the Jamal, event 113's steps, «رفض معاوية البيعة», Egypt), 2 bios (Hujr's role and Ibn
+  Abi Mulayka's report, ʿAbd Allah ibn Jaʿfar's age): 25 edits in 12 files (`tmp/audit4i/apply2.ts`).
+- `validate:content` passes; the Qur'an quotes check: 22 quotes, all matching. No Qur'an text changed.
+- Chat KB rebuilt (0 errors, the 3 known warnings); embedding index by the Chat index workflow on the branch (run
+  43461115149, approved Gemini embedding quota): 3415/3415 units current.
+- Baselines (approved for the changed records): content snapshot, 30 differences in exactly the 12 changed records. The
+  behavior map did not change. No screenshot changed.
+- `npm run verify` as five batches: static steps and build (440 unit tests), features 127 passed and 2 skipped, engines
+  50 passed and 24 skipped, visual 16/16, Lighthouse within budget.
+
+#### Narration
+
+The four changed descriptions (Siffin, the Jamal, «رفض معاوية البيعة», Egypt) were already stale from 4H/4H-2, so the
+queue stays 78 (60 stale, 18 missing). The daily workflow records them after merge.
+
+#### Phase 4 status
+
+Every era and city now has an approved audit entry. Phase 4 is done when narration reports 0 stale and 0 missing (about
+8 days of daily runs). Left from the 4H log for a later session: Salman ibn Rabiʿa's and Abu al-Dardaʾ's dates, *Futuh
+Misr*, bios citing Siyar, al-Isaba where its index did not reach; and Hujr's cause if al-Durar shows more.
