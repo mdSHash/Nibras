@@ -3185,3 +3185,51 @@ Playwright 1.59 does not support («Playwright does not support chromium on ubun
 jobs to `ubuntu-24.04`, the image the Linux baselines (screenshots, Lighthouse, UI numbers) were made on. Revert the pin
 when Playwright is upgraded and the Linux baselines are re-recorded with approval. `chat-index.yml` and `narration.yml`
 do not install browsers and stay on `ubuntu-latest`.
+
+### 4H-2 — ʿAli's caliphate by isnad: the list (2026-11-13)
+
+Branch `refactor/phase-4h2-ali-isnad` from `main` after PR #43 (main merged in again for bot PR #45). `npm run verify`
+passed before any change, as five `--only` batches: static steps and build (440 unit tests); Lighthouse within budget;
+features 127 passed, 2 skipped; engines 50 passed, 24 skipped; visual 16/16. **No content, Qur'an text or narration
+changed. No Gemini, Groq or OpenRouter quota spent.**
+
+Why: 4A–4H checked that each quote is on its page in compilations that keep weak chains. Mostafa's rule (2026-11-12):
+every report in ʿAli's era must be authentic by Sunni isnad standards; no Abu Mikhnaf, unnamed narrator or Shiʿi akhbari
+even attributed; Sayf and al-Waqidi for plain details only; nothing against a Companion on an akhbari.
+
+#### Narration workflow
+
+Yesterday's runs (16:59 and 21:30 UTC) succeeded; bot PRs #44 and #45 merged (the second recorded one file). Nothing
+failed, nothing changed. Queue: 80 (60 stale, 20 missing).
+
+#### What was made
+
+- `docs/audit/ali-isnad.md` (generated) from `docs/audit/ali-isnad/` `01`–`04` (the 19 events in four parts), `06-people`
+  and `HEAD.md` (summary, decisions, sources, open items).
+- Sources cached (git-ignored): al-Barzanji's *Sahih wa Daʿif Tarikh al-Tabari* (key `barzanji`, Shamela 145435) pages
+  1090–1260 and 3320–3620; the Musannaf's Kitab al-Jamal (42565–42755; 42756–42780 return 404); five al-Durar searches.
+  Khalifa's Tarikh (pages 136–152) was already cached.
+- Working scripts in the git-ignored `tmp/audit4h2/` (copied from 4H): notes `n01`–`n06`, `memo.md` (al-Barzanji's
+  rulings with page ids), `rd.cjs` (page body), `where.cjs` (phrase → pages, authentic or weak part), `fn.cjs`,
+  `setlines.cjs`, and the 4H `build.ts`, `page.ts`, `apply.ts`, `merge.ts`, `lib.ts` pointed at the new folder (finding ids
+  I-, E-, P-).
+
+#### Summary
+
+- 105 findings (90 on events, 2 authentic additions, 13 on bios; 69 proven, 35 likely, 1 uncertain), 240 quotes checked.
+- The mushafs on spears «لا يصح» (al-Barzanji): the authentic report has one mushaf, ʿAli's acceptance and «إن هذا فتح»;
+  title change proposed. Abu Mikhnaf removed everywhere (al-Harir, Siffin's calendar, the arbitration's 400, al-Nahrawan's
+  numbers, Egypt, Ibn Abi al-Kanud's Kufa report); Shiʿi chain for ʿAmmar's killing replaced by Abu al-Ghadiya's own
+  authentic report; charges against Companions resting on akhbaris removed; weak numbers replaced; al-Hasan's peace
+  rebuilt on al-Bukhari.
+- Two events rest wholly on one weak report each (Ibn Muljam's plot at Mecca; the truce added in 4H): removal proposed
+  (CLAUDE.md rule 6), with four bios following the plot.
+
+#### Narration count
+
+17 recordings if everything is approved as recommended: 16 changed descriptions and the mushafs title.
+
+#### Review page
+
+https://claude.ai/artifact/G97y8fbs1cRKhhH89P6s1C (private). Decisions are saved in its database, collection
+`decisions`, one document per id (I-, E-, P-). **Part 2 of 4H-2 starts by reading it.**
