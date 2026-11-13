@@ -1369,9 +1369,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-madain.description.aad3a235.m4a",
-        "textHash": "aad3a235518c4da4315cc10fecfa27090a2758ae9b7b56b71632bd34ef8c8eb1",
-        "durationSec": 65.48,
+        "file": "conquest-madain.description.5c9489cf.m4a",
+        "textHash": "5c9489cf1df56cf14ccbf0eef91f3a0a2ebdf8bce62cb85f55a2f92b6f48b3a8",
+        "durationSec": 59.64,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1385,25 +1385,25 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-of-jerusalem.description.db124b7f.m4a",
-        "textHash": "db124b7f2d25af219dd69e380418dbfe8182e3bf600e56a2bf9e2a02a720a091",
-        "durationSec": 76.44,
+        "file": "conquest-of-jerusalem.description.5de661f8.m4a",
+        "textHash": "5de661f8bb4c8e2a21ff919508d26a4ab45cd9f973c2a160f151cc2131bbdb71",
+        "durationSec": 82.92,
         "engine": "gemini",
         "voice": "Charon"
       }
     },
     "battle-hadir": {
       "title": {
-        "file": "battle-hadir.title.24a5f80c.m4a",
-        "textHash": "24a5f80ce217ca692e02246e77b581fbe71080511a5aa4bf4c1b05ba1d206d5b",
-        "durationSec": 2.28,
+        "file": "battle-hadir.title.acc39001.m4a",
+        "textHash": "acc39001ab41f34dc5cf8b7095873e9729d84c11725042312894067ea043b5b6",
+        "durationSec": 3.88,
         "engine": "gemini",
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-hadir.description.a572661a.m4a",
-        "textHash": "a572661a09b3f08dc20da48833ce6b115fbe7e9d19a68b90033ea7a787d32d78",
-        "durationSec": 49.08,
+        "file": "battle-hadir.description.9fa8f4f1.m4a",
+        "textHash": "9fa8f4f14be0aeebb524c4278b73ea4fc6f13c7d28a3214dd8e11dbcf5710979",
+        "durationSec": 38.72,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1417,9 +1417,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-qinnasrin.description.7fbfd68d.m4a",
-        "textHash": "7fbfd68df2402b4e9187a90efa95a248d63d4a426165ffa93dfc933d8cb27721",
-        "durationSec": 39.88,
+        "file": "conquest-qinnasrin.description.012b87eb.m4a",
+        "textHash": "012b87ebab0a901b911e4f9b7561cd6ee8526ec7b0d3b8b29f81f28ac8bb142b",
+        "durationSec": 56.16,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1433,9 +1433,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-aleppo.description.d53b0120.m4a",
-        "textHash": "d53b0120927f2a963830f49e24d5e036173d1d017324d8387b428117167ee601",
-        "durationSec": 52.52,
+        "file": "conquest-aleppo.description.11e964f7.m4a",
+        "textHash": "11e964f7495955880dc976b3a2f8247ac7f9970a8dd0642b96ababc3217a8e83",
+        "durationSec": 48.52,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1449,9 +1449,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-antioch.description.f9bc4527.m4a",
-        "textHash": "f9bc452729480533b8dad4b24ec17db4248c34fb95bdb4393d02c041ba1c604e",
-        "durationSec": 50.16,
+        "file": "conquest-antioch.description.13139a70.m4a",
+        "textHash": "13139a70c1cc590892124eb173a55bc7ef62d23bcde683a8caf73ee9a6c74a4b",
+        "durationSec": 48.16,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1465,9 +1465,25 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-jalula.description.bbae06a6.m4a",
-        "textHash": "bbae06a695dc6512f3737d9dc0c45bba439261e4d443a07697c70b862413c3d8",
-        "durationSec": 53.8,
+        "file": "conquest-jalula.description.83519f0c.m4a",
+        "textHash": "83519f0ce73796457c735d3c3c56a2ffda3e8970be96bc8ba57f69ffa8047bfe",
+        "durationSec": 67.2,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "kufa-basra-founding": {
+      "title": {
+        "file": "kufa-basra-founding.title.d642a0c6.m4a",
+        "textHash": "d642a0c68504e5b2abbcc5f09491d396e962902ac34b6f33a2659c1edbb064b4",
+        "durationSec": 2.52,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "kufa-basra-founding.description.945adbdb.m4a",
+        "textHash": "945adbdb3348d6857d6de25b5d2e7987eea3dc139574fa56417866ef355a222f",
+        "durationSec": 59.92,
         "engine": "gemini",
         "voice": "Charon"
       }

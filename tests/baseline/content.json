@@ -6929,8 +6929,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-madain.description.5c9489cf.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-madain.title.bad21e9a.m4a",
         "titleExists": true
       }
@@ -7005,8 +7005,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-of-jerusalem.description.5de661f8.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-of-jerusalem.title.1f053751.m4a",
         "titleExists": true
       }
@@ -7071,10 +7071,10 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "descriptionFile": "battle-hadir.description.9fa8f4f1.m4a",
+        "descriptionExists": true,
+        "titleFile": "battle-hadir.title.acc39001.m4a",
+        "titleExists": true
       }
     },
     {
@@ -7142,8 +7142,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-qinnasrin.description.012b87eb.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-qinnasrin.title.649ac31e.m4a",
         "titleExists": true
       }
@@ -7219,8 +7219,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-aleppo.description.11e964f7.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-aleppo.title.20e2d9e5.m4a",
         "titleExists": true
       }
@@ -7296,8 +7296,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-antioch.description.13139a70.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-antioch.title.ba2e1627.m4a",
         "titleExists": true
       }
@@ -7375,8 +7375,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-jalula.description.83519f0c.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-jalula.title.1f66e2fe.m4a",
         "titleExists": true
       }
@@ -7444,10 +7444,10 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "descriptionFile": "kufa-basra-founding.description.945adbdb.m4a",
+        "descriptionExists": true,
+        "titleFile": "kufa-basra-founding.title.d642a0c6.m4a",
+        "titleExists": true
       }
     },
     {
