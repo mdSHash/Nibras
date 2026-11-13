@@ -2192,22 +2192,6 @@
         "voice": "Charon"
       }
     },
-    "ibn-muljam-plot-mecca": {
-      "title": {
-        "file": "ibn-muljam-plot-mecca.title.2fdf3187.m4a",
-        "textHash": "2fdf3187eeae6e8d56abeca7e9aa7eec49fd4e659bd15980b16fdb8f0228fe0e",
-        "durationSec": 3.28,
-        "engine": "gemini",
-        "voice": "Charon"
-      },
-      "description": {
-        "file": "ibn-muljam-plot-mecca.description.5ff89ee1.m4a",
-        "textHash": "5ff89ee1a0bd8bdbd28429184b8241374528faceabc8f9c37ba42361e3fc50fc",
-        "durationSec": 104.44,
-        "engine": "gemini",
-        "voice": "Charon"
-      }
-    },
     "event-113-استشهاد-الإمام-علي-بن-أبي-طالب": {
       "title": {
         "file": "martyrdom-of-ali.title.354f96a1.m4a",

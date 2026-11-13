@@ -24,8 +24,8 @@ describe('content/', () => {
   });
 
   it('covers the whole content set', () => {
-    expect(content.events).toHaveLength(150);
-    expect(content.people).toHaveLength(169);
+    expect(content.events).toHaveLength(148);
+    expect(content.people).toHaveLength(165);
     expect(content.cities).toHaveLength(10);
     expect(content.quranPassages).toHaveLength(51);
     expect(content.eras).toHaveLength(6);
