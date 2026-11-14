@@ -7882,10 +7882,10 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "descriptionFile": "conquest-caesarea.description.8853d49b.m4a",
+        "descriptionExists": true,
+        "titleFile": "conquest-caesarea.title.cf58b4b4.m4a",
+        "titleExists": true
       }
     },
     {
@@ -7972,8 +7972,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-egypt.description.05aa28f5.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-egypt.title.72a11543.m4a",
         "titleExists": true
       }
@@ -8052,8 +8052,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-tustar.description.324f57e1.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-tustar.title.85bd8ece.m4a",
         "titleExists": true
       }
@@ -8133,8 +8133,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-alexandria.description.d73f10e2.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-alexandria.title.25e7666f.m4a",
         "titleExists": true
       }
@@ -8217,8 +8217,8 @@
       },
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-nahavand.description.44587455.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-nahavand.title.7491d651.m4a",
         "titleExists": true
       }
@@ -8280,10 +8280,10 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "descriptionFile": "sariya-al-jabal.description.5096fa54.m4a",
+        "descriptionExists": true,
+        "titleFile": "sariya-al-jabal.title.f7bf8b11.m4a",
+        "titleExists": true
       }
     },
     {
@@ -8343,8 +8343,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-istakhr.description.dd04022c.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-istakhr.title.01240b13.m4a",
         "titleExists": true
       }
@@ -8414,8 +8414,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "martyrdom-of-umar.description.a09fb701.m4a",
+        "descriptionExists": true,
         "titleFile": "martyrdom-of-umar.title.fb93e6db.m4a",
         "titleExists": true
       }
