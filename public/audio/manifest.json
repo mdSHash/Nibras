@@ -1568,6 +1568,22 @@
         "voice": "Charon"
       }
     },
+    "conquest-caesarea": {
+      "title": {
+        "file": "conquest-caesarea.title.cf58b4b4.m4a",
+        "textHash": "cf58b4b465f09f8af9765dca4bb0d4c18b26dcdd48eaddcc177147c3d48402b7",
+        "durationSec": 1.84,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "conquest-caesarea.description.8853d49b.m4a",
+        "textHash": "8853d49becfaf96e125d53387461643cb1821aa4be2783ae14f28b813e718f9c",
+        "durationSec": 55.48,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
     "conquest-egypt": {
       "title": {
         "file": "conquest-egypt.title.72a11543.m4a",
@@ -1577,9 +1593,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-egypt.description.c4599f84.m4a",
-        "textHash": "c4599f84a72e073241658040e96073faef011b7e6e18d76f40069fe9292f7476",
-        "durationSec": 55.92,
+        "file": "conquest-egypt.description.05aa28f5.m4a",
+        "textHash": "05aa28f58cd7024d0ea9348d5609f402358177873c9c6d40685da1659c73537c",
+        "durationSec": 94.96,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1593,9 +1609,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-tustar.description.891d9eaa.m4a",
-        "textHash": "891d9eaabb899b508e242c73232cabba4bfa2eefce46f1f9a779c549cf55bff4",
-        "durationSec": 55.64,
+        "file": "conquest-tustar.description.324f57e1.m4a",
+        "textHash": "324f57e1e2436dffc6fd8315a251733e2af633b32deb0454170e5dfa87b59a63",
+        "durationSec": 63.08,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1609,9 +1625,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-alexandria.description.db1a87a2.m4a",
-        "textHash": "db1a87a2eee11633641c01b6c38408683f193bb9422453899ff57a2f456e1ccf",
-        "durationSec": 57.64,
+        "file": "conquest-alexandria.description.d73f10e2.m4a",
+        "textHash": "d73f10e2ddd1292e89c3d99ba7394ce759babbdcae1e0cfa6dddbbd195365613",
+        "durationSec": 56.56,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1625,9 +1641,25 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-nahavand.description.c29a90e3.m4a",
-        "textHash": "c29a90e346013c819d1ce45488813c8f23873420daf6ff4c86a574ccdddc2918",
-        "durationSec": 72.56,
+        "file": "battle-nahavand.description.44587455.m4a",
+        "textHash": "445874556a8a379ae757160f30aa3a7f6441b29e9011ff66045c04864792f238",
+        "durationSec": 71.8,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "sariya-al-jabal": {
+      "title": {
+        "file": "sariya-al-jabal.title.f7bf8b11.m4a",
+        "textHash": "f7bf8b1183143f998a89e09f5948e2de6e74256b7e411a27009fec6e50c9b48f",
+        "durationSec": 4.36,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "sariya-al-jabal.description.5096fa54.m4a",
+        "textHash": "5096fa54972bdb17ddabd0064d2a3b00fb5e48582db84d446ced76591840a8e0",
+        "durationSec": 61.04,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1641,9 +1673,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-istakhr.description.7f05061e.m4a",
-        "textHash": "7f05061ed67a5c0038fa5377ee2cf88d2af918bf901318a86b5308cd6ac1e22e",
-        "durationSec": 39.04,
+        "file": "conquest-istakhr.description.dd04022c.m4a",
+        "textHash": "dd04022cb1efe484f64d6a83539ba99539b14241bbb6d29d2a8ebfa8500bbe23",
+        "durationSec": 53,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1657,9 +1689,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "martyrdom-of-umar.description.1c6be2b1.m4a",
-        "textHash": "1c6be2b1f71160b17f7ca986825f16c6b1568f3fff03fd67d24caae39d86ca83",
-        "durationSec": 68.84,
+        "file": "martyrdom-of-umar.description.a09fb701.m4a",
+        "textHash": "a09fb701b4e48ba86f83d2c78ef8854a104d15a9520f485323ce1031bba34a72",
+        "durationSec": 73,
         "engine": "gemini",
         "voice": "Charon"
       }
