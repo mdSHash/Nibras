@@ -1705,9 +1705,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "uthman-caliphate-shura.description.f212e139.m4a",
-        "textHash": "f212e1395d289164ad949a01b8388564152c3e24f38d0631d52fec36636c6b3c",
-        "durationSec": 78.28,
+        "file": "uthman-caliphate-shura.description.e88fde69.m4a",
+        "textHash": "e88fde69969741dc509cd88b0d79d792c50078989c06a81b1d0fe70e8b98f9c7",
+        "durationSec": 65.36,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1721,9 +1721,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-armenia.description.b2c2dab2.m4a",
-        "textHash": "b2c2dab233a502e6dc6fd7a7414311e64a7b6ab33eac7c9ad5e498b21c9cef36",
-        "durationSec": 37.68,
+        "file": "conquest-armenia.description.3d90d6e0.m4a",
+        "textHash": "3d90d6e04cf96894a5dd9b896a44977e92767ca2049d0a3e41e99464fe87a1eb",
+        "durationSec": 74.6,
         "engine": "gemini",
         "voice": "Charon"
       }

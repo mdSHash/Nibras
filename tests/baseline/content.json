@@ -8483,8 +8483,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "uthman-caliphate-shura.description.e88fde69.m4a",
+        "descriptionExists": true,
         "titleFile": "uthman-caliphate-shura.title.8e9697ae.m4a",
         "titleExists": true
       }
@@ -8556,8 +8556,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-armenia.description.3d90d6e0.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-armenia.title.563279b4.m4a",
         "titleExists": true
       }
