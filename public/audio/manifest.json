@@ -1863,6 +1863,13 @@
         "durationSec": 2.24,
         "engine": "gemini",
         "voice": "Charon"
+      },
+      "description": {
+        "file": "istakhr-reconquest.description.06f39b07.m4a",
+        "textHash": "06f39b07a4c13ed62abd63e66263980384b834dae6a7e498069493dc9051a63c",
+        "durationSec": 55.48,
+        "engine": "gemini",
+        "voice": "Charon"
       }
     },
     "event-101-فتح-طبرستان": {

@@ -9356,8 +9356,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "istakhr-reconquest.description.06f39b07.m4a",
+        "descriptionExists": true,
         "titleFile": "istakhr-reconquest.title.20645ae8.m4a",
         "titleExists": true
       }
