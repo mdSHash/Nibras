@@ -625,22 +625,22 @@ text. Planned; not started.
 Goal: every event, companion and city text checked against verified Sunni sources, its tashkeel
 corrected, enriched where the sources support it, and narrated again.
 
-- [ ] **Sources**: only the "Reliable sources" in `docs/CONTENT_GUIDE.md` (Ibn Hisham, al-Raheeq
+- [x] **Sources**: only the "Reliable sources" in `docs/CONTENT_GUIDE.md` (Ibn Hisham, al-Raheeq
       al-Makhtum, Zad al-Maʿad; Ibn Kathir's al-Bidaya wa al-Nihaya, al-Tabari, Ibn al-Athir's
       al-Kamil; al-Isaba, Usd al-Ghaba, al-Istiʿab; al-Durar al-Saniyya, IslamWeb, Qissat al-Islam).
       Hadith grading from al-Durar al-Saniyya. A claim no listed source supports is not added.
-- [ ] **Audit**: per event, person and city, a list of findings (fact, figure, date, name, tashkeel)
+- [x] **Audit**: per event, person and city, a list of findings (fact, figure, date, name, tashkeel)
       with the source and page for each proposed change. Nothing changes until Mostafa approves
       the list (CLAUDE.md, rule 1).
-- [ ] **Pronunciation**: Mostafa listens on the site. Wrong vowels in the text go into the audit
+- [x] **Pronunciation**: Mostafa listens on the site. Wrong vowels in the text go into the audit
       list; a correct text read wrong is only re-recorded.
-- [ ] **Enrichment**: new facts from the same sources, including the gaps collected so far (the
+- [x] **Enrichment**: new facts from the same sources, including the gaps collected so far (the
       Badr video's figures and episodes the event does not state; see 3H, "Open for Mostafa").
-- [ ] **Companion bios** (added 2026-11-08, Mostafa): each era session also enriches the bios of
+- [x] **Companion bios** (added 2026-11-08, Mostafa): each era session also enriches the bios of
       that era's people from al-Isaba, Usd al-Ghaba and al-Istiʿab (lineage, when they became
       Muslim, the events they witnessed, what the sources report of them), each addition with
       its source, proposed in the audit list like any other finding.
-- [ ] **New events and companions** (added 2026-11-08, Mostafa): each era session proposes events
+- [x] **New events and companions** (added 2026-11-08, Mostafa): each era session proposes events
       and people the app lacks, in their own section of the audit list. A proposal gives the
       full record as it would be added (title, date, place with coordinates, era, category,
       summary, description, course of events, key figures, sources; for a person name, title,
@@ -654,17 +654,20 @@ corrected, enriched where the sources support it, and narrated again.
       presented as fact), and one format for all. It also checks the dates the bios repeat, so
       bio and dates agree. Proposed as an audit list, applied after approval; bios are not
       narrated, so it costs no recording quota.
-- [ ] **Narration**: re-records exactly the events whose text changed, with Gemini TTS in the
+- [x] **Narration** (left to the daily workflow at the close, 2026-11-15: 31 stale and 9 missing, about 4 days of runs): re-records exactly the events whose text changed, with Gemini TTS in the
       Charon voice (`gemini-3.8-flash-tts` since 2026-11-08). The daily Narration workflow does it
       after each merge, 10 recordings a day on the free tier, and publishes them; Mostafa
       listens on the site. The chat KB and its embedding index are rebuilt in each session.
-- [ ] Sessions: 4A–4B prophetic audit (done), 4C Abu Bakr (done), 4D the Prophetic era's bios and new
+- [x] Sessions: 4A–4B prophetic audit (done), 4C Abu Bakr (done), 4D the Prophetic era's bios and new
       events and companions (4A–4B came before these were added; done), 4E companions' birth and death
       dates (all people; done), 4F ʿUmar (done), 4G ʿUthman (done), 4H ʿAli (done); each era session covers audit, bios,
       enrichment and new records, stops for Mostafa's marks on the review page, then applies and merges.
 
 Done when: every text has an approved audit entry, `npm run narration -- check` reports 0 stale and
 0 missing, and `npm run verify` passes.
+
+**Closed 2026-11-15 (Mostafa).** Every text has an approved audit entry and `npm run verify` passes.
+The last 40 recordings are left to the daily Narration workflow, which needs no session.
 
 ---
 
@@ -754,6 +757,11 @@ an event on the map, match a companion to their role, plus normal multiple choic
   text in Nibras.
 
 ### Phase 5 — Learning paths for guests
+
+> **Heads-up (Mostafa, 2026-11-15):** the learning paths below are being replaced. Mostafa brings a new
+> idea to the Phase 5 session; it is different from these paths and from the 5A directions
+> (the `feature/phase-5-learning-paths` branch, not merged). Until he gives it, treat this section as
+> background only: don’t build any of it.
 
 Goal: the full learning experience, with progress in the browser. No backend yet, so the idea can be
 tested with real users first.
