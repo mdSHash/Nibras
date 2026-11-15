@@ -1737,9 +1737,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "alexandria-reconquest.description.8e003b31.m4a",
-        "textHash": "8e003b313df18c8fc53a399ff18a05847ed043e0b76fa67df15232dc6256234e",
-        "durationSec": 75.64,
+        "file": "alexandria-reconquest.description.77093e83.m4a",
+        "textHash": "77093e83b060fb30552bebac55b946e03a9a080e5b236bdc3f509dc77bd39e02",
+        "durationSec": 94.32,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1753,25 +1753,25 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "uthmanic-mushaf.description.55f0ae38.m4a",
-        "textHash": "55f0ae387726eead28567a20b26a847c3c2478cbc36d4f18d2e953d23b31cab7",
-        "durationSec": 65.96,
+        "file": "uthmanic-mushaf.description.6fdfddb0.m4a",
+        "textHash": "6fdfddb0b43d9e2ab2b27f6c7b6f170ad2efda4516366c447253aef08ac75e68",
+        "durationSec": 99.68,
         "engine": "gemini",
         "voice": "Charon"
       }
     },
     "conquest-rayy-jurjan": {
       "title": {
-        "file": "conquest-rayy-jurjan.title.b99484d9.m4a",
-        "textHash": "b99484d9f5b279c313c4608f6cb37daabadb6abe4ef25af4c57f66ba902ef173",
-        "durationSec": 6.4,
+        "file": "conquest-rayy-jurjan.title.78d2fc13.m4a",
+        "textHash": "78d2fc13aea9d7f7e4095e476c9d43ddbdd0ce73d530f2aa0930221e8ef59f53",
+        "durationSec": 6.16,
         "engine": "gemini",
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-rayy-jurjan.description.e69da362.m4a",
-        "textHash": "e69da36283f3866f1188f4c9b8812ed57f4e20ecdcc61a7fd3a1bdf38d0d4385",
-        "durationSec": 64.44,
+        "file": "conquest-rayy-jurjan.description.49302945.m4a",
+        "textHash": "493029459de5fef8addea7859329e879da96734f5d460238828047643d501a2c",
+        "durationSec": 80.16,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1785,9 +1785,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "expansion-of-masjid-al-haram.description.60c1a204.m4a",
-        "textHash": "60c1a2040d22106b086803405f05b5cd806513d4f5c6dcb5df4e3e3fd33f3e13",
-        "durationSec": 39.6,
+        "file": "expansion-of-masjid-al-haram.description.708aa31c.m4a",
+        "textHash": "708aa31c76a9f23c562634437a140ab8cc6b60a7d46ccc487a892134dc61dece",
+        "durationSec": 50.84,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1801,9 +1801,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-north-africa.description.a61cdef9.m4a",
-        "textHash": "a61cdef9d13c1db2d317e68ad3a417d5066f54a2d41687a540f50e240beb9c0b",
-        "durationSec": 57.56,
+        "file": "conquest-north-africa.description.83e407da.m4a",
+        "textHash": "83e407da39f223e566395789fe4afced4f19e54e832dfb721677f10a97d4390d",
+        "durationSec": 113.8,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1817,9 +1817,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "first-muslim-fleet.description.af0ffbec.m4a",
-        "textHash": "af0ffbec4e2bd82a4dc0472e44a46f1a172ef9c41724d7bb7210fd8ff054df59",
-        "durationSec": 94.4,
+        "file": "first-muslim-fleet.description.3ee0d478.m4a",
+        "textHash": "3ee0d478aaf391080e37ab2ea6210f5f90a1bd7e501bc4bf15574f7f1f35c0a7",
+        "durationSec": 105.68,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1833,9 +1833,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-cyprus.description.d5c8ff89.m4a",
-        "textHash": "d5c8ff89622f509949cf9833299eb85532898889d19ada15d3b32b08412ad09e",
-        "durationSec": 60.08,
+        "file": "conquest-cyprus.description.b3a1388b.m4a",
+        "textHash": "b3a1388b72e22274607c302503a9148fe4d02765e57d7cd83d2f33c4c922491b",
+        "durationSec": 69.44,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1849,9 +1849,18 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "expansion-of-the-prophets-mosque.description.285954dc.m4a",
-        "textHash": "285954dc4b620224387cc1644b2fb2b8380ff7d3250df6c913b7c687b06e2d6a",
-        "durationSec": 38.64,
+        "file": "expansion-of-the-prophets-mosque.description.3a7ee71f.m4a",
+        "textHash": "3a7ee71f5d5d87c2e9c29cc80a3ac910e48d498fdc9d24396da7e95a64097f29",
+        "durationSec": 48.44,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "istakhr-reconquest": {
+      "title": {
+        "file": "istakhr-reconquest.title.20645ae8.m4a",
+        "textHash": "20645ae8abd7f91a601b7847998aa416ee6e1a570fb51589e6a1fe528378a0b3",
+        "durationSec": 2.24,
         "engine": "gemini",
         "voice": "Charon"
       }
