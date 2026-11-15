@@ -8646,8 +8646,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "alexandria-reconquest.description.77093e83.m4a",
+        "descriptionExists": true,
         "titleFile": "alexandria-reconquest.title.9dea294e.m4a",
         "titleExists": true
       }
@@ -8736,8 +8736,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "uthmanic-mushaf.description.6fdfddb0.m4a",
+        "descriptionExists": true,
         "titleFile": "uthmanic-mushaf.title.003aa978.m4a",
         "titleExists": true
       }
@@ -8854,10 +8854,10 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "descriptionFile": "conquest-rayy-jurjan.description.49302945.m4a",
+        "descriptionExists": true,
+        "titleFile": "conquest-rayy-jurjan.title.78d2fc13.m4a",
+        "titleExists": true
       }
     },
     {
@@ -8920,8 +8920,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "expansion-of-masjid-al-haram.description.708aa31c.m4a",
+        "descriptionExists": true,
         "titleFile": "expansion-of-masjid-al-haram.title.b58c6601.m4a",
         "titleExists": true
       }
@@ -9003,8 +9003,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-north-africa.description.83e407da.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-north-africa.title.7f5e0c8a.m4a",
         "titleExists": true
       }
@@ -9113,8 +9113,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "first-muslim-fleet.description.3ee0d478.m4a",
+        "descriptionExists": true,
         "titleFile": "first-muslim-fleet.title.eb0f22ba.m4a",
         "titleExists": true
       }
@@ -9215,8 +9215,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-cyprus.description.b3a1388b.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-cyprus.title.10a3632a.m4a",
         "titleExists": true
       }
@@ -9282,8 +9282,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "expansion-of-the-prophets-mosque.description.3a7ee71f.m4a",
+        "descriptionExists": true,
         "titleFile": "expansion-of-the-prophets-mosque.title.b40447eb.m4a",
         "titleExists": true
       }
@@ -9358,8 +9358,8 @@
       "narration": {
         "descriptionFile": null,
         "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "titleFile": "istakhr-reconquest.title.20645ae8.m4a",
+        "titleExists": true
       }
     },
     {
