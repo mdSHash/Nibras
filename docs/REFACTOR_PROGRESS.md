@@ -3379,3 +3379,19 @@ queue stays 78 (60 stale, 18 missing). The daily workflow records them after mer
 Every era and city now has an approved audit entry. Phase 4 is done when narration reports 0 stale and 0 missing (about
 8 days of daily runs). Left from the 4H log for a later session: Salman ibn Rabiʿa's and Abu al-Dardaʾ's dates, *Futuh
 Misr*, bios citing Siyar, al-Isaba where its index did not reach; and Hujr's cause if al-Durar shows more.
+
+### Phase 4 closed (2026-11-15)
+
+Mostafa closed Phase 4 on 2026-11-15, before the narration queue reached zero. Every era and city has an approved audit
+entry (4A–4H-2 and the close-out, all merged).
+
+- **Narration:** after four daily runs since PR #47 (#49–#52, 28 recordings), `npm run narration -- check` on `main`
+  reports 31 stale and 9 missing. The daily Narration workflow records them without a session, about 4 more days.
+  Stale or missing narration is not played, so nothing wrong is heard meanwhile.
+- **Left open for a later session (not blocking):** Salman ibn Rabiʿa's and Abu al-Dardaʾ's dates, *Futuh Misr*, bios
+  citing Siyar, al-Isaba where its index did not reach, Hujr's cause if al-Durar shows more, and the audit-list id fix
+  (key ids by the finding's position, not by record and field).
+- **Phase 5:** the learning paths in the plan are being replaced by a new idea Mostafa brings to the Phase 5 session.
+  The plan's Phase 5 section now says so. The 5A directions (two rounds of review pages) live on the unmerged branch
+  `feature/phase-5-learning-paths` (commits `02ff816`, `20ad73d`), kept for reference only.
+- Docs only; no code or content changed.
