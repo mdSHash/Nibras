@@ -48,7 +48,7 @@ export function rngFrom(seed: number): Rng {
   };
 }
 
-const MODE_SALT: Record<Mode, string> = { who: 'who-7f3', battle: 'battle-2c1', place: 'place-9d4', time: 'time-5e8', number: 'number-1b6', full: 'full-8a2' };
+const MODE_SALT: Record<Mode, string> = { who: 'who-7f3', battle: 'battle-2c1', place: 'place-9d4', year: 'year-5e8', number: 'number-1b6', leader: 'leader-3d7', era: 'era-6a1', order: 'order-8a2' };
 const LEVEL_SALT: Record<Level, string> = { easy: 'e-41', mid: 'm-67', hard: 'h-93' };
 
 /** The generator for one mode and level on one day. */

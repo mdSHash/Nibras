@@ -130,7 +130,15 @@ export interface GameCity {
   keys: string[];
 }
 
+/** Someone who led the Muslims in a battle Nibras records (from the event's roles). */
+export interface GameLeader {
+  id: string;
+  name: string;
+  battles: { event: string; title: string; year: number; era: string }[];
+}
+
 export interface GameData {
+  leaders: GameLeader[];
   /** The question bank (content/game/questions/), checked against the content. */
   questions: BankQuestion[];
   eras: { id: string; nameAr: string }[];
