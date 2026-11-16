@@ -3,7 +3,8 @@
  * (docs/phase5/challenge-spec.md, section 5.3, with the 2026-11-16 tiles).
  * The sentence matters more than the colors, so every tile has its clause.
  */
-import { FACT_LABELS, type GameEvent, type GamePerson, type LastEra } from '../../../shared/gameData';
+import type { GameEvent, GamePerson, LastEra } from '../../../shared/gameData';
+import { FACT_LABELS } from '../../../shared/gameLabels';
 import { toArabicIndic } from '../../../shared/arabic';
 import { yearDiff } from '../../../shared/gameText';
 import { directionAr, distanceKm, roundKm } from './geo';
