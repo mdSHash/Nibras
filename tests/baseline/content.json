@@ -9418,10 +9418,10 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "descriptionFile": "lost-ring-bir-aris.description.b8918e37.m4a",
+        "descriptionExists": true,
+        "titleFile": "lost-ring-bir-aris.title.9e193ad2.m4a",
+        "titleExists": true
       }
     },
     {
@@ -9508,8 +9508,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-of-tabaristan.description.3353091f.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-of-tabaristan.title.18d33640.m4a",
         "titleExists": true
       }
@@ -9618,8 +9618,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "abu-dharr-rabadhah.description.5adfddc4.m4a",
+        "descriptionExists": true,
         "titleFile": "abu-dharr-rabadhah.title.48c5bb67.m4a",
         "titleExists": true
       }
@@ -9711,10 +9711,10 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "descriptionFile": "conquest-sijistan.description.0352604f.m4a",
+        "descriptionExists": true,
+        "titleFile": "conquest-sijistan.title.154ffb09.m4a",
+        "titleExists": true
       }
     },
     {
@@ -9790,8 +9790,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-khorasan.description.57b03782.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-khorasan.title.826723ee.m4a",
         "titleExists": true
       }
@@ -9867,8 +9867,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "conquest-nubia-baqt.description.e9b3ddb8.m4a",
+        "descriptionExists": true,
         "titleFile": "conquest-nubia-baqt.title.413ce6ab.m4a",
         "titleExists": true
       }
@@ -9945,10 +9945,10 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "descriptionFile": "battle-balanjar.description.86aee7fd.m4a",
+        "descriptionExists": true,
+        "titleFile": "battle-balanjar.title.af3b35df.m4a",
+        "titleExists": true
       }
     },
     {
