@@ -95,7 +95,8 @@ export function checkBank(
       const event = kind === 'event' ? events.get(answerId) : undefined;
       if (excluded.events.has(answerId) || (event && excluded.eras.has(event.eraId))) issues.push({ file: where, message: `${at}: "${answerId}" is excluded from the game` });
       // The answer's own name must not show in its clues or prompt.
-      const name = mode === 'leader' || mode === 'era' || mode === 'year' ? undefined : kind === 'person' ? people.get(answerId)?.name : kind === 'event' ? event?.title : cities.get(answerId)?.name;
+      const placeName = mode === 'place' && event ? event.location.nameAr.split('،')[0] : undefined;
+      const name = placeName ?? (mode === 'leader' || mode === 'era' || mode === 'year' ? undefined : kind === 'person' ? people.get(answerId)?.name : kind === 'event' ? event?.title : cities.get(answerId)?.name);
       const keys = name ? nameTokens(aliasForm(name)).filter((k) => !NAME_PARTS.has(k) && k.length >= 3) : [];
       const texts = [...q.clues.map((c) => c.text), ...(q.prompt ? [q.prompt] : [])];
       for (const t of texts) {

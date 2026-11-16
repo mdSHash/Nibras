@@ -127,25 +127,27 @@ export function buildRound(data: GameData, q: BankQuestion, level: Level, rng: R
       };
     }
     case 'place': {
-      const a = data.cities.find((c) => c.id === q.answer)!;
-      const close = (c: GameCity): number => -distanceKm(c, a) / 500;
-      const others = level === 'mid' ? preferred(data.cities, a.id, OPTION_COUNT - 1, rng, () => 0) : byLevel(level, data.cities, a, rng, close);
+      const places = placePool(data);
+      const a = places.find((p) => p.id === q.answer)!;
+      // Far apart at easy, any at mid, the nearest at hard.
+      const close = (p: Place): number => (level === 'hard' ? -distanceKm(p, a) : distanceKm(p, a)) / 500;
+      const others = level === 'mid' ? preferred(places, a.id, OPTION_COUNT - 1, rng, () => 0) : preferred(places, a.id, OPTION_COUNT - 1, rng, close);
       const options = shuffle([a, ...others], rng);
       return {
         ...base,
-        prompt: 'أنهي مدينة دي؟',
-        heads: ['بعدها عن المدينة', 'ناحية'],
-        options: options.map((c) => ({ id: c.id, label: bare(c.name), link: nibrasBase() })),
+        prompt: a.city ? 'أنهي مدينة دي؟' : 'أنهي مكان ده؟',
+        heads: ['بعدها عن المكان', 'ناحية'],
+        options: options.map((p) => ({ id: p.id, label: p.label, link: p.link })),
         answerId: a.id,
-        answerLabel: bare(a.name),
-        fact: bare(a.description),
-        link: nibrasBase(),
+        answerLabel: a.label,
+        fact: a.fact,
+        link: a.link,
         teach: (id) => {
-          const g = data.cities.find((c) => c.id === id)!;
+          const g = places.find((p) => p.id === id)!;
           const km = distanceKm(g, a);
           return {
             cells: [{ text: `${toArabicIndic(roundKm(km))} كم`, mark: km < 400 ? 'yellow' : 'red' }, { text: directionAr(g, a), mark: 'red' }],
-            sentence: `المدينة اللي بندوّر عليها على بعد ${toArabicIndic(roundKm(km))} كم منها ناحية ${directionAr(g, a)}.`,
+            sentence: `${a.city ? 'المدينة اللي بندوّر عليها' : 'المكان اللي بندوّر عليه'} على بعد ${toArabicIndic(roundKm(km))} كم منها ناحية ${directionAr(g, a)}.`,
           };
         },
       };
@@ -262,6 +264,21 @@ export function buildRound(data: GameData, q: BankQuestion, level: Level, rng: R
     default:
       throw new Error(`no rounds for mode ${q.mode}`);
   }
+}
+
+interface Place { id: string; label: string; lat: number; lon: number; city: boolean; fact: string; link: string }
+
+/** «المكان»'s answers and options: the cities, and every event's place under its short name (one per name). */
+export function placePool(data: GameData): Place[] {
+  const out: Place[] = data.cities.map((c: GameCity) => ({ id: c.id, label: bare(c.name), lat: c.lat, lon: c.lon, city: true, fact: bare(c.description), link: nibrasBase() }));
+  const names = new Set(out.map((p) => p.label.split(' (')[0]));
+  for (const e of data.events) {
+    const label = bare(e.place).split('،')[0].trim();
+    if (names.has(label) || /^(مكة|المدينة)/.test(label)) continue;
+    names.add(label);
+    out.push({ id: `event:${e.id}`, label, lat: e.lat, lon: e.lon, city: false, fact: `${bare(e.title)} · ${bare(e.place)}`, link: eventLink(e) });
+  }
+  return out;
 }
 
 /** Clues open now: the level's start, then one more every two wrong picks. */

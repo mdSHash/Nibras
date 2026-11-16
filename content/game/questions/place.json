@@ -2,7 +2,7 @@
  "mode": "place",
  "questions": [
   {
-   "id": "place-mecca-easy",
+   "id": "place-mecca",
    "level": "easy",
    "answer": "mecca",
    "clues": [
@@ -45,7 +45,7 @@
    ]
   },
   {
-   "id": "place-medina-easy",
+   "id": "place-medina",
    "level": "easy",
    "answer": "medina",
    "clues": [
@@ -88,7 +88,7 @@
    ]
   },
   {
-   "id": "place-jerusalem-easy",
+   "id": "place-jerusalem",
    "level": "easy",
    "answer": "jerusalem",
    "clues": [
@@ -131,7 +131,7 @@
    ]
   },
   {
-   "id": "place-damascus-easy",
+   "id": "place-damascus",
    "level": "easy",
    "answer": "damascus",
    "clues": [
@@ -169,7 +169,7 @@
    ]
   },
   {
-   "id": "place-baghdad-easy",
+   "id": "place-baghdad",
    "level": "easy",
    "answer": "baghdad",
    "clues": [
@@ -212,8 +212,194 @@
    ]
   },
   {
-   "id": "place-basra-easy",
+   "id": "place-yarmouk",
    "level": "easy",
+   "answer": "event:battle-yarmouk",
+   "clues": [
+    {
+     "text": "عند المكان ده هرقل وجّه جيش ضخم جدًا عشان يسترد الشام.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "حشد الإمبراطور البيزنطي هرقل جيشا ضخما جدا لاسترداد بلاد الشام"
+      }
+     ]
+    },
+    {
+     "text": "المسلمين اتجمعوا هنا بعد ما انسحبوا من حمص ودمشق.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "فانسحب بالمسلمين من حمص ودمشق وتجمعوا"
+      }
+     ]
+    },
+    {
+     "text": "المعركة اللي حصلت هنا طردت الروم من الشام للأبد.",
+     "sources": [
+      {
+       "from": "summary",
+       "quote": "وطردتها من الشام للأبد"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-qadisiyyah",
+   "level": "easy",
+   "answer": "event:battle-qadisiyyah",
+   "clues": [
+    {
+     "text": "رستم جه هنا بجيش هائل عشان يوقف تقدم المسلمين في العراق.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "حشد الفرس جيشا هائلا بقيادة رستم لوقف تقدم المسلمين في العراق"
+      }
+     ]
+    },
+    {
+     "text": "هنا عسكر جيش المسلمين بقيادة سعد بن أبي وقاص.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "سعد بن أبي وقاص رضي الله عنه لقيادة جيش المسلمين، وعسكروا"
+      }
+     ]
+    },
+    {
+     "text": "المعركة هنا فضلت ٤ أيام، وكسرت العمود الفقري للإمبراطورية الفارسية.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "واستمرت أربعة أيام"
+      },
+      {
+       "from": "summary",
+       "quote": "التي كسرت العمود الفقري للإمبراطورية الفارسية"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-hudaybiyyah",
+   "level": "easy",
+   "answer": "event:treaty-hudaybiyyah",
+   "clues": [
+    {
+     "text": "النبي ﷺ نزل هنا بعد ما خد طريق وعر عشان يتجنب الصدام مع فرسان قريش.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "فسلك النبي ﷺ طريقا وعرا لتجنب الصدام"
+      }
+     ]
+    },
+    {
+     "text": "هنا الصحابة بايعوا النبي ﷺ تحت الشجرة (بيعة الرضوان).",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "دعا النبي ﷺ أصحابه للبيعة على الموت (بيعة الرضوان) تحت الشجرة"
+      }
+     ]
+    },
+    {
+     "text": "هنا اتعقد صلح بين المسلمين وقريش، قرب مكة.",
+     "sources": [
+      {
+       "from": "summary",
+       "quote": "معاهدة السلام العميقة بين المسلمين وقريش"
+      },
+      {
+       "from": "place",
+       "quote": "قرب مكة"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-arafat",
+   "level": "easy",
+   "answer": "event:farewell-pilgrimage",
+   "clues": [
+    {
+     "text": "أكتر من ١٠٠ ألف مسلم خرجوا مع النبي ﷺ للحج، ووصلوا هنا.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "ومعه أكثر من ١٠٠ ألف مسلم"
+      }
+     ]
+    },
+    {
+     "text": "هنا النبي ﷺ خطب خطبته التاريخية في حجته الوحيدة.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "خطبته التاريخية العظيمة (خطبة الوداع)"
+      },
+      {
+       "from": "summary",
+       "quote": "الحجة العظيمة الوحيدة للنبي ﷺ"
+      }
+     ]
+    },
+    {
+     "text": "بعد خطبة الوداع، النبي ﷺ وقف هنا.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "ثم وقف بعرفة"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-taif",
+   "level": "easy",
+   "answer": "event:journey-taif",
+   "clues": [
+    {
+     "text": "بعد عام الحزن، النبي ﷺ خرج ماشي لهنا يدعو قبيلة ثقيف.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "خرج النبي ﷺ ماشيا على قدميه"
+      },
+      {
+       "from": "course",
+       "quote": "راجيا أن يجد عند قبيلة ثقيف النصرة والمنعة"
+      }
+     ]
+    },
+    {
+     "text": "المكان ده على حوالي ٦٠ ميل من مكة.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "على نحو ستين ميلا من مكة"
+      }
+     ]
+    },
+    {
+     "text": "سادة القبيلة هنا ردّوا على النبي ﷺ رد قاسي ورفضوا يحموه.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "فردوا عليه ردا قاسيا وساخرا، ورفضوا حمايته"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-basra",
+   "level": "mid",
    "answer": "basra",
    "clues": [
     {
@@ -250,8 +436,8 @@
    ]
   },
   {
-   "id": "place-fustat-easy",
-   "level": "easy",
+   "id": "place-fustat",
+   "level": "mid",
    "answer": "fustat",
    "clues": [
     {
@@ -293,8 +479,8 @@
    ]
   },
   {
-   "id": "place-kufa-easy",
-   "level": "easy",
+   "id": "place-kufa",
+   "level": "mid",
    "answer": "kufa",
    "clues": [
     {
@@ -331,8 +517,278 @@
    ]
   },
   {
-   "id": "place-kairouan-easy",
-   "level": "easy",
+   "id": "place-dumat",
+   "level": "mid",
+   "answer": "event:ghazwat_dumat_aljandal",
+   "clues": [
+    {
+     "text": "النبي ﷺ مشي لهنا مسيرة طويلة وسريعة.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "المسير الطويل والسريع نحو"
+      }
+     ]
+    },
+    {
+     "text": "الهدف كان تأمين الحدود الشمالية وتأديب قطاع الطرق.",
+     "sources": [
+      {
+       "from": "summary",
+       "quote": "لتأمين الحدود الشمالية وتأديب قطاع الطرق"
+      }
+     ]
+    },
+    {
+     "text": "في شمال الجزيرة، والعصابات هربت قبل ما المسلمين يوصلوا.",
+     "sources": [
+      {
+       "from": "place",
+       "quote": "شمال الجزيرة"
+      },
+      {
+       "from": "course",
+       "quote": "فرار العصابات"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-mutah",
+   "level": "mid",
+   "answer": "event:battle-mutah",
+   "clues": [
+    {
+     "text": "هنا اتقابل ٣٠٠٠ مسلم مع جيش ضخم للروم وحلفائهم.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "جهز النبي ﷺ جيشا من ٣٠٠٠ مقاتل"
+      },
+      {
+       "from": "course",
+       "quote": "بجيش عرمرم للروم وحلفائهم"
+      }
+     ]
+    },
+    {
+     "text": "هنا القائد الأول استشهد، والراية اتنقلت لجعفر بن أبي طالب.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "فقاتل زيد بن حارثة بالراية حتى استشهد، فأخذها جعفر بن أبي طالب"
+      }
+     ]
+    },
+    {
+     "text": "مكانه النهارده في الأردن.",
+     "sources": [
+      {
+       "from": "place",
+       "quote": "الأردن"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-tabuk",
+   "level": "mid",
+   "answer": "event:battle-tabuk",
+   "clues": [
+    {
+     "text": "المسلمين خرجوا لهنا في حر شديد وموسم نضوج الثمار.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "حر شديد، وجدب في الأرض، ووقت نضوج الثمار"
+      }
+     ]
+    },
+    {
+     "text": "آخر غزوات النبي ﷺ كانت هنا.",
+     "sources": [
+      {
+       "from": "summary",
+       "quote": "آخر غزوات النبي ﷺ"
+      }
+     ]
+    },
+    {
+     "text": "خرجوا لمواجهة الروم، والصحابة اتسابقوا في التبرع لتجهيز الجيش.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "تسابق الصحابة في التبرع لتجهيز الجيش"
+      },
+      {
+       "from": "summary",
+       "quote": "لمواجهة الروم"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-khaybar",
+   "level": "mid",
+   "answer": "event:battle-khaybar",
+   "clues": [
+    {
+     "text": "هنا كانت حصون منيعة، والمسلمين حاصروها واحد ورا التاني.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "واحدا تلو الآخر"
+      }
+     ]
+    },
+    {
+     "text": "أمنع حصن هنا كان اسمه القموص.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "استعصى حصن القموص (أمنع حصون"
+      }
+     ]
+    },
+    {
+     "text": "المكان ده شمال المدينة.",
+     "sources": [
+      {
+       "from": "place",
+       "quote": "شمال المدينة"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-nahavand",
+   "level": "mid",
+   "answer": "event:battle-nahavand",
+   "clues": [
+    {
+     "text": "ملك الفرس جمع هنا جيش هائل في محاولة أخيرة يسترد ملكه.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "حشد يزدجرد (ملك الفرس) جيشا هائلا"
+      },
+      {
+       "from": "course",
+       "quote": "في محاولة أخيرة لسحق المسلمين واسترداد ملكه"
+      }
+     ]
+    },
+    {
+     "text": "الفرس حطّوا هنا أشواك حديد حوالين معسكرهم.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "ووضعوا حسك الحديد (أشواكا حديدية) حول معسكرهم"
+      }
+     ]
+    },
+    {
+     "text": "بعد المعركة اللي حصلت هنا، الفرس عمرهم ما اتجمعوا تاني.",
+     "sources": [
+      {
+       "from": "summary",
+       "quote": "التي لم يجتمع للفرس بعدها جمع"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-mina",
+   "level": "mid",
+   "answer": "event:first-aqaba",
+   "clues": [
+    {
+     "text": "هنا قابل النبي ﷺ ستة رجال من الخزرج في موسم الحج، فأسلموا.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "التقى النبي ﷺ بستة رجال من الخزرج عند العقبة"
+      },
+      {
+       "from": "course",
+       "quote": "فعرض عليهم الإسلام فأسلموا"
+      }
+     ]
+    },
+    {
+     "text": "في السنة اللي بعدها، ١٢ راجل من يثرب بايعوا النبي ﷺ هنا سرًا.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "قدم 12 رجلا من يثرب"
+      },
+      {
+       "from": "course",
+       "quote": "التقوا بالنبي ﷺ سرا عند العقبة"
+      }
+     ]
+    },
+    {
+     "text": "المكان ده من نواحي مكة.",
+     "sources": [
+      {
+       "from": "place",
+       "quote": "مكة المكرمة"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-qiblatayn",
+   "level": "mid",
+   "answer": "event:change-qibla",
+   "clues": [
+    {
+     "text": "هنا كان النبي ﷺ بيصلي، ونزل الوحي في نص الصلاة.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "وبينما كان النبي ﷺ يصلي الظهر (أو العصر)"
+      },
+      {
+       "from": "course",
+       "quote": "نزل الوحي"
+      }
+     ]
+    },
+    {
+     "text": "النبي ﷺ استدار وهو بيصلي، والصحابة استداروا وراه من غير تردد.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "استدار النبي ﷺ وهو في الصلاة نحو الكعبة، واستدار الصحابة خلفه دون تردد"
+      }
+     ]
+    },
+    {
+     "text": "في المدينة، في ديار بني سلمة.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "بني سلمة"
+      },
+      {
+       "from": "place",
+       "quote": "المدينة"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-kairouan",
+   "level": "hard",
    "answer": "kairouan",
    "clues": [
     {
@@ -365,8 +821,8 @@
    ]
   },
   {
-   "id": "place-cordoba-easy",
-   "level": "easy",
+   "id": "place-cordoba",
+   "level": "hard",
    "answer": "cordoba",
    "clues": [
     {
@@ -408,812 +864,300 @@
    ]
   },
   {
-   "id": "place-mecca-mid",
-   "level": "mid",
-   "answer": "mecca",
+   "id": "place-bir-mauna",
+   "level": "hard",
+   "answer": "event:incident_bir_mauna",
    "clues": [
     {
-     "text": "مسقط رأس النبي ﷺ ومهبط الوحي.",
+     "text": "النبي ﷺ بعت قرّاء يعلّموا الناس، في ضمانة أبي براء.",
      "sources": [
       {
-       "from": "significance",
-       "quote": "مهبط الوحي ومسقط رأس النبي محمد ﷺ"
+       "from": "course",
+       "quote": "إرسال القراء بضمانة أبي براء"
       }
      ]
     },
     {
-     "text": "قبلة المسلمين في صلاتهم، وفيها بيأدّوا فريضة الحج.",
+     "text": "هنا اتحاصر القرّاء، واستشهد ٧٠ من خيرة قرّاء الصحابة غدرًا.",
      "sources": [
       {
-       "from": "significance",
-       "quote": "قبلة المسلمين في صلاتهم، ومكان أداء فريضة الحج"
+       "from": "summary",
+       "quote": "مقتل ٧٠ من خيرة قراء الصحابة غدرا"
       }
      ]
     },
     {
-     "text": "تقع في الحجاز، وهي أقدس مدن المسلمين.",
+     "text": "في ديار بني عامر في نجد.",
      "sources": [
       {
-       "from": "description",
-       "quote": "أقدس مدن المسلمين، تقع في الحجاز"
-      }
-     ]
-    },
-    {
-     "text": "فيها الكعبة المشرفة والمسجد الحرام.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "فيها الكعبة المشرفة والمسجد الحرام"
+       "from": "place",
+       "quote": "ديار بني عامر (نجد)"
       }
      ]
     }
    ]
   },
   {
-   "id": "place-medina-mid",
-   "level": "mid",
-   "answer": "medina",
+   "id": "place-rajee",
+   "level": "hard",
+   "answer": "event:incident_rajeei",
    "clues": [
     {
-     "text": "كانت معروفة باسم تاني قبل الهجرة، والنبي ﷺ غيّر اسمها.",
+     "text": "قبايل طلبت معلمين للإسلام، وكانت خدعة.",
      "sources": [
       {
-       "from": "description",
-       "quote": "قبل الهجرة النبوية، فسماها النبي ﷺ"
+       "from": "course",
+       "quote": "طلب القبائل لمعلمين للإسلام"
       }
      ]
     },
     {
-     "text": "عاصمة أول دولة إسلامية.",
+     "text": "هنا اتغدر بعشرة من قرّاء الصحابة.",
      "sources": [
       {
-       "from": "significance",
-       "quote": "وعاصمة الدولة الإسلامية الأولى"
+       "from": "summary",
+       "quote": "بقتلهم عشرة من قراء الصحابة"
       }
      ]
     },
     {
-     "text": "تاني أقدس مكان في الإسلام.",
+     "text": "بين عسفان ومكة، واستشهد هنا عاصم بن ثابت ورفاقه.",
      "sources": [
       {
-       "from": "description",
-       "quote": "ثاني أقدس المدن الإسلامية"
-      }
-     ]
-    },
-    {
-     "text": "فيها المسجد النبوي وقبر النبي ﷺ.",
-     "sources": [
-      {
-       "from": "significance",
-       "quote": "فيها المسجد النبوي وقبر النبي ﷺ"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "place-jerusalem-mid",
-   "level": "mid",
-   "answer": "jerusalem",
-   "clues": [
-    {
-     "text": "النبي ﷺ اتسرى بيه ليها في رحلة الإسراء والمعراج.",
-     "sources": [
-      {
-       "from": "significance",
-       "quote": "ومسرى النبي ﷺ في رحلة الإسراء والمعراج"
-      }
-     ]
-    },
-    {
-     "text": "المسلمين صلّوا ناحيتها الأول، قبل ما القبلة تتحوّل.",
-     "sources": [
-      {
-       "from": "significance",
-       "quote": "القبلة الأولى للمسلمين"
-      }
-     ]
-    },
-    {
-     "text": "تالت أقدس مدينة في الإسلام.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "ثالث أقدس المدن في الإسلام"
-      }
-     ]
-    },
-    {
-     "text": "فيها المسجد الأقصى وقبة الصخرة.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "تضم المسجد الأقصى وقبة الصخرة"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "place-damascus-mid",
-   "level": "mid",
-   "answer": "damascus",
-   "clues": [
-    {
-     "text": "في بلاد الشام، ومركز إشعاع حضاري وثقافي إسلامي كبير.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "تقع في بلاد الشام"
+       "from": "place",
+       "quote": "بين عسفان ومكة"
       },
       {
-       "from": "significance",
-       "quote": "ومركز إشعاع حضاري وثقافي إسلامي كبير"
-      }
-     ]
-    },
-    {
-     "text": "من أقدم المدن المسكونة في العالم.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "من أقدم المدن المأهولة في العالم"
-      }
-     ]
-    },
-    {
-     "text": "عاصمة الخلافة الأموية.",
-     "sources": [
-      {
-       "from": "significance",
-       "quote": "عاصمة الخلافة الأموية"
+       "from": "course",
+       "quote": "استشهاد عاصم بن ثابت ورفاقه"
       }
      ]
     }
    ]
   },
   {
-   "id": "place-baghdad-mid",
-   "level": "mid",
-   "answer": "baghdad",
+   "id": "place-amwas",
+   "level": "hard",
+   "answer": "event:plague-amwas",
    "clues": [
     {
-     "text": "بناها خليفة عباسي على ضفاف نهر دجلة.",
+     "text": "قرية في فلسطين ظهر فيها وباء اجتاح الشام.",
      "sources": [
       {
-       "from": "description",
-       "quote": "بناها الخليفة العباسي أبو جعفر المنصور على ضفاف نهر دجلة"
-      }
-     ]
-    },
-    {
-     "text": "اتسمّت «مدينة السلام».",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "وسماها مدينة السلام"
-      }
-     ]
-    },
-    {
-     "text": "ابتدى بناها سنة ١٤٥ هـ.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "شرع في بنائها سنة 145"
-      }
-     ]
-    },
-    {
-     "text": "عاصمة الخلافة العباسية ومركز العلم والمعرفة.",
-     "sources": [
-      {
-       "from": "significance",
-       "quote": "عاصمة الخلافة العباسية، ومركز العلم والمعرفة"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "place-basra-mid",
-   "level": "mid",
-   "answer": "basra",
-   "clues": [
-    {
-     "text": "أول مدينة إسلامية اتبنت برا شبه الجزيرة العربية.",
-     "sources": [
-      {
-       "from": "significance",
-       "quote": "أول مدينة إسلامية بنيت خارج شبه الجزيرة العربية"
-      }
-     ]
-    },
-    {
-     "text": "مدينة عراقية، ومركز علمي وتجاري مهم.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "مدينة عراقية"
+       "from": "course",
+       "quote": "ظهور الطاعون في قرية"
       },
       {
-       "from": "significance",
-       "quote": "ومركز علمي وتجاري هام"
+       "from": "summary",
+       "quote": "الوباء المروع الذي اجتاح بلاد الشام"
       }
      ]
     },
     {
-     "text": "أسسها عتبة بن غزوان في عهد عمر.",
+     "text": "عمر خرج للشام ورجع بعد مشورة الصحابة.",
      "sources": [
       {
-       "from": "description",
-       "quote": "أسسها عتبة بن غزوان في عهد عمر بن الخطاب"
+       "from": "course",
+       "quote": "خروج عمر بن الخطاب رضي الله عنه للشام ورجوعه بعد مشورة الصحابة"
+      }
+     ]
+    },
+    {
+     "text": "الوباء ده خد أبو عبيدة ومعاذ بن جبل ويزيد بن أبي سفيان.",
+     "sources": [
+      {
+       "from": "course",
+       "quote": "وفاة أبي عبيدة رضي الله عنه ومعاذ بن جبل رضي الله عنه ويزيد بن أبي سفيان"
       }
      ]
     }
    ]
   },
   {
-   "id": "place-fustat-mid",
-   "level": "mid",
-   "answer": "fustat",
+   "id": "place-ajnadayn",
+   "level": "hard",
+   "answer": "event:battle-ajnadayn",
    "clues": [
     {
-     "text": "أول عاصمة إسلامية في مصر.",
+     "text": "معركة ضد الروم في آخر خلافة أبي بكر.",
      "sources": [
       {
-       "from": "description",
-       "quote": "أول عاصمة إسلامية في مصر"
+       "from": "summary",
+       "quote": "في آخر خلافة أبي بكر الصديق"
       }
      ]
     },
     {
-     "text": "فيها أول مسجد اتأسس في مصر بعد الفتح.",
+     "text": "أمراء الشام اتجمعوا مع عمرو بن العاص في فلسطين.",
      "sources": [
       {
-       "from": "significance",
-       "quote": "أول مسجد أسس بديار مصر بعد الفتح"
+       "from": "course",
+       "quote": "اجتماع أمراء الشام بعمرو بن العاص في فلسطين"
       }
      ]
     },
     {
-     "text": "منها انطلقت الفتوحات ناحية شمال أفريقيا.",
+     "text": "هنا الروم اتهزموا وأميرهم اتقتل، في أرض فلسطين.",
      "sources": [
       {
-       "from": "significance",
-       "quote": "مركز انطلاق الفتوحات الإسلامية نحو شمال أفريقيا"
-      }
-     ]
-    },
-    {
-     "text": "أسسها عمرو بن العاص.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "أسسها عمرو بن العاص"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "place-kufa-mid",
-   "level": "mid",
-   "answer": "kufa",
-   "clues": [
-    {
-     "text": "مدينة عراقية اتأسست بأمر من عمر بن الخطاب.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "مدينة عراقية"
+       "from": "summary",
+       "quote": "انتهت بهزيمة الروم ومقتل أميرهم"
       },
       {
-       "from": "description",
-       "quote": "بأمر من عمر بن الخطاب"
-      }
-     ]
-    },
-    {
-     "text": "مركز مهم لمدارس النحو والفقه.",
-     "sources": [
-      {
-       "from": "significance",
-       "quote": "ومركز مهم للمدارس النحوية والفقهية"
-      }
-     ]
-    },
-    {
-     "text": "اللي أسسها هو قائد القادسية سعد بن أبي وقاص.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "أسسها سعد بن أبي وقاص"
+       "from": "summary",
+       "quote": "بأرض فلسطين"
       }
      ]
     }
    ]
   },
   {
-   "id": "place-kairouan-mid",
-   "level": "mid",
-   "answer": "kairouan",
-   "clues": [
-    {
-     "text": "موجودة النهارده في تونس.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "(تونس اليوم)"
-      }
-     ]
-    },
-    {
-     "text": "قاعدة الفتوحات الإسلامية في شمال أفريقيا.",
-     "sources": [
-      {
-       "from": "significance",
-       "quote": "وقاعدة الفتوحات الإسلامية في شمال أفريقيا"
-      }
-     ]
-    },
-    {
-     "text": "عقبة بن نافع خطّها سنة ٥٠ هـ.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "اختطها عقبة بن نافع الفهري سنة 50"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "place-cordoba-mid",
-   "level": "mid",
-   "answer": "cordoba",
-   "clues": [
-    {
-     "text": "بقت دار الخلافة الأموية في الأندلس.",
-     "sources": [
-      {
-       "from": "significance",
-       "quote": "دار الخلافة الأموية في الأندلس"
-      }
-     ]
-    },
-    {
-     "text": "على ضفاف نهر الوادي الكبير.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "على ضفاف نهر الوادي الكبير"
-      }
-     ]
-    },
-    {
-     "text": "في إسبانيا النهارده.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "(إسبانيا حاليا)"
-      }
-     ]
-    },
-    {
-     "text": "فتحها طارق بن زياد سنة ٩٢ هـ.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "فتحها طارق بن زياد سنة 92"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "place-mecca-hard",
+   "id": "place-jalula",
    "level": "hard",
-   "answer": "mecca",
+   "answer": "event:conquest_jalula",
    "clues": [
     {
-     "text": "تقع في الحجاز، وهي أقدس مدن المسلمين.",
+     "text": "فلول الفرس اتحصنوا هنا بعد فتح المدائن.",
      "sources": [
       {
-       "from": "description",
-       "quote": "أقدس مدن المسلمين، تقع في الحجاز"
-      }
-     ]
-    },
-    {
-     "text": "قبلة المسلمين في صلاتهم، وفيها بيأدّوا فريضة الحج.",
-     "sources": [
-      {
-       "from": "significance",
-       "quote": "قبلة المسلمين في صلاتهم، ومكان أداء فريضة الحج"
-      }
-     ]
-    },
-    {
-     "text": "مسقط رأس النبي ﷺ ومهبط الوحي.",
-     "sources": [
-      {
-       "from": "significance",
-       "quote": "مهبط الوحي ومسقط رأس النبي محمد ﷺ"
-      }
-     ]
-    },
-    {
-     "text": "فيها الكعبة المشرفة والمسجد الحرام.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "فيها الكعبة المشرفة والمسجد الحرام"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "place-medina-hard",
-   "level": "hard",
-   "answer": "medina",
-   "clues": [
-    {
-     "text": "تاني أقدس مكان في الإسلام.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "ثاني أقدس المدن الإسلامية"
-      }
-     ]
-    },
-    {
-     "text": "عاصمة أول دولة إسلامية.",
-     "sources": [
-      {
-       "from": "significance",
-       "quote": "وعاصمة الدولة الإسلامية الأولى"
-      }
-     ]
-    },
-    {
-     "text": "كانت معروفة باسم تاني قبل الهجرة، والنبي ﷺ غيّر اسمها.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "قبل الهجرة النبوية، فسماها النبي ﷺ"
-      }
-     ]
-    },
-    {
-     "text": "فيها المسجد النبوي وقبر النبي ﷺ.",
-     "sources": [
-      {
-       "from": "significance",
-       "quote": "فيها المسجد النبوي وقبر النبي ﷺ"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "place-jerusalem-hard",
-   "level": "hard",
-   "answer": "jerusalem",
-   "clues": [
-    {
-     "text": "تالت أقدس مدينة في الإسلام.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "ثالث أقدس المدن في الإسلام"
-      }
-     ]
-    },
-    {
-     "text": "المسلمين صلّوا ناحيتها الأول، قبل ما القبلة تتحوّل.",
-     "sources": [
-      {
-       "from": "significance",
-       "quote": "القبلة الأولى للمسلمين"
-      }
-     ]
-    },
-    {
-     "text": "النبي ﷺ اتسرى بيه ليها في رحلة الإسراء والمعراج.",
-     "sources": [
-      {
-       "from": "significance",
-       "quote": "ومسرى النبي ﷺ في رحلة الإسراء والمعراج"
-      }
-     ]
-    },
-    {
-     "text": "فيها المسجد الأقصى وقبة الصخرة.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "تضم المسجد الأقصى وقبة الصخرة"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "place-damascus-hard",
-   "level": "hard",
-   "answer": "damascus",
-   "clues": [
-    {
-     "text": "من أقدم المدن المسكونة في العالم.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "من أقدم المدن المأهولة في العالم"
-      }
-     ]
-    },
-    {
-     "text": "في بلاد الشام، ومركز إشعاع حضاري وثقافي إسلامي كبير.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "تقع في بلاد الشام"
+       "from": "course",
+       "quote": "تحصن فلول الفرس"
       },
       {
-       "from": "significance",
-       "quote": "ومركز إشعاع حضاري وثقافي إسلامي كبير"
+       "from": "summary",
+       "quote": "المعركة المتممة لفتح المدائن"
       }
      ]
     },
     {
-     "text": "عاصمة الخلافة الأموية.",
+     "text": "حفروا خندق، والمسلمين اخترقوه بعد حصار طويل.",
      "sources": [
       {
-       "from": "significance",
-       "quote": "عاصمة الخلافة الأموية"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "place-baghdad-hard",
-   "level": "hard",
-   "answer": "baghdad",
-   "clues": [
-    {
-     "text": "ابتدى بناها سنة ١٤٥ هـ.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "شرع في بنائها سنة 145"
-      }
-     ]
-    },
-    {
-     "text": "اتسمّت «مدينة السلام».",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "وسماها مدينة السلام"
-      }
-     ]
-    },
-    {
-     "text": "بناها خليفة عباسي على ضفاف نهر دجلة.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "بناها الخليفة العباسي أبو جعفر المنصور على ضفاف نهر دجلة"
-      }
-     ]
-    },
-    {
-     "text": "عاصمة الخلافة العباسية ومركز العلم والمعرفة.",
-     "sources": [
-      {
-       "from": "significance",
-       "quote": "عاصمة الخلافة العباسية، ومركز العلم والمعرفة"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "place-basra-hard",
-   "level": "hard",
-   "answer": "basra",
-   "clues": [
-    {
-     "text": "مدينة عراقية، ومركز علمي وتجاري مهم.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "مدينة عراقية"
+       "from": "course",
+       "quote": "حصار طويل وهجمات يومية"
       },
       {
-       "from": "significance",
-       "quote": "ومركز علمي وتجاري هام"
+       "from": "course",
+       "quote": "اختراق الخندق وانهيار الدفاعات الفارسية"
       }
      ]
     },
     {
-     "text": "أول مدينة إسلامية اتبنت برا شبه الجزيرة العربية.",
+     "text": "المعركة هنا طلّعت يزدجرد من سهل العراق خالص.",
      "sources": [
       {
-       "from": "significance",
-       "quote": "أول مدينة إسلامية بنيت خارج شبه الجزيرة العربية"
-      }
-     ]
-    },
-    {
-     "text": "أسسها عتبة بن غزوان في عهد عمر.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "أسسها عتبة بن غزوان في عهد عمر بن الخطاب"
+       "from": "summary",
+       "quote": "والتي أخرجت يزدجرد من السهل العراقي تماما"
       }
      ]
     }
    ]
   },
   {
-   "id": "place-fustat-hard",
+   "id": "place-ayn-tamr",
    "level": "hard",
-   "answer": "fustat",
+   "answer": "event:conquest-ayn-al-tamr",
    "clues": [
     {
-     "text": "منها انطلقت الفتوحات ناحية شمال أفريقيا.",
+     "text": "خالد بن الوليد ساب الزبرقان على الأنبار ومشي لهنا.",
      "sources": [
       {
-       "from": "significance",
-       "quote": "مركز انطلاق الفتوحات الإسلامية نحو شمال أفريقيا"
+       "from": "course",
+       "quote": "استخلاف الزبرقان على الأنبار والمسير إلى"
       }
      ]
     },
     {
-     "text": "فيها أول مسجد اتأسس في مصر بعد الفتح.",
+     "text": "هنا اتأسر عقة بن أبي عقة، وهرب مهران.",
      "sources": [
       {
-       "from": "significance",
-       "quote": "أول مسجد أسس بديار مصر بعد الفتح"
-      }
-     ]
-    },
-    {
-     "text": "أول عاصمة إسلامية في مصر.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "أول عاصمة إسلامية في مصر"
-      }
-     ]
-    },
-    {
-     "text": "أسسها عمرو بن العاص.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "أسسها عمرو بن العاص"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "place-kufa-hard",
-   "level": "hard",
-   "answer": "kufa",
-   "clues": [
-    {
-     "text": "مركز مهم لمدارس النحو والفقه.",
-     "sources": [
-      {
-       "from": "significance",
-       "quote": "ومركز مهم للمدارس النحوية والفقهية"
-      }
-     ]
-    },
-    {
-     "text": "مدينة عراقية اتأسست بأمر من عمر بن الخطاب.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "مدينة عراقية"
+       "from": "course",
+       "quote": "أسر عقة بن أبي عقة"
       },
       {
-       "from": "description",
-       "quote": "بأمر من عمر بن الخطاب"
+       "from": "course",
+       "quote": "هرب مهران"
       }
      ]
     },
     {
-     "text": "اللي أسسها هو قائد القادسية سعد بن أبي وقاص.",
+     "text": "حصن غرب الفرات في العراق، اتفتح سنة ١٢ هـ.",
      "sources": [
       {
-       "from": "description",
-       "quote": "أسسها سعد بن أبي وقاص"
+       "from": "place",
+       "quote": "غرب الفرات، العراق"
+      },
+      {
+       "from": "summary",
+       "quote": "سنة ١٢"
       }
      ]
     }
    ]
   },
   {
-   "id": "place-kairouan-hard",
+   "id": "place-sbeitla",
    "level": "hard",
-   "answer": "kairouan",
+   "answer": "event:conquest-north-africa",
    "clues": [
     {
-     "text": "قاعدة الفتوحات الإسلامية في شمال أفريقيا.",
+     "text": "الجيش زحف من مصر لبرقة لطرابلس، لحد هنا.",
      "sources": [
       {
-       "from": "significance",
-       "quote": "وقاعدة الفتوحات الإسلامية في شمال أفريقيا"
+       "from": "course",
+       "quote": "زحف الجيش الإسلامي من مصر إلى برقة ثم طرابلس ثم"
       }
      ]
     },
     {
-     "text": "موجودة النهارده في تونس.",
+     "text": "القتال هنا فضل أيام من غير حسم.",
      "sources": [
       {
-       "from": "description",
-       "quote": "(تونس اليوم)"
+       "from": "course",
+       "quote": "القتال لأيام دون حسم"
       }
      ]
     },
     {
-     "text": "عقبة بن نافع خطّها سنة ٥٠ هـ.",
+     "text": "عبد الله بن الزبير جه بخطة: قوة مستريحة تهجم على الروم وهم تعبانين.",
      "sources": [
       {
-       "from": "description",
-       "quote": "اختطها عقبة بن نافع الفهري سنة 50"
+       "from": "course",
+       "quote": "وخطته في رواية ابن الأثير بإبقاء قوة مستريحة تهاجم الروم عند تعبهم"
       }
      ]
     }
    ]
   },
   {
-   "id": "place-cordoba-hard",
+   "id": "place-dongola",
    "level": "hard",
-   "answer": "cordoba",
+   "answer": "event:conquest-nubia-baqt",
    "clues": [
     {
-     "text": "في إسبانيا النهارده.",
+     "text": "كانت عاصمة مملكة نوبية، في شمال السودان النهارده.",
      "sources": [
       {
-       "from": "description",
-       "quote": "(إسبانيا حاليا)"
+       "from": "place",
+       "quote": "عاصمة مملكة المقرة النوبية (شمال السودان اليوم)"
       }
      ]
     },
     {
-     "text": "على ضفاف نهر الوادي الكبير.",
+     "text": "أهلها امتنعوا برماة الحدق.",
      "sources": [
       {
-       "from": "description",
-       "quote": "على ضفاف نهر الوادي الكبير"
+       "from": "summary",
+       "quote": "فلما امتنعوا برماة الحدق"
       }
      ]
     },
     {
-     "text": "بقت دار الخلافة الأموية في الأندلس.",
+     "text": "عبد الله بن سعد بن أبي السرح هادنهم، فكان عقد البقط.",
      "sources": [
       {
-       "from": "significance",
-       "quote": "دار الخلافة الأموية في الأندلس"
-      }
-     ]
-    },
-    {
-     "text": "فتحها طارق بن زياد سنة ٩٢ هـ.",
-     "sources": [
-      {
-       "from": "description",
-       "quote": "فتحها طارق بن زياد سنة 92"
+       "from": "summary",
+       "quote": "هادنهم عبد الله بن سعد إذ لم يطقهم، فكان البقط"
       }
      ]
     }
