@@ -94,3 +94,39 @@ test.describe('visual @phone @visual', () => {
     await shot(page, 'chat');
   });
 });
+
+// «تحدي اليوم» (Phase 5): the level sheet and the result card, light and dark, at 390 px (phone) and
+// desktop. The day is fixed, so the question and its options are the same on every run; test builds
+// have no Supabase settings, so the card shows no live numbers.
+test.describe('daily challenge visual @phone @visual', () => {
+  test.describe.configure({ timeout: 90_000 });
+  const DAY = new Date('2026-11-20T10:00:00+02:00');
+
+  async function openGame(page: Page, theme: 'light' | 'dark', isPhone: boolean): Promise<void> {
+    if (isPhone) await page.setViewportSize({ width: 390, height: 844 });
+    await page.clock.setFixedTime(DAY);
+    await page.addInitScript((t) => localStorage.setItem('nibras.challenge.theme', t), theme);
+    await page.goto('challenge/');
+    await expect(page.getByRole('dialog', { name: 'إنت قد إيه عارف؟' })).toBeVisible();
+  }
+
+  for (const theme of ['light', 'dark'] as const) {
+    test(`level sheet, ${theme}`, async ({ page }, testInfo) => {
+      await openGame(page, theme, testInfo.project.name === 'phone');
+      await settle(page, 500);
+      await prepareShot(page);
+      await expect(page).toHaveScreenshot(`challenge-level-sheet-${theme}.png`, { timeout: 20_000 });
+    });
+
+    test(`result card, ${theme}`, async ({ page }, testInfo) => {
+      await openGame(page, theme, testInfo.project.name === 'phone');
+      await page.getByRole('dialog').getByRole('button', { name: /لسه ببتدي/ }).click();
+      // The same picks every run: the first option still open, until the round ends.
+      for (let i = 0; i < 5 && !(await page.locator('.win').isVisible()); i++) await page.locator('.opts .opt:not([disabled])').first().click();
+      await expect(page.locator('.win')).toBeVisible();
+      await settle(page, 500);
+      await prepareShot(page);
+      await expect(page).toHaveScreenshot(`challenge-result-${theme}.png`, { fullPage: true, timeout: 20_000 });
+    });
+  }
+});

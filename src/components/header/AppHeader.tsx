@@ -222,9 +222,9 @@ export function AppHeader() {
           <HelpCircle size={18} strokeWidth={2.5} aria-hidden="true" />
         </HeaderButton>
 
+        {/* Shown on phones too (Mostafa, 2026-11-16): the game is what brings visitors back. */}
         <HeaderButton
           delay={0.54}
-          className="hidden sm:flex"
           onClick={openChallenge}
           aria-label="تحدي اليوم: لعبة يومية من نبراس"
           title="تحدي اليوم"
