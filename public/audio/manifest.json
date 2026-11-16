@@ -1872,6 +1872,22 @@
         "voice": "Charon"
       }
     },
+    "lost-ring-bir-aris": {
+      "title": {
+        "file": "lost-ring-bir-aris.title.9e193ad2.m4a",
+        "textHash": "9e193ad28c5a383a4f549b94b0be6d24a2691ef45c1edfc4b41e9e5c4ea7f95c",
+        "durationSec": 5.52,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "lost-ring-bir-aris.description.b8918e37.m4a",
+        "textHash": "b8918e37e102e4a65d31d8c742437994460c5dcb7d16ea0e07c2e7d05263524a",
+        "durationSec": 48.96,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
     "event-101-فتح-طبرستان": {
       "title": {
         "file": "conquest-of-tabaristan.title.18d33640.m4a",
@@ -1881,9 +1897,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-of-tabaristan.description.2ae28df0.m4a",
-        "textHash": "2ae28df0ec380ecb0c7ca4f7fd3cd2f3fb27683a232b7878c594792e550c7117",
-        "durationSec": 34.52,
+        "file": "conquest-of-tabaristan.description.3353091f.m4a",
+        "textHash": "3353091f1beb0687a3b000bad6e9a1e45dafcb28c170c44ab3130b9a33fc9d54",
+        "durationSec": 50.68,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1897,25 +1913,25 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "abu-dharr-rabadhah.description.30f65098.m4a",
-        "textHash": "30f6509826d62c35f55cac0c5ed1817d569e402f137034fdbb27cf78c9725fed",
-        "durationSec": 80.84,
+        "file": "abu-dharr-rabadhah.description.5adfddc4.m4a",
+        "textHash": "5adfddc4376990b84a6188719885d360a7074cc783fa14ff4736210a1e5bd6da",
+        "durationSec": 110.04,
         "engine": "gemini",
         "voice": "Charon"
       }
     },
     "conquest-sijistan": {
       "title": {
-        "file": "conquest-sijistan.title.0758c42c.m4a",
-        "textHash": "0758c42c88b174da902beb545ce7a8296ec8214b4ef2ccbae95473e625785ba6",
-        "durationSec": 4.32,
+        "file": "conquest-sijistan.title.154ffb09.m4a",
+        "textHash": "154ffb097a21e7843be23f24fb9a2808a15148080bc6c9733eb94a1a677484af",
+        "durationSec": 2.88,
         "engine": "gemini",
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-sijistan.description.636459ce.m4a",
-        "textHash": "636459cef154e1a338b73c1229e2152735e27ca387eb2772dece7f2b72f997e0",
-        "durationSec": 67.2,
+        "file": "conquest-sijistan.description.0352604f.m4a",
+        "textHash": "0352604ff3d0ef1a582bd82d7c26134400ff992f3a5ea4a5ae34b274a86ee05d",
+        "durationSec": 101.16,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1929,9 +1945,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-khorasan.description.d2ffdb67.m4a",
-        "textHash": "d2ffdb678c4b89a7e5a20ccdfb5ebef83ac32a28750e7886ca84ed744328bf82",
-        "durationSec": 47.88,
+        "file": "conquest-khorasan.description.57b03782.m4a",
+        "textHash": "57b037822799722128585808cf037475b23de5454941cad1df6495a3f5e94df0",
+        "durationSec": 75.56,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -1945,9 +1961,25 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "conquest-nubia-baqt.description.bbf49a40.m4a",
-        "textHash": "bbf49a40aa59ed0ee66a35c55e5117222bfa15aa273ac56b2dbcba4fd263c314",
-        "durationSec": 70,
+        "file": "conquest-nubia-baqt.description.e9b3ddb8.m4a",
+        "textHash": "e9b3ddb8cc41f20f67095d8ae479c9ccd8ed2eae9df664ccd093f81490ba8be8",
+        "durationSec": 59.64,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "battle-balanjar": {
+      "title": {
+        "file": "battle-balanjar.title.af3b35df.m4a",
+        "textHash": "af3b35df0cabdee38e4503ee64b5e4a1eaba1e37b2505a8c8af30be67e434118",
+        "durationSec": 1.92,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "battle-balanjar.description.86aee7fd.m4a",
+        "textHash": "86aee7fd5cccddd985074a07a587410ffbffc19b32c3456afbe72764241446c1",
+        "durationSec": 79.64,
         "engine": "gemini",
         "voice": "Charon"
       }
