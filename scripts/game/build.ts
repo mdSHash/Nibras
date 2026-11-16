@@ -31,8 +31,17 @@ export interface GameReport {
   data: GameData;
 }
 
-/** Braces, ornate parentheses and Qur'anic pause marks: the signs of a verse. */
-export const QURAN_MARKS = /[{}﴾﴿ۖ-ۭ]/;
+/**
+ * Braces, ornate parentheses and Qur'anic pause marks (U+06D6–U+06ED): the signs
+ * of a verse. Checked by code point: the marks combine, so a regex class can't hold them.
+ */
+export const QURAN_MARKS = {
+  test: (text: string): boolean =>
+    [...text].some((ch) => {
+      const c = ch.codePointAt(0) ?? 0;
+      return c === 0x7b || c === 0x7d || c === 0xfd3e || c === 0xfd3f || (c >= 0x6d6 && c <= 0x6ed);
+    }),
+};
 
 const KINDS = ['غزوة', 'سرية', 'معركة', 'فتح', 'موقعة'];
 /** Title words that never identify an event, folded. */
