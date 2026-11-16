@@ -9,9 +9,11 @@ interface Props {
   done: boolean;
   won: boolean;
   onPick: (id: string) => void;
+  /** A tile row's name was opened in Nibras (counted by Umami). */
+  onNibras: () => void;
 }
 
-export function RoundView({ round, picks, done, won, onPick }: Props) {
+export function RoundView({ round, picks, done, won, onPick, onNibras }: Props) {
   const wrong = picks.filter((p) => p !== round.answerId);
   const shown = done ? round.clues.length : cluesOpen(round.level, wrong.length, round.clues.length);
   const label = (id: string): string => round.options.find((o) => o.id === id)?.label ?? id;
@@ -66,7 +68,7 @@ export function RoundView({ round, picks, done, won, onPick }: Props) {
             return (
               <div key={id + i} className="row" style={cols}>
                 <div className="cell name">
-                  {round.mode === 'order' ? `#${wrong.length - i}` : href ? <a href={href} target="_blank" rel="noopener" title="اعرف أكتر في نبراس">{label(id)}</a> : label(id)}
+                  {round.mode === 'order' ? `#${wrong.length - i}` : href ? <a href={href} target="_blank" rel="noopener" title="اعرف أكتر في نبراس" onClick={onNibras}>{label(id)}</a> : label(id)}
                 </div>
                 {t.cells.map((c, j) => (
                   <div key={j} className={`cell ${c.mark}`}>

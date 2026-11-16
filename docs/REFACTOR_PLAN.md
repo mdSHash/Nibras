@@ -760,21 +760,28 @@ One session per item, each with its own branch and PR.
 - [x] **5A — Data** (PR #55): dataset from `content/`, exclusions, tiers, «من أكون؟» facts, report.
 - [x] **5C — Engine** (PR #56): seed, levels, options, comparisons, scoring, streaks, persistence.
 - [x] **5D — Design**: approved 2026-11-16 (three rounds; see the artifact above).
-- [ ] **5B — Question bank.** Schema and build checks for `content/game/questions/<mode>.json`
+- [x] **5B — Question bank** (PR #57; «من أكون؟» facts sourced in PR #58). Schema and build checks for `content/game/questions/<mode>.json`
       (ids exist, every clue's source quote is in its record, no Quran text, no excluded item, every
       level has enough questions); the bank itself for every mode and level, written in the approved
       tone; a review list for Mostafa. Grow the «من أكون؟» pool beyond 24 (more Ansar and non-Qurashi
       companions, facts sourced) so «مهاجر ولا أنصاري؟» separates better.
-- [ ] **5C-2 — Engine update** to the approved design: 5 options, up to 4 wrong picks, a clue every 2,
+- [x] **5C-2 — Engine update** (PR #57) to the approved design: 5 options, up to 4 wrong picks, a clue every 2,
       the new modes and their tiles, the level suggestion (picks and time), practice rounds that never
       touch the streak or stats, the countdown.
-- [ ] **5E — The game.** The standalone entry `/Nibras/challenge/` (own HTML entry, manifest, service
+- [x] **5E — The game** (PR #57; the Nibras header door in #57, on phones too in `feature/phase-5-close`). The standalone entry `/Nibras/challenge/` (own HTML entry, manifest, service
       worker, icons) and the in-Nibras door; level sheet, mode tabs, rounds, tile rows, result screen,
       level suggestion, practice, countdown, share (Web Share, clipboard fallback).
-- [ ] **5F — Real stats.** Supabase project (free; Claude creates it), table and row-level security,
+- [x] **5F — Real stats** (PR #57; Umami events in `feature/phase-5-close`). Supabase project (free; Claude creates it), table and row-level security,
       the Vercel function with rate limits, the numbers on the result with a true small-count sentence,
       Umami events, `.env.example` and `docs/OWNER_DASHBOARD.md` updated.
-- [ ] **Tests (each session for its part):** unit tests for the bank checks, options (5 unique with the
+      **Deviation (2026-11-16):** no Vercel function. The game writes straight to Supabase with the
+      publishable key under row-level security (insert-only, today's Cairo date ±1 day, bounded
+      attempts and seconds, one row per device and puzzle) and reads only totals through
+      `challenge_stats()`. No secret and no extra function to run; a determined cheater can fake
+      device ids, acceptable for a "faster than X%" line. Revisit with Phase 6 sign-in.
+- **Dropped (Mostafa, 2026-11-16):** «الحدث الكامل» (the proposed weekly bonus round) is not part of
+  Phase 5; a possible later idea.
+- [x] **Tests (each session for its part):** unit tests for the bank checks, options (5 unique with the
       answer, level rules), comparisons, scoring and streaks; Playwright at 390 px playing every mode
       at every level to the result with no console errors, in both doors; level suggestion and practice;
       PWA installability; visual snapshots of the level sheet and the result in light and dark.

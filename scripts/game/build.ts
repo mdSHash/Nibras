@@ -66,7 +66,7 @@ function readJson<T>(dir: string, file: string, schema: ZodType<T>, issues: Cont
   return null;
 }
 
-const SHAMELA_BOOKS: Record<string, string> = { usd: '1110', istiab: '12288', isaba: '9767', tabaqat: '1686' };
+const SHAMELA_BOOKS: Record<string, string> = { usd: '1110', istiab: '12288', isaba: '9767', tabaqat: '1686', sira: '23833', buldan: '23735' };
 
 /** A cached Shamela page's text (tmp/territories-research/cache), or null when it is not on this machine. */
 function shamelaPage(ref: string): string | null {

@@ -263,9 +263,12 @@
           {
             "from": "shamela:isaba/1151",
             "quote": "قتله غدرا بمكان يقال له وادي السباع"
+          },
+          {
+            "from": "shamela:buldan/2376",
+            "quote": "ووادي السباع الذي قتل فيه الزبير بن العوام: بين البصرة ومكة، بينه وبين البصرة خمسة أميال"
           }
-        ],
-        "pending": "Usd, Isti'ab, Isaba and al-Bidaya name وادي السباع after the Jamal but none of the cached pages places it (near al-Basra); a geography source is needed."
+        ]
       },
       "legacy": {
         "clan": "بنو أسد",
@@ -860,8 +863,16 @@
       },
       "migration": {
         "value": "muhajir",
-        "evidence": [],
-        "pending": "No cached page states Zayd's own hijra to al-Madinah (Usd 3293 has the Prophet ﷺ pairing him with Hamza); a Sunni source is needed."
+        "evidence": [
+          {
+            "from": "shamela:sira/501",
+            "quote": "ونزل حمزة بن عبد المطلب، وزيد بن حارثة"
+          },
+          {
+            "from": "shamela:sira/501",
+            "quote": "على كلثوم بن هدم، أخي بني عمرو بن عوف بقباء"
+          }
+        ]
       },
       "knownFor": {
         "value": "commander",

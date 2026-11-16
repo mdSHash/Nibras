@@ -48,6 +48,7 @@ export const header = {
   fullscreen: (page: Page) => control(page, 'ملء الشاشة'),
   help: (page: Page) => control(page, 'دليل الاستخدام والاختصارات'),
   chat: (page: Page) => page.getByRole('button', { name: 'اسأل المساعد الذكي' }),
+  challenge: (page: Page) => page.getByRole('button', { name: 'تحدي اليوم: لعبة يومية من نبراس' }),
   tour: (page: Page) => control(page, 'ابدأ الجولة التعريفية'),
   darkMode: (page: Page) => control(page, /^تبديل إلى الوضع (الليلي|النهاري)$/),
   menu: (page: Page) => page.getByRole('button', { name: 'المزيد من الخيارات' }),

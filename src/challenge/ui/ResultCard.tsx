@@ -23,9 +23,11 @@ interface Props {
   onLevel: (level: Level) => void;
   onNext: (mode: Mode) => void;
   onPractice: () => void;
+  /** The «اعرف أكتر في نبراس» button was opened (counted by Umami). */
+  onNibras: () => void;
 }
 
-export function ResultCard({ round, picks, won, practice, streak, doneToday, totalModes, left, suggestion, stats, nextMode, onLevel, onNext, onPractice }: Props) {
+export function ResultCard({ round, picks, won, practice, streak, doneToday, totalModes, left, suggestion, stats, nextMode, onLevel, onNext, onPractice, onNibras }: Props) {
   const [shared, setShared] = useState<string | null>(null);
   const [hideSuggest, setHideSuggest] = useState(false);
   const names = MODE_NAMES[round.mode];
@@ -89,7 +91,7 @@ export function ResultCard({ round, picks, won, practice, streak, doneToday, tot
         ) : (
           <button type="button" className="btn gold" onClick={share}>{shared ?? 'شارك مع صحابك'}</button>
         )}
-        <a className="btn" href={round.link} target="_blank" rel="noopener">اعرف أكتر في نبراس</a>
+        <a className="btn" href={round.link} target="_blank" rel="noopener" onClick={onNibras}>اعرف أكتر في نبراس</a>
       </div>
       {!practice && (
         <div className="countdown">سؤال «{names.tab}» الجاي بعد <b>{clock(left)}</b></div>

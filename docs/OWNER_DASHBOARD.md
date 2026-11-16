@@ -87,7 +87,19 @@ So your own visits are not counted: in your browser, on the site, open the conso
 | `narration_played` | The panel's narration starts; pausing and resuming is the same listen | `event` |
 | `search_used` | The search drawer closes after a query | `results`: `some` or `none` |
 | `chat_asked` | The chat answers | `mode`: `composed`, `extractive`, `not_covered` or `error` |
-| `path_started`, `path_finished` | Reserved for the learning paths (Phases 5 and 6); nothing sends them yet | |
+
+«تحدي اليوم» (`/Nibras/challenge/`, same Umami website; its page views show under that path) sends these
+(`src/challenge/analytics.ts`; the game has no text input). `mode` is the mode's id (`who`, `battle`, `place`,
+`year`, `number`, `leader`, `era`, `order`), `level` is `easy`, `mid` or `hard`, `practice` is true for practice rounds.
+
+| Event | When | Data |
+| --- | --- | --- |
+| `challenge_round_started` | The first pick of a round | `mode`, `level`, `practice` |
+| `challenge_round_finished` | Solved, or out of picks | `mode`, `level`, `practice`, `picks` (all picks, the right one included), `solved` |
+| `challenge_practice_started` | A practice round starts | `mode`, `level` |
+| `challenge_level_changed` | The level changes | `from` (`none` on the first visit), `to`, `via`: `first`, `sheet` or `suggestion` |
+| `challenge_nibras_opened` | A «اعرف أكتر في نبراس» way into Nibras is opened | `mode`, `level`, `from`: `tile` (a name in a tile row) or `result` (the result's button) |
+| `challenge_installed` | The game is installed as an app (the browser's `appinstalled`) | |
 
 ## Google Search Console and Bing Webmaster Tools (how Nibras does in search)
 
