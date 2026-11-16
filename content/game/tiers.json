@@ -1,0 +1,22 @@
+{
+  "events": {
+    "tier1": [
+      "battle-badr", "battle-uhud", "battle-khandaq", "conquest-mecca", "hijra-medina", "treaty-hudaybiyyah",
+      "farewell-pilgrimage", "change-qibla", "building-mosque", "battle-khaybar", "battle-hunayn", "battle-tabuk",
+      "battle-mutah", "battle-yarmouk", "battle-qadisiyyah", "year-of-sorrow", "journey-taif", "prophet-death",
+      "marriage-khadija", "muakhat", "event-75-فتح-القدس-والعهدة-العمرية", "conquest-damascus",
+      "event-49-تولي-أبي-بكر-الخلافة-السقيفة"
+    ],
+    "tier2Eras": ["meccan", "medinan", "abu-bakr"],
+    "tier2WithForces": true,
+    "overrides": {}
+  },
+  "people": {
+    "tier1": ["abu-bakr", "umar", "uthman", "ali", "khalid", "hamza", "bilal", "abu-hurayrah"],
+    "tier3": ["saeed-ibn-zayd", "saad-ibn-muadh", "abu-ayyub-al-ansari", "ammar-ibn-yasir", "abu-dharr-al-ghifari", "musab-ibn-umayr"]
+  },
+  "cities": {
+    "tier1": ["mecca", "medina", "jerusalem", "damascus", "baghdad"],
+    "tier3": ["kairouan", "cordoba"]
+  }
+}

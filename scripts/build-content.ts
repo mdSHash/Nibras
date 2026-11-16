@@ -24,6 +24,7 @@ import { ROOT } from './baseline/lib';
 import { eventSearchText, splitEvent, splitPassage, splitPerson } from '../shared/contentSplit';
 import { eventSlug } from '../shared/routes';
 import { AUDIO_DIR, checkNarration } from './narration/lib';
+import { buildGameData } from './game/build';
 
 const CONTENT_DIR = join(ROOT, 'content');
 const GENERATED_DIR = join(ROOT, 'src', 'generated');
@@ -31,9 +32,12 @@ const GENERATED_DIR = join(ROOT, 'src', 'generated');
 const { raw, issues: readIssues } = readContent(CONTENT_DIR);
 const { content, territories, issues } = checkContent(raw);
 const narration = issues.length ? null : checkNarration(content.events, AUDIO_DIR);
+// The daily challenge's dataset (Phase 5); `npm run game:report` writes its review report.
+const game = issues.length ? null : buildGameData(content, join(CONTENT_DIR, 'game'));
 const allIssues = [
   ...readIssues,
   ...issues,
+  ...(game?.issues ?? []),
   ...(narration?.issues ?? []).map((message) => ({ file: '../public/audio/manifest.json', message })),
 ];
 
@@ -57,6 +61,7 @@ if (process.argv.includes('--check')) {
   // checkContent returns the territory files whenever it reports no issues.
   writeFileSync(join(GENERATED_DIR, 'territories.json'), `${JSON.stringify(buildTerritories(territories!, content.events))}\n`);
   writeSplitContent();
+  writeFileSync(join(GENERATED_DIR, 'game.json'), `${JSON.stringify(game!.report!.data)}\n`);
   // Stale and missing narration is not played; `npm run narration -- check` lists it.
   writeFileSync(join(GENERATED_DIR, 'narration.json'), `${JSON.stringify(narration!.fresh)}\n`);
   console.log(`Content is valid; wrote src/generated/: ${summary}.`);
