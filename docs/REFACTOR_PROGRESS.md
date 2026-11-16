@@ -3551,6 +3551,19 @@ present (it is git-ignored, so CI skips that check).
   under row-level security; no Vercel function).
 - **Question bank review:** a private page with the 240 questions by mode and level, each clue with its Nibras sentence,
   marked تمام / عدّل / احذف with a note (saved in the page's store, which only Mostafa can write; Claude reads it back).
+  Mostafa marked all 240: none dropped, 5 «عدّل» (4 with a note), 1 «تمام» with a note. Applied (clue wording only;
+  every clue keeps its Nibras sentence and the build checks each quote):
+  - `battle-fahl`: «الروم غرّقوا السهول بالمية لحد ما بقت طين تقيل» (his wording).
+  - `battle-balanjar`, `who-abu-dujanah`: simpler words, same facts (e.g. «يتبختر» → «مشي… بفخر»).
+  - `place-dongola` (no note): «رماة الحدق» and «هادنهم… البقط» put in plain words: «رماة ماهرين بيصيبوا العين»,
+    «عمل معاهم صلح، واتسمّى «البقط»».
+  - `battle-tustar` (note: mention al-Barāʾ): a 4th clue, «في قول الواقدي، البراء بن مالك اتقتل فيها», citing al-Barāʾ's
+    bio («وقُتل يوم تستر سنة عشرين في قول الواقدي»), which gives other dates too, hence «في قول الواقدي».
+  - `who-hudhayfah`: Mostafa's note says the father was an unbeliever whom Ḥudhayfa killed, so «استشهد» is wrong. The
+    sources say otherwise: al-Yamān was a Muslim killed at Uḥud by Muslims who did not recognise him, and Ḥudhayfa forgave
+    them (صحيح البخاري، كتاب المغازي، غزوة أحد); the son who killed his unbelieving father is reported of Abū ʿUbayda at
+    Badr. The clue now follows the bio's own word, «واتقتل فيها أبوه» (bio: «وقتل أبوه بها»), which is true either way;
+    left for Mostafa whether to restore «استشهد».
 - **Facts research (Chrome was not connected, so no al-Durar).** Mostafa approved adding the two found quotes as evidence
   (`shamela:buldan/2376`, `shamela:sira/501`; the schema and build now accept `sira` and `buldan`, and the build checks
   both against the cached pages); 2 facts still await a source:
