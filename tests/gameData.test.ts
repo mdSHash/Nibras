@@ -1,7 +1,7 @@
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { checkContent, readContent } from '../scripts/content/store';
-import { buildGameData, lastEraOf } from '../scripts/game/build';
+import { QURAN_MARKS, buildGameData, lastEraOf } from '../scripts/game/build';
 import { modePools } from '../scripts/game/report';
 import exclusions from '../content/game/exclusions.json';
 import {
@@ -97,6 +97,7 @@ describe('the game dataset from content/', () => {
       for (const clue of item.clues) {
         expect(clueLeak(clue, item.keys), `${item.id}: ${clue}`).toBeNull();
         for (const w of exclusions.clueWords) expect(hasPhrase(clue, w), `${item.id}: ${clue}`).toBe(false);
+        expect(QURAN_MARKS.test(clue), `${item.id}: Qur'an text`).toBe(false);
       }
     }
   });
@@ -105,8 +106,9 @@ describe('the game dataset from content/', () => {
     for (const [mode, items] of Object.entries(modePools(report!.data))) expect(items.length, mode).toBeGreaterThanOrEqual(4);
   });
 
-  it('gives every event a year (no year 0) and a place', () => {
+  it('gives every event a year (no year 0) and a place, and no Quran text in what the game shows', () => {
     for (const e of report!.data.events) {
+      for (const text of [e.summary, ...e.excerpt]) expect(QURAN_MARKS.test(text), e.id).toBe(false);
       expect(e.year).not.toBe(0);
       expect(Number.isFinite(e.lat) && Number.isFinite(e.lon)).toBe(true);
     }

@@ -31,6 +31,9 @@ export interface GameReport {
   data: GameData;
 }
 
+/** Braces, ornate parentheses and Qur'anic pause marks: the signs of a verse. */
+export const QURAN_MARKS = /[{}﴾﴿ۖ-ۭ]/;
+
 const KINDS = ['غزوة', 'سرية', 'معركة', 'فتح', 'موقعة'];
 /** Title words that never identify an event, folded. */
 const GENERIC_TITLE = new Set(
@@ -96,7 +99,8 @@ export function buildGameData(content: ContentSet, gameDir: string): { report: G
     for (const r of raw) {
       const clue = maskTerms(r, terms);
       const leak = clueLeak(clue, keys);
-      const reason = leak ?? (isSensitive(clue) ? 'sensitive' : null);
+      // No Qur'an text anywhere in the game: verses in the content are set in braces with pause marks.
+      const reason = leak ?? (QURAN_MARKS.test(clue) ? 'quran' : isSensitive(clue) ? 'sensitive' : null);
       if (reason) report.droppedClues.push(`${owner} (${reason}): ${clue.replace(/[ً-ٰٟ]/g, '').slice(0, 90)}`);
       else if (!out.includes(clue)) out.push(clue);
     }
