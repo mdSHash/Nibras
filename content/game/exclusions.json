@@ -1,0 +1,54 @@
+{
+  "eras": [
+    {
+      "id": "ali",
+      "reason": "The fitna period: Jamal, Siffin and what followed."
+    }
+  ],
+  "events": [
+    {
+      "id": "incident_ifk",
+      "reason": "The Ifk incident."
+    },
+    {
+      "id": "event-105-استشهاد-عثمان-بن-عفان-يوم-الدار",
+      "reason": "The martyrdom of Uthman."
+    },
+    {
+      "id": "siege-of-uthman-house",
+      "reason": "The siege of Uthman's house (added 2026-11-16)."
+    },
+    {
+      "id": "abu-dharr-rabadhah",
+      "reason": "Abu Dharr's move to al-Rabadhah (added 2026-11-16)."
+    },
+    {
+      "id": "year-of-passing-32ah",
+      "reason": "Listed in Mostafa's spec."
+    },
+    {
+      "id": "event-104-بداية-الفتنة-الكبرى",
+      "reason": "The start of the great fitna (added by Claude 2026-11-16, for review)."
+    },
+    {
+      "id": "wufud-amsar-complaints",
+      "reason": "The complaints against the governors that led to the fitna (added by Claude 2026-11-16, for review)."
+    },
+    {
+      "id": "kufa-exiles-to-sham",
+      "reason": "The Kufans sent to al-Sham, part of the run-up to the fitna (added by Claude 2026-11-16, for review)."
+    }
+  ],
+  "clueWords": [
+    "الجمل",
+    "صفين",
+    "الفتنة",
+    "الفئة الباغية",
+    "قتلة عثمان",
+    "الخوارج",
+    "ملجم",
+    "التحكيم",
+    "الربذة",
+    "يوم الدار"
+  ]
+}

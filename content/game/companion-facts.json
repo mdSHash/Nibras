@@ -1,0 +1,197 @@
+{
+  "_note": "Facts for the «من أكون؟» tiles. Seeded from Mostafa's curated.py, re-mapped to the new tiles (2026-11-16). Every value cites its evidence: a quote that must appear in the Nibras record named in `from` (checked by the game data build), or `pending` until a Sunni source is quoted. Not reviewed yet: the mode stays off until Mostafa approves this file. `legacy` keeps curated.py's clan and «من العشرة» values, unused.",
+  "people": [
+    {
+      "id": "abu-bakr",
+      "islam": { "value": "before", "evidence": [{ "from": "bio", "quote": "أول من آمن برسول الله ﷺ من الرجال" }] },
+      "migration": { "value": "muhajir", "evidence": [{ "from": "bio", "quote": "ورفيقه في الهجرة إلى المدينة" }] },
+      "knownFor": { "value": "caliph", "evidence": [{ "from": "role", "quote": "الخليفة الأول" }] },
+      "deathPlace": { "value": "madinah", "evidence": [{ "from": "bio", "quote": "ودفن إلى جوار النبي ﷺ" }] },
+      "legacy": { "clan": "بنو تيم", "ten": true }
+    },
+    {
+      "id": "umar",
+      "islam": { "value": "before", "evidence": [{ "from": "bio", "quote": "أسلم في السنة السادسة من البعثة" }] },
+      "migration": { "value": "muhajir", "evidence": [], "pending": "The bio does not state his hijra to Medina; quote a Sunni source." },
+      "knownFor": { "value": "caliph", "evidence": [{ "from": "role", "quote": "الخليفة الثاني" }] },
+      "deathPlace": { "value": "madinah", "evidence": [{ "from": "bio", "quote": "ودفن إلى جوار النبي ﷺ وأبي بكر" }] },
+      "legacy": { "clan": "بنو عدي", "ten": true }
+    },
+    {
+      "id": "uthman",
+      "islam": { "value": "before", "evidence": [{ "from": "bio", "quote": "من السابقين الأولين إلى الإسلام" }] },
+      "migration": { "value": "muhajir", "evidence": [{ "from": "bio", "quote": "هاجر الهجرتين إلى الحبشة والمدينة" }] },
+      "knownFor": { "value": "caliph", "evidence": [{ "from": "role", "quote": "الخليفة الثالث" }] },
+      "deathPlace": { "value": "madinah", "evidence": [{ "from": "bio", "quote": "ودفن بالبقيع" }] },
+      "legacy": { "clan": "بنو أمية", "ten": true }
+    },
+    {
+      "id": "ali",
+      "islam": { "value": "before", "evidence": [{ "from": "bio", "quote": "نام في فراش النبي ﷺ ليلة الهجرة" }] },
+      "migration": { "value": "muhajir", "evidence": [], "pending": "The bio does not state his own hijra to Medina; quote a Sunni source." },
+      "knownFor": { "value": "caliph", "evidence": [{ "from": "role", "quote": "الخليفة الرابع" }] },
+      "deathPlace": { "value": "iraq", "evidence": [{ "from": "bio", "quote": "ودفن بالكوفة على المشهور" }] },
+      "legacy": { "clan": "بنو هاشم", "ten": true }
+    },
+    {
+      "id": "talhah-ibn-ubaydullah",
+      "islam": { "value": "before", "evidence": [{ "from": "bio", "quote": "ومن السابقين الأولين إلى الإسلام" }] },
+      "migration": { "value": "muhajir", "evidence": [{ "from": "bio", "quote": "وهاجر إلى المدينة" }] },
+      "knownFor": { "value": "early", "evidence": [{ "from": "bio", "quote": "ومن السابقين الأولين إلى الإسلام" }] },
+      "deathPlace": { "value": "iraq", "evidence": [{ "from": "bio", "quote": "وقتل رضي الله عنه في المعركة سنة ست وثلاثين" }, { "from": "event:battle-camel", "quote": "البصرة، العراق" }] },
+      "legacy": { "clan": "بنو تيم", "ten": true }
+    },
+    {
+      "id": "al-zubayr-ibn-al-awwam",
+      "islam": { "value": "before", "evidence": [{ "from": "bio", "quote": "فكان رابعا أو خامسا في الإسلام" }] },
+      "migration": { "value": "muhajir", "evidence": [{ "from": "bio", "quote": "وهاجر إلى الحبشة وإلى المدينة" }] },
+      "knownFor": { "value": "early", "evidence": [{ "from": "bio", "quote": "ومن السابقين الأولين إلى الإسلام" }] },
+      "deathPlace": { "value": "iraq", "evidence": [{ "from": "bio", "quote": "فنزل بوادي السباع" }], "pending": "Nibras names وادي السباع but not its region (near al-Basra); quote a Sunni source." },
+      "legacy": { "clan": "بنو أسد", "ten": true }
+    },
+    {
+      "id": "abd-al-rahman-ibn-awf",
+      "islam": { "value": "before", "evidence": [{ "from": "bio", "quote": "أسلم قبل دخول النبي صلى الله عليه وسلم دار الأرقم" }] },
+      "migration": { "value": "muhajir", "evidence": [{ "from": "bio", "quote": "هاجر الهجرتين" }] },
+      "knownFor": { "value": "early", "evidence": [{ "from": "bio", "quote": "من السابقين الأولين إلى الإسلام" }] },
+      "deathPlace": { "value": "madinah", "evidence": [], "pending": "The bio gives the year, not the place; quote a Sunni source." },
+      "legacy": { "clan": "بنو زهرة", "ten": true }
+    },
+    {
+      "id": "saad",
+      "islam": { "value": "before", "evidence": [{ "from": "bio", "quote": "من السابقين الأولين إلى الإسلام" }] },
+      "migration": { "value": "muhajir", "evidence": [], "pending": "The bio does not state his hijra; quote a Sunni source." },
+      "knownFor": { "value": "commander", "evidence": [{ "from": "role", "quote": "قائد عسكري" }] },
+      "deathPlace": { "value": "madinah", "evidence": [{ "from": "bio", "quote": "توفي رضي الله عنه بالعقيق قرب المدينة" }] },
+      "legacy": { "clan": "بنو زهرة", "ten": true }
+    },
+    {
+      "id": "abu-ubaidah-ibn-al-jarrah",
+      "islam": { "value": "before", "evidence": [{ "from": "bio", "quote": "من السابقين الأولين إلى الإسلام" }] },
+      "migration": { "value": "muhajir", "evidence": [{ "from": "bio", "quote": "هاجر إلى الحبشة وإلى المدينة" }] },
+      "knownFor": { "value": "commander", "evidence": [{ "from": "role", "quote": "وقائد من قادة الفتح" }] },
+      "deathPlace": { "value": "sham", "evidence": [{ "from": "bio", "quote": "توفي رضي الله عنه في طاعون عمواس" }] },
+      "legacy": { "clan": "بنو الحارث بن فهر", "ten": true }
+    },
+    {
+      "id": "saeed-ibn-zayd",
+      "islam": { "value": "before", "evidence": [{ "from": "bio", "quote": "أسلم قديما قبل عمر" }] },
+      "migration": { "value": "muhajir", "evidence": [{ "from": "bio", "quote": "وكان من المهاجرين الأولين" }] },
+      "knownFor": { "value": "early", "evidence": [{ "from": "bio", "quote": "من السابقين إلى الإسلام" }] },
+      "deathPlace": { "value": "madinah", "evidence": [], "pending": "The bio gives no place of death; quote a Sunni source (al-ʿAqiq, buried in al-Madinah)." },
+      "legacy": { "clan": "بنو عدي", "ten": true }
+    },
+    {
+      "id": "hamza",
+      "islam": { "value": "before", "evidence": [{ "from": "bio", "quote": "أسلم في السنة السادسة من البعثة" }] },
+      "migration": { "value": "muhajir", "evidence": [{ "from": "bio", "quote": "هاجر إلى المدينة وشهد بدرا" }] },
+      "knownFor": { "value": "family", "evidence": [{ "from": "role", "quote": "عم النبي ﷺ" }] },
+      "deathPlace": { "value": "madinah", "evidence": [{ "from": "bio", "quote": "دفن بأحد" }, { "from": "event:battle-uhud", "quote": "جبل أحد، المدينة المنورة" }] },
+      "legacy": { "clan": "بنو هاشم", "ten": false }
+    },
+    {
+      "id": "jafar",
+      "islam": { "value": "before", "evidence": [{ "from": "bio", "quote": "أسلم بعد واحد وثلاثين إنسانا" }] },
+      "migration": { "value": "muhajir", "evidence": [{ "from": "bio", "quote": "وهاجر إلى الحبشة في الهجرة الثانية" }] },
+      "knownFor": { "value": "family", "evidence": [{ "from": "bio", "quote": "ابن عم النبي ﷺ" }] },
+      "deathPlace": { "value": "sham", "evidence": [{ "from": "bio", "quote": "ثم كان ثاني أمراء المسلمين في غزوة مؤتة" }, { "from": "event:battle-mutah", "quote": "مؤتة، الأردن" }] },
+      "legacy": { "clan": "بنو هاشم", "ten": false }
+    },
+    {
+      "id": "musab-ibn-umayr",
+      "islam": { "value": "before", "evidence": [{ "from": "bio", "quote": "أسلم والنبي صلى الله عليه وسلم في دار الأرقم" }] },
+      "migration": { "value": "muhajir", "evidence": [{ "from": "bio", "quote": "بعثه النبي صلى الله عليه وسلم إلى يثرب" }] },
+      "knownFor": { "value": "early", "evidence": [{ "from": "bio", "quote": "من السابقين الأولين إلى الإسلام" }] },
+      "deathPlace": { "value": "madinah", "evidence": [{ "from": "bio", "quote": "ثم استشهد رضي الله عنه يوم أحد" }, { "from": "event:battle-uhud", "quote": "جبل أحد، المدينة المنورة" }] },
+      "legacy": { "clan": "بنو عبد الدار", "ten": false }
+    },
+    {
+      "id": "khalid",
+      "islam": { "value": "after", "evidence": [{ "from": "bio", "quote": "أسلم في السنة الثامنة للهجرة قبل فتح مكة" }] },
+      "migration": { "value": "muhajir", "evidence": [], "pending": "Counted a muhajir for coming to al-Madinah as a Muslim in 8 AH before the conquest; quote a Sunni source or change to «other»." },
+      "knownFor": { "value": "commander", "evidence": [{ "from": "role", "quote": "قائد عسكري" }] },
+      "deathPlace": { "value": "sham", "evidence": [{ "from": "bio", "quote": "توفي رضي الله عنه بحمص" }] },
+      "legacy": { "clan": "بنو مخزوم", "ten": false }
+    },
+    {
+      "id": "amr",
+      "islam": { "value": "after", "evidence": [{ "from": "bio", "quote": "أسلم في السنة الثامنة للهجرة قبل فتح مكة" }] },
+      "migration": { "value": "muhajir", "evidence": [], "pending": "As Khalid: quote a Sunni source or change to «other»." },
+      "knownFor": { "value": "commander", "evidence": [{ "from": "role", "quote": "قائد عسكري ووالي" }] },
+      "deathPlace": { "value": "egypt", "evidence": [{ "from": "bio", "quote": "توفي رضي الله عنه بمصر" }] },
+      "legacy": { "clan": "بنو سهم", "ten": false }
+    },
+    {
+      "id": "muadh-ibn-jabal",
+      "islam": { "value": "before", "evidence": [{ "from": "bio", "quote": "شهد بيعة العقبة وهو شاب" }] },
+      "migration": { "value": "ansari", "evidence": [{ "from": "bio", "quote": "من السابقين من الأنصار" }] },
+      "knownFor": { "value": "scholar", "evidence": [{ "from": "role", "quote": "صحابي عالم وفقيه" }] },
+      "deathPlace": { "value": "sham", "evidence": [{ "from": "bio", "quote": "توفي رضي الله عنه في طاعون عمواس" }] },
+      "legacy": { "clan": "الخزرج", "ten": false }
+    },
+    {
+      "id": "saad-ibn-muadh",
+      "islam": { "value": "before", "evidence": [{ "from": "bio", "quote": "أسلم على يد مصعب بن عمير" }] },
+      "migration": { "value": "ansari", "evidence": [{ "from": "bio", "quote": "سعد بن معاذ الأنصاري رضي الله عنه سيد الأوس" }] },
+      "knownFor": { "value": "ansarLeader", "evidence": [{ "from": "bio", "quote": "سيد الأوس" }] },
+      "deathPlace": { "value": "madinah", "evidence": [{ "from": "bio", "quote": "في خيمة رفيدة الأسلمية في المسجد" }] },
+      "legacy": { "clan": "الأوس", "ten": false }
+    },
+    {
+      "id": "abu-ayyub-al-ansari",
+      "islam": { "value": "before", "evidence": [{ "from": "bio", "quote": "شهد بيعة العقبة الثانية" }] },
+      "migration": { "value": "ansari", "evidence": [{ "from": "bio", "quote": "من كبار الصحابة من الأنصار" }] },
+      "knownFor": { "value": "ansarLeader", "evidence": [{ "from": "bio", "quote": "من كبار الصحابة من الأنصار" }] },
+      "deathPlace": { "value": "rum", "evidence": [{ "from": "bio", "quote": "فدفن عند سور القسطنطينية" }] },
+      "legacy": { "clan": "الخزرج", "ten": false }
+    },
+    {
+      "id": "bilal",
+      "islam": { "value": "before", "evidence": [{ "from": "bio", "quote": "من السابقين الأولين إلى الإسلام" }] },
+      "migration": { "value": "muhajir", "evidence": [{ "from": "bio", "quote": "هاجر إلى المدينة وشهد بدرا" }] },
+      "knownFor": { "value": "muezzin", "evidence": [{ "from": "role", "quote": "مؤذن" }] },
+      "deathPlace": { "value": "sham", "evidence": [{ "from": "bio", "quote": "وتوفي رضي الله عنه بدمشق أو حلب" }] },
+      "legacy": { "clan": "من الحبشة", "ten": false }
+    },
+    {
+      "id": "zayd",
+      "islam": { "value": "before", "evidence": [{ "from": "bio", "quote": "من السابقين الأولين إلى الإسلام" }] },
+      "migration": { "value": "muhajir", "evidence": [], "pending": "The bio does not state his hijra; quote a Sunni source." },
+      "knownFor": { "value": "commander", "evidence": [{ "from": "role", "quote": "قائد عسكري" }] },
+      "deathPlace": { "value": "sham", "evidence": [{ "from": "bio", "quote": "في غزوة مؤتة سنة ثمان للهجرة" }, { "from": "event:battle-mutah", "quote": "مؤتة، الأردن" }] },
+      "legacy": { "clan": "كلب", "ten": false }
+    },
+    {
+      "id": "ammar-ibn-yasir",
+      "islam": { "value": "before", "evidence": [{ "from": "bio", "quote": "من السابقين الأولين إلى الإسلام" }] },
+      "migration": { "value": "muhajir", "evidence": [], "pending": "The bio does not state his hijra; quote a Sunni source." },
+      "knownFor": { "value": "early", "evidence": [{ "from": "bio", "quote": "من السابقين الأولين إلى الإسلام" }] },
+      "deathPlace": { "value": "sham", "evidence": [{ "from": "bio", "quote": "واستشهد يوم صفين" }, { "from": "event:event-109-معركة-صفين", "quote": "صفين (على الفرات في سوريا)" }] },
+      "legacy": { "clan": "مذحج", "ten": false }
+    },
+    {
+      "id": "abdullah-ibn-masud",
+      "islam": { "value": "before", "evidence": [{ "from": "bio", "quote": "أسلم قديما قبل إسلام عمر بن الخطاب بزمان" }] },
+      "migration": { "value": "muhajir", "evidence": [{ "from": "bio", "quote": "وهاجر الهجرتين" }] },
+      "knownFor": { "value": "scholar", "evidence": [{ "from": "bio", "quote": "ومن كبار علماء الصحابة وقرائهم" }] },
+      "deathPlace": { "value": "madinah", "evidence": [], "pending": "The bio gives the year, not the place; quote a Sunni source." },
+      "legacy": { "clan": "هذيل", "ten": false }
+    },
+    {
+      "id": "abu-dharr-al-ghifari",
+      "islam": { "value": "before", "evidence": [{ "from": "bio", "quote": "أحد السابقين الأولين إلى الإسلام" }] },
+      "migration": { "value": "other", "evidence": [{ "from": "bio", "quote": "كان من قبيلة غفار" }] },
+      "knownFor": { "value": "early", "evidence": [{ "from": "bio", "quote": "أحد السابقين الأولين إلى الإسلام" }] },
+      "deathPlace": { "value": "hijaz", "evidence": [{ "from": "bio", "quote": "توفي في الربذة" }] },
+      "legacy": { "clan": "غفار", "ten": false }
+    },
+    {
+      "id": "abu-hurayrah",
+      "islam": { "value": "after", "evidence": [{ "from": "bio", "quote": "أسلم عام خيبر" }] },
+      "migration": { "value": "other", "evidence": [{ "from": "bio", "quote": "أبو هريرة عبد الرحمن بن صخر الدوسي" }] },
+      "knownFor": { "value": "scholar", "evidence": [{ "from": "title", "quote": "أكثر الصحابة رواية للحديث" }] },
+      "deathPlace": { "value": "madinah", "evidence": [], "pending": "The bio gives no place of death; quote a Sunni source." },
+      "legacy": { "clan": "دوس", "ten": false }
+    }
+  ]
+}
