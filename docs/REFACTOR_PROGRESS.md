@@ -3413,3 +3413,23 @@ entry (4A–4H-2 and the close-out, all merged).
   Phase 6; game wording written by Claude from Nibras facts (20-item sample approved first); new «من أكون؟» tiles;
   two more exclusions; sessions 5A–5F; Umami events. The plan's Phase 5 and Phase 6 sections are rewritten; the
   learning paths, quizzes and certificates are dropped.
+
+### 5A — the game's data (2026-11-16)
+
+- `content/game/`: `exclusions.json` (the `ali` era; Ifk; Uthman's martyrdom; the siege of his house; Abu Dharr's move
+  to al-Rabadhah; `year-of-passing-32ah`; and, added by Claude for review, `event-104-بداية-الفتنة-الكبرى`,
+  `wufud-amsar-complaints`, `kufa-exiles-to-sham`; plus `clueWords`: a clue containing one is never shown),
+  `tiers.json` (Mostafa's defaults from the spec), `companion-facts.json` (24 companions from `curated.py`, re-mapped
+  to the new tiles; every value carries a quote checked against the Nibras record, or a `pending` note).
+- `scripts/game/build.ts` builds `src/generated/game.json` inside `npm run build:content` (bad ids or quotes fail the
+  content build); `npm run game:report` writes `docs/phase5/data-report.md` (pool sizes per mode, level and tier;
+  facts table; exclusions; skipped events; dropped clues; every item's tier). A test keeps the report current.
+- Numbers: 115 events, 24 people, 10 cities; 25 excluded, 8 skipped (no Hijri year: dated by the Mission or «عام
+  الفيل»), 33 clues dropped (too short after masking, or sensitive), 12 facts awaiting a Sunni source. Every mode has
+  at least 4 answers per level; «مكان» mid has 3 tier-2 cities and borrows.
+- **For Mostafa to review:** the facts table and the 12 pending facts; the three added exclusions; the tiers; the
+  tile labels (`FACT_LABELS` in `shared/gameData.ts`). **Concern:** «مهاجر ولا أنصاري؟» splits the 24 as 19 / 3 / 2,
+  so it narrows little; an alternative is «كان عايش فين لما أسلم؟» (مكة / المدينة / مكان تاني), still 19 / 3 / 2 —
+  the real fix is more Ansar and non-Qurashi companions in the pool (5B can add them with sourced facts).
+- Masking also hides a term without its article and after و/ف/ب/ك/ل prefixes; a sensitive word matches whole words
+  only («صفين» never matches «الصفين», the two battle lines).

@@ -10,7 +10,7 @@ import { checkContent, readContent } from '../content/store';
 import { ROOT } from '../baseline/lib';
 import { stripDiacritics } from '../../shared/arabic';
 import { buildGameData, type GameReport } from './build';
-import type { GameData, Tier } from '../../shared/gameData';
+import { FACT_LABELS, FACT_TITLES, type GameData, type Tier } from '../../shared/gameData';
 
 export const LEVEL_TIERS: Record<'easy' | 'mid' | 'hard', Tier[]> = { easy: [1], mid: [2], hard: [3, 2] };
 
@@ -51,6 +51,15 @@ export function render(r: GameReport): string {
   }
   lines.push('', '### Warnings', '', ...(warnings.length ? warnings.map((w) => `- ${w}`) : ['- None.']));
   const section = (title: string, items: string[]) => lines.push('', `## ${title} (${items.length})`, '', ...(items.length ? items.map((i) => `- ${i}`) : ['- None.']));
+  lines.push('', '## «من أكون؟» facts (as the tiles will show them)', '');
+  lines.push(`| الصحابي | ${FACT_TITLES.islam} | ${FACT_TITLES.migration} | ${FACT_TITLES.knownFor} | ${FACT_TITLES.lastEra} | ${FACT_TITLES.deathPlace} | سنة الوفاة |`);
+  lines.push('| --- | --- | --- | --- | --- | --- | --- |');
+  for (const p of r.data.people) {
+    lines.push(
+      `| ${p.name} | ${FACT_LABELS.islam[p.islam]} | ${FACT_LABELS.migration[p.migration]} | ${FACT_LABELS.knownFor[p.knownFor]} | ` +
+        `${FACT_LABELS.lastEra[p.lastEra]} | ${FACT_LABELS.deathPlace[p.deathPlace]} | ${p.deathYear}${p.disputed ? ' (وقيل غيرها)' : ''} |`,
+    );
+  }
   section('Companion facts awaiting a source', r.pending);
   section('Excluded', r.excluded);
   section('Skipped (no Hijri year)', r.skipped);
