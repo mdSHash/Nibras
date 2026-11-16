@@ -3450,3 +3450,15 @@ entry (4A–4H-2 and the close-out, all merged).
 - 37 unit tests in `tests/challengeEngine.test.ts`, including every mode × level for 30 days on the real dataset.
 - Decision: the headline is «في آخر لحظة!» on the last allowed attempt (4th at easy/mid, 3rd at hard), «أحسنت!»
   on the 3rd of 4.
+
+### 5D — design approved (2026-11-16)
+
+- Round 1 (manuscript, map room, day rail, storyteller) and round 2 (card album, safe, quiz studio, mosaic): Mostafa
+  liked none; he kept the «من أكون؟» tile rows. He asked for "something like Wordle / Loldle".
+- Round 3, iterated with him the same day: a question with its first clue, **five options** (he chose options over a
+  search box), a tile row per wrong pick, real numbers on the result instead of a colored-square share grid, three
+  levels applied to every mode, a level suggestion after a fast or slow solve, a countdown to the next question,
+  unlimited practice rounds. Artifact «اتجاهات تحدي اليوم» (version 9). The plan's Phase 5 section is rewritten to
+  this design; the new modes «لقب مين؟», «رتّب الأحداث», «مين كان هناك؟», «مين قال؟» are added at every level.
+- He approved the 20-question tone sample and asked for a full question bank (5B, this branch).
+- Open: «الحدث الكامل» kept or dropped (proposed as a weekly bonus).
