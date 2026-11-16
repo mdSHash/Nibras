@@ -3433,3 +3433,20 @@ entry (4A–4H-2 and the close-out, all merged).
   the real fix is more Ansar and non-Qurashi companions in the pool (5B can add them with sourced facts).
 - Masking also hides a term without its article and after و/ف/ب/ك/ل prefixes; a sensitive word matches whole words
   only («صفين» never matches «الصفين», the two battle lines).
+
+### 5C — the game engine (2026-11-16, while Mostafa was away)
+
+- **Started before 5A was merged** (Mostafa away; reversible): branch `feature/phase-5c-challenge-engine` sits on
+  `feature/phase-5a-challenge-data`, and its PR targets that branch. Once #55 merges, retarget the PR to `main`.
+- 5B (game wording) waits for the 20-question sample's approval (`docs/phase5/sample-questions.md`); 5D waits for
+  Mostafa's pick among the four directions (artifact «اتجاهات تحدي اليوم»). The engine depends on neither.
+- `src/challenge/engine/` (pure TypeScript, no UI, not yet imported by the app, so the bundle is unchanged):
+  `seed.ts` (Cairo date, FNV-1a + mulberry32, per mode and level salts, puzzle number), `levels.ts` (the spec's level
+  table), `options.ts` (answer from the level's tiers topped up from the nearest; distractor rules per mode; year
+  shifts skip year 0; nice numbers more than 7% apart; spaced places), `compare.ts` (tiles and the «اللي بندوّر
+  عليه» sentence for «من أكون؟» with the new tiles and «معركة اليوم»; place, year and number misses),
+  `progress.ts` (stage points, headline, `GameResult` / `DailyState` in versioned localStorage, streaks per level),
+  `puzzles.ts` (one puzzle per mode, level and day from `src/generated/game.json`).
+- 37 unit tests in `tests/challengeEngine.test.ts`, including every mode × level for 30 days on the real dataset.
+- Decision: the headline is «في آخر لحظة!» on the last allowed attempt (4th at easy/mid, 3rd at hard), «أحسنت!»
+  on the 3rd of 4.
