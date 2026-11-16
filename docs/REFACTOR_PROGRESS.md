@@ -3522,3 +3522,41 @@ present (it is git-ignored, so CI skips that check).
   For Mostafa to confirm.
 - **Still open (4):** where وادي السباع is (الزبير; the sources name it, none places it), زيد's own hijra, when أبو دجانة and
   حذيفة became Muslim (al-Isaba: حذيفة before Badr).
+
+### Phase 5 close (2026-11-16, branch `feature/phase-5-close`)
+
+- **Start:** PR #58 merged; its deploy run failed once in Firefox: a font download cancelled by a reload logged
+  «downloadable font: download failed … status=2152398850» (NS_BINDING_ABORTED). The test fixture now ignores that one
+  status (a missing font fails with another), the failed job was re-run on `main` and #58 deployed. `npm run verify` in five
+  batches passed on the branch (497 unit tests; features 132; engines 52; visual 16; Lighthouse within budget).
+- **Umami events in the game** (`src/challenge/analytics.ts`, deploy build only): `challenge_round_started`,
+  `challenge_round_finished` (mode, level, practice, picks, solved), `challenge_practice_started`,
+  `challenge_level_changed` (from, to, via), `challenge_nibras_opened` (from a tile row or the result's button),
+  `challenge_installed` (`appinstalled`). Mode, level and counts only; the game has no text input. The tracker moved into
+  `src/services/umami.ts` so the game does not bundle Nibras's store and data; Nibras's events are unchanged. The unused
+  `path_started` / `path_finished` (learning paths, dropped) are removed. Listed in `docs/OWNER_DASHBOARD.md`. Tests: unit
+  (the tracker without Nibras's page-view filter, queued events) and Playwright (a round, a tile link, the result link,
+  practice and a level change send exactly the expected events).
+- **Decisions (Mostafa):** the «تحدي اليوم» trophy shows in the phone header too (still in the ⋮ menu); «الحدث الكامل»
+  dropped from Phase 5 (a possible later idea); research the 4 open facts.
+- **Visual snapshots:** the game's level sheet and result card, light and dark, at 390 px and desktop (a fixed day, so the
+  same question every run). Regenerating showed that the 1% tolerance had hidden real changes in the existing images:
+  the phone trophy, and older drift from approved work («131 حدث» → «148 حدث», a cluster 30 → 35, a new battle marker
+  near Makkah, the 3F territory outline and labels, the Badr narration button). Mostafa approved the whole list: 8 new,
+  8 phone and 8 desktop refreshed; the Linux copies came from one CI run on the branch (workflow run by hand; the deploy
+  step only runs on `main`).
+- **Tests:** a Playwright test opens the game from the Nibras header and plays a round (all four browsers), so both doors
+  are covered.
+- **Plan:** 5B, 5C-2, 5E, 5F and the tests item ticked; the 5F deviation recorded (the client writes straight to Supabase
+  under row-level security; no Vercel function).
+- **Question bank review:** a private page with the 240 questions by mode and level, each clue with its Nibras sentence,
+  marked تمام / عدّل / احذف with a note (saved in the page's store, which only Mostafa can write; Claude reads it back).
+- **Facts research (Chrome was not connected, so no al-Durar).** Mostafa approved adding the two found quotes as evidence
+  (`shamela:buldan/2376`, `shamela:sira/501`; the schema and build now accept `sira` and `buldan`, and the build checks
+  both against the cached pages); 2 facts still await a source:
+  - وادي السباع: معجم البلدان ج5 ص343 (shamela 23735/2376): «ووادي السباع الذي قتل فيه الزبير بن العوام: بين البصرة ومكة،
+    بينه وبين البصرة خمسة أميال». Five miles from al-Basra, so «العراق» stands.
+  - زيد's hijra: سيرة ابن هشام ج1 ص478 (sira/501), among the Muhajirun's lodgings: «ونزل حمزة بن عبد المطلب، وزيد بن حارثة…
+    على كلثوم بن هدم… بقباء». «مهاجر» stands.
+  - Still open: when أبو دجانة and حذيفة became Muslim. الاستيعاب ج2 ص652 and أسد الغابة give his battles and death only;
+    al-Isaba has حذيفة Muslim before Badr, not before the Hijra.

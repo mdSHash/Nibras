@@ -41,7 +41,7 @@ const evidence = z.array(
      * source on Shamela, `shamela:<book>/<page>` (usd أسد الغابة 1110, istiab الاستيعاب 12288,
      * isaba الإصابة 9767, tabaqat الطبقات الكبرى 1686): https://shamela.ws/book/<id>/<page>.
      */
-    from: z.string().regex(/^(bio|role|title|event:.+|shamela:(usd|istiab|isaba|tabaqat)\/\d+)$/),
+    from: z.string().regex(/^(bio|role|title|event:.+|shamela:(usd|istiab|isaba|tabaqat|sira|buldan)\/\d+)$/),
     quote: text,
   }),
 );
