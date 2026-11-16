@@ -673,162 +673,133 @@ The last 40 recordings are left to the daily Narration workflow, which needs no 
 
 ## New features (after the refactor)
 
-### The idea
+> **Replaced (Mostafa, 2026-11-15/16):** the learning paths (مسارات), pop quizzes and certificates
+> that this section used to describe are dropped. They live on the unmerged branch
+> `feature/phase-5-learning-paths` for reference only. Phase 5 is now the daily challenge below;
+> Phase 6 adds accounts and a leaderboard to it.
 
-Nibras stays open to everyone without an account. On top of free exploration it adds **learning
-paths** (مسارات): short guided courses built only from content already in Nibras. Example:
-**مسار الرسالة** (The Prophetic Mission) takes the learner through the Mission's events in order,
-checks understanding with short **pop quizzes** along the way, and ends with a **certificate** of
-completion. An **optional account** saves progress across devices and makes the certificate
-verifiable.
+### Why
 
-Two principles:
+Visitors open Nibras, stay 1–5 minutes and rarely come back. The audience is everyone, and about
+70–80% know little of this history. Phase 5 gives them a reason to come back every day, something
+fun to share in WhatsApp groups, and an easy door into Nibras whether they answered right or wrong.
 
-- **Guests get almost everything.** A guest can follow a path and take quizzes; progress is saved in
-  their browser. Signing in adds sync across devices and a verifiable certificate. Nobody is forced
-  to register to learn.
-- **Paths and quizzes are content.** They live in `content/` next to events, reference events by ID,
-  and are validated and reviewed like any other content. No quiz question is published without
-  human review.
+### The idea: «تحدي اليوم» (Nibras Daily Challenge)
 
-### How it fits together
+A short daily puzzle game built only from facts already in Nibras.
 
-| Piece | Where it lives | Needs |
-| --- | --- | --- |
-| Paths, modules, steps | `content/paths/<id>.json` | Phase 1 (event IDs) |
-| Quiz questions | `content/quizzes/<pathId>.json` | Phase 1 |
-| Path, quiz and certificate pages | Routes `/path/:id`, `/path/:id/quiz/:moduleId`, `/certificate/:id` | Phase 2 (routing) |
-| Guest progress | Browser storage (IndexedDB), behind a `ProgressStore` interface | Phase 5 |
-| Accounts, synced progress, certificates | Supabase (Postgres + Auth), user data only | Phase 6 |
+- **Six modes**, one puzzle each per day: «من أكون؟» (a companion), «معركة اليوم» (a battle),
+  «مكان اليوم» (a city, on a map), «زمان اليوم» (an event's year), «رقم اليوم» (an army's size),
+  «الحدث الكامل» (name + place + year, 100 points).
+- **Three levels**, each its own daily puzzle, saved state and streak: «لسه ببتدي» (easy), «عارف
+  شوية» (mid), «أستاذ فيها» (hard). Levels change the pool (difficulty tiers 1–3), clues shown at
+  start, attempts and how close the wrong options are. Fun with zero prior knowledge.
+- **Every answer is one of 4 options.** No typing. A wrong pick uses an attempt, opens the next clue
+  and says in plain words how the answer differs. Everyone gets the same puzzle and options on the
+  same day (seed: Cairo date + mode + level).
+- **A door into Nibras at every answer**, never an automatic redirect: after a pick, right or wrong,
+  a quiet «اعرف أكتر في نبراس» link about the item picked, opening Nibras in a new tab so the round
+  is kept. The link to the answer itself appears only once the round is over (no spoilers). The
+  result screen's main button deep-links to the answer's event, person or city page.
+- **Real numbers after each answer**, never invented: «إنت رقم ٣٧ يحل سؤال النهارده», «حليته أسرع
+  من ٢٠٪ من اللي جاوبوا». Until a puzzle has about 20 answers, a true sentence replaces the
+  percentage («إنت من أوائل اللي حلّوه النهارده»).
+- **Looks like part of Nibras** (its tokens, fonts, light and dark), redesigned from the prototype;
+  the visual direction is picked from 3–4 concept-different live prototypes.
+- **Two doors, one codebase:** a standalone page at `/Nibras/challenge/` for marketing, installable
+  as a PWA (phone and desktop, works offline after the first visit), and the same game inside Nibras
+  from a header button (desktop) and the phone ⋮ menu.
+- **Guests play everything.** No account in Phase 5. Phase 6 adds Google sign-in to keep achievements
+  across devices and appear on a leaderboard; Phase 5 saves guest progress in a shape that merges into
+  an account later.
 
-### Path content shape
+Full behaviour (modes, tiles, distractor rules, result screen, seed, persistence) is in
+`docs/phase5/challenge-spec.md`: Mostafa's spec with the amendments agreed in the 2026-11-15/16
+session at its top. The prototype (reference for behaviour only, not for look or code):
+https://claude.ai/artifact/Ud2B5np93UGpBvbSSCKV8B
 
-```ts
-type LearningPath = {
-  id: string;                     // e.g. "risala"
-  titleAr: string; descriptionAr: string;
-  levelAr?: string; estimatedMinutes?: number;
-  passMarkPercent: number;        // default 70
-  modules: {
-    id: string; titleAr: string;
-    steps: (
-      | { type: 'event'; eventId: string; requireAudio?: boolean }
-      | { type: 'battle'; battleScenarioId: string }
-      | { type: 'person'; personId: string }
-    )[];
-    quizId: string;               // pop quiz at the end of the module
-  }[];
-  finalQuizId: string;
-  reviewed: boolean;              // build fails if a published path is not reviewed
-};
+### Rules for this phase
 
-type Question = {
-  id: string;
-  type: 'single' | 'multiple' | 'true_false' | 'order_events' | 'place_on_map' | 'match_person_role';
-  promptAr: string;
-  options?: { id: string; textAr: string }[];
-  answer: unknown;                // shape depends on type
-  explanationAr: string;          // shown after answering
-  sourceEventIds: string[];       // wrong answer → "review this event" link
-  reviewed: boolean;
-};
-```
+- **Game text is new content, Nibras records are not touched.** Questions and clues are written for
+  the game (smart, smooth, curiosity-raising; a famous figure like Khalid can be asked in a way that
+  hides him) and live in `content/game/`. They state no fact that is not in Nibras's reviewed
+  content, except the «من أكون؟» facts, each of which cites a Sunni source. Claude writes them in the
+  session (no Gemini/Groq/OpenRouter quota). Mostafa approves a sample of 20 for tone first; every
+  item is then listed in the PR for spot checks (he trusts the rest, 2026-11-16).
+- **No Quran text in the game.** Never draw the Prophet ﷺ or any companion. Nothing that works like
+  gambling (no random rewards, spins, loot). No ads, no payments, free tiers only.
+- **Respect:** excluded from every pool and every distractor list (one config file): the `ali` era
+  (the fitna, Jamal, Siffin), `incident_ifk`, Uthman's martyrdom
+  (`event-105-استشهاد-عثمان-بن-عفان-يوم-الدار`), `siege-of-uthman-house`, `abu-dharr-rabadhah`,
+  `year-of-passing-32ah`.
+- **«من أكون؟» tiles** (replacing tribe and «شهد بدر», which ordinary players can't reason about):
+  أسلم (قبل/بعد الهجرة) · مهاجر ولا أنصاري؟ · اشتهر بإيه؟ (خليفة / قائد جيوش / عالم وراوي / من آل
+  بيت النبي ﷺ / …) · عاش لحد عهد مين؟ (yellow = adjacent era; the hard level shows the death year
+  instead) · اتوفّى فين (region, distance and direction). Under every wrong row a plain sentence:
+  «اللي بندوّر عليه: …». The mode ships behind a flag until Mostafa approves the facts file.
+- **Stats backend (free):** Supabase free tier (the same project Phase 6 uses for sign-in). The game
+  posts {puzzle, level, mode, attempts, seconds, won, random device id} through a function on the
+  existing Vercel project, which rate-limits and drops impossible times; no personal data, nothing
+  typed. The game works fully if the backend is down (the stats line is simply hidden).
+- **Analytics:** Umami events for round started and finished (mode, level, won, attempts, streak),
+  deploy build only.
+- All UI Arabic and RTL; Mostafa's Egyptian-dialect strings used as written; strings he did not write
+  (aria-labels, error and empty states) drafted in the same dialect and listed for him.
+- `src/battlefield/` stays frozen. Bundle budget: the main Nibras bundle must not grow noticeably;
+  the game and its map load on demand.
 
-Quiz types that use what Nibras already has: put events in chronological order (timeline), place
-an event on the map, match a companion to their role, plus normal multiple choice and true/false.
+### Phase 5 — «تحدي اليوم»
 
-### Rules
+One session per item, each with its own branch (`feature/phase-5a-…`) and PR, merged before the next.
 
-- **Step completion**: a step counts as done when the learner opens it and presses "أكملت القراءة"
-  (or the narration finishes). Keep it simple; the quizzes check understanding.
-- **Pop quiz**: 3 to 5 questions at the end of each module. Pass mark from the path (default 70%).
-  Unlimited retries; questions and option order shuffle on retry. After each answer show the
-  explanation and a link to the source event.
-- **Final quiz**: 10 to 15 questions across the path. Passing it plus all module quizzes completes
-  the path.
-- **Certificate**: issued on completion. Guests see their result and are offered sign-in to claim it.
-  Signed-in users get a certificate page at `/certificate/:id` with their chosen display name, path
-  title, date and a verification code, plus image/PDF download and share. The page is public so
-  anyone can verify it.
-- **Question authoring**: AI may draft questions from the event text, but each question needs
-  `reviewed: true` set by a human before it ships. CI fails on unreviewed questions in a published
-  path, on a `sourceEventId` that doesn't exist, and on a question whose answer isn't in its options.
-- **No new content facts in quizzes**: every question must be answerable from the linked events'
-  text in Nibras.
+- [ ] **5A — Data.** `scripts/` builds the game dataset from `content/events`, `people`, `cities`
+      (year parsing with ق.هـ and وقيل, kinds, forces, masked clues with leak checks), validated with
+      Zod, part of the content build and `npm run verify`. `content/game/`: exclusions config,
+      difficulty tiers (Mostafa's defaults from the spec), the «من أكون؟» facts file (new tiles,
+      every value with its source; id check against `content/people`). A content report: exclusions,
+      dropped clues, counts per mode, level and tier, pools under 4 items. Review lists for Mostafa.
+- [ ] **5B — Game text.** The question and clue wording for every pool item in `content/game/`,
+      20-item sample approved first, schema and checks (every referenced id exists, no Quran text,
+      no excluded item).
+- [ ] **5C — Engine.** Seed, level config, option generators, scoring (half points on a second try
+      in «الحدث الكامل»), plain-words hints, streaks, versioned local persistence typed as
+      `GameResult` / `DailyState` (ready to merge into an account). Fully unit-tested, no UI.
+- [ ] **5D — Design.** 3–4 concept-different live prototypes of the game shell, a round and the
+      result screen, in Nibras's look, phone and desktop, light and dark. Mostafa picks.
+- [ ] **5E — The game.** The standalone entry `/Nibras/challenge/` (own HTML entry, manifest, service
+      worker, icons) and the in-Nibras door; shell, level picker, all six modes (map modes with the
+      relief tiles and nothing else on the map), «اعرف أكتر في نبراس» links, result screen, sharing
+      (Web Share, clipboard fallback), countdown. «من أكون؟» behind its flag.
+- [ ] **5F — Real stats.** Supabase project (free; Claude creates it), table and row-level security,
+      the Vercel function with rate limits, the stats line on the result screen with its small-count
+      fallback, Umami events, `.env.example` and `docs/OWNER_DASHBOARD.md` updated.
+- [ ] **Tests (each session for its part):** unit tests for year parsing, seed stability, option
+      generators (4 unique options with the answer, level rules, no year 0, numbers >7% apart),
+      scoring, masking and exclusions; Playwright at 390 px playing one round of every mode at every
+      level to the result screen with no console errors, in both doors; PWA installability check;
+      visual snapshots of the level picker and result screen in light and dark.
 
-### Phase 5 — Learning paths for guests
+Done when: a guest can play all six modes at all three levels on phone and desktop, from the
+standalone PWA and from inside Nibras; every answer offers a way into Nibras; real stats show after a
+round; the game text sample, tiers and exclusions are approved (and the «من أكون؟» facts, before that
+mode is switched on); the main bundle stays within budget; and `npm run verify` passes.
 
-> **Heads-up (Mostafa, 2026-11-15):** the learning paths below are being replaced. Mostafa brings a new
-> idea to the Phase 5 session; it is different from these paths and from the 5A directions
-> (the `feature/phase-5-learning-paths` branch, not merged). Until he gives it, treat this section as
-> background only: don’t build any of it.
+### Phase 6 — Accounts and leaderboard for the game
 
-Goal: the full learning experience, with progress in the browser. No backend yet, so the idea can be
-tested with real users first.
+Goal: signing in stays optional and adds saved achievements and a place on the leaderboard.
 
-- [ ] Zod schemas and validation for paths and quizzes; add them to the content build and to
-      `npm run verify`.
-- [ ] `ProgressStore` interface (`getProgress`, `markStepDone`, `recordQuizAttempt`, `getPathStatus`,
-      `exportAll`, `importAll`) with an IndexedDB implementation. All UI talks to the interface only, so
-      Phase 6 can add a synced implementation without UI changes.
-- [ ] Paths list page, path page (modules, steps, progress ring, "continue where you left off"), quiz
-      page (all question types), result page with explanations.
-- [ ] Progress shown elsewhere: a done mark on events in the timeline, search and map for steps the
-      learner completed.
-- [ ] Author the first path, **مسار الرسالة**, with Mostafa: proposed modules are the Meccan period,
-      the Hijra, and the Medinan period, built from the existing Meccan and Medinan events (49 today).
-      Claude drafts the structure and questions; Mostafa reviews every question.
-- [ ] Tests: unit tests for scoring, shuffling and progress; Playwright tests for completing a module,
-      failing and retrying a quiz, finishing a path, and progress surviving a reload. Add to the
-      baseline and visual snapshots.
-- [ ] Analytics events (from Phase 3): path started, module completed, quiz passed/failed, path completed.
-- [ ] **Redesign the guided tour** (Mostafa, 2026-10-17: "not that cool and not that informative"). Today's
-      8 steps (`src/data/tourSteps.ts`: welcome, timeline, map, search, filters, dark mode, event panel,
-      tips) predate most of the app: they say nothing about the chat assistant, narration, battle
-      replays and videos, era pills and player mode, shareable addresses, or learning paths. Done last
-      in Phase 5 so it can present the paths. Steps:
-      - *Content.* Start from what a visitor can do with Nibras (follow the story on the map, open an
-        event and listen, ask the assistant, take a path), not from where the buttons are. Short Arabic
-        copy; Claude drafts, Mostafa approves every step's text.
-      - *Design.* 3–4 visual directions (for example spotlight steps, a short guided story that opens
-        a real event, a one-screen "what you can do here" card with optional deep dives) shown to
-        Mostafa before building; separate phone and desktop flows where the layout differs (the Phase
-        2 phone menu).
-      - *Behaviour.* Skippable at every step, resumable, restartable from help and the phone menu,
-        keyboard and screen-reader friendly, reduced motion respected; offered once to new visitors
-        (as today), never over a shared link's page.
-      - *Tests.* Playwright walks every step on desktop and phone; visual snapshots of two steps;
-        the tour's targets are checked to exist so a UI change cannot silently break it.
+- [ ] Google sign-in on the Phase 5 Supabase project (free tier). A quiet «احفظ إنجازاتك» offer on
+      the result screen; never a wall in front of playing.
+- [ ] On first sign-in, merge the guest's local `DailyState` and streaks into the account.
+- [ ] Leaderboards per level (daily, weekly, all-time streak), display name chosen by the player,
+      results checked server-side against the day's puzzle.
+- [ ] Account page: name, streaks, history, sign out, **delete my account and data**. Arabic privacy
+      page: what is stored and why (email from sign-in, display name, results).
+- [ ] Tests: row-level security (no one reads another player's data), merge logic, Playwright with a
+      mocked client for sign-in and leaderboard.
 
-Done when: a guest can finish مسار الرسالة end to end on phone and desktop, progress survives reloads,
-all questions are reviewed, the new tour is approved and walks the current app, and `npm run verify`
-passes.
-
-### Phase 6 — Optional accounts, sync and certificates
-
-Goal: signing in is optional and adds sync and verifiable certificates. Content stays in git; the
-database holds only user data.
-
-- [ ] Supabase project: Auth with **Google sign-in and email magic link** (no passwords to manage).
-      Tables: `profiles` (display name), `step_progress`, `quiz_attempts`, `path_status`,
-      `certificates` (public read by id, everything else readable and writable only by its owner via
-      row-level security). Ask Mostafa before creating the project or any paid setting.
-- [ ] A synced `ProgressStore` implementation. On first sign-in, merge the guest's local progress into
-      the account (keep the furthest progress and the best attempt). Works offline and syncs later.
-- [ ] Sign-in UI: a quiet "حفظ تقدّمي" (save my progress) entry in the header menu and at the end of a
-      quiz; never a wall in front of content.
-- [ ] Certificates: issue on completion, verify server-side that the path's quizzes were passed,
-      public `/certificate/:id` page with Open Graph image for sharing, image/PDF download.
-- [ ] Account page: name, progress, certificates, sign out, **delete my account and data**.
-- [ ] Privacy page in Arabic describing what is stored and why. Store the minimum: email (from
-      sign-in), display name, progress. No tracking beyond the analytics already chosen.
-- [ ] Keys: only the Supabase public anon key in the frontend; anything privileged runs in a
-      serverless function. Rate-limit sign-in and certificate issuing.
-- [ ] Tests: row-level security tests (a user can't read another user's progress), merge logic tests,
-      Playwright with a local Supabase or mocked client for sign-in, sync and certificate flows.
-
-Done when: a guest who signs in keeps their progress, progress follows them to another device,
-certificates verify publicly, a user can delete their data, and `npm run verify` passes.
+Done when: a guest who signs in keeps their streaks, the leaderboard shows verified results, a player
+can delete their data, and `npm run verify` passes.
 
 ## Keep as is (don't "improve" these)
 
@@ -852,10 +823,10 @@ Arabic-only UI.
 7. Two-finger / Ctrl-scroll gesture plugin on the full-screen map: the review recommends removing it.
 8. Analytics: Umami (recommended) or another provider; Sentry and uptime accounts.
 9. The domain name, and whether it is set up before Phase 2 (recommended).
-10. Learning paths: approve the structure and every quiz question of مسار الرسالة; pass mark
-    (default 70%); certificate wording and design.
-11. Accounts: Supabase (recommended), sign-in methods (Google and email magic link recommended), and
-    whether learners can be under 13 (affects what may be collected).
+10. Daily challenge (Phase 5): the 20-question tone sample, difficulty tiers, exclusions, the «من أكون؟»
+    facts file, and the visual direction (from 3–4 prototypes).
+11. Accounts (Phase 6): Google sign-in on Supabase (decided 2026-11-16), and whether players can be
+    under 13 (affects what may be collected).
 12. Territory map: which atlas or source to follow for the borders, and the visual direction (from
     3–4 options), before the Phase 3 territory task starts.
 

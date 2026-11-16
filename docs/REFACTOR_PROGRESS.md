@@ -3395,3 +3395,21 @@ entry (4A–4H-2 and the close-out, all merged).
   The plan's Phase 5 section now says so. The 5A directions (two rounds of review pages) live on the unmerged branch
   `feature/phase-5-learning-paths` (commits `02ff816`, `20ad73d`), kept for reference only.
 - Docs only; no code or content changed.
+
+## Phase 5 — «تحدي اليوم» (the daily challenge)
+
+### Session 5A start (2026-11-15/16)
+
+- PR #53 merged; branch `feature/phase-5a-challenge-data` from `main`. `npm run verify` in five batches passed on `main`
+  (440 unit tests; features 127 passed, 2 skipped; engines 50 passed, 24 skipped, after one rerun: the error-boundary
+  phone test failed once and passed on the rerun; visual 16/16; Lighthouse within budget).
+- Mostafa brought the idea as a spec with a prototype (`app.js`, `build_data.py`, `curated.py`) in a folder in the repo
+  root, to be deleted when done. The spec is now `docs/phase5/challenge-spec.md` with the agreed amendments at its top;
+  the folder is removed from the repo (it also broke ESLint). The prototype files are kept outside the repo until
+  Phase 5 ends; the live prototype stays at its artifact link.
+- **Decisions (Mostafa, 2026-11-16, "ماشي برأيك"):** the game is redesigned to look like Nibras (3–4 directions); a
+  standalone PWA at `/Nibras/challenge/` plus the same game inside Nibras; a quiet «اعرف أكتر في نبراس» link after
+  every pick; real answer stats from a free Supabase project via a Vercel function; leaderboard and Google sign-in in
+  Phase 6; game wording written by Claude from Nibras facts (20-item sample approved first); new «من أكون؟» tiles;
+  two more exclusions; sessions 5A–5F; Umami events. The plan's Phase 5 and Phase 6 sections are rewritten; the
+  learning paths, quizzes and certificates are dropped.
