@@ -1,0 +1,215 @@
+{
+ "mode": "number",
+ "questions": [
+  {
+   "id": "number-battle-badr-muslims",
+   "level": "easy",
+   "answer": "battle-badr:army",
+   "prompt": "كام كان عدد جيش المسلمين في «غزوة بدر الكبرى»؟",
+   "clues": []
+  },
+  {
+   "id": "number-battle-badr-enemy",
+   "level": "easy",
+   "answer": "battle-badr:enemyArmy",
+   "prompt": "كام كان عدد جيش العدو في «غزوة بدر الكبرى»؟",
+   "clues": []
+  },
+  {
+   "id": "number-battle-uhud-enemy",
+   "level": "easy",
+   "answer": "battle-uhud:enemyArmy",
+   "prompt": "كام كان عدد جيش العدو في «غزوة أحد»؟",
+   "clues": []
+  },
+  {
+   "id": "number-battle-khandaq-enemy",
+   "level": "easy",
+   "answer": "battle-khandaq:enemyArmy",
+   "prompt": "كام كان عدد جيش العدو في «غزوة الخندق (الأحزاب)»؟",
+   "clues": []
+  },
+  {
+   "id": "number-treaty-hudaybiyyah-muslims",
+   "level": "easy",
+   "answer": "treaty-hudaybiyyah:army",
+   "prompt": "كام كان عدد جيش المسلمين في «صلح الحديبية»؟",
+   "clues": []
+  },
+  {
+   "id": "number-battle-mutah-muslims",
+   "level": "easy",
+   "answer": "battle-mutah:army",
+   "prompt": "كام كان عدد جيش المسلمين في «معركة مؤتة»؟",
+   "clues": []
+  },
+  {
+   "id": "number-conquest-mecca-muslims",
+   "level": "easy",
+   "answer": "conquest-mecca:army",
+   "prompt": "كام كان عدد جيش المسلمين في «فتح مكة المكرمة»؟",
+   "clues": []
+  },
+  {
+   "id": "number-battle-hunayn-muslims",
+   "level": "easy",
+   "answer": "battle-hunayn:army",
+   "prompt": "كام كان عدد جيش المسلمين في «غزوة حنين»؟",
+   "clues": []
+  },
+  {
+   "id": "number-battle-tabuk-muslims",
+   "level": "easy",
+   "answer": "battle-tabuk:army",
+   "prompt": "كام كان عدد جيش المسلمين في «غزوة تبوك (جيش العسرة)»؟",
+   "clues": []
+  },
+  {
+   "id": "number-battle-qadisiyyah-muslims",
+   "level": "easy",
+   "answer": "battle-qadisiyyah:army",
+   "prompt": "كام كان عدد جيش المسلمين في «معركة القادسية»؟",
+   "clues": []
+  },
+  {
+   "id": "number-battle-uhud-muslims",
+   "level": "mid",
+   "answer": "battle-uhud:army",
+   "prompt": "كام كان عدد جيش المسلمين في «غزوة أحد»؟",
+   "clues": []
+  },
+  {
+   "id": "number-battle-khandaq-muslims",
+   "level": "mid",
+   "answer": "battle-khandaq:army",
+   "prompt": "كام كان عدد جيش المسلمين في «غزوة الخندق (الأحزاب)»؟",
+   "clues": []
+  },
+  {
+   "id": "number-battle-khaybar-muslims",
+   "level": "mid",
+   "answer": "battle-khaybar:army",
+   "prompt": "كام كان عدد جيش المسلمين في «غزوة خيبر»؟",
+   "clues": []
+  },
+  {
+   "id": "number-battle-khaybar-enemy",
+   "level": "mid",
+   "answer": "battle-khaybar:enemyArmy",
+   "prompt": "كام كان عدد جيش العدو في «غزوة خيبر»؟",
+   "clues": []
+  },
+  {
+   "id": "number-battle-mutah-enemy",
+   "level": "mid",
+   "answer": "battle-mutah:enemyArmy",
+   "prompt": "كام كان عدد جيش العدو في «معركة مؤتة»؟",
+   "clues": []
+  },
+  {
+   "id": "number-battle-hunayn-enemy",
+   "level": "mid",
+   "answer": "battle-hunayn:enemyArmy",
+   "prompt": "كام كان عدد جيش العدو في «غزوة حنين»؟",
+   "clues": []
+  },
+  {
+   "id": "number-battle-qadisiyyah-enemy",
+   "level": "mid",
+   "answer": "battle-qadisiyyah:enemyArmy",
+   "prompt": "كام كان عدد جيش العدو في «معركة القادسية»؟",
+   "clues": []
+  },
+  {
+   "id": "number-battle-nahavand-muslims",
+   "level": "mid",
+   "answer": "battle-nahavand:army",
+   "prompt": "كام كان عدد جيش المسلمين في «معركة نهاوند (فتح الفتوح)»؟",
+   "clues": []
+  },
+  {
+   "id": "number-battle-nahavand-enemy",
+   "level": "mid",
+   "answer": "battle-nahavand:enemyArmy",
+   "prompt": "كام كان عدد جيش العدو في «معركة نهاوند (فتح الفتوح)»؟",
+   "clues": []
+  },
+  {
+   "id": "number-conquest-north-africa-muslims",
+   "level": "mid",
+   "answer": "conquest-north-africa:army",
+   "prompt": "كام كان عدد جيش المسلمين في «فتح إفريقية (تونس)»؟",
+   "clues": []
+  },
+  {
+   "id": "number-sariyyat-hamza-muslims",
+   "level": "hard",
+   "answer": "sariyyat-hamza:army",
+   "prompt": "كام كان عدد جيش المسلمين في «سرية حمزة بن عبد المطلب (سيف البحر)»؟",
+   "clues": []
+  },
+  {
+   "id": "number-sariyyat-hamza-enemy",
+   "level": "hard",
+   "answer": "sariyyat-hamza:enemyArmy",
+   "prompt": "كام كان عدد جيش العدو في «سرية حمزة بن عبد المطلب (سيف البحر)»؟",
+   "clues": []
+  },
+  {
+   "id": "number-sariyyat-ubaydah-muslims",
+   "level": "hard",
+   "answer": "sariyyat-ubaydah:army",
+   "prompt": "كام كان عدد جيش المسلمين في «سرية عبيدة بن الحارث (رابغ)»؟",
+   "clues": []
+  },
+  {
+   "id": "number-sariyyat-nakhla-muslims",
+   "level": "hard",
+   "answer": "sariyyat-nakhla:army",
+   "prompt": "كام كان عدد جيش المسلمين في «سرية عبد الله بن جحش (نخلة)»؟",
+   "clues": []
+  },
+  {
+   "id": "number-conquest-iraq-start-muslims",
+   "level": "hard",
+   "answer": "conquest-iraq-start:army",
+   "prompt": "كام كان عدد جيش المسلمين في «بداية فتح العراق (ذات السلاسل)»؟",
+   "clues": []
+  },
+  {
+   "id": "number-battle-saqatiya-muslims",
+   "level": "hard",
+   "answer": "battle-saqatiya:army",
+   "prompt": "كام كان عدد جيش المسلمين في «معركة السقاطية»؟",
+   "clues": []
+  },
+  {
+   "id": "number-battle-bridge-muslims",
+   "level": "hard",
+   "answer": "battle-bridge:army",
+   "prompt": "كام كان عدد جيش المسلمين في «موقعة الجسر»؟",
+   "clues": []
+  },
+  {
+   "id": "number-conquest-alexandria-muslims",
+   "level": "hard",
+   "answer": "conquest-alexandria:army",
+   "prompt": "كام كان عدد جيش المسلمين في «فتح الإسكندرية»؟",
+   "clues": []
+  },
+  {
+   "id": "number-conquest-north-africa-enemy",
+   "level": "hard",
+   "answer": "conquest-north-africa:enemyArmy",
+   "prompt": "كام كان عدد جيش العدو في «فتح إفريقية (تونس)»؟",
+   "clues": []
+  },
+  {
+   "id": "number-battle-masts-muslims",
+   "level": "hard",
+   "answer": "battle-masts:army",
+   "prompt": "كام كان عدد مراكب المسلمين في «معركة ذات الصواري»؟",
+   "clues": []
+  }
+ ]
+}

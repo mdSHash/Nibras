@@ -1,0 +1,215 @@
+{
+ "mode": "year",
+ "questions": [
+  {
+   "id": "year-hijra-medina",
+   "level": "easy",
+   "answer": "hijra-medina",
+   "prompt": "«الهجرة النبوية الكبرى» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-battle-badr",
+   "level": "easy",
+   "answer": "battle-badr",
+   "prompt": "«غزوة بدر الكبرى» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-battle-uhud",
+   "level": "easy",
+   "answer": "battle-uhud",
+   "prompt": "«غزوة أحد» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-battle-khandaq",
+   "level": "easy",
+   "answer": "battle-khandaq",
+   "prompt": "«غزوة الخندق (الأحزاب)» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-treaty-hudaybiyyah",
+   "level": "easy",
+   "answer": "treaty-hudaybiyyah",
+   "prompt": "«صلح الحديبية» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-conquest-mecca",
+   "level": "easy",
+   "answer": "conquest-mecca",
+   "prompt": "«فتح مكة المكرمة» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-farewell-pilgrimage",
+   "level": "easy",
+   "answer": "farewell-pilgrimage",
+   "prompt": "«حجة الوداع» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-prophet-death",
+   "level": "easy",
+   "answer": "prophet-death",
+   "prompt": "«وفاة النبي ﷺ» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-battle-yarmouk",
+   "level": "easy",
+   "answer": "battle-yarmouk",
+   "prompt": "«معركة اليرموك» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-event-75",
+   "level": "easy",
+   "answer": "event-75-فتح-القدس-والعهدة-العمرية",
+   "prompt": "«فتح القدس والعهدة العمرية» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-sariyyat-ubaydah",
+   "level": "mid",
+   "answer": "sariyyat-ubaydah",
+   "prompt": "«سرية عبيدة بن الحارث (رابغ)» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-public-dawah",
+   "level": "mid",
+   "answer": "public-dawah",
+   "prompt": "«الجهر بالدعوة» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-conquest-hira",
+   "level": "mid",
+   "answer": "conquest_hira",
+   "prompt": "«فتح الحيرة» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-battle-musayyakh",
+   "level": "mid",
+   "answer": "battle-musayyakh",
+   "prompt": "«معركة المصيخ» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-abu-bakr-hajj-baraa",
+   "level": "mid",
+   "answer": "abu-bakr-hajj-baraa",
+   "prompt": "«حجة أبي بكر بالناس والأذان ببراءة» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-ghazwat-dhi-amar",
+   "level": "mid",
+   "answer": "ghazwat_dhi_amar",
+   "prompt": "«غزوة ذي أمر (غطفان)» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-event-55",
+   "level": "mid",
+   "answer": "event-55-جمع-القرن-الكريم-الأول",
+   "prompt": "«جمع القرآن الكريم الأول» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-conquest-ayn-al-tamr",
+   "level": "mid",
+   "answer": "conquest-ayn-al-tamr",
+   "prompt": "«فتح عين التمر» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-event-65",
+   "level": "mid",
+   "answer": "event-65-وفاة-أبي-بكر-الصديق",
+   "prompt": "«وفاة أبي بكر الصديق» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-conquest-nubia-baqt",
+   "level": "mid",
+   "answer": "conquest-nubia-baqt",
+   "prompt": "«غزوة النوبة وعقد البقط» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-istakhr-reconquest",
+   "level": "hard",
+   "answer": "istakhr-reconquest",
+   "prompt": "«فتح إصطخر وفارس» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-event-101",
+   "level": "hard",
+   "answer": "event-101-فتح-طبرستان",
+   "prompt": "«فتح طبرستان» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-lost-ring-bir-aris",
+   "level": "hard",
+   "answer": "lost-ring-bir-aris",
+   "prompt": "«سقوط خاتم النبي ﷺ في بئر أريس» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-conquest-khorasan",
+   "level": "hard",
+   "answer": "conquest_khorasan",
+   "prompt": "«فتح خراسان الأكبر» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-event-96",
+   "level": "hard",
+   "answer": "event-96-نسخ-المصحف-الإمام-المصحف-العثماني",
+   "prompt": "«نسخ المصحف الإمام (المصحف العثماني)» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-event-81",
+   "level": "hard",
+   "answer": "event-81-وضع-التقويم-الهجري-وتأسيس-الدواوين",
+   "prompt": "«وضع التقويم الهجري وتأسيس الدواوين» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-sariya-al-jabal",
+   "level": "hard",
+   "answer": "sariya-al-jabal",
+   "prompt": "«يا سارية الجبل (فتح فسا ودارابجرد)» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-conquest-cyprus",
+   "level": "hard",
+   "answer": "conquest-cyprus",
+   "prompt": "«فتح قبرص» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-event-92",
+   "level": "hard",
+   "answer": "event-92-استشهاد-عمر-بن-الخطاب",
+   "prompt": "«استشهاد عمر بن الخطاب» حصل سنة كام؟",
+   "clues": []
+  },
+  {
+   "id": "year-event-98",
+   "level": "hard",
+   "answer": "event-98-توسعة-المسجد-الحرام",
+   "prompt": "«توسعة المسجد الحرام» حصل سنة كام؟",
+   "clues": []
+  }
+ ]
+}

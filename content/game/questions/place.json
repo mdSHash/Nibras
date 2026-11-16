@@ -1,0 +1,1223 @@
+{
+ "mode": "place",
+ "questions": [
+  {
+   "id": "place-mecca-easy",
+   "level": "easy",
+   "answer": "mecca",
+   "clues": [
+    {
+     "text": "فيها الكعبة المشرفة والمسجد الحرام.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "فيها الكعبة المشرفة والمسجد الحرام"
+      }
+     ]
+    },
+    {
+     "text": "مسقط رأس النبي ﷺ ومهبط الوحي.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "مهبط الوحي ومسقط رأس النبي محمد ﷺ"
+      }
+     ]
+    },
+    {
+     "text": "قبلة المسلمين في صلاتهم، وفيها بيأدّوا فريضة الحج.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "قبلة المسلمين في صلاتهم، ومكان أداء فريضة الحج"
+      }
+     ]
+    },
+    {
+     "text": "تقع في الحجاز، وهي أقدس مدن المسلمين.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "أقدس مدن المسلمين، تقع في الحجاز"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-medina-easy",
+   "level": "easy",
+   "answer": "medina",
+   "clues": [
+    {
+     "text": "فيها المسجد النبوي وقبر النبي ﷺ.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "فيها المسجد النبوي وقبر النبي ﷺ"
+      }
+     ]
+    },
+    {
+     "text": "كانت معروفة باسم تاني قبل الهجرة، والنبي ﷺ غيّر اسمها.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "قبل الهجرة النبوية، فسماها النبي ﷺ"
+      }
+     ]
+    },
+    {
+     "text": "عاصمة أول دولة إسلامية.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "وعاصمة الدولة الإسلامية الأولى"
+      }
+     ]
+    },
+    {
+     "text": "تاني أقدس مكان في الإسلام.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "ثاني أقدس المدن الإسلامية"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-jerusalem-easy",
+   "level": "easy",
+   "answer": "jerusalem",
+   "clues": [
+    {
+     "text": "فيها المسجد الأقصى وقبة الصخرة.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "تضم المسجد الأقصى وقبة الصخرة"
+      }
+     ]
+    },
+    {
+     "text": "النبي ﷺ اتسرى بيه ليها في رحلة الإسراء والمعراج.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "ومسرى النبي ﷺ في رحلة الإسراء والمعراج"
+      }
+     ]
+    },
+    {
+     "text": "المسلمين صلّوا ناحيتها الأول، قبل ما القبلة تتحوّل.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "القبلة الأولى للمسلمين"
+      }
+     ]
+    },
+    {
+     "text": "تالت أقدس مدينة في الإسلام.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "ثالث أقدس المدن في الإسلام"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-damascus-easy",
+   "level": "easy",
+   "answer": "damascus",
+   "clues": [
+    {
+     "text": "عاصمة الخلافة الأموية.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "عاصمة الخلافة الأموية"
+      }
+     ]
+    },
+    {
+     "text": "في بلاد الشام، ومركز إشعاع حضاري وثقافي إسلامي كبير.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "تقع في بلاد الشام"
+      },
+      {
+       "from": "significance",
+       "quote": "ومركز إشعاع حضاري وثقافي إسلامي كبير"
+      }
+     ]
+    },
+    {
+     "text": "من أقدم المدن المسكونة في العالم.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "من أقدم المدن المأهولة في العالم"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-baghdad-easy",
+   "level": "easy",
+   "answer": "baghdad",
+   "clues": [
+    {
+     "text": "عاصمة الخلافة العباسية ومركز العلم والمعرفة.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "عاصمة الخلافة العباسية، ومركز العلم والمعرفة"
+      }
+     ]
+    },
+    {
+     "text": "بناها خليفة عباسي على ضفاف نهر دجلة.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "بناها الخليفة العباسي أبو جعفر المنصور على ضفاف نهر دجلة"
+      }
+     ]
+    },
+    {
+     "text": "اتسمّت «مدينة السلام».",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "وسماها مدينة السلام"
+      }
+     ]
+    },
+    {
+     "text": "ابتدى بناها سنة ١٤٥ هـ.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "شرع في بنائها سنة 145"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-basra-easy",
+   "level": "easy",
+   "answer": "basra",
+   "clues": [
+    {
+     "text": "أسسها عتبة بن غزوان في عهد عمر.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "أسسها عتبة بن غزوان في عهد عمر بن الخطاب"
+      }
+     ]
+    },
+    {
+     "text": "أول مدينة إسلامية اتبنت برا شبه الجزيرة العربية.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "أول مدينة إسلامية بنيت خارج شبه الجزيرة العربية"
+      }
+     ]
+    },
+    {
+     "text": "مدينة عراقية، ومركز علمي وتجاري مهم.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "مدينة عراقية"
+      },
+      {
+       "from": "significance",
+       "quote": "ومركز علمي وتجاري هام"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-fustat-easy",
+   "level": "easy",
+   "answer": "fustat",
+   "clues": [
+    {
+     "text": "أسسها عمرو بن العاص.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "أسسها عمرو بن العاص"
+      }
+     ]
+    },
+    {
+     "text": "أول عاصمة إسلامية في مصر.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "أول عاصمة إسلامية في مصر"
+      }
+     ]
+    },
+    {
+     "text": "فيها أول مسجد اتأسس في مصر بعد الفتح.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "أول مسجد أسس بديار مصر بعد الفتح"
+      }
+     ]
+    },
+    {
+     "text": "منها انطلقت الفتوحات ناحية شمال أفريقيا.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "مركز انطلاق الفتوحات الإسلامية نحو شمال أفريقيا"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-kufa-easy",
+   "level": "easy",
+   "answer": "kufa",
+   "clues": [
+    {
+     "text": "اللي أسسها هو قائد القادسية سعد بن أبي وقاص.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "أسسها سعد بن أبي وقاص"
+      }
+     ]
+    },
+    {
+     "text": "مدينة عراقية اتأسست بأمر من عمر بن الخطاب.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "مدينة عراقية"
+      },
+      {
+       "from": "description",
+       "quote": "بأمر من عمر بن الخطاب"
+      }
+     ]
+    },
+    {
+     "text": "مركز مهم لمدارس النحو والفقه.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "ومركز مهم للمدارس النحوية والفقهية"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-kairouan-easy",
+   "level": "easy",
+   "answer": "kairouan",
+   "clues": [
+    {
+     "text": "عقبة بن نافع خطّها سنة ٥٠ هـ.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "اختطها عقبة بن نافع الفهري سنة 50"
+      }
+     ]
+    },
+    {
+     "text": "موجودة النهارده في تونس.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "(تونس اليوم)"
+      }
+     ]
+    },
+    {
+     "text": "قاعدة الفتوحات الإسلامية في شمال أفريقيا.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "وقاعدة الفتوحات الإسلامية في شمال أفريقيا"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-cordoba-easy",
+   "level": "easy",
+   "answer": "cordoba",
+   "clues": [
+    {
+     "text": "فتحها طارق بن زياد سنة ٩٢ هـ.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "فتحها طارق بن زياد سنة 92"
+      }
+     ]
+    },
+    {
+     "text": "بقت دار الخلافة الأموية في الأندلس.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "دار الخلافة الأموية في الأندلس"
+      }
+     ]
+    },
+    {
+     "text": "على ضفاف نهر الوادي الكبير.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "على ضفاف نهر الوادي الكبير"
+      }
+     ]
+    },
+    {
+     "text": "في إسبانيا النهارده.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "(إسبانيا حاليا)"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-mecca-mid",
+   "level": "mid",
+   "answer": "mecca",
+   "clues": [
+    {
+     "text": "مسقط رأس النبي ﷺ ومهبط الوحي.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "مهبط الوحي ومسقط رأس النبي محمد ﷺ"
+      }
+     ]
+    },
+    {
+     "text": "قبلة المسلمين في صلاتهم، وفيها بيأدّوا فريضة الحج.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "قبلة المسلمين في صلاتهم، ومكان أداء فريضة الحج"
+      }
+     ]
+    },
+    {
+     "text": "تقع في الحجاز، وهي أقدس مدن المسلمين.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "أقدس مدن المسلمين، تقع في الحجاز"
+      }
+     ]
+    },
+    {
+     "text": "فيها الكعبة المشرفة والمسجد الحرام.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "فيها الكعبة المشرفة والمسجد الحرام"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-medina-mid",
+   "level": "mid",
+   "answer": "medina",
+   "clues": [
+    {
+     "text": "كانت معروفة باسم تاني قبل الهجرة، والنبي ﷺ غيّر اسمها.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "قبل الهجرة النبوية، فسماها النبي ﷺ"
+      }
+     ]
+    },
+    {
+     "text": "عاصمة أول دولة إسلامية.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "وعاصمة الدولة الإسلامية الأولى"
+      }
+     ]
+    },
+    {
+     "text": "تاني أقدس مكان في الإسلام.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "ثاني أقدس المدن الإسلامية"
+      }
+     ]
+    },
+    {
+     "text": "فيها المسجد النبوي وقبر النبي ﷺ.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "فيها المسجد النبوي وقبر النبي ﷺ"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-jerusalem-mid",
+   "level": "mid",
+   "answer": "jerusalem",
+   "clues": [
+    {
+     "text": "النبي ﷺ اتسرى بيه ليها في رحلة الإسراء والمعراج.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "ومسرى النبي ﷺ في رحلة الإسراء والمعراج"
+      }
+     ]
+    },
+    {
+     "text": "المسلمين صلّوا ناحيتها الأول، قبل ما القبلة تتحوّل.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "القبلة الأولى للمسلمين"
+      }
+     ]
+    },
+    {
+     "text": "تالت أقدس مدينة في الإسلام.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "ثالث أقدس المدن في الإسلام"
+      }
+     ]
+    },
+    {
+     "text": "فيها المسجد الأقصى وقبة الصخرة.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "تضم المسجد الأقصى وقبة الصخرة"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-damascus-mid",
+   "level": "mid",
+   "answer": "damascus",
+   "clues": [
+    {
+     "text": "في بلاد الشام، ومركز إشعاع حضاري وثقافي إسلامي كبير.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "تقع في بلاد الشام"
+      },
+      {
+       "from": "significance",
+       "quote": "ومركز إشعاع حضاري وثقافي إسلامي كبير"
+      }
+     ]
+    },
+    {
+     "text": "من أقدم المدن المسكونة في العالم.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "من أقدم المدن المأهولة في العالم"
+      }
+     ]
+    },
+    {
+     "text": "عاصمة الخلافة الأموية.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "عاصمة الخلافة الأموية"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-baghdad-mid",
+   "level": "mid",
+   "answer": "baghdad",
+   "clues": [
+    {
+     "text": "بناها خليفة عباسي على ضفاف نهر دجلة.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "بناها الخليفة العباسي أبو جعفر المنصور على ضفاف نهر دجلة"
+      }
+     ]
+    },
+    {
+     "text": "اتسمّت «مدينة السلام».",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "وسماها مدينة السلام"
+      }
+     ]
+    },
+    {
+     "text": "ابتدى بناها سنة ١٤٥ هـ.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "شرع في بنائها سنة 145"
+      }
+     ]
+    },
+    {
+     "text": "عاصمة الخلافة العباسية ومركز العلم والمعرفة.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "عاصمة الخلافة العباسية، ومركز العلم والمعرفة"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-basra-mid",
+   "level": "mid",
+   "answer": "basra",
+   "clues": [
+    {
+     "text": "أول مدينة إسلامية اتبنت برا شبه الجزيرة العربية.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "أول مدينة إسلامية بنيت خارج شبه الجزيرة العربية"
+      }
+     ]
+    },
+    {
+     "text": "مدينة عراقية، ومركز علمي وتجاري مهم.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "مدينة عراقية"
+      },
+      {
+       "from": "significance",
+       "quote": "ومركز علمي وتجاري هام"
+      }
+     ]
+    },
+    {
+     "text": "أسسها عتبة بن غزوان في عهد عمر.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "أسسها عتبة بن غزوان في عهد عمر بن الخطاب"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-fustat-mid",
+   "level": "mid",
+   "answer": "fustat",
+   "clues": [
+    {
+     "text": "أول عاصمة إسلامية في مصر.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "أول عاصمة إسلامية في مصر"
+      }
+     ]
+    },
+    {
+     "text": "فيها أول مسجد اتأسس في مصر بعد الفتح.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "أول مسجد أسس بديار مصر بعد الفتح"
+      }
+     ]
+    },
+    {
+     "text": "منها انطلقت الفتوحات ناحية شمال أفريقيا.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "مركز انطلاق الفتوحات الإسلامية نحو شمال أفريقيا"
+      }
+     ]
+    },
+    {
+     "text": "أسسها عمرو بن العاص.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "أسسها عمرو بن العاص"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-kufa-mid",
+   "level": "mid",
+   "answer": "kufa",
+   "clues": [
+    {
+     "text": "مدينة عراقية اتأسست بأمر من عمر بن الخطاب.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "مدينة عراقية"
+      },
+      {
+       "from": "description",
+       "quote": "بأمر من عمر بن الخطاب"
+      }
+     ]
+    },
+    {
+     "text": "مركز مهم لمدارس النحو والفقه.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "ومركز مهم للمدارس النحوية والفقهية"
+      }
+     ]
+    },
+    {
+     "text": "اللي أسسها هو قائد القادسية سعد بن أبي وقاص.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "أسسها سعد بن أبي وقاص"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-kairouan-mid",
+   "level": "mid",
+   "answer": "kairouan",
+   "clues": [
+    {
+     "text": "موجودة النهارده في تونس.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "(تونس اليوم)"
+      }
+     ]
+    },
+    {
+     "text": "قاعدة الفتوحات الإسلامية في شمال أفريقيا.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "وقاعدة الفتوحات الإسلامية في شمال أفريقيا"
+      }
+     ]
+    },
+    {
+     "text": "عقبة بن نافع خطّها سنة ٥٠ هـ.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "اختطها عقبة بن نافع الفهري سنة 50"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-cordoba-mid",
+   "level": "mid",
+   "answer": "cordoba",
+   "clues": [
+    {
+     "text": "بقت دار الخلافة الأموية في الأندلس.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "دار الخلافة الأموية في الأندلس"
+      }
+     ]
+    },
+    {
+     "text": "على ضفاف نهر الوادي الكبير.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "على ضفاف نهر الوادي الكبير"
+      }
+     ]
+    },
+    {
+     "text": "في إسبانيا النهارده.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "(إسبانيا حاليا)"
+      }
+     ]
+    },
+    {
+     "text": "فتحها طارق بن زياد سنة ٩٢ هـ.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "فتحها طارق بن زياد سنة 92"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-mecca-hard",
+   "level": "hard",
+   "answer": "mecca",
+   "clues": [
+    {
+     "text": "تقع في الحجاز، وهي أقدس مدن المسلمين.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "أقدس مدن المسلمين، تقع في الحجاز"
+      }
+     ]
+    },
+    {
+     "text": "قبلة المسلمين في صلاتهم، وفيها بيأدّوا فريضة الحج.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "قبلة المسلمين في صلاتهم، ومكان أداء فريضة الحج"
+      }
+     ]
+    },
+    {
+     "text": "مسقط رأس النبي ﷺ ومهبط الوحي.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "مهبط الوحي ومسقط رأس النبي محمد ﷺ"
+      }
+     ]
+    },
+    {
+     "text": "فيها الكعبة المشرفة والمسجد الحرام.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "فيها الكعبة المشرفة والمسجد الحرام"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-medina-hard",
+   "level": "hard",
+   "answer": "medina",
+   "clues": [
+    {
+     "text": "تاني أقدس مكان في الإسلام.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "ثاني أقدس المدن الإسلامية"
+      }
+     ]
+    },
+    {
+     "text": "عاصمة أول دولة إسلامية.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "وعاصمة الدولة الإسلامية الأولى"
+      }
+     ]
+    },
+    {
+     "text": "كانت معروفة باسم تاني قبل الهجرة، والنبي ﷺ غيّر اسمها.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "قبل الهجرة النبوية، فسماها النبي ﷺ"
+      }
+     ]
+    },
+    {
+     "text": "فيها المسجد النبوي وقبر النبي ﷺ.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "فيها المسجد النبوي وقبر النبي ﷺ"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-jerusalem-hard",
+   "level": "hard",
+   "answer": "jerusalem",
+   "clues": [
+    {
+     "text": "تالت أقدس مدينة في الإسلام.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "ثالث أقدس المدن في الإسلام"
+      }
+     ]
+    },
+    {
+     "text": "المسلمين صلّوا ناحيتها الأول، قبل ما القبلة تتحوّل.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "القبلة الأولى للمسلمين"
+      }
+     ]
+    },
+    {
+     "text": "النبي ﷺ اتسرى بيه ليها في رحلة الإسراء والمعراج.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "ومسرى النبي ﷺ في رحلة الإسراء والمعراج"
+      }
+     ]
+    },
+    {
+     "text": "فيها المسجد الأقصى وقبة الصخرة.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "تضم المسجد الأقصى وقبة الصخرة"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-damascus-hard",
+   "level": "hard",
+   "answer": "damascus",
+   "clues": [
+    {
+     "text": "من أقدم المدن المسكونة في العالم.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "من أقدم المدن المأهولة في العالم"
+      }
+     ]
+    },
+    {
+     "text": "في بلاد الشام، ومركز إشعاع حضاري وثقافي إسلامي كبير.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "تقع في بلاد الشام"
+      },
+      {
+       "from": "significance",
+       "quote": "ومركز إشعاع حضاري وثقافي إسلامي كبير"
+      }
+     ]
+    },
+    {
+     "text": "عاصمة الخلافة الأموية.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "عاصمة الخلافة الأموية"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-baghdad-hard",
+   "level": "hard",
+   "answer": "baghdad",
+   "clues": [
+    {
+     "text": "ابتدى بناها سنة ١٤٥ هـ.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "شرع في بنائها سنة 145"
+      }
+     ]
+    },
+    {
+     "text": "اتسمّت «مدينة السلام».",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "وسماها مدينة السلام"
+      }
+     ]
+    },
+    {
+     "text": "بناها خليفة عباسي على ضفاف نهر دجلة.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "بناها الخليفة العباسي أبو جعفر المنصور على ضفاف نهر دجلة"
+      }
+     ]
+    },
+    {
+     "text": "عاصمة الخلافة العباسية ومركز العلم والمعرفة.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "عاصمة الخلافة العباسية، ومركز العلم والمعرفة"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-basra-hard",
+   "level": "hard",
+   "answer": "basra",
+   "clues": [
+    {
+     "text": "مدينة عراقية، ومركز علمي وتجاري مهم.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "مدينة عراقية"
+      },
+      {
+       "from": "significance",
+       "quote": "ومركز علمي وتجاري هام"
+      }
+     ]
+    },
+    {
+     "text": "أول مدينة إسلامية اتبنت برا شبه الجزيرة العربية.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "أول مدينة إسلامية بنيت خارج شبه الجزيرة العربية"
+      }
+     ]
+    },
+    {
+     "text": "أسسها عتبة بن غزوان في عهد عمر.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "أسسها عتبة بن غزوان في عهد عمر بن الخطاب"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-fustat-hard",
+   "level": "hard",
+   "answer": "fustat",
+   "clues": [
+    {
+     "text": "منها انطلقت الفتوحات ناحية شمال أفريقيا.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "مركز انطلاق الفتوحات الإسلامية نحو شمال أفريقيا"
+      }
+     ]
+    },
+    {
+     "text": "فيها أول مسجد اتأسس في مصر بعد الفتح.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "أول مسجد أسس بديار مصر بعد الفتح"
+      }
+     ]
+    },
+    {
+     "text": "أول عاصمة إسلامية في مصر.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "أول عاصمة إسلامية في مصر"
+      }
+     ]
+    },
+    {
+     "text": "أسسها عمرو بن العاص.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "أسسها عمرو بن العاص"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-kufa-hard",
+   "level": "hard",
+   "answer": "kufa",
+   "clues": [
+    {
+     "text": "مركز مهم لمدارس النحو والفقه.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "ومركز مهم للمدارس النحوية والفقهية"
+      }
+     ]
+    },
+    {
+     "text": "مدينة عراقية اتأسست بأمر من عمر بن الخطاب.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "مدينة عراقية"
+      },
+      {
+       "from": "description",
+       "quote": "بأمر من عمر بن الخطاب"
+      }
+     ]
+    },
+    {
+     "text": "اللي أسسها هو قائد القادسية سعد بن أبي وقاص.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "أسسها سعد بن أبي وقاص"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-kairouan-hard",
+   "level": "hard",
+   "answer": "kairouan",
+   "clues": [
+    {
+     "text": "قاعدة الفتوحات الإسلامية في شمال أفريقيا.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "وقاعدة الفتوحات الإسلامية في شمال أفريقيا"
+      }
+     ]
+    },
+    {
+     "text": "موجودة النهارده في تونس.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "(تونس اليوم)"
+      }
+     ]
+    },
+    {
+     "text": "عقبة بن نافع خطّها سنة ٥٠ هـ.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "اختطها عقبة بن نافع الفهري سنة 50"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "place-cordoba-hard",
+   "level": "hard",
+   "answer": "cordoba",
+   "clues": [
+    {
+     "text": "في إسبانيا النهارده.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "(إسبانيا حاليا)"
+      }
+     ]
+    },
+    {
+     "text": "على ضفاف نهر الوادي الكبير.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "على ضفاف نهر الوادي الكبير"
+      }
+     ]
+    },
+    {
+     "text": "بقت دار الخلافة الأموية في الأندلس.",
+     "sources": [
+      {
+       "from": "significance",
+       "quote": "دار الخلافة الأموية في الأندلس"
+      }
+     ]
+    },
+    {
+     "text": "فتحها طارق بن زياد سنة ٩٢ هـ.",
+     "sources": [
+      {
+       "from": "description",
+       "quote": "فتحها طارق بن زياد سنة 92"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

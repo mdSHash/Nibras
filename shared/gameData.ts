@@ -195,7 +195,7 @@ export const FACT_TITLES = {
 } as const;
 
 /** Modes the question bank covers (content/game/questions/<mode>.json). */
-export const BANK_MODES = ['who', 'battle', 'place', 'year', 'number', 'title', 'order', 'there', 'quote'] as const;
+export const BANK_MODES = ['who', 'battle', 'place', 'year', 'number', 'leader', 'era', 'order', 'title', 'there', 'quote'] as const;
 export type BankMode = (typeof BANK_MODES)[number];
 export const BANK_LEVELS = ['easy', 'mid', 'hard'] as const;
 
@@ -213,8 +213,13 @@ export const questionBankSchema = z.strictObject({
     z.strictObject({
       id: z.string().regex(/^[a-z0-9-]+$/),
       level: z.enum(BANK_LEVELS),
-      /** The answer's record id (person, event or city by mode), or `<event id>:army|enemyArmy` for «الرقم». */
+      /**
+       * The answer: a person id (who, leader), an event id (battle, year, era), a city id or `event:<id>`
+       * (place), `<event id>:army|enemyArmy` (number), or four event ids in order, comma-separated (order).
+       */
       answer: z.string().min(1),
+      /** «مين القائد؟»: the battle the question is about. */
+      event: z.string().optional(),
       /** A prompt of its own (story-style questions); the mode's default prompt otherwise. */
       prompt: text.optional(),
       clues: z.array(z.strictObject({ text, sources: z.array(bankSource).min(1) })),

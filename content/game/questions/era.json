@@ -1,0 +1,215 @@
+{
+ "mode": "era",
+ "questions": [
+  {
+   "id": "era-marriage-khadija",
+   "level": "easy",
+   "answer": "marriage-khadija",
+   "prompt": "«زواج النبي ﷺ من خديجة» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-year-of-sorrow",
+   "level": "easy",
+   "answer": "year-of-sorrow",
+   "prompt": "«عام الحزن» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-battle-badr",
+   "level": "easy",
+   "answer": "battle-badr",
+   "prompt": "«غزوة بدر الكبرى» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-conquest-mecca",
+   "level": "easy",
+   "answer": "conquest-mecca",
+   "prompt": "«فتح مكة المكرمة» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-event-49",
+   "level": "easy",
+   "answer": "event-49-تولي-أبي-بكر-الخلافة-السقيفة",
+   "prompt": "«تولي أبي بكر الخلافة (السقيفة)» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-battle-yamama",
+   "level": "easy",
+   "answer": "battle_yamama",
+   "prompt": "«معركة اليمامة (حديقة الموت)» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-battle-yarmouk",
+   "level": "easy",
+   "answer": "battle-yarmouk",
+   "prompt": "«معركة اليرموك» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-event-75",
+   "level": "easy",
+   "answer": "event-75-فتح-القدس-والعهدة-العمرية",
+   "prompt": "«فتح القدس والعهدة العمرية» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-event-96",
+   "level": "easy",
+   "answer": "event-96-نسخ-المصحف-الإمام-المصحف-العثماني",
+   "prompt": "«نسخ المصحف الإمام (المصحف العثماني)» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-conquest-cyprus",
+   "level": "easy",
+   "answer": "conquest-cyprus",
+   "prompt": "«فتح قبرص» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-boycott-hashim",
+   "level": "mid",
+   "answer": "boycott-hashim",
+   "prompt": "«حصار الشعب (المقاطعة)» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-rebuilding-kaaba",
+   "level": "mid",
+   "answer": "rebuilding-kaaba",
+   "prompt": "«بناء الكعبة ووضع الحجر الأسود» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-siege-of-taif",
+   "level": "mid",
+   "answer": "siege_of_taif",
+   "prompt": "«حصار الطائف (غزوة الطائف)» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-incident-rajeei",
+   "level": "mid",
+   "answer": "incident_rajeei",
+   "prompt": "«حادثة الرجيع» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-battle-marj-dabiq",
+   "level": "mid",
+   "answer": "battle-marj-dabiq",
+   "prompt": "«معركة مرج الصفر» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-battle-firaz",
+   "level": "mid",
+   "answer": "battle_firaz",
+   "prompt": "«معركة الفراض» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-battle-saqatiya",
+   "level": "mid",
+   "answer": "battle-saqatiya",
+   "prompt": "«معركة السقاطية» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-battle-nahavand",
+   "level": "mid",
+   "answer": "battle-nahavand",
+   "prompt": "«معركة نهاوند (فتح الفتوح)» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-conquest-rayy-jurjan",
+   "level": "mid",
+   "answer": "conquest-rayy-jurjan",
+   "prompt": "«أذربيجان وجرجان: تجديد الصلح وغزو سعيد بن العاص» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-alexandria-reconquest",
+   "level": "mid",
+   "answer": "alexandria-reconquest",
+   "prompt": "«إعادة فتح الإسكندرية» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-conquest-antioch",
+   "level": "hard",
+   "answer": "conquest-antioch",
+   "prompt": "«فتح أنطاكية» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-conquest-homs",
+   "level": "hard",
+   "answer": "conquest-homs",
+   "prompt": "«فتح حمص» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-first-muslim-fleet",
+   "level": "hard",
+   "answer": "first-muslim-fleet",
+   "prompt": "«بناء الأسطول الإسلامي الأول» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-lost-ring-bir-aris",
+   "level": "hard",
+   "answer": "lost-ring-bir-aris",
+   "prompt": "«سقوط خاتم النبي ﷺ في بئر أريس» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-ghazwat-hamra-al-asad",
+   "level": "hard",
+   "answer": "ghazwat-hamra-al-asad",
+   "prompt": "«غزوة حمراء الأسد» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-conquest-edessa",
+   "level": "hard",
+   "answer": "conquest-edessa",
+   "prompt": "«فتح الرها» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-battle-masts",
+   "level": "hard",
+   "answer": "battle-masts",
+   "prompt": "«معركة ذات الصواري» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-event-66",
+   "level": "hard",
+   "answer": "event-66-تولي-عمر-بن-الخطاب-الخلافة",
+   "prompt": "«تولي عمر بن الخطاب الخلافة» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-ridda-wars-start",
+   "level": "hard",
+   "answer": "ridda-wars-start",
+   "prompt": "«بداية حروب الردة» حصل في أنهي عهد؟",
+   "clues": []
+  },
+  {
+   "id": "era-battle-musayyakh",
+   "level": "hard",
+   "answer": "battle-musayyakh",
+   "prompt": "«معركة المصيخ» حصل في أنهي عهد؟",
+   "clues": []
+  }
+ ]
+}

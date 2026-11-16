@@ -13,7 +13,7 @@ import { containsQuote, foldForMatch, hasPhrase, nameTokens } from '../../shared
 
 /** Which kind of record a mode's answer is. */
 const ANSWER_KIND: Record<BankMode, 'person' | 'event' | 'city'> = {
-  who: 'person', title: 'person', quote: 'person', battle: 'event', year: 'event', number: 'event', order: 'event', there: 'event', place: 'city',
+  who: 'person', leader: 'person', title: 'person', quote: 'person', battle: 'event', year: 'event', era: 'event', number: 'event', order: 'event', there: 'event', place: 'city',
 };
 const NAME_PARTS = new Set(['بن', 'بنت', 'ابو', 'ابي', 'ابن', 'عبد', 'الله', 'ام'].map(foldForMatch));
 
@@ -61,18 +61,41 @@ export function checkBank(
     }
     const { mode } = parsed.data;
     if (file !== `${mode}.json`) issues.push({ file: where, message: `file name must be ${mode}.json` });
-    const kind = ANSWER_KIND[mode];
     for (const q of parsed.data.questions) {
+      const kind = mode === 'place' && q.answer.startsWith('event:') ? 'event' : ANSWER_KIND[mode];
       const at = `${q.id}`;
       if (seen.has(q.id)) issues.push({ file: where, message: `${at}: duplicate id` });
       seen.add(q.id);
-      const answerId = mode === 'number' ? q.answer.replace(/:(army|enemyArmy)$/, '') : q.answer;
+      if (mode === 'order') {
+        const ids = q.answer.split(',');
+        const evs = ids.map((id) => events.get(id));
+        if (ids.length !== 4 || evs.some((e) => !e)) issues.push({ file: where, message: `${q.id}: needs four known event ids` });
+        else {
+          if (evs.some((e) => excluded.events.has(e!.id) || excluded.eras.has(e!.eraId))) issues.push({ file: where, message: `${q.id}: uses an excluded event` });
+          const keys = evs.map((e) => e!.date.sortKey);
+          if (keys.some((k, i) => i > 0 && k <= keys[i - 1])) issues.push({ file: where, message: `${q.id}: events are not in chronological order (or share a date)` });
+        }
+        questions.push({ ...q, mode });
+        continue;
+      }
+      const answerId = mode === 'number' ? q.answer.replace(/:(army|enemyArmy)$/, '') : q.answer.replace(/^event:/, '');
+      if (mode === 'leader') {
+        const battle = q.event ? events.get(q.event) : undefined;
+        if (!battle) issues.push({ file: where, message: `${q.id}: «مين القائد؟» needs a known event` });
+        else if (!battle.roles.some((r) => r.personId === answerId)) issues.push({ file: where, message: `${q.id}: "${answerId}" has no role in "${battle.id}"` });
+        else if (excluded.events.has(battle.id) || excluded.eras.has(battle.eraId)) issues.push({ file: where, message: `${q.id}: "${battle.id}" is excluded from the game` });
+      }
+      if (mode === 'number') {
+        const e = events.get(answerId);
+        const side = q.answer.endsWith(':enemyArmy') ? 'enemyArmy' : 'army';
+        if (e && e.forces?.[side]?.value == null) issues.push({ file: where, message: `${q.id}: no number for ${side} in "${answerId}"` });
+      }
       const known = kind === 'person' ? people.has(answerId) : kind === 'event' ? events.has(answerId) : cities.has(answerId);
       if (!known) issues.push({ file: where, message: `${at}: unknown ${kind} "${answerId}"` });
       const event = kind === 'event' ? events.get(answerId) : undefined;
       if (excluded.events.has(answerId) || (event && excluded.eras.has(event.eraId))) issues.push({ file: where, message: `${at}: "${answerId}" is excluded from the game` });
       // The answer's own name must not show in its clues or prompt.
-      const name = kind === 'person' ? people.get(answerId)?.name : kind === 'event' ? event?.title : cities.get(answerId)?.name;
+      const name = mode === 'leader' || mode === 'era' || mode === 'year' ? undefined : kind === 'person' ? people.get(answerId)?.name : kind === 'event' ? event?.title : cities.get(answerId)?.name;
       const keys = name ? nameTokens(aliasForm(name)).filter((k) => !NAME_PARTS.has(k) && k.length >= 3) : [];
       const texts = [...q.clues.map((c) => c.text), ...(q.prompt ? [q.prompt] : [])];
       for (const t of texts) {

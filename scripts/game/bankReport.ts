@@ -7,13 +7,14 @@ import type { GameData } from '../../shared/gameData';
 
 const MODE_NAMES: Record<string, string> = {
   who: 'من أكون؟', battle: 'المعركة', place: 'المكان', year: 'السنة', number: 'الرقم',
-  title: 'لقب مين؟', order: 'رتّب الأحداث', there: 'مين كان هناك؟', quote: 'مين قال؟',
+  leader: 'مين القائد؟', era: 'أنهي عهد؟', title: 'لقب مين؟', order: 'رتّب الأحداث', there: 'مين كان هناك؟', quote: 'مين قال؟',
 };
 const LEVELS = [['easy', 'لسه ببتدي'], ['mid', 'عارف شوية'], ['hard', 'أستاذ فيها']] as const;
 
 export function renderBank(data: GameData): string {
   const name = (answer: string): string => {
-    const id = answer.replace(/:(army|enemyArmy)$/, '');
+    if (answer.includes(',')) return answer.split(',').map(name).join(' ← ');
+    const id = answer.replace(/:(army|enemyArmy)$/, '').replace(/^event:/, '');
     const found = data.people.find((x) => x.id === id)?.name ?? data.events.find((x) => x.id === id)?.title ?? data.cities.find((x) => x.id === id)?.name;
     return stripDiacritics(found ?? id);
   };
