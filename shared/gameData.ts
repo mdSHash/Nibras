@@ -131,6 +131,8 @@ export interface GameCity {
 }
 
 export interface GameData {
+  /** The question bank (content/game/questions/), checked against the content. */
+  questions: BankQuestion[];
   eras: { id: string; nameAr: string }[];
   events: GameEvent[];
   people: GamePerson[];
@@ -186,3 +188,35 @@ export const FACT_TITLES = {
   lastEra: 'عاش لحد عهد مين؟',
   deathPlace: 'اتوفّى فين',
 } as const;
+
+/** Modes the question bank covers (content/game/questions/<mode>.json). */
+export const BANK_MODES = ['who', 'battle', 'place', 'year', 'number', 'title', 'order', 'there', 'quote'] as const;
+export type BankMode = (typeof BANK_MODES)[number];
+export const BANK_LEVELS = ['easy', 'mid', 'hard'] as const;
+
+const bankSource = z.strictObject({
+  /** A field of the record: person bio/role/title/name, event summary/course/full/date/place/forces/title, city description/significance/name. */
+  from: z.enum(['bio', 'role', 'title', 'name', 'summary', 'course', 'full', 'date', 'place', 'forces', 'description', 'significance']),
+  /** Another record than the answer's: `person:<id>`, `event:<id>` or `city:<id>`. */
+  of: z.string().regex(/^(person|event|city):.+$/).optional(),
+  quote: text,
+});
+
+export const questionBankSchema = z.strictObject({
+  mode: z.enum(BANK_MODES),
+  questions: z.array(
+    z.strictObject({
+      id: z.string().regex(/^[a-z0-9-]+$/),
+      level: z.enum(BANK_LEVELS),
+      /** The answer's record id (person, event or city by mode), or `<event id>:army|enemyArmy` for «الرقم». */
+      answer: z.string().min(1),
+      /** A prompt of its own (story-style questions); the mode's default prompt otherwise. */
+      prompt: text.optional(),
+      clues: z.array(z.strictObject({ text, sources: z.array(bankSource).min(1) })),
+      /** Hand-picked wrong options (ids); the engine picks them by level otherwise. */
+      options: z.array(z.string()).optional(),
+    }),
+  ),
+});
+export type QuestionBank = z.infer<typeof questionBankSchema>;
+export type BankQuestion = QuestionBank['questions'][number] & { mode: BankMode };

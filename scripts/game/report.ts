@@ -10,6 +10,7 @@ import { checkContent, readContent } from '../content/store';
 import { ROOT } from '../baseline/lib';
 import { stripDiacritics } from '../../shared/arabic';
 import { buildGameData, type GameReport } from './build';
+import { renderBank } from './bankReport';
 import { FACT_LABELS, FACT_TITLES, type GameData, type Tier } from '../../shared/gameData';
 
 export const LEVEL_TIERS: Record<'easy' | 'mid' | 'hard', Tier[]> = { easy: [1], mid: [2], hard: [3, 2] };
@@ -86,6 +87,7 @@ if (isMain) {
   if (all.length || !built.report) process.exit(1);
   mkdirSync(join(ROOT, 'docs', 'phase5'), { recursive: true });
   writeFileSync(join(ROOT, 'docs', 'phase5', 'data-report.md'), render(built.report));
+  writeFileSync(join(ROOT, 'docs', 'phase5', 'question-bank.md'), renderBank(built.report.data));
   const d = built.report.data;
   console.log(
     `Game data: ${d.events.length} events, ${d.people.length} people, ${d.cities.length} cities; ` +

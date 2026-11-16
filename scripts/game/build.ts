@@ -7,6 +7,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { ZodType } from 'zod';
+import { checkBank } from './bank';
 import type { ContentSet, ContentIssue } from '../content/store';
 import { aliasForm, stripDiacritics } from '../../shared/arabic';
 import { eventSlug } from '../../shared/routes';
@@ -97,7 +98,7 @@ export function buildGameData(content: ContentSet, gameDir: string): { report: G
   unknown('tiers.json', 'city', [...tiers.cities.tier1, ...tiers.cities.tier3], cities);
   unknown('companion-facts.json', 'person', facts.people.map((p) => p.id), people);
 
-  const report: GameReport = { excluded: [], skipped: [], droppedClues: [], pending: [], data: { eras: [], events: [], people: [], cities: [] } };
+  const report: GameReport = { excluded: [], skipped: [], droppedClues: [], pending: [], data: { eras: [], events: [], people: [], cities: [], questions: [] } };
   const excludedEras = new Set(exclusions.eras.map((e) => e.id));
   const excludedEvents = new Map(exclusions.events.map((e) => [e.id, e.reason]));
   const isSensitive = (clue: string): boolean => exclusions.clueWords.some((w) => hasPhrase(clue, w));
@@ -238,6 +239,15 @@ export function buildGameData(content: ContentSet, gameDir: string): { report: G
     };
     report.data.cities.push(city);
   }
+
+  const bank = checkBank(content, gameDir, { events: new Set(excludedEvents.keys()), eras: excludedEras }, QURAN_MARKS.test);
+  issues.push(...bank.issues);
+  const withFacts = new Set(facts.people.map((p) => p.id));
+  for (const q of bank.questions) {
+    if ((q.mode === 'who' || q.mode === 'title') && !withFacts.has(q.answer))
+      issues.push({ file: `game/questions/${q.mode}.json`, message: `${q.id}: "${q.answer}" has no «من أكون؟» facts` });
+  }
+  report.data.questions = bank.questions;
 
   return { report, issues };
 }
