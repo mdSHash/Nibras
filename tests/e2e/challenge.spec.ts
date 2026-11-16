@@ -66,6 +66,45 @@ test.describe('daily challenge', () => {
     await expect(page.getByRole('button', { name: 'سؤال تاني' })).toBeVisible();
   });
 
+  test('counts rounds, practice, level changes and ways into Nibras, with modes and counts only', async ({ page }) => {
+    // A stand-in for Umami's tracker (test builds load none), and links that stay on the page.
+    await page.addInitScript(() => {
+      const events: unknown[] = [];
+      Object.assign(window, { __events: events, umami: { track: (name: string, data: object) => events.push([name, data]) } });
+      document.addEventListener('click', (e) => (e.target as Element).closest('a') && e.preventDefault(), true);
+    });
+    const events = (): Promise<[string, Record<string, unknown>][]> => page.evaluate(() => (window as unknown as { __events: [string, Record<string, unknown>][] }).__events);
+    await page.goto('challenge/');
+    await page.getByRole('dialog').getByRole('button', { name: /لسه ببتدي/ }).click();
+    let picks = 0;
+    for (let i = 0; i < 5 && !(await page.locator('.win').isVisible()); i++) {
+      await page.locator('.opts .opt:not([disabled])').first().click();
+      picks++;
+      if (picks === 1 && !(await page.locator('.win').isVisible())) await page.locator('.grid .row a').first().click();
+    }
+    await expect(page.locator('.win')).toBeVisible();
+    await page.getByRole('link', { name: 'اعرف أكتر في نبراس', exact: true }).click();
+    await page.getByRole('button', { name: 'العب أسئلة زيادة (تدريب)' }).click();
+    await page.locator('.opts .opt').first().click();
+    await page.locator('.chip').click();
+    await page.getByRole('dialog').getByRole('button', { name: /أستاذ فيها/ }).click();
+
+    const got = await events();
+    const daily = { mode: 'who', level: 'easy', practice: false };
+    const solved = got.find(([n]) => n === 'challenge_round_finished')?.[1].solved;
+    expect(got).toEqual([
+      ['challenge_level_changed', { from: 'none', to: 'easy', via: 'first' }],
+      ['challenge_round_started', daily],
+      ...(picks > 1 ? [['challenge_nibras_opened', { mode: 'who', level: 'easy', from: 'tile' }]] : []),
+      ['challenge_round_finished', { ...daily, picks, solved }],
+      ['challenge_nibras_opened', { mode: 'who', level: 'easy', from: 'result' }],
+      ['challenge_practice_started', { mode: 'who', level: 'easy' }],
+      ['challenge_round_started', { ...daily, practice: true }],
+      ['challenge_level_changed', { from: 'easy', to: 'hard', via: 'sheet' }],
+    ]);
+    expect(typeof solved).toBe('boolean');
+  });
+
   test('is installable: manifest and service worker are served', async ({ page, request }) => {
     await page.goto('challenge/');
     const href = await page.locator('link[rel="manifest"]').getAttribute('href');

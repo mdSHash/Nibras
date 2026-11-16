@@ -9,12 +9,15 @@ import '@fontsource/amiri/400.css';
 import '@fontsource/amiri/700.css';
 import './challenge.css';
 import { App } from './ui/App';
+import { initChallengeAnalytics } from './analytics';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />
   </StrictMode>,
 );
+
+initChallengeAnalytics();
 
 // Offline after the first visit (production only; the dev server serves no service worker).
 if (import.meta.env.PROD && 'serviceWorker' in navigator) {

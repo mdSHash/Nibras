@@ -1,5 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { beforeSend, loadTracker, onStoreChange } from '../src/services/analytics';
+import { loadUmami } from '../src/services/umami';
+import { trackChallenge } from '../src/challenge/analytics';
 import { useAppStore } from '../src/store/appStore';
 import { DEFAULT_FILTERS, type Route } from '../shared/routes';
 
@@ -78,5 +80,38 @@ describe('analytics', () => {
       excludeSearch: 'true',
       excludeHash: 'true',
     });
+  });
+});
+
+describe('the game\'s analytics («تحدي اليوم»)', () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  it('loads the same tracker without Nibras\'s page-view filter', () => {
+    const script = { dataset: {} as Record<string, string>, src: '', async: false };
+    vi.stubGlobal('window', {});
+    vi.stubGlobal('document', { createElement: () => script, head: { append: vi.fn() } });
+    loadUmami('site-id');
+    expect(script.src).toBe('https://cloud.umami.is/script.js');
+    expect(script.dataset).toEqual({
+      websiteId: 'site-id',
+      domains: 'mdshash.github.io',
+      doNotTrack: 'true',
+      excludeSearch: 'true',
+      excludeHash: 'true',
+    });
+  });
+
+  it('sends its events through Umami, queued until the tracker is ready', () => {
+    const tracked: unknown[][] = [];
+    const win: { umami?: { track: (...args: unknown[]) => void } } = {};
+    vi.stubGlobal('window', win);
+    const script = { dataset: {}, src: '', async: false, onload: null as null | (() => void) };
+    vi.stubGlobal('document', { createElement: () => script, head: { append: vi.fn() } });
+    trackChallenge('challenge_round_finished', { mode: 'who', level: 'easy', practice: false, picks: 3, solved: true });
+    expect(tracked).toEqual([]);
+    loadUmami('site-id');
+    win.umami = { track: (...args: unknown[]) => tracked.push(args) };
+    script.onload?.();
+    expect(tracked).toEqual([['challenge_round_finished', { mode: 'who', level: 'easy', practice: false, picks: 3, solved: true }]]);
   });
 });
