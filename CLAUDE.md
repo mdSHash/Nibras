@@ -84,7 +84,7 @@ only after Mostafa approves the list of intentional changes; never to make a tes
 - `content/territories/` — the map's sources: `ledger/` (who held what, with sources; a row with `ev` follows that event's date), `regions.json`, `holders.json`, Natural Earth coast and rivers. `public/map-tiles/` — Relief tiles. `src/components/map/` — `TerritoryLayer` (loaded on demand), `labelPlacement.ts` (labels clear of markers)
 - `src/challenge/` — «تحدي اليوم» (Phase 5), a separate build served at `/Nibras/challenge/` (PWA: `challenge/public/` has the manifest and service worker): `engine/` (rounds from the bank, options by level, comparisons, streaks), `ui/`. Its data and question bank: `content/game/` (`questions/<mode>.json`, every clue citing the Nibras sentence it rests on; `companion-facts.json`; `tiers.json`; `exclusions.json`), built by `scripts/game/` into `src/generated/game.json`
 - `src/components/ErrorBoundary.tsx` — wrap any new major section or panel in one
-- `src/services/analytics.ts` — Umami, deploy build only; `track()` must never carry what a visitor typed
+- `src/services/analytics.ts` — Umami, deploy build only; `track()` must never carry what a visitor typed; the tracker itself is `src/services/umami.ts`, shared with the game's events (`src/challenge/analytics.ts`)
 
 ## Session protocol
 
