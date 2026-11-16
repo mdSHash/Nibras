@@ -2,6 +2,7 @@
 // level to the result, at phone width, with no console errors (the fixture fails on any).
 import type { Page } from '@playwright/test';
 import { test, expect } from './support/fixtures';
+import { headerControl, openApp } from './support/app';
 
 const MODES = ['من أكون؟', 'المعركة', 'المكان', 'السنة', 'الرقم', 'القائد', 'العهد', 'رتّب'];
 const LEVELS = ['لسه ببتدي', 'عارف شوية', 'أستاذ فيها'];
@@ -103,6 +104,14 @@ test.describe('daily challenge', () => {
       ['challenge_level_changed', { from: 'easy', to: 'hard', via: 'sheet' }],
     ]);
     expect(typeof solved).toBe('boolean');
+  });
+
+  test('the Nibras header opens the game, and a round plays to the result @phone', async ({ page }) => {
+    await openApp(page);
+    await (await headerControl(page, 'challenge')).click();
+    await expect(page).toHaveURL(/\/Nibras\/challenge\/$/);
+    await page.getByRole('dialog').getByRole('button', { name: /لسه ببتدي/ }).click();
+    await playToResult(page);
   });
 
   test('is installable: manifest and service worker are served', async ({ page, request }) => {
