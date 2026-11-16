@@ -4,7 +4,7 @@
  * options at the level's distance, and what a wrong pick teaches (tiles and a
  * plain sentence). UI-free; the game renders it.
  */
-import { FACT_LABELS, FACT_TITLES, type BankQuestion, type GameCity, type GameData, type GameEvent, type GamePerson } from '../../../shared/gameData';
+import { FACT_TITLES, type BankQuestion, type GameCity, type GameData, type GameEvent, type GamePerson } from '../../../shared/gameData';
 import { stripDiacritics, toArabicIndic } from '../../../shared/arabic';
 import { yearDiff } from '../../../shared/gameText';
 import { compareBattles, comparePeople, yearLabel, type Mark } from './compare';
