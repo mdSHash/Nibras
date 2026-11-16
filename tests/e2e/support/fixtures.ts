@@ -96,6 +96,10 @@ export const test = base.extend<Options & Fixtures>({
     page.on('console', (message) => {
       if (message.type() !== 'error') return;
       const text = message.text();
+      // Firefox logs a font download cut off by a reload or navigation as "downloadable font:
+      // download failed ... status=2152398850" (NS_BINDING_ABORTED: cancelled, not missing). A font
+      // that is really missing fails with another status and still counts.
+      if (/downloadable font: download failed .*status=2152398850 /.test(text)) return;
       if (allowedConsoleErrors.some((pattern) => pattern.test(text))) return;
       errors.push(`console.error: ${text}`);
     });
