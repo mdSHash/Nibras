@@ -3573,3 +3573,26 @@ present (it is git-ignored, so CI skips that check).
     على كلثوم بن هدم… بقباء». «مهاجر» stands.
   - Still open: when أبو دجانة and حذيفة became Muslim. الاستيعاب ج2 ص652 and أسد الغابة give his battles and death only;
     al-Isaba has حذيفة Muslim before Badr, not before the Hijra.
+
+#### Done when (Phase 5)
+
+- Every mode at all three levels, phone and desktop: e2e «every mode at every level plays to the result» (`@phone`, so
+  also WebKit and Firefox). From the PWA (`/Nibras/challenge/`, installable test) and from inside Nibras (header test,
+  the trophy now on phones too). ✓
+- Level suggestion (`suggestLevel` unit tests), countdown (result card), practice (e2e). ✓
+- Every answer offers a way into Nibras: a link on each tile row and on the result (e2e). ✓
+- Real numbers after a round: Supabase totals, deploy build only; live visitors' solves already show. ✓
+- Question bank reviewed: all 240 marked, changes applied (above). ✓
+- Main bundle within budget; `npm run verify` passes. ✓
+
+#### Verification (end)
+
+Five batches, foreground: content…bundle passed (Vitest 499/499); Lighthouse passed; features 135 passed, 2 skipped;
+engines 53 passed, 1 failed (Firefox, «a Quran chip opens the right verses»: the search pick left the first event open;
+unrelated to this branch, passed 3/3 when re-run alone); visual 24 passed.
+
+#### Open, for Mostafa
+
+- Ḥudhayfa's father: «اتقتل» or «استشهد» (see the bank review above).
+- When أبو دجانة and حذيفة became Muslim: 2 facts still unsourced (al-Durar not searched: Chrome was not connected).
+- Phase 6 (accounts, leaderboard) revisits the 5F decision (no Vercel function).
