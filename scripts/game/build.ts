@@ -66,6 +66,15 @@ function readJson<T>(dir: string, file: string, schema: ZodType<T>, issues: Cont
   return null;
 }
 
+const SHAMELA_BOOKS: Record<string, string> = { usd: '1110', istiab: '12288', isaba: '9767', tabaqat: '1686' };
+
+/** A cached Shamela page's text (tmp/territories-research/cache), or null when it is not on this machine. */
+function shamelaPage(ref: string): string | null {
+  const [book, page] = ref.slice('shamela:'.length).split('/');
+  const path = join(process.cwd(), 'tmp', 'territories-research', 'cache', SHAMELA_BOOKS[book], `${page}.txt`);
+  return existsSync(path) ? readFileSync(path, 'utf8') : null;
+}
+
 /** The era a person lived to, from the (first) death year. */
 export function lastEraOf(deathYear: number): LastEra {
   if (deathYear <= 11) return 'prophet';
@@ -184,6 +193,13 @@ export function buildGameData(content: ContentSet, gameDir: string): { report: G
     for (const [field, value] of Object.entries({ islam: f.islam, migration: f.migration, knownFor: f.knownFor, deathPlace: f.deathPlace })) {
       if (value.pending) report.pending.push(`${f.id}.${field} = ${value.value}: ${value.pending}`);
       for (const ev of value.evidence) {
+        if (ev.from.startsWith('shamela:')) {
+          // Checked against the cached page when the research cache is on this machine (it is git-ignored).
+          const page = shamelaPage(ev.from);
+          if (page !== null && !containsQuote(page, ev.quote))
+            issues.push({ file: 'game/companion-facts.json', message: `${f.id}.${field}: «${ev.quote}» is not on ${ev.from}` });
+          continue;
+        }
         const source = ev.from.startsWith('event:') ? events.get(ev.from.slice(6))?.location.nameAr : p[ev.from as 'bio' | 'role' | 'title'];
         if (source === undefined) issues.push({ file: 'game/companion-facts.json', message: `${f.id}.${field}: unknown source "${ev.from}"` });
         else if (!containsQuote(source, ev.quote))

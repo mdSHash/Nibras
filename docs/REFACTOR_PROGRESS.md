@@ -3505,3 +3505,20 @@ entry (4A–4H-2 and the close-out, all merged).
 - **Nibras header:** a «تحدي اليوم» trophy button (desktop, beside the chat button) and a first row in the phone ⋮ menu,
   both opening `/Nibras/challenge/` (Mostafa approved). The visual snapshots did not change; the phone-menu test now
   expects 6 rows.
+
+### «من أكون؟» facts: Sunni sources (2026-11-16)
+
+Mostafa asked for the 20 pending facts to be researched in verified Sunni sources. Searched the cached Shamela pages of
+أسد الغابة (Ibn al-Athir, full), الاستيعاب (Ibn Abd al-Barr, full), الطبقات الكبرى, and fetched الإصابة pages (Ibn Hajar).
+Every quote is stored as `shamela:<book>/<page>` evidence and the build checks it against the page when the cache is
+present (it is git-ignored, so CI skips that check).
+
+- **Settled (16):** هجرة عمر وسعد وعمار (usd/2520, البراء بن عازب: «أول من قدم علينا من المهاجرين… ثم أتانا عمر بن
+  الخطاب»)، علي (usd/1938)، خالد (usd/1830)، عمرو (usd/2082); death places: عبد الرحمن بن عوف المدينة (usd/1736)، سعيد بن زيد
+  العقيق ودفن بالمدينة (istiab/620)، ابن مسعود المدينة (usd/1644)، أبو هريرة العقيق وحمل إلى المدينة (usd/3151)، سلمان
+  المدائن (istiab/638)، ابن عمر ذي طوى بمكة (istiab/945)، أبو الدرداء دمشق (istiab/1223)، حذيفة المدائن (isaba/730); سلمان
+  أسلم بعد الهجرة (usd/1123, his story: he met the Prophet ﷺ in al-Madinah).
+- **Changed:** حذيفة «من قبيلة تانية» → «أنصاري»: usd/597 «أبو عبد الله العبسي… فخيره بين الهجرة والنصرة، فاختار النصرة».
+  For Mostafa to confirm.
+- **Still open (4):** where وادي السباع is (الزبير; the sources name it, none places it), زيد's own hijra, when أبو دجانة and
+  حذيفة became Muslim (al-Isaba: حذيفة before Badr).
