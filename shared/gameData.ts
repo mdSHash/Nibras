@@ -31,8 +31,8 @@ export const tiersSchema = z.strictObject({
 
 export const ISLAM = ['before', 'after'] as const;
 export const MIGRATION = ['muhajir', 'ansari', 'other'] as const;
-export const KNOWN_FOR = ['caliph', 'commander', 'scholar', 'family', 'early', 'ansarLeader', 'muezzin'] as const;
-export const DEATH_REGIONS = ['madinah', 'makkah', 'hijaz', 'sham', 'iraq', 'egypt', 'rum'] as const;
+export const KNOWN_FOR = ['caliph', 'commander', 'scholar', 'family', 'early', 'ansarLeader', 'muezzin', 'advisor', 'hero', 'poet', 'confidant'] as const;
+export const DEATH_REGIONS = ['madinah', 'makkah', 'hijaz', 'sham', 'iraq', 'egypt', 'rum', 'yamama'] as const;
 
 const evidence = z.array(
   z.strictObject({
@@ -154,6 +154,10 @@ export const FACT_LABELS = {
     early: 'من أوائل المسلمين',
     ansarLeader: 'من كبار الأنصار',
     muezzin: 'مؤذن النبي ﷺ',
+    advisor: 'صاحب رأي ومشورة',
+    hero: 'فارس شجاع',
+    poet: 'شاعر',
+    confidant: 'صاحب سر النبي ﷺ',
   },
   deathPlace: {
     madinah: 'المدينة',
@@ -163,6 +167,7 @@ export const FACT_LABELS = {
     iraq: 'العراق',
     egypt: 'مصر',
     rum: 'بلاد الروم',
+    yamama: 'اليمامة',
   },
   lastEra: {
     prophet: 'عهد النبي ﷺ',
