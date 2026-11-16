@@ -3488,3 +3488,20 @@ entry (4A–4H-2 and the close-out, all merged).
   (changes the main app's look and visual snapshots, so it waits for Mostafa), Umami events in the game.
 - Verify: static (497 unit tests), features 132 passed, engines (one unrelated flake, then green; the game test 4/4 in
   WebKit and Firefox), visual 16/16, Lighthouse within budget.
+
+### 5F and the Nibras door (2026-11-16)
+
+- **Supabase** project `nibras` created (free, $0/month; Mostafa asked for it). Table `challenge_results` with row-level
+  security (insert-only for the public key, today's Cairo date ±1 day, attempts 1–5, seconds 2–3600, one row per device
+  per puzzle) and `challenge_stats()` returning only totals (players, solvers, rank, solved slower, average picks).
+  Tested from outside with the publishable key: insert 201, repeat 409, reading rows returns nothing, stats correct, an
+  old date refused; the probe row deleted. The linter's warning about anon running a SECURITY DEFINER function is
+  intended (it returns totals only).
+- **Plan deviation:** the plan said writes go through a Vercel function with rate limits. With row-level security and the
+  one-row-per-device rule the game talks to Supabase directly: no secret, no extra function to run. A determined cheater
+  can still fake device ids; for a free game's "faster than X%" line that is acceptable. Revisit with Phase 6 sign-in.
+- The result card shows the real numbers in the deploy build (env in `deploy.yml`); below 20 solvers it says «إنت من
+  أوائل اللي حلّوها النهارده» instead of a percentage. Local and test builds have no Supabase env and show no numbers.
+- **Nibras header:** a «تحدي اليوم» trophy button (desktop, beside the chat button) and a first row in the phone ⋮ menu,
+  both opening `/Nibras/challenge/` (Mostafa approved). The visual snapshots did not change; the phone-menu test now
+  expects 6 rows.

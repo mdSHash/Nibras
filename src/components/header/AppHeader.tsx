@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Moon, Sun, Search, Compass, LocateFixed, Maximize2, Minimize2, HelpCircle, MessageCircle } from 'lucide-react';
+import { Moon, Sun, Search, Compass, LocateFixed, Maximize2, Minimize2, HelpCircle, MessageCircle, Trophy } from 'lucide-react';
 import { useTourContext } from '../../contexts/TourContext';
 import { useAppStore } from '../../store/appStore';
 import { useFilteredEvents } from '../../store/selectors';
@@ -67,7 +67,11 @@ export function AppHeader() {
   };
 
   // The phone menu: the same controls and accessible names as the buttons above.
+  // «تحدي اليوم» (Phase 5) is its own page next to Nibras, so this is a plain navigation.
+  const openChallenge = (): void => window.location.assign(`${import.meta.env.BASE_URL}challenge/`);
+
   const menuItems: HeaderMenuItem[] = [
+    { key: 'challenge', icon: <Trophy size={18} strokeWidth={2.5} />, label: 'تحدي اليوم', ariaLabel: 'تحدي اليوم: لعبة يومية من نبراس', onSelect: openChallenge },
     { key: 'reset', icon: <LocateFixed size={18} strokeWidth={2.5} />, label: 'إعادة تعيين الخريطة', onSelect: resetMapView },
     {
       key: 'fullscreen',
@@ -216,6 +220,16 @@ export function AppHeader() {
           title="دليل الاستخدام"
         >
           <HelpCircle size={18} strokeWidth={2.5} aria-hidden="true" />
+        </HeaderButton>
+
+        <HeaderButton
+          delay={0.54}
+          className="hidden sm:flex"
+          onClick={openChallenge}
+          aria-label="تحدي اليوم: لعبة يومية من نبراس"
+          title="تحدي اليوم"
+        >
+          <Trophy size={18} strokeWidth={2.5} aria-hidden="true" />
         </HeaderButton>
 
         <HeaderButton

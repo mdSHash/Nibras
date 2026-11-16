@@ -5,6 +5,7 @@ import type { Round } from '../engine/daily';
 import { LEVEL_NAMES, MODE_NAMES, type Level, type Mode } from '../engine/levels';
 import { headline, PICKS_ALLOWED } from '../engine/progress';
 import { clock } from './useNow';
+import { fasterThan, type Stats } from '../stats';
 
 interface Props {
   round: Round;
@@ -16,13 +17,15 @@ interface Props {
   totalModes: number;
   left: number;
   suggestion: Level | null;
+  /** Today's real numbers; null while loading or when unavailable. */
+  stats: Stats | null;
   nextMode: Mode | null;
   onLevel: (level: Level) => void;
   onNext: (mode: Mode) => void;
   onPractice: () => void;
 }
 
-export function ResultCard({ round, picks, won, practice, streak, doneToday, totalModes, left, suggestion, nextMode, onLevel, onNext, onPractice }: Props) {
+export function ResultCard({ round, picks, won, practice, streak, doneToday, totalModes, left, suggestion, stats, nextMode, onLevel, onNext, onPractice }: Props) {
   const [shared, setShared] = useState<string | null>(null);
   const [hideSuggest, setHideSuggest] = useState(false);
   const names = MODE_NAMES[round.mode];
@@ -49,9 +52,20 @@ export function ResultCard({ round, picks, won, practice, streak, doneToday, tot
       <div className="k">{won ? `${headline(true, picks, PICKS_ALLOWED)} عرفتها من ${picks === 1 ? 'أول محاولة' : `المحاولة رقم ${n}`}` : 'المرة دي فلتت منك'} · {names.was}</div>
       <div className="nm">{round.answerLabel}</div>
       <p className="fact">{round.fact}</p>
-      {!practice && (
-        <p className="soon">قريب هتشوف هنا إنت رقم كام حليتها النهارده، وأسرع من كام في المية من الناس.</p>
+      {!practice && stats && won && (
+        <>
+          <p className="brag">
+            {picks === 1 ? 'من أول محاولة! ' : ''}
+            {fasterThan(stats) === null ? 'إنت من أوائل اللي حلّوها النهارده.' : `حليتها أسرع من ${toArabicIndic(fasterThan(stats)!)}٪ من الناس النهارده.`}
+          </p>
+          <div className="stats">
+            <div className="stat"><strong>{toArabicIndic(stats.rank)}</strong><small>إنت رقم كام يحلّها النهارده</small></div>
+            <div className="stat"><strong>{fasterThan(stats) === null ? toArabicIndic(stats.solvers) : `${toArabicIndic(fasterThan(stats)!)}٪`}</strong><small>{fasterThan(stats) === null ? 'حلّوها لحد دلوقتي' : 'أسرع من الناس دول'}</small></div>
+            <div className="stat"><strong>{stats.avgAttempts === null ? '–' : toArabicIndic(String(stats.avgAttempts).replace('.', '٫'))}</strong><small>متوسط محاولات الناس</small></div>
+          </div>
+        </>
       )}
+      {!practice && stats && !won && <p className="soon">{toArabicIndic(stats.solvers)} من {toArabicIndic(stats.players)} عرفوها النهارده. بكرة سؤال جديد!</p>}
       {!practice && (
         <div className="stats">
           <div className="stat"><strong>{won ? n : '–'}</strong><small>محاولات</small></div>
