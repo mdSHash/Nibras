@@ -3462,3 +3462,29 @@ entry (4A–4H-2 and the close-out, all merged).
   this design; the new modes «لقب مين؟», «رتّب الأحداث», «مين كان هناك؟», «مين قال؟» are added at every level.
 - He approved the 20-question tone sample and asked for a full question bank (5B, this branch).
 - Open: «الحدث الكامل» kept or dropped (proposed as a weekly bonus).
+
+### 5B, 5C-2 and 5E — question bank, engine update, the game (2026-11-16)
+
+- **Question bank** (`content/game/questions/`): 8 modes × 3 levels × 10 questions = 240 (Mostafa: at least 10 per mode
+  and level, so 10 days without a repeat). «من أكون؟» and «المعركة» and «المكان» have clues written in the approved tone; «السنة»,
+  «الرقم», «القائد», «العهد», «رتّب» are data questions (title, verbatim numbers, the battle's recorded leader, four events
+  with distinct dates). The build checks every clue's source quote against its record, that no clue names the answer,
+  no Qur'an text, no excluded item, leaders against the battle's roles, and order sets against the dates. The checks
+  caught two leaks (Abu Ayyub «أنصاري», المدينة «مدينة»), reworded.
+- **Six more companions** with facts (30 now) so every level of «من أكون؟» has 10: Salman, Ibn Umar, Abu Dujana, Ibn
+  Rawaha, Abu al-Darda, Hudhayfa; new «اشتهر بإيه؟» values (صاحب رأي ومشورة، فارس شجاع، شاعر، صاحب سر النبي ﷺ) and
+  اليمامة as a death place. 20 facts still await a Sunni source (data report).
+- **«المكان»**: Nibras has 10 cities, so each city is asked at every level with its clues in a level's order (easy opens
+  with the clearest) and options chosen by distance (far at easy, near at hard).
+- **Engine** (`src/challenge/engine/daily.ts`): rounds from the bank in a fixed 10-day cycle per mode and level, 5
+  options at the level's distance, up to 4 wrong picks, a clue every 2, tiles and a sentence per mode (leaders from the
+  battles' roles), level suggestion (picks or seconds), practice rounds. 36 unit tests (every mode and level for 10 days).
+- **The game**: a separate Vite build (`vite.challenge.config.ts`) into `dist/challenge/`, so the Nibras bundle and its
+  budget are untouched; `npm run build` and verify's build step build both. PWA: manifest, service worker (network-first
+  page, cached assets, offline after the first visit), Nibras's icons. Level sheet, mode tabs with ✓/✕, tile rows linking
+  into Nibras, result with the level suggestion, share (Web Share, clipboard fallback), countdown, practice, light/dark.
+  Labels moved to `shared/gameLabels.ts` so the game does not bundle Zod (game JS 74 KB gzip; data 67 KB gzip).
+- **Not yet**: real numbers on the result (5F, Supabase; the card says they are coming), a link from the Nibras header
+  (changes the main app's look and visual snapshots, so it waits for Mostafa), Umami events in the game.
+- Verify: static (497 unit tests), features 132 passed, engines (one unrelated flake, then green; the game test 4/4 in
+  WebKit and Firefox), visual 16/16, Lighthouse within budget.

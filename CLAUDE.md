@@ -30,6 +30,8 @@ assistant (`api/`) is a separate Vercel project.
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Dev server on port 3000 |
+| `npm run dev:challenge` | «تحدي اليوم» dev server on port 3001 (its own build, `vite.challenge.config.ts`) |
+| `npm run game:report` | Writes `docs/phase5/data-report.md` and `docs/phase5/question-bank.md` (the game's data and question bank, for review) |
 | `npm run verify` | Everything below plus the baseline comparisons and Playwright — run before every PR |
 | `npm run lint` | Type check (`tsc --noEmit`) |
 | `npm run lint:eslint` | ESLint |
@@ -80,6 +82,7 @@ only after Mostafa approves the list of intentional changes; never to make a tes
 - `docs/audit/` — Phase 4 content audit, one list per era (`<era>.md`, generated from `docs/audit/<era>/*.json` by `scripts/audit/report.ts`, which checks every quote against its cached page); `scripts/audit/shamela.ts` fetches and searches Shamela pages
 - `docs/territories/` — territory research (3F): uncertain rows and borders, factual conflicts, old-and-new list; `scripts/territories/` checks the ledger
 - `content/territories/` — the map's sources: `ledger/` (who held what, with sources; a row with `ev` follows that event's date), `regions.json`, `holders.json`, Natural Earth coast and rivers. `public/map-tiles/` — Relief tiles. `src/components/map/` — `TerritoryLayer` (loaded on demand), `labelPlacement.ts` (labels clear of markers)
+- `src/challenge/` — «تحدي اليوم» (Phase 5), a separate build served at `/Nibras/challenge/` (PWA: `challenge/public/` has the manifest and service worker): `engine/` (rounds from the bank, options by level, comparisons, streaks), `ui/`. Its data and question bank: `content/game/` (`questions/<mode>.json`, every clue citing the Nibras sentence it rests on; `companion-facts.json`; `tiers.json`; `exclusions.json`), built by `scripts/game/` into `src/generated/game.json`
 - `src/components/ErrorBoundary.tsx` — wrap any new major section or panel in one
 - `src/services/analytics.ts` — Umami, deploy build only; `track()` must never carry what a visitor typed
 
