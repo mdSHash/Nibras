@@ -36,8 +36,12 @@ export const DEATH_REGIONS = ['madinah', 'makkah', 'hijaz', 'sham', 'iraq', 'egy
 
 const evidence = z.array(
   z.strictObject({
-    /** `bio`, `role` or `title` of the person, or `event:<id>` (the event's place name). */
-    from: z.string().regex(/^(bio|role|title|event:.+)$/),
+    /**
+     * `bio`, `role` or `title` of the person, `event:<id>` (the event's place name), or a Sunni
+     * source on Shamela, `shamela:<book>/<page>` (usd أسد الغابة 1110, istiab الاستيعاب 12288,
+     * isaba الإصابة 9767, tabaqat الطبقات الكبرى 1686): https://shamela.ws/book/<id>/<page>.
+     */
+    from: z.string().regex(/^(bio|role|title|event:.+|shamela:(usd|istiab|isaba|tabaqat)\/\d+)$/),
     quote: text,
   }),
 );

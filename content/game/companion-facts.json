@@ -1,5 +1,5 @@
 {
-  "_note": "Facts for the «من أكون؟» tiles. Seeded from Mostafa's curated.py, re-mapped to the new tiles (2026-11-16). Every value cites its evidence: a quote that must appear in the Nibras record named in `from` (checked by the game data build), or `pending` until a Sunni source is quoted. Not reviewed yet: the mode stays off until Mostafa approves this file. `legacy` keeps curated.py's clan and «من العشرة» values, unused.",
+  "_note": "Facts for the «من أكون؟» tiles. Seeded from Mostafa's curated.py, re-mapped to the new tiles (2026-11-16). Every value cites its evidence: a quote that must appear in the Nibras record named in `from` (checked by the game data build), or `pending` until a Sunni source is quoted. Values from outside Nibras cite a Sunni source on Shamela (`shamela:<book>/<page>`), each quote checked against the page on 2026-11-16. Not reviewed yet: the mode stays off until Mostafa approves this file.",
   "people": [
     {
       "id": "abu-bakr",
@@ -57,8 +57,16 @@
       },
       "migration": {
         "value": "muhajir",
-        "evidence": [],
-        "pending": "The bio does not state his hijra to Medina; quote a Sunni source."
+        "evidence": [
+          {
+            "from": "shamela:usd/2520",
+            "quote": "أول من قدم علينا من المهاجرين"
+          },
+          {
+            "from": "shamela:usd/2520",
+            "quote": "ثم أتانا عمر بن الخطاب"
+          }
+        ]
       },
       "knownFor": {
         "value": "caliph",
@@ -139,8 +147,12 @@
       },
       "migration": {
         "value": "muhajir",
-        "evidence": [],
-        "pending": "The bio does not state his own hijra to Medina; quote a Sunni source."
+        "evidence": [
+          {
+            "from": "shamela:usd/1938",
+            "quote": "وهاجر إلى المدينة، وشهد بدرا"
+          }
+        ]
       },
       "knownFor": {
         "value": "caliph",
@@ -247,9 +259,13 @@
           {
             "from": "bio",
             "quote": "فنزل بوادي السباع"
+          },
+          {
+            "from": "shamela:isaba/1151",
+            "quote": "قتله غدرا بمكان يقال له وادي السباع"
           }
         ],
-        "pending": "Nibras names وادي السباع but not its region (near al-Basra); quote a Sunni source."
+        "pending": "Usd, Isti'ab, Isaba and al-Bidaya name وادي السباع after the Jamal but none of the cached pages places it (near al-Basra); a geography source is needed."
       },
       "legacy": {
         "clan": "بنو أسد",
@@ -287,8 +303,12 @@
       },
       "deathPlace": {
         "value": "madinah",
-        "evidence": [],
-        "pending": "The bio gives the year, not the place; quote a Sunni source."
+        "evidence": [
+          {
+            "from": "shamela:usd/1736",
+            "quote": "وتوفي سنة إحدى وثلاثين بالمدينة"
+          }
+        ]
       },
       "legacy": {
         "clan": "بنو زهرة",
@@ -308,8 +328,16 @@
       },
       "migration": {
         "value": "muhajir",
-        "evidence": [],
-        "pending": "The bio does not state his hijra; quote a Sunni source."
+        "evidence": [
+          {
+            "from": "shamela:usd/2520",
+            "quote": "أول من قدم علينا من المهاجرين"
+          },
+          {
+            "from": "shamela:usd/2520",
+            "quote": "وسعد بن أبي وقاص"
+          }
+        ]
       },
       "knownFor": {
         "value": "commander",
@@ -408,8 +436,12 @@
       },
       "deathPlace": {
         "value": "madinah",
-        "evidence": [],
-        "pending": "The bio gives no place of death; quote a Sunni source (al-ʿAqiq, buried in al-Madinah)."
+        "evidence": [
+          {
+            "from": "shamela:istiab/620",
+            "quote": "بأرضه بالعقيق، ودفن بالمدينة"
+          }
+        ]
       },
       "legacy": {
         "clan": "بنو عدي",
@@ -570,8 +602,12 @@
       },
       "migration": {
         "value": "muhajir",
-        "evidence": [],
-        "pending": "Counted a muhajir for coming to al-Madinah as a Muslim in 8 AH before the conquest; quote a Sunni source or change to «other»."
+        "evidence": [
+          {
+            "from": "shamela:usd/1830",
+            "quote": "وهاجر عثمان بن طلحة إلى رسول الله ﷺ في هدنة الحديبية مع خالد بن الوليد"
+          }
+        ]
       },
       "knownFor": {
         "value": "commander",
@@ -609,8 +645,12 @@
       },
       "migration": {
         "value": "muhajir",
-        "evidence": [],
-        "pending": "As Khalid: quote a Sunni source or change to «other»."
+        "evidence": [
+          {
+            "from": "shamela:usd/2082",
+            "quote": "فخرج من عنده مهاجرا إلى النبي ﷺ فأسلم"
+          }
+        ]
       },
       "knownFor": {
         "value": "commander",
@@ -821,7 +861,7 @@
       "migration": {
         "value": "muhajir",
         "evidence": [],
-        "pending": "The bio does not state his hijra; quote a Sunni source."
+        "pending": "No cached page states Zayd's own hijra to al-Madinah (Usd 3293 has the Prophet ﷺ pairing him with Hamza); a Sunni source is needed."
       },
       "knownFor": {
         "value": "commander",
@@ -863,8 +903,16 @@
       },
       "migration": {
         "value": "muhajir",
-        "evidence": [],
-        "pending": "The bio does not state his hijra; quote a Sunni source."
+        "evidence": [
+          {
+            "from": "shamela:usd/2520",
+            "quote": "أول من قدم علينا من المهاجرين"
+          },
+          {
+            "from": "shamela:usd/2520",
+            "quote": "ثم أتانا بعده عمار بن ياسر"
+          }
+        ]
       },
       "knownFor": {
         "value": "early",
@@ -924,8 +972,12 @@
       },
       "deathPlace": {
         "value": "madinah",
-        "evidence": [],
-        "pending": "The bio gives the year, not the place; quote a Sunni source."
+        "evidence": [
+          {
+            "from": "shamela:usd/1644",
+            "quote": "وتوفي ابن مسعود بالمدينة سنة اثنتين وثلاثين"
+          }
+        ]
       },
       "legacy": {
         "clan": "هذيل",
@@ -1006,8 +1058,12 @@
       },
       "deathPlace": {
         "value": "madinah",
-        "evidence": [],
-        "pending": "The bio gives no place of death; quote a Sunni source."
+        "evidence": [
+          {
+            "from": "shamela:usd/3151",
+            "quote": "مات بالعقيق وحمل إلى المدينة"
+          }
+        ]
       },
       "legacy": {
         "clan": "دوس",
@@ -1018,8 +1074,12 @@
       "id": "salman-al-farisi",
       "islam": {
         "value": "after",
-        "evidence": [],
-        "pending": "Became Muslim in al-Madinah after the Hijra; the bio does not say so. Quote a Sunni source."
+        "evidence": [
+          {
+            "from": "shamela:usd/1123",
+            "quote": "وتحول إلى المدينة، فجمعت شيئا فأتيته به"
+          }
+        ]
       },
       "migration": {
         "value": "other",
@@ -1045,9 +1105,16 @@
           {
             "from": "bio",
             "quote": "وتولى المدائن في بعض العهود"
+          },
+          {
+            "from": "shamela:istiab/638",
+            "quote": "قال الشعبي: توفى سلمان"
+          },
+          {
+            "from": "shamela:istiab/638",
+            "quote": "قرة الكندي بالمدائن"
           }
-        ],
-        "pending": "Nibras says he governed al-Mada'in, not that he died there. Quote a Sunni source."
+        ]
       },
       "legacy": {
         "clan": "من فارس",
@@ -1085,8 +1152,12 @@
       },
       "deathPlace": {
         "value": "makkah",
-        "evidence": [],
-        "pending": "The bio gives no place of death. Quote a Sunni source."
+        "evidence": [
+          {
+            "from": "shamela:istiab/945",
+            "quote": "ودفن بذي طوى في مقبرة المهاجرين"
+          }
+        ]
       },
       "legacy": {
         "clan": "بنو عدي",
@@ -1103,7 +1174,7 @@
             "quote": "شهد بدرا وأحدا وسائر المشاهد"
           }
         ],
-        "pending": "Badr shows he was Muslim early; the bio does not date his Islam before the Hijra. Quote a Sunni source."
+        "pending": "Usd and Isti'ab give Badr and the battles, not when he became Muslim; a Sunni source is needed."
       },
       "migration": {
         "value": "ansari",
@@ -1219,9 +1290,16 @@
           {
             "from": "bio",
             "quote": "ولاه عمر رضي الله عنه قضاء دمشق"
+          },
+          {
+            "from": "shamela:istiab/1223",
+            "quote": "ومات أبو الدرداء"
+          },
+          {
+            "from": "shamela:istiab/1223",
+            "quote": "سنة اثنتين وثلاثين بدمشق"
           }
-        ],
-        "pending": "Nibras says he was judge of Damascus, not that he died there. Quote a Sunni source."
+        ]
       },
       "legacy": {
         "clan": "الخزرج",
@@ -1232,13 +1310,26 @@
       "id": "hudhayfah-ibn-al-yaman",
       "islam": {
         "value": "before",
-        "evidence": [],
-        "pending": "The bio does not date his Islam. Quote a Sunni source."
+        "evidence": [
+          {
+            "from": "shamela:isaba/730",
+            "quote": "وأسلم حذيفة وأبوه، وأراد شهود بدر"
+          }
+        ],
+        "pending": "al-Isaba: Muslim before Badr; no cached source dates his Islam before the Hijra."
       },
       "migration": {
-        "value": "other",
-        "evidence": [],
-        "pending": "An ally of the Ansar from another tribe; the bio does not say. Quote a Sunni source."
+        "value": "ansari",
+        "evidence": [
+          {
+            "from": "shamela:usd/597",
+            "quote": "أبو عبد الله العبسي"
+          },
+          {
+            "from": "shamela:usd/597",
+            "quote": "فخيره بين الهجرة والنصرة، فاختار النصرة"
+          }
+        ]
       },
       "knownFor": {
         "value": "confidant",
@@ -1251,8 +1342,12 @@
       },
       "deathPlace": {
         "value": "iraq",
-        "evidence": [],
-        "pending": "The bio gives no place of death. Quote a Sunni source."
+        "evidence": [
+          {
+            "from": "shamela:isaba/730",
+            "quote": "استعمله عمر على المدائن، فلم يزل بها حتى مات"
+          }
+        ]
       },
       "legacy": {
         "clan": "عبس",
