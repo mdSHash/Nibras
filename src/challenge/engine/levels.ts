@@ -1,61 +1,53 @@
 /**
- * Levels and what each changes (docs/phase5/challenge-spec.md, section 3).
+ * Modes and levels of the daily challenge, as approved on 2026-11-16
+ * (docs/REFACTOR_PLAN.md, Phase 5): five options, up to four wrong picks,
+ * a clue every two wrong picks, three levels applied to every mode.
  */
-import type { Tier } from '../../../shared/gameData';
-
-export const MODES = ['who', 'battle', 'place', 'time', 'number', 'full'] as const;
+export const MODES = ['who', 'battle', 'place', 'year', 'number', 'leader', 'era', 'order'] as const;
 export type Mode = (typeof MODES)[number];
 export const LEVELS = ['easy', 'mid', 'hard'] as const;
 export type Level = (typeof LEVELS)[number];
 
+/** Options per round. */
+export const OPTION_COUNT = 5;
+/** Wrong picks before the round is lost (the fifth option would be a giveaway). */
+export const MAX_WRONG = 4;
+/** One more clue opens after this many wrong picks. */
+export const WRONG_PER_CLUE = 2;
+
 export interface LevelConfig {
-  /** Tiers the day's answer is drawn from, in order of preference. */
-  tiers: Tier[];
-  /** Tiers to borrow from, in order, when a pool has fewer than 4 items. */
-  borrow: Tier[];
-  /** Clues shown at the start of «من أكون؟» and «معركة اليوم». */
+  /** Clues shown before the first pick. */
   cluesAtStart: number;
-  attempts: Record<Mode, number>;
-  /** Year offsets for «زمان اليوم» distractors (both signs are used). */
+  /** Year offsets for «السنة» distractors (both signs are used). */
   yearOffsets: number[];
-  /** Factors for «رقم اليوم» distractors. */
+  /** Factors for «الرقم» distractors. */
   numberFactors: number[];
-  /** Minimum spacing between the four places in «الحدث الكامل», in km. */
-  placeSpacingKm: number;
+  /** Solved in this many picks or fewer counts as fast (suggest a harder level). */
+  fastPicks: number;
+  /** …or in this many seconds or fewer. */
+  fastSeconds: number;
 }
 
-const attempts = (whoBattle: number): Record<Mode, number> => ({ who: whoBattle, battle: whoBattle, place: 3, time: 3, number: 3, full: 2 });
-
 export const LEVEL_CONFIG: Record<Level, LevelConfig> = {
-  easy: {
-    tiers: [1],
-    borrow: [2],
-    cluesAtStart: 2,
-    attempts: attempts(4),
-    yearOffsets: [5, 7, 9, 12, 15, 20],
-    numberFactors: [0.25, 0.4, 2.5, 4, 6],
-    placeSpacingKm: 300,
-  },
-  mid: {
-    tiers: [2],
-    borrow: [1, 3],
-    cluesAtStart: 1,
-    attempts: attempts(4),
-    yearOffsets: [2, 3, 4, 6, 8],
-    numberFactors: [0.5, 0.65, 1.5, 1.9, 2.5],
-    placeSpacingKm: 150,
-  },
-  hard: {
-    tiers: [3, 2],
-    borrow: [1],
-    cluesAtStart: 1,
-    attempts: attempts(3),
-    yearOffsets: [1, 2, 3, 4],
-    numberFactors: [0.75, 0.85, 1.2, 1.35, 1.5],
-    placeSpacingKm: 40,
-  },
+  easy: { cluesAtStart: 2, yearOffsets: [5, 7, 9, 12, 15, 20], numberFactors: [0.25, 0.4, 2.5, 4, 6, 8], fastPicks: 2, fastSeconds: 20 },
+  mid: { cluesAtStart: 1, yearOffsets: [2, 3, 4, 6, 8], numberFactors: [0.5, 0.65, 1.5, 1.9, 2.5, 3], fastPicks: 2, fastSeconds: 25 },
+  hard: { cluesAtStart: 1, yearOffsets: [1, 2, 3, 4, 5], numberFactors: [0.6, 0.75, 0.85, 1.2, 1.35, 1.5], fastPicks: 1, fastSeconds: 30 },
 };
 
-/** Points per stage of «الحدث الكامل»; a round of 60 or more counts as won. */
-export const FULL_STAGES = { name: 40, place: 30, year: 30 } as const;
-export const FULL_WIN_POINTS = 60;
+/** Arabic names, as the level sheet and the header show them. */
+export const LEVEL_NAMES: Record<Level, { name: string; desc: string }> = {
+  easy: { name: 'لسه ببتدي', desc: 'أسئلة عن أشهر الأحداث والشخصيات، واختيارات بعيدة عن بعض، ودليلين من الأول.' },
+  mid: { name: 'عارف شوية', desc: 'أسئلة متوسطة، واختيارات أقرب لبعض، ودليل واحد في الأول.' },
+  hard: { name: 'أستاذ فيها', desc: 'أي حاجة في نبراس، واختيارات قريبة جدًا من بعض.' },
+};
+
+export const MODE_NAMES: Record<Mode, { tab: string; title: string; label: string; was: string }> = {
+  who: { tab: 'من أكون؟', title: 'مين الشخصية دي؟', label: 'الصحابي', was: 'الصحابي كان' },
+  battle: { tab: 'المعركة', title: 'أنهي معركة دي؟', label: 'المعركة', was: 'المعركة كانت' },
+  place: { tab: 'المكان', title: 'أنهي مدينة دي؟', label: 'المدينة', was: 'المدينة كانت' },
+  year: { tab: 'السنة', title: 'حصل سنة كام؟', label: 'السنة', was: 'السنة كانت' },
+  number: { tab: 'الرقم', title: 'كانوا كام؟', label: 'الرقم', was: 'الرقم كان' },
+  leader: { tab: 'القائد', title: 'مين القائد؟', label: 'القائد', was: 'القائد كان' },
+  era: { tab: 'العهد', title: 'أنهي عهد؟', label: 'العهد', was: 'العهد كان' },
+  order: { tab: 'رتّب', title: 'رتّب الأحداث من الأقدم للأحدث', label: 'الترتيب', was: 'الترتيب الصح' },
+};

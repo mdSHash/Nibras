@@ -6,6 +6,7 @@
   "scripts": {
     "predev": "npm run build:content",
     "dev": "vite --port=3000 --host=0.0.0.0",
+    "dev:challenge": "vite -c vite.challenge.config.ts",
     "dev:chat-api": "tsx scripts/dev-chat-server.ts",
     "build:content": "tsx scripts/build-content.ts",
     "build:chat-kb": "npm run build:content && tsx scripts/build-chat-kb.ts",
@@ -21,7 +22,7 @@
     "game:report": "tsx scripts/game/report.ts",
     "eval:chat": "tsx scripts/eval-chat.ts",
     "prebuild": "npm run build:content",
-    "build": "vite build && tsx scripts/prerender.ts",
+    "build": "vite build && vite build -c vite.challenge.config.ts && tsx scripts/prerender.ts",
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "prelint": "npm run build:content",

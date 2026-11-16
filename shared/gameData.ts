@@ -31,8 +31,8 @@ export const tiersSchema = z.strictObject({
 
 export const ISLAM = ['before', 'after'] as const;
 export const MIGRATION = ['muhajir', 'ansari', 'other'] as const;
-export const KNOWN_FOR = ['caliph', 'commander', 'scholar', 'family', 'early', 'ansarLeader', 'muezzin'] as const;
-export const DEATH_REGIONS = ['madinah', 'makkah', 'hijaz', 'sham', 'iraq', 'egypt', 'rum'] as const;
+export const KNOWN_FOR = ['caliph', 'commander', 'scholar', 'family', 'early', 'ansarLeader', 'muezzin', 'advisor', 'hero', 'poet', 'confidant'] as const;
+export const DEATH_REGIONS = ['madinah', 'makkah', 'hijaz', 'sham', 'iraq', 'egypt', 'rum', 'yamama'] as const;
 
 const evidence = z.array(
   z.strictObject({
@@ -130,59 +130,58 @@ export interface GameCity {
   keys: string[];
 }
 
+/** Someone who led the Muslims in a battle Nibras records (from the event's roles). */
+export interface GameLeader {
+  id: string;
+  name: string;
+  battles: { event: string; title: string; year: number; era: string }[];
+}
+
 export interface GameData {
+  leaders: GameLeader[];
+  /** The question bank (content/game/questions/), checked against the content. */
+  questions: BankQuestion[];
   eras: { id: string; nameAr: string }[];
   events: GameEvent[];
   people: GamePerson[];
   cities: GameCity[];
 }
 
-/**
- * The «من أكون؟» tiles' Arabic labels (drafted by Claude in Mostafa's Egyptian
- * register, 2026-11-16; listed for his review in docs/phase5/data-report.md).
- */
-export const FACT_LABELS = {
-  islam: { before: 'قبل الهجرة', after: 'بعد الهجرة' },
-  migration: { muhajir: 'مهاجر', ansari: 'أنصاري', other: 'من قبيلة تانية' },
-  knownFor: {
-    caliph: 'خليفة',
-    commander: 'قائد جيوش',
-    scholar: 'عالم وراوي',
-    family: 'من أهل النبي ﷺ',
-    early: 'من أوائل المسلمين',
-    ansarLeader: 'من كبار الأنصار',
-    muezzin: 'مؤذن النبي ﷺ',
-  },
-  deathPlace: {
-    madinah: 'المدينة',
-    makkah: 'مكة',
-    hijaz: 'الحجاز',
-    sham: 'الشام',
-    iraq: 'العراق',
-    egypt: 'مصر',
-    rum: 'بلاد الروم',
-  },
-  lastEra: {
-    prophet: 'عهد النبي ﷺ',
-    'abu-bakr': 'عهد أبي بكر',
-    umar: 'عهد عمر',
-    uthman: 'عهد عثمان',
-    ali: 'عهد علي',
-    after: 'بعد الخلفاء الراشدين',
-  },
-} as const satisfies {
-  islam: Record<Islam, string>;
-  migration: Record<Migration, string>;
-  knownFor: Record<KnownFor, string>;
-  deathPlace: Record<DeathRegion, string>;
-  lastEra: Record<LastEra, string>;
-};
+export { FACT_LABELS, FACT_TITLES } from './gameLabels';
 
-/** Tile titles for «من أكون؟». */
-export const FACT_TITLES = {
-  islam: 'أسلم',
-  migration: 'مهاجر ولا أنصاري؟',
-  knownFor: 'اشتهر بإيه؟',
-  lastEra: 'عاش لحد عهد مين؟',
-  deathPlace: 'اتوفّى فين',
-} as const;
+/** Modes the question bank covers (content/game/questions/<mode>.json). */
+export const BANK_MODES = ['who', 'battle', 'place', 'year', 'number', 'leader', 'era', 'order', 'title', 'there', 'quote'] as const;
+export type BankMode = (typeof BANK_MODES)[number];
+export const BANK_LEVELS = ['easy', 'mid', 'hard'] as const;
+
+const bankSource = z.strictObject({
+  /** A field of the record: person bio/role/title/name, event summary/course/full/date/place/forces/title, city description/significance/name. */
+  from: z.enum(['bio', 'role', 'title', 'name', 'summary', 'course', 'full', 'date', 'place', 'forces', 'description', 'significance']),
+  /** Another record than the answer's: `person:<id>`, `event:<id>` or `city:<id>`. */
+  of: z.string().regex(/^(person|event|city):.+$/).optional(),
+  quote: text,
+});
+
+export const questionBankSchema = z.strictObject({
+  mode: z.enum(BANK_MODES),
+  questions: z.array(
+    z.strictObject({
+      id: z.string().regex(/^[a-z0-9-]+$/),
+      level: z.enum(BANK_LEVELS),
+      /**
+       * The answer: a person id (who, leader), an event id (battle, year, era), a city id or `event:<id>`
+       * (place), `<event id>:army|enemyArmy` (number), or four event ids in order, comma-separated (order).
+       */
+      answer: z.string().min(1),
+      /** «مين القائد؟»: the battle the question is about. */
+      event: z.string().optional(),
+      /** A prompt of its own (story-style questions); the mode's default prompt otherwise. */
+      prompt: text.optional(),
+      clues: z.array(z.strictObject({ text, sources: z.array(bankSource).min(1) })),
+      /** Hand-picked wrong options (ids); the engine picks them by level otherwise. */
+      options: z.array(z.string()).optional(),
+    }),
+  ),
+});
+export type QuestionBank = z.infer<typeof questionBankSchema>;
+export type BankQuestion = QuestionBank['questions'][number] & { mode: BankMode };

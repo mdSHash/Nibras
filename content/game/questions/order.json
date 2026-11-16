@@ -1,0 +1,185 @@
+{
+ "mode": "order",
+ "questions": [
+  {
+   "id": "order-easy-1",
+   "level": "easy",
+   "answer": "journey-taif,building-mosque,treaty-hudaybiyyah,battle-yarmouk",
+   "clues": []
+  },
+  {
+   "id": "order-easy-2",
+   "level": "easy",
+   "answer": "marriage-khadija,journey-taif,treaty-hudaybiyyah,conquest-damascus",
+   "clues": []
+  },
+  {
+   "id": "order-easy-3",
+   "level": "easy",
+   "answer": "muakhat,battle-uhud,conquest-mecca,farewell-pilgrimage",
+   "clues": []
+  },
+  {
+   "id": "order-easy-4",
+   "level": "easy",
+   "answer": "year-of-sorrow,building-mosque,battle-khaybar,battle-qadisiyyah",
+   "clues": []
+  },
+  {
+   "id": "order-easy-5",
+   "level": "easy",
+   "answer": "marriage-khadija,conquest-mecca,farewell-pilgrimage,conquest-damascus",
+   "clues": []
+  },
+  {
+   "id": "order-easy-6",
+   "level": "easy",
+   "answer": "year-of-sorrow,hijra-medina,battle-uhud,event-49-تولي-أبي-بكر-الخلافة-السقيفة",
+   "clues": []
+  },
+  {
+   "id": "order-easy-7",
+   "level": "easy",
+   "answer": "hijra-medina,battle-khaybar,battle-tabuk,event-75-فتح-القدس-والعهدة-العمرية",
+   "clues": []
+  },
+  {
+   "id": "order-easy-8",
+   "level": "easy",
+   "answer": "muakhat,battle-hunayn,prophet-death,battle-qadisiyyah",
+   "clues": []
+  },
+  {
+   "id": "order-easy-9",
+   "level": "easy",
+   "answer": "battle-badr,battle-khandaq,battle-mutah,battle-yarmouk",
+   "clues": []
+  },
+  {
+   "id": "order-easy-10",
+   "level": "easy",
+   "answer": "battle-badr,battle-khandaq,battle-hunayn,event-49-تولي-أبي-بكر-الخلافة-السقيفة",
+   "clues": []
+  },
+  {
+   "id": "order-mid-1",
+   "level": "mid",
+   "answer": "umrat_alqada,event-55-جمع-القرن-الكريم-الأول,battle-ajnadayn,event-75-فتح-القدس-والعهدة-العمرية",
+   "clues": []
+  },
+  {
+   "id": "order-mid-2",
+   "level": "mid",
+   "answer": "journey-taif,building-mosque,abu-bakr-hajj-baraa,battle_firaz",
+   "clues": []
+  },
+  {
+   "id": "order-mid-3",
+   "level": "mid",
+   "answer": "fijar-war,incident_bir_mauna,battle_buzakha,conquest-damascus",
+   "clues": []
+  },
+  {
+   "id": "order-mid-4",
+   "level": "mid",
+   "answer": "umrat_alqada,battle-walaja,event-65-وفاة-أبي-بكر-الصديق,conquest-egypt",
+   "clues": []
+  },
+  {
+   "id": "order-mid-5",
+   "level": "mid",
+   "answer": "public-dawah,battle-khaybar,sariyat_khabt,battle_buzakha",
+   "clues": []
+  },
+  {
+   "id": "order-mid-6",
+   "level": "mid",
+   "answer": "ghazwat_sawiq,ghazwat_dumat_aljandal,letters-to-kings,event-50-إنفاذ-جيش-أسامة-بن-زيد",
+   "clues": []
+  },
+  {
+   "id": "order-mid-7",
+   "level": "mid",
+   "answer": "first-aqaba,hijra-medina,prophet-death,battle-bridge",
+   "clues": []
+  },
+  {
+   "id": "order-mid-8",
+   "level": "mid",
+   "answer": "fijar-war,ghazwat-hamra-al-asad,battle-hunayn,conquest-north-africa",
+   "clues": []
+  },
+  {
+   "id": "order-mid-9",
+   "level": "mid",
+   "answer": "journey-taif,ghazwat_bani_mustaliq,letters-to-kings,battle_yamama",
+   "clues": []
+  },
+  {
+   "id": "order-mid-10",
+   "level": "mid",
+   "answer": "treaty-hudaybiyyah,siege_of_taif,battle_ullais,battle-qadisiyyah",
+   "clues": []
+  },
+  {
+   "id": "order-hard-1",
+   "level": "hard",
+   "answer": "public-dawah,incident_rajeei,battle-marj-dabiq,event-98-توسعة-المسجد-الحرام",
+   "clues": []
+  },
+  {
+   "id": "order-hard-2",
+   "level": "hard",
+   "answer": "hilf-al-fudul,incident_bir_mauna,conquest_hira,conquest_jalula",
+   "clues": []
+  },
+  {
+   "id": "order-hard-3",
+   "level": "hard",
+   "answer": "medina-constitution,ghazwat_sawiq,event-93-تولي-عثمان-بن-عفان-الخلافة-الشورى,first-muslim-fleet",
+   "clues": []
+  },
+  {
+   "id": "order-hard-4",
+   "level": "hard",
+   "answer": "ghazwat-hamra-al-asad,ghazwat_bani_mustaliq,letters-to-kings,event-66-تولي-عمر-بن-الخطاب-الخلافة",
+   "clues": []
+  },
+  {
+   "id": "order-hard-5",
+   "level": "hard",
+   "answer": "sariyyat-ubaydah,ghazwat_bani_mustaliq,battle-thani,battle-bridge",
+   "clues": []
+  },
+  {
+   "id": "order-hard-6",
+   "level": "hard",
+   "answer": "medina-constitution,battle-ajnadayn,conquest-madain,lost-ring-bir-aris",
+   "clues": []
+  },
+  {
+   "id": "order-hard-7",
+   "level": "hard",
+   "answer": "banu-qurayza,event-55-جمع-القرن-الكريم-الأول,battle_firaz,event-65-وفاة-أبي-بكر-الصديق",
+   "clues": []
+  },
+  {
+   "id": "order-hard-8",
+   "level": "hard",
+   "answer": "first-aqaba,event-50-إنفاذ-جيش-أسامة-بن-زيد,event-55-جمع-القرن-الكريم-الأول,battle-walaja",
+   "clues": []
+  },
+  {
+   "id": "order-hard-9",
+   "level": "hard",
+   "answer": "battle-hasid,conquest-egypt,event-96-نسخ-المصحف-الإمام-المصحف-العثماني,conquest-sijistan",
+   "clues": []
+  },
+  {
+   "id": "order-hard-10",
+   "level": "hard",
+   "answer": "public-dawah,banu-qaynuqa,conquest_jalula,conquest-raqqa",
+   "clues": []
+  }
+ ]
+}

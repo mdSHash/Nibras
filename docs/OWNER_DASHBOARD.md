@@ -176,3 +176,13 @@ time of writing 256 MB and 500,000 commands a month); a question uses about 5 co
 7. **Umami**: visitors and top pages; `chat_asked` with `not_covered` and `search_used` with `none` point at missing content.
 8. **Search Console → Performance and Pages**: queries, clicks, and pages not indexed.
 9. Monthly: **Sentry → Settings → Stats & Usage** (free plan: 5,000 errors a month); **Umami** usage against its 100,000 events.
+
+## Supabase (the daily challenge's numbers)
+
+- Project **nibras** (`kcxegvkkewuwaushhbis`), free tier, eu-central-1, organization "mdSHash's Org". Created 2026-11-16.
+- One table, `challenge_results` (one row per device, day, level and mode; no personal data), and one function,
+  `challenge_stats`, that returns totals only. Schema: `supabase/migrations/20261116103000_challenge_results.sql`.
+- The game uses the **publishable** key (public by design; in `.github/workflows/deploy.yml`). Row-level security lets it
+  add today's result and nothing else; nobody can read rows through the API.
+- Free projects pause after a week without traffic; the daily game keeps it awake. If it pauses, the game still plays
+  and hides the numbers; restore it from the Supabase dashboard.

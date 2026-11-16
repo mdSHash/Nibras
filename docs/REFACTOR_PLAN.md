@@ -686,103 +686,103 @@ fun to share in WhatsApp groups, and an easy door into Nibras whether they answe
 
 ### The idea: «تحدي اليوم» (Nibras Daily Challenge)
 
-A short daily puzzle game built only from facts already in Nibras.
+A daily guessing game in the shape of Wordle-style games, built only from facts already in Nibras.
+Design approved by Mostafa on 2026-11-16 after three rounds of prototypes (the approved one:
+https://claude.ai/artifact/9R9sMW7mcrs9CUY7oaYDKj).
 
-- **Six modes**, one puzzle each per day: «من أكون؟» (a companion), «معركة اليوم» (a battle),
-  «مكان اليوم» (a city, on a map), «زمان اليوم» (an event's year), «رقم اليوم» (an army's size),
-  «الحدث الكامل» (name + place + year, 100 points).
-- **Three levels**, each its own daily puzzle, saved state and streak: «لسه ببتدي» (easy), «عارف
-  شوية» (mid), «أستاذ فيها» (hard). Levels change the pool (difficulty tiers 1–3), clues shown at
-  start, attempts and how close the wrong options are. Fun with zero prior knowledge.
-- **Every answer is one of 4 options.** No typing. A wrong pick uses an attempt, opens the next clue
-  and says in plain words how the answer differs. Everyone gets the same puzzle and options on the
-  same day (seed: Cairo date + mode + level).
-- **A door into Nibras at every answer**, never an automatic redirect: after a pick, right or wrong,
-  a quiet «اعرف أكتر في نبراس» link about the item picked, opening Nibras in a new tab so the round
-  is kept. The link to the answer itself appears only once the round is over (no spoilers). The
-  result screen's main button deep-links to the answer's event, person or city page.
-- **Real numbers after each answer**, never invented: «إنت رقم ٣٧ يحل سؤال النهارده», «حليته أسرع
-  من ٢٠٪ من اللي جاوبوا». Until a puzzle has about 20 answers, a true sentence replaces the
-  percentage («إنت من أوائل اللي حلّوه النهارده»).
-- **Looks like part of Nibras** (its tokens, fonts, light and dark), redesigned from the prototype;
-  the visual direction is picked from 3–4 concept-different live prototypes.
-- **Two doors, one codebase:** a standalone page at `/Nibras/challenge/` for marketing, installable
-  as a PWA (phone and desktop, works offline after the first visit), and the same game inside Nibras
-  from a header button (desktop) and the phone ⋮ menu.
-- **Guests play everything.** No account in Phase 5. Phase 6 adds Google sign-in to keep achievements
-  across devices and appear on a leaderboard; Phase 5 saves guest progress in a shape that merges into
-  an account later.
+- **One round = a question, five options, tiles.** The question and its first clue show before any
+  pick. The player picks one of **5 options**. A wrong pick is struck out and adds **one row of
+  colored tiles** comparing it with the answer (green same, yellow close, red different, arrows for
+  before/after and bigger/smaller), plus a plain sentence. Another clue opens every 2 wrong picks. At
+  most 4 wrong picks, so up to 4 rows to learn from.
+- **Modes, one daily question each, at every level:**
+  - «من أكون؟» (a companion): tiles أسلم (قبل/بعد الهجرة) · مهاجر ولا أنصاري؟ · اشتهر بإيه؟ · عاش
+    لحد عهد مين (↑↓, yellow = adjacent era) · اتوفّى فين (yellow = both in the Hijaz).
+  - «المعركة»: السنة (↑ حصلت بعدها / ↓ قبلها, yellow within 2 years) · العهد (yellow adjacent) · النبي ﷺ
+    فيها؟ · المسافة and direction (green under 30 km, yellow under 400 km).
+  - «المكان» (a city): المسافة · الاتجاه.
+  - «السنة» (an event's year): before or after only, never how far.
+  - «الرقم» (an army's size): bigger or smaller (yellow within 50%).
+  - New (2026-11-16): «لقب مين؟» (a companion from his Nibras title, with the «من أكون؟» tiles),
+    «رتّب الأحداث» (put 4 events in order; a tile per position, green when in place), «مين كان
+    هناك؟» (which of 5 companions took part in an event, from the event's people in Nibras), «مين
+    قال؟» (who said a well-known sentence; only sentences from a sound Sunni narration, each checked).
+  - «الحدث الكامل» (name, place, year) from the first spec: kept out of the daily set for now,
+    possible weekly bonus (Mostafa to decide).
+- **Three levels**, applied to every mode at once, each with its own daily questions and streak:
+  «لسه ببتدي» (famous items, options far apart, two clues at start), «عارف شوية» (medium, closer
+  options, one clue), «أستاذ فيها» (anything in Nibras, very close options). Picked on the first visit
+  from a bottom sheet; changeable any time from the header.
+- **Level suggestions:** solved fast (1–2 picks, or under a time limit per level) → «شكلك عارف أكتر
+  من كده، تحب مستوى أصعب؟»; struggled (4 picks) → an easier level offered. One tap switches every mode;
+  never automatic.
+- **Daily rhythm:** questions change at midnight Cairo time; a live countdown in the header and on the
+  result («السؤال الجاي بعد ٠٧:٤٢:١٠»). After the daily question, **unlimited practice rounds** at the
+  player's level, clearly marked as not counting for the streak or the stats.
+- **Result:** the answer, a verbatim Nibras fact line, a sentence that fits the play («من أول
+  محاولة!», «إنت من أول ١٠٠ حلّوها»، «حليتها أسرع من ٦٣٪»), three real numbers (your rank today,
+  faster than X%, players' average picks), copy-and-share as a plain sentence (no colored-square grid),
+  «اعرف أكتر في نبراس», the countdown, the next unsolved mode, practice.
+- **A door into Nibras, never a redirect:** every option name in a tile row links to its Nibras page
+  (new tab); the result's button deep-links to the answer.
+- **Two doors, one codebase:** standalone PWA at `/Nibras/challenge/` (marketing) and the same game
+  inside Nibras (header button, phone ⋮ menu).
+- **Guests play everything.** Phase 6 adds Google sign-in to keep achievements and join a leaderboard.
 
-Full behaviour (modes, tiles, distractor rules, result screen, seed, persistence) is in
-`docs/phase5/challenge-spec.md`: Mostafa's spec with the amendments agreed in the 2026-11-15/16
-session at its top. The prototype (reference for behaviour only, not for look or code):
-https://claude.ai/artifact/Ud2B5np93UGpBvbSSCKV8B
+`docs/phase5/challenge-spec.md` keeps Mostafa's first spec with the agreed amendments at its top;
+where they disagree with this section, this section wins.
 
 ### Rules for this phase
 
-- **Game text is new content, Nibras records are not touched.** Questions and clues are written for
-  the game (smart, smooth, curiosity-raising; a famous figure like Khalid can be asked in a way that
-  hides him) and live in `content/game/`. They state no fact that is not in Nibras's reviewed
-  content, except the «من أكون؟» facts, each of which cites a Sunni source. Claude writes them in the
-  session (no Gemini/Groq/OpenRouter quota). Mostafa approves a sample of 20 for tone first; every
-  item is then listed in the PR for spot checks (he trusts the rest, 2026-11-16).
+- **The question bank is new content; Nibras records are not touched.** Questions and clues are
+  written for the game (smart, smooth, curiosity-raising) in `content/game/questions/`, one file per
+  mode. Every clue cites the Nibras sentence it rests on (checked by the build); no fact outside
+  Nibras, except the «من أكون؟» facts and «مين قال؟» sentences, each with a Sunni source. Claude writes
+  them in the session (no Gemini/Groq/OpenRouter quota). Mostafa approved the tone (20-item sample,
+  2026-11-16); the bank is listed in the PR for spot checks.
 - **No Quran text in the game.** Never draw the Prophet ﷺ or any companion. Nothing that works like
-  gambling (no random rewards, spins, loot). No ads, no payments, free tiers only.
-- **Respect:** excluded from every pool and every distractor list (one config file): the `ali` era
-  (the fitna, Jamal, Siffin), `incident_ifk`, Uthman's martyrdom
-  (`event-105-استشهاد-عثمان-بن-عفان-يوم-الدار`), `siege-of-uthman-house`, `abu-dharr-rabadhah`,
-  `year-of-passing-32ah`.
-- **«من أكون؟» tiles** (replacing tribe and «شهد بدر», which ordinary players can't reason about):
-  أسلم (قبل/بعد الهجرة) · مهاجر ولا أنصاري؟ · اشتهر بإيه؟ (خليفة / قائد جيوش / عالم وراوي / من آل
-  بيت النبي ﷺ / …) · عاش لحد عهد مين؟ (yellow = adjacent era; the hard level shows the death year
-  instead) · اتوفّى فين (region, distance and direction). Under every wrong row a plain sentence:
-  «اللي بندوّر عليه: …». The mode ships behind a flag until Mostafa approves the facts file.
-- **Stats backend (free):** Supabase free tier (the same project Phase 6 uses for sign-in). The game
-  posts {puzzle, level, mode, attempts, seconds, won, random device id} through a function on the
-  existing Vercel project, which rate-limits and drops impossible times; no personal data, nothing
-  typed. The game works fully if the backend is down (the stats line is simply hidden).
-- **Analytics:** Umami events for round started and finished (mode, level, won, attempts, streak),
-  deploy build only.
-- All UI Arabic and RTL; Mostafa's Egyptian-dialect strings used as written; strings he did not write
-  (aria-labels, error and empty states) drafted in the same dialect and listed for him.
-- `src/battlefield/` stays frozen. Bundle budget: the main Nibras bundle must not grow noticeably;
-  the game and its map load on demand.
+  gambling. No ads, no payments, free tiers only.
+- **Respect:** excluded from every pool and distractor list (`content/game/exclusions.json`): the
+  `ali` era, Ifk, Uthman's martyrdom and the siege, Abu Dharr's move to al-Rabadhah,
+  `year-of-passing-32ah`, the start of the fitna, the complaints against governors, the Kufans sent to
+  al-Sham; clues touching the fitna are dropped.
+- **Stats backend (free):** Supabase free tier via a function on the existing Vercel project
+  (rate-limited, impossible times dropped, random device id, no personal data). The game works if it is
+  down (the numbers are hidden).
+- **Analytics:** Umami events for round started and finished, deploy build only.
+- All UI Arabic and RTL, in Mostafa's Egyptian register. `src/battlefield/` stays frozen. The main
+  Nibras bundle must not grow noticeably; the game loads on demand.
 
 ### Phase 5 — «تحدي اليوم»
 
-One session per item, each with its own branch (`feature/phase-5a-…`) and PR, merged before the next.
+One session per item, each with its own branch and PR.
 
-- [ ] **5A — Data.** `scripts/` builds the game dataset from `content/events`, `people`, `cities`
-      (year parsing with ق.هـ and وقيل, kinds, forces, masked clues with leak checks), validated with
-      Zod, part of the content build and `npm run verify`. `content/game/`: exclusions config,
-      difficulty tiers (Mostafa's defaults from the spec), the «من أكون؟» facts file (new tiles,
-      every value with its source; id check against `content/people`). A content report: exclusions,
-      dropped clues, counts per mode, level and tier, pools under 4 items. Review lists for Mostafa.
-- [ ] **5B — Game text.** The question and clue wording for every pool item in `content/game/`,
-      20-item sample approved first, schema and checks (every referenced id exists, no Quran text,
-      no excluded item).
-- [ ] **5C — Engine.** Seed, level config, option generators, scoring (half points on a second try
-      in «الحدث الكامل»), plain-words hints, streaks, versioned local persistence typed as
-      `GameResult` / `DailyState` (ready to merge into an account). Fully unit-tested, no UI.
-- [ ] **5D — Design.** 3–4 concept-different live prototypes of the game shell, a round and the
-      result screen, in Nibras's look, phone and desktop, light and dark. Mostafa picks.
+- [x] **5A — Data** (PR #55): dataset from `content/`, exclusions, tiers, «من أكون؟» facts, report.
+- [x] **5C — Engine** (PR #56): seed, levels, options, comparisons, scoring, streaks, persistence.
+- [x] **5D — Design**: approved 2026-11-16 (three rounds; see the artifact above).
+- [ ] **5B — Question bank.** Schema and build checks for `content/game/questions/<mode>.json`
+      (ids exist, every clue's source quote is in its record, no Quran text, no excluded item, every
+      level has enough questions); the bank itself for every mode and level, written in the approved
+      tone; a review list for Mostafa. Grow the «من أكون؟» pool beyond 24 (more Ansar and non-Qurashi
+      companions, facts sourced) so «مهاجر ولا أنصاري؟» separates better.
+- [ ] **5C-2 — Engine update** to the approved design: 5 options, up to 4 wrong picks, a clue every 2,
+      the new modes and their tiles, the level suggestion (picks and time), practice rounds that never
+      touch the streak or stats, the countdown.
 - [ ] **5E — The game.** The standalone entry `/Nibras/challenge/` (own HTML entry, manifest, service
-      worker, icons) and the in-Nibras door; shell, level picker, all six modes (map modes with the
-      relief tiles and nothing else on the map), «اعرف أكتر في نبراس» links, result screen, sharing
-      (Web Share, clipboard fallback), countdown. «من أكون؟» behind its flag.
+      worker, icons) and the in-Nibras door; level sheet, mode tabs, rounds, tile rows, result screen,
+      level suggestion, practice, countdown, share (Web Share, clipboard fallback).
 - [ ] **5F — Real stats.** Supabase project (free; Claude creates it), table and row-level security,
-      the Vercel function with rate limits, the stats line on the result screen with its small-count
-      fallback, Umami events, `.env.example` and `docs/OWNER_DASHBOARD.md` updated.
-- [ ] **Tests (each session for its part):** unit tests for year parsing, seed stability, option
-      generators (4 unique options with the answer, level rules, no year 0, numbers >7% apart),
-      scoring, masking and exclusions; Playwright at 390 px playing one round of every mode at every
-      level to the result screen with no console errors, in both doors; PWA installability check;
-      visual snapshots of the level picker and result screen in light and dark.
+      the Vercel function with rate limits, the numbers on the result with a true small-count sentence,
+      Umami events, `.env.example` and `docs/OWNER_DASHBOARD.md` updated.
+- [ ] **Tests (each session for its part):** unit tests for the bank checks, options (5 unique with the
+      answer, level rules), comparisons, scoring and streaks; Playwright at 390 px playing every mode
+      at every level to the result with no console errors, in both doors; level suggestion and practice;
+      PWA installability; visual snapshots of the level sheet and the result in light and dark.
 
-Done when: a guest can play all six modes at all three levels on phone and desktop, from the
-standalone PWA and from inside Nibras; every answer offers a way into Nibras; real stats show after a
-round; the game text sample, tiers and exclusions are approved (and the «من أكون؟» facts, before that
-mode is switched on); the main bundle stays within budget; and `npm run verify` passes.
+Done when: a guest can play every mode at all three levels on phone and desktop, from the standalone
+PWA and from inside Nibras; the level suggestion, countdown and practice work; every answer offers a
+way into Nibras; real numbers show after a round; the question bank is reviewed; the main bundle stays
+within budget; and `npm run verify` passes.
 
 ### Phase 6 — Accounts and leaderboard for the game
 

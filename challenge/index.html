@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>تحدي اليوم · نبراس</title>
+    <meta name="description" content="لعبة يومية من نبراس: خمّن الصحابي والمعركة والمكان والسنة. سؤال جديد كل يوم، وتلات مستويات من المبتدئ للأستاذ." />
+    <meta name="theme-color" content="#1c1512" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icon-192.png" type="image/png" />
+    <link rel="apple-touch-icon" href="icon-192.png" />
+    <meta property="og:title" content="تحدي اليوم · نبراس" />
+    <meta property="og:description" content="خمّن الصحابي والمعركة والمكان والسنة. سؤال جديد كل يوم." />
+    <meta property="og:image" content="og-image.png" />
+    <script>
+      // The same rule as Nibras: a remembered choice, else the system setting, before the first paint.
+      try {
+        var t = localStorage.getItem('nibras.challenge.theme');
+        if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>تحدي اليوم محتاج JavaScript عشان يشتغل.</noscript>
+    <script type="module" src="../src/challenge/main.tsx"></script>
+  </body>
+</html>

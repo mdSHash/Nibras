@@ -144,6 +144,10 @@ jobs:
           # project (api/). Not a secret — just an endpoint address; the
           # actual LLM API keys live server-side, only in Vercel's env vars.
           VITE_CHAT_API_URL: https://nibras-chat-api.vercel.app/api/chat
+          # «تحدي اليوم» numbers (Supabase project nibras, free tier). Public by design: the
+          # publishable key can only add today's result and read totals (row-level security).
+          VITE_SUPABASE_URL: https://kcxegvkkewuwaushhbis.supabase.co
+          VITE_SUPABASE_PUBLISHABLE_KEY: sb_publishable_nudzue9k-fwUV3hgcdfH9Q_4-UhYxRW
           # Sentry crash reporting (docs/OWNER_DASHBOARD.md). The DSN is public by
           # design; the auth token (secret) uploads source maps for this release.
           VITE_SENTRY_DSN: ${{ vars.VITE_SENTRY_DSN }}

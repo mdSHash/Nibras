@@ -125,3 +125,43 @@ describe('docs/phase5/data-report.md', () => {
     expect(render(report!)).toBe(committed);
   });
 });
+
+describe('the question bank (content/game/questions/)', () => {
+  const root = join(import.meta.dirname, '..');
+  const { raw } = readContent(join(root, 'content'));
+  const { content } = checkContent(raw);
+
+  it('loads every question with no issues', () => {
+    const { report, issues } = buildGameData(content, join(root, 'content', 'game'));
+    expect(issues).toEqual([]);
+    expect(report!.data.questions.filter((q) => q.mode === 'who').length).toBeGreaterThanOrEqual(24);
+  });
+
+  it('catches a quote that is not in the record and a clue that names the answer', async () => {
+    const fs = await import('node:fs');
+    const os = await import('node:os');
+    const tmp = fs.mkdtempSync(join(os.tmpdir(), 'bank-'));
+    fs.cpSync(join(root, 'content', 'game'), tmp, { recursive: true });
+    const file = join(tmp, 'questions', 'who.json');
+    const text = fs
+      .readFileSync(file, 'utf8')
+      .replace('أول من آمن برسول الله ﷺ من الرجال', 'أول من آمن برسول الله ﷺ من النساء')
+      .replace('أول راجل آمن بالنبي ﷺ.', 'أبو بكر أول راجل آمن بالنبي ﷺ.');
+    fs.writeFileSync(file, text);
+    const messages = buildGameData(content, tmp).issues.map((i) => i.message);
+    expect(messages.some((m) => m.includes('who-abu-bakr') && m.includes('is not in the bio'))).toBe(true);
+    expect(messages.some((m) => m.includes('who-abu-bakr') && m.includes('names the answer'))).toBe(true);
+    fs.rmSync(tmp, { recursive: true, force: true });
+  });
+});
+
+describe('docs/phase5/question-bank.md', () => {
+  it('is up to date (npm run game:report)', async () => {
+    const { readFileSync } = await import('node:fs');
+    const { renderBank } = await import('../scripts/game/bankReport');
+    const { raw } = readContent(join(import.meta.dirname, '..', 'content'));
+    const { report } = buildGameData(checkContent(raw).content, join(import.meta.dirname, '..', 'content', 'game'));
+    const committed = readFileSync(join(import.meta.dirname, '..', 'docs', 'phase5', 'question-bank.md'), 'utf8').replace(/\r\n/g, '\n');
+    expect(renderBank(report!.data)).toBe(committed);
+  });
+});

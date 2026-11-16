@@ -4,22 +4,8 @@
  * localStorage, versioned, every access guarded: the game works without it.
  * Typed so Phase 6 can merge it into an account.
  */
-import { FULL_STAGES, FULL_WIN_POINTS, LEVEL_CONFIG, type Level, type Mode } from './levels';
+import { MAX_WRONG, type Level, type Mode } from './levels';
 import { previousDay } from './seed';
-
-export type FullStage = keyof typeof FULL_STAGES;
-
-/** Points for one stage of «الحدث الكامل»: full on the first try, half on the second, 0 after two misses. */
-export function stagePoints(stage: FullStage, triesUsed: number, correct: boolean): number {
-  if (!correct) return 0;
-  if (triesUsed === 1) return FULL_STAGES[stage];
-  if (triesUsed === 2) return FULL_STAGES[stage] / 2;
-  return 0;
-}
-
-export function fullWon(points: number): boolean {
-  return points >= FULL_WIN_POINTS;
-}
 
 /** The result headline by attempt (spec, section 7). */
 export function headline(won: boolean, attempts: number, allowed: number): string {
@@ -37,9 +23,8 @@ export interface GameResult {
   mode: Mode;
   level: Level;
   won: boolean;
-  /** Attempts used, or points in «الحدث الكامل». */
+  /** Picks used, the right one included. */
   attempts: number;
-  points?: number;
   seconds: number;
 }
 
@@ -111,5 +96,5 @@ export function visibleStreak(streak: Streak, today: string): number {
   return streak.lastWin === today || streak.lastWin === previousDay(today) ? streak.current : 0;
 }
 
-/** Attempts allowed for a mode at a level. */
-export const attemptsFor = (mode: Mode, level: Level): number => LEVEL_CONFIG[level].attempts[mode];
+/** Picks allowed in a round: four wrong ones, then the round is lost. */
+export const PICKS_ALLOWED = MAX_WRONG + 1;

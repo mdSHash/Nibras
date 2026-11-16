@@ -115,7 +115,7 @@ test('every header button is inside the viewport @phone', async ({ page }, testI
   expect(await outside()).toEqual([]);
   if (testInfo.project.name.startsWith('phone')) {
     await header.menu(page).click();
-    await expect(page.getByRole('menuitem')).toHaveCount(5);
+    await expect(page.getByRole('menuitem')).toHaveCount(6);
     expect(await outside()).toEqual([]);
   }
 });

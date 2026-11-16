@@ -1,0 +1,245 @@
+{
+ "mode": "leader",
+ "questions": [
+  {
+   "id": "leader-battle-yarmouk",
+   "level": "easy",
+   "answer": "khalid",
+   "event": "battle-yarmouk",
+   "prompt": "مين قاد المسلمين في «معركة اليرموك»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-battle-qadisiyyah",
+   "level": "easy",
+   "answer": "saad",
+   "event": "battle-qadisiyyah",
+   "prompt": "مين قاد المسلمين في «معركة القادسية»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-battle-mutah",
+   "level": "easy",
+   "answer": "zayd",
+   "event": "battle-mutah",
+   "prompt": "مين قاد المسلمين في «معركة مؤتة»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-conquest-egypt",
+   "level": "easy",
+   "answer": "amr",
+   "event": "conquest-egypt",
+   "prompt": "مين قاد المسلمين في «فتح مصر»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-sariyyat-hamza",
+   "level": "easy",
+   "answer": "hamza",
+   "event": "sariyyat-hamza",
+   "prompt": "مين قاد المسلمين في «سرية حمزة بن عبد المطلب (سيف البحر)»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-conquest-madain",
+   "level": "easy",
+   "answer": "saad",
+   "event": "conquest-madain",
+   "prompt": "مين قاد المسلمين في «فتح المدائن (عاصمة الفرس)»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-conquest-alexandria",
+   "level": "easy",
+   "answer": "amr",
+   "event": "conquest-alexandria",
+   "prompt": "مين قاد المسلمين في «فتح الإسكندرية»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-battle-buzakha",
+   "level": "easy",
+   "answer": "khalid",
+   "event": "battle_buzakha",
+   "prompt": "مين قاد المسلمين في «معركة بزاخة»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-conquest-homs",
+   "level": "easy",
+   "answer": "abu-ubaidah-ibn-al-jarrah",
+   "event": "conquest-homs",
+   "prompt": "مين قاد المسلمين في «فتح حمص»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-conquest-iraq-start",
+   "level": "easy",
+   "answer": "khalid",
+   "event": "conquest-iraq-start",
+   "prompt": "مين قاد المسلمين في «بداية فتح العراق (ذات السلاسل)»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-battle-bridge",
+   "level": "mid",
+   "answer": "abu-ubaid-al-thaqafi",
+   "event": "battle-bridge",
+   "prompt": "مين قاد المسلمين في «موقعة الجسر»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-battle-buwaib",
+   "level": "mid",
+   "answer": "al-muthanna-ibn-harithah",
+   "event": "battle-buwaib",
+   "prompt": "مين قاد المسلمين في «معركة البويب»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-battle-nahavand",
+   "level": "mid",
+   "answer": "al-numan-ibn-muqarrin",
+   "event": "battle-nahavand",
+   "prompt": "مين قاد المسلمين في «معركة نهاوند (فتح الفتوح)»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-battle-fahl",
+   "level": "mid",
+   "answer": "abu-ubaidah-ibn-al-jarrah",
+   "event": "battle_fahl",
+   "prompt": "مين قاد المسلمين في «معركة فحل بيسان»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-conquest-antioch",
+   "level": "mid",
+   "answer": "abu-ubaidah-ibn-al-jarrah",
+   "event": "conquest-antioch",
+   "prompt": "مين قاد المسلمين في «فتح أنطاكية»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-conquest-aleppo",
+   "level": "mid",
+   "answer": "abu-ubaidah-ibn-al-jarrah",
+   "event": "conquest-aleppo",
+   "prompt": "مين قاد المسلمين في «فتح حلب»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-battle-masts",
+   "level": "mid",
+   "answer": "abdullah-ibn-saad-ibn-abi-sarh",
+   "event": "battle-masts",
+   "prompt": "مين قاد المسلمين في «معركة ذات الصواري»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-sariyyat-nakhla",
+   "level": "mid",
+   "answer": "abdullah-ibn-jahsh",
+   "event": "sariyyat-nakhla",
+   "prompt": "مين قاد المسلمين في «سرية عبد الله بن جحش (نخلة)»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-conquest-tustar",
+   "level": "mid",
+   "answer": "abu-musa-al-ashari",
+   "event": "conquest_tustar",
+   "prompt": "مين قاد المسلمين في «فتح تستر»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-sariyat-khabt",
+   "level": "mid",
+   "answer": "abu-ubaidah-ibn-al-jarrah",
+   "event": "sariyat_khabt",
+   "prompt": "مين قاد المسلمين في «سرية الخبط (جيش الخبط)»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-battle-balanjar",
+   "level": "hard",
+   "answer": "abd-al-rahman-ibn-rabiah",
+   "event": "battle-balanjar",
+   "prompt": "مين قاد المسلمين في «وقعة بلنجر»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-battle-hasid",
+   "level": "hard",
+   "answer": "al-qaqa-ibn-amr",
+   "event": "battle-hasid",
+   "prompt": "مين قاد المسلمين في «معركة الحصيد»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-battle-marj-dabiq",
+   "level": "hard",
+   "answer": "khalid-ibn-said",
+   "event": "battle-marj-dabiq",
+   "prompt": "مين قاد المسلمين في «معركة مرج الصفر»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-conquest-edessa",
+   "level": "hard",
+   "answer": "iyad-ibn-ghanm",
+   "event": "conquest-edessa",
+   "prompt": "مين قاد المسلمين في «فتح الرها»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-conquest-rayy-jurjan",
+   "level": "hard",
+   "answer": "saeed-ibn-al-as",
+   "event": "conquest-rayy-jurjan",
+   "prompt": "مين قاد المسلمين في «أذربيجان وجرجان: تجديد الصلح وغزو سعيد بن العاص»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-conquest-sijistan",
+   "level": "hard",
+   "answer": "abdullah-ibn-amir",
+   "event": "conquest-sijistan",
+   "prompt": "مين قاد المسلمين في «فتح سجستان وكابل»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-conquest-khorasan",
+   "level": "hard",
+   "answer": "abdullah-ibn-amir",
+   "event": "conquest_khorasan",
+   "prompt": "مين قاد المسلمين في «فتح خراسان الأكبر»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-conquest-jalula",
+   "level": "hard",
+   "answer": "hashim-ibn-utbah",
+   "event": "conquest_jalula",
+   "prompt": "مين قاد المسلمين في «فتح جلولاء»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-battle-namariq",
+   "level": "hard",
+   "answer": "abu-ubaid-al-thaqafi",
+   "event": "battle_namariq",
+   "prompt": "مين قاد المسلمين في «معركة النمارق»؟",
+   "clues": []
+  },
+  {
+   "id": "leader-conquest-raqqa",
+   "level": "hard",
+   "answer": "iyad-ibn-ghanm",
+   "event": "conquest-raqqa",
+   "prompt": "مين قاد المسلمين في «فتح الرقة»؟",
+   "clues": []
+  }
+ ]
+}
