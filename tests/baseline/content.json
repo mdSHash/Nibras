@@ -10726,8 +10726,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "ali-caliphate.description.da5c64f5.m4a",
+        "descriptionExists": true,
         "titleFile": "ali-caliphate.title.d75b4d25.m4a",
         "titleExists": true
       }
@@ -10840,8 +10840,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "march-to-basra-pre-jamal.description.0e62c8e9.m4a",
+        "descriptionExists": true,
         "titleFile": "march-to-basra-pre-jamal.title.15c238ab.m4a",
         "titleExists": true
       }
@@ -10946,8 +10946,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-camel.description.40feec66.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-camel.title.fff67155.m4a",
         "titleExists": true
       }
@@ -11006,8 +11006,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "capital-moves-to-kufa.description.d2f41382.m4a",
+        "descriptionExists": true,
         "titleFile": "capital-moves-to-kufa.title.e451cbae.m4a",
         "titleExists": true
       }
@@ -11103,8 +11103,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "muawiyah-refuses-bayah.description.a9ab01c9.m4a",
+        "descriptionExists": true,
         "titleFile": "muawiyah-refuses-bayah.title.46668d01.m4a",
         "titleExists": true
       }

@@ -2105,9 +2105,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "ali-caliphate.description.c788c9a3.m4a",
-        "textHash": "c788c9a3b1b2625679f6124f996762c26be5727f633ae1cfab90fb318edc437d",
-        "durationSec": 55,
+        "file": "ali-caliphate.description.da5c64f5.m4a",
+        "textHash": "da5c64f5cf08d9a33c34d7c8922e5a58b67da4d5bfff2b54e743ba6a6a9480ce",
+        "durationSec": 84.16,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -2121,9 +2121,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "march-to-basra-pre-jamal.description.a5eccf2d.m4a",
-        "textHash": "a5eccf2d497f694e1ea73100b44a36f0205b2d0518455db51a3cb8ab82916c4f",
-        "durationSec": 74.88,
+        "file": "march-to-basra-pre-jamal.description.0e62c8e9.m4a",
+        "textHash": "0e62c8e924ebce50efc64f5b7801443a4e2f8852dbb842ab19afadd4f4ffe48a",
+        "durationSec": 76.24,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -2137,9 +2137,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-camel.description.2e824d02.m4a",
-        "textHash": "2e824d0203567a2807fdb0198931a46d52d3160d8fd159516629d1072b76abde",
-        "durationSec": 58.84,
+        "file": "battle-camel.description.40feec66.m4a",
+        "textHash": "40feec66d1cda353a805c24a1b23eecf174c43111313c8b953c5fc9aedca3ccd",
+        "durationSec": 95.24,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -2153,9 +2153,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "capital-moves-to-kufa.description.f5eb9413.m4a",
-        "textHash": "f5eb941354b452fb434d96a1393094f7dbcc93a96cf0bb428e253cebe4b91e37",
-        "durationSec": 41,
+        "file": "capital-moves-to-kufa.description.d2f41382.m4a",
+        "textHash": "d2f413826fb8b11093c7633264e1b41b66e68786608dc7cd14b213d66a1be9cc",
+        "durationSec": 31.92,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -2169,9 +2169,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "muawiyah-refuses-bayah.description.1a5d18e3.m4a",
-        "textHash": "1a5d18e3b6af798d6512ec2ff151bda58fff4c2768aea289f7835f257e4b3cfd",
-        "durationSec": 93.08,
+        "file": "muawiyah-refuses-bayah.description.a9ab01c9.m4a",
+        "textHash": "a9ab01c981cd2fc4cea21585c4908132aa2f232c6f3a3b30096199567603d6fe",
+        "durationSec": 97.56,
         "engine": "gemini",
         "voice": "Charon"
       }
