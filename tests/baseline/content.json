@@ -10063,10 +10063,10 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "descriptionFile": "year-of-passing-32ah.description.3945b448.m4a",
+        "descriptionExists": true,
+        "titleFile": "year-of-passing-32ah.title.15b0c335.m4a",
+        "titleExists": true
       }
     },
     {
@@ -10135,10 +10135,10 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "descriptionFile": "kufa-exiles-to-sham.description.8c7f2606.m4a",
+        "descriptionExists": true,
+        "titleFile": "kufa-exiles-to-sham.title.71074f82.m4a",
+        "titleExists": true
       }
     },
     {
@@ -10217,8 +10217,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-masts.description.4e05421d.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-masts.title.8460a737.m4a",
         "titleExists": true
       }
@@ -10350,8 +10350,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "wufud-amsar-complaints.description.da472616.m4a",
+        "descriptionExists": true,
         "titleFile": "wufud-amsar-complaints.title.f7ccfa76.m4a",
         "titleExists": true
       }
@@ -10431,8 +10431,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "beginning-of-the-great-fitna.description.5101f787.m4a",
+        "descriptionExists": true,
         "titleFile": "beginning-of-the-great-fitna.title.e46a6e35.m4a",
         "titleExists": true
       }
@@ -10569,10 +10569,10 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "descriptionFile": "siege-of-uthman-house.description.40f78527.m4a",
+        "descriptionExists": true,
+        "titleFile": "siege-of-uthman-house.title.e226de75.m4a",
+        "titleExists": true
       }
     },
     {
@@ -10657,8 +10657,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "martyrdom-of-uthman.description.c7028fe6.m4a",
+        "descriptionExists": true,
         "titleFile": "martyrdom-of-uthman.title.5a2f31cd.m4a",
         "titleExists": true
       }

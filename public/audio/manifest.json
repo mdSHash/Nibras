@@ -1986,16 +1986,32 @@
     },
     "year-of-passing-32ah": {
       "title": {
-        "file": "year-of-passing-32ah.title.bd22958f.m4a",
-        "textHash": "bd22958f1382fc1d7800ea213ce68d8b3b6a819f9468bb269ef380e7adb73000",
-        "durationSec": 6.16,
+        "file": "year-of-passing-32ah.title.15b0c335.m4a",
+        "textHash": "15b0c3357b7ae17044e93937f9218466fc00648a371ecb2f41cee167f922027b",
+        "durationSec": 4.88,
         "engine": "gemini",
         "voice": "Charon"
       },
       "description": {
-        "file": "year-of-passing-32ah.description.cb87f2f4.m4a",
-        "textHash": "cb87f2f44fbd428a45d8b00f6bb94d6b2e48e2e94b73b126d0abb5ec7bc38692",
-        "durationSec": 88.08,
+        "file": "year-of-passing-32ah.description.3945b448.m4a",
+        "textHash": "3945b448e6bbf6d4cf43ac77a464eb90d412e3e53cea9c15b13684902b235727",
+        "durationSec": 97.92,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "kufa-exiles-to-sham": {
+      "title": {
+        "file": "kufa-exiles-to-sham.title.71074f82.m4a",
+        "textHash": "71074f82bacbc87573e1fdaf09c7e93e71c0c5ab85220023e760c67eedda5d74",
+        "durationSec": 3.4,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "description": {
+        "file": "kufa-exiles-to-sham.description.8c7f2606.m4a",
+        "textHash": "8c7f2606b0f0ab6a80396a8ba5c09e96e90729e4da02889abab635a57277a8cf",
+        "durationSec": 61.04,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -2009,9 +2025,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-masts.description.7407452f.m4a",
-        "textHash": "7407452f6925dbb2fc69fba347839eb0b0c5b2122b79f045421268f920d060ed",
-        "durationSec": 53.04,
+        "file": "battle-masts.description.4e05421d.m4a",
+        "textHash": "4e05421d575a945180a0c3832feda17755dde015285964d7b7db3e51f88cb686",
+        "durationSec": 76.68,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -2025,9 +2041,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "wufud-amsar-complaints.description.2ad3b21c.m4a",
-        "textHash": "2ad3b21cc31b2700f2ee3f97c46d102a798845d5b1b001ca336b439f2bbfccb2",
-        "durationSec": 108.84,
+        "file": "wufud-amsar-complaints.description.da472616.m4a",
+        "textHash": "da47261613ecefb7dc4d2e8aaacde9177908aaa3f25b0edc8d0b1bbc27ea520b",
+        "durationSec": 118.88,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -2041,25 +2057,25 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "beginning-of-the-great-fitna.description.adfc8ddd.m4a",
-        "textHash": "adfc8dddc8638e17805fb8a35fa9c49742e73f5aec8af09fce841668890126cf",
-        "durationSec": 39,
+        "file": "beginning-of-the-great-fitna.description.5101f787.m4a",
+        "textHash": "5101f787471bbc8053e8399bda839034ba299e4e5d7a897d678af89f7d0b5d4f",
+        "durationSec": 93.4,
         "engine": "gemini",
         "voice": "Charon"
       }
     },
     "siege-of-uthman-house": {
       "title": {
-        "file": "siege-of-uthman-house.title.bae1bfd7.m4a",
-        "textHash": "bae1bfd77c6b80c4ab7589084c1f99f33441e1311c7feb9c25a9236342652c1f",
-        "durationSec": 4.04,
+        "file": "siege-of-uthman-house.title.e226de75.m4a",
+        "textHash": "e226de759e08b64425a7e92514f05517ced709e12befb586ebbaafcdf9ba49b9",
+        "durationSec": 3.08,
         "engine": "gemini",
         "voice": "Charon"
       },
       "description": {
-        "file": "siege-of-uthman-house.description.976c45a1.m4a",
-        "textHash": "976c45a160a3fbe52bc7b32cfd5b77cd1d7404cb80e87632c6b8fa1da1dc8cea",
-        "durationSec": 110.28,
+        "file": "siege-of-uthman-house.description.40f78527.m4a",
+        "textHash": "40f785272f97ba45ac1acccba16528ed11482add5c94b0d0f1335df129bc4e1d",
+        "durationSec": 140.32,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -2073,9 +2089,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "martyrdom-of-uthman.description.43fa6343.m4a",
-        "textHash": "43fa63436f4a0745907216956a4644fdbe2cf19a20a8592a2f5259702a3b24bd",
-        "durationSec": 63.04,
+        "file": "martyrdom-of-uthman.description.c7028fe6.m4a",
+        "textHash": "c7028fe6b86634fede12c34285863504834e2fb110f924e0c29eea7f844c0d8e",
+        "durationSec": 75.76,
         "engine": "gemini",
         "voice": "Charon"
       }
