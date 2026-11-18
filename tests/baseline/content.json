@@ -11205,8 +11205,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-of-siffin.description.2219d885.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-of-siffin.title.06a9fce9.m4a",
         "titleExists": true
       }
@@ -11314,8 +11314,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "ammar-martyrdom-siffin.description.b8435d63.m4a",
+        "descriptionExists": true,
         "titleFile": "ammar-martyrdom-siffin.title.a7c5225d.m4a",
         "titleExists": true
       }
@@ -11415,10 +11415,10 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
-        "titleFile": null,
-        "titleExists": false
+        "descriptionFile": "raising-mushafs-siffin.description.106e9575.m4a",
+        "descriptionExists": true,
+        "titleFile": "raising-mushafs-siffin.title.89f35de6.m4a",
+        "titleExists": true
       }
     },
     {
@@ -11496,8 +11496,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "emergence-of-the-khawarij.description.8ce2ce22.m4a",
+        "descriptionExists": true,
         "titleFile": "emergence-of-the-khawarij.title.4c1d92d2.m4a",
         "titleExists": true
       }
@@ -11604,8 +11604,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "ibn-abbas-debates-khawarij.description.aa590bfc.m4a",
+        "descriptionExists": true,
         "titleFile": "ibn-abbas-debates-khawarij.title.063b19d1.m4a",
         "titleExists": true
       }
@@ -11700,8 +11700,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "arbitration-between-ali-and-muawiyah.description.5ed54308.m4a",
+        "descriptionExists": true,
         "titleFile": "arbitration-between-ali-and-muawiyah.title.e4a07aaa.m4a",
         "titleExists": true
       }
@@ -11775,8 +11775,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "battle-nahrawan.description.d03f2792.m4a",
+        "descriptionExists": true,
         "titleFile": "battle-nahrawan.title.1dde3882.m4a",
         "titleExists": true
       }
@@ -11895,8 +11895,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "muhammad-abi-bakr-egypt.description.0f130543.m4a",
+        "descriptionExists": true,
         "titleFile": "muhammad-abi-bakr-egypt.title.6bfb8d97.m4a",
         "titleExists": true
       }
@@ -12025,8 +12025,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "muawiyah-raids-iraq-hijaz.description.01334958.m4a",
+        "descriptionExists": true,
         "titleFile": "muawiyah-raids-iraq-hijaz.title.893479c7.m4a",
         "titleExists": true
       }

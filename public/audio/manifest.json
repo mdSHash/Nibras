@@ -2185,9 +2185,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-of-siffin.description.d2a30c30.m4a",
-        "textHash": "d2a30c301718a6600b66fbe5d7da931a03cf329654e65a2374ed588e5184b707",
-        "durationSec": 63.76,
+        "file": "battle-of-siffin.description.2219d885.m4a",
+        "textHash": "2219d8856efe1367b564ab5ebef1e63460fb93471c8d1ddfedcf1aa01d938dd2",
+        "durationSec": 103.8,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -2201,25 +2201,25 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "ammar-martyrdom-siffin.description.bff15694.m4a",
-        "textHash": "bff15694446bb92b873b7a90cc4c69a5f9eb44be29185e4dedb689fb06959aa9",
-        "durationSec": 100.72,
+        "file": "ammar-martyrdom-siffin.description.b8435d63.m4a",
+        "textHash": "b8435d637212f5fe3a08c36bd44dff03e79ec4f606dc693253ee9fc11299a5f0",
+        "durationSec": 131.56,
         "engine": "gemini",
         "voice": "Charon"
       }
     },
     "raising-mushafs-siffin": {
       "title": {
-        "file": "raising-mushafs-siffin.title.a6f64962.m4a",
-        "textHash": "a6f64962b366d175930b89c9ad3fe36d8575920c620146710dd55bfa3db10a24",
-        "durationSec": 2.96,
+        "file": "raising-mushafs-siffin.title.89f35de6.m4a",
+        "textHash": "89f35de694feadcd5e948a7bd7c51e71a8fba00de58020e6f543d498d708bf53",
+        "durationSec": 3.36,
         "engine": "gemini",
         "voice": "Charon"
       },
       "description": {
-        "file": "raising-mushafs-siffin.description.7eab9879.m4a",
-        "textHash": "7eab987922ed67e04ac750a624bf5d51e4a26101601c2df7299436b5274e950b",
-        "durationSec": 76.04,
+        "file": "raising-mushafs-siffin.description.106e9575.m4a",
+        "textHash": "106e957528873578a889468173717e6973d7fb10333b243e7c40f465b62f908b",
+        "durationSec": 80.88,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -2233,9 +2233,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "emergence-of-the-khawarij.description.b7b3a82e.m4a",
-        "textHash": "b7b3a82e875e4978c55bf4cf14e62078c6e475a028c0654128d2a5595efdf97f",
-        "durationSec": 40.84,
+        "file": "emergence-of-the-khawarij.description.8ce2ce22.m4a",
+        "textHash": "8ce2ce22966fd2d1ca8a4b9a13ddcee306df37c911466323dd6e605d9e977ac4",
+        "durationSec": 71.56,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -2249,9 +2249,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "ibn-abbas-debates-khawarij.description.df6ada68.m4a",
-        "textHash": "df6ada68fcd346572b100d8cb2952dfed25fa4161462e1edce087813876f5861",
-        "durationSec": 116.56,
+        "file": "ibn-abbas-debates-khawarij.description.aa590bfc.m4a",
+        "textHash": "aa590bfcba52c984396f4d3662c3f385b8514ccdb694cf87da6699c52a12932e",
+        "durationSec": 136.52,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -2265,9 +2265,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "arbitration-between-ali-and-muawiyah.description.28570819.m4a",
-        "textHash": "28570819dbda131ea67fdd8d81b060049a2519b7e069fb00613158934074c067",
-        "durationSec": 46.28,
+        "file": "arbitration-between-ali-and-muawiyah.description.5ed54308.m4a",
+        "textHash": "5ed54308aa9476965afa4e2ff6c9a917dd5f2766e7690201b6f35e529524733f",
+        "durationSec": 76.72,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -2281,9 +2281,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "battle-nahrawan.description.ef36781a.m4a",
-        "textHash": "ef36781a39e45155ed7a1a235dbb96983336d805fbd59de133ed9f0039273672",
-        "durationSec": 59.48,
+        "file": "battle-nahrawan.description.d03f2792.m4a",
+        "textHash": "d03f27923a78fa2964c05d2b9c904a4e20b2899c7a9c86c55d26ab2f582490ee",
+        "durationSec": 76.28,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -2297,9 +2297,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "muhammad-abi-bakr-egypt.description.ca45e03e.m4a",
-        "textHash": "ca45e03e53f1f0e487eab873cb4a6b2bdc99d8fca42ac703cf739ad25f5022bf",
-        "durationSec": 106.72,
+        "file": "muhammad-abi-bakr-egypt.description.0f130543.m4a",
+        "textHash": "0f1305430932e57f082a369290fc59e1ef301e9f47134f4e78143787394f39bb",
+        "durationSec": 80.04,
         "engine": "gemini",
         "voice": "Charon"
       }
@@ -2313,9 +2313,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "muawiyah-raids-iraq-hijaz.description.5a61826a.m4a",
-        "textHash": "5a61826a5abfc876d2684f1a1aff8b681318503cc99130e4037b8de233d556b0",
-        "durationSec": 101.6,
+        "file": "muawiyah-raids-iraq-hijaz.description.01334958.m4a",
+        "textHash": "01334958937dac2bae1102c6d7e2dd09671fcedf566aeef8debf98bad6c68589",
+        "durationSec": 78,
         "engine": "gemini",
         "voice": "Charon"
       }
