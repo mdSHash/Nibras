@@ -2329,9 +2329,18 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "martyrdom-of-ali.description.dc5598bd.m4a",
-        "textHash": "dc5598bde9b5e0334d307b4a6b6aaf9764d59ff3b7be6d2a700487a7c123f016",
-        "durationSec": 71.28,
+        "file": "martyrdom-of-ali.description.901a1a7d.m4a",
+        "textHash": "901a1a7dfb42cba21422f5b82ea9e4bc14f38fa28417369d027397ba2273e1ad",
+        "durationSec": 32.72,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "muawiyah-caliph-iliya": {
+      "title": {
+        "file": "muawiyah-caliph-iliya.title.d98dc64e.m4a",
+        "textHash": "d98dc64ef009e8b112a5bda5452b4f1f3019f6d8c769dfec535623e7f5b126ec",
+        "durationSec": 3.76,
         "engine": "gemini",
         "voice": "Charon"
       }
