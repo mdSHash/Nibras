@@ -2343,6 +2343,13 @@
         "durationSec": 3.76,
         "engine": "gemini",
         "voice": "Charon"
+      },
+      "description": {
+        "file": "muawiyah-caliph-iliya.description.2ccc3ed8.m4a",
+        "textHash": "2ccc3ed8ceeeb62949c3f10cba3335ab4bf8cb790164e6df5b53b35b63b6d58a",
+        "durationSec": 35.36,
+        "engine": "gemini",
+        "voice": "Charon"
       }
     },
     "year-of-reconciliation": {
@@ -2354,9 +2361,9 @@
         "voice": "Charon"
       },
       "description": {
-        "file": "year-of-reconciliation.description.b22fffef.m4a",
-        "textHash": "b22fffef6116e163ef9a324913e52584b4c11dc486ef7e909c27a35d05aa1956",
-        "durationSec": 119.16,
+        "file": "year-of-reconciliation.description.c1666307.m4a",
+        "textHash": "c1666307c80c8bdae93ae9a8b6c8c2df651890c3b150ac490792b10467d8edf3",
+        "durationSec": 153.32,
         "engine": "gemini",
         "voice": "Charon"
       }

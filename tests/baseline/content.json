@@ -12167,8 +12167,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "muawiyah-caliph-iliya.description.2ccc3ed8.m4a",
+        "descriptionExists": true,
         "titleFile": "muawiyah-caliph-iliya.title.d98dc64e.m4a",
         "titleExists": true
       }
@@ -12296,8 +12296,8 @@
       "battle": null,
       "route": null,
       "narration": {
-        "descriptionFile": null,
-        "descriptionExists": false,
+        "descriptionFile": "year-of-reconciliation.description.c1666307.m4a",
+        "descriptionExists": true,
         "titleFile": "year-of-reconciliation.title.dc996789.m4a",
         "titleExists": true
       }
