@@ -13,6 +13,7 @@ tool does one job; all are on free tiers.
 | Search | Google Search Console: https://search.google.com/search-console; Bing Webmaster Tools: https://www.bing.com/webmasters |
 | Checks and deploys | GitHub Actions: https://github.com/mdSHash/Nibras/actions |
 | Chat API logs | Vercel → project `nibras-chat-api` → Logs |
+| Game accounts and leaderboard | Supabase project `nibras` → Authentication → Users; Table editor → `players`, `player_results` |
 
 ## Sentry (crash reporting)
 
@@ -198,3 +199,35 @@ time of writing 256 MB and 500,000 commands a month); a question uses about 5 co
   add today's result and nothing else; nobody can read rows through the API.
 - Free projects pause after a week without traffic; the daily game keeps it awake. If it pauses, the game still plays
   and hides the numbers; restore it from the Supabase dashboard.
+
+## Game accounts and the leaderboard (Phase 6)
+
+Signing in to «تحدي اليوم» is optional and for players 13 or older; guests play as before.
+
+- **Tables** (`supabase/migrations/20261122120000_accounts.sql`): `players` (the chosen display name, its folded
+  form for uniqueness, when the player confirmed 13+) and `player_results` (one row per player, day, level and mode;
+  `checked` is true when `/api/challenge` re-played the picks against the day's puzzle). Players read only their own
+  rows; nobody writes from the browser. `challenge_board(level, period)` returns names and scores only.
+- **What a player can delete:** «احذف حسابي وبياناتي» on «حسابي» deletes the Supabase user, which deletes both
+  tables' rows by cascade, and this browser's anonymous `challenge_results` rows. To delete one by hand: Authentication
+  → Users → the user → Delete.
+- **The function** `api/challenge.ts` runs on the Vercel project `nibras-chat-api` (free). It needs three variables there
+  (Settings → Environment Variables, Production): `SUPABASE_URL` (`https://kcxegvkkewuwaushhbis.supabase.co`),
+  `SUPABASE_PUBLISHABLE_KEY` (the same public key as the game) and **`SUPABASE_SECRET_KEY`** (secret: Supabase →
+  Project Settings → API Keys → Secret keys → create one named `vercel-challenge`; paste it only into Vercel). Without
+  them it answers 503 and the game stays guest-only. Check: `POST https://nibras-chat-api.vercel.app/api/challenge`
+  without a token answers 401.
+- **Google sign-in setup** (once, free):
+  1. Google Cloud Console → APIs & Services → OAuth consent screen: External, app name «نبراس», support email, the
+     authorized domain `supabase.co`. Scopes: email, profile, openid only.
+  2. Credentials → Create credentials → OAuth client ID → Web application. Authorized redirect URI:
+     `https://kcxegvkkewuwaushhbis.supabase.co/auth/v1/callback`.
+  3. Supabase → Authentication → Sign In / Providers → Google: enable, paste the client ID and secret.
+  4. Supabase → Authentication → URL Configuration: Site URL `https://mdshash.github.io/Nibras/challenge/`; Redirect URLs
+     `https://mdshash.github.io/Nibras/challenge/` and `http://localhost:3001/Nibras/challenge/`.
+- **Checking results:** the server proves a result is a valid play of that day's puzzle (the picks, the order, the
+  day); it cannot prove the player didn't look the answer up, since the game runs in the browser. Points come only from
+  checked rounds; streak days also count rounds carried over from the guest's anonymous rows (recorded on their day).
+- **Abuse:** names are 2–20 letters with a short block list (`src/challenge/engine/account.ts`). To rename or remove an
+  offensive name: Table editor → `players` → edit `display_name` and `name_key`, or delete the user.
+

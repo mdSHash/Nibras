@@ -102,6 +102,7 @@ Runtime doesn't require any secrets — the 262 narration recordings (AAC `.m4a`
 | Variable | Description |
 |---|---|
 | `GEMINI_API_KEY` | Google Gemini API key: `npm run narration -- generate` records with Gemini TTS, voice Charon (spends free-tier quota; ask first), and the chat embeddings use it. Get one at https://aistudio.google.com/apikey. |
+| `VITE_CHALLENGE_API_URL` (+ `VITE_SUPABASE_*`) | «تحدي اليوم» accounts; deploy build only. The function's own `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY` live in Vercel (`.env.example`). |
 | `VOICESTUDIO_PROFILE` | Only for `--engine voicestudio` (local fallback). Optional: `VOICESTUDIO_URL`, `VOICESTUDIO_ENGINE`, `VOICESTUDIO_LANGUAGE`, `VOICESTUDIO_SEED`. |
 
 ### Running Locally
@@ -321,7 +322,7 @@ They record every element's computed styles (colors compared as painted) and a s
 
 Production is hosted at **https://mdshash.github.io/Nibras/** on GitHub Pages. `.github/workflows/deploy.yml` runs a `check` job (the full `npm run verify`, on Ubuntu) on every pull request and every push to `main`; only when it passes on `main` does it build with Vite (`base: '/Nibras/'`), pre-render one page per event, person, replay and Qur'an passage, and publish `dist/` via `actions/deploy-pages@v4`. The deploy build carries the Sentry settings (crash reports, source maps); see `docs/OWNER_DASHBOARD.md` for Sentry, the uptime checks and the weekly owner routine. The chat API also has `GET /api/health`.
 
-«تحدي اليوم» (Phase 5), the daily game, is a second Vite build (`vite.challenge.config.ts`, `npm run dev:challenge`) published with the site at **https://mdshash.github.io/Nibras/challenge/** as an installable PWA; the Nibras header's trophy button opens it (on phones too). Its answer totals come from Supabase and its Umami events (`src/challenge/analytics.ts`, deploy build only) are listed in `docs/OWNER_DASHBOARD.md`.
+«تحدي اليوم» (Phase 5), the daily game, is a second Vite build (`vite.challenge.config.ts`, `npm run dev:challenge`) published with the site at **https://mdshash.github.io/Nibras/challenge/** as an installable PWA; the Nibras header's trophy button opens it (on phones too). Optional Google sign-in (13+, Phase 6) saves a player's streaks and puts them on per-level leaderboards; signed-in rounds are re-checked against the day's puzzle by `api/challenge.ts` (setup and variables: `docs/OWNER_DASHBOARD.md`, «Game accounts»). Its answer totals come from Supabase and its Umami events (`src/challenge/analytics.ts`, deploy build only) are listed in `docs/OWNER_DASHBOARD.md`.
 
 Because all narration ships as static `.m4a` files in `dist/audio/`, no separate backend is required at runtime.
 

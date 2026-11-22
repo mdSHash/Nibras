@@ -3639,3 +3639,84 @@ match). Windows shots re-recorded locally; Linux shots taken from CI's run on th
 - A city in «المكان» has no page in Nibras, so its «اعرف أكتر عن …» opens the map (home).
 - The per-option line is the record's first sentence verbatim (فصحى, sometimes long); short Egyptian
   lines citing it are possible later, reviewed like the bank.
+
+## Phase 6 — Accounts and a leaderboard for «تحدي اليوم» (2026-11-22/23, `feature/phase-6-accounts`)
+
+**Start:** PR #66 (5G) merged; branch made from `main`; `npm run verify` in five batches passed (500 unit tests;
+features 135; engines 54; visual 24; Lighthouse within budget).
+
+#### Decisions (Mostafa, 2026-11-22)
+
+- **Accounts are 13+ only.** Guests of any age play as before. Before Google, the sign-in sheet asks «عندي ١٣ سنة أو
+  أكتر» (the Google button stays off until it is ticked); the time is stored (`players.age_confirmed_at`).
+  Free-text display names, 2–20 letters, filtered.
+- **Direction أ «الدفتر»**, from four live prototypes (artifact VvQAqKzDTu2gxCbfBCT9xR: أ الدفتر, ب الطريق, ج اللي
+  قدامك, د الأختام والحلقة).
+- **5F revisited: a Vercel function** (`api/challenge.ts`, on the free chat project) checks signed-in rounds. It
+  rebuilds the day's round with the game's own engine and re-plays the picks; it deploys with every bank change.
+  Guests still write straight to Supabase (5F unchanged).
+
+#### Changes
+
+- **Database** (`supabase/migrations/20261122120000_accounts.sql`, applied to project `nibras`): `players` and
+  `player_results`, row-level security (a player reads only their own rows; nobody writes from the browser),
+  delete-by-cascade from the auth user, and `challenge_board(level, period)`, which returns names and scores only
+  (top 10, the caller's row, the count). Day, week (from Saturday) and streak boards; the server's Cairo date.
+  Points: a win on the 1st try 3, 2nd 2, 3rd 1; ties go to fewer seconds. Probed live in a rolled-back transaction:
+  an authenticated stranger sees 0 rows. The linter's warning about public SECURITY DEFINER functions is intended
+  (both return totals or names only).
+- **Shared rules** (`src/challenge/engine/account.ts`): `checkPlay` (picks must be the round's options, no repeats,
+  nothing after the end; «رتّب» picks must be orders of the four events), names (`checkDisplayName`, `foldName`:
+  diacritics, alef/yeh/teh-marbuta forms and case folded, so look-alikes collide), `streakFromDays`,
+  `mergeIntoLocal`, `finishedPlays`. `isDone` moved here from `App.tsx`. The engine's relative imports now end in
+  `.js` so the Node function can import it.
+- **API** (`api/challenge.ts`, `api/_lib/challengeAccount.ts`, `api/_lib/challengeDb.ts`): `join` (first sign-in:
+  age and name; every sign-in: carries this browser's anonymous `challenge_results` rows over as unchecked, which
+  count for streak days only, then re-plays today's and yesterday's local rounds and saves them as checked, replacing
+  carried rows, never a checked one), `result` (today or yesterday only; the first checked result of a round stands),
+  `name`, `delete` (the auth user, which cascades, plus this browser's anonymous rows). Supabase REST with the secret
+  key, no client library; 80 calls per player per 10 minutes when the shared store is set; CORS adds
+  `Authorization` and `localhost:3001`.
+- **The game**: Google sign-in by hand (PKCE over Supabase's Auth API, `src/challenge/account/auth.ts`; no library,
+  so guests download nothing). The result screen's «احفظ إنجازاتك» card sits under «العب كمان» and the countdown,
+  so share, «بطاقات النهارده» and the fixed bar keep their places (tested: DOM order and the bar still fixed). Header:
+  a trophy (board) and a person (account) icon. Pages at `#board`, `#account`, `#privacy`, loaded on demand inside
+  an error boundary. Board: level × «النهارده / الأسبوع / أطول سلسلة», top 10, your row pinned under it, skeleton,
+  empty, error-retry states. «حسابي»: name (inline rename with validation), three streaks, the month calendar
+  (Saturday first), recent rounds, privacy link, sign out, delete with an in-page confirmation. Privacy page in
+  Arabic: what is stored with and without an account, who sees what, where, how to delete. New dark-mode colors
+  for text on the highlighted row and the calendar so every pair passes AA.
+- **Env**: `VITE_CHALLENGE_API_URL` (deploy build), `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`,
+  `SUPABASE_SECRET_KEY` (Vercel only), all in `.env.example`; `docs/OWNER_DASHBOARD.md` has the setup.
+- **Tests**: `tests/challengeDb.test.ts` runs the real migrations in PGlite (Postgres in WebAssembly, a dev
+  dependency) with Supabase's roles stood in: no one reads another player's rows, no one writes, anon reads
+  nothing, deletion cascades, unique names, the board's ranking and that it carries no id or email.
+  `tests/challengeAccount.test.ts` (pick re-check for every mode, names, streaks, merge) and
+  `tests/challengeApi.test.ts` (the API against an in-memory database: sign-in, merge, checking, names, deletion).
+  Playwright `tests/e2e/account.spec.ts` (mocked Supabase and API: the offer's place, 13+ then Google then a name,
+  the merge payload, a round sent while signed in, the board for a guest and a player, «حسابي» end to end) in all
+  four browsers, and a both-modes AA test for the board and «حسابي» in `theme-contrast.spec.ts`.
+- **Test setup**: the test build now has accounts too, at same-origin stand-in paths (`/__supabase`,
+  `/__challenge`, answered by `tests/e2e/support/stubs.ts`), because WebKit and Firefox send CORS preflights
+  Playwright can't intercept. Playwright blocks service workers (`serviceWorkers: 'block'`): the game's worker
+  otherwise takes its requests past the routes in WebKit and Firefox. The PWA test still checks the files are served.
+
+#### Verification
+
+Five batches, foreground: content…bundle passed (Vitest 540/540); features 144 passed, 2 skipped; engines 62 passed,
+24 skipped; Lighthouse within budget. **Visual: 20 passed, 4 differ as intended** (`challenge-result-{light,dark}`,
+desktop and phone): the two header icons and the «احفظ إنجازاتك» card under the countdown, with the footer line
+moved down; nothing above the countdown changed. **Not replaced: waiting for Mostafa's approval.** The level-sheet
+shots also gained the header icons but stay inside the 1% tolerance.
+
+#### Open, for Mostafa
+
+- **Before merging:** the Google OAuth client, the Supabase Google provider and redirect URLs, and the three Vercel
+  variables (secret key created in Supabase). Steps in `docs/OWNER_DASHBOARD.md`. Without them the deployed game
+  shows the sign-in offer and sign-in fails.
+- Approve replacing the 4 result-card shots (Linux copies from CI's run on the PR).
+- On a second device, today's rounds already played elsewhere can be played again there; the account keeps the first
+  checked result (the server doesn't store picks, so the game can't redraw them as done).
+- Guest days played offline (no anonymous row) aren't carried over; only days the server saw on the day are.
+- The server proves a result is a valid play of the day's puzzle, not that the player didn't look the answer up (the
+  game runs in the browser). Points come only from checked rounds.

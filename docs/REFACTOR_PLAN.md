@@ -809,14 +809,16 @@ within budget; and `npm run verify` passes.
 
 Goal: signing in stays optional and adds saved achievements and a place on the leaderboard.
 
-- [ ] Google sign-in on the Phase 5 Supabase project (free tier). A quiet «احفظ إنجازاتك» offer on
-      the result screen; never a wall in front of playing.
-- [ ] On first sign-in, merge the guest's local `DailyState` and streaks into the account.
-- [ ] Leaderboards per level (daily, weekly, all-time streak), display name chosen by the player,
-      results checked server-side against the day's puzzle.
-- [ ] Account page: name, streaks, history, sign out, **delete my account and data**. Arabic privacy
+- [x] Google sign-in on the Phase 5 Supabase project (free tier). A quiet «احفظ إنجازاتك» offer on
+      the result screen; never a wall in front of playing. (Accounts 13+ only, Mostafa 2026-11-22.)
+- [x] On first sign-in, merge the guest's local `DailyState` and streaks into the account.
+- [x] Leaderboards per level (daily, weekly, all-time streak), display name chosen by the player,
+      results checked server-side against the day's puzzle. **Decision (2026-11-22):** a Vercel function
+      (`api/challenge.ts`) re-plays signed-in rounds with the game's engine; guests still write straight
+      to Supabase (5F). Direction أ «الدفتر» picked from four prototypes.
+- [x] Account page: name, streaks, history, sign out, **delete my account and data**. Arabic privacy
       page: what is stored and why (email from sign-in, display name, results).
-- [ ] Tests: row-level security (no one reads another player's data), merge logic, Playwright with a
+- [x] Tests: row-level security (no one reads another player's data), merge logic, Playwright with a
       mocked client for sign-in and leaderboard.
 
 Done when: a guest who signs in keeps their streaks, the leaderboard shows verified results, a player
