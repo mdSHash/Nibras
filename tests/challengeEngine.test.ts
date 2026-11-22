@@ -85,6 +85,24 @@ describe('daily rounds from the question bank', () => {
       });
     }
   }
+  it('gives three tries, a Nibras line on every person, battle and place option, and names what the result opens', () => {
+    expect(MAX_WRONG + 1).toBe(3);
+    for (const mode of MODES) {
+      for (const level of LEVELS) {
+        for (const day of days) {
+          const r = dailyRound(data, mode, level, day);
+          expect(r.linkLabel, `${mode} ${level} ${day}`).not.toBe('');
+          if (mode === 'who' || mode === 'battle' || mode === 'place' || mode === 'order') {
+            for (const o of r.options) expect(o.about, `${mode} ${o.id}`).toBeTruthy();
+          }
+        }
+      }
+    }
+    // The line is the start of the record, unchanged.
+    const p = data.people[0];
+    const who = dailyRound(data, 'who', 'easy', days[0]).options.find((o) => o.id === p.id);
+    if (who) expect(p.bioShort.startsWith(who.about!)).toBe(true);
+  });
   it('plays practice rounds that are not the daily question', () => {
     const today = dailyRound(data, 'who', 'easy', days[0]);
     for (let i = 0; i < 10; i++) expect(practiceRound(data, 'who', 'easy', today.questionId).questionId).not.toBe(today.questionId);
@@ -95,7 +113,8 @@ describe('daily rounds from the question bank', () => {
     expect(suggestLevel('easy', true, 1, 60)).toBe('mid');
     expect(suggestLevel('mid', true, 3, 15)).toBe('hard');
     expect(suggestLevel('hard', true, 1, 5)).toBeNull();
-    expect(suggestLevel('mid', true, MAX_WRONG, 90)).toBe('easy');
+    expect(suggestLevel('mid', true, MAX_WRONG + 1, 90)).toBe('easy');
+    expect(suggestLevel('hard', true, MAX_WRONG, 90)).toBeNull();
     expect(suggestLevel('easy', false, 5, 90)).toBeNull();
   });
 });

@@ -98,7 +98,7 @@ So your own visits are not counted: in your browser, on the site, open the conso
 | `challenge_round_finished` | Solved, or out of picks | `mode`, `level`, `practice`, `picks` (all picks, the right one included), `solved` |
 | `challenge_practice_started` | A practice round starts | `mode`, `level` |
 | `challenge_level_changed` | The level changes | `from` (`none` on the first visit), `to`, `via`: `first`, `sheet` or `suggestion` |
-| `challenge_nibras_opened` | A «اعرف أكتر في نبراس» way into Nibras is opened | `mode`, `level`, `from`: `tile` (a name in a tile row) or `result` (the result's button) |
+| `challenge_nibras_opened` | An «اعرف أكتر عن …» way into Nibras is opened | `mode`, `level`, `from`: `card` (a picked option's card), `deck` (a card in «بطاقات النهارده») or `dock` (the bar fixed at the bottom after the round) |
 | `challenge_installed` | The game is installed as an app (the browser's `appinstalled`) | |
 
 ## Google Search Console and Bing Webmaster Tools (how Nibras does in search)

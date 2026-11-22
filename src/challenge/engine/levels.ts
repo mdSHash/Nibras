@@ -1,6 +1,6 @@
 /**
  * Modes and levels of the daily challenge, as approved on 2026-11-16
- * (docs/REFACTOR_PLAN.md, Phase 5): five options, up to four wrong picks,
+ * (docs/REFACTOR_PLAN.md, Phase 5); since 2026-11-22 three tries (two wrong picks),
  * a clue every two wrong picks, three levels applied to every mode.
  */
 export const MODES = ['who', 'battle', 'place', 'year', 'number', 'leader', 'era', 'order'] as const;
@@ -10,8 +10,8 @@ export type Level = (typeof LEVELS)[number];
 
 /** Options per round. */
 export const OPTION_COUNT = 5;
-/** Wrong picks before the round is lost (the fifth option would be a giveaway). */
-export const MAX_WRONG = 4;
+/** Wrong picks before the round is lost: three tries in all, in every mode (2026-11-22). */
+export const MAX_WRONG = 2;
 /** One more clue opens after this many wrong picks. */
 export const WRONG_PER_CLUE = 2;
 

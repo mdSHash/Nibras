@@ -135,7 +135,11 @@ function Game({ data }: { data: GameData }) {
     const next: Play = { ...play, picks, ...(status.done ? { endedAt: Date.now() } : {}) };
     const counted = { mode: round.mode, level: round.level, practice: Boolean(practice) };
     if (play.picks.length === 0) trackChallenge('challenge_round_started', counted);
-    if (status.done) trackChallenge('challenge_round_finished', { ...counted, picks: picks.length, solved: status.won });
+    if (status.done) {
+      trackChallenge('challenge_round_finished', { ...counted, picks: picks.length, solved: status.won });
+      // The end (share, today's cards) comes into view once the card has grown.
+      window.setTimeout(() => document.getElementById('end')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 450);
+    }
     if (practice) {
       setPractice({ round, play: next });
       return;
@@ -213,13 +217,13 @@ function Game({ data }: { data: GameData }) {
           <button type="button" className="icon-btn" onClick={toggleTheme} aria-label={dark ? 'الوضع الفاتح' : 'الوضع الغامق'}>{dark ? '☀' : '☾'}</button>
         </div>
       </Header>
-      <main className="page">
+      <main className={`page${done ? ' docked' : ''}`}>
         {practice && <div className="banner">جولة تدريب: العب براحتك، مش بتتحسب في الأيام ورا بعض.</div>}
-        <RoundView key={`${round.questionId}:${practice ? 'p' : 'd'}`} round={round} picks={play.picks} done={done} won={won} onPick={pick} onNibras={() => trackChallenge('challenge_nibras_opened', { mode: round.mode, level: round.level, from: 'tile' })} />
+        <RoundView key={`${round.questionId}:${practice ? 'p' : 'd'}`} round={round} picks={play.picks} done={done} won={won} onPick={pick} onNibras={() => trackChallenge('challenge_nibras_opened', { mode: round.mode, level: round.level, from: 'card' })} />
         {done && (
           <ResultCard
             round={round}
-            picks={play.picks.length}
+            picked={play.picks}
             won={won}
             practice={Boolean(practice)}
             streak={streak}
@@ -232,7 +236,7 @@ function Game({ data }: { data: GameData }) {
             onLevel={(l) => setLevel(l, true)}
             onNext={(m) => { setMode(m); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
             onPractice={startPractice}
-            onNibras={() => trackChallenge('challenge_nibras_opened', { mode: round.mode, level: round.level, from: 'result' })}
+            onNibras={(from) => trackChallenge('challenge_nibras_opened', { mode: round.mode, level: round.level, from })}
           />
         )}
         <p className="foot">الأسئلة كلها من محتوى <a href={nibrasBase()}>نبراس</a>: خريطة وخط زمني للسيرة النبوية والتاريخ الإسلامي المبكر.</p>

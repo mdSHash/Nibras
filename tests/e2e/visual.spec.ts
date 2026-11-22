@@ -122,7 +122,7 @@ test.describe('daily challenge visual @phone @visual', () => {
       await openGame(page, theme, testInfo.project.name === 'phone');
       await page.getByRole('dialog').getByRole('button', { name: /لسه ببتدي/ }).click();
       // The same picks every run: the first option still open, until the round ends.
-      for (let i = 0; i < 5 && !(await page.locator('.win').isVisible()); i++) await page.locator('.opts .opt:not([disabled])').first().click();
+      for (let i = 0; i < 3 && !(await page.locator('.win').isVisible()); i++) await page.locator('.cards .opt:not([disabled])').first().click();
       await expect(page.locator('.win')).toBeVisible();
       await settle(page, 500);
       await prepareShot(page);

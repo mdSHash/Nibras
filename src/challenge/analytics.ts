@@ -14,8 +14,8 @@ export interface ChallengeEvents {
   challenge_practice_started: { mode: Mode; level: Level };
   /** `via`: the level sheet on the first visit, the sheet later, or the result's suggestion. */
   challenge_level_changed: { from: Level | 'none'; to: Level; via: 'first' | 'sheet' | 'suggestion' };
-  /** A «اعرف أكتر في نبراس» way into Nibras: a tile row's name, or the result card's button. */
-  challenge_nibras_opened: { mode: Mode; level: Level; from: 'tile' | 'result' };
+  /** A way into Nibras («اعرف أكتر عن …»): a picked option's card, a card in «بطاقات النهارده», or the bar at the bottom. */
+  challenge_nibras_opened: { mode: Mode; level: Level; from: 'card' | 'deck' | 'dock' };
   challenge_installed: Record<string, never>;
 }
 

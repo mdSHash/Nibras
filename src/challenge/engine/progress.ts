@@ -96,5 +96,5 @@ export function visibleStreak(streak: Streak, today: string): number {
   return streak.lastWin === today || streak.lastWin === previousDay(today) ? streak.current : 0;
 }
 
-/** Picks allowed in a round: four wrong ones, then the round is lost. */
+/** Picks allowed in a round: two wrong ones, then the round is lost. */
 export const PICKS_ALLOWED = MAX_WRONG + 1;
