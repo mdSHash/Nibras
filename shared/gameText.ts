@@ -3,7 +3,7 @@
  * date labels, and hiding the answer's name inside a clue. Pure functions, used
  * by scripts/game/ and its tests.
  */
-import { stripDiacritics, toLatinDigits } from './arabic';
+import { stripDiacritics, toLatinDigits } from './arabic.js';
 
 /** Hiding mark that replaces the answer's name in a clue. */
 export const MASK = 'ـــ';

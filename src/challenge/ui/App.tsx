@@ -4,7 +4,8 @@ import { toArabicIndic } from '../../../shared/arabic';
 import type { GameData } from '../../../shared/gameData';
 import { loadGame } from '../data';
 import { dailyRound, nibrasBase, practiceRound, suggestLevel, type Round } from '../engine/daily';
-import { LEVEL_NAMES, MAX_WRONG, MODE_NAMES, MODES, type Level, type Mode } from '../engine/levels';
+import { LEVEL_NAMES, MODE_NAMES, MODES, type Level, type Mode } from '../engine/levels';
+import { isDone, type Play, type Plays } from '../engine/account';
 import { loadState, recordResult, saveState, visibleStreak, type DailyState } from '../engine/progress';
 import { LevelSheet } from './LevelSheet';
 import { ResultCard } from './ResultCard';
@@ -14,8 +15,6 @@ import { reportAndFetch, type Stats } from '../stats';
 import { trackChallenge } from '../analytics';
 
 const PLAY_KEY = 'nibras.challenge.play.v1';
-interface Play { picks: string[]; startedAt: number; endedAt?: number }
-type Plays = { date: string; plays: Record<string, Play> };
 
 const storage = (): Storage | undefined => {
   try {
@@ -40,10 +39,6 @@ function savePlays(p: Plays): void {
     // Not remembered; the round still plays.
   }
 }
-const isDone = (round: Round, picks: string[]): { done: boolean; won: boolean } => {
-  const won = picks.includes(round.answerId);
-  return { won, done: won || picks.filter((p) => p !== round.answerId).length >= MAX_WRONG };
-};
 
 export function App() {
   const [data, setData] = useState<GameData | null>(null);

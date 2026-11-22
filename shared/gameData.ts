@@ -151,7 +151,7 @@ export interface GameData {
   cities: GameCity[];
 }
 
-export { FACT_LABELS, FACT_TITLES } from './gameLabels';
+export { FACT_LABELS, FACT_TITLES } from './gameLabels.js';
 
 /** Modes the question bank covers (content/game/questions/<mode>.json). */
 export const BANK_MODES = ['who', 'battle', 'place', 'year', 'number', 'leader', 'era', 'order', 'title', 'there', 'quote'] as const;
