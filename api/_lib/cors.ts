@@ -6,6 +6,7 @@
 const DEFAULT_ORIGINS = [
   'https://mdshash.github.io',
   'http://localhost:3000',
+  'http://localhost:3001',
   'http://localhost:5173',
 ];
 
@@ -17,13 +18,14 @@ function allowedOrigins(): string[] {
   return fromEnv.length > 0 ? fromEnv : DEFAULT_ORIGINS;
 }
 
-export function corsHeaders(origin: string | null): Record<string, string> {
+/** `headers`: the request headers the caller may send (the game's account calls add Authorization). */
+export function corsHeaders(origin: string | null, headers = 'Content-Type'): Record<string, string> {
   const allowed = allowedOrigins();
   const allow = origin && allowed.includes(origin) ? origin : allowed[0];
   return {
     'Access-Control-Allow-Origin': allow,
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Headers': headers,
     Vary: 'Origin',
   };
 }

@@ -6,7 +6,7 @@ import { buildGameData } from '../scripts/game/build';
 import type { GameData } from '../shared/gameData';
 import { dailyRound } from '../src/challenge/engine/daily';
 import { MODES } from '../src/challenge/engine/levels';
-import { emptyState, recordResult } from '../src/challenge/engine/progress';
+import { emptyState, recordResult, type DailyState } from '../src/challenge/engine/progress';
 import { checkDisplayName, checkPlay, finishedPlays, foldName, mergeIntoLocal, pointsFor, streakFromDays, type AccountResult } from '../src/challenge/engine/account';
 
 const ROOT = join(import.meta.dirname, '..');
@@ -103,7 +103,7 @@ describe('mergeIntoLocal (first sign-in and every sign-in after)', () => {
     expect(merged.streaks.hard).toEqual({ current: 0, best: 0, lastWin: null });
   });
   it("takes today's rounds from both, the guest's own where both have one, and keeps the level choice", () => {
-    let guest = { ...emptyState(DAY), level: 'mid' as const };
+    let guest: DailyState = { ...emptyState(DAY), level: 'mid' };
     guest = recordResult(guest, { date: DAY, puzzle: 7, mode: 'who', level: 'easy', won: false, attempts: 2, seconds: 50 });
     const merged = mergeIntoLocal(guest, [row(DAY, true, 'who'), row(DAY, true, 'place'), row('2026-11-21', true, 'era')], DAY);
     expect(Object.keys(merged.results).sort()).toEqual(['easy:place', 'easy:who']);
@@ -111,7 +111,7 @@ describe('mergeIntoLocal (first sign-in and every sign-in after)', () => {
     expect(merged.level).toBe('mid');
   });
   it('a stale local state (another day) contributes nothing but its level', () => {
-    let old = { ...emptyState('2026-11-10'), level: 'hard' as const };
+    let old: DailyState = { ...emptyState('2026-11-10'), level: 'hard' };
     old = recordResult(old, { date: '2026-11-10', puzzle: 1, mode: 'who', level: 'hard', won: true, attempts: 1, seconds: 5 });
     const merged = mergeIntoLocal(old, [], DAY);
     expect(merged).toMatchObject({ date: DAY, level: 'hard', results: {} });
