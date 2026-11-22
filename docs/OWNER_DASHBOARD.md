@@ -225,6 +225,15 @@ Signing in to «تحدي اليوم» is optional and for players 13 or older; g
   3. Supabase → Authentication → Sign In / Providers → Google: enable, paste the client ID and secret.
   4. Supabase → Authentication → URL Configuration: Site URL `https://mdshash.github.io/Nibras/challenge/`; Redirect URLs
      `https://mdshash.github.io/Nibras/challenge/` and `http://localhost:3001/Nibras/challenge/`.
+- **Done on 2026-11-23** (Claude, in Mostafa's browser): Google Cloud project **Nibras** (`gen-lang-client-0813668414`),
+  Google Auth Platform «نبراس», External, **In production**, scopes email/profile/openid only, authorized domains
+  `kcxegvkkewuwaushhbis.supabase.co` and `mdshash.github.io`, privacy link `…/challenge/#privacy`; Web client
+  «Nibras challenge (Supabase)». Supabase: Google provider on, Site URL and the live redirect URL set (the
+  `localhost:3001` one did not save: add it by hand for local sign-in tests); secret key **`vercel_challenge`**. Vercel
+  `nibras-chat-api` (Production): the three variables.
+- **Open:** Supabase's **Email** provider is still on (its default), so anyone could create an auth user with an email
+  and password through the API, skipping Google and the 13+ question. Such a user still has no `players` row until it
+  calls `/api/challenge` with a name. Recommended: turn Email off (Authentication → Sign In / Providers → Email).
 - **Checking results:** the server proves a result is a valid play of that day's puzzle (the picks, the order, the
   day); it cannot prove the player didn't look the answer up, since the game runs in the browser. Points come only from
   checked rounds; streak days also count rounds carried over from the guest's anonymous rows (recorded on their day).
