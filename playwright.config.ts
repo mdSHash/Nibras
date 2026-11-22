@@ -29,6 +29,9 @@ export default defineConfig({
     colorScheme: 'light',
     contextOptions: { reducedMotion: 'no-preference' },
     trace: 'retain-on-failure',
+    // The game's service worker would take its requests past page.route() in WebKit and Firefox,
+    // so the stubs would miss them. The PWA test checks the worker file is served (challenge.spec).
+    serviceWorkers: 'block',
     launchOptions: { args: ['--autoplay-policy=no-user-gesture-required'] },
   },
   projects: [

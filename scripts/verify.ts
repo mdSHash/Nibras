@@ -15,9 +15,10 @@ import { ROOT } from './baseline/lib';
 const REPORT_DIR = join(ROOT, 'tmp', 'verify');
 // The test build points the chat at a host the Playwright tests mock.
 const TEST_CHAT_API_URL = 'http://chat.test/api/chat';
-// …and the game's accounts at stand-in hosts (tests/e2e/support/stubs.ts answers them), so the
-// account features are in the test build too (Phase 6).
-const TEST_ACCOUNT_ENV = { VITE_SUPABASE_URL: 'http://supabase.test', VITE_SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_test', VITE_CHALLENGE_API_URL: 'http://chat.test/api/challenge' };
+// …and the game's accounts at stand-in paths on the preview server (tests/e2e/support/stubs.ts
+// answers them), so the account features are in the test build too (Phase 6). Same origin on
+// purpose: WebKit and Firefox send CORS preflights that Playwright can't intercept.
+const TEST_ACCOUNT_ENV = { VITE_SUPABASE_URL: 'http://localhost:4173/__supabase', VITE_SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_test', VITE_CHALLENGE_API_URL: 'http://localhost:4173/__challenge' };
 // CI runners have fewer cores than a dev laptop; the WebGL replays need the headroom.
 const FEATURE_WORKERS = process.env.CI ? 2 : 3;
 

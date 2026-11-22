@@ -18,22 +18,24 @@ export async function mockAccounts(page: Page, history: Record<string, unknown>[
     const req = route.request();
     const url = new URL(req.url());
     if (req.method() === 'OPTIONS') return route.fulfill({ status: 204, headers: CORS });
-    if (url.pathname === '/auth/v1/authorize') {
+    if (url.pathname === '/__supabase/auth/v1/authorize') {
       expect(url.searchParams.get('provider')).toBe('google');
       expect(url.searchParams.get('code_challenge_method')).toBe('s256');
-      return route.fulfill({ status: 302, headers: { location: `${url.searchParams.get('redirect_to')}?code=test-code` } });
+      // "Google" sends the player straight back (a page, not a 302: WebKit can't fulfill redirects).
+      const back = `${url.searchParams.get('redirect_to')}?code=test-code`;
+      return route.fulfill({ status: 200, contentType: 'text/html', body: `<!doctype html><script>location.replace(${JSON.stringify(back)})</script>` });
     }
-    if (url.pathname === '/auth/v1/token') {
+    if (url.pathname === '/__supabase/auth/v1/token') {
       m.tokenBodies.push(req.postDataJSON());
       return route.fulfill({ status: 200, headers: CORS, json: { access_token: 'tok-1', refresh_token: 'ref-1', expires_in: 3600, user: { id: 'u1', email: 'player@example.com' } } });
     }
-    if (url.pathname === '/auth/v1/logout') return route.fulfill({ status: 204, headers: CORS });
-    if (url.pathname === '/rest/v1/rpc/challenge_board') {
+    if (url.pathname === '/__supabase/auth/v1/logout') return route.fulfill({ status: 204, headers: CORS });
+    if (url.pathname === '/__supabase/rest/v1/rpc/challenge_board') {
       m.board.push({ ...(req.postDataJSON() as object), auth: req.headers().authorization ?? null });
       const rows = Array.from({ length: 10 }, (_, i) => ({ rank: i + 1, name: `لاعب ${i + 1}`, points: 30 - i, seconds: 100 + i, rounds: 8, me: false }));
       return route.fulfill({ status: 200, headers: CORS, json: { total: 25, rows, me: m.name ? { rank: 14, name: m.name, points: 12, seconds: 300, rounds: 5, me: true } : null } });
     }
-    if (url.pathname === '/rest/v1/challenge_results') return route.fulfill({ status: 201, headers: CORS, body: '' });
+    if (url.pathname === '/__supabase/rest/v1/challenge_results') return route.fulfill({ status: 201, headers: CORS, body: '' });
     return route.fulfill({ status: 200, headers: CORS, contentType: 'application/json', body: 'null' });
   });
   await page.route(CHALLENGE_API_URL, async (route: Route) => {
