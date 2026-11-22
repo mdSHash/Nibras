@@ -124,6 +124,10 @@ test.describe('daily challenge visual @phone @visual', () => {
       // The same picks every run: the first option still open, until the round ends.
       for (let i = 0; i < 3 && !(await page.locator('.win').isVisible()); i++) await page.locator('.cards .opt:not([disabled])').first().click();
       await expect(page.locator('.win')).toBeVisible();
+      // The page scrolls itself to the end once the round is over; wait for that, then shoot from the top
+      // so the fixed bottom bar and the sticky header land in the same place every run.
+      await settle(page, 1200);
+      await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
       await settle(page, 500);
       await prepareShot(page);
       await expect(page).toHaveScreenshot(`challenge-result-${theme}.png`, { fullPage: true, timeout: 20_000 });

@@ -3629,12 +3629,13 @@ emoji squares be left out of the share message.
 
 Five batches, foreground: content…vitest passed (500/500); chatindex…bundle passed; features 135 passed,
 2 skipped; engines 54 passed, 24 skipped; Lighthouse passed. Visual: 20 passed, the 4
-`challenge-result-{light,dark}` shots (desktop and phone) differ, as intended: **awaiting Mostafa's
-approval before the baselines are updated.**
+`challenge-result-{light,dark}` shots (desktop and phone) differ, as intended. **Mostafa approved
+replacing those 4 (2026-11-22).** The result shot now waits for the page's own scroll to the end, then
+shoots from the top, so the fixed bottom bar lands in the same place every run (two runs in a row
+match). Windows shots re-recorded locally; Linux shots taken from CI's run on this PR.
 
 #### Open, for Mostafa
 
-- Approve the 4 new result screenshots (then `--update-snapshots` for those 4 only).
 - A city in «المكان» has no page in Nibras, so its «اعرف أكتر عن …» opens the map (home).
 - The per-option line is the record's first sentence verbatim (فصحى, sometimes long); short Egyptian
   lines citing it are possible later, reviewed like the bank.

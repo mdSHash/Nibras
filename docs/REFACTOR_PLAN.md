@@ -690,6 +690,11 @@ A daily guessing game in the shape of Wordle-style games, built only from facts 
 Design approved by Mostafa on 2026-11-16 after three rounds of prototypes (the approved one:
 https://claude.ai/artifact/9R9sMW7mcrs9CUY7oaYDKj).
 
+**Changed 2026-11-22 (5G below wins over this section):** three tries (two wrong picks) in every mode;
+every pick, wrong or right, grows into a card with a Nibras line, the tiles and «اعرف أكتر عن …»
+(no tile grid, no «اعرف أكتر في نبراس»); the result leads with share, «بطاقات النهارده» and a fixed
+bottom bar.
+
 - **One round = a question, five options, tiles.** The question and its first clue show before any
   pick. The player picks one of **5 options**. A wrong pick is struck out and adds **one row of
   colored tiles** comparing it with the answer (green same, yellow close, red different, arrows for
