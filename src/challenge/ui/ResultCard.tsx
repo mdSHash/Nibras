@@ -3,7 +3,7 @@
  * today's cards (each opens its page in Nibras), a line on what Nibras is, more to play, and
  * a bar fixed at the bottom with «اعرف أكتر عن …» first and share next to it.
  */
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { toArabicIndic } from '../../../shared/arabic';
 import type { Option, Round } from '../engine/daily';
 import { LEVEL_NAMES, MODE_NAMES, type Level, type Mode } from '../engine/levels';
@@ -33,11 +33,13 @@ interface Props {
   onPractice: () => void;
   /** A way into Nibras was opened (counted by Umami). */
   onNibras: (from: NibrasFrom) => void;
+  /** The account line (Phase 6), under the countdown so the 5G end keeps its place. */
+  after?: ReactNode;
 }
 
 const NIBRAS_IS = 'موقع مجاني فيه خريطة تفاعلية وخط زمني لأحداث السيرة النبوية والتاريخ الإسلامي المبكر، مع سِيَر الصحابة والآيات المتصلة بكل حدث. البطاقات والأزرار بتفتحه على الصفحة نفسها.';
 
-export function ResultCard({ round, picked, won, practice, streak, doneToday, totalModes, left, suggestion, stats, nextMode, onLevel, onNext, onPractice, onNibras }: Props) {
+export function ResultCard({ round, picked, won, practice, streak, doneToday, totalModes, left, suggestion, stats, nextMode, onLevel, onNext, onPractice, onNibras, after }: Props) {
   const [shared, setShared] = useState<string | null>(null);
   const [hideSuggest, setHideSuggest] = useState(false);
   const names = MODE_NAMES[round.mode];
@@ -129,6 +131,7 @@ export function ResultCard({ round, picked, won, practice, streak, doneToday, to
         </button>
       </div>
       {!practice && <div className="countdown">سؤال «{names.tab}» الجاي بعد <b>{clock(left)}</b></div>}
+      {after}
 
       <div className="dock">
         <div className="dock-in">

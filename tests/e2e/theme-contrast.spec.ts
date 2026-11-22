@@ -6,6 +6,7 @@
 import type { Locator, Page } from '@playwright/test';
 import { test, expect, STORAGE } from './support/fixtures';
 import { clickAnimated, headerControl, openApp, openEventBySearch, panel } from './support/app';
+import { cairoToday, daysAgo, mockAccounts, signedIn, won } from './support/accountMock';
 
 interface Reading {
   name: string;
@@ -109,4 +110,26 @@ test.describe('first visit', () => {
     expectReadable(results, 'dark');
     expect(isDark(results[1].background), 'the tour step is dark like the app').toBe(true);
   });
+});
+
+test('«تحدي اليوم» accounts: the board and «حسابي» pass AA in both modes @phone', async ({ page }) => {
+  const m = await mockAccounts(page, [won(daysAgo(1)), { ...won(daysAgo(2)), won: false }, won(cairoToday(), 'era')]);
+  m.name = 'نور';
+  await signedIn(page);
+  await page.setViewportSize({ width: 390, height: 844 });
+  for (const mode of ['light', 'dark'] as const) {
+    await page.goto('challenge/#board');
+    await page.evaluate((dark) => {
+      localStorage.setItem('nibras.challenge.theme', dark ? 'dark' : 'light');
+      localStorage.setItem('nibras.challenge.v1', JSON.stringify({ version: 1, level: 'easy', date: '2000-01-01', results: {}, streaks: { easy: { current: 0, best: 0, lastWin: null }, mid: { current: 0, best: 0, lastWin: null }, hard: { current: 0, best: 0, lastWin: null } } }));
+    }, mode === 'dark');
+    await page.reload();
+    await expect(page.locator('.bd-row.pinned')).toBeVisible();
+    const body = await page.evaluate(() => (getComputedStyle(document.body).backgroundColor.match(/\d+/g) ?? []).slice(0, 3).map(Number));
+    expect(isDark(body)).toBe(mode === 'dark');
+    expectReadable(await readings(page.locator('main'), { rank: '.bd-row .bd-rank', name: '.bd-row .bd-name', score: '.bd-row .bd-score', 'my name': '.bd-row.pinned .bd-name small', 'my score': '.bd-row.pinned .bd-score', note: '.acc-small' }), mode);
+    await page.goto('challenge/#account');
+    await expect(page.locator('.cal-day.won')).not.toHaveCount(0);
+    expectReadable(await readings(page.locator('main'), { 'empty day': '.cal-day:not(.won):not(.lost):not(.empty)', 'won day': '.cal-day.won', 'lost day': '.cal-day.lost', win: '.hist .ok', loss: '.hist .no', delete: '.btn.danger', label: '.streaks small' }), mode);
+  }
 });

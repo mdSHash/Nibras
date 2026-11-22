@@ -1,11 +1,11 @@
 /** «تحدي اليوم»: the game shell. Level, mode tabs, today's round (or a practice round), the result. */
-import { Component, useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { Component, lazy, Suspense, useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { toArabicIndic } from '../../../shared/arabic';
 import type { GameData } from '../../../shared/gameData';
 import { loadGame } from '../data';
 import { dailyRound, nibrasBase, practiceRound, suggestLevel, type Round } from '../engine/daily';
 import { LEVEL_NAMES, MODE_NAMES, MODES, type Level, type Mode } from '../engine/levels';
-import { isDone, type Play, type Plays } from '../engine/account';
+import { isDone, mergeIntoLocal, type AccountResult, type Play, type Plays } from '../engine/account';
 import { loadState, recordResult, saveState, visibleStreak, type DailyState } from '../engine/progress';
 import { LevelSheet } from './LevelSheet';
 import { ResultCard } from './ResultCard';
@@ -13,6 +13,16 @@ import { RoundView } from './RoundView';
 import { clock, useNow } from './useNow';
 import { reportAndFetch, type Stats } from '../stats';
 import { trackChallenge } from '../analytics';
+import { useAccount } from '../account/useAccount';
+import { SaveOffer } from './account/SaveOffer';
+import { NameSheet, SignInSheet } from './account/Sheets';
+import { showGame, useHashView } from './account/useHashView';
+import '../account.css';
+
+// The account pages load when first opened, so a guest's round page stays as light as before.
+const BoardView = lazy(() => import('./account/BoardView').then((m) => ({ default: m.BoardView })));
+const AccountView = lazy(() => import('./account/AccountView').then((m) => ({ default: m.AccountView })));
+const PrivacyView = lazy(() => import('./account/PrivacyView').then((m) => ({ default: m.PrivacyView })));
 
 const PLAY_KEY = 'nibras.challenge.play.v1';
 
@@ -89,6 +99,20 @@ function Game({ data }: { data: GameData }) {
   const { today, left } = useNow();
   const [state, setState] = useState<DailyState>(() => loadState(storage(), today));
   const [plays, setPlays] = useState<Plays>(() => loadPlays(today));
+  const view = useHashView();
+  const [signIn, setSignIn] = useState(false);
+  const getPlays = useCallback(() => loadPlays(today), [today]);
+  // After every sign-in: the account's days and today's rounds folded into the local state.
+  const onResults = useCallback((results: AccountResult[]) => setState((s) => {
+    const merged = mergeIntoLocal(s, results, today);
+    saveState(storage(), merged);
+    return merged;
+  }), [today]);
+  const account = useAccount(today, getPlays, onResults);
+  const failedSignIn = account.state.status === 'guest' && account.state.failed === true;
+  useEffect(() => {
+    if (failedSignIn) setSignIn(true);
+  }, [failedSignIn]);
   const [mode, setMode] = useState<Mode>('who');
   const [practice, setPractice] = useState<{ round: Round; play: Play } | null>(null);
   const [sheet, setSheet] = useState(state.level === null);
@@ -146,6 +170,7 @@ function Game({ data }: { data: GameData }) {
       const s = recordResult(state, { date: today, puzzle: round.puzzle, mode, level, won: status.won, attempts: picks.length, seconds: Math.round(((next.endedAt ?? 0) - next.startedAt) / 1000) });
       setState(s);
       saveState(storage(), s);
+      account.report({ date: today, level, mode, picks, seconds: Math.round(((next.endedAt ?? 0) - next.startedAt) / 1000), won: status.won, questionId: round.questionId });
     }
   };
   const setLevel = (l: Level, fromResult: boolean): void => {
@@ -196,7 +221,7 @@ function Game({ data }: { data: GameData }) {
               {MODES.map((m) => {
                 const s = statusOf(m);
                 return (
-                  <button key={m} type="button" role="tab" className="tab" aria-selected={!practice && m === mode} onClick={() => { setPractice(null); setMode(m); }}>
+                  <button key={m} type="button" role="tab" className="tab" aria-selected={!view && !practice && m === mode} onClick={() => { showGame(); setPractice(null); setMode(m); }}>
                     {MODE_NAMES[m].tab}
                     {s.done && <span className={`mark ${s.won ? 'won' : 'lost'}`}>{s.won ? '✓' : '✕'}</span>}
                   </button>
@@ -208,10 +233,27 @@ function Game({ data }: { data: GameData }) {
         }
       >
         <div className="hdr-tools">
+          {account.state.status !== 'off' && (
+            <>
+              <a className="icon-btn" href="#board" aria-label="لوحة الصدارة" aria-current={view === 'board' ? 'page' : undefined}><TrophyIcon /></a>
+              <a className="icon-btn" href="#account" aria-label={account.state.status === 'ready' ? `حسابي: ${account.state.name}` : 'حسابي'} aria-current={view === 'account' ? 'page' : undefined}><PersonIcon /></a>
+            </>
+          )}
           <button type="button" className="chip" onClick={() => setSheet(true)} aria-label={state.level ? `المستوى: ${LEVEL_NAMES[level].name}. غيّره` : 'اختار مستواك'}>{state.level ? LEVEL_NAMES[level].name : 'اختار مستواك'}</button>
           <button type="button" className="icon-btn" onClick={toggleTheme} aria-label={dark ? 'الوضع الفاتح' : 'الوضع الغامق'}>{dark ? '☀' : '☾'}</button>
         </div>
       </Header>
+      {view ? (
+        <main className="page">
+          <Boundary>
+            <Suspense fallback={<div className="skeleton" aria-label="بيحمّل"><i /><i /><i /></div>}>
+              {view === 'board' && <BoardView level={level} account={account.state} token={account.token} onSignIn={() => setSignIn(true)} />}
+              {view === 'account' && <AccountView account={account} today={today} onSignIn={() => setSignIn(true)} />}
+              {view === 'privacy' && <PrivacyView />}
+            </Suspense>
+          </Boundary>
+        </main>
+      ) : (
       <main className={`page${done ? ' docked' : ''}`}>
         {practice && <div className="banner">جولة تدريب: العب براحتك، مش بتتحسب في الأيام ورا بعض.</div>}
         <RoundView key={`${round.questionId}:${practice ? 'p' : 'd'}`} round={round} picks={play.picks} done={done} won={won} onPick={pick} onNibras={() => trackChallenge('challenge_nibras_opened', { mode: round.mode, level: round.level, from: 'card' })} />
@@ -232,11 +274,15 @@ function Game({ data }: { data: GameData }) {
             onNext={(m) => { setMode(m); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
             onPractice={startPractice}
             onNibras={(from) => trackChallenge('challenge_nibras_opened', { mode: round.mode, level: round.level, from })}
+            after={practice ? null : <SaveOffer state={account.state} streak={streak} onSignIn={() => setSignIn(true)} />}
           />
         )}
         <p className="foot">الأسئلة كلها من محتوى <a href={nibrasBase()}>نبراس</a>: خريطة وخط زمني للسيرة النبوية والتاريخ الإسلامي المبكر.</p>
       </main>
+      )}
       {sheet && <LevelSheet first={state.level === null} current={state.level} onPick={(l) => setLevel(l, false)} onClose={() => setSheet(false)} />}
+      {signIn && account.state.status === 'guest' && <SignInSheet failed={account.state.failed} onSignIn={account.signIn} onClose={() => setSignIn(false)} />}
+      {account.state.status === 'needs-name' && <NameSheet error={account.state.error} needsAge={account.state.needsAge} onSubmit={account.chooseName} onCancel={() => void account.signOut()} />}
       {toast && <div className="toast" role="status">{toast}</div>}
     </>
   );
@@ -256,4 +302,22 @@ class Boundary extends Component<{ children: ReactNode }, { failed: boolean }> {
       </main>
     );
   }
+}
+
+function TrophyIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z" />
+      <path d="M17 6h3v1a4 4 0 0 1-4 4M7 6H4v1a4 4 0 0 0 4 4" />
+    </svg>
+  );
+}
+
+function PersonIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 21a8 8 0 0 1 16 0" />
+    </svg>
+  );
 }
