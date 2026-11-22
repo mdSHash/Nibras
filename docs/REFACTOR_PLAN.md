@@ -690,6 +690,11 @@ A daily guessing game in the shape of Wordle-style games, built only from facts 
 Design approved by Mostafa on 2026-11-16 after three rounds of prototypes (the approved one:
 https://claude.ai/artifact/9R9sMW7mcrs9CUY7oaYDKj).
 
+**Changed 2026-11-22 (5G below wins over this section):** three tries (two wrong picks) in every mode;
+every pick, wrong or right, grows into a card with a Nibras line, the tiles and «اعرف أكتر عن …»
+(no tile grid, no «اعرف أكتر في نبراس»); the result leads with share, «بطاقات النهارده» and a fixed
+bottom bar.
+
 - **One round = a question, five options, tiles.** The question and its first clue show before any
   pick. The player picks one of **5 options**. A wrong pick is struck out and adds **one row of
   colored tiles** comparing it with the answer (green same, yellow close, red different, arrows for
@@ -779,6 +784,15 @@ One session per item, each with its own branch and PR.
       attempts and seconds, one row per device and puzzle) and reads only totals through
       `challenge_stats()`. No secret and no extra function to run; a determined cheater can fake
       device ids, acceptable for a "faster than X%" line. Revisit with Phase 6 sign-in.
+- [x] **5G — The game sends players into Nibras** (Mostafa, 2026-11-22; branch `feature/challenge-to-nibras`).
+      Many open the game but not Nibras, and players don't know what Nibras is. Three tries of five
+      options in every mode (order too), shown as three numbered circles; clues unchanged (one more every
+      two wrong picks). A picked option, wrong or right, grows in place into a card: صح/غلط, the first
+      sentence of its Nibras bio, summary or description verbatim, the tiles under it, and
+      «اعرف أكتر عن <name>» (never «في نبراس»). The end: the numbers, a big share panel (no emoji
+      squares), «بطاقات النهارده» (a card per option into its page), a line on what Nibras is,
+      «العب كمان» (next mode, practice), and a bar fixed at the bottom with «اعرف أكتر عن …» first and
+      share next to it. Picked from three prototypes: direction أ plus ج's cards.
 - **Dropped (Mostafa, 2026-11-16):** «الحدث الكامل» (the proposed weekly bonus round) is not part of
   Phase 5; a possible later idea.
 - [x] **Tests (each session for its part):** unit tests for the bank checks, options (5 unique with the

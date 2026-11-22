@@ -3596,3 +3596,46 @@ unrelated to this branch, passed 3/3 when re-run alone); visual 24 passed.
 - Ḥudhayfa's father: «اتقتل» or «استشهد» (see the bank review above).
 - When أبو دجانة and حذيفة became Muslim: 2 facts still unsourced (al-Durar not searched: Chrome was not connected).
 - Phase 6 (accounts, leaderboard) revisits the 5F decision (no Vercel function).
+
+## Phase 5G — The game sends players into Nibras (2026-11-22, `feature/challenge-to-nibras`)
+
+Mostafa: many visitors play «تحدي اليوم» but never open Nibras, and they don't know what Nibras is.
+Three prototypes (artifact 3VS2CNy8kaM9gug9nyYtRP); he picked direction أ (the pick grows into a card
+in place) plus direction ج's «بطاقات النهارده», asked that sharing be clear and prominent, and that the
+emoji squares be left out of the share message.
+
+#### Changes
+
+- **Three tries in every mode** (`MAX_WRONG` 4 → 2, order too). `cluesOpen` unchanged, so one more clue
+  opens before the last try. `suggestLevel` now suggests easier after a loss or a win on the last try
+  (was: four picks or more).
+- **Engine**: every option carries `about` (the first sentence of the person's `bioShort`, the event's
+  `summary` or the city's `description`, unchanged) and `tag` (title or date); an event's place
+  (non-city «المكان» options) says «هنا حصلت «…».». Rounds name what `link` opens (`linkLabel`).
+  «القائد»'s result link is now the leader's page (was the battle's).
+- **Round**: three numbered circles with a counting line («معاك ٣ محاولات بس» … «دي آخر محاولة!»);
+  options in one column; a pick grows into a card (verdict, tag, line, tiles with their names, the
+  sentence, «اعرف أكتر عن …»). A lost round opens the answer's card too. «رتّب»: each wrong order is a
+  card with its tiles. The old tile grid and its legend are gone.
+- **Result**: the numbers as before; a dark share panel showing the message (no squares); «بطاقات
+  النهارده» (the answer, then your picks, then the rest; «رتّب»: the four events in order; «السنة»,
+  «الرقم», «العهد»: the event asked about); «نبراس إيه؟» (the site description); «العب كمان» (next
+  mode, practice); the countdown; a fixed bottom bar: «اعرف أكتر عن …» and «شارك» («سؤال تاني» in
+  practice, which has no share panel). The page scrolls to the end when the round finishes.
+- **Umami**: `challenge_nibras_opened.from` is `card`, `deck` or `dock` (was `tile`, `result`);
+  `docs/OWNER_DASHBOARD.md` updated.
+
+#### Verification
+
+Five batches, foreground: content…vitest passed (500/500); chatindex…bundle passed; features 135 passed,
+2 skipped; engines 54 passed, 24 skipped; Lighthouse passed. Visual: 20 passed, the 4
+`challenge-result-{light,dark}` shots (desktop and phone) differ, as intended. **Mostafa approved
+replacing those 4 (2026-11-22).** The result shot now waits for the page's own scroll to the end, then
+shoots from the top, so the fixed bottom bar lands in the same place every run (two runs in a row
+match). Windows shots re-recorded locally; Linux shots taken from CI's run on this PR.
+
+#### Open, for Mostafa
+
+- A city in «المكان» has no page in Nibras, so its «اعرف أكتر عن …» opens the map (home).
+- The per-option line is the record's first sentence verbatim (فصحى, sometimes long); short Egyptian
+  lines citing it are possible later, reviewed like the bank.

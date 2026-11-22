@@ -10,7 +10,7 @@ import { stripDiacritics, toArabicIndic } from '../../../shared/arabic';
 import { yearDiff } from '../../../shared/gameText';
 import { compareBattles, comparePeople, yearLabel, type Mark } from './compare';
 import { directionAr, distanceKm, roundKm } from './geo';
-import { LEVEL_CONFIG, OPTION_COUNT, type Level, type Mode } from './levels';
+import { LEVEL_CONFIG, MAX_WRONG, OPTION_COUNT, type Level, type Mode } from './levels';
 import { numberOptions, preferred, yearOptions } from './options';
 import { dailyRng, hash, practiceRng, puzzleNumber, rngFrom, shuffle, type Rng } from './seed';
 
@@ -18,7 +18,15 @@ import { dailyRng, hash, practiceRng, puzzleNumber, rngFrom, shuffle, type Rng }
 export const LAUNCH_DATE = '2026-11-16';
 
 export interface Cell { text: string; mark: Mark; sub?: string }
-export interface Option { id: string; label: string; link?: string }
+export interface Option {
+  id: string;
+  label: string;
+  link?: string;
+  /** A line about this option, verbatim from Nibras (the first sentence of a bio, summary or description). */
+  about?: string;
+  /** A short tag under the name: a person's title or an event's date, verbatim. */
+  tag?: string;
+}
 export interface Teach { cells: Cell[]; sentence?: string }
 
 export interface Round {
@@ -35,6 +43,8 @@ export interface Round {
   /** A verbatim Nibras fact line for the result. */
   fact: string;
   link: string;
+  /** What `link` opens, for «اعرف أكتر عن …». */
+  linkLabel: string;
   /** What a wrong pick teaches. */
   teach: (optionId: string) => Teach;
 }
@@ -47,6 +57,10 @@ export function nibrasBase(): string {
 const personLink = (id: string): string => `${nibrasBase()}person/${id}/`;
 const eventLink = (e: GameEvent): string => `${nibrasBase()}event/${encodeURIComponent(e.slug)}/`;
 const bare = (t: string): string => stripDiacritics(t).replace(/\s+/g, ' ').trim();
+/** The first sentence of a Nibras text, unchanged. */
+export const firstSentence = (t: string): string => t.trim().split(/(?<=[.؟!])\s/)[0];
+const personAbout = (p: GamePerson | undefined): Pick<Option, 'about' | 'tag'> => (p ? { about: firstSentence(p.bioShort), tag: p.title } : {});
+const eventAbout = (e: GameEvent): Pick<Option, 'about' | 'tag'> => ({ about: firstSentence(e.summary), tag: e.dateLabel });
 
 /** The bank's questions for a mode and level, in this level's fixed cycle order. */
 export function cycle(data: GameData, mode: Mode, level: Level): BankQuestion[] {
@@ -95,9 +109,10 @@ export function buildRound(data: GameData, q: BankQuestion, level: Level, rng: R
         ...base,
         prompt: 'مين الشخصية دي؟',
         heads: [FACT_TITLES.islam, FACT_TITLES.migration, FACT_TITLES.knownFor, level === 'hard' ? 'سنة الوفاة' : FACT_TITLES.lastEra, FACT_TITLES.deathPlace],
-        options: options.map((p) => ({ id: p.id, label: p.name, link: personLink(p.id) })),
+        options: options.map((p) => ({ id: p.id, label: p.name, link: personLink(p.id), ...personAbout(p) })),
         answerId: a.id,
         answerLabel: a.name,
+        linkLabel: a.name,
         fact: `${bare(a.role)} · توفي سنة ${toArabicIndic(a.deathYear)} هـ`,
         link: personLink(a.id),
         teach: (id) => {
@@ -115,9 +130,10 @@ export function buildRound(data: GameData, q: BankQuestion, level: Level, rng: R
         ...base,
         prompt: 'أنهي معركة دي؟',
         heads: ['السنة', 'العهد', 'النبي ﷺ فيها؟', 'المسافة'],
-        options: options.map((e) => ({ id: e.id, label: bare(e.title), link: eventLink(e) })),
+        options: options.map((e) => ({ id: e.id, label: bare(e.title), link: eventLink(e), ...eventAbout(e) })),
         answerId: a.id,
         answerLabel: bare(a.title),
+        linkLabel: bare(a.title),
         fact: `${bare(a.dateLabel)} · ${bare(a.place)} · ${eraName(a.era)}`,
         link: eventLink(a),
         teach: (id) => {
@@ -137,9 +153,10 @@ export function buildRound(data: GameData, q: BankQuestion, level: Level, rng: R
         ...base,
         prompt: a.city ? 'أنهي مدينة دي؟' : 'أنهي مكان ده؟',
         heads: ['بعدها عن المكان', 'ناحية'],
-        options: options.map((p) => ({ id: p.id, label: p.label, link: p.link })),
+        options: options.map((p) => ({ id: p.id, label: p.label, link: p.link, about: p.about })),
         answerId: a.id,
         answerLabel: a.label,
+        linkLabel: a.label,
         fact: a.fact,
         link: a.link,
         teach: (id) => {
@@ -164,6 +181,7 @@ export function buildRound(data: GameData, q: BankQuestion, level: Level, rng: R
         answerLabel: yearLabel(a.year),
         fact: `${bare(a.title)} · ${bare(a.dateLabel)}`,
         link: eventLink(a),
+        linkLabel: bare(a.title),
         teach: (id) => {
           const y = Number(id.slice(1));
           const later = a.year > y;
@@ -185,6 +203,7 @@ export function buildRound(data: GameData, q: BankQuestion, level: Level, rng: R
         answerLabel: toArabicIndic(force.value.toLocaleString('en-US')),
         fact: `${bare(force.textAr)} · ${bare(e.title)}`,
         link: eventLink(e),
+        linkLabel: bare(e.title),
         teach: (oid) => {
           const n = Number(oid.slice(1));
           const bigger = force.value > n;
@@ -204,11 +223,12 @@ export function buildRound(data: GameData, q: BankQuestion, level: Level, rng: R
         ...base,
         prompt: q.prompt ?? 'مين القائد؟',
         heads: ['قاد المسلمين في', 'العهد', 'السنة'],
-        options: options.map((l) => ({ id: l.id, label: l.name, link: personLink(l.id) })),
+        options: options.map((l) => ({ id: l.id, label: l.name, link: personLink(l.id), ...personAbout(data.people.find((p) => p.id === l.id)) })),
         answerId: a.id,
         answerLabel: a.name,
         fact: `${bare(battle.title)} · ${bare(battle.dateLabel)}`,
-        link: eventLink(battle),
+        link: personLink(a.id),
+        linkLabel: a.name,
         teach: (id) => {
           const g = data.leaders.find((l) => l.id === id)!;
           const b = [...g.battles].sort((x, y) => Math.abs(yearDiff(x.year, battle.year)) - Math.abs(yearDiff(y.year, battle.year)))[0];
@@ -237,6 +257,7 @@ export function buildRound(data: GameData, q: BankQuestion, level: Level, rng: R
         answerLabel: eraName(a.era),
         fact: `${bare(a.title)} · ${bare(a.dateLabel)}`,
         link: eventLink(a),
+        linkLabel: bare(a.title),
         teach: (id) => {
           const later = index(a.era) > index(id);
           return { cells: [{ text: later ? 'بعد كده ↑' : 'قبل كده ↓', mark: 'red' }], sentence: later ? 'الحدث حصل في عهد بعد ده.' : 'الحدث حصل في عهد قبل ده.' };
@@ -250,11 +271,12 @@ export function buildRound(data: GameData, q: BankQuestion, level: Level, rng: R
         ...base,
         prompt: 'رتّب الأحداث دي من الأقدم للأحدث',
         heads: ['١', '٢', '٣', '٤'],
-        options: shuffle(evs, rng).map((e) => ({ id: e.id, label: bare(e.title), link: eventLink(e) })),
+        options: shuffle(evs, rng).map((e) => ({ id: e.id, label: bare(e.title), link: eventLink(e), ...eventAbout(e) })),
         answerId: ids.join(','),
         answerLabel: evs.map((e) => bare(e.title)).join(' ← '),
         fact: evs.map((e) => `${bare(e.title)}: ${bare(e.dateLabel)}`).join(' · '),
         link: eventLink(evs[0]),
+        linkLabel: bare(evs[0].title),
         teach: (attempt) => {
           const guess = attempt.split(',');
           return { cells: guess.map((id, i) => ({ text: bare(event(id).title), mark: id === ids[i] ? 'green' : 'red' })) };
@@ -266,17 +288,17 @@ export function buildRound(data: GameData, q: BankQuestion, level: Level, rng: R
   }
 }
 
-interface Place { id: string; label: string; lat: number; lon: number; city: boolean; fact: string; link: string }
+interface Place { id: string; label: string; lat: number; lon: number; city: boolean; fact: string; link: string; about: string }
 
 /** «المكان»'s answers and options: the cities, and every event's place under its short name (one per name). */
 export function placePool(data: GameData): Place[] {
-  const out: Place[] = data.cities.map((c: GameCity) => ({ id: c.id, label: bare(c.name), lat: c.lat, lon: c.lon, city: true, fact: bare(c.description), link: nibrasBase() }));
+  const out: Place[] = data.cities.map((c: GameCity) => ({ id: c.id, label: bare(c.name), lat: c.lat, lon: c.lon, city: true, fact: bare(c.description), link: nibrasBase(), about: firstSentence(c.description) }));
   const names = new Set(out.map((p) => p.label.split(' (')[0]));
   for (const e of data.events) {
     const label = bare(e.place).split('،')[0].trim();
     if (names.has(label) || /^(مكة|المدينة)/.test(label)) continue;
     names.add(label);
-    out.push({ id: `event:${e.id}`, label, lat: e.lat, lon: e.lon, city: false, fact: `${bare(e.title)} · ${bare(e.place)}`, link: eventLink(e) });
+    out.push({ id: `event:${e.id}`, label, lat: e.lat, lon: e.lon, city: false, fact: `${bare(e.title)} · ${bare(e.place)}`, link: eventLink(e), about: `هنا حصلت «${bare(e.title)}».` });
   }
   return out;
 }
@@ -286,12 +308,12 @@ export function cluesOpen(level: Level, wrong: number, total: number): number {
   return Math.min(total, LEVEL_CONFIG[level].cluesAtStart + Math.floor(wrong / 2));
 }
 
-/** The level suggestion after a won round: harder when fast, easier after a struggle. */
+/** The level suggestion after a round: harder when fast, easier after a loss or a win on the last try. */
 export function suggestLevel(level: Level, won: boolean, picks: number, seconds: number): Level | null {
   const order: Level[] = ['easy', 'mid', 'hard'];
   const i = order.indexOf(level);
   const cfg = LEVEL_CONFIG[level];
   if (won && i < 2 && (picks <= cfg.fastPicks || seconds <= cfg.fastSeconds)) return order[i + 1];
-  if ((!won || picks >= 4) && i > 0) return order[i - 1];
+  if ((!won || picks > MAX_WRONG) && i > 0) return order[i - 1];
   return null;
 }

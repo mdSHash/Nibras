@@ -2,6 +2,15 @@
 
 Mostafa's spec, kept as written below the amendments. The plan's Phase 5 section is the task list.
 
+## Amendment 2026-11-22 (wins over everything below)
+
+The game sends players into Nibras: five options and **three tries** in every mode, clues unchanged;
+every pick grows into a card (صح/غلط, the first sentence of its Nibras record, the tiles,
+«اعرف أكتر عن <name>»; players don't know the name Nibras, so never «اعرف أكتر في نبراس»). The
+result: the numbers, a big share panel (no emoji squares), «بطاقات النهارده» (a card per option into
+its page), a line on what Nibras is, «العب كمان», and a fixed bar with «اعرف أكتر عن …» and «شارك».
+Plan, Phase 5G.
+
 ## Amendments agreed 2026-11-15/16 (these win over the text below)
 
 1. **Look:** redesign the game to look like part of Nibras. The prototype is a reference for behaviour,

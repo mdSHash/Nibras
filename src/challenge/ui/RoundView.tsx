@@ -1,7 +1,14 @@
-/** One round: the question and its clues, the options, and a row of tiles for every wrong pick. */
+/**
+ * One round: the question and its clues, the three tries, and the options. A picked option
+ * grows in place into a card: right or wrong, a Nibras line about it, the comparison tiles,
+ * and «اعرف أكتر عن …» into its page (direction approved 2026-11-22).
+ */
 import { useState } from 'react';
-import { cluesOpen, type Round } from '../engine/daily';
+import { toArabicIndic } from '../../../shared/arabic';
+import { cluesOpen, type Option, type Round } from '../engine/daily';
 import { MAX_WRONG } from '../engine/levels';
+
+const TRIES = MAX_WRONG + 1;
 
 interface Props {
   round: Round;
@@ -9,23 +16,21 @@ interface Props {
   done: boolean;
   won: boolean;
   onPick: (id: string) => void;
-  /** A tile row's name was opened in Nibras (counted by Umami). */
+  /** A card's «اعرف أكتر» was opened (counted by Umami). */
   onNibras: () => void;
 }
 
 export function RoundView({ round, picks, done, won, onPick, onNibras }: Props) {
   const wrong = picks.filter((p) => p !== round.answerId);
   const shown = done ? round.clues.length : cluesOpen(round.level, wrong.length, round.clues.length);
-  const label = (id: string): string => round.options.find((o) => o.id === id)?.label ?? id;
-  const link = (id: string): string | undefined => round.options.find((o) => o.id === id)?.link;
-  const cols = { gridTemplateColumns: `${round.heads.length > 2 ? '1.25fr' : '1.6fr'} repeat(${round.heads.length}, 1fr)` };
   const nextClueIn = shown < round.clues.length && !done ? 2 - (wrong.length % 2) : 0;
+  const order = round.mode === 'order';
 
   return (
     <section aria-labelledby="q-title">
       <div className="ask">
         <h1 id="q-title">{round.prompt}</h1>
-        <p>{round.mode === 'order' ? 'دوس على الأحداث بالترتيب، وبعدين اتأكد.' : `${round.clues.length ? 'اقرا الدليل و' : ''}اختار واحد من الخمسة. كل اختيار غلط بيقولك إيه اللي زيه وإيه اللي مختلف.`}</p>
+        <p>{order ? 'دوس على الأحداث بالترتيب، وبعدين اتأكد.' : `${round.clues.length ? 'اقرا الدليل و' : ''}اختار واحد من الخمسة. كل اختيار هيقولك صح ولا غلط، وحاجة عنه.`}</p>
       </div>
       {round.clues.length > 0 && (
         <div className="clues">
@@ -34,60 +39,106 @@ export function RoundView({ round, picks, done, won, onPick, onNibras }: Props) 
           ))}
         </div>
       )}
-      {round.mode === 'order' ? (
-        <OrderBoard round={round} picks={picks} done={done} onSubmit={onPick} />
+      <Tries round={round} picks={picks} won={won} done={done} />
+      {nextClueIn > 0 && <p className="clue-btn" role="status">دليل تاني بعد {nextClueIn === 1 ? 'غلطة كمان' : 'غلطتين'}</p>}
+      {order ? (
+        <>
+          <OrderBoard round={round} picks={picks} done={done} onSubmit={onPick} />
+          {wrong.length > 0 && (
+            <div className="cards" aria-live="polite">
+              {[...wrong].reverse().map((attempt, i) => (
+                <article key={attempt} className="pc no">
+                  <div className="pc-top">
+                    <h3 className="pc-name">المحاولة {toArabicIndic(wrong.length - i)}</h3>
+                    <span className="verdict no">✗ غلط</span>
+                  </div>
+                  <Tiles round={round} id={attempt} />
+                </article>
+              ))}
+            </div>
+          )}
+        </>
       ) : (
-        <div className="opts" role="group" aria-label="الاختيارات">
+        <div className="cards" role="group" aria-label="الاختيارات" aria-live="polite">
           {round.options.map((o) => {
             const picked = picks.includes(o.id);
             const isAnswer = o.id === round.answerId;
-            const cls = done && isAnswer ? (won ? 'opt right' : 'opt reveal') : 'opt';
+            if (picked || (done && isAnswer)) return <Card key={o.id} round={round} option={o} picked={picked} onNibras={onNibras} />;
             return (
-              <button key={o.id} type="button" className={cls} disabled={done || picked} aria-pressed={picked} onClick={() => onPick(o.id)}>
+              <button key={o.id} type="button" className="opt" disabled={done} onClick={() => onPick(o.id)}>
                 {o.label}
               </button>
             );
           })}
         </div>
       )}
-      {!done && (
-        <div className="picks" aria-label={`غلطات: ${wrong.length} من ${MAX_WRONG}`}>
-          {Array.from({ length: MAX_WRONG }, (_, i) => <i key={i} className={i < wrong.length ? 'used' : ''} />)}
-        </div>
-      )}
-      {nextClueIn > 0 && <p className="clue-btn" role="status">دليل تاني بعد {nextClueIn === 1 ? 'غلطة كمان' : 'غلطتين'}</p>}
-      {wrong.length > 0 && (
-        <div className="grid" aria-live="polite">
-          <div className="heads" style={cols}>
-            <span>{round.mode === 'order' ? 'محاولة' : 'اختيارك'}</span>
-            {round.heads.map((h) => <span key={h}>{h}</span>)}
-          </div>
-          {[...wrong].reverse().map((id, i) => {
-            const t = round.teach(id);
-            const href = link(id);
-            return (
-              <div key={id + i} className="row" style={cols}>
-                <div className="cell name">
-                  {round.mode === 'order' ? `#${wrong.length - i}` : href ? <a href={href} target="_blank" rel="noopener" title="اعرف أكتر في نبراس" onClick={onNibras}>{label(id)}</a> : label(id)}
-                </div>
-                {t.cells.map((c, j) => (
-                  <div key={j} className={`cell ${c.mark}`}>
-                    {c.text}
-                    {c.sub && <small>{c.sub}</small>}
-                  </div>
-                ))}
-                {t.sentence && <p className="say">{t.sentence}</p>}
-              </div>
-            );
-          })}
-          <div className="legend">
-            <span><i style={{ background: 'var(--c-go)' }} />زيه</span>
-            <span><i style={{ background: 'var(--c-near)' }} />قريب</span>
-            <span><i style={{ background: 'var(--c-miss)' }} />مختلف</span>
-          </div>
-        </div>
-      )}
     </section>
+  );
+}
+
+/** The three tries: numbered circles that turn ✗ or ✓, and a line that counts down. */
+function Tries({ round, picks, won, done }: { round: Round; picks: string[]; won: boolean; done: boolean }) {
+  const left = TRIES - picks.length;
+  const say = won ? 'عرفتها!' : done ? 'خلصت محاولاتك' : left === TRIES ? `معاك ${toArabicIndic(TRIES)} محاولات بس` : left === 1 ? 'دي آخر محاولة!' : `فاضل لك ${toArabicIndic(left)} محاولات`;
+  return (
+    <div className={`tries${left === 1 && !done ? ' last' : ''}`} role="status" aria-label={`المحاولات: ${toArabicIndic(picks.length)} من ${toArabicIndic(TRIES)}. ${say}`}>
+      <div className="tries-dots" aria-hidden="true">
+        {Array.from({ length: TRIES }, (_, i) => {
+          const p = picks[i];
+          const right = p === round.answerId;
+          return <span key={i} className={p ? (right ? 'won' : 'used') : ''}>{p ? (right ? '✓' : '✗') : toArabicIndic(i + 1)}</span>;
+        })}
+      </div>
+      <b>{say}</b>
+    </div>
+  );
+}
+
+function Card({ round, option: o, picked, onNibras }: { round: Round; option: Option; picked: boolean; onNibras: () => void }) {
+  const yes = o.id === round.answerId;
+  return (
+    <article className={`pc ${yes ? 'yes' : 'no'}`}>
+      <div className="pc-top">
+        <h3 className="pc-name">{o.label}</h3>
+        <span className={`verdict ${yes ? 'yes' : 'no'}`}>{!picked ? 'دي الإجابة' : yes ? '✓ صح' : '✗ غلط'}</span>
+      </div>
+      {o.tag && <div className="pc-tag">{o.tag}</div>}
+      {o.about && <p className="pc-about">{o.about}</p>}
+      {!yes && <Tiles round={round} id={o.id} />}
+      {o.link && (
+        <a className={`cta${yes ? '' : ' ghost'}`} href={o.link} target="_blank" rel="noopener" onClick={onNibras}>
+          اعرف أكتر عن {o.label}
+          <Arrow />
+        </a>
+      )}
+    </article>
+  );
+}
+
+/** What a wrong pick teaches: a tile per fact, named, then its sentence. */
+function Tiles({ round, id }: { round: Round; id: string }) {
+  const t = round.teach(id);
+  return (
+    <>
+      <div className="tiles" style={{ gridTemplateColumns: `repeat(${t.cells.length}, minmax(0, 1fr))` }} aria-label="مقارنة بالإجابة">
+        {t.cells.map((c, j) => (
+          <div key={j} className={`tile ${c.mark}`}>
+            <span>{c.text}</span>
+            {c.sub && <span className="tile-sub">{c.sub}</span>}
+            <small>{round.heads[j]}</small>
+          </div>
+        ))}
+      </div>
+      {t.sentence && <p className="say">{t.sentence}</p>}
+    </>
+  );
+}
+
+export function Arrow() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M15 5l-7 7 7 7" />
+    </svg>
   );
 }
 
