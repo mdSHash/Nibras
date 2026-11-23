@@ -287,12 +287,12 @@ export default function BattleVideoPlayer({
                 className="relative flex items-center gap-2 px-6 py-4 rounded-full bg-gray-900/90 hover:bg-gray-800 border border-gray-600/50 text-white font-bold text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-green-400"
               >
                 <Play className="w-6 h-6" aria-hidden />
-                تشغيل الفيديو
+                شغّل الفيديو
               </button>
             ) : (
               <div className="relative flex flex-col items-center gap-3 rounded-xl bg-gray-900/80 px-5 py-4" role="status">
                 <div className="w-10 h-10 border-4 border-green-500 border-t-transparent rounded-full animate-spin motion-reduce:animate-none" aria-hidden />
-                <p className="text-gray-200">جارٍ تحميل الفيديو...</p>
+                <p className="text-gray-200">الفيديو بيحمّل…</p>
               </div>
             )}
           </div>
@@ -301,7 +301,7 @@ export default function BattleVideoPlayer({
         {state.status === 'error' && (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-900 px-6 overflow-y-auto" style={LAYER} role="alert">
             <div className="text-center space-y-3 sm:space-y-4 max-w-md py-2">
-              <h2 className="text-lg sm:text-xl font-semibold">تعذّر تشغيل الفيديو</h2>
+              <h2 className="text-lg sm:text-xl font-semibold">مقدرناش نشغّل الفيديو</h2>
               <p className="text-gray-300 text-sm sm:text-base">{ERROR_MESSAGES[state.error ?? 'unplayable']}</p>
               <div className="flex flex-wrap items-center justify-center gap-3">
                 <button
@@ -309,7 +309,7 @@ export default function BattleVideoPlayer({
                   onClick={() => dispatch({ type: 'retry' })}
                   className="px-5 min-h-[44px] bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-green-400"
                 >
-                  إعادة المحاولة
+                  جرّب تاني
                 </button>
                 {onReplayInstead && (
                   <button
@@ -317,7 +317,7 @@ export default function BattleVideoPlayer({
                     onClick={onReplayInstead}
                     className="px-5 min-h-[44px] bg-gray-800 hover:bg-gray-700 border border-gray-600/50 rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-green-400"
                   >
-                    مشاهدة المحاكاة بدلاً منه
+                    اتفرج على المحاكاة بدل الفيديو
                   </button>
                 )}
               </div>

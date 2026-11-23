@@ -67,7 +67,7 @@ export class ChallengeAccounts {
   async handle(token: string | null, body: Record<string, unknown>): Promise<Reply> {
     if (!token) return fail(401, 'signed_out', 'لازم تسجّل دخول الأول.');
     const user = await this.db.userFor(token);
-    if (!user) return fail(401, 'signed_out', 'انتهت جلستك. سجّل دخول تاني.');
+    if (!user) return fail(401, 'signed_out', 'خرجت من حسابك. سجّل دخول تاني.');
     switch (body.action) {
       case 'join':
         return this.join(user.id, body);

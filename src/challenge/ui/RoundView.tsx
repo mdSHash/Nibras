@@ -6,9 +6,8 @@
 import { useState } from 'react';
 import { toArabicIndic } from '../../../shared/arabic';
 import { cluesOpen, type Option, type Round } from '../engine/daily';
-import { MAX_WRONG } from '../engine/levels';
+import { TRIES, WRONG_PER_CLUE } from '../engine/levels';
 
-const TRIES = MAX_WRONG + 1;
 
 interface Props {
   round: Round;
@@ -23,14 +22,16 @@ interface Props {
 export function RoundView({ round, picks, done, won, onPick, onNibras }: Props) {
   const wrong = picks.filter((p) => p !== round.answerId);
   const shown = done ? round.clues.length : cluesOpen(round.level, wrong.length, round.clues.length);
-  const nextClueIn = shown < round.clues.length && !done ? 2 - (wrong.length % 2) : 0;
+  // Wrong picks until the next clue opens; 0 when none is left or the round ends first.
+  const toClue = WRONG_PER_CLUE - (wrong.length % WRONG_PER_CLUE);
+  const nextClueIn = shown < round.clues.length && !done && wrong.length + toClue < TRIES ? toClue : 0;
   const order = round.mode === 'order';
 
   return (
     <section aria-labelledby="q-title">
       <div className="ask">
         <h1 id="q-title">{round.prompt}</h1>
-        <p>{order ? 'دوس على الأحداث بالترتيب، وبعدين اتأكد.' : `${round.clues.length ? 'اقرا الدليل و' : ''}اختار واحد من الخمسة. كل اختيار هيقولك صح ولا غلط، وحاجة عنه.`}</p>
+        <p>{order ? 'اضغط على الأحداث من الأقدم للأحدث، وبعدين «اتأكد من الترتيب».' : `${round.clues.length ? 'اقرا الدليل و' : ''}اختار إجابة من الخمسة، وكل اختيار هيقولك صح ولا غلط ومعلومة عنه.`}</p>
       </div>
       {round.clues.length > 0 && (
         <div className="clues">
@@ -59,7 +60,7 @@ export function RoundView({ round, picks, done, won, onPick, onNibras }: Props) 
           )}
         </>
       ) : (
-        <div className="cards" role="group" aria-label="الاختيارات" aria-live="polite">
+        <div className="cards" role="group" aria-label="الاختيارات" aria-live="polite" data-tour-id="options">
           {round.options.map((o) => {
             const picked = picks.includes(o.id);
             const isAnswer = o.id === round.answerId;
@@ -79,9 +80,9 @@ export function RoundView({ round, picks, done, won, onPick, onNibras }: Props) 
 /** The three tries: numbered circles that turn ✗ or ✓, and a line that counts down. */
 function Tries({ round, picks, won, done }: { round: Round; picks: string[]; won: boolean; done: boolean }) {
   const left = TRIES - picks.length;
-  const say = won ? 'عرفتها!' : done ? 'خلصت محاولاتك' : left === TRIES ? `معاك ${toArabicIndic(TRIES)} محاولات بس` : left === 1 ? 'دي آخر محاولة!' : `فاضل لك ${toArabicIndic(left)} محاولات`;
+  const say = won ? 'عرفتها!' : done ? 'خلصت محاولاتك' : left === TRIES ? `معاك ${toArabicIndic(TRIES)} محاولات بس` : left === 1 ? 'دي آخر محاولة!' : (left === 2 ? 'فاضلّك محاولتين' : `فاضلّك ${toArabicIndic(left)} محاولات`);
   return (
-    <div className={`tries${left === 1 && !done ? ' last' : ''}`} role="status" aria-label={`المحاولات: ${toArabicIndic(picks.length)} من ${toArabicIndic(TRIES)}. ${say}`}>
+    <div className={`tries${left === 1 && !done ? ' last' : ''}`} data-tour-id="tries" role="status" aria-label={`المحاولات: ${toArabicIndic(picks.length)} من ${toArabicIndic(TRIES)}. ${say}`}>
       <div className="tries-dots" aria-hidden="true">
         {Array.from({ length: TRIES }, (_, i) => {
           const p = picks[i];
@@ -161,7 +162,7 @@ function OrderBoard({ round, picks, done, onSubmit }: { round: Round; picks: str
         {[0, 1, 2, 3].map((i) => (
           <button key={i} type="button" role="listitem" className={`slot${slots[i] ? '' : ' empty'}`} disabled={done || !slots[i]} onClick={() => setChosen(chosen.filter((x) => x !== slots[i]))}>
             <b>{'١٢٣٤'[i]}</b>
-            {slots[i] ? label(slots[i]) : 'دوس على حدث من تحت'}
+            {slots[i] ? label(slots[i]) : 'اضغط على حدث من تحت'}
           </button>
         ))}
       </div>

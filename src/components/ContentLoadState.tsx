@@ -21,20 +21,20 @@ export function ContentLoadState<T>({
   if (state.status === 'error') {
     return (
       <div role="alert" className={cn('flex flex-col items-center gap-3 py-6 text-center', className)}>
-        <p className="text-ink/85 font-medium">تعذّر تحميل المحتوى. تحقّق من الاتصال ثم أعد المحاولة.</p>
+        <p className="text-ink/85 font-medium">مقدرناش نحمّل المحتوى. اتأكد إنك متصل بالنت وجرّب تاني.</p>
         <button
           type="button"
           onClick={state.retry}
           className="inline-flex items-center gap-2 rounded-lg border border-border-dark/30 px-4 py-2 font-bold text-ink hover:bg-ink/5 focus-visible:outline-2 focus-visible:outline-accent transition-colors"
         >
           <RotateCw size={16} aria-hidden="true" />
-          إعادة المحاولة
+          جرّب تاني
         </button>
       </div>
     );
   }
   return (
-    <div role="status" aria-label="جارٍ التحميل" className={cn('flex flex-col gap-3 py-2', className)}>
+    <div role="status" aria-label="بيحمّل…" className={cn('flex flex-col gap-3 py-2', className)}>
       {Array.from({ length: lines }, (_, i) => (
         <div
           key={i}

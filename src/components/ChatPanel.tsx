@@ -98,7 +98,7 @@ function CitationChip({ citation, onClick }: { citation: ChatCitation; onClick: 
 
 function TypingIndicator() {
   return (
-    <div className="flex items-center gap-1 px-4 py-3" aria-live="polite" aria-label="المساعد يكتب">
+    <div className="flex items-center gap-1 px-4 py-3" aria-live="polite" aria-label="نبراس بيكتب…">
       {[0, 1, 2].map(i => (
         <motion.span
           key={i}
@@ -278,7 +278,7 @@ export default function ChatPanel({ isOpen, onClose, onCitationClick }: ChatPane
                     'text-[var(--color-ink)]',
                     'transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]',
                   )}
-                  aria-label="إغلاق"
+                  aria-label="اقفل"
                 >
                   <X size={20} />
                 </button>
@@ -292,7 +292,7 @@ export default function ChatPanel({ isOpen, onClose, onCitationClick }: ChatPane
                       'text-[var(--color-ink)]',
                       'transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]',
                     )}
-                    aria-label="بدء محادثة جديدة"
+                    aria-label="ابدأ محادثة جديدة"
                   >
                     <RotateCcw size={14} aria-hidden="true" />
                     <span className="hidden sm:inline">محادثة جديدة</span>
@@ -306,7 +306,7 @@ export default function ChatPanel({ isOpen, onClose, onCitationClick }: ChatPane
                   اسأل نبراس
                 </h2>
                 <p className="text-xs text-[var(--color-ink)]/70 text-center mt-1 short:hidden">
-                  إجابات مستندة إلى محتوى التطبيق فقط
+                  الإجابات من محتوى نبراس بس
                 </p>
               </div>
 
@@ -319,7 +319,7 @@ export default function ChatPanel({ isOpen, onClose, onCitationClick }: ChatPane
                 {messages.length === 0 && (
                   <div className="flex flex-col gap-3 text-center py-4">
                     <p className="text-sm 4xl:text-base text-[var(--color-ink)]/70">
-                      اسأل عن أي حدث أو صحابي أو معركة موجودة في التطبيق
+                      اسأل عن أي حدث أو صحابي أو معركة في نبراس
                     </p>
                     <ExampleQuestions onAsk={sendMessage} />
                   </div>
@@ -369,7 +369,7 @@ export default function ChatPanel({ isOpen, onClose, onCitationClick }: ChatPane
                         onClick={() => sendMessage(m.role === 'user' ? m.text : messages[messages.indexOf(m) - 1]?.text || '')}
                         className="!px-2 !py-1 pointer-coarse:!min-h-10 text-xs"
                       >
-                        حاول مرة أخرى
+                        جرّب تاني
                       </Button>
                     )}
                   </div>
@@ -386,11 +386,11 @@ export default function ChatPanel({ isOpen, onClose, onCitationClick }: ChatPane
               <div className="shrink-0 p-3 max-md:pb-[max(0.75rem,env(safe-area-inset-bottom))] border-t border-[var(--color-accent)]/20">
                 {isThrottled && (
                   <p className="text-[length:var(--chat-tiny)] text-[var(--color-ink)]/60 mb-1.5 text-center">
-                    الرجاء الانتظار قليلاً قبل إرسال سؤال آخر
+                    استنى شوية قبل ما تبعت سؤال تاني
                   </p>
                 )}
                 {showSuggestions && (
-                  <div className="flex flex-wrap gap-1.5 mb-2" role="listbox" aria-label="اقتراحات الأسئلة">
+                  <div className="flex flex-wrap gap-1.5 mb-2" role="listbox" aria-label="أسئلة مقترحة">
                     {suggestions.map(s => (
                       <button
                         key={s}
@@ -427,7 +427,7 @@ export default function ChatPanel({ isOpen, onClose, onCitationClick }: ChatPane
                     type="text"
                     value={draft}
                     onChange={e => setDraft(e.target.value)}
-                    placeholder="اكتب سؤالك هنا..."
+                    placeholder="اكتب سؤالك هنا…"
                     disabled={isLoading}
                     maxLength={400}
                     enterKeyHint="send"
@@ -450,7 +450,7 @@ export default function ChatPanel({ isOpen, onClose, onCitationClick }: ChatPane
                       'bg-[var(--color-accent)] text-parchment',
                       'disabled:opacity-40 disabled:cursor-not-allowed transition-opacity',
                     )}
-                    aria-label="إرسال"
+                    aria-label="ابعت"
                   >
                     <Send size={17} />
                   </motion.button>

@@ -1,6 +1,6 @@
 // Shared by scripts/narration.ts, scripts/build-content.ts and the tests: reads
-// public/audio/manifest.json and sorts every event's narration into fresh, stale
-// and missing (shared/narration.ts has the format).
+// public/audio/manifest.json and sorts every event's narration, and every tour card's
+// (Phase 7), into fresh, stale and missing (shared/narration.ts has the format).
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
@@ -13,7 +13,8 @@ import {
   type GeneratedNarration,
   type NarrationKind,
 } from '../../shared/narration';
-import { narrationManifestSchema, type NarrationManifest } from '../../shared/contentSchema';
+import { narrationManifestSchema, tourSchema, type NarrationManifest, type TourContent } from '../../shared/contentSchema';
+import { TOUR_IDS, tourClipFileName, type TourId } from '../../shared/tours';
 import { eventSlug } from '../../shared/routes';
 import { ROOT } from '../baseline/lib';
 
@@ -39,6 +40,30 @@ export interface NarrationReport {
   stale: { eventId: string; kind: NarrationKind }[];
   missing: { eventId: string; kind: NarrationKind }[];
   fresh: GeneratedNarration;
+  /** Tour cards (Phase 7): the same sorting, by tour and step. */
+  tourStale: { tour: TourId; step: string }[];
+  tourMissing: { tour: TourId; step: string }[];
+  tourFresh: Partial<Record<TourId, Record<string, string>>>;
+}
+
+/** content/tours/<id>.json, validated; issues name the file. */
+export function readTours(contentDir: string): { tours: TourContent[]; issues: { file: string; message: string }[] } {
+  const tours: TourContent[] = [];
+  const issues: { file: string; message: string }[] = [];
+  for (const id of TOUR_IDS) {
+    const file = `tours/${id}.json`;
+    const path = join(contentDir, file);
+    if (!existsSync(path)) { issues.push({ file, message: 'missing' }); continue; }
+    let json: unknown;
+    try { json = JSON.parse(readFileSync(path, 'utf8')); } catch (error) { issues.push({ file, message: `invalid JSON: ${(error as Error).message}` }); continue; }
+    const parsed = tourSchema.safeParse(json);
+    if (!parsed.success) { issues.push(...parsed.error.issues.map((i) => ({ file, message: `${i.path.join('.')}: ${i.message}` }))); continue; }
+    if (parsed.data.id !== id) issues.push({ file, message: `id "${parsed.data.id}" should be "${id}"` });
+    const ids = parsed.data.steps.map((s) => s.id);
+    for (const dup of ids.filter((s, i) => ids.indexOf(s) !== i)) issues.push({ file, message: `step "${dup}" appears twice` });
+    tours.push(parsed.data);
+  }
+  return { tours, issues };
 }
 
 export function readManifest(audioDir: string): { manifest: NarrationManifest | null; issues: string[] } {
@@ -57,8 +82,8 @@ export function readManifest(audioDir: string): { manifest: NarrationManifest | 
   return { manifest: parsed.data, issues: [] };
 }
 
-export function checkNarration(events: NarratedEvent[], audioDir: string): NarrationReport {
-  const report: NarrationReport = { issues: [], stale: [], missing: [], fresh: {} };
+export function checkNarration(events: NarratedEvent[], audioDir: string, tours: TourContent[] = []): NarrationReport {
+  const report: NarrationReport = { issues: [], stale: [], missing: [], fresh: {}, tourStale: [], tourMissing: [], tourFresh: {} };
   const { manifest, issues } = readManifest(audioDir);
   report.issues.push(...issues);
   if (!manifest) return report;
@@ -87,6 +112,24 @@ export function checkNarration(events: NarratedEvent[], audioDir: string): Narra
       if (!entry) report.missing.push({ eventId: event.id, kind });
       else if (entry.textHash !== textHash(narratedText(event, kind))) report.stale.push({ eventId: event.id, kind });
       else (report.fresh[event.id] ??= {})[kind] = entry.textHash.slice(0, 8);
+    }
+  }
+
+  const tourById = new Map(tours.map((t) => [t.id, t]));
+  for (const tourId of TOUR_IDS) {
+    const tour = tourById.get(tourId);
+    for (const [step, entry] of Object.entries(manifest.tours?.[tourId] ?? {})) {
+      if (tour && !tour.steps.some((s) => s.id === step)) report.issues.push(`tours.${tourId}.${step}: no such step`);
+      if (entry.file !== tourClipFileName(tourId, step, entry.textHash)) report.issues.push(`tours.${tourId}.${step}: file ${entry.file} should be ${tourClipFileName(tourId, step, entry.textHash)}`);
+      if (!existsSync(join(audioDir, entry.file))) report.issues.push(`tours.${tourId}.${step}: missing file ${entry.file}`);
+    }
+  }
+  for (const tour of tours) {
+    for (const step of tour.steps) {
+      const entry = manifest.tours?.[tour.id]?.[step.id];
+      if (!entry) report.tourMissing.push({ tour: tour.id, step: step.id });
+      else if (entry.textHash !== textHash(step.text)) report.tourStale.push({ tour: tour.id, step: step.id });
+      else (report.tourFresh[tour.id] ??= {})[step.id] = entry.textHash.slice(0, 8);
     }
   }
   return report;
@@ -126,5 +169,6 @@ export function writeManifest(manifest: NarrationManifest, events: NarratedEvent
   // Event order, so the diff of a regeneration shows only what changed.
   const ordered: NarrationManifest = { events: {} };
   for (const event of events) if (manifest.events[event.id]) ordered.events[event.id] = manifest.events[event.id];
+  if (manifest.tours && Object.keys(manifest.tours).length) ordered.tours = manifest.tours;
   writeFileSync(join(audioDir, 'manifest.json'), `${JSON.stringify(ordered, null, 2)}\n`);
 }

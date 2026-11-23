@@ -3,7 +3,7 @@ import { behavior, content, eventById, header, openAppWithEvent, panelTitle } fr
 import type { Locator, Page } from '@playwright/test';
 
 const ERA_LABEL = { all: 'الكل', prophet: 'عصر النبي ﷺ', rashidun: 'الخلفاء الراشدين' } as const;
-const TYPE_LABEL = { all: 'الكل', battles: 'المعارك فقط', events: 'الأحداث فقط' } as const;
+const TYPE_LABEL = { all: 'الكل', battles: 'المعارك بس', events: 'الأحداث بس' } as const;
 
 // Titles are unique in the data, so the title shown in an option identifies its event.
 const idByTitle = new Map(content.events.map((e) => [e.title, e.id]));
@@ -73,7 +73,7 @@ test('choosing a result opens that event and the drawer closes on its close butt
   const closedByItself = await drawer(page)
     .waitFor({ state: 'hidden', timeout: 2_000 })
     .then(() => true, () => false);
-  if (!closedByItself) await drawer(page).getByRole('button', { name: 'إغلاق القائمة' }).click();
+  if (!closedByItself) await drawer(page).getByRole('button', { name: 'اقفل القائمة' }).click();
   await expect(drawer(page)).toBeHidden();
   await expect(panelTitle(page)).toHaveText(badr.title);
 });

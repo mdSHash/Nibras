@@ -62,7 +62,7 @@ export const MobileDock = memo(function MobileDock(props: DockProps) {
                   <motion.button
                     onClick={onToggleAutoPlay}
                     whileTap={{ scale: 0.95 }}
-                    aria-label="تشغيل تلقائي"
+                    aria-label="شغّلها ورا بعض"
                     className={cn(
                       'flex items-center gap-1',
                       'bg-islamic-green/20 border-islamic-green/40',
@@ -72,7 +72,7 @@ export const MobileDock = memo(function MobileDock(props: DockProps) {
                       FOCUS_RING,
                     )}
                     style={{ touchAction: 'manipulation' }}
-                    title="تشغيل تلقائي"
+                    title="شغّلها ورا بعض"
                   >
                     <Play size={14} />
                   </motion.button>
@@ -95,7 +95,7 @@ export const MobileDock = memo(function MobileDock(props: DockProps) {
                       FOCUS_RING,
                     )}
                     style={{ touchAction: 'manipulation' }}
-                    aria-label="إخفاء شريط التنقل"
+                    aria-label="خبّي الشريط"
                     aria-expanded={true}
                   >
                     <ChevronDown size={16} />
@@ -127,7 +127,7 @@ export const MobileDock = memo(function MobileDock(props: DockProps) {
               FOCUS_RING,
             )}
             style={{ zIndex: Z_INDEX.dockToggle, touchAction: 'manipulation' }}
-            aria-label="إظهار شريط التنقل"
+            aria-label="اعرض الشريط"
             aria-expanded={false}
           >
             <ChevronUp size={18} />

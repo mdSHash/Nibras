@@ -4,7 +4,7 @@ import Timeline from './components/Timeline';
 import EventPanel from './components/EventPanel';
 import IntroScreen from './components/IntroScreen';
 import CustomCursor from './components/CustomCursor';
-import { AppTour } from './components/AppTour';
+import { AppTour, preloadSiteTour } from './components/AppTour';
 import { AppHeader } from './components/header/AppHeader';
 import { BattleOverlay, Overlays } from './components/Overlays';
 import { ToastContainer } from './components/Toast';
@@ -150,6 +150,12 @@ export default function App() {
     document.documentElement.classList.toggle('dark', isDarkMode);
   }, [isDarkMode]);
   useEffect(() => followSystemTheme(isDark => store().setDarkMode(isDark)), []);
+
+  // A first visit downloads the tour's cards during the intro, so the first card is ready to ask.
+  useEffect(() => {
+    // A failed download is retried by the tour itself when it opens.
+    if (isFirstVisit()) preloadSiteTour().catch(() => {});
+  }, [isFirstVisit]);
 
   // The tour prompt appears after the intro (or at once when the intro was seen
   // before) until the visitor answers it, once the app has rendered.

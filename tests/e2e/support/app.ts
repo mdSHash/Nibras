@@ -44,14 +44,14 @@ const control = (page: Page, name: string | RegExp): Locator =>
 export const header = {
   // Two elements carry this tour id (one per layout); take the visible one.
   search: (page: Page) => page.locator('[data-tour-id="search-button"]:visible, [data-tour-id="search-button-compact"]:visible').first(),
-  resetMap: (page: Page) => control(page, 'إعادة تعيين الخريطة'),
+  resetMap: (page: Page) => control(page, 'رجّع الخريطة زي الأول'),
   fullscreen: (page: Page) => control(page, 'ملء الشاشة'),
-  help: (page: Page) => control(page, 'دليل الاستخدام والاختصارات'),
-  chat: (page: Page) => page.getByRole('button', { name: 'اسأل المساعد الذكي' }),
+  help: (page: Page) => control(page, 'إزاي تستخدم نبراس'),
+  chat: (page: Page) => page.getByRole('button', { name: 'اسأل نبراس' }),
   challenge: (page: Page) => page.getByRole('button', { name: 'تحدي اليوم: لعبة يومية من نبراس' }),
-  tour: (page: Page) => control(page, 'ابدأ الجولة التعريفية'),
-  darkMode: (page: Page) => control(page, /^تبديل إلى الوضع (الليلي|النهاري)$/),
-  menu: (page: Page) => page.getByRole('button', { name: 'المزيد من الخيارات' }),
+  tour: (page: Page) => control(page, 'شوف جولة في الموقع'),
+  darkMode: (page: Page) => control(page, /^خلّيه (ليلي|نهاري)$/),
+  menu: (page: Page) => page.getByRole('button', { name: 'اختيارات تانية' }),
 };
 
 /**
@@ -73,7 +73,7 @@ export const panelTitle = (page: Page): Locator => panel(page).locator('h1');
 export async function openApp(page: Page): Promise<void> {
   await page.goto('./');
   // A first visit's intro takes 4.2 s; leave room for a busy machine.
-  await expect(page.getByRole('button', { name: 'اسأل المساعد الذكي' })).toBeVisible({ timeout: 30_000 });
+  await expect(page.getByRole('button', { name: 'اسأل نبراس' })).toBeVisible({ timeout: 30_000 });
 }
 
 /** Opens the app and waits for the first timeline event to be selected (1 s after the intro). */
@@ -94,7 +94,7 @@ export async function openEventBySearch(page: Page, eventId: string, query?: str
   // Escape would also close the event panel (closeAllModals in App.tsx); use the drawer's own button.
   // On a phone the drawer may already be closing by itself: a click on its button mid-animation
   // waits for a button that disappears, so click briefly and retry until the drawer is gone.
-  const close = drawer.getByRole('button', { name: 'إغلاق القائمة' });
+  const close = drawer.getByRole('button', { name: 'اقفل القائمة' });
   await expect(async () => {
     if (await drawer.isVisible()) await close.click({ timeout: 2_000 });
     await expect(drawer).toBeHidden({ timeout: 2_000 });

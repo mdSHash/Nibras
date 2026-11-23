@@ -1,0 +1,157 @@
+/* The tour cards (Phase 7, «كروت بالرسم»), shared by Nibras and «تحدي اليوم». Every color is a
+   --tc-* token that points at the page's own tokens: Nibras's --sys-* (src/index.css) or, where
+   those don't exist, the game's --c-* (src/challenge/challenge.css). Both pages switch dark mode
+   with .dark on <html>, and their tokens follow it. */
+.tc-root {
+  --tc-sheet: var(--sys-parchment, var(--c-card));
+  --tc-ink: var(--sys-ink, var(--c-ink));
+  --tc-soft: color-mix(in oklab, var(--tc-ink) 70%, var(--tc-sheet));
+  --tc-line: color-mix(in oklab, var(--tc-ink) 20%, transparent);
+  --tc-bg: color-mix(in oklab, var(--tc-ink) 7%, var(--tc-sheet));
+  --tc-accent: var(--sys-accent-dark, var(--c-gold-deep));
+  --tc-gold: var(--c-gold, rgb(var(--sys-gold-rgb)));
+  --tc-on-gold: var(--c-on-gold, rgb(var(--sys-chrome-rgb)));
+  --tc-chrome: var(--c-chrome, rgb(var(--sys-chrome-rgb)));
+  --tc-chrome-ink: var(--c-chrome-ink, rgb(var(--sys-chrome-ink-rgb)));
+  --tc-green: var(--sys-islamic-green, var(--c-go));
+  --tc-red: var(--sys-battle-red, var(--c-miss));
+  --tc-map-a: var(--sys-map-center, var(--c-bg));
+  --tc-map-b: var(--sys-map-edge, var(--c-line));
+  --tc-panel: var(--sys-panel-bg, var(--c-bg));
+  --tc-night: var(--sys-night, var(--c-chrome));
+  --tc-shade: rgb(var(--sys-chrome-rgb, 20 15 10) / 0.45);
+  --tc-display: 'Amiri', 'Traditional Arabic', serif;
+  --tc-body: 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  pointer-events: none;
+  font-family: var(--tc-body);
+  direction: rtl;
+}
+.tc-shade { position: absolute; inset: 0; background: var(--tc-shade); pointer-events: auto; transition: opacity 0.3s }
+.tc-shade[hidden] { display: block !important; opacity: 0; pointer-events: none }
+.tc-head { width: 100%; display: flex; align-items: center; justify-content: space-between; margin-bottom: -6px }
+.tc-icon {
+  width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--tc-line); background: var(--tc-bg);
+  color: var(--tc-ink); font: 700 15px var(--tc-body); cursor: pointer; display: grid; place-items: center;
+}
+.tc-sheet {
+  position: absolute; inset-inline: 0; bottom: 0; margin-inline: auto; max-width: 460px;
+  background: var(--tc-sheet); color: var(--tc-ink); border-radius: 22px 22px 0 0;
+  padding: 14px 18px calc(16px + env(safe-area-inset-bottom, 0px));
+  display: grid; justify-items: center; gap: 10px; pointer-events: auto;
+  box-shadow: 0 -10px 30px rgb(0 0 0 / 0.3); transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  touch-action: pan-y;
+}
+.tc-sheet.away { transform: translateY(calc(100% - 46px)) }
+.tc-grab { width: 40px; height: 4px; border-radius: 2px; background: var(--tc-line) }
+.tc-sheet h2 { margin: 0; font: 700 clamp(21px, 5.4vw, 24px) / 1.3 var(--tc-display); display: flex; gap: 8px; align-items: center; text-wrap: balance; text-align: center }
+.tc-line { margin: 0; font-size: 16px; line-height: 1.7; text-align: center; max-width: 34ch; min-height: 3.4em }
+.tc-line .w { opacity: 0.45; transition: opacity 0.2s }
+.tc-line .w.said, .tc-line.all .w { opacity: 1 }
+.tc-dots { display: flex; gap: 5px }
+.tc-dots i { width: 7px; height: 7px; border-radius: 4px; background: var(--tc-line); transition: width 0.3s }
+.tc-dots i.on { width: 20px; background: var(--tc-accent) }
+.tc-row { display: flex; gap: 8px; width: 100%; align-items: center; flex-wrap: wrap }
+.tc-btn {
+  border: 1.5px solid var(--tc-line); background: var(--tc-bg); color: var(--tc-ink);
+  border-radius: 999px; padding: 8px 16px; font: 700 14px var(--tc-body); cursor: pointer; min-height: 40px;
+}
+.tc-btn.go { margin-inline-start: auto; background: var(--tc-ink); color: var(--tc-sheet); border-color: var(--tc-ink) }
+.tc-btn.link { border: 0; background: none; color: var(--tc-accent); text-decoration: underline; text-underline-offset: 4px; padding-inline: 4px }
+.tc-btn:focus-visible, .tc-icon:focus-visible { outline: 3px solid var(--tc-gold); outline-offset: 2px }
+.tc-ring {
+  position: fixed; z-index: 1501; border-radius: 12px; pointer-events: none;
+  box-shadow: 0 0 0 4px var(--tc-gold), 0 0 0 9999px var(--tc-shade);
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.tc-wave { display: inline-flex; gap: 2px; align-items: flex-end; height: 14px; color: var(--tc-accent) }
+.tc-wave i { width: 3px; height: 30%; background: currentColor; border-radius: 2px; animation: tcWave 0.9s ease-in-out infinite }
+.tc-wave i:nth-child(2) { animation-delay: 0.15s } .tc-wave i:nth-child(3) { animation-delay: 0.3s } .tc-wave i:nth-child(4) { animation-delay: 0.45s }
+@keyframes tcWave { 50% { height: 100% } }
+
+/* The drawings: 240×150, a miniature of the screen. */
+.tc-scene { position: relative; width: 240px; max-width: 100%; aspect-ratio: 240 / 150; border-radius: 14px; overflow: hidden; background: var(--tc-bg); border: 2px solid var(--tc-ink); flex: none }
+.tc-scene * { position: absolute; box-sizing: border-box }
+.tc-scene .h { inset: 0 0 auto; height: 16%; background: var(--tc-chrome) }
+.tc-scene .h::after { content: 'نبراس'; position: absolute; right: 8px; top: 50%; transform: translateY(-50%); color: var(--tc-gold); font: 700 11px var(--tc-display) }
+.tc-scene .mp { inset: 16% 0 24%; background: radial-gradient(circle at 55% 45%, var(--tc-map-a), var(--tc-map-b)) }
+.tc-scene .ld { inset: 22% 18% 30% 22%; border-radius: 46% 54% 50% 50%; background: color-mix(in oklab, var(--tc-map-b) 70%, var(--tc-accent) 14%) }
+.tc-scene .tl { inset: auto 0 0; height: 24%; background: var(--tc-panel); border-top: 1px solid var(--tc-line) }
+.tc-scene .tl i { top: 55%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 50%; background: var(--tc-accent) }
+.tc-scene .tl i.on { width: 9px; height: 9px; background: var(--tc-red) }
+.tc-scene .er { bottom: 16%; height: 6%; border-radius: 4px; background: var(--tc-sheet); border: 1px solid var(--tc-line) }
+.tc-scene .pn { inset: 16% 0 0; background: var(--tc-sheet); border-top: 2px solid var(--tc-accent); transform: translateY(100%) }
+.tc-scene .pn.open { transform: none }
+.tc-scene .pg { inset: 16% 0 0; background: var(--tc-bg) }
+.tc-scene .pg.chrome { background: var(--tc-chrome) }
+.tc-scene .ln { height: 6px; border-radius: 3px; background: var(--tc-line); right: 10px }
+.tc-scene .pin { width: 11px; height: 11px; margin: -5.5px 0 0 -5.5px; border-radius: 50%; background: var(--tc-red); border: 2px solid var(--tc-sheet) }
+.tc-scene .pin.alt { background: var(--tc-accent) }
+.tc-scene .f { width: 30px; height: 30px; font-size: 24px; line-height: 30px; text-align: center; z-index: 5; filter: drop-shadow(0 2px 2px rgb(0 0 0 / 0.35)) }
+.tc-scene .rp { width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%; border: 2px solid var(--tc-gold); opacity: 0; z-index: 4 }
+.tc-scene .tx { font-size: 11px; font-weight: 700; color: var(--tc-ink); white-space: nowrap }
+.tc-scene .tx.t { font: 700 12px var(--tc-display) }
+.tc-scene .tx.center { width: 100%; text-align: center }
+.tc-scene .tx.light { color: var(--tc-chrome-ink); font-size: 14px }
+.tc-scene .tx.note { font-size: 9.5px; color: var(--tc-soft) }
+.tc-scene .tx.red { color: var(--tc-red) }
+.tc-scene .tx.big { font-size: 18px; letter-spacing: 4px }
+.tc-scene .bub { border-radius: 10px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; text-align: center }
+.tc-scene .bub.dark { background: var(--tc-ink); color: var(--tc-sheet) }
+.tc-scene .bub.box { background: var(--tc-sheet); border: 1.5px solid var(--tc-line); color: var(--tc-ink) }
+.tc-scene .bub.gold { background: var(--tc-gold); color: var(--tc-on-gold) }
+.tc-scene .bub.ghost { color: var(--tc-chrome-ink); border: 1px solid color-mix(in oklab, var(--tc-chrome-ink) 25%, transparent) }
+.tc-scene .bub.wrap { white-space: normal; line-height: 1.5; text-align: right }
+.tc-scene .bub.clue { border-color: var(--tc-gold) }
+.tc-scene .bub.cap { background: rgb(0 0 0 / 0.5); color: var(--tc-chrome-ink) }
+.tc-scene .src { position: static; color: var(--tc-accent) }
+.tc-scene .card { border-radius: 10px; background: var(--tc-bg); border: 1.5px solid var(--tc-accent) }
+.tc-scene .card.miss { border-color: var(--tc-red); background: var(--tc-sheet) }
+.tc-scene .frame { border-radius: 12px; border: 2px double var(--tc-accent); background: var(--tc-bg) }
+.tc-scene .ayah { top: 10px; width: 100%; text-align: center; font: 700 18px var(--tc-display); color: var(--tc-accent) }
+.tc-scene .ref { bottom: 6px; width: 100%; text-align: center }
+.tc-scene .rg { border-radius: 40%; opacity: 0.5 }
+.tc-scene .rg.green { background: var(--tc-green) } .tc-scene .rg.red { background: var(--tc-red) }
+.tc-scene .vd { inset: 16% 0 0; background: linear-gradient(135deg, var(--tc-night), var(--tc-chrome)) }
+.tc-scene .sq { width: 9px; height: 9px; border-radius: 2px }
+.tc-scene .sq.ally { background: var(--tc-green) } .tc-scene .sq.foe { background: var(--tc-red) }
+.tc-scene .wv { width: 5px; height: 16px; border-radius: 3px; background: var(--tc-gold); transform-origin: bottom; animation: tcBar 0.8s infinite }
+.tc-scene .sb { border-radius: 999px; background: var(--tc-sheet); border: 1.5px solid var(--tc-accent) }
+.tc-scene .typing { top: 50%; right: 12px; transform: translateY(-50%); overflow: hidden; width: 0; animation: tcType 4s infinite }
+.tc-scene .row { position: absolute; top: 14px; right: 0; display: flex; gap: 6px }
+.tc-scene .row .bub { position: static }
+.tc-scene .try { top: 30px; width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--tc-accent); text-align: center; line-height: 28px; font-weight: 900; font-size: 13px; color: var(--tc-ink); background: var(--tc-sheet) }
+.tc-scene .pod { bottom: 0; width: 46px; height: var(--hh); border-radius: 8px 8px 0 0; background: var(--tc-accent); color: var(--tc-sheet); text-align: center; font-weight: 900 }
+.tc-scene .pod.first { background: var(--tc-gold); color: var(--tc-on-gold) }
+
+@keyframes tcTap { 0%, 30% { transform: none } 40% { transform: translateY(3px) scale(0.92) } 50%, 100% { transform: none } }
+@keyframes tcRip { 0%, 38% { opacity: 0; transform: scale(0.4) } 45% { opacity: 1 } 70%, 100% { opacity: 0; transform: scale(1.8) } }
+@keyframes tcUp { 0%, 45% { transform: translateY(100%) } 60%, 88% { transform: none } 100% { transform: translateY(100%) } }
+@keyframes tcIn { 0%, 45% { opacity: 0; transform: scale(0.6) } 58%, 90% { opacity: 1; transform: none } 100% { opacity: 0 } }
+@keyframes tcZoom { 0%, 20% { transform: scale(1) } 45%, 65% { transform: scale(1.5) } 90%, 100% { transform: scale(1) } }
+@keyframes tcPinch { 0%, 20% { transform: none } 45%, 65% { transform: translate(var(--dx), var(--dy)) } 90%, 100% { transform: none } }
+@keyframes tcType { 0%, 20% { width: 0 } 55%, 100% { width: 34px } }
+@keyframes tcBar { 0%, 100% { height: 4px } 50% { height: 16px } }
+@keyframes tcWalk { from { transform: none } to { transform: translateX(-60px) } }
+@keyframes tcDark { 0%, 40% { filter: none } 55%, 90% { filter: invert(0.88) hue-rotate(180deg) } 100% { filter: none } }
+@keyframes tcSpin { 0%, 40% { transform: none } 55%, 100% { transform: rotate(-180deg) } }
+@keyframes tcMiss { 0%, 25% { background: var(--tc-sheet); color: var(--tc-ink) } 30%, 100% { background: var(--tc-red); color: var(--tc-sheet); border-color: var(--tc-red) } }
+@keyframes tcGood { 0%, 70% { background: var(--tc-sheet); color: var(--tc-ink) } 75%, 100% { background: var(--tc-green); color: var(--tc-sheet); border-color: var(--tc-green) } }
+@keyframes tcFly { 0%, 45% { transform: none; opacity: 1 } 80% { transform: translate(-70px, -50px) rotate(-20deg); opacity: 0 } 100% { opacity: 0 } }
+@keyframes tcRise { 0%, 30% { height: 0 } 60%, 100% { height: var(--hh) } }
+.tc-scene .a-tap { animation: tcTap 4s infinite } .tc-scene .a-rip { animation: tcRip 4s infinite }
+.tc-scene .a-up { animation: tcUp 4s infinite } .tc-scene .a-in { animation: tcIn 4s infinite }
+.tc-scene .a-zoom { animation: tcZoom 4s infinite } .tc-scene .a-pinch { animation: tcPinch 4s infinite }
+.tc-scene .a-walk { animation: tcWalk 4s infinite alternate } .tc-scene .a-dark { animation: tcDark 4s infinite }
+.tc-scene .a-spin { animation: tcSpin 4s infinite } .tc-scene .a-miss { animation: tcMiss 4s infinite }
+.tc-scene .a-good { animation: tcGood 4s infinite } .tc-scene .a-fly { animation: tcFly 4s infinite }
+.tc-scene .a-rise { animation: tcRise 4s infinite }
+/* The first card's drawing stays still while it asks: the page settles (a first visit's Speed Index)
+   and the drawing starts moving once the visitor says yes. */
+.tc-root[data-phase='ask'] .tc-scene * { animation: none }
+@media (prefers-reduced-motion: reduce) {
+  .tc-root *, .tc-root *::before { animation: none !important; transition: none !important }
+  .tc-scene .pn { transform: none } .tc-scene .a-in { opacity: 1 } .tc-scene .typing { width: 34px }
+}

@@ -25,10 +25,10 @@ function buildSuggestions(): ChatSuggestion[] {
 
   for (const companion of companionsData) {
     if (!companion.name) continue;
-    // Gender-neutral on purpose: "من هو" was shown for women, and the data
-    // has no reliable gender field to choose between هو and هي.
+    // «احكيلي عن X»: gender-neutral (the data has no reliable gender field to
+    // choose between هو and هي) and it gets the full answer, not «مين هو»'s one line.
     suggestions.push({
-      question: `ماذا تعرف عن ${genitiveName(stripVowelMarks(companion.name))}؟`,
+      question: `احكيلي عن ${genitiveName(stripVowelMarks(companion.name))}`,
       normalizedHaystack: normalizeForSearch([companion.name, ...(companion.aliases || [])].join(' ')),
     });
   }
@@ -36,7 +36,7 @@ function buildSuggestions(): ChatSuggestion[] {
   for (const event of eventsData) {
     if (!event.title) continue;
     const title = stripVowelMarks(event.title);
-    const question = isBattle(event) ? `ماذا حدث في ${title}؟` : `ما قصة ${title}؟`;
+    const question = isBattle(event) ? `إيه اللي حصل في ${title}؟` : `إيه قصة ${title}؟`;
     suggestions.push({
       question,
       normalizedHaystack: normalizeForSearch(event.title),
@@ -46,7 +46,7 @@ function buildSuggestions(): ChatSuggestion[] {
   for (const city of citiesData) {
     if (!city.name) continue;
     suggestions.push({
-      question: `ما هي مدينة ${city.name}؟`,
+      question: `إيه هي مدينة ${city.name}؟`,
       normalizedHaystack: normalizeForSearch(city.name),
     });
   }

@@ -4,7 +4,7 @@
  * localStorage, versioned, every access guarded: the game works without it.
  * Typed so Phase 6 can merge it into an account.
  */
-import { MAX_WRONG, type Level, type Mode } from './levels.js';
+import { TRIES, type Level, type Mode } from './levels.js';
 import { previousDay } from './seed.js';
 
 /** The result headline by attempt (spec, section 7). */
@@ -14,6 +14,11 @@ export function headline(won: boolean, attempts: number, allowed: number): strin
   if (attempts === 2) return 'ممتاز!';
   if (attempts === allowed) return 'في آخر لحظة!';
   return 'أحسنت!';
+}
+
+/** «أول محاولة», «تاني محاولة», «تالت محاولة»: which try a round was won on. */
+export function tryOrdinal(attempts: number): string {
+  return `${['أول', 'تاني', 'تالت'][attempts - 1] ?? 'آخر'} محاولة`;
 }
 
 /** One finished round. */
@@ -96,5 +101,5 @@ export function visibleStreak(streak: Streak, today: string): number {
   return streak.lastWin === today || streak.lastWin === previousDay(today) ? streak.current : 0;
 }
 
-/** Picks allowed in a round: two wrong ones, then the round is lost. */
-export const PICKS_ALLOWED = MAX_WRONG + 1;
+/** Picks allowed in a round: the third wrong one loses it. */
+export const PICKS_ALLOWED = TRIES;

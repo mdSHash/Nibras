@@ -38,7 +38,7 @@ assistant (`api/`) is a separate Vercel project.
 | `npm test` | Vitest unit tests |
 | `npm run eval:chat -- --visitors --offline` | The visitor question set and flows through the chat pipeline, one trace per question (no quota; without `--offline` it spends Groq quota, ask first). README, "How the chat answers" |
 | `npm run check:chat-index` | Fails if the chat embedding index (`api/_data/`) misses a KB unit; fix with the Chat index workflow on the branch (spends Gemini quota, ask first) |
-| `npm run narration -- check` | Lists stale or missing narration; `-- generate` records it with Gemini TTS, voice Charon (dry run unless `--yes`; spends quota, ask first) |
+| `npm run narration -- check` | Lists stale or missing narration (events and tour cards); `-- generate` records it with Gemini TTS, voice Charon (dry run unless `--yes`; spends quota, ask first) |
 | `npm run validate:content` | Zod validation of everything in `content/` and every link between records |
 | `npm run fetch:quran` | Fetch verse text from Quran.com into `content/quran/verses.json` (network) |
 | `npm run docs:content` | Rewrite the field reference in `docs/CONTENT_GUIDE.md` from the schemas |
@@ -64,9 +64,14 @@ only after Mostafa approves the list of intentional changes; never to make a tes
   `Overlays.tsx` (search, person, Quran, help, chat, battle), `eventPanel/` (the event panel's parts),
   `battleVideo/` (the battle video player: YouTube IFrame API behind `videoEngine.ts`, own Arabic
   controls and captions)
+- `src/tour/` — the narrated tours (Phase 7, «كروت بالرسم»): `TourCards.tsx` (shared by the site and the game), `scenes.ts` (the
+  cards' moving drawings), `tour.css` (`--tc-*` tokens over each page's own), `SiteTour.tsx`; the game's is
+  `src/challenge/ui/GameTour.tsx`. Text in `content/tours/{site,game}.json`; «وريني فين» lights a `data-tour-id`;
+  recordings under `tours` in `public/audio/manifest.json`. First visit only (`nibras_tour_prompted`,
+  `nibras.challenge.tour`); the compass and «إزاي ألعب؟» replay it
 - `src/battlefield/` — Pixi.js battle engine and the 12 scenarios (frozen and untested, rule 8)
 - `content/` — all content as JSON (events, people, cities, eras, categories, Quran passages,
-  territories, battle videos' captions in `content/battle-videos/<event id>/`), validated and built
+  territories, battle videos' captions in `content/battle-videos/<event id>/`, the tours' cards in `content/tours/`), validated and built
   into `src/generated/` by `scripts/build-content.ts`; read
   through `src/data.ts` and `src/territories.ts`. How to edit it: `docs/CONTENT_GUIDE.md`
 - `shared/` — code shared by the app, the chat API and scripts (Arabic text in `shared/arabic.ts`,

@@ -87,7 +87,7 @@ export function useNarration(event: EventItem | null): Narration {
       audio.currentTime = 0;
     };
     audio.onerror = () => {
-      setAudioError('تعذّر تشغيل الصوت لهذا الحدث');
+      setAudioError('الصوت مش راضي يشتغل للحدث ده');
       setAudioState('idle');
       setIsAudioLoading(false);
     };
@@ -123,7 +123,7 @@ export function useNarration(event: EventItem | null): Narration {
     } catch (error) {
       setIsAudioLoading(false);
       setAudioState('idle');
-      setAudioError(error instanceof Error ? error.message : 'تعذّر تحميل الصوت');
+      setAudioError(error instanceof Error ? error.message : 'مقدرناش نحمّل الصوت');
     }
   };
 

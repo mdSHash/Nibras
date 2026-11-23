@@ -29,13 +29,13 @@ export function CaptionBand({
     >
       {captions.status === 'error' ? (
         <p className="text-gray-300 text-sm" role="alert">
-          تعذّر تحميل الترجمة.{' '}
+          مقدرناش نحمّل الترجمة.{' '}
           <button
             type="button"
             onClick={captions.retry}
             className="underline underline-offset-4 text-white min-h-[44px] px-2 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-green-400"
           >
-            إعادة المحاولة
+            جرّب تاني
           </button>
         </p>
       ) : (

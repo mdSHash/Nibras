@@ -26,7 +26,7 @@ async function breakHelpModal(page: Page): Promise<void> {
   await page.route('**/assets/HelpModal-*.js', route => route.abort());
 }
 
-const fallback = (page: Page) => page.getByRole('alert').filter({ hasText: 'حدث خطأ غير متوقع' });
+const fallback = (page: Page) => page.getByRole('alert').filter({ hasText: 'حصلت مشكلة' });
 
 /** WCAG contrast ratios of the fallback's text against the card background. */
 async function fallbackContrast(page: Page): Promise<Record<string, number>> {
@@ -64,10 +64,10 @@ test('a panel that fails to load shows the Arabic fallback and the rest keeps wo
   await (await headerControl(page, 'help')).click();
 
   await expect(fallback(page)).toBeVisible();
-  await expect(fallback(page).getByRole('button', { name: 'إعادة التحميل' })).toBeVisible();
+  await expect(fallback(page).getByRole('button', { name: 'حمّل تاني' })).toBeVisible();
 
   // Closing the broken panel removes the message; the header and search still work.
-  await fallback(page).getByRole('button', { name: 'إغلاق' }).click();
+  await fallback(page).getByRole('button', { name: 'اقفل' }).click();
   await expect(fallback(page)).toBeHidden();
   await header.search(page).click();
   await expect(page.getByRole('textbox', { name: 'بحث' })).toBeVisible();
@@ -84,7 +84,7 @@ test('the fallback text is readable in light and dark mode', async ({ page }) =>
     for (const [part, value] of Object.entries(contrast)) {
       expect(value, `${mode} mode: ${part} contrast`).toBeGreaterThanOrEqual(4.5);
     }
-    await fallback(page).getByRole('button', { name: 'إغلاق' }).click();
+    await fallback(page).getByRole('button', { name: 'اقفل' }).click();
     await expect(fallback(page)).toBeHidden();
   }
 });

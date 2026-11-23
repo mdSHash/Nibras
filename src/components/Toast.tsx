@@ -65,7 +65,7 @@ export const Toast: React.FC<ToastProps> = ({
       <button
         onClick={onClose}
         className="hover:bg-ink/10 rounded-full p-1 transition-colors"
-        aria-label="إغلاق"
+        aria-label="اقفل"
       >
         <X size={18} />
       </button>

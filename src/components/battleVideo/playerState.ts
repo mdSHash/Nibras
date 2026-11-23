@@ -45,10 +45,10 @@ export function playerReducer(state: PlayerState, action: PlayerAction): PlayerS
 
 /** The error message the player shows, in Arabic. */
 export const ERROR_MESSAGES: Record<VideoErrorKind, string> = {
-  script: 'تعذّر الاتصال بيوتيوب لتشغيل الفيديو. تحقّق من الاتصال ثم أعد المحاولة.',
-  invalid: 'تعذّر العثور على هذا الفيديو.',
-  unplayable: 'تعذّر تشغيل الفيديو في هذا المتصفح.',
-  unavailable: 'هذا الفيديو غير متاح الآن على يوتيوب.',
+  script: 'مقدرناش نوصل ليوتيوب. اتأكد إنك متصل بالنت وجرّب تاني.',
+  invalid: 'الفيديو ده مش موجود.',
+  unplayable: 'الفيديو مش بيشتغل على المتصفح ده.',
+  unavailable: 'الفيديو ده مش متاح على يوتيوب دلوقتي.',
 };
 
 /** 83 → «١:٢٣», as the app writes numbers (Arabic-Indic digits). */

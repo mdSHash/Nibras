@@ -63,7 +63,7 @@ function TerritoryArea({ shape }: { shape: GeneratedTerritoryShape }) {
         <div className="font-sans text-center px-2 py-1" dir="rtl">
           <div className="popup-title font-bold text-base">{shape.nameAr}</div>
           <div className="popup-muted text-[12px] mt-1">{KIND_TEXT[shape.kind]}</div>
-          {shape.uncertain && <div className="popup-muted text-[12px]">السيطرة هنا غير مؤكدة</div>}
+          {shape.uncertain && <div className="popup-muted text-[12px]">مش مؤكد مين كان مسيطر هنا</div>}
           <div className="popup-muted text-[12px]">الحدود مرسومة تقريبًا</div>
         </div>
       </Popup>
@@ -92,13 +92,13 @@ export function TerritoryLayer({ year }: { year: number | null }) {
   if (failed) {
     return (
       <div className="territory-status" dir="rtl" role="alert">
-        <span>تعذّر تحميل حدود الخريطة</span>
-        <button type="button" className="territory-status__retry" onClick={load}>إعادة المحاولة</button>
+        <span>مقدرناش نحمّل الحدود</span>
+        <button type="button" className="territory-status__retry" onClick={load}>جرّب تاني</button>
       </div>
     );
   }
   if (!data || !period) {
-    return <div className="territory-status territory-status--loading" dir="rtl" role="status">جارٍ تحميل حدود الخريطة…</div>;
+    return <div className="territory-status territory-status--loading" dir="rtl" role="status">الحدود بتحمّل…</div>;
   }
   return (
     <>

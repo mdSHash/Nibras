@@ -126,10 +126,10 @@ export const DesktopDock = memo(function DesktopDock(props: DesktopDockProps) {
                         FOCUS_RING,
                       )}
                       style={{ touchAction: 'manipulation', boxShadow: '0 0 20px rgb(var(--sys-glow-green-rgb) / 0.4)' }}
-                      title="تشغيل تلقائي للأحداث"
+                      title="شغّل الأحداث ورا بعض"
                     >
                       <Play size={16} />
-                      <span>تشغيل</span>
+                      <span>شغّل</span>
                     </motion.button>
 
                     <AnimatePresence>
@@ -209,8 +209,8 @@ export const DesktopDock = memo(function DesktopDock(props: DesktopDockProps) {
               FOCUS_RING,
             )}
             style={{ zIndex: Z_INDEX.dockToggle, touchAction: 'manipulation' }}
-            title="إظهار شريط التنقل"
-            aria-label="إظهار شريط التنقل"
+            title="اعرض الشريط"
+            aria-label="اعرض الشريط"
             aria-expanded={false}
           >
             <ChevronUp size={18} />
@@ -234,8 +234,8 @@ function HideDockButton({ onClick, btnRef }: { onClick: () => void; btnRef?: Rea
         FOCUS_RING,
       )}
       style={{ touchAction: 'manipulation' }}
-      title="إخفاء شريط التنقل"
-      aria-label="إخفاء شريط التنقل"
+      title="خبّي الشريط"
+      aria-label="خبّي الشريط"
       aria-expanded={true}
     >
       <ChevronDown size={18} />

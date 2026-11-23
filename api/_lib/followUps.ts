@@ -40,12 +40,12 @@ function candidatesFor(kb: LoadedKb, record: KbRecord, intents: Set<Intent>, tar
   const out: string[] = [];
   const t = plainName(record.title);
   if (record.type === 'event') {
-    if (!intents.has('date') && hasUnit(kb, record.id, 'date')) out.push(`ما تاريخ ${t}؟`);
-    if (!intents.has('location') && hasUnit(kb, record.id, 'location')) out.push(`ما مكان ${t}؟`);
-    if (!intents.has('role') && hasUnit(kb, record.id, 'role:')) out.push(`من أبرز الشخصيات في ${t}؟`);
-    if (!intents.has('quantity') && hasUnit(kb, record.id, 'army_size')) out.push(`ما عدد الجيش في ${t}؟`);
-    if (!intents.has('quran') && hasUnit(kb, record.id, 'quran:')) out.push(`ما الآيات المتعلقة بـ${t}؟`);
-    if (record.military && !intents.has('outcome')) out.push(`ما نتيجة ${t}؟`);
+    if (!intents.has('date') && hasUnit(kb, record.id, 'date')) out.push(`إيه تاريخ ${t}؟`);
+    if (!intents.has('location') && hasUnit(kb, record.id, 'location')) out.push(`مكان ${t} فين؟`);
+    if (!intents.has('role') && hasUnit(kb, record.id, 'role:')) out.push(`مين أشهر الشخصيات في ${t}؟`);
+    if (!intents.has('quantity') && hasUnit(kb, record.id, 'army_size')) out.push(`عدد الجيش في ${t} كان كام؟`);
+    if (!intents.has('quran') && hasUnit(kb, record.id, 'quran:')) out.push(`إيه الآيات اللي ليها علاقة بـ${t}؟`);
+    if (record.military && !intents.has('outcome')) out.push(`إيه نتيجة ${t}؟`);
   } else if (record.type === 'companion') {
     // Every template puts the name after a noun (دور، ذكر، قصة): genitive case.
     const g = genitiveName(t);
@@ -56,31 +56,31 @@ function candidatesFor(kb: LoadedKb, record: KbRecord, intents: Set<Intent>, tar
     const firstEvent = roles
       .map(u => kb.recordById.get(u.recordId))
       .find(r => r !== undefined && !plainName(r.title).includes(firstName) && !plainName(r.title).includes(genitiveName(firstName)));
-    if (firstEvent && !intents.has('role')) out.push(`ما دور ${g} في ${plainName(firstEvent.title)}؟`);
-    if (!intents.has('appearances') && hasUnit(kb, record.id, 'events')) out.push(`في أي الأحداث ورد ذكر ${g}؟`);
-    if (!intents.has('biography')) out.push(`ما قصة ${g}؟`);
+    if (firstEvent && !intents.has('role')) out.push(`إيه دور ${g} في ${plainName(firstEvent.title)}؟`);
+    if (!intents.has('appearances') && hasUnit(kb, record.id, 'events')) out.push(`إيه الأحداث اللي فيها ${t}؟`);
+    if (!intents.has('biography')) out.push(`إيه قصة ${g}؟`);
   } else if (record.type === 'list' && record.id.startsWith('list:era:')) {
     const units = kb.unitsByRecord.get(record.id) ?? [];
     const label = plainName(record.title);
     if (intents.has('military')) {
-      if (units.some(u => u.id.endsWith('#events'))) out.push(`ما الأحداث الأخرى في ${label}؟`);
-    } else if (units.some(u => u.id.endsWith('#ghazawat'))) out.push(`ما غزوات النبي ﷺ في ${label}؟`);
-    else if (units.some(u => u.id.endsWith('#battles'))) out.push(`ما المعارك والفتوح في ${label}؟`);
+      if (units.some(u => u.id.endsWith('#events'))) out.push(`إيه الأحداث التانية في ${label}؟`);
+    } else if (units.some(u => u.id.endsWith('#ghazawat'))) out.push(`إيه غزوات النبي ﷺ في ${label}؟`);
+    else if (units.some(u => u.id.endsWith('#battles'))) out.push(`إيه المعارك والفتوح في ${label}؟`);
   } else if (record.type === 'list') {
     // «مين هما الخلفاء الراشدين؟» → the people the list names, in its order.
     for (const unit of kb.unitsByRecord.get(record.id) ?? []) {
       for (const item of unit.list?.items ?? []) {
         const person = linkEntities(item, kb).find(e => e.strong && kb.recordById.get(e.recordId)?.type === 'companion');
         if (!person) continue;
-        const question = `ما قصة ${genitiveName(plainName(item))}؟`;
+        const question = `إيه قصة ${genitiveName(plainName(item))}؟`;
         targets.set(question, person.recordId);
         out.push(question);
       }
     }
   } else if (record.type === 'quran') {
-    if (hasUnit(kb, record.id, 'events')) out.push(`ما الأحداث المرتبطة بـ«${record.title}»؟`);
+    if (hasUnit(kb, record.id, 'events')) out.push(`إيه الأحداث اللي ليها علاقة بـ«${record.title}»؟`);
   } else if (record.type === 'city') {
-    if (!intents.has('reason')) out.push(`ما مكانة ${t}؟`);
+    if (!intents.has('reason')) out.push(`إيه مكانة ${t}؟`);
   }
   return out;
 }

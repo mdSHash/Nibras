@@ -73,9 +73,9 @@ function ErrorFallback({ variant, onDismiss }: { variant: Variant; onDismiss?: (
         role="alert"
         className="pointer-events-auto w-full max-w-sm rounded-2xl border border-ink/15 bg-parchment p-6 text-center text-ink shadow-xl"
       >
-        <h2 className="mb-2 text-lg font-bold">حدث خطأ غير متوقع</h2>
+        <h2 className="mb-2 text-lg font-bold">حصلت مشكلة</h2>
         <p className="mb-5 text-sm leading-relaxed text-ink/80">
-          تعذّر عرض هذا الجزء. أعد تحميل الصفحة للمحاولة مرة أخرى.
+          الجزء ده مش راضي يظهر. حمّل الصفحة تاني.
         </p>
         <div className="flex justify-center gap-3">
           <button
@@ -83,7 +83,7 @@ function ErrorFallback({ variant, onDismiss }: { variant: Variant; onDismiss?: (
             onClick={() => window.location.reload()}
             className="min-h-[44px] rounded-xl bg-primary-dark px-5 font-bold text-parchment transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           >
-            إعادة التحميل
+            حمّل تاني
           </button>
           {onDismiss && (
             <button
@@ -91,7 +91,7 @@ function ErrorFallback({ variant, onDismiss }: { variant: Variant; onDismiss?: (
               onClick={onDismiss}
               className="min-h-[44px] rounded-xl border border-ink/25 px-5 font-bold text-ink transition hover:bg-ink/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
-              إغلاق
+              اقفل
             </button>
           )}
         </div>

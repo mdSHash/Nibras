@@ -54,7 +54,7 @@ function NameRow({ name, onRename }: { name: string; onRename: Account['rename']
   if (!editing) {
     return (
       <div className="acc-card acc-name">
-        <div><b>{name}</b><span className="acc-small">الاسم اللي بيظهر في اللوحة</span></div>
+        <div><b>{name}</b><span className="acc-small">الاسم اللي بيظهر في الترتيب</span></div>
         <button type="button" className="btn" onClick={() => { setValue(name); setError(null); setEditing(true); }}>غيّر الاسم</button>
       </div>
     );
@@ -91,7 +91,7 @@ export function AccountView({ account, today, onSignIn }: { account: Account; to
   if (state.status === 'error') {
     return (
       <section className="acc-view"><h1 className="acc-h">حسابي</h1>
-        <div className="acc-card acc-center" role="alert"><p>{state.message}</p><button type="button" className="btn" onClick={account.retry}>جرب تاني</button></div>
+        <div className="acc-card acc-center" role="alert"><p>{state.message}</p><button type="button" className="btn" onClick={account.retry}>جرّب تاني</button></div>
       </section>
     );
   }
@@ -99,7 +99,7 @@ export function AccountView({ account, today, onSignIn }: { account: Account; to
     return (
       <section className="acc-view"><h1 className="acc-h">حسابي</h1>
         <div className="acc-card acc-center">
-          <p>مفيش حساب على الجهاز ده. أيامك ورا بعض محفوظة هنا بس.</p>
+          <p>مفيش حساب على الجهاز ده. سلسلة أيامك متسجلة هنا بس.</p>
           <button type="button" className="btn gold" onClick={onSignIn}>احفظ إنجازاتك</button>
           <a href="#privacy" className="acc-link">إيه اللي بنحفظه وليه</a>
         </div>
@@ -132,9 +132,9 @@ export function AccountView({ account, today, onSignIn }: { account: Account; to
         })}
       </div>
       <Calendar results={state.results} today={today} />
-      <h2 className="acc-h2">آخر الأدوار</h2>
+      <h2 className="acc-h2">آخر أسئلتك</h2>
       {recent.length === 0 ? (
-        <p className="acc-card acc-small">لسه ما لعبتش وإنت مسجّل. أدوارك هتظهر هنا.</p>
+        <p className="acc-card acc-small">لسه ما لعبتش وإنت مسجّل دخول. أسئلتك هتظهر هنا.</p>
       ) : (
         <ul className="acc-card hist">
           {recent.map((r) => (
@@ -154,7 +154,7 @@ export function AccountView({ account, today, onSignIn }: { account: Account; to
         ) : (
           <div className="confirm" role="alertdialog" aria-labelledby="del-h" aria-describedby="del-p">
             <b id="del-h">متأكد؟</b>
-            <p id="del-p">هنمسح اسمك ونتايجك وأيامك ورا بعض من عندنا خالص، ومش هنقدر نرجّعهم. تقدر تكمّل تلعب من غير حساب.</p>
+            <p id="del-p">هنمسح اسمك ونتايجك وسلسلة أيامك من عندنا خالص، ومش هنقدر نرجّعهم. تقدر تكمّل تلعب من غير حساب.</p>
             {error && <p className="acc-err" role="alert">{error}</p>}
             <div className="acc-row">
               <button type="button" className="btn danger" disabled={busy} onClick={() => void remove()}>{busy ? 'بنمسح…' : 'آه، امسح كل حاجة'}</button>

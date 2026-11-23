@@ -238,10 +238,10 @@ test.describe('when the map data does not load', () => {
   test('it says so in Arabic and can try again', async ({ page }) => {
     await page.route('**/assets/territories-*.json', route => route.abort());
     await page.goto('./');
-    await expect(page.getByText('تعذّر تحميل حدود الخريطة')).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByText('مقدرناش نحمّل الحدود')).toBeVisible({ timeout: 30_000 });
     await page.unroute('**/assets/territories-*.json');
-    await page.getByRole('button', { name: 'إعادة المحاولة' }).click();
+    await page.getByRole('button', { name: 'جرّب تاني' }).click();
     await expect(page.locator('.territory-legend')).toBeVisible();
-    await expect(page.getByText('تعذّر تحميل حدود الخريطة')).toHaveCount(0);
+    await expect(page.getByText('مقدرناش نحمّل الحدود')).toHaveCount(0);
   });
 });

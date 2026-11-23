@@ -81,7 +81,7 @@ test('a companion card and a figure chip open the right biography', async ({ pag
     await expect
       .poll(async () => (await dialog.locator('p').allTextContents()).map((p) => hash16(p)))
       .toContain(companion.bio);
-    await dialog.getByRole('button', { name: 'إغلاق' }).click();
+    await dialog.getByRole('button', { name: 'اقفل' }).click();
     await expect(dialog).toBeHidden();
     await expect(panelTitle(page)).toHaveText(badr.title);
   }
@@ -108,7 +108,7 @@ test('a Quran chip opens the right verses @phone', async ({ page }) => {
   await expect
     .poll(async () => (await dialog.locator('p').allTextContents()).map((p) => hash16(p)))
     .toContain(passage.text);
-  await dialog.getByRole('button', { name: 'إغلاق' }).click();
+  await dialog.getByRole('button', { name: 'اقفل' }).click();
   await expect(dialog).toBeHidden();
 });
 
@@ -130,18 +130,18 @@ test('narration requests the event audio file and shows the playing state @phone
   await openAppWithEvent(page);
   // al-Khandaq: audited in 4A with no change, so its recording stays fresh while other events wait for theirs.
   await openEventBySearch(page, 'battle-khandaq', 'الخندق');
-  const play = panel(page).getByRole('button', { name: 'تشغيل السرد' });
+  const play = panel(page).getByRole('button', { name: 'اسمع الحدث' });
   await play.click();
-  await expect(panel(page).getByRole('button', { name: 'إيقاف السرد' })).toBeVisible();
+  await expect(panel(page).getByRole('button', { name: 'وقّف الصوت' })).toBeVisible();
   const file = baseline('battle-khandaq').narration.descriptionFile;
   expect(await page.evaluate(() => (window as unknown as { __audioSources: string[] }).__audioSources)).toContain(file);
   if (testInfo.project.name !== 'phone-webkit') expect(network.audioRequests).toContain(file);
-  await panel(page).getByRole('button', { name: 'إيقاف السرد' }).click();
+  await panel(page).getByRole('button', { name: 'وقّف الصوت' }).click();
   await expect(play).toBeVisible();
 });
 
 test('closing the panel deselects the event', async ({ page }) => {
   await openAppWithEvent(page);
-  await panel(page).getByRole('button', { name: 'إغلاق لوحة الحدث' }).click();
+  await panel(page).getByRole('button', { name: 'اقفل الحدث' }).click();
   await expect(panelTitle(page)).toBeHidden();
 });

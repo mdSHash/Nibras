@@ -72,22 +72,22 @@ export function AppHeader() {
 
   const menuItems: HeaderMenuItem[] = [
     { key: 'challenge', icon: <Trophy size={18} strokeWidth={2.5} />, label: 'تحدي اليوم', ariaLabel: 'تحدي اليوم: لعبة يومية من نبراس', onSelect: openChallenge },
-    { key: 'reset', icon: <LocateFixed size={18} strokeWidth={2.5} />, label: 'إعادة تعيين الخريطة', onSelect: resetMapView },
+    { key: 'reset', icon: <LocateFixed size={18} strokeWidth={2.5} />, label: 'رجّع الخريطة زي الأول', onSelect: resetMapView },
     {
       key: 'fullscreen',
       icon: isFullscreen ? <Minimize2 size={18} strokeWidth={2.5} /> : <Maximize2 size={18} strokeWidth={2.5} />,
-      label: isFullscreen ? 'الخروج من ملء الشاشة' : 'ملء الشاشة',
+      label: isFullscreen ? 'اخرج من ملء الشاشة' : 'ملء الشاشة',
       onSelect: toggleFullscreen,
     },
-    { key: 'help', icon: <HelpCircle size={18} strokeWidth={2.5} />, label: 'دليل الاستخدام والاختصارات', onSelect: openHelp },
+    { key: 'help', icon: <HelpCircle size={18} strokeWidth={2.5} />, label: 'إزاي تستخدم نبراس', onSelect: openHelp },
     ...(tourState.isActive
       ? []
-      : [{ key: 'tour', icon: <Compass size={18} strokeWidth={2.5} />, label: 'ابدأ الجولة التعريفية', onSelect: startTour }]),
+      : [{ key: 'tour', icon: <Compass size={18} strokeWidth={2.5} />, label: 'شوف جولة في الموقع', onSelect: startTour }]),
     {
       key: 'dark',
       icon: isDarkMode ? <Sun size={18} strokeWidth={2.5} /> : <Moon size={18} strokeWidth={2.5} />,
       label: isDarkMode ? 'الوضع النهاري' : 'الوضع الليلي',
-      ariaLabel: isDarkMode ? 'تبديل إلى الوضع النهاري' : 'تبديل إلى الوضع الليلي',
+      ariaLabel: isDarkMode ? 'خلّيه نهاري' : 'خلّيه ليلي',
       onSelect: toggleDarkMode,
     },
   ];
@@ -160,14 +160,14 @@ export function AppHeader() {
             'text-ink/70 active:bg-parchment active:text-ink',
             'transition-all group relative overflow-hidden',
           )}
-          aria-label="فتح قائمة البحث والتصفية"
+          aria-label="افتح البحث"
           aria-haspopup="dialog"
           aria-expanded={isSearchOpen}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/8 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           <Search size={16} className="sm:w-[18px] sm:h-[18px] text-accent relative z-10" />
           <span className="font-bold text-[13px] sm:text-[14px] truncate relative z-10">
-            {`ابحث واستكشف ${eventCount} حدث تاريخي...`}
+            {`دوّر في ${eventCount} حدث…`}
           </span>
         </motion.button>
       </motion.div>
@@ -185,8 +185,8 @@ export function AppHeader() {
           glow
           className="hidden sm:flex"
           onClick={resetMapView}
-          title="إعادة تعيين الخريطة"
-          aria-label="إعادة تعيين الخريطة"
+          title="رجّع الخريطة زي الأول"
+          aria-label="رجّع الخريطة زي الأول"
         >
           <LocateFixed size={18} strokeWidth={2.5} aria-hidden="true" />
         </HeaderButton>
@@ -196,7 +196,7 @@ export function AppHeader() {
           glow
           className="hidden sm:flex"
           onClick={toggleFullscreen}
-          title={isFullscreen ? 'الخروج من وضع ملء الشاشة' : 'ملء الشاشة'}
+          title={isFullscreen ? 'اخرج من ملء الشاشة' : 'ملء الشاشة'}
           aria-label="ملء الشاشة"
         >
           {isFullscreen ? (
@@ -214,10 +214,10 @@ export function AppHeader() {
           className="hidden sm:flex"
           onClick={openHelp}
           data-tour-id="help-button"
-          aria-label="دليل الاستخدام والاختصارات"
+          aria-label="إزاي تستخدم نبراس"
           aria-haspopup="dialog"
           aria-expanded={isHelpOpen}
-          title="دليل الاستخدام"
+          title="إزاي تستخدم نبراس"
         >
           <HelpCircle size={18} strokeWidth={2.5} aria-hidden="true" />
         </HeaderButton>
@@ -228,6 +228,7 @@ export function AppHeader() {
           onClick={openChallenge}
           aria-label="تحدي اليوم: لعبة يومية من نبراس"
           title="تحدي اليوم"
+          data-tour-id="challenge-button"
         >
           <Trophy size={18} strokeWidth={2.5} aria-hidden="true" />
         </HeaderButton>
@@ -240,7 +241,8 @@ export function AppHeader() {
             setChatReturnTo(null);
             markChatSeen();
           }}
-          aria-label="اسأل المساعد الذكي"
+          aria-label="اسأل نبراس"
+          data-tour-id="chat-button"
           aria-haspopup="dialog"
           aria-expanded={isChatOpen}
           title="اسأل نبراس"
@@ -270,11 +272,11 @@ export function AppHeader() {
                 'transition-all font-bold text-xs sm:text-sm',
                 'min-w-[48px] min-h-[48px] justify-center',
               )}
-              aria-label="ابدأ الجولة التعريفية"
-              title="ابدأ الجولة التعريفية"
+              aria-label="شوف جولة في الموقع"
+              title="شوف جولة في الموقع"
             >
               <Compass size={16} className="sm:w-4 sm:h-4 animate-pulse" />
-              <span className="whitespace-nowrap hidden md:inline">ابدأ الجولة</span>
+              <span className="whitespace-nowrap hidden md:inline">الجولة</span>
             </motion.button>
           )}
         </AnimatePresence>
@@ -285,7 +287,7 @@ export function AppHeader() {
           className="lg:hidden"
           data-tour-id="search-button-compact"
           onClick={() => setSearchOpen(true)}
-          aria-label="فتح قائمة البحث والتصفية"
+          aria-label="افتح البحث"
           aria-haspopup="dialog"
           aria-expanded={isSearchOpen}
         >
@@ -297,7 +299,7 @@ export function AppHeader() {
           className="hidden sm:flex"
           data-tour-id="dark-mode-toggle"
           onClick={toggleDarkMode}
-          aria-label={isDarkMode ? 'تبديل إلى الوضع النهاري' : 'تبديل إلى الوضع الليلي'}
+          aria-label={isDarkMode ? 'خلّيه نهاري' : 'خلّيه ليلي'}
           aria-pressed={isDarkMode}
         >
           <AnimatePresence mode="wait">

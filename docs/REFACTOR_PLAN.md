@@ -829,19 +829,19 @@ can delete their data, and `npm run verify` passes.
 Asked by Mostafa on 2026-11-23. Goal: a first visit explains everything Nibras and the game can do now, out loud, and every
 line the UI says sounds like an ordinary Egyptian wrote it.
 
-- [ ] **Nibras tour, rebuilt.** The first-visit tour (and the compass button in the header) rewritten from scratch for
+- [x] **Nibras tour, rebuilt.** The first-visit tour (and the compass button in the header) rewritten from scratch for
       what the site has now: map and territories, timeline and eras, event panel, people, Quran passages, search, chat,
       battle videos, narration, dark mode, «تحدي اليوم». Every step **narrated** (Gemini TTS, voice Charon, like the
       events; spending quota needs Mostafa's yes), with text on screen as well. This replaces the "custom guided tour"
       in "Keep as is" (Mostafa asked for it).
-- [ ] **A tour for the game.** Players who open `/Nibras/challenge/` alone get their own short tour: levels, modes,
+- [x] **A tour for the game.** Players who open `/Nibras/challenge/` alone get their own short tour: levels, modes,
       three tries, the cards into Nibras, share, the leaderboard and «احفظ إنجازاتك». Narrated too.
-- [ ] **Natural Egyptian Arabic.** Review and rewrite the game's and the site's UI wording (buttons, hints, errors,
+- [x] **Natural Egyptian Arabic.** Review and rewrite the game's and the site's UI wording (buttons, hints, errors,
       result lines, tours, aria-labels) so it reads like everyday Egyptian speech, not machine text. A review list
       for Mostafa (old line → new line) before applying. Content records (events, people, cities, battles, Quran)
       stay untouched; question-bank clues change only through the same review list.
-- [ ] **Bug fixes** in the game that Mostafa lists at the start of the phase.
-- [ ] Tests: each tour opens on first visit only, can be skipped, replays from its button, plays its narration (and
+- [x] **Bug fixes** in the game that Mostafa lists at the start of the phase.
+- [x] Tests: each tour opens on first visit only, can be skipped, replays from its button, plays its narration (and
       works without audio); narration manifest covers the tour clips; visual snapshots refreshed only after approval.
 
 Decisions to ask before building: the tours' visual direction (3–4 prototypes that differ in concept), how the
@@ -852,7 +852,7 @@ narration starts (auto-play is blocked until a tap), and the narration quota.
 React 19 + TypeScript strict + Vite · Tailwind v4 with theme tokens · Motion for UI animation ·
 Leaflet + react-leaflet · supercluster clustering · Pixi.js battle engine and its ECS design ·
 typed TypeScript scenario files (data only) · synthesized Web Audio battle SFX · lazy-loaded modals
-and battle player · the custom guided tour · chat assistant design (grounded answers, citations,
+and battle player · the narrated tour cards (Phase 7) · chat assistant design (grounded answers, citations,
 validator, hybrid search, configurable LLM fallback chain, Upstash cache) · Vitest suite · single
 repo · GitHub Pages for the site and Vercel for the chat API · fully vocalized Arabic content ·
 Arabic-only UI.

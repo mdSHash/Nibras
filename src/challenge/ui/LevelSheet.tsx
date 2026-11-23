@@ -22,9 +22,9 @@ export function LevelSheet({ first, current, onPick, onClose }: Props) {
   return (
     <div className="sheet-wrap" onClick={(e) => e.target === e.currentTarget && !first && onClose()}>
       <div className="sheet" role="dialog" aria-modal="true" aria-labelledby="lv-title" ref={ref}>
-        <div className="kicker">{first ? 'أهلًا بيك في تحدي نبراس' : 'غيّر مستواك'}</div>
-        <h2 id="lv-title">إنت قد إيه عارف؟</h2>
-        <p className="sub">اختار المستوى اللي يناسبك، والأسئلة هتبقى على قدّه في كل الأوضاع. كل مستوى ليه أسئلته وأيامه ورا بعض، وتقدر تغيّره في أي وقت.</p>
+        <div className="kicker">{first ? 'أهلًا بيك في تحدي اليوم' : 'غيّر مستواك'}</div>
+        <h2 id="lv-title">تعرف قد إيه عن السيرة؟</h2>
+        <p className="sub">اختار المستوى اللي يناسبك. كل مستوى ليه أسئلته وسلسلة أيامه، وتقدر تغيّره في أي وقت.</p>
         {LEVELS.map((l, i) => (
           <button key={l} type="button" className="lv" aria-pressed={l === current} onClick={() => onPick(l)}>
             <b aria-hidden="true">{'١٢٣'[i]}</b>

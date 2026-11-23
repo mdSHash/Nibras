@@ -68,7 +68,7 @@ export class AuthError extends Error {
     super(code);
   }
 }
-const OFFLINE = 'مش قادرين نوصل للسيرفر. اتأكد من النت وجرب تاني.';
+const OFFLINE = 'مش قادرين نوصل للسيرفر. اتأكد من النت وجرّب تاني.';
 
 async function call(path: string, body: Record<string, unknown>, token?: string, method = 'POST'): Promise<Record<string, unknown>> {
   let res: Response;
@@ -84,15 +84,15 @@ async function call(path: string, body: Record<string, unknown>, token?: string,
   const messages: Record<string, string> = {
     invalid_credentials: 'الإيميل أو الباسورد غلط.',
     invalid_grant: 'الإيميل أو الباسورد غلط.',
-    email_not_confirmed: 'لسه ما أكدتش إيميلك. افتح الرسالة اللي بعتناهالك ودوس على الرابط.',
+    email_not_confirmed: 'لسه ما أكدتش إيميلك. افتح الرسالة اللي بعتناهالك واضغط على الرابط.',
     weak_password: 'الباسورد ضعيف. خليه ٨ حروف على الأقل، فيه حروف إنجليزي وأرقام.',
     same_password: 'ده نفس الباسورد القديم. اختار واحد جديد.',
-    over_email_send_rate_limit: 'بعتنا رسايل كتير. استنى شوية وجرب تاني.',
-    over_request_rate_limit: 'محاولات كتير ورا بعض. استنى شوية وجرب تاني.',
+    over_email_send_rate_limit: 'بعتنا رسايل كتير. استنى شوية وجرّب تاني.',
+    over_request_rate_limit: 'محاولات كتير ورا بعض. استنى شوية وجرّب تاني.',
     email_address_invalid: 'الإيميل ده شكله مش مظبوط.',
-    signup_disabled: 'عمل حسابات جديدة واقف دلوقتي.',
+    signup_disabled: 'مش بنعمل حسابات جديدة دلوقتي، جرّب بعدين.',
   };
-  throw new AuthError(code, messages[code] ?? (res.status === 429 ? messages.over_request_rate_limit : 'حصلت مشكلة. جرب تاني.'));
+  throw new AuthError(code, messages[code] ?? (res.status === 429 ? messages.over_request_rate_limit : 'حصلت مشكلة. جرّب تاني.'));
 }
 
 /** Leaves for Google (through Supabase); the page comes back with ?code=… */
@@ -114,7 +114,7 @@ export async function signUpWithEmail(email: string, password: string): Promise<
 
 export async function signInWithEmail(email: string, password: string): Promise<void> {
   const s = toSession(await call('/auth/v1/token?grant_type=password', { email: email.trim(), password }));
-  if (!s) throw new AuthError('error', 'حصلت مشكلة. جرب تاني.');
+  if (!s) throw new AuthError('error', 'حصلت مشكلة. جرّب تاني.');
   keep(s);
 }
 

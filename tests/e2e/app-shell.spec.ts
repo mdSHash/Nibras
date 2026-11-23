@@ -71,9 +71,9 @@ test('map reset flies back to the start view', async ({ page }) => {
 test('help modal opens and closes @phone', async ({ page }) => {
   await openApp(page);
   await (await headerControl(page, 'help')).click();
-  const dialog = page.getByRole('dialog', { name: /دليل/ });
+  const dialog = page.getByRole('dialog', { name: /إزاي تستخدم نبراس/ });
   await expect(dialog).toBeVisible();
-  await dialog.getByRole('button', { name: 'إغلاق' }).first().click();
+  await dialog.getByRole('button', { name: 'اقفل' }).first().click();
   await expect(dialog).toBeHidden();
 });
 
@@ -81,7 +81,7 @@ test('dark mode toggles the dark class on the page @phone', async ({ page }) => 
   await openApp(page);
   await (await headerControl(page, 'darkMode')).click();
   await expect(page.locator('html')).toHaveClass(/\bdark\b/);
-  await expect(await headerControl(page, 'darkMode')).toHaveAccessibleName('تبديل إلى الوضع النهاري');
+  await expect(await headerControl(page, 'darkMode')).toHaveAccessibleName('خلّيه نهاري');
   await (await headerControl(page, 'darkMode')).click();
   await expect(page.locator('html')).not.toHaveClass(/\bdark\b/);
 });
@@ -123,7 +123,7 @@ test('every header button is inside the viewport @phone', async ({ page }, testI
 test('the phone header menu: arrow keys move, Escape closes only the menu, a tap outside closes it @phone', async ({ page }, testInfo) => {
   test.skip(!testInfo.project.name.startsWith('phone'), 'the ⋮ menu is shown below 640 px only');
   await openAppWithEvent(page);
-  const menu = page.getByRole('menu', { name: 'المزيد من الخيارات' });
+  const menu = page.getByRole('menu', { name: 'اختيارات تانية' });
   await header.menu(page).click();
   await expect(menu).toBeVisible();
   const rows = menu.getByRole('menuitem');

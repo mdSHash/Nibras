@@ -5,11 +5,11 @@ import { buildGameData } from '../scripts/game/build';
 import type { GameData, GameEvent, GamePerson } from '../shared/gameData';
 import { yearDiff } from '../shared/gameText';
 import { cairoDate, dailyRng, hash, previousDay, puzzleNumber, rngFrom } from '../src/challenge/engine/seed';
-import { LEVELS, MAX_WRONG, MODES, OPTION_COUNT } from '../src/challenge/engine/levels';
+import { LEVELS, MODES, OPTION_COUNT, TRIES } from '../src/challenge/engine/levels';
 import { niceNumber, numberOptions, shiftYear, yearOptions } from '../src/challenge/engine/options';
 import { LAUNCH_DATE, cluesOpen, cycle, dailyRound, practiceRound, suggestLevel } from '../src/challenge/engine/daily';
 import { compareBattles, comparePeople, numberMiss, timeMiss } from '../src/challenge/engine/compare';
-import { STORAGE_KEY, emptyState, headline, loadState, recordResult, saveState, visibleStreak, type GameResult } from '../src/challenge/engine/progress';
+import { STORAGE_KEY, emptyState, PICKS_ALLOWED, headline, loadState, recordResult, saveState, visibleStreak, type GameResult } from '../src/challenge/engine/progress';
 
 const ROOT = join(import.meta.dirname, '..');
 const { raw } = readContent(join(ROOT, 'content'));
@@ -86,7 +86,8 @@ describe('daily rounds from the question bank', () => {
     }
   }
   it('gives three tries, a Nibras line on every person, battle and place option, and names what the result opens', () => {
-    expect(MAX_WRONG + 1).toBe(3);
+    expect(TRIES).toBe(3);
+    expect(PICKS_ALLOWED).toBe(3);
     for (const mode of MODES) {
       for (const level of LEVELS) {
         for (const day of days) {
@@ -113,8 +114,9 @@ describe('daily rounds from the question bank', () => {
     expect(suggestLevel('easy', true, 1, 60)).toBe('mid');
     expect(suggestLevel('mid', true, 3, 15)).toBe('hard');
     expect(suggestLevel('hard', true, 1, 5)).toBeNull();
-    expect(suggestLevel('mid', true, MAX_WRONG + 1, 90)).toBe('easy');
-    expect(suggestLevel('hard', true, MAX_WRONG, 90)).toBeNull();
+    expect(suggestLevel('mid', true, TRIES, 90)).toBe('easy'); // a win on the last try
+    expect(suggestLevel('hard', true, 2, 90)).toBeNull();
+    expect(suggestLevel('hard', false, TRIES, 90)).toBe('mid');
     expect(suggestLevel('easy', false, 5, 90)).toBeNull();
   });
 });
@@ -133,7 +135,7 @@ describe('comparisons', () => {
   });
   it('never says how far the year is', () => {
     expect(timeMiss(5, 9)).toBe('✕ مش ٥ هـ — حصل بعد كده ↑');
-    expect(numberMiss(1000, 313)).toBe('الرقم الصح أصغر ↓');
+    expect(numberMiss(1000, 313)).toBe('الرقم الصح أصغر من كده ↓');
   });
 });
 
@@ -141,6 +143,7 @@ describe('scoring and streaks', () => {
   it('picks the headline by attempt', () => {
     expect([1, 2, 3, 5].map((a) => headline(true, a, 5))).toEqual(['عبقري!', 'ممتاز!', 'أحسنت!', 'في آخر لحظة!']);
     expect(headline(false, 5, 5)).toBe('المرة دي فلتت منك');
+    expect([1, 2, 3].map((a) => headline(true, a, PICKS_ALLOWED))).toEqual(['عبقري!', 'ممتاز!', 'في آخر لحظة!']);
   });
   const result = (date: string, won = true, mode: GameResult['mode'] = 'who'): GameResult => ({ date, puzzle: 1, mode, level: 'easy', won, attempts: 2, seconds: 30 });
   it('counts the first win of the day and restarts after a gap', () => {

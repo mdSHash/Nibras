@@ -11,7 +11,8 @@
 import { existsSync, mkdirSync, renameSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { NARRATION_KINDS, narratedText, narrationFileName, type NarrationKind } from '../../shared/narration';
-import type { NarrationManifest } from '../../shared/contentSchema';
+import type { NarrationManifest, TourContent } from '../../shared/contentSchema';
+import { tourClipFileName, type TourId } from '../../shared/tours';
 import { eventSlug } from '../../shared/routes';
 import { checkNarration, readManifest, textHash, wavDurationSec, writeManifest, type NarratedEvent } from './lib';
 
@@ -122,6 +123,8 @@ export function pcmToWav(pcm: Buffer, sampleRate: number): Buffer {
 
 export interface GenerateOptions {
   events: NarratedEvent[];
+  /** The tours (Phase 7): their cards are recorded after the events, under the same `max`. */
+  tours?: TourContent[];
   audioDir: string;
   /** Where the engine's WAVs and replaced .m4a files go (git-ignored `audio-src/`). */
   sourceDir: string;
@@ -129,32 +132,72 @@ export interface GenerateOptions {
   encode: (wav: string, m4a: string) => void;
   yes: boolean;
   max?: number;
+  /** An event id, or `tour:<tour>` for one tour's cards. */
   only?: string;
   log?: (line: string) => void;
 }
 
 export interface GenerateTarget {
-  event: NarratedEvent;
-  kind: NarrationKind;
+  /** `<event id> <kind>` or `tour:<tour>/<step>`, for the log. */
+  label: string;
+  /** The event id, or `tour:<tour>`; `only` matches it. */
+  key: string;
   reason: 'stale' | 'missing';
+  text: string;
+  file: (hash: string) => string;
+  get: (m: NarrationManifest) => { file: string } | undefined;
+  set: (m: NarrationManifest, entry: NarrationManifest['events'][string]['title'] & object) => void;
+}
+
+function eventTarget(event: NarratedEvent, kind: NarrationKind, reason: GenerateTarget['reason']): GenerateTarget {
+  return {
+    label: `${event.id} ${kind}`,
+    key: event.id,
+    reason,
+    text: narratedText(event, kind),
+    file: (hash) => narrationFileName(eventSlug(event), kind, hash),
+    get: (m) => m.events[event.id]?.[kind],
+    set: (m, entry) => { (m.events[event.id] ??= {})[kind] = entry; },
+  };
+}
+
+function tourTarget(tour: TourContent, stepId: string, reason: GenerateTarget['reason']): GenerateTarget {
+  const id: TourId = tour.id;
+  return {
+    label: `tour:${id}/${stepId}`,
+    key: `tour:${id}`,
+    reason,
+    text: tour.steps.find((s) => s.id === stepId)!.text,
+    file: (hash) => tourClipFileName(id, stepId, hash),
+    get: (m) => m.tours?.[id]?.[stepId],
+    set: (m, entry) => { ((m.tours ??= {})[id] ??= {})[stepId] = entry; },
+  };
 }
 
 export async function generate(options: GenerateOptions): Promise<GenerateTarget[]> {
   const log = options.log ?? console.log;
-  const report = checkNarration(options.events, options.audioDir);
+  const tours = options.tours ?? [];
+  const report = checkNarration(options.events, options.audioDir, tours);
   if (report.issues.length) throw new Error(`public/audio/manifest.json is broken:\n${report.issues.join('\n')}`);
   const byId = new Map(options.events.map((e) => [e.id, e]));
-  const targets: GenerateTarget[] = [
+  const tourById = new Map(tours.map((t) => [t.id, t]));
+  const eventTargets = [
     ...report.missing.map((m) => ({ event: byId.get(m.eventId)!, kind: m.kind, reason: 'missing' as const })),
     ...report.stale.map((s) => ({ event: byId.get(s.eventId)!, kind: s.kind, reason: 'stale' as const })),
   ]
-    .filter((t) => !options.only || t.event.id === options.only)
     .sort((a, b) => options.events.indexOf(a.event) - options.events.indexOf(b.event) || NARRATION_KINDS.indexOf(a.kind) - NARRATION_KINDS.indexOf(b.kind))
+    .map((t) => eventTarget(t.event, t.kind, t.reason));
+  const tourTargets = [
+    ...report.tourMissing.map((m) => tourTarget(tourById.get(m.tour)!, m.step, 'missing')),
+    ...report.tourStale.map((s) => tourTarget(tourById.get(s.tour)!, s.step, 'stale')),
+  ];
+  const targets = [...eventTargets, ...tourTargets]
+    .filter((t) => !options.only || t.key === options.only)
     .slice(0, options.max ?? Infinity);
 
-  const characters = targets.reduce((n, t) => n + narratedText(t.event, t.kind).length, 0);
+  const characters = targets.reduce((n, t) => n + t.text.length, 0);
   log(`${targets.length} recording(s) to make (${characters} characters):`);
-  for (const t of targets) log(`  ${t.reason}: ${t.event.id} ${t.kind}`);
+  for (const t of targets) log(`  ${t.reason}: ${t.label}`);
   if (!options.yes || targets.length === 0) {
     if (targets.length) log('Dry run: nothing recorded. Add --yes to record them.');
     return targets;
@@ -164,13 +207,12 @@ export async function generate(options: GenerateOptions): Promise<GenerateTarget
   const { manifest } = readManifest(options.audioDir) as { manifest: NarrationManifest };
   mkdirSync(join(options.sourceDir, 'replaced'), { recursive: true });
   for (const t of targets) {
-    const text = narratedText(t.event, t.kind);
-    const hash = textHash(text);
-    const file = narrationFileName(eventSlug(t.event), t.kind, hash);
+    const hash = textHash(t.text);
+    const file = t.file(hash);
     const wav = join(options.sourceDir, file.replace(/\.m4a$/, '.wav'));
     let audio: Buffer;
     try {
-      audio = await engine.synthesize(text);
+      audio = await engine.synthesize(t.text);
     } catch (error) {
       // The free tier's daily limit: keep what was recorded; the next run continues from here.
       if (error instanceof Error && /daily quota/.test(error.message)) {
@@ -182,17 +224,11 @@ export async function generate(options: GenerateOptions): Promise<GenerateTarget
     writeFileSync(wav, audio);
     options.encode(wav, join(options.audioDir, file));
     // The old recording is never deleted (Mostafa, 2026-10-15): it moves to audio-src/replaced/.
-    const old = manifest.events[t.event.id]?.[t.kind]?.file;
+    const old = t.get(manifest)?.file;
     if (old && old !== file && existsSync(join(options.audioDir, old))) {
       renameSync(join(options.audioDir, old), join(options.sourceDir, 'replaced', old));
     }
-    (manifest.events[t.event.id] ??= {})[t.kind] = {
-      file,
-      textHash: hash,
-      durationSec: wavDurationSec(audio),
-      engine: engine.id,
-      voice: engine.voice,
-    };
+    t.set(manifest, { file, textHash: hash, durationSec: wavDurationSec(audio), engine: engine.id, voice: engine.voice });
     writeManifest(manifest, options.events, options.audioDir);
     log(`  recorded ${file} (${wavDurationSec(audio)} s)`);
   }

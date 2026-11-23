@@ -40,23 +40,23 @@ export function PlayerControls(props: PlayerControlsProps) {
             touchAction: 'manipulation',
             boxShadow: isAutoPlaying ? '0 0 20px rgb(var(--sys-glow-red-rgb) / 0.4)' : '0 0 20px rgb(var(--sys-glow-green-rgb) / 0.4)',
           }}
-          title={isAutoPlaying ? 'إيقاف التشغيل التلقائي' : 'تشغيل تلقائي للأحداث'}
+          title={isAutoPlaying ? 'وقّف' : 'شغّل الأحداث ورا بعض'}
         >
           {isAutoPlaying ? <Pause size={16} /> : <Play size={16} />}
-          <span>{isAutoPlaying ? 'إيقاف' : 'تشغيل'}</span>
+          <span>{isAutoPlaying ? 'وقّف' : 'شغّل'}</span>
         </motion.button>
 
         <motion.button
           onClick={onToggleTTS}
           whileTap={{ scale: 0.95 }}
-          aria-label={isTTSEnabled ? 'إيقاف الصوت' : 'تشغيل الصوت'}
+          aria-label={isTTSEnabled ? 'اكتم الصوت' : 'شغّل الصوت'}
           className={cn(pill, 'px-3 py-2',
             isTTSEnabled ? 'bg-islamic-green/20 border-islamic-green/40' : 'bg-muted-gray/20 border-muted-gray/40')}
           style={{
             touchAction: 'manipulation',
             boxShadow: isTTSEnabled ? '0 0 20px rgb(var(--sys-glow-green-rgb) / 0.4)' : '0 0 20px rgb(var(--sys-glow-gray-rgb) / 0.4)',
           }}
-          title={isTTSEnabled ? 'إيقاف الصوت' : 'تشغيل الصوت'}
+          title={isTTSEnabled ? 'اكتم الصوت' : 'شغّل الصوت'}
         >
           {isTTSEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
         </motion.button>
@@ -66,10 +66,10 @@ export function PlayerControls(props: PlayerControlsProps) {
           whileTap={{ scale: 0.95 }}
           className={cn(pill, 'px-4 py-2 bg-islamic-green/20 border-islamic-green/40')}
           style={{ touchAction: 'manipulation', boxShadow: '0 0 20px rgb(var(--sys-glow-green-rgb) / 0.4)' }}
-          title="البدء من جديد"
+          title="ابدأ من الأول"
         >
           <SkipBack size={16} />
-          <span>البدء من جديد</span>
+          <span>ابدأ من الأول</span>
         </motion.button>
 
         <motion.button
@@ -77,7 +77,7 @@ export function PlayerControls(props: PlayerControlsProps) {
           whileTap={{ scale: 0.95 }}
           className={cn(pill, 'px-4 py-2 bg-parchment/20 border-parchment/40')}
           style={{ touchAction: 'manipulation', boxShadow: '0 0 20px rgb(var(--sys-chrome-ink-rgb) / 0.4)' }}
-          title="الخروج من وضع التشغيل"
+          title="اخرج من التشغيل"
         >
           <X size={16} />
           <span>خروج</span>
@@ -95,7 +95,7 @@ export function PlayerControls(props: PlayerControlsProps) {
       <motion.button
         onClick={onToggleAutoPlay}
         whileTap={{ scale: 0.95 }}
-        aria-label={isAutoPlaying ? 'إيقاف' : 'تشغيل'}
+        aria-label={isAutoPlaying ? 'وقّف' : 'شغّل'}
         className={cn(
           isRail ? ICON_BTN : 'flex items-center gap-1 rounded-full transition-all border shrink-0 min-h-[44px] min-w-[44px] px-2.5 py-1.5 text-ink text-[10px] font-bold',
           !isRail && (isAutoPlaying ? 'bg-battle-red/20 border-battle-red/40' : 'bg-islamic-green/20 border-islamic-green/40'),
@@ -105,12 +105,12 @@ export function PlayerControls(props: PlayerControlsProps) {
         style={{ touchAction: 'manipulation' }}
       >
         {isAutoPlaying ? <Pause size={isRail ? iconSize : 14} /> : <Play size={isRail ? iconSize : 14} />}
-        {!isRail && <span>{isAutoPlaying ? 'إيقاف' : 'تشغيل'}</span>}
+        {!isRail && <span>{isAutoPlaying ? 'وقّف' : 'شغّل'}</span>}
       </motion.button>
 
       <button
         onClick={onToggleTTS}
-        aria-label={isTTSEnabled ? 'إيقاف الصوت' : 'تشغيل الصوت'}
+        aria-label={isTTSEnabled ? 'اكتم الصوت' : 'شغّل الصوت'}
         className={cn(ICON_BTN, isRail ? textTone : (isTTSEnabled ? 'text-islamic-green' : 'text-ink/50'))}
         style={{ touchAction: 'manipulation' }}
       >
@@ -119,7 +119,7 @@ export function PlayerControls(props: PlayerControlsProps) {
 
       <button
         onClick={onStartOver}
-        aria-label="البدء من جديد"
+        aria-label="ابدأ من الأول"
         className={cn(ICON_BTN, isRail ? textTone : 'text-ink')}
         style={{ touchAction: 'manipulation' }}
       >
@@ -128,7 +128,7 @@ export function PlayerControls(props: PlayerControlsProps) {
 
       <button
         onClick={onExitPlayerMode}
-        aria-label="الخروج من وضع التشغيل"
+        aria-label="اخرج من التشغيل"
         className={cn(ICON_BTN, isRail ? textTone : 'text-ink')}
         style={{ touchAction: 'manipulation' }}
       >

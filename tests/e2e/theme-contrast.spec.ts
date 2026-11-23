@@ -5,7 +5,7 @@
 // must pass WCAG AA (4.5, or 3 for large text) in both modes.
 import type { Locator, Page } from '@playwright/test';
 import { test, expect, STORAGE } from './support/fixtures';
-import { clickAnimated, headerControl, openApp, openEventBySearch, panel } from './support/app';
+import { headerControl, openApp, openEventBySearch, panel } from './support/app';
 import { cairoToday, daysAgo, mockAccounts, signedIn, won } from './support/accountMock';
 
 interface Reading {
@@ -88,7 +88,7 @@ test('the Quran window follows the dark-mode button and its text passes AA', asy
     });
     expectReadable(results, mode);
     expect(isDark(results[2].background), `${mode} mode: the verses' background follows the button`).toBe(mode === 'dark');
-    await quran.getByRole('button', { name: 'إغلاق' }).click();
+    await quran.getByRole('button', { name: 'اقفل' }).click();
     await expect(quran).toBeHidden();
   }
 });
@@ -96,20 +96,39 @@ test('the Quran window follows the dark-mode button and its text passes AA', asy
 test.describe('first visit', () => {
   test.use({ firstVisit: true });
 
-  test('the tour follows the dark-mode button and its text passes AA', async ({ page }) => {
-    // The visitor's choice from an earlier visit, while the system stays light.
-    await page.addInitScript((key) => localStorage.setItem(key, 'dark'), STORAGE.theme);
-    await page.goto('./');
-    const prompt = page.getByRole('dialog', { name: /مرحباً بك في نبراس/ });
-    await expect(prompt).toBeVisible({ timeout: 30_000 });
-    await clickAnimated(prompt.getByRole('button', { name: 'ابدأ الجولة' }));
-    const close = page.getByRole('button', { name: 'إغلاق الجولة' });
-    await expect(close).toBeVisible();
-    const tooltip = close.locator('xpath=ancestor::div[contains(@class, "rounded-2xl")][1]');
-    const results = await readings(tooltip, { title: 'h3', text: 'div.leading-relaxed' });
-    expectReadable(results, 'dark');
-    expect(isDark(results[1].background), 'the tour step is dark like the app').toBe(true);
-  });
+  for (const mode of ['light', 'dark'] as const) {
+    test(`the tour cards follow the ${mode} mode and their text passes AA`, async ({ page }) => {
+      // The visitor's choice from an earlier visit, while the system stays light.
+      await page.addInitScript(([key, m]) => localStorage.setItem(key, m), [STORAGE.theme, mode] as const);
+      await page.goto('./');
+      const card = page.getByTestId('tour-site').getByRole('dialog');
+      await expect(card).toBeVisible({ timeout: 30_000 });
+      const asking = await readings(card, { title: 'h2', text: '.tc-line', button: '.tc-btn', go: '.tc-btn.go' });
+      expectReadable(asking, mode);
+      expect(isDark(asking[1].background), 'the card is dark like the app').toBe(mode === 'dark');
+      await card.getByRole('button', { name: 'من غير صوت' }).click();
+      await card.getByRole('button', { name: 'اللي بعده ‹' }).click();
+      expectReadable(await readings(card, { text: '.tc-line', where: '.tc-btn.link', back: '.tc-btn', go: '.tc-btn.go' }), mode);
+    });
+  }
+});
+
+test('«تحدي اليوم» tour: the cards pass AA in both modes @phone', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  for (const mode of ['light', 'dark'] as const) {
+    await page.goto('challenge/');
+    await page.evaluate((m) => localStorage.setItem('nibras.challenge.theme', m), mode);
+    await page.reload();
+    const levels = page.getByRole('dialog').getByRole('button', { name: /لسه ببتدي/ });
+    if (mode === 'light') await levels.click();
+    await page.getByRole('button', { name: 'إزاي ألعب؟' }).click();
+    const card = page.getByTestId('tour-game').getByRole('dialog');
+    await expect(card).toBeVisible();
+    const results = await readings(card, { title: 'h2', text: '.tc-line', where: '.tc-btn.link', go: '.tc-btn.go' });
+    expectReadable(results, mode);
+    expect(isDark(results[1].background)).toBe(mode === 'dark');
+    await page.keyboard.press('Escape');
+  }
 });
 
 test('«تحدي اليوم» accounts: the board and «حسابي» pass AA in both modes @phone', async ({ page }) => {
@@ -119,6 +138,8 @@ test('«تحدي اليوم» accounts: the board and «حسابي» pass AA in 
   await page.setViewportSize({ width: 390, height: 844 });
   for (const mode of ['light', 'dark'] as const) {
     await page.goto('challenge/#board');
+    // Let the board's code finish loading: a reload that cuts it off is logged as an error in WebKit.
+    await expect(page.locator('.bd-row').first()).toBeVisible();
     await page.evaluate((dark) => {
       localStorage.setItem('nibras.challenge.theme', dark ? 'dark' : 'light');
       localStorage.setItem('nibras.challenge.v1', JSON.stringify({ version: 1, level: 'easy', date: '2000-01-01', results: {}, streaks: { easy: { current: 0, best: 0, lastWin: null }, mid: { current: 0, best: 0, lastWin: null }, hard: { current: 0, best: 0, lastWin: null } } }));

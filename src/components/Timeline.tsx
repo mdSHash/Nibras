@@ -383,8 +383,8 @@ export default function Timeline({
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black',
         )}
         style={{ touchAction: 'manipulation', zIndex: Z_INDEX.dockToggle }}
-        aria-label={isExpanded ? 'طي الخط الزمني' : 'توسيع الخط الزمني'}
-        title={isExpanded ? 'طي' : 'توسيع'}
+        aria-label={isExpanded ? 'صغّر الخط الزمني' : 'كبّر الخط الزمني'}
+        title={isExpanded ? 'صغّر' : 'كبّر'}
         aria-expanded={isExpanded}
       >
         {isExpanded ? <ChevronDown size={24} /> : <ChevronUp size={24} />}

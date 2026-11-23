@@ -29,7 +29,7 @@ test.describe('challenge accounts', () => {
     await sheet.getByRole('button', { name: 'ادخل بحساب جوجل' }).click();
 
     // Back from "Google": the code is exchanged with its verifier and removed from the address.
-    const names = page.getByRole('dialog', { name: 'اختار اسمك في اللوحة' });
+    const names = page.getByRole('dialog', { name: 'اختار الاسم اللي هيظهر في الترتيب' });
     await expect(names).toBeVisible();
     expect(m.tokenBodies[0]).toMatchObject({ auth_code: 'test-code', code_verifier: expect.stringMatching(/^[\w-]{43,}$/) });
     expect(page.url()).not.toContain('code=');
@@ -88,8 +88,8 @@ test.describe('challenge accounts', () => {
     await expect(sheet.getByLabel('الباسورد', { exact: true })).toBeFocused();
     await sheet.getByLabel('الباسورد', { exact: true }).fill('nibras2026');
     await sheet.getByRole('button', { name: 'ادخل', exact: true }).click();
-    await expect(page.getByRole('dialog', { name: 'اختار اسمك في اللوحة' })).toBeVisible();
-    await page.getByRole('button', { name: 'اخرج من غير ما أعمل حساب' }).click();
+    await expect(page.getByRole('dialog', { name: 'اختار الاسم اللي هيظهر في الترتيب' })).toBeVisible();
+    await page.getByRole('button', { name: 'كمّل من غير حساب' }).click();
 
     // Forgotten password: a reset link that comes back to ?reset=1.
     await page.locator('.save-offer').getByRole('button', { name: 'سجّل دخول' }).click();
@@ -127,9 +127,9 @@ test.describe('challenge accounts', () => {
     const m = await mockAccounts(page);
     await page.goto('challenge/#board');
     await page.getByRole('dialog').getByRole('button', { name: /لسه ببتدي/ }).click();
-    await expect(page.getByRole('heading', { name: 'لوحة الصدارة' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'الترتيب' })).toBeVisible();
     await expect(page.locator('.bd-list.acc-card li')).toHaveCount(10);
-    await expect(page.getByText('اللوحة لأصحاب الحسابات')).toBeVisible();
+    await expect(page.getByText('الترتيب للي عاملين حساب بس')).toBeVisible();
     expect(m.board[0]).toMatchObject({ p_level: 'easy', p_period: 'day', auth: null });
     await page.getByRole('group', { name: 'المدة' }).getByRole('button', { name: 'أطول سلسلة' }).click();
     await expect.poll(() => m.board.at(-1)).toMatchObject({ p_period: 'streak' });

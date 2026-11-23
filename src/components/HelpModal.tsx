@@ -32,15 +32,15 @@ const LEGEND: Array<{ color: string; ring?: string; labelAr: string }> = categor
 
 // Shortcuts are keyboard-only, so the section is hidden on mobile via CSS.
 const SHORTCUTS: Array<{ keys: string[]; labelAr: string }> = [
-  { keys: ['Ctrl', 'K'], labelAr: 'فتح البحث والتصفية' },
-  { keys: ['Esc'], labelAr: 'إغلاق النوافذ المفتوحة' },
-  { keys: ['←', '→'], labelAr: 'التنقل بين الأحداث' },
+  { keys: ['Ctrl', 'K'], labelAr: 'افتح البحث' },
+  { keys: ['Esc'], labelAr: 'اقفل اللي مفتوح' },
+  { keys: ['←', '→'], labelAr: 'اتنقّل بين الأحداث' },
 ];
 
 const TOUCH_HINTS: Array<{ icon: string; labelAr: string }> = [
-  { icon: '👆', labelAr: 'انقر على العلامة لفتح تفاصيل الحدث' },
-  { icon: '👇', labelAr: 'اسحب القائمة للأسفل لإغلاقها' },
-  { icon: '🔍', labelAr: 'انقر على أيقونة البحث لفتح قائمة الأحداث' },
+  { icon: '👆', labelAr: 'اضغط على العلامة يفتحلك الحدث' },
+  { icon: '👇', labelAr: 'اسحب القائمة لتحت عشان تقفلها' },
+  { icon: '🔍', labelAr: 'اضغط على علامة البحث تفتح قائمة الأحداث' },
 ];
 
 function Dot({ color, ring }: { color: string; ring?: string }) {
@@ -150,7 +150,7 @@ export default function HelpModal({ isOpen, onClose }: HelpModalProps) {
                     'text-[var(--color-ink)]',
                     'transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]',
                   )}
-                  aria-label="إغلاق"
+                  aria-label="اقفل"
                 >
                   <X size={20} />
                 </button>
@@ -158,10 +158,10 @@ export default function HelpModal({ isOpen, onClose }: HelpModalProps) {
                   id="help-modal-title"
                   className="text-xl md:text-2xl font-bold text-[var(--color-ink)] text-center"
                 >
-                  دليل الاستخدام
+                  إزاي تستخدم نبراس
                 </h2>
                 <p className="text-xs md:text-sm text-[var(--color-ink)]/70 text-center mt-1">
-                  دلالة العلامات على الخريطة والاختصارات المتاحة
+                  معنى العلامات على الخريطة، والاختصارات
                 </p>
               </div>
 
@@ -174,7 +174,7 @@ export default function HelpModal({ isOpen, onClose }: HelpModalProps) {
                     className="text-base md:text-lg font-bold text-[var(--color-ink)] mb-3 flex items-center gap-2"
                   >
                     <MapPin size={18} className="text-[var(--color-accent)]" />
-                    خريطة الإشارات
+                    العلامات
                   </h3>
                   <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     {LEGEND.map(row => (
@@ -211,7 +211,7 @@ export default function HelpModal({ isOpen, onClose }: HelpModalProps) {
                           className="text-chrome/95 fill-current translate-x-[1px]"
                         />
                       </span>
-                      <span>معركة قابلة للمشاهدة</span>
+                      <span>معركة ليها فيديو</span>
                     </li>
                     {/* The kinds of land on the map, each with a swatch like the map's own. */}
                     {TERRITORY_KINDS_HELP.map(row => (
@@ -221,7 +221,7 @@ export default function HelpModal({ isOpen, onClose }: HelpModalProps) {
                       </li>
                     ))}
                     <li className="text-[13px] md:text-sm text-[var(--color-ink)]/85">
-                      تتغيّر الخريطة مع الحدث المختار في الخط الزمني. ولم ترسم كتب التاريخ خطوطًا للحدود، فكل خط مرسوم هنا تقريبي، ومفتاح الخريطة يشرح ما يظهر في كل وقت.
+                      الخريطة بتتغيّر مع الحدث اللي مختاره في الخط الزمني. وكتب التاريخ ما رسمتش حدود، فكل الخطوط هنا تقريبية، ومفتاح الخريطة بيشرح كل لون.
                     </li>
                   </ul>
                 </section>
@@ -237,7 +237,7 @@ export default function HelpModal({ isOpen, onClose }: HelpModalProps) {
                     id="help-shortcuts-title"
                     className="text-base md:text-lg font-bold text-[var(--color-ink)] mb-3"
                   >
-                    اختصارات لوحة المفاتيح
+                    اختصارات الكيبورد
                   </h3>
                   <ul className="flex flex-col gap-2.5">
                     {SHORTCUTS.map(row => (
@@ -269,7 +269,7 @@ export default function HelpModal({ isOpen, onClose }: HelpModalProps) {
                     id="help-touch-title"
                     className="text-base font-bold text-[var(--color-ink)] mb-3"
                   >
-                    إيماءات اللمس
+                    باللمس
                   </h3>
                   <ul className="flex flex-col gap-2.5">
                     {TOUCH_HINTS.map(row => (

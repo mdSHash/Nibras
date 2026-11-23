@@ -61,8 +61,8 @@ function Field({ id, label, type, value, onChange, error, hint, autoComplete }: 
       <div className="acc-input">
         <input id={id} type={password && shown ? 'text' : type} dir="ltr" value={value} autoComplete={autoComplete} aria-invalid={Boolean(message)} aria-describedby={`${id}-help`} onChange={(e) => onChange(e.target.value)} onBlur={() => setTouched(true)} />
         {password && (
-          <button type="button" className="acc-eye" aria-pressed={shown} aria-label={shown ? 'خبّي الباسورد' : 'اظهر الباسورد'} onClick={() => setShown((v) => !v)}>
-            {shown ? 'خبّي' : 'اظهر'}
+          <button type="button" className="acc-eye" aria-pressed={shown} aria-label={shown ? 'خبّي الباسورد' : 'وريني الباسورد'} onClick={() => setShown((v) => !v)}>
+            {shown ? 'خبّي' : 'وريني'}
           </button>
         )}
       </div>
@@ -75,7 +75,7 @@ type Mode = 'in' | 'up' | 'forgot' | 'sent-up' | 'sent-reset';
 const FAILED: Record<NonNullable<Extract<AccountState, { status: 'guest' }>['failed']>, string> = {
   expired: 'الرابط ده خلص أو اتستخدم قبل كده. ادخل تاني أو اطلب رابط جديد.',
   other_device: 'افتح الرابط من نفس المتصفح اللي طلبته منه. ولو أكدت إيميلك، ادخل بالإيميل والباسورد.',
-  refused: 'الدخول ما تمّش. جرب تاني.',
+  refused: 'معرفناش ندخّلك. جرّب تاني.',
 };
 
 export function SignInSheet({ account, failed, onClose }: { account: Account; failed?: keyof typeof FAILED; onClose: () => void }) {
@@ -110,7 +110,7 @@ export function SignInSheet({ account, failed, onClose }: { account: Account; fa
       <Sheet kicker="بص على إيميلك" title={mode === 'sent-up' ? 'فاضل تأكيد الإيميل' : 'بعتنالك رابط'} onClose={onClose}>
         <p className="sub" role="status">
           {mode === 'sent-up'
-            ? `لو الإيميل ${email.trim()} مش متسجل قبل كده، هتلاقي رسالة فيها رابط تأكيد. افتحها من الموبايل ده ودوس على الرابط، وهترجع هنا وإنت داخل.`
+            ? `لو الإيميل ${email.trim()} مش متسجل قبل كده، هتلاقي رسالة فيها رابط تأكيد. افتحها من الجهاز ده واضغط على الرابط، وهترجع هنا وإنت مسجّل دخول.`
             : `لو فيه حساب بالإيميل ${email.trim()}، هتلاقي رسالة فيها رابط تغيّر بيه الباسورد. الرابط بيشتغل مرة واحدة ولمدة ساعة.`}
         </p>
         <p className="acc-small">ما لقيتهاش؟ بص في الـ Spam، أو استنى دقيقة.</p>
@@ -121,7 +121,7 @@ export function SignInSheet({ account, failed, onClose }: { account: Account; fa
 
   return (
     <Sheet kicker="حساب تحدي اليوم" title={mode === 'up' ? 'اعمل حساب جديد' : mode === 'forgot' ? 'نسيت الباسورد؟' : 'احفظ إنجازاتك'} onClose={onClose}>
-      {mode === 'in' && <p className="sub">سجّل عشان أيامك ورا بعض تفضل معاك لو غيّرت الموبايل، واسمك يظهر في لوحة الصدارة. اللعب من غير حساب زي ما هو.</p>}
+      {mode === 'in' && <p className="sub">سجّل دخول عشان سلسلة أيامك تفضل معاك لو غيّرت موبايلك، واسمك يظهر في الترتيب. ولو مش عايز حساب، تقدر تلعب عادي.</p>}
       {mode !== 'forgot' && (
         <>
           <button type="button" className="btn g-btn" disabled={going} onClick={() => { setGoing(true); void account.signIn().catch(() => setGoing(false)); }}>
@@ -170,13 +170,13 @@ export function NameSheet({ error, onSubmit, onCancel }: { error?: string; onSub
     setBusy(false);
   };
   return (
-    <Sheet kicker="آخر خطوة" title="اختار اسمك في اللوحة">
+    <Sheet kicker="آخر خطوة" title="اختار الاسم اللي هيظهر في الترتيب">
       <form className="acc-form" onSubmit={(e) => { e.preventDefault(); void submit(); }} noValidate>
         <label htmlFor="acc-name">الاسم اللي هيظهر للناس</label>
         <input id="acc-name" value={name} maxLength={24} autoComplete="nickname" aria-invalid={Boolean(shown)} aria-describedby="acc-name-help" onChange={(e) => setName(e.target.value)} onBlur={() => setTouched(true)} />
         <p id="acc-name-help" className={shown ? 'acc-err' : 'acc-small'} role={shown ? 'alert' : undefined}>{shown ?? 'من ٢ لـ ٢٠ حرف.'}</p>
         <button type="submit" className="btn gold" disabled={busy}>{busy ? 'بنحفظ…' : 'احفظ وكمّل'}</button>
-        <button type="button" className="link-btn" onClick={onCancel}>اخرج من غير ما أعمل حساب</button>
+        <button type="button" className="link-btn" onClick={onCancel}>كمّل من غير حساب</button>
       </form>
     </Sheet>
   );

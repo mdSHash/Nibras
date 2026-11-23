@@ -7,7 +7,7 @@ import type { GameData } from '../shared/gameData';
 import { dailyRound } from '../src/challenge/engine/daily';
 import { MODES } from '../src/challenge/engine/levels';
 import { emptyState, recordResult, type DailyState } from '../src/challenge/engine/progress';
-import { checkDisplayName, checkEmail, checkPassword, checkPlay, finishedPlays, foldName, mergeIntoLocal, pointsFor, streakFromDays, type AccountResult } from '../src/challenge/engine/account';
+import { checkDisplayName, checkEmail, checkPassword, checkPlay, finishedPlays, foldName, isDone, mergeIntoLocal, pointsFor, streakFromDays, type AccountResult } from '../src/challenge/engine/account';
 
 const ROOT = join(import.meta.dirname, '..');
 const { raw } = readContent(join(ROOT, 'content'));
@@ -21,17 +21,33 @@ const wrongOf = (round: ReturnType<typeof dailyRound>, n: number): string[] => {
   return Array.from({ length: n }, (_, i) => [...ids.slice(i + 1), ...ids.slice(0, i + 1)].join(','));
 };
 
+describe('isDone', () => {
+  it('ends a round at a win or at the third wrong pick, in every mode (three tries)', () => {
+    for (const mode of MODES) {
+      const round = dailyRound(data, mode, 'easy', DAY);
+      const [w1, w2, w3] = wrongOf(round, 3);
+      expect(isDone(round, [w1]), mode).toEqual({ done: false, won: false });
+      expect(isDone(round, [w1, w2]), mode).toEqual({ done: false, won: false });
+      expect(isDone(round, [w1, w2, w3]), mode).toEqual({ done: true, won: false });
+      expect(isDone(round, [w1, w2, round.answerId]), mode).toEqual({ done: true, won: true });
+      expect(pointsFor(true, 3)).toBe(1);
+    }
+  });
+});
+
 describe('checkPlay', () => {
   for (const mode of MODES) {
     it(`accepts a real play of «${mode}» and refuses made-up ones`, () => {
       const round = dailyRound(data, mode, 'easy', DAY);
-      const [w1, w2] = wrongOf(round, 2);
+      const [w1, w2, w3] = wrongOf(round, 3);
       expect(checkPlay(round, [round.answerId])).toEqual({ won: true, attempts: 1 });
       expect(checkPlay(round, [w1, round.answerId])).toEqual({ won: true, attempts: 2 });
-      expect(checkPlay(round, [w1, w2])).toEqual({ won: false, attempts: 2 });
+      expect(checkPlay(round, [w1, w2, round.answerId])).toEqual({ won: true, attempts: 3 }); // the third try
+      expect(checkPlay(round, [w1, w2, w3])).toEqual({ won: false, attempts: 3 });
       expect(checkPlay(round, [w1])).toBeNull(); // the round had not ended
+      expect(checkPlay(round, [w1, w2])).toBeNull(); // two wrong picks leave a third try
       expect(checkPlay(round, [w1, w1])).toBeNull(); // a repeated pick
-      expect(checkPlay(round, [w1, w2, round.answerId])).toBeNull(); // a pick after the round was lost
+      expect(checkPlay(round, [w1, w2, w3, round.answerId])).toBeNull(); // a pick after the round was lost
       expect(checkPlay(round, [round.answerId, w1])).toBeNull(); // a pick after the win
       expect(checkPlay(round, ['not-an-option'])).toBeNull();
       expect(checkPlay(round, [])).toBeNull();

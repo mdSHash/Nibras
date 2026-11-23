@@ -122,8 +122,8 @@ describe('play button', () => {
     );
 
   it('is shown only when the event has narration', () => {
-    expect(render(true)).toContain('aria-label="تشغيل السرد"');
-    expect(render(false)).not.toContain('تشغيل السرد');
+    expect(render(true)).toContain('aria-label="اسمع الحدث"');
+    expect(render(false)).not.toContain('اسمع الحدث');
   });
 });
 
@@ -156,7 +156,7 @@ describe('narration generate (fake engines, no network)', () => {
     const { done, encoded, lines } = run(() => {
       throw new Error('engine must not start');
     }, false);
-    expect((await done).map((t) => `${t.reason} ${t.kind}`)).toEqual(['missing title', 'missing description']);
+    expect((await done).map((t) => `${t.reason} ${t.label.split(' ')[1]}`)).toEqual(['missing title', 'missing description']);
     expect(encoded).toEqual([]);
     expect(lines.at(-1)).toContain('Dry run');
   });

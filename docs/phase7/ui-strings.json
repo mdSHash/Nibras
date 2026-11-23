@@ -1,0 +1,7496 @@
+[
+ {
+  "file": "src/App.tsx",
+  "line": 173,
+  "text": "تخطي إلى المحتوى الرئيسي",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/App.tsx",
+  "line": 175,
+  "text": "نبراس - الخط الزمني التفاعلي للتاريخ الإسلامي",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/account/api.ts",
+  "line": 17,
+  "text": "مش قادرين نوصل للسيرفر. اتأكد من النت وجرب تاني.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/account/api.ts",
+  "line": 48,
+  "text": "مش قادرين نجيب اللوحة دلوقتي.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/account/auth.ts",
+  "line": 71,
+  "text": "مش قادرين نوصل للسيرفر. اتأكد من النت وجرب تاني.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/account/auth.ts",
+  "line": 85,
+  "text": "الإيميل أو الباسورد غلط.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/account/auth.ts",
+  "line": 86,
+  "text": "الإيميل أو الباسورد غلط.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/account/auth.ts",
+  "line": 87,
+  "text": "لسه ما أكدتش إيميلك. افتح الرسالة اللي بعتناهالك ودوس على الرابط.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/account/auth.ts",
+  "line": 88,
+  "text": "الباسورد ضعيف. خليه ٨ حروف على الأقل، فيه حروف إنجليزي وأرقام.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/account/auth.ts",
+  "line": 89,
+  "text": "ده نفس الباسورد القديم. اختار واحد جديد.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/account/auth.ts",
+  "line": 90,
+  "text": "بعتنا رسايل كتير. استنى شوية وجرب تاني.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/account/auth.ts",
+  "line": 91,
+  "text": "محاولات كتير ورا بعض. استنى شوية وجرب تاني.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/account/auth.ts",
+  "line": 92,
+  "text": "الإيميل ده شكله مش مظبوط.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/account/auth.ts",
+  "line": 93,
+  "text": "عمل حسابات جديدة واقف دلوقتي.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/account/auth.ts",
+  "line": 95,
+  "text": "حصلت مشكلة. جرب تاني.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/account/auth.ts",
+  "line": 117,
+  "text": "حصلت مشكلة. جرب تاني.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/account/auth.ts",
+  "line": 130,
+  "text": "الرابط خلص. اطلب رابط جديد.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/account/useAccount.ts",
+  "line": 66,
+  "text": "حصلت مشكلة. جرب تاني.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/account/useAccount.ts",
+  "line": 103,
+  "text": "حصلت مشكلة. جرب تاني.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/account/useAccount.ts",
+  "line": 125,
+  "text": "انتهت جلستك. سجّل دخول تاني.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/account/useAccount.ts",
+  "line": 131,
+  "text": "حصلت مشكلة. جرب تاني.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/account/useAccount.ts",
+  "line": 140,
+  "text": "انتهت جلستك. سجّل دخول تاني وبعدين احذف الحساب.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/account/useAccount.ts",
+  "line": 147,
+  "text": "حصلت مشكلة. جرب تاني.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/account/useAccount.ts",
+  "line": 171,
+  "text": "حصلت مشكلة. جرب تاني.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 51,
+  "text": "نبراس",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 51,
+  "text": "ادمن",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 51,
+  "text": "مشرف",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 51,
+  "text": "كس",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 51,
+  "text": "زب",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 51,
+  "text": "شرموط",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 51,
+  "text": "خول",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 51,
+  "text": "متناك",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 51,
+  "text": "عرص",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 57,
+  "text": "ا",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 58,
+  "text": "ي",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 59,
+  "text": "ه",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 72,
+  "text": "الاسم لازم يكون حرفين على الأقل.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 73,
+  "text": "الاسم لازم يكون ٢٠ حرف أو أقل.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 75,
+  "text": "استخدم حروف عربي أو إنجليزي وأرقام بس.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 76,
+  "text": "الاسم لازم يكون فيه حروف، مش أرقام بس.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 78,
+  "text": "اختار اسم تاني من فضلك.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 148,
+  "text": "اكتب إيميلك.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 149,
+  "text": "الإيميل ده شكله مش مظبوط.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 158,
+  "text": "الباسورد لازم يبقى ٨ حروف على الأقل.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 159,
+  "text": "الباسورد طويل أوي، خليه أقصر.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/account.ts",
+  "line": 161,
+  "text": "الباسورد لازم يبقى فيه حروف إنجليزي وأرقام.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 33,
+  "text": "من المهاجرين",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 33,
+  "text": "من الأنصار",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 33,
+  "text": "من قبيلة تانية",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 35,
+  "text": "${clause} زيه",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 43,
+  "text": "أسلم ${FACT_LABELS.islam[answer.islam]}",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 51,
+  "text": "اشتهر إنه ${FACT_LABELS.knownFor[answer.knownFor]}",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 56,
+  "text": "↑ مات بعده",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 56,
+  "text": "↓ مات قبله",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 57,
+  "text": "${toArabicIndic(Math.abs(guess.deathYear))} هـ",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 58,
+  "text": "مات في نفس السنة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 58,
+  "text": "مات بعده",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 58,
+  "text": "مات قبله",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 62,
+  "text": "عاش لحد ${FACT_LABELS.lastEra[answer.lastEra]}",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 68,
+  "text": "اتوفّى في ${FACT_LABELS.deathPlace[answer.deathPlace]}",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 70,
+  "text": "اللي بندوّر عليه: ${clauses.join('، ')}.",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 77,
+  "text": "↑ حصلت بعدها",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 77,
+  "text": "↓ حصلت قبلها",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 88,
+  "text": "نعم",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 88,
+  "text": "لا",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 89,
+  "text": "نفس المكان تقريبًا",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 89,
+  "text": "${toArabicIndic(roundKm(km))} كم",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 92,
+  "text": "حصلت في نفس السنة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 92,
+  "text": "حصلت بعدها",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 92,
+  "text": "حصلت قبلها",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 93,
+  "text": "في نفس العهد",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 93,
+  "text": "في عهد تاني",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 94,
+  "text": "النبي ﷺ كان فيها",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 94,
+  "text": "النبي ﷺ ماكانش فيها",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 95,
+  "text": "في نفس المكان تقريبًا",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 95,
+  "text": "مكانها على بعد ${toArabicIndic(roundKm(km))} كم ناحية ${dir}",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 97,
+  "text": "اللي بندوّر عليه: ${clauses.join('، ')}.",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 102,
+  "text": "${toArabicIndic(-year)} ق.هـ",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 102,
+  "text": "${toArabicIndic(year)} هـ",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 110,
+  "text": "✕ مش ${guess.name} — المدينة اللي بندوّر عليها على بعد ${km} كم منها ناحية ${dir}",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 111,
+  "text": "✕ مش ${guess.name} — المكان الصح على بعد ${km} كم منه ناحية ${dir}",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 116,
+  "text": "✕ مش ${yearLabel(guess)} — ${answer > guess ? 'حصل بعد كده ↑' : 'حصل قبل كده ↓'}",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 121,
+  "text": "الرقم الصح أكبر من كده ↑",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/compare.ts",
+  "line": 121,
+  "text": "الرقم الصح أصغر ↓",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 110,
+  "text": "مين الشخصية دي؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 111,
+  "text": "سنة الوفاة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 116,
+  "text": "${bare(a.role)} · توفي سنة ${toArabicIndic(a.deathYear)} هـ",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 131,
+  "text": "أنهي معركة دي؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 132,
+  "text": "السنة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 132,
+  "text": "العهد",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 132,
+  "text": "النبي ﷺ فيها؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 132,
+  "text": "المسافة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 154,
+  "text": "أنهي مدينة دي؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 154,
+  "text": "أنهي مكان ده؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 155,
+  "text": "بعدها عن المكان",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 155,
+  "text": "ناحية",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 166,
+  "text": "${toArabicIndic(roundKm(km))} كم",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 167,
+  "text": "${a.city ? 'المدينة اللي بندوّر عليها' : 'المكان اللي بندوّر عليه'} على بعد ${toArabicIndic(roundKm(km))} كم منها ناحية ${directionAr(g, a)}.",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 177,
+  "text": "حصل سنة كام؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 178,
+  "text": "قبلها ولا بعدها؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 188,
+  "text": "بعد كده ↑",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 188,
+  "text": "قبل كده ↓",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 188,
+  "text": "حصل بعد السنة دي.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 188,
+  "text": "حصل قبل السنة دي.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 199,
+  "text": "كانوا كام؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 200,
+  "text": "أكبر ولا أصغر؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 210,
+  "text": "الصح أكبر ↑",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 210,
+  "text": "الصح أصغر ↓",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 224,
+  "text": "مين القائد؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 225,
+  "text": "قاد المسلمين في",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 225,
+  "text": "العهد",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 225,
+  "text": "السنة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 241,
+  "text": "↑ المعركة بعدها",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 241,
+  "text": "↓ المعركة قبلها",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 243,
+  "text": "${g.name} قاد المسلمين في «${bare(b.title)}». القائد اللي بندوّر عليه قاد «${bare(battle.title)}».",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 253,
+  "text": "أنهي عهد؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 254,
+  "text": "قبله ولا بعده؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 263,
+  "text": "بعد كده ↑",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 263,
+  "text": "قبل كده ↓",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 263,
+  "text": "الحدث حصل في عهد بعد ده.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 263,
+  "text": "الحدث حصل في عهد قبل ده.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 272,
+  "text": "رتّب الأحداث دي من الأقدم للأحدث",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 273,
+  "text": "١",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 273,
+  "text": "٢",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 273,
+  "text": "٣",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 273,
+  "text": "٤",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 298,
+  "text": "،",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/daily.ts",
+  "line": 301,
+  "text": "هنا حصلت «${bare(e.title)}».",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/engine/geo.ts",
+  "line": 26,
+  "text": "الشمال",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/geo.ts",
+  "line": 26,
+  "text": "الشمال الشرقي",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/geo.ts",
+  "line": 26,
+  "text": "الشرق",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/geo.ts",
+  "line": 26,
+  "text": "الجنوب الشرقي",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/geo.ts",
+  "line": 26,
+  "text": "الجنوب",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/geo.ts",
+  "line": 26,
+  "text": "الجنوب الغربي",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/geo.ts",
+  "line": 26,
+  "text": "الغرب",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/geo.ts",
+  "line": 26,
+  "text": "الشمال الغربي",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 42,
+  "text": "لسه ببتدي",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 42,
+  "text": "أسئلة عن أشهر الأحداث والشخصيات، واختيارات بعيدة عن بعض، ودليلين من الأول.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 43,
+  "text": "عارف شوية",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 43,
+  "text": "أسئلة متوسطة، واختيارات أقرب لبعض، ودليل واحد في الأول.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 44,
+  "text": "أستاذ فيها",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 44,
+  "text": "أي حاجة في نبراس، واختيارات قريبة جدًا من بعض.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 48,
+  "text": "من أكون؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 48,
+  "text": "مين الشخصية دي؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 48,
+  "text": "الصحابي",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 48,
+  "text": "الصحابي كان",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 49,
+  "text": "المعركة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 49,
+  "text": "أنهي معركة دي؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 49,
+  "text": "المعركة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 49,
+  "text": "المعركة كانت",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 50,
+  "text": "المكان",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 50,
+  "text": "أنهي مدينة دي؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 50,
+  "text": "المدينة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 50,
+  "text": "المدينة كانت",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 51,
+  "text": "السنة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 51,
+  "text": "حصل سنة كام؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 51,
+  "text": "السنة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 51,
+  "text": "السنة كانت",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 52,
+  "text": "الرقم",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 52,
+  "text": "كانوا كام؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 52,
+  "text": "الرقم",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 52,
+  "text": "الرقم كان",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 53,
+  "text": "القائد",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 53,
+  "text": "مين القائد؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 53,
+  "text": "القائد",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 53,
+  "text": "القائد كان",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 54,
+  "text": "العهد",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 54,
+  "text": "أنهي عهد؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 54,
+  "text": "العهد",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 54,
+  "text": "العهد كان",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 55,
+  "text": "رتّب",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 55,
+  "text": "رتّب الأحداث من الأقدم للأحدث",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 55,
+  "text": "الترتيب",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/levels.ts",
+  "line": 55,
+  "text": "الترتيب الصح",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/progress.ts",
+  "line": 12,
+  "text": "المرة دي فلتت منك",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/progress.ts",
+  "line": 13,
+  "text": "عبقري!",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/progress.ts",
+  "line": 14,
+  "text": "ممتاز!",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/progress.ts",
+  "line": 15,
+  "text": "في آخر لحظة!",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/engine/progress.ts",
+  "line": 16,
+  "text": "أحسنت!",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 8,
+  "text": "يناير",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 8,
+  "text": "فبراير",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 8,
+  "text": "مارس",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 8,
+  "text": "أبريل",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 8,
+  "text": "مايو",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 8,
+  "text": "يونيو",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 8,
+  "text": "يوليو",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 8,
+  "text": "أغسطس",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 8,
+  "text": "سبتمبر",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 8,
+  "text": "أكتوبر",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 8,
+  "text": "نوفمبر",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 8,
+  "text": "ديسمبر",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 9,
+  "text": "السبت",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 9,
+  "text": "الحد",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 9,
+  "text": "الاتنين",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 9,
+  "text": "التلات",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 9,
+  "text": "الأربع",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 9,
+  "text": "الخميس",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 9,
+  "text": "الجمعة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 10,
+  "text": "س",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 10,
+  "text": "ح",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 10,
+  "text": "ن",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 10,
+  "text": "ث",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 10,
+  "text": "ر",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 10,
+  "text": "خ",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 10,
+  "text": "ج",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 22,
+  "text": "كسبت",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 22,
+  "text": "خسرت",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 22,
+  "text": "ما لعبتش",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 26,
+  "text": "أيام ${MONTHS[m - 1]}",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 36,
+  "text": "${toArabicIndic(day)} ${MONTHS[m - 1]}: ${label[s]}${isToday ? '، النهارده' : ''}",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 44,
+  "text": "كسبت يومها ·",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 44,
+  "text": "خسرت ·",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 44,
+  "text": "ما لعبتش",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 57,
+  "text": "الاسم اللي بيظهر في اللوحة",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 58,
+  "text": "غيّر الاسم",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 73,
+  "text": "اسمك الجديد",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 75,
+  "text": "من ٢ لـ ٢٠ حرف.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 77,
+  "text": "بنحفظ…",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 77,
+  "text": "احفظ",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 78,
+  "text": "إلغاء",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 90,
+  "text": "حسابي",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 93,
+  "text": "حسابي",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 94,
+  "text": "جرب تاني",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 100,
+  "text": "حسابي",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 102,
+  "text": "مفيش حساب على الجهاز ده. أيامك ورا بعض محفوظة هنا بس.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 103,
+  "text": "احفظ إنجازاتك",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 104,
+  "text": "إيه اللي بنحفظه وليه",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 120,
+  "text": "حسابي",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 129,
+  "text": "أطول",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 135,
+  "text": "آخر الأدوار",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 137,
+  "text": "لسه ما لعبتش وإنت مسجّل. أدوارك هتظهر هنا.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 142,
+  "text": "النهارده",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 144,
+  "text": "صح من ${toArabicIndic(r.attempts)}",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 144,
+  "text": "فلتت",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 150,
+  "text": "إيه اللي بنحفظه عنك وليه",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 151,
+  "text": "اخرج من الحساب",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 153,
+  "text": "احذف حسابي وبياناتي",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 156,
+  "text": "متأكد؟",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 157,
+  "text": "هنمسح اسمك ونتايجك وأيامك ورا بعض من عندنا خالص، ومش هنقدر نرجّعهم. تقدر تكمّل تلعب من غير حساب.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 160,
+  "text": "بنمسح…",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 160,
+  "text": "آه، امسح كل حاجة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/AccountView.tsx",
+  "line": 161,
+  "text": "لأ، سيبه",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 9,
+  "text": "النهارده",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 9,
+  "text": "نقط النهارده في كل الأوضاع: الفوز من أول محاولة ٣، من التانية ٢، من التالتة ١. التعادل يكسبه الأسرع. كل دور اتراجع على سؤال النهارده.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 10,
+  "text": "الأسبوع",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 10,
+  "text": "نقط الأسبوع من السبت لحد النهارده، بنفس الحساب.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 11,
+  "text": "أطول سلسلة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 11,
+  "text": "أطول أيام ورا بعض كسبت فيها في المستوى ده، وبعدها سلسلتك دلوقتي.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 16,
+  "text": "${toArabicIndic(r.best ?? 0)} يوم",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 17,
+  "text": "${toArabicIndic(r.points ?? 0)} نقطة · ${toArabicIndic(r.rounds ?? 0)} ${r.rounds === 1 ? 'دور' : 'أدوار'}",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 23,
+  "text": "(إنت)",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 46,
+  "text": "مش قادرين نجيب اللوحة دلوقتي.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 57,
+  "text": "لوحة الصدارة",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 58,
+  "text": "المستوى",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 63,
+  "text": "المدة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 73,
+  "text": "جرب تاني",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 76,
+  "text": "بنحمّل اللوحة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 81,
+  "text": "لسه محدش كسب في المستوى ده.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 81,
+  "text": "لسه محدش من أصحاب الحسابات لعب في المستوى ده.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 81,
+  "text": "العب وكن أول اسم هنا.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 82,
+  "text": "العب دلوقتي",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 86,
+  "text": "ترتيب ${PERIODS[period].tab}، مستوى ${LEVEL_NAMES[level].name}",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 90,
+  "text": "ترتيبك",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 94,
+  "text": "لاعب",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 94,
+  "text": "لاعبين",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 94,
+  "text": "في اللوحة دي",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 100,
+  "text": "اللوحة لأصحاب الحسابات. سجّل عشان اسمك يظهر هنا.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 101,
+  "text": "احفظ إنجازاتك",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 104,
+  "text": "العب سؤال من «",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/BoardView.tsx",
+  "line": 104,
+  "text": "» واسمك يظهر هنا.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 5,
+  "text": "إيه اللي بنحفظه عنك وليه",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 6,
+  "text": "تحدي اليوم ينفع يتلعب من غير حساب خالص. الحساب اختياري، وتعمله بجوجل أو بإيميلك وباسورد.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 8,
+  "text": "من غير حساب",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 10,
+  "text": "على جهازك:",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 10,
+  "text": "مستواك، نتايج النهارده، أيامك ورا بعض، ورقم عشوائي للمتصفح ده. ده عشان اللعبة تفتكرك، ومحدش غيرك يقدر يشوفه.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 11,
+  "text": "عندنا:",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 11,
+  "text": "لكل دور: اليوم والمستوى والوضع ورقم السؤال، كسبت ولا لأ، وعدد المحاولات والثواني، مع الرقم العشوائي. من غير اسم ولا إيميل. ده عشان نقولك بعد الدور «أسرع من كام في المية».",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 12,
+  "text": "إحصائيات الزيارات:",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 12,
+  "text": "عدد الأدوار والأوضاع والمستويات، من غير كوكيز وولا أي حاجة بتكتبها.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 15,
+  "text": "لو عملت حساب",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 17,
+  "text": "الإيميل",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 17,
+  "text": ": من جوجل (وجوجل بتبعت كمان اسمك وصورتك) أو اللي كتبته. خدمة تسجيل الدخول (Supabase) بتحفظه عشان تعرف إن ده إنت. مش بنعرضه لحد، ومش بنبعتلك غير رسايل التأكيد وتغيير الباسورد اللي إنت طلبتها.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 18,
+  "text": "الباسورد",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 18,
+  "text": "لو دخلت بالإيميل: محفوظ متشفّر بطريقة ما ينفعش ترجع منها للباسورد نفسه، ولا حتى إحنا نقدر نشوفه.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 19,
+  "text": "الاسم اللي إنت اخترته",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 19,
+  "text": "، وده بيظهر للناس في لوحة الصدارة. ما تكتبش اسمك الكامل لو مش عايز.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 20,
+  "text": "نتايجك",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 20,
+  "text": ": نفس بيانات الدور اللي فوق، ومعاها إذا كانت اتراجعت على سؤال اليوم. ده عشان أيامك ورا بعض تتحفظ على أي جهاز، وعشان ترتيبك في اللوحة.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 21,
+  "text": "أول ما تسجّل، نتايج المتصفح ده اللي من غير حساب بتتنقل لحسابك.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 24,
+  "text": "مين يشوف إيه",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 25,
+  "text": "اللوحة بتعرض الاسم اللي اخترته ونقطك أو أيامك بس. محدش يقدر يقرا نتايجك ولا إيميلك، حتى اللاعيبة التانيين. البيانات محفوظة في Supabase (سيرفرات في ألمانيا)، والنتايج بتتراجع عن طريق Vercel.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 27,
+  "text": "تمسح كل حاجة إزاي",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 28,
+  "text": "من «حسابي» اضغط «احذف حسابي وبياناتي»: بنمسح الحساب والاسم والنتايج فورًا، ومعاهم نتايج المتصفح ده اللي من غير حساب. ولو مش عايز حساب، ما تسجّلش وخلاص: اللعب زي ما هو.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 29,
+  "text": "لو ابنك أو بنتك عملوا حساب وعايز تمسحه، دوس نفس الزرار من الجهاز اللي داخلين منه.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/PrivacyView.tsx",
+  "line": 30,
+  "text": "ارجع للعبة",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/SaveOffer.tsx",
+  "line": 14,
+  "text": "اتحفظت في حسابك يا",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/SaveOffer.tsx",
+  "line": 14,
+  "text": "شوف ترتيبك في اللوحة",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/SaveOffer.tsx",
+  "line": 21,
+  "text": "احفظ إنجازاتك",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/SaveOffer.tsx",
+  "line": 23,
+  "text": "أيامك ورا بعض (${toArabicIndic(streak)}) محفوظة على الجهاز ده بس.",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/account/SaveOffer.tsx",
+  "line": 23,
+  "text": "نتيجتك محفوظة على الجهاز ده بس.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/SaveOffer.tsx",
+  "line": 23,
+  "text": "سجّل بجوجل أو بإيميلك تحفظها،",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/SaveOffer.tsx",
+  "line": 23,
+  "text": "سجّل بجوجل تحفظها،",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/SaveOffer.tsx",
+  "line": 23,
+  "text": "وتدخل لوحة الصدارة باسم تختاره.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/SaveOffer.tsx",
+  "line": 25,
+  "text": "سجّل دخول",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 46,
+  "text": "مش دلوقتي",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 64,
+  "text": "خبّي الباسورد",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 64,
+  "text": "اظهر الباسورد",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 65,
+  "text": "خبّي",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 65,
+  "text": "اظهر",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 76,
+  "text": "الرابط ده خلص أو اتستخدم قبل كده. ادخل تاني أو اطلب رابط جديد.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 77,
+  "text": "افتح الرابط من نفس المتصفح اللي طلبته منه. ولو أكدت إيميلك، ادخل بالإيميل والباسورد.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 78,
+  "text": "الدخول ما تمّش. جرب تاني.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 90,
+  "text": "اكتب الباسورد.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 110,
+  "text": "بص على إيميلك",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 110,
+  "text": "فاضل تأكيد الإيميل",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 110,
+  "text": "بعتنالك رابط",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 113,
+  "text": "لو الإيميل ${email.trim()} مش متسجل قبل كده، هتلاقي رسالة فيها رابط تأكيد. افتحها من الموبايل ده ودوس على الرابط، وهترجع هنا وإنت داخل.",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 114,
+  "text": "لو فيه حساب بالإيميل ${email.trim()}، هتلاقي رسالة فيها رابط تغيّر بيه الباسورد. الرابط بيشتغل مرة واحدة ولمدة ساعة.",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 116,
+  "text": "ما لقيتهاش؟ بص في الـ Spam، أو استنى دقيقة.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 117,
+  "text": "رجوع لتسجيل الدخول",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 123,
+  "text": "حساب تحدي اليوم",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 123,
+  "text": "اعمل حساب جديد",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 123,
+  "text": "نسيت الباسورد؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 123,
+  "text": "احفظ إنجازاتك",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 124,
+  "text": "سجّل عشان أيامك ورا بعض تفضل معاك لو غيّرت الموبايل، واسمك يظهر في لوحة الصدارة. اللعب من غير حساب زي ما هو.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 129,
+  "text": "بنفتح جوجل…",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 129,
+  "text": "ادخل بحساب جوجل",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 131,
+  "text": "أو بالإيميل",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 137,
+  "text": "الإيميل",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 139,
+  "text": "الباسورد",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 139,
+  "text": "٨ حروف على الأقل، فيها حروف إنجليزي وأرقام.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 143,
+  "text": "استنى…",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 143,
+  "text": "ادخل",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 143,
+  "text": "اعمل الحساب",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 143,
+  "text": "ابعتلي رابط",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 147,
+  "text": "نسيت الباسورد؟",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 148,
+  "text": "معندكش حساب؟ اعمل واحد",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 149,
+  "text": "عندك حساب؟ ادخل",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 154,
+  "text": "إيه اللي بنحفظه وليه",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 173,
+  "text": "آخر خطوة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 173,
+  "text": "اختار اسمك في اللوحة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 175,
+  "text": "الاسم اللي هيظهر للناس",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 177,
+  "text": "من ٢ لـ ٢٠ حرف.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 178,
+  "text": "بنحفظ…",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 178,
+  "text": "احفظ وكمّل",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 179,
+  "text": "اخرج من غير ما أعمل حساب",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 197,
+  "text": "نسيت الباسورد",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 197,
+  "text": "اختار باسورد جديد",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 199,
+  "text": "الباسورد الجديد",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 199,
+  "text": "٨ حروف على الأقل، فيها حروف إنجليزي وأرقام.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 201,
+  "text": "بنحفظ…",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/account/Sheets.tsx",
+  "line": 201,
+  "text": "احفظ الباسورد",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 75,
+  "text": "الأسئلة ماحمّلتش. اتأكد إنك متصل بالنت وجرّب تاني.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 76,
+  "text": "جرّب تاني",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 79,
+  "text": "بيحمّل الأسئلة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 90,
+  "text": "افتح نبراس",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 90,
+  "text": "نِبْرَاس",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 90,
+  "text": "تحدي اليوم",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 188,
+  "text": "مستواك دلوقتي «${LEVEL_NAMES[l].name}» في كل الأوضاع. تقدر تغيّره من فوق في أي وقت.",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 222,
+  "text": "${toArabicIndic(streak)} ${streak === 1 ? 'يوم' : 'أيام'} ورا بعض",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 222,
+  "text": "ابدأ سلسلة أيامك النهارده",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 223,
+  "text": "السؤال الجاي بعد",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 225,
+  "text": "الأوضاع",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 235,
+  "text": "تدريب",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 243,
+  "text": "لوحة الصدارة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 244,
+  "text": "حسابي: ${account.state.name}",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 244,
+  "text": "حسابي",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 247,
+  "text": "المستوى: ${LEVEL_NAMES[level].name}. غيّره",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 247,
+  "text": "اختار مستواك",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 247,
+  "text": "اختار مستواك",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 248,
+  "text": "الوضع الفاتح",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 248,
+  "text": "الوضع الغامق",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 254,
+  "text": "بيحمّل",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 263,
+  "text": "جولة تدريب: العب براحتك، مش بتتحسب في الأيام ورا بعض.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 285,
+  "text": "الأسئلة كلها من محتوى",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 285,
+  "text": "نبراس",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 285,
+  "text": ": خريطة وخط زمني للسيرة النبوية والتاريخ الإسلامي المبكر.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 306,
+  "text": "حصلت مشكلة في اللعبة. حمّل الصفحة تاني.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/App.tsx",
+  "line": 307,
+  "text": "حمّل تاني",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/LevelSheet.tsx",
+  "line": 25,
+  "text": "أهلًا بيك في تحدي نبراس",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/LevelSheet.tsx",
+  "line": 25,
+  "text": "غيّر مستواك",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/LevelSheet.tsx",
+  "line": 26,
+  "text": "إنت قد إيه عارف؟",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/LevelSheet.tsx",
+  "line": 27,
+  "text": "اختار المستوى اللي يناسبك، والأسئلة هتبقى على قدّه في كل الأوضاع. كل مستوى ليه أسئلته وأيامه ورا بعض، وتقدر تغيّره في أي وقت.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/LevelSheet.tsx",
+  "line": 30,
+  "text": "١٢٣",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/LevelSheet.tsx",
+  "line": 37,
+  "text": "رجوع",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 40,
+  "text": "موقع مجاني فيه خريطة تفاعلية وخط زمني لأحداث السيرة النبوية والتاريخ الإسلامي المبكر، مع سِيَر الصحابة والآيات المتصلة بكل حدث. البطاقات والأزرار بتفتحه على الصفحة نفسها.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 49,
+  "text": "عرفت «${names.tab}» في تحدي نبراس النهارده من ${picks === 1 ? 'أول محاولة' : `${n} محاولات`} (مستوى «${LEVEL_NAMES[round.level].name}»)${streak > 1 ? ` · ${toArabicIndic(streak)} أيام ورا بعض` : ''} تقدر تعمل أحسن مني؟",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 50,
+  "text": "«${names.tab}» في تحدي نبراس النهارده كان صعب! تقدر تعرفه إنت؟",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 54,
+  "text": "تحدي اليوم · نبراس",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 57,
+  "text": "اتنسخت! الصقها لصحابك",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 68,
+  "text": "${headline(true, picks, PICKS_ALLOWED)} عرفتها من ${picks === 1 ? 'أول محاولة' : `المحاولة رقم ${n}`}",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 68,
+  "text": "المرة دي فلتت منك",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 74,
+  "text": "من أول محاولة!",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 75,
+  "text": "إنت من أوائل اللي حلّوها النهارده.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 75,
+  "text": "حليتها أسرع من ${toArabicIndic(fasterThan(stats)!)}٪ من الناس النهارده.",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 78,
+  "text": "إنت رقم كام يحلّها النهارده",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 79,
+  "text": "${toArabicIndic(fasterThan(stats)!)}٪",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 79,
+  "text": "حلّوها لحد دلوقتي",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 79,
+  "text": "أسرع من الناس دول",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 80,
+  "text": "٫",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 80,
+  "text": "متوسط محاولات الناس",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 84,
+  "text": "من",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 84,
+  "text": "عرفوها النهارده. بكرة سؤال جديد!",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 87,
+  "text": "محاولات",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 88,
+  "text": "أيام ورا بعض",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 89,
+  "text": "تحديات النهارده",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 96,
+  "text": "شاطر! ابعتها لصحابك وشوف مين أسرع",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 96,
+  "text": "تحدّى صحابك: هل حد فيهم يعرفها؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 97,
+  "text": "الرسالة اللي هتتبعت",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 100,
+  "text": "شارك مع صحابك",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 106,
+  "text": "«نبراس» إيه؟",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 110,
+  "text": "من أول مرة! شكلك عارف أكتر من كده",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 110,
+  "text": "بسرعة كده! شكلك عارف أكتر من كده",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 110,
+  "text": "ولا يهمك، السؤال ده كان صعب",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 111,
+  "text": "تحب تجرب مستوى «",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 111,
+  "text": "»؟ الأسئلة هتبقى",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 111,
+  "text": "أصعب",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 111,
+  "text": "أسهل",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 111,
+  "text": "في كل الأوضاع، وتقدر ترجع في أي وقت.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 113,
+  "text": "آه، هات أصعب",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 113,
+  "text": "هات أسهل",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 114,
+  "text": "لأ، مرتاح كده",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 114,
+  "text": "لأ، هكمّل كده",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 119,
+  "text": "العب كمان",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 123,
+  "text": "كمّل على «",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 124,
+  "text": "فاضل لك",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 124,
+  "text": "تحدي",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 124,
+  "text": "تحديات",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 124,
+  "text": "النهارده",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 127,
+  "text": "خلّصت تحديات النهارده كلها!",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 129,
+  "text": "سؤال تدريب تاني",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 129,
+  "text": "سؤال تدريب",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 130,
+  "text": "العب على قد ما تحب، من غير ما يأثر على أيامك ورا بعض",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 133,
+  "text": "سؤال «",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 133,
+  "text": "» الجاي بعد",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 139,
+  "text": "اعرف أكتر عن",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 143,
+  "text": "سؤال تاني",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 145,
+  "text": "شارك مع صحابك",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 147,
+  "text": "شارك",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 165,
+  "text": "${toArabicIndic(i + 1)} في الترتيب",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 171,
+  "text": "✓ الإجابة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 171,
+  "text": "✗ اخترته",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 171,
+  "text": "ماخترتوش",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 175,
+  "text": "الحدث",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 180,
+  "text": "بطاقات النهارده",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 180,
+  "text": "· كل بطاقة بتفتح صفحتها على نبراس",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/ResultCard.tsx",
+  "line": 189,
+  "text": "اعرف أكتر",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 34,
+  "text": "دوس على الأحداث بالترتيب، وبعدين اتأكد.",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 34,
+  "text": "${round.clues.length ? 'اقرا الدليل و' : ''}اختار واحد من الخمسة. كل اختيار هيقولك صح ولا غلط، وحاجة عنه.",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 44,
+  "text": "دليل تاني بعد",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 44,
+  "text": "غلطة كمان",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 44,
+  "text": "غلطتين",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 53,
+  "text": "المحاولة",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 54,
+  "text": "✗ غلط",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 63,
+  "text": "الاختيارات",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 83,
+  "text": "عرفتها!",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 83,
+  "text": "خلصت محاولاتك",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 83,
+  "text": "معاك ${toArabicIndic(TRIES)} محاولات بس",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 83,
+  "text": "دي آخر محاولة!",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 83,
+  "text": "فاضل لك ${toArabicIndic(left)} محاولات",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 85,
+  "text": "المحاولات: ${toArabicIndic(picks.length)} من ${toArabicIndic(TRIES)}. ${say}",
+  "kind": "template"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 104,
+  "text": "دي الإجابة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 104,
+  "text": "✓ صح",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 104,
+  "text": "✗ غلط",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 111,
+  "text": "اعرف أكتر عن",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 124,
+  "text": "مقارنة بالإجابة",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 161,
+  "text": "ترتيبك",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 164,
+  "text": "١٢٣٤",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 165,
+  "text": "دوس على حدث من تحت",
+  "kind": "string"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 177,
+  "text": "اتأكد من الترتيب",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/RoundView.tsx",
+  "line": 178,
+  "text": "امسح",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/challenge/ui/useNow.ts",
+  "line": 18,
+  "text": "٠١٢٣٤٥٦٧٨٩",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/battleVideo/BattleVideoPlayer.tsx",
+  "line": 260,
+  "text": "رجوع",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/battleVideo/BattleVideoPlayer.tsx",
+  "line": 290,
+  "text": "تشغيل الفيديو",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/battleVideo/BattleVideoPlayer.tsx",
+  "line": 295,
+  "text": "جارٍ تحميل الفيديو...",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/battleVideo/BattleVideoPlayer.tsx",
+  "line": 304,
+  "text": "تعذّر تشغيل الفيديو",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/battleVideo/BattleVideoPlayer.tsx",
+  "line": 312,
+  "text": "إعادة المحاولة",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/battleVideo/BattleVideoPlayer.tsx",
+  "line": 320,
+  "text": "مشاهدة المحاكاة بدلاً منه",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/battleVideo/CaptionBand.tsx",
+  "line": 32,
+  "text": "تعذّر تحميل الترجمة.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/battleVideo/CaptionBand.tsx",
+  "line": 38,
+  "text": "إعادة المحاولة",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/battleVideo/playerState.ts",
+  "line": 48,
+  "text": "تعذّر الاتصال بيوتيوب لتشغيل الفيديو. تحقّق من الاتصال ثم أعد المحاولة.",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/battleVideo/playerState.ts",
+  "line": 49,
+  "text": "تعذّر العثور على هذا الفيديو.",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/battleVideo/playerState.ts",
+  "line": 50,
+  "text": "تعذّر تشغيل الفيديو في هذا المتصفح.",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/battleVideo/playerState.ts",
+  "line": 51,
+  "text": "هذا الفيديو غير متاح الآن على يوتيوب.",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/battleVideo/VideoControls.tsx",
+  "line": 54,
+  "text": "إيقاف مؤقت",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/battleVideo/VideoControls.tsx",
+  "line": 54,
+  "text": "تشغيل",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/battleVideo/VideoControls.tsx",
+  "line": 57,
+  "text": "رجوع ١٠ ثوانٍ",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/battleVideo/VideoControls.tsx",
+  "line": 60,
+  "text": "تقديم ١٠ ثوانٍ",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/battleVideo/VideoControls.tsx",
+  "line": 68,
+  "text": "إلغاء الكتم",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/battleVideo/VideoControls.tsx",
+  "line": 68,
+  "text": "كتم الصوت",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/battleVideo/VideoControls.tsx",
+  "line": 71,
+  "text": "إخفاء الترجمة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/battleVideo/VideoControls.tsx",
+  "line": 71,
+  "text": "إظهار الترجمة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/battleVideo/VideoControls.tsx",
+  "line": 75,
+  "text": "إنهاء ملء الشاشة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/battleVideo/VideoControls.tsx",
+  "line": 75,
+  "text": "ملء الشاشة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/battleVideo/VideoControls.tsx",
+  "line": 105,
+  "text": "موضع الفيديو",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/battleVideo/VideoControls.tsx",
+  "line": 106,
+  "text": "${formatTime(time)} من ${formatTime(duration)}",
+  "kind": "template"
+ },
+ {
+  "file": "src/components/battleVideo/videoEngine.ts",
+  "line": 147,
+  "text": "فيديو المعركة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/chat/AnswerBlocks.tsx",
+  "line": 33,
+  "text": "المصادر:",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/chat/AnswerBlocks.tsx",
+  "line": 33,
+  "text": "؛",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/chat/AnswerBlocks.tsx",
+  "line": 136,
+  "text": "عرض ${block.key}",
+  "kind": "template"
+ },
+ {
+  "file": "src/components/chat/AnswerBlocks.tsx",
+  "line": 139,
+  "text": "عرض الآية",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/chat/AnswerExtras.tsx",
+  "line": 12,
+  "text": "متابعةً للحديث عن:",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/chat/AnswerExtras.tsx",
+  "line": 12,
+  "text": "،",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/chat/AnswerExtras.tsx",
+  "line": 21,
+  "text": "أسئلة مقترحة للمتابعة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/chat/AnswerExtras.tsx",
+  "line": 57,
+  "text": "شكراً لتقييمك",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/chat/AnswerExtras.tsx",
+  "line": 84,
+  "text": "إجابة مفيدة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/chat/AnswerExtras.tsx",
+  "line": 85,
+  "text": "إجابة غير صحيحة أو غير مفيدة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/chat/AnswerExtras.tsx",
+  "line": 86,
+  "text": "تعذر إرسال التقييم",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/chat/AnswerExtras.tsx",
+  "line": 98,
+  "text": "ما الخطأ في الإجابة؟ (اختياري)",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/chat/AnswerExtras.tsx",
+  "line": 115,
+  "text": "إرسال",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/chat/AnswerExtras.tsx",
+  "line": 118,
+  "text": "إلغاء",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/ChatPanel.tsx",
+  "line": 101,
+  "text": "المساعد يكتب",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/ChatPanel.tsx",
+  "line": 281,
+  "text": "إغلاق",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/ChatPanel.tsx",
+  "line": 295,
+  "text": "بدء محادثة جديدة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/ChatPanel.tsx",
+  "line": 298,
+  "text": "محادثة جديدة",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/ChatPanel.tsx",
+  "line": 306,
+  "text": "اسأل نبراس",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/ChatPanel.tsx",
+  "line": 309,
+  "text": "إجابات مستندة إلى محتوى التطبيق فقط",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/ChatPanel.tsx",
+  "line": 322,
+  "text": "اسأل عن أي حدث أو صحابي أو معركة موجودة في التطبيق",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/ChatPanel.tsx",
+  "line": 372,
+  "text": "حاول مرة أخرى",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/ChatPanel.tsx",
+  "line": 389,
+  "text": "الرجاء الانتظار قليلاً قبل إرسال سؤال آخر",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/ChatPanel.tsx",
+  "line": 393,
+  "text": "اقتراحات الأسئلة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/ChatPanel.tsx",
+  "line": 424,
+  "text": "اكتب سؤالك",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/ChatPanel.tsx",
+  "line": 430,
+  "text": "اكتب سؤالك هنا...",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/ChatPanel.tsx",
+  "line": 453,
+  "text": "إرسال",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/CompanionModal.tsx",
+  "line": 93,
+  "text": "إغلاق",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/CompanionModal.tsx",
+  "line": 122,
+  "text": "تاريخ الميلاد والوفاة:",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/CompanionModal.tsx",
+  "line": 138,
+  "text": "لم يتم العثور على سيرة تفصيلية لهذا العَلَم في قاعدة البيانات الحالية.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/ContentLoadState.tsx",
+  "line": 24,
+  "text": "تعذّر تحميل المحتوى. تحقّق من الاتصال ثم أعد المحاولة.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/ContentLoadState.tsx",
+  "line": 31,
+  "text": "إعادة المحاولة",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/ContentLoadState.tsx",
+  "line": 37,
+  "text": "جارٍ التحميل",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/ErrorBoundary.tsx",
+  "line": 76,
+  "text": "حدث خطأ غير متوقع",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/ErrorBoundary.tsx",
+  "line": 78,
+  "text": "تعذّر عرض هذا الجزء. أعد تحميل الصفحة للمحاولة مرة أخرى.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/ErrorBoundary.tsx",
+  "line": 86,
+  "text": "إعادة التحميل",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/ErrorBoundary.tsx",
+  "line": 94,
+  "text": "إغلاق",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/eventPanel/ArticleBody.tsx",
+  "line": 55,
+  "text": "مشاهدة المعركة",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/eventPanel/ArticleBody.tsx",
+  "line": 144,
+  "text": "مجريات الأحداث",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/eventPanel/ArticleBody.tsx",
+  "line": 221,
+  "text": "المصادر والمراجع",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/eventPanel/ArticleBody.tsx",
+  "line": 238,
+  "text": "البحث عن المصدر في المكتبة الشاملة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/eventPanel/Hero.tsx",
+  "line": 127,
+  "text": "م",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/eventPanel/Hero.tsx",
+  "line": 173,
+  "text": "يقرأ الآن",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/eventPanel/Hero.tsx",
+  "line": 173,
+  "text": "متوقف مؤقتًا",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/eventPanel/Hero.tsx",
+  "line": 222,
+  "text": "إيقاف السرد",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/eventPanel/Hero.tsx",
+  "line": 222,
+  "text": "تشغيل السرد",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/eventPanel/Hero.tsx",
+  "line": 223,
+  "text": "إيقاف السرد",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/eventPanel/Hero.tsx",
+  "line": 223,
+  "text": "تشغيل السرد",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/eventPanel/parts.tsx",
+  "line": 26,
+  "text": "آية",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/eventPanel/parts.tsx",
+  "line": 26,
+  "text": "حديث",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/eventPanel/PeopleList.tsx",
+  "line": 27,
+  "text": "الصحابة والقادة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/eventPanel/PeopleList.tsx",
+  "line": 69,
+  "text": "شخصيات أخرى",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/eventPanel/useNarration.ts",
+  "line": 90,
+  "text": "تعذّر تشغيل الصوت لهذا الحدث",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/eventPanel/useNarration.ts",
+  "line": 126,
+  "text": "تعذّر تحميل الصوت",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/EventPanel.tsx",
+  "line": 226,
+  "text": "اسحب لتغيير الحجم",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/EventPanel.tsx",
+  "line": 243,
+  "text": "إغلاق لوحة الحدث",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/EventPanel.tsx",
+  "line": 244,
+  "text": "إغلاق",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/EventPanel.tsx",
+  "line": 254,
+  "text": "تصغير الخط",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/EventPanel.tsx",
+  "line": 255,
+  "text": "تصغير الخط",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/EventPanel.tsx",
+  "line": 264,
+  "text": "تكبير الخط",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/EventPanel.tsx",
+  "line": 265,
+  "text": "تكبير الخط",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/EventPanel.tsx",
+  "line": 275,
+  "text": "إخفاء اللوحة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/EventPanel.tsx",
+  "line": 276,
+  "text": "إخفاء اللوحة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/EventPanel.tsx",
+  "line": 285,
+  "text": "تصغير النافذة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/EventPanel.tsx",
+  "line": 285,
+  "text": "توسيع النافذة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/EventPanel.tsx",
+  "line": 286,
+  "text": "تصغير النافذة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/EventPanel.tsx",
+  "line": 286,
+  "text": "توسيع النافذة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/EventPanel.tsx",
+  "line": 349,
+  "text": "إظهار اللوحة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/EventPanel.tsx",
+  "line": 350,
+  "text": "إظهار لوحة الحدث",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 74,
+  "text": "تحدي اليوم",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 74,
+  "text": "تحدي اليوم: لعبة يومية من نبراس",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 75,
+  "text": "إعادة تعيين الخريطة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 79,
+  "text": "الخروج من ملء الشاشة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 79,
+  "text": "ملء الشاشة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 82,
+  "text": "دليل الاستخدام والاختصارات",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 85,
+  "text": "ابدأ الجولة التعريفية",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 89,
+  "text": "الوضع النهاري",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 89,
+  "text": "الوضع الليلي",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 90,
+  "text": "تبديل إلى الوضع النهاري",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 90,
+  "text": "تبديل إلى الوضع الليلي",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 129,
+  "text": "نِبْرَاس",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 138,
+  "text": "التاريخ الإسلامي كما لم تره من قبل",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 163,
+  "text": "فتح قائمة البحث والتصفية",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 170,
+  "text": "ابحث واستكشف ${eventCount} حدث تاريخي...",
+  "kind": "template"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 188,
+  "text": "إعادة تعيين الخريطة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 189,
+  "text": "إعادة تعيين الخريطة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 199,
+  "text": "الخروج من وضع ملء الشاشة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 199,
+  "text": "ملء الشاشة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 200,
+  "text": "ملء الشاشة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 217,
+  "text": "دليل الاستخدام والاختصارات",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 220,
+  "text": "دليل الاستخدام",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 229,
+  "text": "تحدي اليوم: لعبة يومية من نبراس",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 230,
+  "text": "تحدي اليوم",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 243,
+  "text": "اسأل المساعد الذكي",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 246,
+  "text": "اسأل نبراس",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 273,
+  "text": "ابدأ الجولة التعريفية",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 274,
+  "text": "ابدأ الجولة التعريفية",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 277,
+  "text": "ابدأ الجولة",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 288,
+  "text": "فتح قائمة البحث والتصفية",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 300,
+  "text": "تبديل إلى الوضع النهاري",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/AppHeader.tsx",
+  "line": 300,
+  "text": "تبديل إلى الوضع الليلي",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/HeaderMenu.tsx",
+  "line": 115,
+  "text": "المزيد من الخيارات",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/header/HeaderMenu.tsx",
+  "line": 130,
+  "text": "المزيد من الخيارات",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/HelpModal.tsx",
+  "line": 20,
+  "text": "أرض تحت حكم مباشر",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/HelpModal.tsx",
+  "line": 21,
+  "text": "صلح أو معاهدة، دون حكم مباشر",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/HelpModal.tsx",
+  "line": 22,
+  "text": "أرض متنازع عليها",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/HelpModal.tsx",
+  "line": 23,
+  "text": "حليف لإحدى الإمبراطوريتين",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/HelpModal.tsx",
+  "line": 24,
+  "text": "ديار القبائل (حدود غير ثابتة)",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/HelpModal.tsx",
+  "line": 25,
+  "text": "سيطرة غير مؤكدة (خط متقطع)",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/HelpModal.tsx",
+  "line": 35,
+  "text": "فتح البحث والتصفية",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/HelpModal.tsx",
+  "line": 36,
+  "text": "إغلاق النوافذ المفتوحة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/HelpModal.tsx",
+  "line": 37,
+  "text": "التنقل بين الأحداث",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/HelpModal.tsx",
+  "line": 41,
+  "text": "انقر على العلامة لفتح تفاصيل الحدث",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/HelpModal.tsx",
+  "line": 42,
+  "text": "اسحب القائمة للأسفل لإغلاقها",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/HelpModal.tsx",
+  "line": 43,
+  "text": "انقر على أيقونة البحث لفتح قائمة الأحداث",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/HelpModal.tsx",
+  "line": 153,
+  "text": "إغلاق",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/HelpModal.tsx",
+  "line": 161,
+  "text": "دليل الاستخدام",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/HelpModal.tsx",
+  "line": 164,
+  "text": "دلالة العلامات على الخريطة والاختصارات المتاحة",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/HelpModal.tsx",
+  "line": 177,
+  "text": "خريطة الإشارات",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/HelpModal.tsx",
+  "line": 193,
+  "text": "المدن التاريخية",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/HelpModal.tsx",
+  "line": 214,
+  "text": "معركة قابلة للمشاهدة",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/HelpModal.tsx",
+  "line": 224,
+  "text": "تتغيّر الخريطة مع الحدث المختار في الخط الزمني. ولم ترسم كتب التاريخ خطوطًا للحدود، فكل خط مرسوم هنا تقريبي، ومفتاح الخريطة يشرح ما يظهر في كل وقت.",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/HelpModal.tsx",
+  "line": 240,
+  "text": "اختصارات لوحة المفاتيح",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/HelpModal.tsx",
+  "line": 272,
+  "text": "إيماءات اللمس",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/IntroScreen.tsx",
+  "line": 52,
+  "text": "نبراس",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/IntroScreen.tsx",
+  "line": 108,
+  "text": "تخطي المقدمة",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/IntroScreen.tsx",
+  "line": 236,
+  "text": "نِبْرَاس",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/map/TerritoryLayer.tsx",
+  "line": 19,
+  "text": "حكم مباشر",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/map/TerritoryLayer.tsx",
+  "line": 20,
+  "text": "مدينة وما حولها",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/map/TerritoryLayer.tsx",
+  "line": 21,
+  "text": "حليف لإحدى الإمبراطوريتين",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/map/TerritoryLayer.tsx",
+  "line": 22,
+  "text": "صلح أو معاهدة، دون حكم مباشر",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/map/TerritoryLayer.tsx",
+  "line": 23,
+  "text": "أرض متنازع عليها",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/map/TerritoryLayer.tsx",
+  "line": 24,
+  "text": "ديار قبيلة، حدودها غير ثابتة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/map/TerritoryLayer.tsx",
+  "line": 66,
+  "text": "السيطرة هنا غير مؤكدة",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/map/TerritoryLayer.tsx",
+  "line": 67,
+  "text": "الحدود مرسومة تقريبًا",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/map/TerritoryLayer.tsx",
+  "line": 95,
+  "text": "تعذّر تحميل حدود الخريطة",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/map/TerritoryLayer.tsx",
+  "line": 96,
+  "text": "إعادة المحاولة",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/map/TerritoryLayer.tsx",
+  "line": 101,
+  "text": "جارٍ تحميل حدود الخريطة…",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/map/TerritoryLegend.tsx",
+  "line": 19,
+  "text": "الحدود كلها مرسومة تقريبًا",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/map/TerritoryLegend.tsx",
+  "line": 59,
+  "text": "مفتاح الخريطة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/map/TerritoryLegend.tsx",
+  "line": 70,
+  "text": "مفتاح الخريطة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/map/TerritoryLegend.tsx",
+  "line": 79,
+  "text": "مفتاح الخريطة",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/Map.tsx",
+  "line": 34,
+  "text": "الخريطة: <a href=\"https://www.naturalearthdata.com/\" target=\"_blank\" rel=\"noopener\">Natural Earth</a> (ملكية عامة)،",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/Map.tsx",
+  "line": 35,
+  "text": "ومواضع المدن: <a href=\"https://althurayya.github.io/\" target=\"_blank\" rel=\"noopener\">الثريا al-Thurayya</a>",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/Map.tsx",
+  "line": 53,
+  "text": "<button type=\"button\" class=\"nb-credit__toggle\" aria-expanded=\"false\" aria-controls=\"nb-credit-text\" aria-label=\"مصادر صور الخريطة\">©</button>",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/Map.tsx",
+  "line": 279,
+  "text": "أحداث متعددة هنا",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/Map.tsx",
+  "line": 283,
+  "text": "أحداث متعددة هنا",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/Map.tsx",
+  "line": 374,
+  "text": "استخدم إصبعين للتحريك",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/Map.tsx",
+  "line": 375,
+  "text": "اضغط Ctrl + عجلة الفأرة للتكبير",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/Map.tsx",
+  "line": 376,
+  "text": "اضغط ⌘ + عجلة الفأرة للتكبير",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/Map.tsx",
+  "line": 419,
+  "text": "الأهمية التاريخية:",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/QuranModal.tsx",
+  "line": 97,
+  "text": "إغلاق",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/QuranModal.tsx",
+  "line": 105,
+  "text": "سورة رقم",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/QuranModal.tsx",
+  "line": 105,
+  "text": "• الآيات (",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/QuranModal.tsx",
+  "line": 139,
+  "text": "المزيد على Quran.com",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/QuranRef.tsx",
+  "line": 28,
+  "text": "عرض الآيات ﴾",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/SearchMenu.tsx",
+  "line": 108,
+  "text": "قائمة البحث",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/SearchMenu.tsx",
+  "line": 147,
+  "text": "استكشاف الأحداث",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/SearchMenu.tsx",
+  "line": 151,
+  "text": "إغلاق القائمة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/SearchMenu.tsx",
+  "line": 176,
+  "text": "إجمالي الأحداث:",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/SearchMenu.tsx",
+  "line": 185,
+  "text": "${filteredEvents.length} حدث",
+  "kind": "template"
+ },
+ {
+  "file": "src/components/SearchMenu.tsx",
+  "line": 200,
+  "text": "ابحث عن غزوة، حدث، سنة...",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/SearchMenu.tsx",
+  "line": 201,
+  "text": "بحث",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/SearchMenu.tsx",
+  "line": 224,
+  "text": "تصفية الخريطة",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/SearchMenu.tsx",
+  "line": 244,
+  "text": "الكل",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/SearchMenu.tsx",
+  "line": 244,
+  "text": "عصر النبي ﷺ",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/SearchMenu.tsx",
+  "line": 244,
+  "text": "الخلفاء الراشدين",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/SearchMenu.tsx",
+  "line": 260,
+  "text": "الكل",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/SearchMenu.tsx",
+  "line": 270,
+  "text": "المعارك فقط",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/SearchMenu.tsx",
+  "line": 280,
+  "text": "الأحداث فقط",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/SearchMenu.tsx",
+  "line": 292,
+  "text": "نتائج البحث",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/SearchMenu.tsx",
+  "line": 300,
+  "text": "لا توجد نتائج",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/SearchMenu.tsx",
+  "line": 301,
+  "text": "لم نجد أحداثاً مطابقة لبحثك. جرب كلمات مختلفة.",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/SearchMenu.tsx",
+  "line": 301,
+  "text": "لا توجد أحداث تطابق الفلاتر المحددة.",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/SearchMenu.tsx",
+  "line": 338,
+  "text": "معركة قابلة للمشاهدة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/SearchMenu.tsx",
+  "line": 339,
+  "text": "معركة قابلة للمشاهدة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/SearchMenu.tsx",
+  "line": 351,
+  "text": "م",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/timeline/DesktopDock.tsx",
+  "line": 129,
+  "text": "تشغيل تلقائي للأحداث",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/DesktopDock.tsx",
+  "line": 132,
+  "text": "تشغيل",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/timeline/DesktopDock.tsx",
+  "line": 163,
+  "text": "البداية",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/timeline/DesktopDock.tsx",
+  "line": 212,
+  "text": "إظهار شريط التنقل",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/DesktopDock.tsx",
+  "line": 213,
+  "text": "إظهار شريط التنقل",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/DesktopDock.tsx",
+  "line": 237,
+  "text": "إخفاء شريط التنقل",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/DesktopDock.tsx",
+  "line": 238,
+  "text": "إخفاء شريط التنقل",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/MobileDock.tsx",
+  "line": 65,
+  "text": "تشغيل تلقائي",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/MobileDock.tsx",
+  "line": 75,
+  "text": "تشغيل تلقائي",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/MobileDock.tsx",
+  "line": 98,
+  "text": "إخفاء شريط التنقل",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/MobileDock.tsx",
+  "line": 130,
+  "text": "إظهار شريط التنقل",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/PlayerControls.tsx",
+  "line": 43,
+  "text": "إيقاف التشغيل التلقائي",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/PlayerControls.tsx",
+  "line": 43,
+  "text": "تشغيل تلقائي للأحداث",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/PlayerControls.tsx",
+  "line": 46,
+  "text": "إيقاف",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/PlayerControls.tsx",
+  "line": 46,
+  "text": "تشغيل",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/PlayerControls.tsx",
+  "line": 52,
+  "text": "إيقاف الصوت",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/PlayerControls.tsx",
+  "line": 52,
+  "text": "تشغيل الصوت",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/PlayerControls.tsx",
+  "line": 59,
+  "text": "إيقاف الصوت",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/PlayerControls.tsx",
+  "line": 59,
+  "text": "تشغيل الصوت",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/PlayerControls.tsx",
+  "line": 69,
+  "text": "البدء من جديد",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/PlayerControls.tsx",
+  "line": 72,
+  "text": "البدء من جديد",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/timeline/PlayerControls.tsx",
+  "line": 80,
+  "text": "الخروج من وضع التشغيل",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/PlayerControls.tsx",
+  "line": 83,
+  "text": "خروج",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/timeline/PlayerControls.tsx",
+  "line": 98,
+  "text": "إيقاف",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/PlayerControls.tsx",
+  "line": 98,
+  "text": "تشغيل",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/PlayerControls.tsx",
+  "line": 108,
+  "text": "إيقاف",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/PlayerControls.tsx",
+  "line": 108,
+  "text": "تشغيل",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/PlayerControls.tsx",
+  "line": 113,
+  "text": "إيقاف الصوت",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/PlayerControls.tsx",
+  "line": 113,
+  "text": "تشغيل الصوت",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/PlayerControls.tsx",
+  "line": 122,
+  "text": "البدء من جديد",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/PlayerControls.tsx",
+  "line": 131,
+  "text": "الخروج من وضع التشغيل",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/TimelineRail.tsx",
+  "line": 186,
+  "text": "إيقاف",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/TimelineRail.tsx",
+  "line": 186,
+  "text": "تشغيل",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/TimelineRail.tsx",
+  "line": 187,
+  "text": "إيقاف التشغيل التلقائي",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/TimelineRail.tsx",
+  "line": 187,
+  "text": "تشغيل تلقائي",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/TimelineRail.tsx",
+  "line": 192,
+  "text": "الخط الزمني",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/TimelineRail.tsx",
+  "line": 200,
+  "text": "توسيع الخط الزمني",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/TimelineRail.tsx",
+  "line": 283,
+  "text": "الخط الزمني",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/timeline/TimelineRail.tsx",
+  "line": 288,
+  "text": "طي الخط الزمني",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/timeline/TimelineRail.tsx",
+  "line": 375,
+  "text": "الخط الزمني",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/Timeline.tsx",
+  "line": 386,
+  "text": "طي الخط الزمني",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/Timeline.tsx",
+  "line": 386,
+  "text": "توسيع الخط الزمني",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/Timeline.tsx",
+  "line": 387,
+  "text": "طي",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/Timeline.tsx",
+  "line": 387,
+  "text": "توسيع",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/Toast.tsx",
+  "line": 68,
+  "text": "إغلاق",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/TourPrompt.tsx",
+  "line": 172,
+  "text": "إغلاق",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/TourPrompt.tsx",
+  "line": 219,
+  "text": "مرحباً بك في نبراس",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/TourPrompt.tsx",
+  "line": 245,
+  "text": "خذ جولة قصيرة للتعرّف على أهم مميزات التطبيق",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/TourPrompt.tsx",
+  "line": 252,
+  "text": "خريطة تفاعلية للأحداث التاريخية",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/TourPrompt.tsx",
+  "line": 257,
+  "text": "تفاصيل شاملة مع الآيات القرآنية المرتبطة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/TourPrompt.tsx",
+  "line": 262,
+  "text": "خط زمني تفاعلي للتنقل بين الأحداث",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/TourPrompt.tsx",
+  "line": 305,
+  "text": "ابدأ الجولة",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/TourPrompt.tsx",
+  "line": 326,
+  "text": "تخطي",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/TourPrompt.tsx",
+  "line": 337,
+  "text": "تستطيع إعادة الجولة في أي وقت من زر \"ابدأ الجولة\" في الأعلى",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/TourTooltip.tsx",
+  "line": 155,
+  "text": "إغلاق الجولة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/TourTooltip.tsx",
+  "line": 189,
+  "text": "الخطوة السابقة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/TourTooltip.tsx",
+  "line": 198,
+  "text": "السابق",
+  "kind": "jsx"
+ },
+ {
+  "file": "src/components/TourTooltip.tsx",
+  "line": 211,
+  "text": "إنهاء الجولة",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/TourTooltip.tsx",
+  "line": 211,
+  "text": "الخطوة التالية",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/TourTooltip.tsx",
+  "line": 216,
+  "text": "إنهاء",
+  "kind": "string"
+ },
+ {
+  "file": "src/components/TourTooltip.tsx",
+  "line": 216,
+  "text": "التالي",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 16,
+  "text": "[aria-label=\"إغلاق القائمة\"]",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 17,
+  "text": "[data-tour-id=\"event-panel\"] button[title=\"إغلاق\"]",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 22,
+  "text": "[aria-label=\"إغلاق القائمة\"]",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 39,
+  "text": "مرحباً بك في نبراس",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 41,
+  "text": "نِبراس تطبيق تفاعلي لاستكشاف التاريخ الإسلامي المبكر عبر الخريطة والخط الزمني. سنأخذك في جولة قصيرة للتعرّف على أهم مميزاته.",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 49,
+  "text": "الخط الزمني",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 51,
+  "text": "يعرض الخط الزمني الأحداث مرتّبةً من عام 571م إلى 661م. انقر على أي حدث لعرض موقعه وتفاصيله على الخريطة.",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 54,
+  "text": "انقر على أي حدث في الخط الزمني",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 59,
+  "text": "الخريطة التفاعلية",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 61,
+  "text": "تعرض الخريطة مواقع الأحداث التاريخية. يمكنك التكبير والتصغير والتنقّل بحرية، ثم النقر على أي علامة لعرض تفاصيل الحدث.",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 64,
+  "text": "انقر على أي علامة في الخريطة",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 70,
+  "text": "البحث والتصفية",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 72,
+  "text": "من هنا تفتح قائمة البحث والتصفية المتقدّمة، وتستطيع البحث عن الأحداث والصحابة والمواقع.",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 75,
+  "text": "انقر لفتح قائمة البحث",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 80,
+  "text": "خيارات التصفية",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 82,
+  "text": "يمكنك تصفية الأحداث حسب الفترة الزمنية (عصر النبي ﷺ أو الخلفاء الراشدين) أو حسب نوع المحتوى (الأحداث فقط أو المعارك فقط).",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 99,
+  "text": "الوضع الداكن",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 101,
+  "text": "يمكنك التبديل بين الوضع الفاتح والوضع الداكن حسب تفضيلك. الوضع الداكن أكثر راحةً للعين في الإضاءة المنخفضة.",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 108,
+  "text": "تفاصيل الحدث",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 110,
+  "text": "سنفتح لك حدثاً كمثال. تعرض اللوحة الجانبية: الوصف الكامل، والتاريخ، والموقع، والصحابة المشاركين، والآيات القرآنية المرتبطة بالحدث.",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 125,
+  "text": "[data-tour-id=\"event-panel\"] button[title=\"إغلاق\"]",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 131,
+  "text": "نصائح للتنقل",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 133,
+  "text": "انتقل بحرية بين الخريطة والخط الزمني. استخدم البحث للوصول السريع إلى أحداث بعينها، أو تصفّح الأحداث زمنياً. جرّب النقر على الأحداث المختلفة لاستكشاف التاريخ.",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 141,
+  "text": "انتهت الجولة",
+  "kind": "string"
+ },
+ {
+  "file": "src/data/tourSteps.ts",
+  "line": 143,
+  "text": "أنت الآن جاهز لاستكشاف التاريخ الإسلامي المبكر. تستطيع إعادة الجولة في أي وقت بالضغط على زر \"ابدأ الجولة\" في شريط الأدوات. نتمنى لك تجربةً ممتعةً ومفيدة.",
+  "kind": "string"
+ },
+ {
+  "file": "src/hooks/useChat.ts",
+  "line": 33,
+  "text": "حدث خطأ غير متوقع، حاول مرة أخرى.",
+  "kind": "string"
+ },
+ {
+  "file": "src/hooks/useChat.ts",
+  "line": 34,
+  "text": "المساعد غير متاح حالياً.",
+  "kind": "string"
+ },
+ {
+  "file": "src/hooks/useChat.ts",
+  "line": 35,
+  "text": "تعذر الاتصال بالمساعد، تحقق من اتصالك بالإنترنت وحاول مرة أخرى.",
+  "kind": "string"
+ },
+ {
+  "file": "src/router.ts",
+  "line": 83,
+  "text": "لم نجد هذه الصفحة، فعدنا بك إلى الخريطة",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 13,
+  "text": "ماذا حدث في غزوة الخندق؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 14,
+  "text": "ماذا حدث في غزوة أحد؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 15,
+  "text": "ماذا حدث في غزوة خيبر؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 16,
+  "text": "ماذا حدث في غزوة تبوك؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 17,
+  "text": "ماذا حدث في فتح مكة؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 18,
+  "text": "ماذا حدث في معركة اليرموك؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 19,
+  "text": "ماذا حدث في معركة القادسية؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 20,
+  "text": "ما قصة صلح الحديبية؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 21,
+  "text": "ما قصة الهجرة النبوية؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 22,
+  "text": "ما قصة الإسراء والمعراج؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 23,
+  "text": "ما قصة بيعة العقبة الأولى؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 24,
+  "text": "ما قصة عام الرمادة؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 25,
+  "text": "ما قصة جمع القرآن الكريم الأول؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 29,
+  "text": "ماذا تعرف عن أبي بكر الصديق؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 30,
+  "text": "ماذا تعرف عن عمر بن الخطاب؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 31,
+  "text": "ماذا تعرف عن عثمان بن عفان؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 32,
+  "text": "ماذا تعرف عن علي بن أبي طالب؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 33,
+  "text": "ماذا تعرف عن خالد بن الوليد؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 34,
+  "text": "ماذا تعرف عن حمزة بن عبد المطلب؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 35,
+  "text": "ماذا تعرف عن بلال بن رباح؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 36,
+  "text": "ماذا تعرف عن سلمان الفارسي؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 37,
+  "text": "ماذا تعرف عن مصعب بن عمير؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 38,
+  "text": "ماذا تعرف عن سعد بن أبي وقاص؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 39,
+  "text": "ماذا تعرف عن معاذ بن جبل؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 40,
+  "text": "ماذا تعرف عن عمار بن ياسر؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 41,
+  "text": "ماذا تعرف عن عمرو بن العاص؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 42,
+  "text": "ما قصة خديجة بنت خويلد؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 46,
+  "text": "من هم الخلفاء الراشدون؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 47,
+  "text": "من هن أمهات المؤمنين؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 48,
+  "text": "ما غزوات النبي ﷺ في العهد المدني؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 49,
+  "text": "ما أحداث العهد المكي؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 50,
+  "text": "ما معارك عهد عمر بن الخطاب؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 51,
+  "text": "ما أحداث عهد عثمان بن عفان؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 52,
+  "text": "ما عدد الجيش في غزوة بدر الكبرى؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 53,
+  "text": "أين وقعت معركة اليرموك؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 54,
+  "text": "ما نتيجة معركة نهاوند؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatExamples.ts",
+  "line": 55,
+  "text": "ما الآيات المتعلقة بغزوة أحد؟",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/chatSuggestions.ts",
+  "line": 31,
+  "text": "ماذا تعرف عن ${genitiveName(stripVowelMarks(companion.name))}؟",
+  "kind": "template"
+ },
+ {
+  "file": "src/utils/chatSuggestions.ts",
+  "line": 39,
+  "text": "ماذا حدث في ${title}؟",
+  "kind": "template"
+ },
+ {
+  "file": "src/utils/chatSuggestions.ts",
+  "line": 39,
+  "text": "ما قصة ${title}؟",
+  "kind": "template"
+ },
+ {
+  "file": "src/utils/chatSuggestions.ts",
+  "line": 49,
+  "text": "ما هي مدينة ${city.name}؟",
+  "kind": "template"
+ },
+ {
+  "file": "src/utils/eventHelpers.ts",
+  "line": 32,
+  "text": "العهد النبوي",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/formatters.ts",
+  "line": 5,
+  "text": "${hijri} هـ",
+  "kind": "template"
+ },
+ {
+  "file": "src/utils/formatters.ts",
+  "line": 12,
+  "text": "${gregorian} م",
+  "kind": "template"
+ },
+ {
+  "file": "src/utils/tour.ts",
+  "line": 31,
+  "text": "٠",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/tour.ts",
+  "line": 31,
+  "text": "١",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/tour.ts",
+  "line": 31,
+  "text": "٢",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/tour.ts",
+  "line": 31,
+  "text": "٣",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/tour.ts",
+  "line": 31,
+  "text": "٤",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/tour.ts",
+  "line": 31,
+  "text": "٥",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/tour.ts",
+  "line": 31,
+  "text": "٦",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/tour.ts",
+  "line": 31,
+  "text": "٧",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/tour.ts",
+  "line": 31,
+  "text": "٨",
+  "kind": "string"
+ },
+ {
+  "file": "src/utils/tour.ts",
+  "line": 31,
+  "text": "٩",
+  "kind": "string"
+ },
+ {
+  "file": "api/challenge.ts",
+  "line": 43,
+  "text": "الحسابات مش شغالة دلوقتي. تقدر تكمّل تلعب عادي.",
+  "kind": "string"
+ },
+ {
+  "file": "api/challenge.ts",
+  "line": 52,
+  "text": "طلبات كتير ورا بعض. استنى شوية وجرب تاني.",
+  "kind": "string"
+ },
+ {
+  "file": "api/challenge.ts",
+  "line": 63,
+  "text": "حصلت مشكلة في حفظ النتيجة. هنحاول تاني بعدين.",
+  "kind": "string"
+ },
+ {
+  "file": "api/chat.ts",
+  "line": 162,
+  "text": "السؤال السابق في المحادثة (للسياق فقط): «${deps.context.previousQuestion}» السؤال الحالي: ${question}",
+  "kind": "template"
+ },
+ {
+  "file": "api/feedback.ts",
+  "line": 36,
+  "text": "بيانات التقييم غير مكتملة.",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/challengeAccount.ts",
+  "line": 68,
+  "text": "لازم تسجّل دخول الأول.",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/challengeAccount.ts",
+  "line": 70,
+  "text": "انتهت جلستك. سجّل دخول تاني.",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/challengeAccount.ts",
+  "line": 83,
+  "text": "طلب مش مفهوم.",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/challengeAccount.ts",
+  "line": 98,
+  "text": "الاسم ده مستخدم. اختار اسم تاني.",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/challengeAccount.ts",
+  "line": 121,
+  "text": "اختار اسمك الأول.",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/challengeAccount.ts",
+  "line": 123,
+  "text": "النتيجة ناقصة.",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/challengeAccount.ts",
+  "line": 125,
+  "text": "السؤال ده مش بتاع النهارده.",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/challengeAccount.ts",
+  "line": 126,
+  "text": "النتيجة دي مش مطابقة لسؤال النهارده.",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/challengeAccount.ts",
+  "line": 127,
+  "text": "النتيجة ناقصة.",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/challengeAccount.ts",
+  "line": 138,
+  "text": "اختار اسمك الأول.",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/challengeAccount.ts",
+  "line": 139,
+  "text": "الاسم ده مستخدم. اختار اسم تاني.",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 20,
+  "text": "عهد",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 20,
+  "text": "خلافه",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 20,
+  "text": "ايام",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 20,
+  "text": "زمن",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 20,
+  "text": "وقت",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 20,
+  "text": "فتره",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 20,
+  "text": "حكم",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 20,
+  "text": "عصر",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 21,
+  "text": "سيدنا",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 21,
+  "text": "الخليفه",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 21,
+  "text": "الامام",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 21,
+  "text": "النبي",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 21,
+  "text": "الرسول",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 40,
+  "text": "ال${base.slice(2)}",
+  "kind": "template"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 48,
+  "text": "مالك",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 48,
+  "text": "عامر",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 48,
+  "text": "هاشم",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 48,
+  "text": "محمود",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 48,
+  "text": "قيس",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 48,
+  "text": "حبيب",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 48,
+  "text": "عاصم",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 48,
+  "text": "نعيم",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 48,
+  "text": "سعيد",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 48,
+  "text": "الانصار",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 48,
+  "text": "صفوان",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 48,
+  "text": "جابر",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 48,
+  "text": "انس",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 48,
+  "text": "محمد",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 71,
+  "text": "ى",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 71,
+  "text": "ي",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 74,
+  "text": "بن",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/entityLinker.ts",
+  "line": 74,
+  "text": "بنت",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/followUps.ts",
+  "line": 18,
+  "text": "s*(${[ 'رضي الله عنهما', 'رضي الله عنهم', 'رضي الله عنها', 'رضي الله عنه', 'رحمه الله', 'صلى الله عليه وسلم', 'عليه السلام', ].join('|')})s*",
+  "kind": "template"
+ },
+ {
+  "file": "api/_lib/followUps.ts",
+  "line": 43,
+  "text": "ما تاريخ ${t}؟",
+  "kind": "template"
+ },
+ {
+  "file": "api/_lib/followUps.ts",
+  "line": 44,
+  "text": "ما مكان ${t}؟",
+  "kind": "template"
+ },
+ {
+  "file": "api/_lib/followUps.ts",
+  "line": 45,
+  "text": "من أبرز الشخصيات في ${t}؟",
+  "kind": "template"
+ },
+ {
+  "file": "api/_lib/followUps.ts",
+  "line": 46,
+  "text": "ما عدد الجيش في ${t}؟",
+  "kind": "template"
+ },
+ {
+  "file": "api/_lib/followUps.ts",
+  "line": 47,
+  "text": "ما الآيات المتعلقة بـ${t}؟",
+  "kind": "template"
+ },
+ {
+  "file": "api/_lib/followUps.ts",
+  "line": 48,
+  "text": "ما نتيجة ${t}؟",
+  "kind": "template"
+ },
+ {
+  "file": "api/_lib/followUps.ts",
+  "line": 59,
+  "text": "ما دور ${g} في ${plainName(firstEvent.title)}؟",
+  "kind": "template"
+ },
+ {
+  "file": "api/_lib/followUps.ts",
+  "line": 60,
+  "text": "في أي الأحداث ورد ذكر ${g}؟",
+  "kind": "template"
+ },
+ {
+  "file": "api/_lib/followUps.ts",
+  "line": 61,
+  "text": "ما قصة ${g}؟",
+  "kind": "template"
+ },
+ {
+  "file": "api/_lib/followUps.ts",
+  "line": 66,
+  "text": "ما الأحداث الأخرى في ${label}؟",
+  "kind": "template"
+ },
+ {
+  "file": "api/_lib/followUps.ts",
+  "line": 67,
+  "text": "ما غزوات النبي ﷺ في ${label}؟",
+  "kind": "template"
+ },
+ {
+  "file": "api/_lib/followUps.ts",
+  "line": 68,
+  "text": "ما المعارك والفتوح في ${label}؟",
+  "kind": "template"
+ },
+ {
+  "file": "api/_lib/followUps.ts",
+  "line": 75,
+  "text": "ما قصة ${genitiveName(plainName(item))}؟",
+  "kind": "template"
+ },
+ {
+  "file": "api/_lib/followUps.ts",
+  "line": 81,
+  "text": "ما الأحداث المرتبطة بـ«${record.title}»؟",
+  "kind": "template"
+ },
+ {
+  "file": "api/_lib/followUps.ts",
+  "line": 83,
+  "text": "ما مكانة ${t}؟",
+  "kind": "template"
+ },
+ {
+  "file": "api/_lib/kb.ts",
+  "line": 46,
+  "text": "ابي",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/kb.ts",
+  "line": 46,
+  "text": "ابا",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/kb.ts",
+  "line": 46,
+  "text": "ابو",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/kb.ts",
+  "line": 47,
+  "text": "ابن",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/kb.ts",
+  "line": 47,
+  "text": "بن",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/kb.ts",
+  "line": 48,
+  "text": "بنت",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/kb.ts",
+  "line": 48,
+  "text": "ابنه",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/kb.ts",
+  "line": 48,
+  "text": "بنت",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/messages.ts",
+  "line": 4,
+  "text": "عذراً، لا تتوفر لديّ معلومات عن هذا السؤال في محتوى تطبيق نبراس. جرّب صياغة السؤال بطريقة أخرى، أو تصفّح الأحداث والصحابة والمعارك مباشرة في التطبيق.",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/messages.ts",
+  "line": 7,
+  "text": "لقد أرسلت أسئلة كثيرة في وقت قصير. حاول مرة أخرى بعد قليل.",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/messages.ts",
+  "line": 9,
+  "text": "الخدمة مشغولة حالياً بسبب كثرة الطلبات، يرجى المحاولة بعد قليل.",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/messages.ts",
+  "line": 12,
+  "text": "هذه نصوص ذات صلة بسؤالك من محتوى نبراس:",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/messages.ts",
+  "line": 14,
+  "text": "الرجاء كتابة سؤال.",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/messages.ts",
+  "line": 15,
+  "text": "السؤال طويل جداً، الرجاء اختصاره.",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/messages.ts",
+  "line": 16,
+  "text": "الطريقة غير مسموحة.",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/prompt.ts",
+  "line": 13,
+  "text": "حدث",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/prompt.ts",
+  "line": 14,
+  "text": "شخصية",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/prompt.ts",
+  "line": 15,
+  "text": "مدينة",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/prompt.ts",
+  "line": 16,
+  "text": "آية",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/prompt.ts",
+  "line": 17,
+  "text": "محاكاة معركة",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/prompt.ts",
+  "line": 18,
+  "text": "قائمة",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/prompt.ts",
+  "line": 34,
+  "text": "فيديو المعركة",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/prompt.ts",
+  "line": 40,
+  "text": "[نص آية]",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/prompt.ts",
+  "line": 40,
+  "text": "[نص مأثور]",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/prompt.ts",
+  "line": 40,
+  "text": "[قائمة]",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/prompt.ts",
+  "line": 40,
+  "text": "[معلومة]",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/prompt.ts",
+  "line": 46,
+  "text": "أنت مساعد تطبيق \"نبراس\" للتاريخ الإسلامي. تجيب من المقاطع المرقّمة أدناه فقط، ولا تكتب أي نص بنفسك: تختار المقاطع التي تجيب عن السؤال، ويُعرض نصها للمستخدم كما هو. أعد كائن JSON واحداً فقط بلا أي نص قبله أو بعده، بهذا الشكل: {\"answerable\": true, \"sections\": [{\"shape\": \"paragraph\", \"heading\": \"\", \"refs\": [\"s1\", \"s2\"]}]} القواعد: 1. كل قسم (section) مجموعة مقاطع تُعرض معاً. shape واحد من: - \"paragraph\": شرح أو سرد متصل. - \"steps\": أحداث متتابعة بالترتيب (عند السؤال عن كيف جرى الأمر أو ماذا حدث بعد ذلك). - \"facts\": معلومات قصيرة: تاريخ، مكان، عدد، مدة، دور شخص (المقاطع الموسومة [معلومة]). - \"list\": مقطع قائمة (الموسوم [قائمة])؛ يُعرض كاملاً. 2. heading واحد من: ${HEADINGS.map(h => `\"${h}\"`).join('، ')}، أو \"\" بلا عنوان. في الجواب القصير اترك العنوان فارغاً. 3. اختر ما يجيب عن السؤال نفسه وحده: لسؤال عن معلومة واحدة مقطع أو مقطعان، ولسؤال «لماذا» أو «كيف» المقاطع التي تشرح ذلك. لا تتجاوز 10 مقاطع في الجواب كله. 4. لا تختر مقطعين يقولان الشيء نفسه؛ اختر الأوفى منهما. ولا تكرر مقطعاً. 5. الآيات والأحاديث (الموسومة [نص آية] أو [نص مأثور]): اذكر معرّفها في refs إن كانت تجيب عن السؤال، وسيُعرض نصها المحفوظ. 6. إن كان في المقاطع ما يجيب عن السؤال ولو ضمناً (مثل «وصاحبه في الغار» ضمن ترجمة شخص) فاختره. 7. إن لم يكن في المقاطع ما يجيب عن السؤال نفسه فأعد {\"answerable\": false} فقط، ولا تجب عن سؤال آخر قريب منه. 8. إن تضمنت رسالة المستخدم «السؤال السابق» فهو للسياق فقط: افهم الضمائر والإشارات والأسئلة المختصرة (مثل «وأحد؟») على أنها تعود إليه، وأجب عن السؤال الحالي. 9. قد يسأل المستخدم بالعامية المصرية (مثل: مين، إيه، فين، إمتى، كام، عمل إيه، اتقتل إزاي، زعل ليه) أو بأخطاء إملائية؛ افهم المقصود. المقاطع: ${blocks.join('\\n\\n')}",
+  "kind": "template"
+ },
+ {
+  "file": "api/_lib/search.ts",
+  "line": 95,
+  "text": "أسلم آمن إسلام إيمان",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/search.ts",
+  "line": 96,
+  "text": "استشهد قتل توفي مات وفاة استشهاد مقتل اتقتل قتلوه اتوفى",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/search.ts",
+  "line": 97,
+  "text": "غزوة معركة موقعة وقعة",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/search.ts",
+  "line": 98,
+  "text": "خليفة خلافة تولى",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/search.ts",
+  "line": 99,
+  "text": "هاجر هجرة",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/search.ts",
+  "line": 100,
+  "text": "تزوج زواج زوجة زوج اتجوز",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/search.ts",
+  "line": 101,
+  "text": "ولد مولد ميلاد اتولد",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/search.ts",
+  "line": 102,
+  "text": "جيش جند مقاتل مقاتلين عساكر",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/search.ts",
+  "line": 103,
+  "text": "قاد قائد قيادة",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/search.ts",
+  "line": 104,
+  "text": "نبي رسول",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/search.ts",
+  "line": 105,
+  "text": "سبب أسباب دافع",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/search.ts",
+  "line": 106,
+  "text": "انتصر نصر انتصار كسب فاز",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/search.ts",
+  "line": 107,
+  "text": "هزم هزيمة خسر اتهزم انهزم",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/search.ts",
+  "line": 108,
+  "text": "حصل وقع جرى",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/search.ts",
+  "line": 109,
+  "text": "راح خرج ذهب توجه",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/search.ts",
+  "line": 110,
+  "text": "دفن اتدفن مدفون",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/search.ts",
+  "line": 111,
+  "text": "بنى بناء اتبنى",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/search.ts",
+  "line": 112,
+  "text": "غضب زعل اعترض حزن",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/search.ts",
+  "line": 113,
+  "text": "كتب كاتب كتابة",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/shapes.ts",
+  "line": 16,
+  "text": "القصة",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/shapes.ts",
+  "line": 16,
+  "text": "الأحداث بالترتيب",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/shapes.ts",
+  "line": 16,
+  "text": "أهم المعلومات",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/shapes.ts",
+  "line": 16,
+  "text": "مواقف الشخصيات",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/shapes.ts",
+  "line": 16,
+  "text": "تفاصيل أخرى",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/shapes.ts",
+  "line": 16,
+  "text": "السيرة",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/shapes.ts",
+  "line": 87,
+  "text": "السيرة",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/shapes.ts",
+  "line": 97,
+  "text": "الأحداث بالترتيب",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/shapes.ts",
+  "line": 98,
+  "text": "القصة",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/shapes.ts",
+  "line": 99,
+  "text": "تفاصيل أخرى",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/shapes.ts",
+  "line": 100,
+  "text": "أهم المعلومات",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/shapes.ts",
+  "line": 101,
+  "text": "مواقف الشخصيات",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/validator.ts",
+  "line": 21,
+  "text": "و ف ثم أو أم بل لكن إلا حيث إذ إذا لما عندما حين بعد قبل كما مثل أيضا كذلك هو هي هم هما هن هذا هذه ذلك تلك الذي التي الذين ما من في على عن إلى الى مع منذ حتى عند بين خلال ضمن نحو حول دون غير كل بعض جميع أحد إحدى قد كان كانت ليس لم لن لا أن إن له لها لهم به بها منه منها عنه عنها فيه فيها إليه عليه عليها معه دور موقف",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/validator.ts",
+  "line": 56,
+  "text": "حتي",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/validator.ts",
+  "line": 56,
+  "text": "ثم",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/validator.ts",
+  "line": 56,
+  "text": "بل",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/validator.ts",
+  "line": 56,
+  "text": "لكن",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/validator.ts",
+  "line": 56,
+  "text": "لكنه",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/validator.ts",
+  "line": 56,
+  "text": "لكنها",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/validator.ts",
+  "line": 56,
+  "text": "حيث",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/validator.ts",
+  "line": 56,
+  "text": "اذ",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/validator.ts",
+  "line": 56,
+  "text": "عندما",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/validator.ts",
+  "line": 56,
+  "text": "بينما",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/validator.ts",
+  "line": 56,
+  "text": "بعدما",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/validator.ts",
+  "line": 56,
+  "text": "فلما",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/validator.ts",
+  "line": 56,
+  "text": "لما",
+  "kind": "string"
+ },
+ {
+  "file": "api/_lib/validator.ts",
+  "line": 138,
+  "text": "النبي الرسول رسول المصطفى",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 44,
+  "text": "رضي الله عنهما",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 45,
+  "text": "رضي الله عنهم",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 46,
+  "text": "رضي الله عنها",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 47,
+  "text": "رضي الله عنه",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 48,
+  "text": "رحمهم الله",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 49,
+  "text": "رحمها الله",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 50,
+  "text": "رحمه الله",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 51,
+  "text": "صلى الله عليه وسلم",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 52,
+  "text": "عليه السلام",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 69,
+  "text": "ا",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 78,
+  "text": "ي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 79,
+  "text": "ه",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 80,
+  "text": "و",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 81,
+  "text": "ي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 82,
+  "text": "ي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 83,
+  "text": "ك",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 104,
+  "text": "من",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 104,
+  "text": "ما",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 104,
+  "text": "ماذا",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 104,
+  "text": "متى",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 104,
+  "text": "اين",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 104,
+  "text": "كيف",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 104,
+  "text": "كم",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 104,
+  "text": "هل",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 104,
+  "text": "لماذا",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 104,
+  "text": "لم",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 104,
+  "text": "لن",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 104,
+  "text": "لا",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 104,
+  "text": "ان",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 104,
+  "text": "انه",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 104,
+  "text": "انها",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 105,
+  "text": "هو",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 105,
+  "text": "هي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 105,
+  "text": "هم",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 105,
+  "text": "هن",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 105,
+  "text": "هما",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 105,
+  "text": "انا",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 105,
+  "text": "نحن",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 105,
+  "text": "انت",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 105,
+  "text": "انتم",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 105,
+  "text": "هذا",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 105,
+  "text": "هذه",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 105,
+  "text": "ذلك",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 105,
+  "text": "تلك",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 105,
+  "text": "هؤلاء",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 105,
+  "text": "اولئك",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 106,
+  "text": "في",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 106,
+  "text": "على",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 106,
+  "text": "عن",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 106,
+  "text": "الى",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 106,
+  "text": "الي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 106,
+  "text": "مع",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 106,
+  "text": "او",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 106,
+  "text": "ام",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 106,
+  "text": "ثم",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 106,
+  "text": "بل",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 106,
+  "text": "قد",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 106,
+  "text": "لقد",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 106,
+  "text": "كان",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 106,
+  "text": "كانت",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 106,
+  "text": "كانوا",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 107,
+  "text": "يكون",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 107,
+  "text": "تكون",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 107,
+  "text": "الذي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 107,
+  "text": "التي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 107,
+  "text": "الذين",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 107,
+  "text": "اللذان",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 107,
+  "text": "اللتان",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 107,
+  "text": "اللاتي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 107,
+  "text": "اللواتي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 107,
+  "text": "و",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 107,
+  "text": "ف",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 107,
+  "text": "ب",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 107,
+  "text": "ل",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 107,
+  "text": "ك",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 108,
+  "text": "بعض",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 108,
+  "text": "كل",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 108,
+  "text": "اي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 108,
+  "text": "اذا",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 108,
+  "text": "اذ",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 108,
+  "text": "حتى",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 108,
+  "text": "عند",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 108,
+  "text": "عندما",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 108,
+  "text": "بين",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 108,
+  "text": "حول",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 108,
+  "text": "فيه",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 108,
+  "text": "فيها",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 108,
+  "text": "به",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 108,
+  "text": "بها",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 108,
+  "text": "له",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 108,
+  "text": "لها",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 109,
+  "text": "منه",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 109,
+  "text": "منها",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 109,
+  "text": "عنه",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 109,
+  "text": "عنها",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 109,
+  "text": "اليه",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 109,
+  "text": "اليها",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 109,
+  "text": "عليه",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 109,
+  "text": "عليها",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 109,
+  "text": "هناك",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 109,
+  "text": "هنا",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 109,
+  "text": "ايضا",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 109,
+  "text": "غير",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 109,
+  "text": "سوى",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 110,
+  "text": "يا",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 110,
+  "text": "اذكر",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 110,
+  "text": "اخبرني",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 110,
+  "text": "حدثني",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 110,
+  "text": "اشرح",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 110,
+  "text": "وضح",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 110,
+  "text": "عرفني",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 110,
+  "text": "اريد",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 110,
+  "text": "اعرف",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 110,
+  "text": "معلومات",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 110,
+  "text": "تعرف",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 110,
+  "text": "قل",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 110,
+  "text": "لي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 113,
+  "text": "مين",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 113,
+  "text": "ايه",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 113,
+  "text": "ايش",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 113,
+  "text": "امتى",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 113,
+  "text": "امتي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 113,
+  "text": "امتا",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 113,
+  "text": "فين",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 113,
+  "text": "منين",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 113,
+  "text": "ليه",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 113,
+  "text": "ازاي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 113,
+  "text": "ازاى",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 113,
+  "text": "كام",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 113,
+  "text": "اللي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 113,
+  "text": "ده",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 113,
+  "text": "دي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 114,
+  "text": "دا",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 114,
+  "text": "دول",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 114,
+  "text": "هما",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 114,
+  "text": "همه",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 114,
+  "text": "احنا",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 114,
+  "text": "عشان",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 114,
+  "text": "علشان",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 114,
+  "text": "بتاع",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 114,
+  "text": "بتاعة",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 114,
+  "text": "بتاعت",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 114,
+  "text": "طب",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 114,
+  "text": "طيب",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 114,
+  "text": "يعني",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 114,
+  "text": "بقى",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 115,
+  "text": "بقي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 115,
+  "text": "برضه",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 115,
+  "text": "برضو",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 115,
+  "text": "اوي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 115,
+  "text": "قوي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 115,
+  "text": "خالص",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 115,
+  "text": "حاجة",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 115,
+  "text": "حاجه",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 115,
+  "text": "حاجات",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 115,
+  "text": "مش",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 115,
+  "text": "مفيش",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 115,
+  "text": "عايز",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 115,
+  "text": "عاوز",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 115,
+  "text": "عايزة",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 116,
+  "text": "عاوزة",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 116,
+  "text": "عايزين",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 116,
+  "text": "قولي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 116,
+  "text": "قوللي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 116,
+  "text": "احكيلي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 116,
+  "text": "احكي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 116,
+  "text": "فهمني",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 116,
+  "text": "وريني",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 116,
+  "text": "كده",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 116,
+  "text": "كدا",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 116,
+  "text": "زي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 116,
+  "text": "لسه",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 116,
+  "text": "دلوقتي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 117,
+  "text": "ايوه",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 117,
+  "text": "كمان",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 117,
+  "text": "بس",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 117,
+  "text": "اصلا",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 117,
+  "text": "ممكن",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 117,
+  "text": "تقولي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 117,
+  "text": "تحكيلي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 117,
+  "text": "حضرتك",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 117,
+  "text": "سيدنا",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 117,
+  "text": "سيدتنا",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 117,
+  "text": "السيدة",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 136,
+  "text": "وال",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 136,
+  "text": "بال",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 136,
+  "text": "كال",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 136,
+  "text": "فال",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 136,
+  "text": "لل",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 136,
+  "text": "ال",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 137,
+  "text": "ها",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 137,
+  "text": "ان",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 137,
+  "text": "ات",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 137,
+  "text": "ون",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 137,
+  "text": "ين",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 137,
+  "text": "يه",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 137,
+  "text": "ه",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 137,
+  "text": "ي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 148,
+  "text": "و",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 212,
+  "text": "٠١٢٣٤٥٦٧٨٩",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 230,
+  "text": "ا",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 232,
+  "text": "ه",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 234,
+  "text": "ي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 236,
+  "text": "ي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 238,
+  "text": "و",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 268,
+  "text": "ا",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 269,
+  "text": "ي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 270,
+  "text": "ه",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabic.ts",
+  "line": 271,
+  "text": "ء",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabicGrammar.ts",
+  "line": 7,
+  "text": "أبي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabicGrammar.ts",
+  "line": 8,
+  "text": "ذي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/arabicGrammar.ts",
+  "line": 9,
+  "text": "أخي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/chatKb.ts",
+  "line": 123,
+  "text": "العهد المكي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/chatKb.ts",
+  "line": 124,
+  "text": "العهد المدني",
+  "kind": "string"
+ },
+ {
+  "file": "shared/chatKb.ts",
+  "line": 125,
+  "text": "عهد أبي بكر الصديق",
+  "kind": "string"
+ },
+ {
+  "file": "shared/chatKb.ts",
+  "line": 126,
+  "text": "عهد عمر بن الخطاب",
+  "kind": "string"
+ },
+ {
+  "file": "shared/chatKb.ts",
+  "line": 127,
+  "text": "عهد عثمان بن عفان",
+  "kind": "string"
+ },
+ {
+  "file": "shared/chatKb.ts",
+  "line": 128,
+  "text": "عهد علي بن أبي طالب",
+  "kind": "string"
+ },
+ {
+  "file": "shared/chatKb.ts",
+  "line": 134,
+  "text": "المكي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/chatKb.ts",
+  "line": 135,
+  "text": "المدني",
+  "kind": "string"
+ },
+ {
+  "file": "shared/chatKb.ts",
+  "line": 136,
+  "text": "أبي بكر",
+  "kind": "string"
+ },
+ {
+  "file": "shared/chatKb.ts",
+  "line": 136,
+  "text": "أبو بكر",
+  "kind": "string"
+ },
+ {
+  "file": "shared/chatKb.ts",
+  "line": 137,
+  "text": "عمر",
+  "kind": "string"
+ },
+ {
+  "file": "shared/chatKb.ts",
+  "line": 138,
+  "text": "عثمان",
+  "kind": "string"
+ },
+ {
+  "file": "shared/chatKb.ts",
+  "line": 139,
+  "text": "علي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/contentSchema.ts",
+  "line": 30,
+  "text": "Era name on the timeline and in search, e.g. «خلافة الفاروق».",
+  "kind": "string"
+ },
+ {
+  "file": "shared/contentSchema.ts",
+  "line": 31,
+  "text": "The badge on the event panel; both prophetic eras show «عهد النبوة».",
+  "kind": "string"
+ },
+ {
+  "file": "shared/contentSchema.ts",
+  "line": 51,
+  "text": "The size as the text gives it, verbatim, e.g. «حوالي ٣١٣ مقاتلا».",
+  "kind": "string"
+ },
+ {
+  "file": "shared/contentSchema.ts",
+  "line": 55,
+  "text": "The text says \"about\" (حوالي، نحو، قرابة، …).",
+  "kind": "string"
+ },
+ {
+  "file": "shared/contentSchema.ts",
+  "line": 84,
+  "text": "The date as the panel shows it, e.g. «17 رمضان، 2 هـ».",
+  "kind": "string"
+ },
+ {
+  "file": "shared/contentSchema.ts",
+  "line": 163,
+  "text": "Frozen key used by the chat assistant and the Qur'an window, e.g. «سورة الفيل: 1-5».",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 12,
+  "text": "قبل الهجرة",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 12,
+  "text": "بعد الهجرة",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 13,
+  "text": "مهاجر",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 13,
+  "text": "أنصاري",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 13,
+  "text": "من قبيلة تانية",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 15,
+  "text": "خليفة",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 16,
+  "text": "قائد جيوش",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 17,
+  "text": "عالم وراوي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 18,
+  "text": "من أهل النبي ﷺ",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 19,
+  "text": "من أوائل المسلمين",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 20,
+  "text": "من كبار الأنصار",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 21,
+  "text": "مؤذن النبي ﷺ",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 22,
+  "text": "صاحب رأي ومشورة",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 23,
+  "text": "فارس شجاع",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 24,
+  "text": "شاعر",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 25,
+  "text": "صاحب سر النبي ﷺ",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 28,
+  "text": "المدينة",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 29,
+  "text": "مكة",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 30,
+  "text": "الحجاز",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 31,
+  "text": "الشام",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 32,
+  "text": "العراق",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 33,
+  "text": "مصر",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 34,
+  "text": "بلاد الروم",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 35,
+  "text": "اليمامة",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 38,
+  "text": "عهد النبي ﷺ",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 39,
+  "text": "عهد أبي بكر",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 40,
+  "text": "عهد عمر",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 41,
+  "text": "عهد عثمان",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 42,
+  "text": "عهد علي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 43,
+  "text": "بعد الخلفاء الراشدين",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 55,
+  "text": "أسلم",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 56,
+  "text": "مهاجر ولا أنصاري؟",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 57,
+  "text": "اشتهر بإيه؟",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 58,
+  "text": "عاش لحد عهد مين؟",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameLabels.ts",
+  "line": 59,
+  "text": "اتوفّى فين",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameText.ts",
+  "line": 9,
+  "text": "ـــ",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameText.ts",
+  "line": 24,
+  "text": "وقيل",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameText.ts",
+  "line": 41,
+  "text": "ا",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameText.ts",
+  "line": 42,
+  "text": "ه",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameText.ts",
+  "line": 43,
+  "text": "ي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameText.ts",
+  "line": 49,
+  "text": "اأإآٱ",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameText.ts",
+  "line": 49,
+  "text": "[اأإآٱ]",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameText.ts",
+  "line": 50,
+  "text": "هة",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameText.ts",
+  "line": 50,
+  "text": "[هة]",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameText.ts",
+  "line": 51,
+  "text": "يى",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameText.ts",
+  "line": 51,
+  "text": "[يى]",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameText.ts",
+  "line": 61,
+  "text": "(?:[وف]${MARKS})?(?:لل${MARKS}|(?:[بكل]${MARKS})?(?:ال${MARKS})?)",
+  "kind": "template"
+ },
+ {
+  "file": "shared/gameText.ts",
+  "line": 81,
+  "text": "غزوه معركه موقعه سريه فتح يوم وقعه حصار الكبري الصغري بن بنت ابو ابي ابن رضي الله عنه عنها عنهما",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameText.ts",
+  "line": 82,
+  "text": "في من الي و عن ذات علي عبد",
+  "kind": "string"
+ },
+ {
+  "file": "shared/gameText.ts",
+  "line": 92,
+  "text": "ال",
+  "kind": "string"
+ },
+ {
+  "file": "shared/pageMeta.ts",
+  "line": 11,
+  "text": "نبراس",
+  "kind": "string"
+ },
+ {
+  "file": "shared/pageMeta.ts",
+  "line": 13,
+  "text": "نبراس | خريطة وخط زمني للسيرة النبوية والتاريخ الإسلامي",
+  "kind": "string"
+ },
+ {
+  "file": "shared/pageMeta.ts",
+  "line": 15,
+  "text": "خريطة تفاعلية وخط زمني لأحداث السيرة النبوية والتاريخ الإسلامي المبكر، مع سِيَر الصحابة والآيات المتصلة بكل حدث.",
+  "kind": "string"
+ },
+ {
+  "file": "shared/pageMeta.ts",
+  "line": 45,
+  "text": "${title}: مشاهدة المعركة",
+  "kind": "template"
+ },
+ {
+  "file": "shared/pageMeta.ts",
+  "line": 68,
+  "text": "${cut.slice(0, Math.max(cut.lastIndexOf(' '), max - 20)).replace(/[،,;؛:\\s]+$/, '')}…",
+  "kind": "template"
+ },
+ {
+  "file": "challenge/index.html",
+  "line": 6,
+  "text": "<title>تحدي اليوم · نبراس</title>",
+  "kind": "html"
+ },
+ {
+  "file": "challenge/index.html",
+  "line": 7,
+  "text": "<meta name=\"description\" content=\"لعبة يومية من نبراس: خمّن الصحابي والمعركة والمكان والسنة. سؤال جديد كل يوم، وتلات مستويات من المبتدئ للأستاذ.\" />",
+  "kind": "html"
+ },
+ {
+  "file": "challenge/index.html",
+  "line": 14,
+  "text": "<meta property=\"og:site_name\" content=\"نبراس\" />",
+  "kind": "html"
+ },
+ {
+  "file": "challenge/index.html",
+  "line": 17,
+  "text": "<meta property=\"og:title\" content=\"تحدي اليوم · نبراس\" />",
+  "kind": "html"
+ },
+ {
+  "file": "challenge/index.html",
+  "line": 18,
+  "text": "<meta property=\"og:description\" content=\"خمّن الصحابي والمعركة والمكان والسنة. سؤال جديد كل يوم.\" />",
+  "kind": "html"
+ },
+ {
+  "file": "challenge/index.html",
+  "line": 21,
+  "text": "<script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"WebApplication\",\"name\":\"تحدي اليوم\",\"alternateName\":\"تحدي نبراس اليومي\",\"url\":\"https://mdshash.github.io/Nibras/challenge/\",\"inLanguage\":\"ar\",\"applicationCategory\":\"GameApplication\",\"operatingSystem\":\"Any\",\"isAccessibleForFree\":true,\"offers\":{\"@type\":\"Offer\",\"price\":\"0\",\"priceCurrency\":\"USD\"},\"isPartOf\":{\"@type\":\"WebSite\",\"name\":\"نبراس\",\"url\":\"https://mdshash.github.io/Nibras/\"},\"description\":\"لعبة يومية من نبراس: خمّن الصحابي والمعركة والمكان والسنة من التاريخ الإسلامي المبكر.\"}</script>",
+  "kind": "html"
+ },
+ {
+  "file": "challenge/index.html",
+  "line": 32,
+  "text": "<noscript>تحدي اليوم محتاج JavaScript عشان يشتغل.</noscript>",
+  "kind": "html"
+ },
+ {
+  "file": "index.html",
+  "line": 14,
+  "text": "<title>Nibras نِبْرَاس</title>",
+  "kind": "html"
+ }
+]

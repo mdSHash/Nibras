@@ -126,7 +126,16 @@ page instead. Results build over weeks, not days.
 phone Badr, desktop home. The budget (`tests/baseline/lighthouse-<platform>.json`) stops things getting
 worse from the recorded numbers; those numbers are not a target. The checks use real throttling. A
 tool that uses simulated throttling, such as PageSpeed Insights, can show a much higher score for the
-same page, so compare like with like.
+same page, so compare like with like. Lighthouse loads as a first-time visitor, so since Phase 7 it also
+sees the tour's first card sliding up after the intro; that raised Speed Index (phone ~5.9 s) without the
+page loading slower (approved 2026-11-23).
+
+## Tour narration (Phase 7)
+
+The tours' 20 cards (`content/tours/`) are recorded by the daily Narration workflow like the events,
+10 a day on Gemini's free tier, so about two days after a change to their text. Until then a card shows
+its text and plays nothing. `npm run narration -- check` lists the cards still waiting. Editing a card's
+text makes its recording stale; it is recorded again the same way.
 
 ## Chat: secrets, the embedding index and the rate limit
 

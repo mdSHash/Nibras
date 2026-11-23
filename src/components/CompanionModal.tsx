@@ -90,7 +90,7 @@ export default function CompanionModal({ personId, onClose }: CompanionModalProp
                   "focus:outline-none focus:ring-2 focus:ring-accent"
                 )}
                 style={{ backgroundColor: 'rgb(var(--sys-chrome-raised-rgb) / 0.1)', color: 'var(--color-ink)' }}
-                aria-label="إغلاق"
+                aria-label="اقفل"
               >
                 <X size={22} strokeWidth={2.5} />
               </button>
@@ -135,7 +135,7 @@ export default function CompanionModal({ personId, onClose }: CompanionModalProp
                   </div>
                   {/* Only for an unknown id (every event link is checked at build). */}
                   <h2 id="companion-modal-title" className="text-[15px]" style={{ color: 'var(--color-ink)', opacity: 0.75, lineHeight: '1.5' }}>
-                    لم يتم العثور على سيرة تفصيلية لهذا العَلَم في قاعدة البيانات الحالية.
+                    لسه مفيش سيرة مفصّلة للشخصية دي في نبراس.
                   </h2>
                 </div>
               )}

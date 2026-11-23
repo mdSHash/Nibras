@@ -55,7 +55,7 @@ Nibras (نِبْرَاس — "lamp" or "light" in Arabic) is an interactive web 
 - **Text-to-Speech Narration** — 262 recordings in the Charon voice (Gemini TTS, 2026; AAC 48 kbps) covering every event's title and full description, found by event id in `public/audio/manifest.json` and served as static files
 - **Synthesized Battle Audio** — Web Audio API generates clash, charge, defeat, takbir, and horn SFX for the battlefield engine — no asset files needed
 - **Diacritic-tolerant Arabic search** — Type `معركه بدر` or `بدر الكبرى` and match the vocalized title `مَعْرَكَةُ بَدْرٍ الْكُبْرَى`. Normalizes tashkeel, alef/yeh/teh-marbuta variants, and matches whitespace-separated tokens (all-of), against title, summary, full description, location, and year.
-- **Guided App Tour** — Step-by-step onboarding with spotlight highlighting; auto-repositions when targets resize/remount and after slide-in animations settle
+- **Narrated tours** — Nibras and «تحدي اليوم» each have a short tour of illustrated cards (a small moving drawing, a title and one line read in the Charon voice). A first visit's first card asks; the compass button (Nibras) and «إزاي ألعب؟» (the game) replay it; «وريني فين» lights the real part of the page. Text in `content/tours/`, recordings in the narration manifest
 - **Keyboard Shortcuts** — Full keyboard navigation; gated when modals are open
 - **Dark/Light Mode** — Follows the system until the visitor chooses; the choice is remembered. WCAG AA contrast verified in both modes
 - **Autoplay Mode** — Sequential event playback with narration
@@ -157,7 +157,7 @@ nibras/
 │   │   ├── timeline/          # Playback timeline controller
 │   │   └── types/             # Engine type definitions
 │   ├── components/            # UI components
-│   │   ├── AppTour.tsx        # Guided tour overlay
+│   │   ├── AppTour.tsx        # Opens the tour (src/tour/) on demand
 │   │   ├── EventPanel.tsx     # Event detail panel with TTS
 │   │   ├── IntroScreen.tsx    # Arabic calligraphy intro animation (first visit; skippable)
 │   │   ├── Map.tsx            # Leaflet map with territories
@@ -167,10 +167,10 @@ nibras/
 │   │   ├── SearchMenu.tsx     # Event search + filter drawer
 │   │   └── timeline/          # Timeline subcomponents (Rail, DesktopDock, MobileDock, Diamond, EraPill)
 │   ├── contexts/              # React contexts (Tour)
+│   ├── tour/                  # The narrated tour cards, their drawings and styles (shared with the game)
 │   ├── hooks/                 # Custom hooks (gestures, keyboard, focus trap)
 │   ├── services/              # TTS service layer (Gemini)
 │   ├── constants/             # App-wide constants (z-index, etc.)
-│   ├── data/                  # Tour step definitions
 │   ├── utils/                 # Utilities (animations, formatting, era colors, people lookup)
 │   ├── index.css              # Tailwind, the theme's color tokens (light and dark) and global styles
 │   └── themeColors.ts         # The few theme colors JS must interpolate (framer-motion, Leaflet)
@@ -257,7 +257,7 @@ For the full engine architecture, scenario format, and authoring guide see [`src
 
 ### Narration
 
-Every event's title and full description has a recording in `public/audio/` (AAC, 48 kbps mono), listed by event id in `public/audio/manifest.json` with the hash of the text it says. The app looks the recording up by event id and plays it as a static file; when the text changes, the recording is no longer played until it is recorded again.
+Every event's title and full description has a recording in `public/audio/` (AAC, 48 kbps mono), listed by event id in `public/audio/manifest.json` with the hash of the text it says. The app looks the recording up by event id and plays it as a static file; when the text changes, the recording is no longer played until it is recorded again. The tour cards (`content/tours/`) are recorded the same way, under `tours` in the manifest (`tour-<tour>-<step>.<hash>.m4a`); a card without a fresh recording shows its text only.
 
 ```bash
 npm run narration -- check              # what is stale or missing

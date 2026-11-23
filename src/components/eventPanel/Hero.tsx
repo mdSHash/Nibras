@@ -170,7 +170,7 @@ export function Hero({
                       animation: audioState === 'playing' ? 'pulse 1.4s ease-in-out infinite' : 'none',
                     }}
                   />
-                  {audioState === 'playing' ? 'يقرأ الآن' : 'متوقف مؤقتًا'}
+                  {audioState === 'playing' ? 'شغّال' : 'واقف'}
                 </span>
                 <span className="tabular-nums opacity-75">
                   {formatAudioTime(currentTime)} / {formatAudioTime(duration)}
@@ -216,11 +216,12 @@ export function Hero({
                 />
               </svg>
               <button
+                data-tour-id="listen-button"
                 onClick={handlePlayPause}
                 disabled={isAudioLoading}
                 className="absolute inset-1 rounded-full flex items-center justify-center bg-white text-black shadow-lg hover:scale-105 active:scale-95 transition-transform disabled:opacity-60 disabled:cursor-not-allowed"
-                aria-label={audioState === 'playing' ? 'إيقاف السرد' : 'تشغيل السرد'}
-                title={audioState === 'playing' ? 'إيقاف السرد' : 'تشغيل السرد'}
+                aria-label={audioState === 'playing' ? 'وقّف الصوت' : 'اسمع الحدث'}
+                title={audioState === 'playing' ? 'وقّف الصوت' : 'اسمع الحدث'}
               >
                 {isAudioLoading ? (
                   <LoaderCircle size={isMobile ? 22 : 26} className="animate-spin" />

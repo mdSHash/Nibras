@@ -1,35 +1,35 @@
 {
   "phone-home": {
-    "performance": 51,
+    "performance": 69,
     "accessibility": 96,
     "bestPractices": 100,
     "seo": 100,
-    "lcp": 1672,
-    "tbt": 1184,
-    "speedIndex": 5144,
-    "cls": 0.514,
-    "kb": 682
+    "lcp": 1698,
+    "tbt": 1199,
+    "speedIndex": 6440,
+    "cls": 0.027,
+    "kb": 688
   },
   "phone-badr": {
-    "performance": 71,
+    "performance": 69,
     "accessibility": 96,
     "bestPractices": 100,
     "seo": 100,
-    "lcp": 1635,
-    "tbt": 1168,
-    "speedIndex": 5140,
-    "cls": 0.009,
-    "kb": 710
+    "lcp": 1650,
+    "tbt": 1225,
+    "speedIndex": 6229,
+    "cls": 0.025,
+    "kb": 717
   },
   "desktop-home": {
-    "performance": 65,
+    "performance": 64,
     "accessibility": 96,
     "bestPractices": 100,
     "seo": 100,
-    "lcp": 4709,
-    "tbt": 159,
-    "speedIndex": 4522,
+    "lcp": 4713,
+    "tbt": 152,
+    "speedIndex": 5282,
     "cls": 0.009,
-    "kb": 692
+    "kb": 698
   }
 }

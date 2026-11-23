@@ -3793,3 +3793,100 @@ specs; engines 66 passed; visual 24 passed (no visible change in the screenshots
   indexing for the main pages (home, «تحدي اليوم», a few big events) by hand.
 - Optional: a user-site repository `mdSHash/mdshash.github.io` with a root `robots.txt` that names the sitemap (crawlers
   only read robots.txt at the host root; today it is a 404, which allows everything but points nowhere).
+
+## Phase 7 — Narrated tours and natural Egyptian Arabic (2026-11-23, `feature/phase-7-tours`)
+
+**Start:** PR #67 (Phase 6) and PR #68 (SEO) merged; branch made from `main`; `npm run verify` in five batches passed
+(Vitest 545/545; features 148 passed, 2 skipped; engines 66 passed; visual 24; Lighthouse within budget).
+
+#### 1. The tries bug (first, its own commit)
+
+«تحدي اليوم» said «معاك ٣ محاولات» but revealed the answer after 2 wrong picks: `MAX_WRONG = 2` and `isDone` ended
+the round at `wrong >= MAX_WRONG`. One rule now, `TRIES = 3` (`src/challenge/engine/levels.ts`): the round ends at a
+win or the third wrong pick in every mode, for `isDone`, the server's `checkPlay` (picks capped at 3),
+`PICKS_ALLOWED` (so «في آخر لحظة» on a win with the 3rd pick), `suggestLevel` (a win on the last try suggests an easier
+level) and the tries circles; board points stay 3/2/1 by try. «دليل تاني بعد…» hides when the round would end before
+the next clue (a clue still opens after 2 wrong picks, before the 3rd). Tests: `isDone`/`checkPlay` for every mode,
+and a Playwright test that plays three deliberately wrong picks in every mode at 390 px (fixed day, the answer
+computed from the engine) and checks the answer shows only after the third. The 4 result-card shots changed (the fixed
+day's round now reaches a 3rd pick); Mostafa approved replacing them.
+
+#### 2. Decisions (Mostafa)
+
+- **Tour direction: «كروت بالرسم»** (round 3, artifact FKNEGC1bB23v6qMgbXdLSt). Round 1 (الفيلم، دفتر الأختام، حكاية
+  بدر، اسأل الدليل) and round 2 (القنديل، رحلة القافلة، دوّر على الإجابة، على مقاسك) were rejected: the Arabic read as
+  robotic and didn't make sense to an Egyptian, then "simple but creative, illustrative, easy to understand and to
+  interact with". Round 3: أ كروت بالرسم (chosen), ب اتفرج وجرّب, ج لوحة الشرح.
+- **Narration starts from a button:** the first card asks; «وريني 🔊» is the tap that allows sound.
+- **Recording:** the daily Narration workflow records the 20 cards after merge (10 a day, about two days).
+- **Wording list approved as a whole** (`docs/phase7/wording-review.md`, artifact LkbkTq9CW4fqMSbQGFr9YG).
+
+#### 3. Natural Egyptian Arabic
+
+`scripts/phase7/ui-strings.ts` lists every Arabic string in the code (1,249 in 84 files, `docs/phase7/ui-strings.json`;
+`shared/arabic.ts`'s normalization tables are not wording). The review list covered all of it plus the 277
+question-bank clues: 9 rules applied everywhere (one word per idea in the game: الترتيب، سؤال، الألعاب، سلسلة أيامك،
+تحدي اليوم، اضغط; the site's buttons «اقفل», «جرّب تاني»), 24 game lines, 18 account and board lines, 49 site lines (the
+site's فصحى errors, buttons and aria-labels in Egyptian), 7 chat-suggestion patterns, 8 clues (among them «اتسرى بيه» →
+«أُسري بيه», «يتجبر» → «يتغصب», «مات» → «اتوفّى» and «اتقتل» → «استشهد» for Companions) and the 20 tour lines.
+
+Applied as approved, with three adjustments for grammar and behavior, noted for Mostafa:
+- People's suggested questions are «احكيلي عن …» instead of «مين هو …»: the chat answers «مين هو» with a one-line
+  summary and «احكيلي عن» with the full story (as «ماذا تعرف عن» did), and it needs no هو/هي (the data has no gender
+  field). The name keeps the genitive after «عن» (the project's grammar test): «احكيلي عن أبي بكر الصديق».
+- Event follow-ups whose verb would need the event's gender use a noun instead: «إيه تاريخ X؟», «مكان X فين؟»,
+  «إيه نتيجة X؟», «إيه دور X في Y؟», «إيه الأحداث اللي فيها X؟» (not «X كانت إمتى/فين», «X عمل إيه»).
+- Every suggested question still finds its record with high confidence (`tests/chatExamples.test.ts`); the offline
+  visitor set passes 106/107 turns, the same as `main` (the known «الخندك» misspelling gap).
+
+#### 4. The tours
+
+- **Cards** (`src/tour/TourCards.tsx`, shared by both apps): a bottom sheet, one card per step: a small looping drawing
+  of the feature (`src/tour/scenes.ts`, markup only, colors through `--tc-*` tokens in `tour.css` that point at each
+  page's own tokens), a title and one line. Swipe, «اللي بعده» / «رجوع», arrow keys, Escape; mute and close inside the
+  sheet; focus moves in and back and Tab stays inside. «وريني فين» lowers the sheet and rings the real element
+  (`data-tour-id`; the phone twin `<id>-compact` too); a card inside the event panel opens غزوة بدر when the open
+  event lacks that part. The ask card's drawing stays still until the visitor answers. Reduced motion stops all of it.
+- **Nibras** (`src/tour/SiteTour.tsx`, 13 cards: map, territories, timeline and eras, event panel, narration, people,
+  Quran, battle video, search, chat, dark mode, «تحدي اليوم»): a first visit's card asks 300 ms after the intro (same
+  key as the old tour, `nibras_tour_prompted`, so earlier visitors aren't asked again); the compass opens it at once
+  with sound. A first visit downloads the cards during the intro. New targets: listen button, battle-video button, the
+  header's game and chat buttons, the map key.
+- **The game** (`src/challenge/ui/GameTour.tsx`, 7 cards: level, games, 3 tries and clues, cards into Nibras, share,
+  the board, «احفظ إنجازاتك»): asks once right after a first level pick (`nibras.challenge.tour`); «؟» «إزاي ألعب؟» in
+  the header replays it. Recordings are served from Nibras's `audio/`.
+- **Content and narration:** `content/tours/{site,game}.json` (schema `tourSchema`), built into
+  `src/generated/tours.json` with each card's fresh recording hash. The manifest gains `tours`
+  (`tour-<tour>-<step>.<hash>.m4a`); `npm run narration -- check` counts the cards ("148 events and 20 tour cards"),
+  `generate` records them after the events within `--max` (the daily workflow needs no change). A card without a fresh
+  recording shows its text. The spotlight tour (TourPrompt, TourSpotlight, TourTooltip, TourProgress, tourSteps,
+  utils/types) is gone.
+- **Tests:** `tests/tours.test.ts` (content, a drawing for every card, every target present, recordings fresh/stale/
+  missing, the manifest covers every card, the clip URL); `tests/e2e/tours.spec.ts` (first visit asks once and not again,
+  «مش دلوقتي», every card's text without sound, with sound plays the recording when there is one, compass replay and
+  Escape, «وريني فين», the game's first-visit card and «إزاي ألعب؟»); both-modes AA for the cards in
+  `theme-contrast.spec.ts`. Until the cards are recorded the sound test checks that nothing plays and the text shows.
+
+#### Baselines (Mostafa approved, 2026-11-23)
+
+- Visual: 4 result-card shots (three tries) and 3 level-sheet shots (new wording, «إزاي ألعب؟»); on Linux also the
+  phone help window (approved wording only, inside the tolerance on Windows). Linux copies from CI run 45185805018.
+- Lighthouse: Speed Index rose on a phone first visit (~5.9 s; `main` 4.8 s on the same machine) because Lighthouse
+  now records the tour's first card. Measured `main`, the wording commit (4.86 s) and a build with the card off to find
+  the cause; LCP, blocking time and the score are unchanged. New numbers recorded on Windows; Linux from CI run 45185805018 (phone Speed Index 6.4 s).
+
+#### Verification (2026-11-23, end of phase)
+
+Five batches, foreground: content…bundle passed (Vitest 555/555; narration manifest: 148 events and 20 tour cards,
+296 fresh, 20 tour cards waiting for the daily run); features 163 passed, 2 skipped; engines 78 passed, 24 skipped,
+2 failed under load and passed 3 of 3 alone (Firefox `event-panel.spec.ts:115`, WebKit `theme-contrast.spec.ts:134`;
+both passed in the run before); visual 24 passed (with the approved shots); Lighthouse within the new budget.
+
+- CI on WebKit found two things, fixed: «وريني فين» now waits up to 4 s for an event's details to load, and the
+  game's board contrast test waits for the board before reloading (a reload that cut its code off logged an error).
+
+#### Open, for Mostafa
+
+- After merge, the daily Narration run records the 20 tour cards (two days); then every card plays.
+- Email sign-in is still off on the live site until the Gmail app password is in Supabase (Phase 6).
+- Google Search Console still needs Brave with the Claude extension connected (SEO section).

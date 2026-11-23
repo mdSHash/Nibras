@@ -44,6 +44,7 @@ export function ArticleBody({
   const battleId = summaryOnly.battleScenarioId;
   const battleButton = battleId && onBattleOpen && (
     <button
+      data-tour-id="battle-video-button"
       onClick={() => onBattleOpen(battleId)}
       className="w-full flex items-center justify-center gap-2.5 px-5 py-4 rounded-xl text-white font-bold shadow-lg active:scale-[0.98] transition-all"
       style={{
@@ -52,7 +53,7 @@ export function ArticleBody({
       }}
     >
       <Swords size={18} className="shrink-0" aria-hidden />
-      <span>مشاهدة المعركة</span>
+      <span>اتفرج على المعركة</span>
       <ChevronsRight size={18} className="shrink-0" aria-hidden />
     </button>
   );
@@ -235,7 +236,7 @@ export function ArticleBody({
                   target="_blank"
                   rel="noreferrer"
                   className="text-ink/85 hover:text-accent underline underline-offset-4 decoration-accent/30 transition-colors leading-relaxed"
-                  title="البحث عن المصدر في المكتبة الشاملة"
+                  title="دوّر على المصدر في المكتبة الشاملة"
                   style={fs(13)}
                 >
                   {src}

@@ -17,7 +17,7 @@ test('a battle with a video opens it with Arabic controls and captions (stub vid
   const badr = eventById('battle-badr');
   await openAppWithEvent(page);
   await openEventBySearch(page, 'battle-badr', 'بدر');
-  await page.getByRole('button', { name: 'مشاهدة المعركة' }).click();
+  await page.getByRole('button', { name: 'اتفرج على المعركة' }).click();
 
   await expect(page).toHaveURL(/\/battle\/battle-of-badr\/$/);
   const player = page.getByRole('dialog', { name: badr.title });
@@ -28,7 +28,7 @@ test('a battle with a video opens it with Arabic controls and captions (stub vid
   await expect(page.locator('[data-fake-youtube="HCQru0jnWeA"]')).toBeAttached();
 
   // Playing on its own, every control enabled and named in Arabic.
-  for (const name of ['إيقاف مؤقت', 'رجوع ١٠ ثوانٍ', 'تقديم ١٠ ثوانٍ', 'كتم الصوت', 'إخفاء الترجمة', 'رجوع']) {
+  for (const name of ['وقّف', 'ارجع ١٠ ثواني', 'قدّم ١٠ ثواني', 'اكتم الصوت', 'خبّي الترجمة', 'رجوع']) {
     await expect(player.getByRole('button', { name, exact: true })).toBeEnabled();
   }
   await expect(player.getByRole('slider', { name: 'موضع الفيديو' })).toBeEnabled();
@@ -42,9 +42,9 @@ test('a battle with a video opens it with Arabic controls and captions (stub vid
   // Keyboard: C hides the captions, K pauses.
   await page.keyboard.press('c');
   await expect(band).toHaveText('');
-  await expect(player.getByRole('button', { name: 'إظهار الترجمة' })).toBeVisible();
+  await expect(player.getByRole('button', { name: 'اعرض الترجمة' })).toBeVisible();
   await page.keyboard.press('k');
-  await expect(player.getByRole('button', { name: 'تشغيل', exact: true })).toBeVisible();
+  await expect(player.getByRole('button', { name: 'شغّل', exact: true })).toBeVisible();
 
   // Escape closes the player and returns to the event.
   await page.keyboard.press('Escape');

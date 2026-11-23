@@ -38,7 +38,7 @@ test.describe('visual @phone @visual', () => {
     // events over days; take it out so this shot shows the panel the same way with or without it
     // (narration itself: event-panel.spec.ts).
     await page.evaluate(() => {
-      for (const b of document.querySelectorAll('button[aria-label="تشغيل السرد"]')) b.closest('.relative.shrink-0')?.remove();
+      for (const b of document.querySelectorAll('button[aria-label="اسمع الحدث"]')) b.closest('.relative.shrink-0')?.remove();
     });
     await shot(page, 'event-panel-badr');
   });
@@ -75,7 +75,7 @@ test.describe('visual @phone @visual', () => {
     await openAppWithEvent(page);
     await settle(page, 3_000);
     await (await headerControl(page, 'help')).click();
-    await expect(page.getByRole('dialog', { name: /دليل/ })).toBeVisible();
+    await expect(page.getByRole('dialog', { name: /إزاي تستخدم نبراس/ })).toBeVisible();
     await settle(page);
     await shot(page, 'help');
   });
@@ -85,9 +85,9 @@ test.describe('visual @phone @visual', () => {
     await openAppWithEvent(page);
     await settle(page, 3_000);
     await header.chat(page).click();
-    const input = page.getByPlaceholder('اكتب سؤالك هنا...');
+    const input = page.getByPlaceholder('اكتب سؤالك هنا…');
     await input.fill('ماذا حدث في غزوة بدر؟');
-    await page.getByRole('button', { name: 'إرسال' }).click();
+    await page.getByRole('button', { name: 'ابعت' }).click();
     await expect(page.getByRole('button', { name: 'متى كانت غزوة أحد؟' })).toBeVisible();
     await input.blur();
     await settle(page);
@@ -107,7 +107,7 @@ test.describe('daily challenge visual @phone @visual', () => {
     await page.clock.setFixedTime(DAY);
     await page.addInitScript((t) => localStorage.setItem('nibras.challenge.theme', t), theme);
     await page.goto('challenge/');
-    await expect(page.getByRole('dialog', { name: 'إنت قد إيه عارف؟' })).toBeVisible();
+    await expect(page.getByRole('dialog', { name: 'تعرف قد إيه عن السيرة؟' })).toBeVisible();
   }
 
   for (const theme of ['light', 'dark'] as const) {

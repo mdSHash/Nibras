@@ -6,7 +6,7 @@
  */
 import { stripDiacritics } from '../../../shared/arabic.js';
 import type { Round } from './daily.js';
-import { LEVELS, MAX_WRONG, MODES, type Level, type Mode } from './levels.js';
+import { LEVELS, MODES, TRIES, type Level, type Mode } from './levels.js';
 import { emptyState, type DailyState, type GameResult, type Streak } from './progress.js';
 import { previousDay } from './seed.js';
 
@@ -17,7 +17,7 @@ export interface Plays { date: string; plays: Record<string, Play> }
 /** Whether the picks so far end the round, and whether it was won. */
 export function isDone(round: Pick<Round, 'answerId'>, picks: readonly string[]): { done: boolean; won: boolean } {
   const won = picks.includes(round.answerId);
-  return { won, done: won || picks.filter((p) => p !== round.answerId).length >= MAX_WRONG };
+  return { won, done: won || picks.filter((p) => p !== round.answerId).length >= TRIES };
 }
 
 /**
@@ -26,7 +26,7 @@ export function isDone(round: Pick<Round, 'answerId'>, picks: readonly string[])
  * or a round that never ended. «رتّب» picks are orders: the round's four ids, comma-joined.
  */
 export function checkPlay(round: Pick<Round, 'mode' | 'answerId' | 'options'>, picks: unknown): { won: boolean; attempts: number } | null {
-  if (!Array.isArray(picks) || picks.length === 0 || picks.length > MAX_WRONG + 1) return null;
+  if (!Array.isArray(picks) || picks.length === 0 || picks.length > TRIES) return null;
   const ids = round.options.map((o) => o.id);
   const valid = (p: unknown): p is string => {
     if (typeof p !== 'string') return false;
