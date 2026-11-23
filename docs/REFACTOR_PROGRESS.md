@@ -3754,3 +3754,42 @@ shots also gained the header icons but stay inside the 1% tolerance.
 
 Five batches, foreground: content…bundle passed (Vitest 542/542); features 148 passed, 2 skipped; engines 66 passed,
 24 skipped; visual 24 passed (with the approved shots); Lighthouse within budget.
+
+## SEO (2026-11-23, `feature/seo`)
+
+Mostafa asked to check Google Search Console and make the site's SEO as good as it can be. Earlier notes: the sitemap
+has shown "Couldn't fetch" since 2026-11-05 although the site serves it correctly (200, `application/xml`); the home
+page is indexed, most event pages not yet (2026-11-12). Chrome was not connected this time, so Search Console itself
+was not read; the site was checked from outside.
+
+#### What the site already does right
+
+`lang="ar" dir="rtl"`, one pre-rendered page per event, person and battle with its own title, description, canonical
+URL, Open Graph, Twitter and JSON-LD; the home page links all 148 events and each event links its people and
+neighbours; `sitemap.xml` with 326 addresses; nothing blocks crawlers.
+
+#### Changes
+
+- **Titles and descriptions in plain Arabic** (`searchText`, `metaDescription` in `shared/pageMeta.ts`): people search
+  without tashkeel and Google shows titles as written, so `<title>`, the meta description and the Open Graph and
+  Twitter text drop the diacritics. The page's own heading and text stay fully vocalized; no content record changed.
+  The browser tab shows the same plain title (the app uses `pageTitle` too).
+- **Descriptions cut near 155 characters** at a word, with «…», instead of Google cutting them anywhere.
+- **Home title** «Nibras نِبْرَاس» → «نبراس | خريطة وخط زمني للسيرة النبوية والتاريخ الإسلامي» (what the site is, in the
+  words people search).
+- **«تحدي اليوم» in the sitemap** (327 addresses), with a canonical URL, absolute share image, Open Graph and
+  `WebApplication` JSON-LD in `challenge/index.html`.
+- Tests: `tests/pageMeta.test.ts`; the pre-render unit test and `prerender.spec.ts` now expect the plain titles and
+  short descriptions.
+
+#### Verification
+
+content…bundle and Vitest (545/545) passed; features (title specs re-run after the update) 25/25 in the affected
+specs; engines 66 passed; visual 24 passed (no visible change in the screenshots).
+
+#### Open, for Mostafa (needs Chrome on his computer)
+
+- Search Console: read the sitemap and page-indexing reports, re-submit `sitemap.xml` after this deploys, and request
+  indexing for the main pages (home, «تحدي اليوم», a few big events) by hand.
+- Optional: a user-site repository `mdSHash/mdshash.github.io` with a root `robots.txt` that names the sitemap (crawlers
+  only read robots.txt at the host root; today it is a 404, which allows everything but points nowhere).

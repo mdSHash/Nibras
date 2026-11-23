@@ -3,6 +3,7 @@
 // app shell GitHub Pages serves for unknown paths.
 import { test, expect } from './support/fixtures';
 import { eventById, panelTitle } from './support/app';
+import { searchText } from '../../shared/pageMeta';
 
 const BADR = eventById('battle-badr');
 
@@ -14,7 +15,7 @@ test.describe('without JavaScript', () => {
     const main = page.locator('main.nb-static');
     await expect(main.getByRole('heading', { level: 1 })).toHaveText(BADR.title);
     await expect(main).toContainText(BADR.location.name);
-    await expect(page).toHaveTitle(`${BADR.title} — نبراس`);
+    await expect(page).toHaveTitle(`${searchText(BADR.title)} — نبراس`);
     // The static text scrolls although the app's CSS locks the body.
     const scrolls = await main.evaluate((el) => el.scrollHeight > el.clientHeight && getComputedStyle(el).overflowY === 'auto');
     expect(scrolls).toBe(true);
@@ -51,7 +52,7 @@ test('the app replaces the static text and keeps the page title @phone', async (
   await page.goto('./event/battle-badr/');
   await expect(panelTitle(page)).toHaveText(BADR.title, { timeout: 30_000 });
   await expect(page.locator('main.nb-static')).toHaveCount(0);
-  await expect(page).toHaveTitle(`${BADR.title} — نبراس`);
+  await expect(page).toHaveTitle(`${searchText(BADR.title)} — نبراس`);
 });
 
 test('404.html loads the app, which reports the unknown page', async ({ page }) => {

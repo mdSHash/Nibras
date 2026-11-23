@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Era, GeneratedQuranPassage } from '../shared/contentSchema';
-import { SITE, firstSentence, pageTitle, routeHeading, routeUrl } from '../shared/pageMeta';
+import { SITE, firstSentence, metaDescription, pageTitle, routeHeading, routeUrl, searchText } from '../shared/pageMeta';
 import { parseLocation, routePath } from '../shared/routes';
 import { fullEvents, fullPeople } from '../scripts/content/generated';
 import { buildPages, type SiteContent } from '../scripts/prerender/pages';
@@ -59,12 +59,13 @@ describe('pre-rendered pages', () => {
     }
   });
 
-  it('describe an event by its summary and a person by the first sentence of the bio, unchanged', () => {
+  // SEO (2026-11-23): the description is that text without tashkeel, cut near 155 characters; the page keeps the full text.
+  it('describe an event by its summary and a person by the first sentence of the bio, as search text', () => {
     const description = (kind: string, i: number) =>
       tag(pages.filter((p) => p.route.kind === kind)[i].head, /<meta name="description" content="([^"]+)">/);
-    fullEvents.forEach((e, i) => expect(description('event', i)).toBe(e.summary));
+    fullEvents.forEach((e, i) => expect(unescape(description('event', i) ?? '')).toBe(metaDescription(e.summary)));
     fullPeople.forEach((p, i) => {
-      expect(description('person', i)).toBe(firstSentence(p.bio));
+      expect(unescape(description('person', i) ?? '')).toBe(metaDescription(firstSentence(p.bio)));
       expect(p.bio.trim().startsWith(firstSentence(p.bio))).toBe(true);
     });
   });
@@ -76,7 +77,7 @@ describe('pre-rendered pages', () => {
 
   it('show the full text of an event, with links to its people', () => {
     const badr = fullEvents.find((e) => e.battleScenarioId === 'battle-of-badr')!;
-    const badrPage = pages.find((p) => p.route.kind === 'event' && p.head.includes(`<title>${badr.title}`))!;
+    const badrPage = pages.find((p) => p.route.kind === 'event' && p.head.includes(`<title>${searchText(badr.title)}`))!;
     expect(unescape(badrPage.body)).toContain(badr.fullDescription);
     for (const role of badr.roles) expect(badrPage.body).toContain(`href="${SITE.base}person/${role.personId}/"`);
   });

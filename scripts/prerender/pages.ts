@@ -4,7 +4,7 @@
 // app's colours and font, with links between pages). Pure functions;
 // scripts/prerender.ts writes them into dist/.
 import type { ContentEvent, Era, GeneratedQuranPassage, Person } from '../../shared/contentSchema';
-import { SITE, firstSentence, pageTitle, routeHeading, routeUrl, siteUrl, type HeadingLookups } from '../../shared/pageMeta';
+import { SITE, firstSentence, metaDescription, pageTitle, routeHeading, routeUrl, siteUrl, type HeadingLookups } from '../../shared/pageMeta';
 import { eventSlug, routePath, type Route } from '../../shared/routes';
 
 export interface SiteContent {
@@ -53,20 +53,20 @@ function headTags({ route, title, description, ogType, jsonLd }: HeadOptions): s
   const image = siteUrl(`/${SITE.image}`);
   return [
     `<title>${esc(title)}</title>`,
-    `<meta name="description" content="${esc(description)}">`,
+    `<meta name="description" content="${esc(metaDescription(description))}">`,
     `<link rel="canonical" href="${esc(url)}">`,
     `<meta property="og:type" content="${ogType}">`,
     `<meta property="og:site_name" content="${esc(SITE.name)}">`,
     `<meta property="og:locale" content="ar_AR">`,
     `<meta property="og:title" content="${esc(title)}">`,
-    `<meta property="og:description" content="${esc(description)}">`,
+    `<meta property="og:description" content="${esc(metaDescription(description))}">`,
     `<meta property="og:url" content="${esc(url)}">`,
     `<meta property="og:image" content="${esc(image)}">`,
     `<meta property="og:image:width" content="${SITE.imageWidth}">`,
     `<meta property="og:image:height" content="${SITE.imageHeight}">`,
     `<meta name="twitter:card" content="summary_large_image">`,
     `<meta name="twitter:title" content="${esc(title)}">`,
-    `<meta name="twitter:description" content="${esc(description)}">`,
+    `<meta name="twitter:description" content="${esc(metaDescription(description))}">`,
     `<meta name="twitter:image" content="${esc(image)}">`,
     ...jsonLd.map((data) => `<script type="application/ld+json">${jsonForScript(data)}</script>`),
   ].join('\n    ');
