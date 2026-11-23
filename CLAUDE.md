@@ -44,7 +44,7 @@ assistant (`api/`) is a separate Vercel project.
 | `npm run docs:content` | Rewrite the field reference in `docs/CONTENT_GUIDE.md` from the schemas |
 | `npm run build` | Production build (`dist/`, base `/Nibras/`) |
 | `npm run format` | Prettier, on demand only (no repo-wide reformat) |
-| `npx playwright test` | Feature + visual tests (build first with `VITE_CHAT_API_URL=http://chat.test/api/chat`) |
+| `npx playwright test` | Feature + visual tests (build first with `npm run verify -- --only=build`: it sets the stand-in chat and account URLs) |
 | `npx playwright test -c playwright.style.config.ts` | Style snapshots: prove a change keeps the look (capture with `--update-snapshots` before it; see README, "Styling") |
 
 Lighthouse numbers: `npm run baseline:lighthouse` (after a build; `-- --update` records them, same approval rule).
@@ -83,6 +83,7 @@ only after Mostafa approves the list of intentional changes; never to make a tes
 - `docs/territories/` — territory research (3F): uncertain rows and borders, factual conflicts, old-and-new list; `scripts/territories/` checks the ledger
 - `content/territories/` — the map's sources: `ledger/` (who held what, with sources; a row with `ev` follows that event's date), `regions.json`, `holders.json`, Natural Earth coast and rivers. `public/map-tiles/` — Relief tiles. `src/components/map/` — `TerritoryLayer` (loaded on demand), `labelPlacement.ts` (labels clear of markers)
 - `src/challenge/` — «تحدي اليوم» (Phase 5), a separate build served at `/Nibras/challenge/` (PWA: `challenge/public/` has the manifest and service worker): `engine/` (rounds from the bank, options by level, comparisons, streaks), `ui/`. Its data and question bank: `content/game/` (`questions/<mode>.json`, every clue citing the Nibras sentence it rests on; `companion-facts.json`; `tiers.json`; `exclusions.json`), built by `scripts/game/` into `src/generated/game.json`
+- Game accounts (Phase 6; optional, every age; Google, or email and password with reset, all over PKCE): `src/challenge/account/` (hand-rolled Supabase PKCE sign-in, calls, `useAccount`), `src/challenge/ui/account/` (the result's offer, sheets, board, «حسابي», privacy; pages at `#board`, `#account`, `#privacy`), shared rules in `src/challenge/engine/account.ts` (pick re-check, names, streaks, merge; imported by the API, so engine imports carry `.js`). `api/challenge.ts` + `api/_lib/challenge*.ts` re-check signed-in rounds with the secret key; `supabase/migrations/` has the tables and RLS, tested in PGlite (`tests/challengeDb.test.ts`). Setup: `docs/OWNER_DASHBOARD.md`
 - `src/components/ErrorBoundary.tsx` — wrap any new major section or panel in one
 - `src/services/analytics.ts` — Umami, deploy build only; `track()` must never carry what a visitor typed; the tracker itself is `src/services/umami.ts`, shared with the game's events (`src/challenge/analytics.ts`)
 

@@ -2,7 +2,7 @@
  * Display labels for the daily challenge, kept apart from the Zod schemas
  * (shared/gameData.ts) so the game bundle does not pull in Zod.
  */
-import type { DeathRegion, Islam, KnownFor, LastEra, Migration } from './gameData';
+import type { DeathRegion, Islam, KnownFor, LastEra, Migration } from './gameData.js';
 
 /**
  * The «من أكون؟» tiles' Arabic labels (drafted by Claude in Mostafa's Egyptian

@@ -2,7 +2,7 @@
  * The daily seed (docs/phase5/challenge-spec.md, section 8): everyone gets the
  * same puzzle and the same options on the same Cairo day, per mode and level.
  */
-import type { Level, Mode } from './levels';
+import type { Level, Mode } from './levels.js';
 
 /** Today's date in Cairo as `YYYY-MM-DD`. */
 export function cairoDate(now: Date = new Date()): string {

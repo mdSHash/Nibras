@@ -8,6 +8,10 @@ import { FAKE_YOUTUBE_API } from './fakeYouTube';
 
 export const CHAT_API_URL = 'http://chat.test/api/chat';
 export const FEEDBACK_API_URL = 'http://chat.test/api/feedback';
+// «تحدي اليوم» accounts (Phase 6): the test build's Supabase and challenge API (scripts/verify.ts),
+// stand-in paths on the preview server, answered here before the server sees them.
+export const SUPABASE_URL = 'http://localhost:4173/__supabase';
+export const CHALLENGE_API_URL = 'http://localhost:4173/__challenge';
 
 // ---- A plain map tile -------------------------------------------------------
 const CRC_TABLE = Array.from({ length: 256 }, (_, n) => {
@@ -75,6 +79,22 @@ export async function installStubs(page: Page, log: NetworkLog, chat: () => Chat
     const url = new URL(request.url());
     const isLocal = url.hostname === 'localhost' || url.hostname === '127.0.0.1';
 
+    // Supabase by default: a guest's result is taken, no totals (the result shows no numbers, as
+    // before Phase 6), an empty leaderboard, no session. Account tests route over this (account.spec.ts).
+    if (url.href.startsWith(`${SUPABASE_URL}/`)) {
+      const headers = { 'access-control-allow-origin': '*', 'access-control-allow-headers': 'apikey, authorization, content-type, prefer', 'access-control-allow-methods': 'GET, POST, PATCH, DELETE, OPTIONS' };
+      if (request.method() === 'OPTIONS') return route.fulfill({ status: 204, headers });
+      if (url.pathname === '/__supabase/rest/v1/challenge_results') return route.fulfill({ status: 201, headers, body: '' });
+      // No totals: the game hides the numbers (an error status would log a console error).
+      if (url.pathname === '/__supabase/rest/v1/rpc/challenge_stats') return route.fulfill({ status: 200, headers, contentType: 'application/json', body: 'null' });
+      if (url.pathname === '/__supabase/rest/v1/rpc/challenge_board') return route.fulfill({ status: 200, headers, json: { total: 0, rows: [], me: null } });
+      return route.fulfill({ status: 503, headers, json: { message: 'stub' } });
+    }
+    if (url.href === CHALLENGE_API_URL) {
+      const headers = { ...CORS, 'access-control-allow-headers': 'content-type, authorization' };
+      if (request.method() === 'OPTIONS') return route.fulfill({ status: 204, headers });
+      return route.fulfill({ status: 401, headers, json: { error: 'signed_out', messageAr: 'لازم تسجّل دخول الأول.' } });
+    }
     if (isLocal && url.pathname.endsWith('.m4a')) {
       log.audioRequests.push(url.pathname.split('/').pop() ?? '');
       // Only answer for files that exist in the build, like the real server.

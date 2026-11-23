@@ -809,18 +809,43 @@ within budget; and `npm run verify` passes.
 
 Goal: signing in stays optional and adds saved achievements and a place on the leaderboard.
 
-- [ ] Google sign-in on the Phase 5 Supabase project (free tier). A quiet «احفظ إنجازاتك» offer on
-      the result screen; never a wall in front of playing.
-- [ ] On first sign-in, merge the guest's local `DailyState` and streaks into the account.
-- [ ] Leaderboards per level (daily, weekly, all-time streak), display name chosen by the player,
-      results checked server-side against the day's puzzle.
-- [ ] Account page: name, streaks, history, sign out, **delete my account and data**. Arabic privacy
+- [x] Google sign-in on the Phase 5 Supabase project (free tier). A quiet «احفظ إنجازاتك» offer on
+      the result screen; never a wall in front of playing. (Every age, Google or email and password, Mostafa 2026-11-23.)
+- [x] On first sign-in, merge the guest's local `DailyState` and streaks into the account.
+- [x] Leaderboards per level (daily, weekly, all-time streak), display name chosen by the player,
+      results checked server-side against the day's puzzle. **Decision (2026-11-22):** a Vercel function
+      (`api/challenge.ts`) re-plays signed-in rounds with the game's engine; guests still write straight
+      to Supabase (5F). Direction أ «الدفتر» picked from four prototypes.
+- [x] Account page: name, streaks, history, sign out, **delete my account and data**. Arabic privacy
       page: what is stored and why (email from sign-in, display name, results).
-- [ ] Tests: row-level security (no one reads another player's data), merge logic, Playwright with a
+- [x] Tests: row-level security (no one reads another player's data), merge logic, Playwright with a
       mocked client for sign-in and leaderboard.
 
 Done when: a guest who signs in keeps their streaks, the leaderboard shows verified results, a player
 can delete their data, and `npm run verify` passes.
+
+### Phase 7 — Narrated tours and natural Egyptian Arabic (starts right after Phase 6 is merged)
+
+Asked by Mostafa on 2026-11-23. Goal: a first visit explains everything Nibras and the game can do now, out loud, and every
+line the UI says sounds like an ordinary Egyptian wrote it.
+
+- [ ] **Nibras tour, rebuilt.** The first-visit tour (and the compass button in the header) rewritten from scratch for
+      what the site has now: map and territories, timeline and eras, event panel, people, Quran passages, search, chat,
+      battle videos, narration, dark mode, «تحدي اليوم». Every step **narrated** (Gemini TTS, voice Charon, like the
+      events; spending quota needs Mostafa's yes), with text on screen as well. This replaces the "custom guided tour"
+      in "Keep as is" (Mostafa asked for it).
+- [ ] **A tour for the game.** Players who open `/Nibras/challenge/` alone get their own short tour: levels, modes,
+      three tries, the cards into Nibras, share, the leaderboard and «احفظ إنجازاتك». Narrated too.
+- [ ] **Natural Egyptian Arabic.** Review and rewrite the game's and the site's UI wording (buttons, hints, errors,
+      result lines, tours, aria-labels) so it reads like everyday Egyptian speech, not machine text. A review list
+      for Mostafa (old line → new line) before applying. Content records (events, people, cities, battles, Quran)
+      stay untouched; question-bank clues change only through the same review list.
+- [ ] **Bug fixes** in the game that Mostafa lists at the start of the phase.
+- [ ] Tests: each tour opens on first visit only, can be skipped, replays from its button, plays its narration (and
+      works without audio); narration manifest covers the tour clips; visual snapshots refreshed only after approval.
+
+Decisions to ask before building: the tours' visual direction (3–4 prototypes that differ in concept), how the
+narration starts (auto-play is blocked until a tap), and the narration quota.
 
 ## Keep as is (don't "improve" these)
 

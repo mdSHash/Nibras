@@ -4,8 +4,8 @@
  * localStorage, versioned, every access guarded: the game works without it.
  * Typed so Phase 6 can merge it into an account.
  */
-import { MAX_WRONG, type Level, type Mode } from './levels';
-import { previousDay } from './seed';
+import { MAX_WRONG, type Level, type Mode } from './levels.js';
+import { previousDay } from './seed.js';
 
 /** The result headline by attempt (spec, section 7). */
 export function headline(won: boolean, attempts: number, allowed: number): string {

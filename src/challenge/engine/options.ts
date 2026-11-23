@@ -3,9 +3,9 @@
  * preference, shifting Hijri years, rounding numbers. Every function is
  * deterministic for a given generator state.
  */
-import { yearDiff } from '../../../shared/gameText';
-import { LEVEL_CONFIG, OPTION_COUNT, type Level } from './levels';
-import { shuffle, type Rng } from './seed';
+import { yearDiff } from '../../../shared/gameText.js';
+import { LEVEL_CONFIG, OPTION_COUNT, type Level } from './levels.js';
+import { shuffle, type Rng } from './seed.js';
 
 /**
  * `n` items from `candidates` (the answer left out), preferring those that

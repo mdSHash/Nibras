@@ -4,15 +4,15 @@
  * options at the level's distance, and what a wrong pick teaches (tiles and a
  * plain sentence). UI-free; the game renders it.
  */
-import type { BankQuestion, GameCity, GameData, GameEvent, GamePerson } from '../../../shared/gameData';
-import { FACT_TITLES } from '../../../shared/gameLabels';
-import { stripDiacritics, toArabicIndic } from '../../../shared/arabic';
-import { yearDiff } from '../../../shared/gameText';
-import { compareBattles, comparePeople, yearLabel, type Mark } from './compare';
-import { directionAr, distanceKm, roundKm } from './geo';
-import { LEVEL_CONFIG, MAX_WRONG, OPTION_COUNT, type Level, type Mode } from './levels';
-import { numberOptions, preferred, yearOptions } from './options';
-import { dailyRng, hash, practiceRng, puzzleNumber, rngFrom, shuffle, type Rng } from './seed';
+import type { BankQuestion, GameCity, GameData, GameEvent, GamePerson } from '../../../shared/gameData.js';
+import { FACT_TITLES } from '../../../shared/gameLabels.js';
+import { stripDiacritics, toArabicIndic } from '../../../shared/arabic.js';
+import { yearDiff } from '../../../shared/gameText.js';
+import { compareBattles, comparePeople, yearLabel, type Mark } from './compare.js';
+import { directionAr, distanceKm, roundKm } from './geo.js';
+import { LEVEL_CONFIG, MAX_WRONG, OPTION_COUNT, type Level, type Mode } from './levels.js';
+import { numberOptions, preferred, yearOptions } from './options.js';
+import { dailyRng, hash, practiceRng, puzzleNumber, rngFrom, shuffle, type Rng } from './seed.js';
 
 /** The first daily puzzle. */
 export const LAUNCH_DATE = '2026-11-16';
