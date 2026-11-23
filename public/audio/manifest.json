@@ -2368,5 +2368,79 @@
         "voice": "Charon"
       }
     }
+  },
+  "tours": {
+    "site": {
+      "welcome": {
+        "file": "tour-site-welcome.bf32e4d2.m4a",
+        "textHash": "bf32e4d2ea8889747e62c85b39ef16a77131077e8a757d092eb20b9389a8767b",
+        "durationSec": 7.56,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "timeline": {
+        "file": "tour-site-timeline.31c3443a.m4a",
+        "textHash": "31c3443a86f8fff466cb29ebcb695bc884baf568e004b8de23cc7a7ab9d9b6f5",
+        "durationSec": 9,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "map": {
+        "file": "tour-site-map.1d71754d.m4a",
+        "textHash": "1d71754dc1f3e14b8f561dc65f9635e7ab616c5fd2ddcc59941e06726ef09110",
+        "durationSec": 6.88,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "territories": {
+        "file": "tour-site-territories.1bc91365.m4a",
+        "textHash": "1bc9136509e43d65aeabb9404a425bd45efcd42d4949317f1647ba46f5251ad6",
+        "durationSec": 7.24,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "panel": {
+        "file": "tour-site-panel.7ada5eaf.m4a",
+        "textHash": "7ada5eafc09759ffdd10890d0941933d5c6cd97a75bfee18c19050dac6835aaa",
+        "durationSec": 5.08,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "listen": {
+        "file": "tour-site-listen.ddc98ca0.m4a",
+        "textHash": "ddc98ca0c75bd8d1c49c73a1439f3fabd823ef6c296e3f7a5cb05c18511a9f1c",
+        "durationSec": 3.96,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "people": {
+        "file": "tour-site-people.f27a576b.m4a",
+        "textHash": "f27a576b3992aa8d083e965a6d583f52cab5f2f4362c07093547759995b26a6e",
+        "durationSec": 4.92,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "quran": {
+        "file": "tour-site-quran.155f1429.m4a",
+        "textHash": "155f14291b6d9edd49748f232a1a3f2962825eb2c96f0417ce90af230fdab3df",
+        "durationSec": 3.8,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "video": {
+        "file": "tour-site-video.11685970.m4a",
+        "textHash": "11685970ad75c0a2d72f757d45cf3fe0678aa4a01af542f7f9203c7490f14d5d",
+        "durationSec": 4.52,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "search": {
+        "file": "tour-site-search.cf47359a.m4a",
+        "textHash": "cf47359a9f04bf97e74c32cd4488445584a1434abb2d5ceea9ede1142c20de5c",
+        "durationSec": 5.28,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    }
   }
 }
