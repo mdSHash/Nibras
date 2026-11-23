@@ -153,7 +153,8 @@ export default function App() {
 
   // A first visit downloads the tour's cards during the intro, so the first card is ready to ask.
   useEffect(() => {
-    if (isFirstVisit()) void preloadSiteTour();
+    // A failed download is retried by the tour itself when it opens.
+    if (isFirstVisit()) preloadSiteTour().catch(() => {});
   }, [isFirstVisit]);
 
   // The tour prompt appears after the intro (or at once when the intro was seen

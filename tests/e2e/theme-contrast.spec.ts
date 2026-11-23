@@ -138,6 +138,8 @@ test('«تحدي اليوم» accounts: the board and «حسابي» pass AA in 
   await page.setViewportSize({ width: 390, height: 844 });
   for (const mode of ['light', 'dark'] as const) {
     await page.goto('challenge/#board');
+    // Let the board's code finish loading: a reload that cuts it off is logged as an error in WebKit.
+    await expect(page.locator('.bd-row').first()).toBeVisible();
     await page.evaluate((dark) => {
       localStorage.setItem('nibras.challenge.theme', dark ? 'dark' : 'light');
       localStorage.setItem('nibras.challenge.v1', JSON.stringify({ version: 1, level: 'easy', date: '2000-01-01', results: {}, streaks: { easy: { current: 0, best: 0, lastWin: null }, mid: { current: 0, best: 0, lastWin: null }, hard: { current: 0, best: 0, lastWin: null } } }));

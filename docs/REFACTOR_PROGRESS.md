@@ -3869,10 +3869,11 @@ Applied as approved, with three adjustments for grammar and behavior, noted for 
 
 #### Baselines (Mostafa approved, 2026-11-23)
 
-- Visual: 4 result-card shots (three tries) and 3 level-sheet shots (new wording, «إزاي ألعب؟»). Linux copies from CI.
+- Visual: 4 result-card shots (three tries) and 3 level-sheet shots (new wording, «إزاي ألعب؟»); on Linux also the
+  phone help window (approved wording only, inside the tolerance on Windows). Linux copies from CI run 45185805018.
 - Lighthouse: Speed Index rose on a phone first visit (~5.9 s; `main` 4.8 s on the same machine) because Lighthouse
   now records the tour's first card. Measured `main`, the wording commit (4.86 s) and a build with the card off to find
-  the cause; LCP, blocking time and the score are unchanged. New numbers recorded on Windows; Linux from CI.
+  the cause; LCP, blocking time and the score are unchanged. New numbers recorded on Windows; Linux from CI run 45185805018 (phone Speed Index 6.4 s).
 
 #### Verification (2026-11-23, end of phase)
 
@@ -3880,6 +3881,9 @@ Five batches, foreground: content…bundle passed (Vitest 555/555; narration man
 296 fresh, 20 tour cards waiting for the daily run); features 163 passed, 2 skipped; engines 78 passed, 24 skipped,
 2 failed under load and passed 3 of 3 alone (Firefox `event-panel.spec.ts:115`, WebKit `theme-contrast.spec.ts:134`;
 both passed in the run before); visual 24 passed (with the approved shots); Lighthouse within the new budget.
+
+- CI on WebKit found two things, fixed: «وريني فين» now waits up to 4 s for an event's details to load, and the
+  game's board contrast test waits for the board before reloading (a reload that cut its code off logged an error).
 
 #### Open, for Mostafa
 

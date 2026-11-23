@@ -87,8 +87,8 @@ export function TourCards({ tour, audioBase, start, onClose, prepare }: TourCard
   const showWhere = async () => {
     if (!step.target) return;
     await prepare?.(step);
-    // The page may need a moment to open what the step points at.
-    for (let i = 0; i < 12; i++) {
+    // The page may need a moment to open what the step points at (an event's details load on demand).
+    for (let i = 0; i < 40; i++) {
       const el = findTarget(step.target);
       if (el) {
         el.scrollIntoView({ block: 'nearest', inline: 'nearest' });
