@@ -15,7 +15,7 @@ import { reportAndFetch, type Stats } from '../stats';
 import { trackChallenge } from '../analytics';
 import { useAccount } from '../account/useAccount';
 import { SaveOffer } from './account/SaveOffer';
-import { NameSheet, SignInSheet } from './account/Sheets';
+import { NameSheet, NewPasswordSheet, SignInSheet } from './account/Sheets';
 import { showGame, useHashView } from './account/useHashView';
 import '../account.css';
 
@@ -109,10 +109,15 @@ function Game({ data }: { data: GameData }) {
     return merged;
   }), [today]);
   const account = useAccount(today, getPlays, onResults);
-  const failedSignIn = account.state.status === 'guest' && account.state.failed === true;
+  const failedSignIn = account.state.status === 'guest' && Boolean(account.state.failed);
   useEffect(() => {
     if (failedSignIn) setSignIn(true);
   }, [failedSignIn]);
+  // Signed in (or on to the name step): the sign-in sheet is done, and must not come back by itself.
+  const pastSignIn = account.state.status !== 'guest' && account.state.status !== 'off' && account.state.status !== 'loading';
+  useEffect(() => {
+    if (pastSignIn) setSignIn(false);
+  }, [pastSignIn]);
   const [mode, setMode] = useState<Mode>('who');
   const [practice, setPractice] = useState<{ round: Round; play: Play } | null>(null);
   const [sheet, setSheet] = useState(state.level === null);
@@ -281,8 +286,9 @@ function Game({ data }: { data: GameData }) {
       </main>
       )}
       {sheet && <LevelSheet first={state.level === null} current={state.level} onPick={(l) => setLevel(l, false)} onClose={() => setSheet(false)} />}
-      {signIn && account.state.status === 'guest' && <SignInSheet failed={account.state.failed} onSignIn={account.signIn} onClose={() => setSignIn(false)} />}
-      {account.state.status === 'needs-name' && <NameSheet error={account.state.error} needsAge={account.state.needsAge} onSubmit={account.chooseName} onCancel={() => void account.signOut()} />}
+      {signIn && account.state.status === 'guest' && <SignInSheet account={account} failed={account.state.failed} onClose={() => setSignIn(false)} />}
+      {account.state.status === 'needs-name' && <NameSheet error={account.state.error} onSubmit={account.chooseName} onCancel={() => void account.signOut()} />}
+      {account.state.status === 'new-password' && <NewPasswordSheet onSubmit={account.newPassword} />}
       {toast && <div className="toast" role="status">{toast}</div>}
     </>
   );

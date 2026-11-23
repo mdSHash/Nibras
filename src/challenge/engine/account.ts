@@ -141,3 +141,23 @@ export function finishedPlays(plays: Plays | null, today: string): { date: strin
   }
   return out;
 }
+
+/** Null when `email` looks like an address, else what to fix (Arabic). The real check is the confirmation email. */
+export function checkEmail(email: string): string | null {
+  const e = email.trim();
+  if (!e) return 'اكتب إيميلك.';
+  if (e.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e)) return 'الإيميل ده شكله مش مظبوط.';
+  return null;
+}
+
+/**
+ * Null when `password` is strong enough, else what to fix (Arabic). The same rule is set in Supabase
+ * (Authentication > Sign In / Providers > Email: 8 characters, letters and digits), which enforces it.
+ */
+export function checkPassword(password: string): string | null {
+  if (password.length < 8) return 'الباسورد لازم يبقى ٨ حروف على الأقل.';
+  if (new TextEncoder().encode(password).length > 72) return 'الباسورد طويل أوي، خليه أقصر.';
+  // Supabase's "letters and digits" counts English letters and 0-9 only, so the same here.
+  if (!/[A-Za-z]/.test(password) || !/[0-9]/.test(password)) return 'الباسورد لازم يبقى فيه حروف إنجليزي وأرقام.';
+  return null;
+}

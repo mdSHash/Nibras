@@ -7,7 +7,7 @@ import type { GameData } from '../shared/gameData';
 import { dailyRound } from '../src/challenge/engine/daily';
 import { MODES } from '../src/challenge/engine/levels';
 import { emptyState, recordResult, type DailyState } from '../src/challenge/engine/progress';
-import { checkDisplayName, checkPlay, finishedPlays, foldName, mergeIntoLocal, pointsFor, streakFromDays, type AccountResult } from '../src/challenge/engine/account';
+import { checkDisplayName, checkEmail, checkPassword, checkPlay, finishedPlays, foldName, mergeIntoLocal, pointsFor, streakFromDays, type AccountResult } from '../src/challenge/engine/account';
 
 const ROOT = join(import.meta.dirname, '..');
 const { raw } = readContent(join(ROOT, 'content'));
@@ -130,5 +130,20 @@ describe('finishedPlays', () => {
     expect(finishedPlays(plays, DAY)).toEqual([{ date: DAY, level: 'easy', mode: 'who', picks: ['a', 'b'], seconds: 31 }]);
     expect(finishedPlays({ ...plays, date: '2026-11-01' }, DAY)).toEqual([]);
     expect(finishedPlays(null, DAY)).toEqual([]);
+  });
+});
+
+describe('email sign-in rules', () => {
+  it('takes plain addresses and refuses broken ones', () => {
+    expect(checkEmail(' player@example.com ')).toBeNull();
+    for (const bad of ['', 'player', 'a@b', 'a b@c.com', `${'a'.repeat(250)}@b.com`]) expect(checkEmail(bad)).not.toBeNull();
+  });
+  it('wants 8 characters with English letters and digits, as Supabase is set', () => {
+    expect(checkPassword('nibras2026')).toBeNull();
+    expect(checkPassword('abc123')).toMatch(/٨/);
+    expect(checkPassword('abcdefgh')).toMatch(/أرقام/);
+    expect(checkPassword('12345678')).toMatch(/حروف/);
+    expect(checkPassword('نبراس١٢٣٤٥')).toMatch(/إنجليزي/);
+    expect(checkPassword('a1'.repeat(40))).toMatch(/طويل/);
   });
 });

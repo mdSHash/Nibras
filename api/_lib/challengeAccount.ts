@@ -85,14 +85,13 @@ export class ChallengeAccounts {
   }
 
   /**
-   * First sign-in (with a name and the age confirmation) and every sign-in after, on any device:
+   * First sign-in (with a name) and every sign-in after, on any device:
    * carries this browser's anonymous rows over (streak days only, never points), then re-plays
    * the browser's finished rounds of today and yesterday and saves those as checked.
    */
   private async join(id: string, body: Record<string, unknown>): Promise<Reply> {
     let player = await this.db.player(id);
     if (!player) {
-      if (body.ageConfirmed !== true) return fail(400, 'age', 'لازم تأكد إن سنك ١٣ سنة أو أكتر.');
       const name = typeof body.name === 'string' ? tidyName(body.name) : '';
       const problem = checkDisplayName(name);
       if (problem) return fail(400, 'name', problem);

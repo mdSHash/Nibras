@@ -9,11 +9,11 @@ export const cairoToday = (): string => new Intl.DateTimeFormat('en-CA', { timeZ
 export const daysAgo = (n: number): string => new Date(Date.parse(`${cairoToday()}T00:00:00Z`) - n * 86_400_000).toISOString().slice(0, 10);
 export const won = (date: string, mode = 'who') => ({ puzzle_date: date, level: 'easy', mode, question_id: 'q', won: true, attempts: 1, seconds: 20, checked: true });
 
-export interface Mock { api: Record<string, unknown>[]; tokenBodies: unknown[]; board: Record<string, unknown>[]; name: string | null; history: Record<string, unknown>[] }
+export interface Mock { api: Record<string, unknown>[]; tokenBodies: unknown[]; emailCalls: { path: string; query: string; body: Record<string, unknown> }[]; board: Record<string, unknown>[]; name: string | null; history: Record<string, unknown>[] }
 
 /** A Supabase and challenge API that sign a player in and keep their name; `history` is the account's earlier days. */
 export async function mockAccounts(page: Page, history: Record<string, unknown>[] = []): Promise<Mock> {
-  const m: Mock = { api: [], tokenBodies: [], board: [], name: null, history };
+  const m: Mock = { api: [], tokenBodies: [], emailCalls: [], board: [], name: null, history };
   await page.route(`${SUPABASE_URL}/**`, async (route: Route) => {
     const req = route.request();
     const url = new URL(req.url());
@@ -24,6 +24,17 @@ export async function mockAccounts(page: Page, history: Record<string, unknown>[
       // "Google" sends the player straight back (a page, not a 302: WebKit can't fulfill redirects).
       const back = `${url.searchParams.get('redirect_to')}?code=test-code`;
       return route.fulfill({ status: 200, contentType: 'text/html', body: `<!doctype html><script>location.replace(${JSON.stringify(back)})</script>` });
+    }
+    // Email: sign-up and reset only "send" a link; a password sign-in works for nibras2026 only.
+    if (['/__supabase/auth/v1/signup', '/__supabase/auth/v1/recover'].includes(url.pathname) || (url.pathname === '/__supabase/auth/v1/user' && req.method() === 'PUT')) {
+      m.emailCalls.push({ path: url.pathname, query: url.search, body: req.postDataJSON() as Record<string, unknown> });
+      return route.fulfill({ status: 200, headers: CORS, json: {} });
+    }
+    if (url.pathname === '/__supabase/auth/v1/token' && url.searchParams.get('grant_type') === 'password') {
+      const body = req.postDataJSON() as { password: string };
+      m.emailCalls.push({ path: 'password', query: '', body });
+      if (body.password !== 'nibras2026') return route.fulfill({ status: 400, headers: CORS, json: { error_code: 'invalid_credentials', msg: 'Invalid login credentials' } });
+      return route.fulfill({ status: 200, headers: CORS, json: { access_token: 'tok-1', refresh_token: 'ref-1', expires_in: 3600, user: { id: 'u1', email: 'player@example.com' } } });
     }
     if (url.pathname === '/__supabase/auth/v1/token') {
       m.tokenBodies.push(req.postDataJSON());

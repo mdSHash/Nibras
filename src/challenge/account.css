@@ -108,3 +108,14 @@
 
 @media (prefers-reduced-motion: reduce) { .bd-row.skel span, .skel-block { animation: none; } }
 a.icon-btn { display: inline-flex; align-items: center; text-decoration: none; }
+
+/* Email sign-in (2026-11-23) */
+.acc-field { display: grid; gap: 4px; }
+.acc-field label { font-weight: 700; }
+.acc-input { position: relative; display: flex; }
+.acc-input input { flex: 1; min-width: 0; text-align: left; }
+.acc-eye { position: absolute; inset-inline-start: 6px; top: 50%; transform: translateY(-50%); border: 0; background: none; color: var(--c-gold-deep); font: 700 .82rem var(--f-body); cursor: pointer; padding: 6px; }
+.acc-or { display: flex; align-items: center; gap: 10px; color: var(--c-soft); font-size: .85rem; }
+.acc-or::before, .acc-or::after { content: ""; flex: 1; border-top: 1px solid var(--c-line); }
+.acc-links { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; }
+.acc-form input[type='email'], .acc-form input[type='password'], .acc-form input[type='text'] { font: 500 1.05rem var(--f-body); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--c-line); background: var(--c-bg); color: var(--c-ink); }

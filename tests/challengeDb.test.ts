@@ -41,8 +41,8 @@ beforeAll(async () => {
   await db.exec(SUPABASE_STUB);
   for (const file of readdirSync(MIGRATIONS).sort()) await db.exec(readFileSync(join(MIGRATIONS, file), 'utf8'));
   await db.exec(`insert into auth.users (id, email) values ('${A}', 'a@example.com'), ('${B}', 'b@example.com'), ('${C}', 'c@example.com')`);
-  await db.exec(`insert into public.players (id, display_name, name_key, age_confirmed_at) values
-    ('${A}', 'سيف', 'سيف', now()), ('${B}', 'نور', 'نور', now()), ('${C}', 'هاني', 'هاني', now())`);
+  await db.exec(`insert into public.players (id, display_name, name_key) values
+    ('${A}', 'سيف', 'سيف'), ('${B}', 'نور', 'نور'), ('${C}', 'هاني', 'هاني')`);
   const d = await today();
   // A: won today in two modes (3 + 2 points) and the two days before; B: one win today from the
   // first try (3) but slower, and an unchecked carried-over win; C: lost today.
@@ -81,7 +81,7 @@ describe('row-level security', () => {
 
   it('deleting the auth user deletes the profile and every result', async () => {
     await db.exec(`insert into auth.users (id) values ('00000000-0000-4000-8000-0000000000dd')`);
-    await db.exec(`insert into public.players (id, display_name, name_key, age_confirmed_at) values ('00000000-0000-4000-8000-0000000000dd', 'مؤقت', 'مؤقت', now())`);
+    await db.exec(`insert into public.players (id, display_name, name_key) values ('00000000-0000-4000-8000-0000000000dd', 'مؤقت', 'مؤقت')`);
     await db.exec(`insert into public.player_results (user_id, puzzle_date, level, mode, question_id, won, attempts, seconds, checked) values ('00000000-0000-4000-8000-0000000000dd', now()::date, 'mid', 'who', 'q', true, 1, 9, true)`);
     await db.exec(`delete from auth.users where id = '00000000-0000-4000-8000-0000000000dd'`);
     const left = await db.query<{ n: number }>(`select (select count(*) from public.players where id = '00000000-0000-4000-8000-0000000000dd') + (select count(*) from public.player_results where user_id = '00000000-0000-4000-8000-0000000000dd') as n`);
@@ -90,7 +90,7 @@ describe('row-level security', () => {
 
   it('two players cannot share a name', async () => {
     await db.exec(`insert into auth.users (id) values ('00000000-0000-4000-8000-0000000000ee')`);
-    await expect(db.exec(`insert into public.players (id, display_name, name_key, age_confirmed_at) values ('00000000-0000-4000-8000-0000000000ee', 'سيف', 'سيف', now())`)).rejects.toThrow(/unique/);
+    await expect(db.exec(`insert into public.players (id, display_name, name_key) values ('00000000-0000-4000-8000-0000000000ee', 'سيف', 'سيف')`)).rejects.toThrow(/unique/);
   });
 });
 

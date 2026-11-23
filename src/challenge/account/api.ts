@@ -28,7 +28,7 @@ async function post<T>(token: string, body: Record<string, unknown>): Promise<T>
   return json as T;
 }
 
-export const join = (token: string, body: { deviceId?: string; plays?: unknown[]; name?: string; ageConfirmed?: boolean }): Promise<Summary> => post(token, { action: 'join', ...body });
+export const join = (token: string, body: { deviceId?: string; plays?: unknown[]; name?: string }): Promise<Summary> => post(token, { action: 'join', ...body });
 export const sendResult = (token: string, r: { date: string; level: Level; mode: Mode; picks: string[]; seconds: number }): Promise<{ saved: boolean }> => post(token, { action: 'result', ...r });
 export const rename = (token: string, name: string): Promise<{ player: { name: string } }> => post(token, { action: 'name', name });
 export const deleteAccount = (token: string, deviceId: string): Promise<{ ok: true }> => post(token, { action: 'delete', deviceId });

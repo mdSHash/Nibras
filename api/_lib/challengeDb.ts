@@ -55,7 +55,7 @@ export class SupabaseChallengeDb implements ChallengeDb {
   }
 
   async addPlayer(id: string, name: string, key: string): Promise<'ok' | 'taken'> {
-    const res = await this.call('/rest/v1/players', { method: 'POST', prefer: 'return=minimal', body: { id, display_name: name, name_key: key, age_confirmed_at: new Date().toISOString() } });
+    const res = await this.call('/rest/v1/players', { method: 'POST', prefer: 'return=minimal', body: { id, display_name: name, name_key: key } });
     if (res.status === 409) return 'taken';
     if (!res.ok) throw new Error(`supabase ${res.status}`);
     return 'ok';

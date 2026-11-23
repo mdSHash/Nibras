@@ -9,22 +9,30 @@ import { deviceId } from '../stats';
 import { finishedPlays, type AccountResult, type Plays } from '../engine/account';
 import type { Level, Mode } from '../engine/levels';
 import { AccountError, deleteAccount, join, rename as renameCall, sendResult, type Summary } from './api';
-import { ageConfirmed, confirmAge, finishSignIn, forgetSession, freshSession, signOut as endSession, startSignIn } from './auth';
+import { AuthError, finishSignIn, forgetSession, freshSession, requestPasswordReset, setNewPassword, signInWithEmail, signOut as endSession, signUpWithEmail, startSignIn } from './auth';
 import { accountsEnabled } from './config';
 
 export type AccountState =
   | { status: 'off' }
-  | { status: 'guest'; failed?: boolean }
+  /** `failed`: why the last link back did not sign in, if it did not. */
+  | { status: 'guest'; failed?: 'expired' | 'other_device' | 'refused' }
   | { status: 'loading' }
-  | { status: 'needs-name'; error?: string; needsAge: boolean }
+  | { status: 'needs-name'; error?: string }
+  /** Back from a password-reset link: signed in, the new password still to choose. */
+  | { status: 'new-password' }
   | { status: 'ready'; name: string; results: AccountResult[] }
   | { status: 'error'; message: string };
 
 export interface Account {
   state: AccountState;
-  /** After the 13+ confirmation: leaves for Google. */
+  /** Leaves for Google. */
   signIn: () => Promise<void>;
-  chooseName: (name: string, age: boolean) => Promise<void>;
+  /** Email and password: null when done, else what went wrong (Arabic). Sign-up and reset only send an email. */
+  emailSignIn: (email: string, password: string) => Promise<string | null>;
+  emailSignUp: (email: string, password: string) => Promise<string | null>;
+  sendReset: (email: string) => Promise<string | null>;
+  newPassword: (password: string) => Promise<string | null>;
+  chooseName: (name: string) => Promise<void>;
   /** Null when renamed, else what went wrong (Arabic). */
   rename: (name: string) => Promise<string | null>;
   signOut: () => Promise<void>;
@@ -46,21 +54,21 @@ export function useAccount(today: string, getPlays: () => Plays | null, onResult
     onResultsRef.current(s.results);
   }, []);
 
-  const sync = useCallback(async (extra: { name?: string; ageConfirmed?: boolean } = {}) => {
+  const sync = useCallback(async (extra: { name?: string } = {}) => {
     const session = await freshSession();
     if (!session) {
       setState({ status: 'guest' });
       return;
     }
     try {
-      ready(await join(session.access_token, { deviceId: deviceId(), plays: finishedPlays(getPlays(), today), ...(ageConfirmed() ? { ageConfirmed: true } : {}), ...extra }));
+      ready(await join(session.access_token, { deviceId: deviceId(), plays: finishedPlays(getPlays(), today), ...extra }));
     } catch (err) {
       const e = err instanceof AccountError ? err : new AccountError('error', 'حصلت مشكلة. جرب تاني.', 0);
       if (e.status === 401) {
         forgetSession();
-        setState({ status: 'guest', failed: true });
-      } else if (e.code === 'age' || e.code === 'name' || e.code === 'name_taken') {
-        setState({ status: 'needs-name', needsAge: !ageConfirmed(), ...(extra.name ? { error: e.messageAr } : {}) });
+        setState({ status: 'guest', failed: 'refused' });
+      } else if (e.code === 'name' || e.code === 'name_taken') {
+        setState({ status: 'needs-name', ...(extra.name ? { error: e.messageAr } : {}) });
       } else {
         setState({ status: 'error', message: e.messageAr });
       }
@@ -72,7 +80,8 @@ export function useAccount(today: string, getPlays: () => Plays | null, onResult
     let live = true;
     void finishSignIn().then((r) => {
       if (!live) return;
-      if (r === 'failed') setState({ status: 'guest', failed: true });
+      if (r.result === 'failed') setState({ status: 'guest', failed: r.reason });
+      else if (r.result === 'done' && r.reset) setState({ status: 'new-password' });
       else void sync();
     });
     return () => {
@@ -86,14 +95,30 @@ export function useAccount(today: string, getPlays: () => Plays | null, onResult
 
   return {
     state,
-    signIn: async () => {
-      confirmAge();
-      await startSignIn();
+    signIn: startSignIn,
+    emailSignIn: async (email, password) => {
+      try {
+        await signInWithEmail(email, password);
+      } catch (err) {
+        return err instanceof AuthError ? err.messageAr : 'حصلت مشكلة. جرب تاني.';
+      }
+      setState({ status: 'loading' });
+      await sync();
+      return null;
     },
-    chooseName: async (name, age) => {
-      if (age) confirmAge();
+    emailSignUp: (email, password) => quiet(() => signUpWithEmail(email, password)),
+    sendReset: (email) => quiet(() => requestPasswordReset(email)),
+    newPassword: async (password) => {
+      const failed = await quiet(() => setNewPassword(password));
+      if (!failed) {
+        setState({ status: 'loading' });
+        await sync();
+      }
+      return failed;
+    },
+    chooseName: async (name) => {
       setState((s) => (s.status === 'needs-name' ? { ...s, error: undefined } : s));
-      await sync({ name, ageConfirmed: age || ageConfirmed() });
+      await sync({ name });
     },
     rename: async (name) => {
       const t = await token();
@@ -135,4 +160,14 @@ export function useAccount(today: string, getPlays: () => Plays | null, onResult
     },
     token,
   };
+}
+
+/** Runs an email step; null when it went through, else its Arabic message. */
+async function quiet(step: () => Promise<void>): Promise<string | null> {
+  try {
+    await step();
+    return null;
+  } catch (err) {
+    return err instanceof AuthError ? err.messageAr : 'حصلت مشكلة. جرب تاني.';
+  }
 }

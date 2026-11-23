@@ -52,21 +52,21 @@ beforeEach(() => {
 });
 const round = (mode: Mode, level: Level = 'easy', date = TODAY) => dailyRound(data, mode, level, date);
 const wrong = (mode: Mode, level: Level = 'easy') => round(mode, level).options.find((o) => o.id !== round(mode, level).answerId)!.id;
-const join_ = (extra: Record<string, unknown> = {}, token = 'tok-a') => api.handle(token, { action: 'join', name: 'سيف', ageConfirmed: true, ...extra });
+const join_ = (extra: Record<string, unknown> = {}, token = 'tok-a') => api.handle(token, { action: 'join', name: 'سيف', ...extra });
 
 describe('sign-in', () => {
   it('refuses a missing or unknown token', async () => {
     expect((await api.handle(null, { action: 'join' })).status).toBe(401);
     expect((await api.handle('forged', { action: 'join' })).status).toBe(401);
   });
-  it('the first sign-in needs the age confirmation and a good, free name', async () => {
-    expect((await join_({ ageConfirmed: false })).json.error).toBe('age');
+  it('the first sign-in needs a good, free name (any age, Mostafa 2026-11-23)', async () => {
+    expect((await join_({ name: undefined })).json.error).toBe('name');
     expect((await join_({ name: 'x' })).json.error).toBe('name');
     expect((await join_()).status).toBe(200);
     // Another player, the same name with other diacritics and spaces: taken.
     expect((await join_({ name: ' سَيف ' }, 'tok-b')).json.error).toBe('name_taken');
   });
-  it('later sign-ins need neither', async () => {
+  it('later sign-ins need no name', async () => {
     await join_();
     expect((await api.handle('tok-a', { action: 'join' })).json.player).toEqual({ name: 'سيف' });
   });

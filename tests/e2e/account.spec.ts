@@ -14,7 +14,7 @@ test.describe('challenge accounts', () => {
   // The first join of a new player has no name yet and is refused with 400 on purpose (the name sheet opens).
   test.use({ viewport: { width: 390, height: 844 }, allowedConsoleErrors: [/status of 400/] });
 
-  test('the result offers sign-in under the 5G end; 13+ first, then Google, a name, and the guest is merged @phone', async ({ page }) => {
+  test('the result offers sign-in under the 5G end; Google, then a name, and the guest is merged @phone', async ({ page }) => {
     const m = await mockAccounts(page, [won(daysAgo(2)), won(daysAgo(1))]);
     await playOneRound(page);
     const won_ = await page.locator('.win.lost').count() === 0;
@@ -24,12 +24,9 @@ test.describe('challenge accounts', () => {
     expect(order).toEqual(['sh-btn', 'deck', 'countdown', 'save-offer']);
     await expect(page.locator('.dock')).toHaveCSS('position', 'fixed');
 
-    await page.locator('.save-offer').getByRole('button', { name: 'ادخل بحساب جوجل' }).click();
+    await page.locator('.save-offer').getByRole('button', { name: 'سجّل دخول' }).click();
     const sheet = page.getByRole('dialog', { name: 'احفظ إنجازاتك' });
-    const google = sheet.getByRole('button', { name: 'ادخل بحساب جوجل' });
-    await expect(google).toBeDisabled();
-    await sheet.getByLabel('عندي ١٣ سنة أو أكتر').check();
-    await google.click();
+    await sheet.getByRole('button', { name: 'ادخل بحساب جوجل' }).click();
 
     // Back from "Google": the code is exchanged with its verifier and removed from the address.
     const names = page.getByRole('dialog', { name: 'اختار اسمك في اللوحة' });
@@ -46,7 +43,8 @@ test.describe('challenge accounts', () => {
 
     // The join carried this browser's id, today's round with its picks, and the age confirmation.
     const join = m.api.filter((c) => c.action === 'join').at(-1)!;
-    expect(join).toMatchObject({ name: 'سيف الدين', ageConfirmed: true, deviceId: expect.stringMatching(/^[0-9a-f-]{36}$/), auth: 'Bearer tok-1' });
+    expect(join).not.toHaveProperty('ageConfirmed');
+    expect(join).toMatchObject({ name: 'سيف الدين', deviceId: expect.stringMatching(/^[0-9a-f-]{36}$/), auth: 'Bearer tok-1' });
     expect(join.plays).toEqual([expect.objectContaining({ date: cairoToday(), level: 'easy', mode: 'who', picks: expect.any(Array) })]);
     // The account's two earlier days and today's win make one streak in the header.
     if (won_) await expect(page.locator('.hdr-sub')).toContainText('٣ أيام ورا بعض');
@@ -57,6 +55,72 @@ test.describe('challenge accounts', () => {
     while (!(await page.locator('.win').isVisible())) await page.locator('.cards .opt:not([disabled])').first().click();
     await expect.poll(() => m.api.filter((c) => c.action === 'result').length).toBe(1);
     expect(m.api.find((c) => c.action === 'result')).toMatchObject({ mode: 'battle', level: 'easy', date: cairoToday(), picks: expect.any(Array) });
+  });
+
+  test('email: a new account only sends a link; a wrong password says so; the right one signs in; a forgotten password sends a reset link @phone', async ({ page }) => {
+    const m = await mockAccounts(page);
+    await playOneRound(page);
+    await page.locator('.save-offer').getByRole('button', { name: 'سجّل دخول' }).click();
+    const sheet = page.getByRole('dialog');
+
+    // A new account: the rules show inline, then the "check your email" screen (same words whether or not the email exists).
+    await sheet.getByRole('button', { name: 'معندكش حساب؟ اعمل واحد' }).click();
+    await sheet.getByLabel('الإيميل').fill('player@example.com');
+    await sheet.getByLabel('الباسورد', { exact: true }).fill('short1');
+    await sheet.getByRole('button', { name: 'اعمل الحساب' }).click();
+    await expect(sheet.getByRole('alert').first()).toContainText('٨ حروف');
+    await sheet.getByLabel('الباسورد', { exact: true }).fill('nibras2026');
+    await sheet.getByRole('button', { name: 'اعمل الحساب' }).click();
+    await expect(sheet.getByRole('heading', { name: 'فاضل تأكيد الإيميل' })).toBeVisible();
+    const signup = m.emailCalls.find((c) => c.path.endsWith('/signup'))!;
+    expect(signup.body).toMatchObject({ email: 'player@example.com', code_challenge_method: 's256', code_challenge: expect.stringMatching(/^[\w-]{43}$/) });
+    expect(decodeURIComponent(signup.query)).toContain('redirect_to=http://localhost:4173/Nibras/challenge/');
+
+    // Sign in: a wrong password, then the right one, then the name sheet.
+    await sheet.getByRole('button', { name: 'رجوع لتسجيل الدخول' }).click();
+    await sheet.getByLabel('الإيميل').fill('player@example.com');
+    await sheet.getByLabel('الباسورد', { exact: true }).fill('wrongpass1');
+    await sheet.getByRole('button', { name: 'ادخل', exact: true }).click();
+    await expect(sheet.getByText('الإيميل أو الباسورد غلط.')).toBeVisible();
+    // Typing keeps the cursor where it is (the sheet must not refocus the first field on a re-render).
+    await sheet.getByLabel('الباسورد', { exact: true }).click();
+    await page.keyboard.type('x');
+    await expect(sheet.getByLabel('الباسورد', { exact: true })).toBeFocused();
+    await sheet.getByLabel('الباسورد', { exact: true }).fill('nibras2026');
+    await sheet.getByRole('button', { name: 'ادخل', exact: true }).click();
+    await expect(page.getByRole('dialog', { name: 'اختار اسمك في اللوحة' })).toBeVisible();
+    await page.getByRole('button', { name: 'اخرج من غير ما أعمل حساب' }).click();
+
+    // Forgotten password: a reset link that comes back to ?reset=1.
+    await page.locator('.save-offer').getByRole('button', { name: 'سجّل دخول' }).click();
+    await page.getByRole('dialog').getByRole('button', { name: 'نسيت الباسورد؟' }).click();
+    await page.getByRole('dialog').getByLabel('الإيميل').fill('player@example.com');
+    await page.getByRole('dialog').getByRole('button', { name: 'ابعتلي رابط' }).click();
+    await expect(page.getByRole('dialog').getByRole('heading', { name: 'بعتنالك رابط' })).toBeVisible();
+    const recover = m.emailCalls.find((c) => c.path.endsWith('/recover'))!;
+    expect(decodeURIComponent(recover.query)).toContain('/Nibras/challenge/?reset=1');
+    expect(recover.body).toMatchObject({ email: 'player@example.com', code_challenge_method: 's256' });
+  });
+
+  test('a reset link signs in and asks for a new password; an expired link explains itself @phone', async ({ page }) => {
+    const m = await mockAccounts(page);
+    m.name = 'نور';
+    await page.goto('challenge/');
+    await page.getByRole('dialog').getByRole('button', { name: /لسه ببتدي/ }).click();
+    // As if the reset was asked for from this browser: the PKCE secret is here.
+    await page.evaluate(() => localStorage.setItem('nibras.challenge.pkce', 'v'.repeat(64)));
+    await page.goto('challenge/?reset=1&code=reset-code');
+    const sheet = page.getByRole('dialog', { name: 'اختار باسورد جديد' });
+    await expect(sheet).toBeVisible();
+    expect(page.url()).not.toMatch(/code=|reset=/);
+    await sheet.getByLabel('الباسورد الجديد', { exact: true }).fill('newpass2026');
+    await sheet.getByRole('button', { name: 'احفظ الباسورد' }).click();
+    await expect(sheet).toHaveCount(0);
+    expect(m.emailCalls.find((c) => c.path.endsWith('/user'))?.body).toEqual({ password: 'newpass2026' });
+
+    await page.evaluate(() => localStorage.removeItem('nibras.challenge.session'));
+    await page.goto('challenge/?error=access_denied&error_code=otp_expired');
+    await expect(page.getByRole('dialog').getByRole('alert').first()).toContainText('الرابط ده خلص');
   });
 
   test('the leaderboard: a guest sees it and an invitation; a player sees their own row pinned @phone', async ({ page }) => {
