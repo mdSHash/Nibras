@@ -238,7 +238,10 @@ Signing in to «تحدي اليوم» is optional and for players 13 or older; g
   sign-up, sign-in and reset, all over PKCE. Supabase Email provider: confirm email **on**, secure email change **on**,
   secure password change **on**, minimum 8 characters, **letters and digits** (matches `checkPassword`), magic links
   **off**, links valid 1 hour. Redirect URLs also allow `…/challenge/?reset=1`. Leaked-password check needs Pro (off).
-- **Emails need our own sender (to do):** Supabase's built-in mailer only reaches the project's team. Plan: a new Gmail
+- **Email sign-in is switched off on the live game** (`VITE_EMAIL_SIGNIN: "0"` in `.github/workflows/deploy.yml`) until
+  Gmail accepts Supabase's login. To switch it on: in Supabase SMTP Settings paste a valid **app password** of
+  `n1bras.0pp@gmail.com`, test a sign-up, then set `VITE_EMAIL_SIGNIN: "1"` and deploy. The test build always has it on.
+- **Emails need our own sender:** Supabase's built-in mailer only reaches the project's team. Plan: a new Gmail
   for Nibras with 2-step verification and an app password, then Supabase → Authentication → Emails → SMTP Settings:
   host `smtp.gmail.com`, port `465`, user = that Gmail, password = the app password (Mostafa pastes it), sender name
   «تحدي اليوم». Then paste the Arabic templates in `supabase/email-templates/` and turn on «Password changed».

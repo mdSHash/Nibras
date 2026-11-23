@@ -3746,3 +3746,11 @@ shots also gained the header icons but stay inside the 1% tolerance.
 - **Open:** the first real email test failed: Gmail answered «Username and Password not accepted», so the SMTP password
   in Supabase is not a valid app password. Waiting for Mostafa to create an app password and paste it; then re-test
   sign-up and reset end to end, and merge. Google sign-in does not depend on it.
+- **Workaround (Mostafa away, Google blocked his phone sign-in to the new Gmail):** the email option is behind
+  `VITE_EMAIL_SIGNIN` (on in the test build, `"0"` in the deploy build), so Phase 6 merges with Google sign-in only;
+  email turns on with a one-line change once the app password works. Checked: a build with it off shows Google alone.
+
+#### Verification (2026-11-23, after the follow-up)
+
+Five batches, foreground: content…bundle passed (Vitest 542/542); features 148 passed, 2 skipped; engines 66 passed,
+24 skipped; visual 24 passed (with the approved shots); Lighthouse within budget.

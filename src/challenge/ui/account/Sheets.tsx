@@ -6,6 +6,7 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { checkDisplayName, checkEmail, checkPassword } from '../../engine/account';
 import type { Account, AccountState } from '../../account/useAccount';
+import { emailSignIn } from '../../account/config';
 
 /** Google's "G", in Google's colors (tokens in account.css), as its sign-in guidelines ask. */
 export function GoogleG() {
@@ -127,9 +128,11 @@ export function SignInSheet({ account, failed, onClose }: { account: Account; fa
             <GoogleG />
             <span>{going ? 'بنفتح جوجل…' : 'ادخل بحساب جوجل'}</span>
           </button>
-          <div className="acc-or"><span>أو بالإيميل</span></div>
+          {emailSignIn && <div className="acc-or"><span>أو بالإيميل</span></div>}
         </>
       )}
+      {emailSignIn && (
+      <>
       <form className="acc-form" noValidate onSubmit={(e) => { e.preventDefault(); void submit(); }}>
         <Field id="acc-email" label="الإيميل" type="email" value={email} onChange={(v) => { setEmail(v); setError(null); }} error={emailProblem} autoComplete="email" />
         {mode !== 'forgot' && (
@@ -145,6 +148,9 @@ export function SignInSheet({ account, failed, onClose }: { account: Account; fa
         {mode === 'in' && <button type="button" className="link-btn" onClick={() => go('up')}>معندكش حساب؟ اعمل واحد</button>}
         {mode !== 'in' && <button type="button" className="link-btn" onClick={() => go('in')}>عندك حساب؟ ادخل</button>}
       </div>
+      </>
+      )}
+      {!emailSignIn && error && <p className="acc-err" role="alert">{error}</p>}
       <p className="acc-small"><a href="#privacy">إيه اللي بنحفظه وليه</a></p>
     </Sheet>
   );
