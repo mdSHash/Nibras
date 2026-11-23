@@ -3890,3 +3890,12 @@ both passed in the run before); visual 24 passed (with the approved shots); Ligh
 - After merge, the daily Narration run records the 20 tour cards (two days); then every card plays.
 - Email sign-in is still off on the live site until the Gmail app password is in Supabase (Phase 6).
 - Google Search Console still needs Brave with the Claude extension connected (SEO section).
+
+#### After Phase 7 (2026-11-23)
+
+- **Email sign-in switched on.** Mostafa created the Gmail app password (on his phone; the PC only offered a
+  passkey) and pasted it into Supabase SMTP Settings. Test: a dashboard invite to `n1bras.0pp+smtptest@gmail.com`;
+  the auth log shows `/invite` status 200 and no SMTP error. `VITE_EMAIL_SIGNIN` is now `"1"` in the deploy build.
+- **Search Console:** `sitemap.xml` re-submitted (it showed "Couldn't fetch" on its first day; the file serves 327
+  URLs). 2 pages indexed, none excluded. Indexing requested for home, «تحدي اليوم», Badr and the conquest of Mecca
+  (Google allows about 10 requests a day).

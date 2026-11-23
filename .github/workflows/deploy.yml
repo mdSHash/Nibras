@@ -150,8 +150,8 @@ jobs:
           VITE_SUPABASE_PUBLISHABLE_KEY: sb_publishable_nudzue9k-fwUV3hgcdfH9Q_4-UhYxRW
           # «تحدي اليوم» accounts (Phase 6): the function that checks signed-in rounds.
           VITE_CHALLENGE_API_URL: https://nibras-chat-api.vercel.app/api/challenge
-          # Email and password sign-in: "1" once Supabase's SMTP sends (Gmail app password, OWNER_DASHBOARD).
-          VITE_EMAIL_SIGNIN: "0"
+          # Email and password sign-in: on since Supabase's SMTP sends through Gmail (OWNER_DASHBOARD).
+          VITE_EMAIL_SIGNIN: "1"
           # Sentry crash reporting (docs/OWNER_DASHBOARD.md). The DSN is public by
           # design; the auth token (secret) uploads source maps for this release.
           VITE_SENTRY_DSN: ${{ vars.VITE_SENTRY_DSN }}
