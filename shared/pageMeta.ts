@@ -1,6 +1,7 @@
 // What each page is called and where it lives (Phase 2B): the pre-render step
 // (scripts/prerender.ts) writes it into every page's <title>, meta tags and
 // JSON-LD, and the app sets the same tab title as it navigates.
+import { stripDiacritics } from './arabic';
 import { routePath, type Route } from './routes';
 
 export const SITE = {
@@ -8,8 +9,8 @@ export const SITE = {
   origin: 'https://mdshash.github.io',
   base: '/Nibras/',
   name: 'نبراس',
-  /** The home page's tab title (unchanged from before 2B). */
-  homeTitle: 'Nibras نِبْرَاس',
+  /** The home page's tab title and search-result title (plain Arabic, what people search for; SEO 2026-11-23). */
+  homeTitle: 'نبراس | خريطة وخط زمني للسيرة النبوية والتاريخ الإسلامي',
   description:
     'خريطة تفاعلية وخط زمني لأحداث السيرة النبوية والتاريخ الإسلامي المبكر، مع سِيَر الصحابة والآيات المتصلة بكل حدث.',
   /** The share image (public/), 1200×630. */
@@ -51,7 +52,21 @@ export function routeHeading(route: Route, lookups: HeadingLookups): string | un
 }
 
 /** A page's tab title: «غزوة بدر الكبرى — نبراس», or the site title for home. */
-export const pageTitle = (heading: string | undefined): string => (heading ? `${heading} — ${SITE.name}` : SITE.homeTitle);
+/**
+ * Text for titles and search results: without tashkeel (people search without it, and Google shows
+ * it as typed). The page itself keeps the fully vocalized text; content records are untouched.
+ */
+export const searchText = (text: string): string => stripDiacritics(text).replace(/\s+/g, ' ').trim();
+
+export const pageTitle = (heading: string | undefined): string => (heading ? `${searchText(heading)} — ${SITE.name}` : SITE.homeTitle);
+
+/** A meta description: plain text, at most about 155 characters, cut at a word with «…». */
+export function metaDescription(text: string, max = 155): string {
+  const plain = searchText(text);
+  if (plain.length <= max) return plain;
+  const cut = plain.slice(0, max);
+  return `${cut.slice(0, Math.max(cut.lastIndexOf(' '), max - 20)).replace(/[،,;؛:\s]+$/, '')}…`;
+}
 
 /**
  * The first sentence of a text, copied exactly (up to and including the first

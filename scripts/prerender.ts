@@ -54,6 +54,8 @@ writeFileSync(
 );
 
 const urls = pages.filter((p) => p.inSitemap).map((p) => `  <url><loc>${esc(routeUrl(p.route))}</loc></url>`);
+// «تحدي اليوم», its own build at /challenge/ (vite.challenge.config.ts), is a page people land on too.
+urls.push(`  <url><loc>${esc(siteUrl('/challenge/'))}</loc></url>`);
 writeFileSync(
   join(DIST, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`,
