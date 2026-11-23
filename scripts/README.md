@@ -77,11 +77,18 @@ description (the event panel's play button). They are AAC `.m4a` files in
 whose text hash matches the event's current text; an edited text hides its
 play button until it is recorded again.
 
+The tours' cards (Phase 7, `content/tours/{site,game}.json`, 20 cards) are
+recorded the same way, one recording per card, under `tours` in the manifest
+(`tour-<tour>-<step>.<hash>.m4a`, `shared/tours.ts`). `check` counts them,
+`generate` records them after the events within the same `--max`, and
+`--only tour:site` (or `tour:game`) records one tour. A card without a fresh
+recording shows its text and plays nothing.
+
 | Command | Network | What it does |
 |---|---|---|
 | `npm run narration -- check` | no | Lists stale and missing narration (also in CI, `npm run verify` step "Narration manifest"). Fails only on a broken manifest. |
 | `npm run narration -- generate` | no | Dry run: lists what is stale or missing and how many characters it would record. |
-| `npm run narration -- generate --yes` | engine | Records it, converts it to AAC (48 kbps mono 24 kHz) and updates the manifest. `--max N`, `--only <event id>`. |
+| `npm run narration -- generate --yes` | engine | Records it, converts it to AAC (48 kbps mono 24 kHz) and updates the manifest. `--max N`, `--only <event id>` or `--only tour:<site|game>`. |
 | `npm run narration -- review` | local | Whisper (VoiceStudio on this machine, no quota) lists the words said differently from the text, in `audio-src/review/report.json`. `--only <event id>`. **Not used since 2026-11-07** (Mostafa: VoiceStudio is not good for Arabic); pronunciation is checked by ear. |
 | `npm run narration -- convert` | no | Used once in Phase 3D: the Gemini WAVs → `.m4a`. |
 
