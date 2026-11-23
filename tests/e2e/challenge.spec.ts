@@ -33,7 +33,7 @@ test.describe('daily challenge', () => {
   test('opens on the level sheet, then every mode at every level plays to the result @phone', async ({ page }) => {
     test.setTimeout(120_000);
     await page.goto('challenge/');
-    await expect(page.getByRole('dialog', { name: 'إنت قد إيه عارف؟' })).toBeVisible();
+    await expect(page.getByRole('dialog', { name: 'تعرف قد إيه عن السيرة؟' })).toBeVisible();
     for (const [i, level] of LEVELS.entries()) {
       if (i === 0) await page.getByRole('dialog').getByRole('button', { name: new RegExp(level) }).click();
       else {
@@ -74,7 +74,7 @@ test.describe('daily challenge', () => {
         }
         if (i < 2) {
           await expect(page.locator('.win'), `${mode}: still playing after ${i + 1} wrong`).toHaveCount(0);
-          await expect(page.locator('.tries')).toContainText(i === 0 ? 'فاضل لك ٢ محاولات' : 'دي آخر محاولة!');
+          await expect(page.locator('.tries')).toContainText(i === 0 ? 'فاضلّك محاولتين' : 'دي آخر محاولة!');
         }
       }
       await expect(page.locator('.win.lost')).toBeVisible();
@@ -115,7 +115,7 @@ test.describe('daily challenge', () => {
     await page.getByRole('dialog').getByRole('button', { name: /لسه ببتدي/ }).click();
     await playToResult(page);
     await page.getByRole('button', { name: /^سؤال تدريب/ }).click();
-    await expect(page.locator('.banner')).toContainText('مش بتتحسب');
+    await expect(page.locator('.banner')).toContainText('مش هيتحسب');
     await playToResult(page);
     await expect(page.getByRole('button', { name: /^سؤال تدريب تاني/ })).toBeVisible();
     await expect(page.locator('.dock').getByRole('button', { name: 'سؤال تاني' })).toBeVisible();

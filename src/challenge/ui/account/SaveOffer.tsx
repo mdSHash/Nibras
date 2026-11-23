@@ -11,7 +11,7 @@ export function SaveOffer({ state, streak, onSignIn }: { state: AccountState; st
   if (state.status === 'ready') {
     return (
       <p className="save-done">
-        اتحفظت في حسابك يا {state.name}. <a href="#board">شوف ترتيبك في اللوحة</a>
+        اتحفظت في حسابك يا {state.name}. <a href="#board">شوف ترتيبك</a>
       </p>
     );
   }
@@ -20,7 +20,7 @@ export function SaveOffer({ state, streak, onSignIn }: { state: AccountState; st
     <section className="save-offer" aria-labelledby="save-h">
       <h2 id="save-h">احفظ إنجازاتك</h2>
       <p>
-        {streak > 0 ? `أيامك ورا بعض (${toArabicIndic(streak)}) محفوظة على الجهاز ده بس.` : 'نتيجتك محفوظة على الجهاز ده بس.'} {emailSignIn ? 'سجّل بجوجل أو بإيميلك تحفظها،' : 'سجّل بجوجل تحفظها،'} وتدخل لوحة الصدارة باسم تختاره.
+        {streak > 0 ? `سلسلة أيامك (${toArabicIndic(streak)}) متسجلة على الجهاز ده بس.` : 'نتيجتك متسجلة على الجهاز ده بس.'} {emailSignIn ? 'سجّل دخول بجوجل أو بالإيميل عشان تتحفظ،' : 'سجّل دخول بجوجل عشان تتحفظ،'} واسمك يدخل الترتيب.
       </p>
       <button type="button" className="btn" onClick={onSignIn}>سجّل دخول</button>
     </section>

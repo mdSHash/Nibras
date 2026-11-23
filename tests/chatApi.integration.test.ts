@@ -270,7 +270,7 @@ describe('HTTP handler', () => {
       const { res, api } = mockRes();
       await handler({ method: 'POST', body: { message: ALI_AT_BADR }, headers: { origin: 'https://mdshash.github.io', 'x-real-ip': '1.2.3.4' } } as unknown as VercelRequest, api);
       expect(res.statusCode).toBe(429);
-      expect(res.body).toEqual({ error: 'too_many_requests', messageAr: 'لقد أرسلت أسئلة كثيرة في وقت قصير. حاول مرة أخرى بعد قليل.' });
+      expect(res.body).toEqual({ error: 'too_many_requests', messageAr: 'بعت أسئلة كتير ورا بعض، استنى شوية وجرّب تاني.' });
       expect(Number(res.headers['Retry-After'])).toBeGreaterThan(0);
       expect(res.headers['Access-Control-Allow-Origin']).toBe('https://mdshash.github.io');
       expect(llmCalls).toEqual([]);

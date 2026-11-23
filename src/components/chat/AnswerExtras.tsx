@@ -4,12 +4,12 @@ import type { ChatMessage } from '../../hooks/useChat';
 import { cn } from '../../utils/cn';
 import { stripVowelMarks } from '../../../shared/arabic';
 
-/** "متابعةً للحديث عن: …" — tells the reader which earlier topic the answer assumed. */
+/** "كمّلنا كلامنا عن: …" — tells the reader which earlier topic the answer assumed. */
 export function CarriedTopic({ titles }: { titles: string[] }) {
   if (titles.length === 0) return null;
   return (
     <p className="text-[length:var(--chat-tiny)] text-[var(--color-ink)]/70">
-      متابعةً للحديث عن: {titles.map(stripVowelMarks).join('، ')}
+      كمّلنا كلامنا عن: {titles.map(stripVowelMarks).join('، ')}
     </p>
   );
 }
@@ -18,7 +18,7 @@ export function CarriedTopic({ titles }: { titles: string[] }) {
 export function FollowUpChips({ questions, disabled, onAsk }: { questions: string[]; disabled: boolean; onAsk: (q: string) => void }) {
   if (questions.length === 0) return null;
   return (
-    <div className="flex flex-col items-start gap-1.5" role="group" aria-label="أسئلة مقترحة للمتابعة">
+    <div className="flex flex-col items-start gap-1.5" role="group" aria-label="أسئلة ممكن تسألها بعدها">
       {questions.map(q => (
         <button
           key={q}
@@ -54,7 +54,7 @@ export function FeedbackBar({ message, onRate }: FeedbackBarProps) {
   const rating = message.feedback?.rating;
 
   if (state === 'sent' && !noteOpen) {
-    return <p className="text-[length:var(--chat-tiny)] text-[var(--color-ink)]/70" role="status">شكراً لتقييمك</p>;
+    return <p className="text-[length:var(--chat-tiny)] text-[var(--color-ink)]/70" role="status">شكرًا على رأيك</p>;
   }
 
   const button = (value: 'up' | 'down', label: string, Icon: typeof ThumbsUp) => (
@@ -81,9 +81,9 @@ export function FeedbackBar({ message, onRate }: FeedbackBarProps) {
   return (
     <div className="flex flex-col gap-1.5 w-full">
       <div className="flex items-center gap-1">
-        {button('up', 'إجابة مفيدة', ThumbsUp)}
-        {button('down', 'إجابة غير صحيحة أو غير مفيدة', ThumbsDown)}
-        {state === 'error' && <span className="text-[length:var(--chat-tiny)] text-[var(--color-battle-red)]" role="alert">تعذر إرسال التقييم</span>}
+        {button('up', 'الإجابة مفيدة', ThumbsUp)}
+        {button('down', 'الإجابة غلط أو مش مفيدة', ThumbsDown)}
+        {state === 'error' && <span className="text-[length:var(--chat-tiny)] text-[var(--color-battle-red)]" role="alert">رأيك ماتبعتش، جرّب تاني</span>}
       </div>
       {noteOpen && (
         <form
@@ -95,7 +95,7 @@ export function FeedbackBar({ message, onRate }: FeedbackBarProps) {
           }}
         >
           <label htmlFor={`note-${message.id}`} className="text-[length:var(--chat-tiny)] text-[var(--color-ink)]/75">
-            ما الخطأ في الإجابة؟ (اختياري)
+            إيه الغلط في الإجابة؟ (لو حابب)
           </label>
           <textarea
             id={`note-${message.id}`}
@@ -112,7 +112,7 @@ export function FeedbackBar({ message, onRate }: FeedbackBarProps) {
           />
           <div className="flex gap-2">
             <button type="submit" className="text-[length:var(--chat-small)] px-3 py-1 pointer-coarse:min-h-10 pointer-coarse:px-4 rounded-full bg-[var(--color-accent)] text-parchment">
-              إرسال
+              ابعت
             </button>
             <button type="button" onClick={() => setNoteOpen(false)} className="text-[length:var(--chat-small)] px-3 py-1 pointer-coarse:min-h-10 pointer-coarse:px-4 rounded-full text-[var(--color-ink)]/75 hover:bg-[var(--color-ink)]/10">
               إلغاء

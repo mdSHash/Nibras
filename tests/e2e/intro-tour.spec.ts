@@ -29,24 +29,24 @@ test.describe('first visit @phone', () => {
   // Was known failure 9 in the Phase 0A baseline (fixed in Phase 2C).
   test('the intro can be skipped with a tap', async ({ page }) => {
     await page.goto('./');
-    await expect(page.getByRole('button', { name: 'تخطي المقدمة' })).toBeAttached(); // the intro is up
+    await expect(page.getByRole('button', { name: 'عدّي المقدمة' })).toBeAttached(); // the intro is up
     await page.mouse.click(200, 200);
     // The intro goes at once (it would play for 4.2 s), then the app appears.
-    await expect(page.getByRole('button', { name: 'تخطي المقدمة' })).toHaveCount(0, { timeout: 2_000 });
+    await expect(page.getByRole('button', { name: 'عدّي المقدمة' })).toHaveCount(0, { timeout: 2_000 });
     await expect(header.chat(page)).toBeVisible();
   });
 
   test('a key skips the intro, and it does not play on the next visit', async ({ page }) => {
     await page.goto('./');
-    await expect(page.getByRole('button', { name: 'تخطي المقدمة' })).toBeAttached(); // the intro is up
+    await expect(page.getByRole('button', { name: 'عدّي المقدمة' })).toBeAttached(); // the intro is up
     await page.keyboard.press('Enter');
-    await expect(page.getByRole('button', { name: 'تخطي المقدمة' })).toHaveCount(0, { timeout: 2_000 });
+    await expect(page.getByRole('button', { name: 'عدّي المقدمة' })).toHaveCount(0, { timeout: 2_000 });
     await expect(header.chat(page)).toBeVisible();
     expect(await page.evaluate((key) => localStorage.getItem(key), STORAGE.introSeen)).toBe('true');
     // Record whether the intro shows at all on the next visit (timing would depend on the machine).
     await page.addInitScript(() => {
       new MutationObserver(() => {
-        if ([...document.querySelectorAll('button')].some((b) => b.textContent?.trim() === 'تخطي المقدمة')) {
+        if ([...document.querySelectorAll('button')].some((b) => b.textContent?.trim() === 'عدّي المقدمة')) {
           (window as Window & { __nibrasIntroShown?: boolean }).__nibrasIntroShown = true;
         }
       }).observe(document, { childList: true, subtree: true });
@@ -59,7 +59,7 @@ test.describe('first visit @phone', () => {
   test('starting the tour opens its first step', async ({ page }) => {
     await openApp(page);
     const prompt = page.getByRole('dialog', { name: /مرحباً بك في نبراس/ });
-    await clickAnimated(prompt.getByRole('button', { name: 'ابدأ الجولة' }));
+    await clickAnimated(prompt.getByRole('button', { name: 'الجولة' }));
     await expect(prompt).toBeHidden();
     await expect(page.getByRole('button', { name: 'إغلاق الجولة' })).toBeVisible();
     await page.getByRole('button', { name: 'إغلاق الجولة' }).click();

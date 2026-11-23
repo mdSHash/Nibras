@@ -63,7 +63,7 @@ export function useAccount(today: string, getPlays: () => Plays | null, onResult
     try {
       ready(await join(session.access_token, { deviceId: deviceId(), plays: finishedPlays(getPlays(), today), ...extra }));
     } catch (err) {
-      const e = err instanceof AccountError ? err : new AccountError('error', 'حصلت مشكلة. جرب تاني.', 0);
+      const e = err instanceof AccountError ? err : new AccountError('error', 'حصلت مشكلة. جرّب تاني.', 0);
       if (e.status === 401) {
         forgetSession();
         setState({ status: 'guest', failed: 'refused' });
@@ -100,7 +100,7 @@ export function useAccount(today: string, getPlays: () => Plays | null, onResult
       try {
         await signInWithEmail(email, password);
       } catch (err) {
-        return err instanceof AuthError ? err.messageAr : 'حصلت مشكلة. جرب تاني.';
+        return err instanceof AuthError ? err.messageAr : 'حصلت مشكلة. جرّب تاني.';
       }
       setState({ status: 'loading' });
       await sync();
@@ -122,13 +122,13 @@ export function useAccount(today: string, getPlays: () => Plays | null, onResult
     },
     rename: async (name) => {
       const t = await token();
-      if (!t) return 'انتهت جلستك. سجّل دخول تاني.';
+      if (!t) return 'خرجت من حسابك. سجّل دخول تاني.';
       try {
         const r = await renameCall(t, name);
         setState((s) => (s.status === 'ready' ? { ...s, name: r.player.name } : s));
         return null;
       } catch (err) {
-        return err instanceof AccountError ? err.messageAr : 'حصلت مشكلة. جرب تاني.';
+        return err instanceof AccountError ? err.messageAr : 'حصلت مشكلة. جرّب تاني.';
       }
     },
     signOut: async () => {
@@ -137,14 +137,14 @@ export function useAccount(today: string, getPlays: () => Plays | null, onResult
     },
     remove: async () => {
       const t = await token();
-      if (!t) return 'انتهت جلستك. سجّل دخول تاني وبعدين احذف الحساب.';
+      if (!t) return 'خرجت من حسابك. سجّل دخول تاني وبعدين احذف الحساب.';
       try {
         await deleteAccount(t, deviceId());
         forgetSession();
         setState({ status: 'guest' });
         return null;
       } catch (err) {
-        return err instanceof AccountError ? err.messageAr : 'حصلت مشكلة. جرب تاني.';
+        return err instanceof AccountError ? err.messageAr : 'حصلت مشكلة. جرّب تاني.';
       }
     },
     report: (r) => {
@@ -168,6 +168,6 @@ async function quiet(step: () => Promise<void>): Promise<string | null> {
     await step();
     return null;
   } catch (err) {
-    return err instanceof AuthError ? err.messageAr : 'حصلت مشكلة. جرب تاني.';
+    return err instanceof AuthError ? err.messageAr : 'حصلت مشكلة. جرّب تاني.';
   }
 }

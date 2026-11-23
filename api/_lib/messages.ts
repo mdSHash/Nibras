@@ -1,16 +1,16 @@
 /** Fixed Arabic messages shown by the chat assistant. */
 
 export const NOT_COVERED_MESSAGE =
-  'عذراً، لا تتوفر لديّ معلومات عن هذا السؤال في محتوى تطبيق نبراس. جرّب صياغة السؤال بطريقة أخرى، أو تصفّح الأحداث والصحابة والمعارك مباشرة في التطبيق.';
+  'معلش، مش لاقي إجابة للسؤال ده في محتوى نبراس. جرّب تسأله بطريقة تانية، أو دوّر على الحدث أو الصحابي من البحث.';
 
 /** Shown when one visitor sends more questions than the per-IP limit allows (rateLimit.ts). */
-export const RATE_LIMIT_MESSAGE = 'لقد أرسلت أسئلة كثيرة في وقت قصير. حاول مرة أخرى بعد قليل.';
+export const RATE_LIMIT_MESSAGE = 'بعت أسئلة كتير ورا بعض، استنى شوية وجرّب تاني.';
 
-export const SERVICE_BUSY_MESSAGE = 'الخدمة مشغولة حالياً بسبب كثرة الطلبات، يرجى المحاولة بعد قليل.';
+export const SERVICE_BUSY_MESSAGE = 'نبراس عليه ضغط دلوقتي، جرّب بعد شوية.';
 
 /** Shown above verbatim passages when no composed answer could be produced. */
-export const EXTRACTIVE_INTRO = 'هذه نصوص ذات صلة بسؤالك من محتوى نبراس:';
+export const EXTRACTIVE_INTRO = 'دي أجزاء من نبراس ليها علاقة بسؤالك:';
 
-export const EMPTY_QUESTION_MESSAGE = 'الرجاء كتابة سؤال.';
-export const TOO_LONG_MESSAGE = 'السؤال طويل جداً، الرجاء اختصاره.';
+export const EMPTY_QUESTION_MESSAGE = 'اكتب سؤالك الأول.';
+export const TOO_LONG_MESSAGE = 'السؤال طويل أوي، اختصره شوية.';
 export const METHOD_NOT_ALLOWED_MESSAGE = 'الطريقة غير مسموحة.';

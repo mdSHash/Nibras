@@ -14,7 +14,7 @@ export class AccountError extends Error {
     super(code);
   }
 }
-const OFFLINE = 'مش قادرين نوصل للسيرفر. اتأكد من النت وجرب تاني.';
+const OFFLINE = 'مش قادرين نوصل للسيرفر. اتأكد من النت وجرّب تاني.';
 
 async function post<T>(token: string, body: Record<string, unknown>): Promise<T> {
   let res: Response;
@@ -45,6 +45,6 @@ export async function fetchBoard(level: Level, period: Period, token?: string): 
   } catch {
     throw new AccountError('offline', OFFLINE, 0);
   }
-  if (!res.ok) throw new AccountError('board', 'مش قادرين نجيب اللوحة دلوقتي.', res.status);
+  if (!res.ok) throw new AccountError('board', 'مش قادرين نجيب الترتيب دلوقتي.', res.status);
   return (await res.json()) as Board;
 }

@@ -57,6 +57,6 @@ test('the app replaces the static text and keeps the page title @phone', async (
 
 test('404.html loads the app, which reports the unknown page', async ({ page }) => {
   await page.goto('./404.html');
-  await expect(page.getByText('لم نجد هذه الصفحة، فعدنا بك إلى الخريطة')).toBeVisible({ timeout: 30_000 });
+  await expect(page.getByText('الصفحة دي مش موجودة، فرجّعناك للخريطة')).toBeVisible({ timeout: 30_000 });
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
 });

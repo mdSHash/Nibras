@@ -183,8 +183,8 @@ function MobileCollapsedView(props: MobileCollapsedProps) {
             whileTap={{ scale: 0.9 }}
             className={ICON_BTN}
             style={{ touchAction: 'manipulation', color: isAutoPlaying ? 'var(--sys-stop)' : 'rgb(var(--sys-go-rgb))' }}
-            title={isAutoPlaying ? 'إيقاف' : 'تشغيل'}
-            aria-label={isAutoPlaying ? 'إيقاف التشغيل التلقائي' : 'تشغيل تلقائي'}
+            title={isAutoPlaying ? 'وقّف' : 'شغّل'}
+            aria-label={isAutoPlaying ? 'وقّف' : 'شغّلها ورا بعض'}
           >
             {isAutoPlaying ? <Pause size={18} /> : <Play size={18} />}
           </motion.button>
@@ -197,7 +197,7 @@ function MobileCollapsedView(props: MobileCollapsedProps) {
           whileTap={{ scale: 0.9 }}
           className={cn(ICON_BTN, 'text-white/50')}
           style={{ touchAction: 'manipulation' }}
-          aria-label="توسيع الخط الزمني"
+          aria-label="كبّر الخط الزمني"
         >
           <ChevronUp size={18} />
         </motion.button>
@@ -285,7 +285,7 @@ function MobileExpandedView(props: MobileExpandedProps) {
           onClick={onCollapse}
           className={cn(ICON_BTN, 'bg-white/10 text-white/70 hover:bg-white/20 hover:text-white')}
           style={{ touchAction: 'manipulation' }}
-          aria-label="طي الخط الزمني"
+          aria-label="صغّر الخط الزمني"
         >
           <X size={18} />
         </button>

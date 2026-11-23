@@ -41,7 +41,7 @@ export const LEVEL_CONFIG: Record<Level, LevelConfig> = {
 export const LEVEL_NAMES: Record<Level, { name: string; desc: string }> = {
   easy: { name: 'لسه ببتدي', desc: 'أسئلة عن أشهر الأحداث والشخصيات، واختيارات بعيدة عن بعض، ودليلين من الأول.' },
   mid: { name: 'عارف شوية', desc: 'أسئلة متوسطة، واختيارات أقرب لبعض، ودليل واحد في الأول.' },
-  hard: { name: 'أستاذ فيها', desc: 'أي حاجة في نبراس، واختيارات قريبة جدًا من بعض.' },
+  hard: { name: 'أستاذ فيها', desc: 'أسئلة من كل نبراس، واختيارات قريبة جدًا من بعض.' },
 };
 
 export const MODE_NAMES: Record<Mode, { tab: string; title: string; label: string; was: string }> = {

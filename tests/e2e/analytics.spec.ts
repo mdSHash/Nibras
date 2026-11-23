@@ -17,12 +17,12 @@ async function recordCalls(page: Page): Promise<void> {
 const calls = (page: Page): Promise<Call[]> => page.evaluate(() => (window as unknown as { __umamiCalls: Call[] }).__umamiCalls);
 const named = async (page: Page, name: string): Promise<Call[]> => (await calls(page)).filter(([n]) => n === name);
 
-const chatDialog = (page: Page) => page.getByRole('dialog').filter({ has: page.getByPlaceholder('اكتب سؤالك هنا...') });
+const chatDialog = (page: Page) => page.getByRole('dialog').filter({ has: page.getByPlaceholder('اكتب سؤالك هنا…') });
 
 async function ask(page: Page, question: string): Promise<void> {
   await header.chat(page).click();
-  await chatDialog(page).getByPlaceholder('اكتب سؤالك هنا...').fill(question);
-  await chatDialog(page).getByRole('button', { name: 'إرسال' }).click();
+  await chatDialog(page).getByPlaceholder('اكتب سؤالك هنا…').fill(question);
+  await chatDialog(page).getByRole('button', { name: 'ابعت' }).click();
 }
 
 test('a test build never loads the tracker', async ({ page }) => {
@@ -59,12 +59,12 @@ test('a search that finds nothing is counted as such, once, and only when the dr
   await expect(drawer.getByText('٠ حدث').or(drawer.getByText('0 حدث'))).toBeVisible();
   expect(await named(page, 'search_used')).toEqual([]);
 
-  await drawer.getByRole('button', { name: 'إغلاق القائمة' }).click();
+  await drawer.getByRole('button', { name: 'اقفل القائمة' }).click();
   await expect.poll(() => named(page, 'search_used')).toEqual([['search_used', { results: 'none' }]]);
 
   // Opening and closing again without a new query counts nothing.
   await header.search(page).click();
-  await drawer.getByRole('button', { name: 'إغلاق القائمة' }).click();
+  await drawer.getByRole('button', { name: 'اقفل القائمة' }).click();
   await expect(drawer).toBeHidden();
   expect(await named(page, 'search_used')).toHaveLength(1);
 });
@@ -73,12 +73,12 @@ test('narration counts once per listen: pausing and resuming is the same one', a
   await recordCalls(page);
   await openAppWithEvent(page);
   await openEventBySearch(page, 'battle-khandaq', 'الخندق'); // its recording stays fresh (see event-panel.spec.ts)
-  await panel(page).getByRole('button', { name: 'تشغيل السرد' }).click();
+  await panel(page).getByRole('button', { name: 'اسمع الحدث' }).click();
   await expect.poll(() => named(page, 'narration_played')).toEqual([['narration_played', { event: 'battle-khandaq' }]]);
 
-  await panel(page).getByRole('button', { name: 'إيقاف السرد' }).click();
-  await panel(page).getByRole('button', { name: /تشغيل السرد|استئناف السرد/ }).first().click();
-  await expect(panel(page).getByRole('button', { name: 'إيقاف السرد' })).toBeVisible();
+  await panel(page).getByRole('button', { name: 'وقّف الصوت' }).click();
+  await panel(page).getByRole('button', { name: 'اسمع الحدث' }).first().click();
+  await expect(panel(page).getByRole('button', { name: 'وقّف الصوت' })).toBeVisible();
   expect(await named(page, 'narration_played')).toHaveLength(1);
 });
 
@@ -86,7 +86,7 @@ test('opening a battle with a video counts it as a video', async ({ page }) => {
   await recordCalls(page);
   await openAppWithEvent(page);
   await openEventBySearch(page, 'battle-badr', 'بدر');
-  await page.getByRole('button', { name: 'مشاهدة المعركة' }).click();
+  await page.getByRole('button', { name: 'اتفرج على المعركة' }).click();
   await expect(page).toHaveURL(/\/battle\/battle-of-badr\/$/);
   await expect.poll(() => named(page, 'battle_played')).toEqual([['battle_played', { event: 'battle-badr', kind: 'video' }]]);
 });

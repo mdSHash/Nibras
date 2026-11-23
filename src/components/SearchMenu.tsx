@@ -144,11 +144,11 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
               'shrink-0'
             )}>
               <h2 className="text-lg md:text-xl font-bold text-[var(--color-ink)]">
-                استكشاف الأحداث
+                دوّر في الأحداث
               </h2>
               <button
                 onClick={onClose}
-                aria-label="إغلاق القائمة"
+                aria-label="اقفل القائمة"
                 className={cn(
                   'min-w-[48px] min-h-[48px] w-12 h-12',
                   'flex justify-center items-center',
@@ -173,7 +173,7 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
             )}>
               <div className="flex items-center gap-2">
                 <span className="font-bold text-[var(--color-ink)] text-xs md:text-sm">
-                  إجمالي الأحداث:
+                  عدد الأحداث:
                 </span>
               </div>
               <div className={cn(
@@ -197,7 +197,7 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="ابحث عن غزوة، حدث، سنة..."
+                  placeholder="دوّر على غزوة أو حدث أو سنة…"
                   aria-label="بحث"
                   className={cn(
                     'w-full h-12',
@@ -221,7 +221,7 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
               {/* Filters UI */}
               <div data-tour-id="filters-section" className="flex flex-col gap-3">
                 <div className="flex items-center gap-2 text-sm text-[var(--color-ink)]/80 font-bold mb-1">
-                  <Filter size={18} /> تصفية الخريطة
+                  <Filter size={18} /> اختار اللي يظهر
                 </div>
                 
                 {/* Era Filter */}
@@ -267,7 +267,7 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
                         ? 'bg-[var(--color-battle-red)] text-white'
                         : 'bg-white/80 dark:bg-black/30 border border-[var(--glass-border)] text-[var(--color-ink)] active:bg-white'
                     )}
-                  >المعارك فقط</button>
+                  >المعارك بس</button>
                   <button
                     onClick={() => setFilters({ ...filters, type: 'events' })}
                     className={cn(
@@ -277,7 +277,7 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
                         ? 'bg-[var(--color-accent)] text-white'
                         : 'bg-white/80 dark:bg-black/30 border border-[var(--glass-border)] text-[var(--color-ink)] active:bg-white'
                     )}
-                  >الأحداث فقط</button>
+                  >الأحداث بس</button>
                 </div>
               </div>
             </div>
@@ -297,8 +297,8 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
                 <div className="flex items-center justify-center h-full">
                   <EmptyState
                     icon={<Search size={48} />}
-                    title="لا توجد نتائج"
-                    description={searchQuery ? 'لم نجد أحداثاً مطابقة لبحثك. جرب كلمات مختلفة.' : 'لا توجد أحداث تطابق الفلاتر المحددة.'}
+                    title="مفيش نتايج"
+                    description={searchQuery ? 'ملقيناش حاجة بالكلام ده. جرّب كلمة تانية.' : 'مفيش أحداث بالاختيارات دي.'}
                   />
                 </div>
               ) : (
@@ -335,8 +335,8 @@ export default function SearchMenu({ isOpen, onClose, events, onSelectEvent, fil
                           {evt.battleScenarioId && (
                             <span
                               className="shrink-0 inline-flex items-center justify-center w-5 h-5 rounded-full bg-[var(--color-accent)] shadow-[0_1px_3px_rgba(0,0,0,0.3)]"
-                              aria-label="معركة قابلة للمشاهدة"
-                              title="معركة قابلة للمشاهدة"
+                              aria-label="معركة ليها فيديو"
+                              title="معركة ليها فيديو"
                             >
                               <Play size={9} className="text-[var(--color-ink)] fill-current translate-x-[1px]" strokeWidth={0} />
                             </span>

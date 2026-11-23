@@ -25,7 +25,7 @@ export default function QuranRef({ quranRef, onClick }: QuranRefProps) {
         {quranRef.labelAr}
       </span>
       <span className="text-[11px] text-accent/80 group-hover:text-parchment/80 font-bold tracking-wider shrink-0 mr-4">
-        عرض الآيات ﴾
+        اعرض الآيات ﴾
       </span>
     </button>
   );

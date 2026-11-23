@@ -113,7 +113,7 @@ export function buildRound(data: GameData, q: BankQuestion, level: Level, rng: R
         answerId: a.id,
         answerLabel: a.name,
         linkLabel: a.name,
-        fact: `${bare(a.role)} · توفي سنة ${toArabicIndic(a.deathYear)} هـ`,
+        fact: `${bare(a.role)} · اتوفّى سنة ${toArabicIndic(a.deathYear)} هـ`,
         link: personLink(a.id),
         teach: (id) => {
           const c = comparePeople(data.people.find((p) => p.id === id)!, a, level);

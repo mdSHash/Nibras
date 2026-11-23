@@ -276,11 +276,11 @@ const EventClusters = ({ events, selectedEvent, onSelectEvent }: Pick<MapViewPro
               key={`cluster-${cluster.id}`}
               position={[lat, lng]}
               icon={cIcon}
-              eventHandlers={{ add: nameMarker('أحداث متعددة هنا') }}
+              eventHandlers={{ add: nameMarker('هنا كذا حدث') }}
             >
               <Popup className="historical-popup" closeButton={false} maxWidth={300}>
                 <div className="font-sans text-right p-2 sm:p-1" dir="rtl">
-                  <h3 className="popup-title font-bold mb-2 sm:mb-2 text-[15px] sm:text-[14px]">أحداث متعددة هنا</h3>
+                  <h3 className="popup-title font-bold mb-2 sm:mb-2 text-[15px] sm:text-[14px]">هنا كذا حدث</h3>
                   <ul className="flex flex-col gap-2 sm:gap-1.5 min-w-[220px] sm:min-w-[200px] max-h-[250px] sm:max-h-[200px] overflow-y-auto">
                     {supercluster && typeof cluster.id === 'number' && supercluster.getLeaves(cluster.id, Infinity).map(leaf => (
                       <li key={leaf.properties.eventId}>
@@ -371,9 +371,9 @@ export default function HistoricalMap({ events, selectedEvent, onSelectEvent, sh
         gestureHandling={true}
         gestureHandlingOptions={{
           text: {
-            touch: 'استخدم إصبعين للتحريك',
-            scroll: 'اضغط Ctrl + عجلة الفأرة للتكبير',
-            scrollMac: 'اضغط ⌘ + عجلة الفأرة للتكبير',
+            touch: 'حرّك الخريطة بصباعين',
+            scroll: 'اضغط Ctrl مع عجلة الماوس عشان تكبّر',
+            scrollMac: 'اضغط ⌘ مع عجلة الماوس عشان تكبّر',
           },
           duration: 1500,
         }}

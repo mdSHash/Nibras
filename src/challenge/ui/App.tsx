@@ -185,7 +185,7 @@ function Game({ data }: { data: GameData }) {
     saveState(storage(), s);
     setSheet(false);
     setPractice(null);
-    if (state.level !== null) setToast(`مستواك دلوقتي «${LEVEL_NAMES[l].name}» في كل الأوضاع. تقدر تغيّره من فوق في أي وقت.`);
+    if (state.level !== null) setToast(`مستواك دلوقتي «${LEVEL_NAMES[l].name}» في كل الألعاب، وتقدر تغيّره من فوق في أي وقت.`);
     if (fromResult) setMode(MODES.find((m) => !s.results[`${l}:${m}`]) ?? 'who');
   };
   const startPractice = (): void => {
@@ -222,7 +222,7 @@ function Game({ data }: { data: GameData }) {
               <span>{streak > 0 ? `${toArabicIndic(streak)} ${streak === 1 ? 'يوم' : 'أيام'} ورا بعض` : 'ابدأ سلسلة أيامك النهارده'}</span>
               <span>السؤال الجاي بعد <b>{clock(left)}</b></span>
             </div>
-            <nav className="tabs" role="tablist" aria-label="الأوضاع">
+            <nav className="tabs" role="tablist" aria-label="الألعاب">
               {MODES.map((m) => {
                 const s = statusOf(m);
                 return (
@@ -240,12 +240,12 @@ function Game({ data }: { data: GameData }) {
         <div className="hdr-tools">
           {account.state.status !== 'off' && (
             <>
-              <a className="icon-btn" href="#board" aria-label="لوحة الصدارة" aria-current={view === 'board' ? 'page' : undefined}><TrophyIcon /></a>
+              <a className="icon-btn" href="#board" aria-label="الترتيب" aria-current={view === 'board' ? 'page' : undefined}><TrophyIcon /></a>
               <a className="icon-btn" href="#account" aria-label={account.state.status === 'ready' ? `حسابي: ${account.state.name}` : 'حسابي'} aria-current={view === 'account' ? 'page' : undefined}><PersonIcon /></a>
             </>
           )}
           <button type="button" className="chip" onClick={() => setSheet(true)} aria-label={state.level ? `المستوى: ${LEVEL_NAMES[level].name}. غيّره` : 'اختار مستواك'}>{state.level ? LEVEL_NAMES[level].name : 'اختار مستواك'}</button>
-          <button type="button" className="icon-btn" onClick={toggleTheme} aria-label={dark ? 'الوضع الفاتح' : 'الوضع الغامق'}>{dark ? '☀' : '☾'}</button>
+          <button type="button" className="icon-btn" onClick={toggleTheme} aria-label={dark ? 'الوضع النهاري' : 'الوضع الليلي'}>{dark ? '☀' : '☾'}</button>
         </div>
       </Header>
       {view ? (
@@ -260,7 +260,7 @@ function Game({ data }: { data: GameData }) {
         </main>
       ) : (
       <main className={`page${done ? ' docked' : ''}`}>
-        {practice && <div className="banner">جولة تدريب: العب براحتك، مش بتتحسب في الأيام ورا بعض.</div>}
+        {practice && <div className="banner">سؤال تدريب: العب براحتك، مش هيتحسب في سلسلة أيامك.</div>}
         <RoundView key={`${round.questionId}:${practice ? 'p' : 'd'}`} round={round} picks={play.picks} done={done} won={won} onPick={pick} onNibras={() => trackChallenge('challenge_nibras_opened', { mode: round.mode, level: round.level, from: 'card' })} />
         {done && (
           <ResultCard

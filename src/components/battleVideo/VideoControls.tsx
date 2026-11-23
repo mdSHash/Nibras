@@ -51,13 +51,13 @@ export function ControlButtons({ part, ...props }: VideoControlsProps & { part: 
   if (part === 'transport') {
     return (
       <>
-        <ControlButton label={playing ? 'إيقاف مؤقت' : 'تشغيل'} onClick={props.onTogglePlay} disabled={!ready}>
+        <ControlButton label={playing ? 'وقّف' : 'شغّل'} onClick={props.onTogglePlay} disabled={!ready}>
           {playing ? <Pause className="w-5 h-5" aria-hidden /> : <Play className="w-5 h-5" aria-hidden />}
         </ControlButton>
-        <ControlButton label="رجوع ١٠ ثوانٍ" onClick={() => props.onSeek(time - 10)} disabled={!ready}>
+        <ControlButton label="ارجع ١٠ ثواني" onClick={() => props.onSeek(time - 10)} disabled={!ready}>
           <Rewind className="w-5 h-5" aria-hidden />
         </ControlButton>
-        <ControlButton label="تقديم ١٠ ثوانٍ" onClick={() => props.onSeek(time + 10)} disabled={!ready}>
+        <ControlButton label="قدّم ١٠ ثواني" onClick={() => props.onSeek(time + 10)} disabled={!ready}>
           <FastForward className="w-5 h-5" aria-hidden />
         </ControlButton>
       </>
@@ -65,14 +65,14 @@ export function ControlButtons({ part, ...props }: VideoControlsProps & { part: 
   }
   return (
     <>
-      <ControlButton label={muted ? 'إلغاء الكتم' : 'كتم الصوت'} onClick={props.onToggleMute} disabled={!ready}>
+      <ControlButton label={muted ? 'شغّل الصوت' : 'اكتم الصوت'} onClick={props.onToggleMute} disabled={!ready}>
         {muted ? <VolumeX className="w-5 h-5" aria-hidden /> : <Volume2 className="w-5 h-5" aria-hidden />}
       </ControlButton>
-      <ControlButton label={captionsOn ? 'إخفاء الترجمة' : 'إظهار الترجمة'} onClick={props.onToggleCaptions}>
+      <ControlButton label={captionsOn ? 'خبّي الترجمة' : 'اعرض الترجمة'} onClick={props.onToggleCaptions}>
         {captionsOn ? <Captions className="w-5 h-5" aria-hidden /> : <CaptionsOff className="w-5 h-5" aria-hidden />}
       </ControlButton>
       {canFullscreen && (
-        <ControlButton label={isFullscreen ? 'إنهاء ملء الشاشة' : 'ملء الشاشة'} onClick={props.onToggleFullscreen}>
+        <ControlButton label={isFullscreen ? 'اخرج من ملء الشاشة' : 'ملء الشاشة'} onClick={props.onToggleFullscreen}>
           {isFullscreen ? <Minimize className="w-5 h-5" aria-hidden /> : <Maximize className="w-5 h-5" aria-hidden />}
         </ControlButton>
       )}

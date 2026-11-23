@@ -223,7 +223,7 @@ export default function EventPanel({
                 className="absolute top-0 inset-x-0 z-30 flex flex-col items-center pt-2 pb-4 cursor-grab active:cursor-grabbing touch-none"
                 style={{ y: handleY }}
                 role="group"
-                aria-label="اسحب لتغيير الحجم"
+                aria-label="اسحب عشان تكبّر أو تصغّر"
               >
                 <div className="w-12 h-1.5 rounded-full bg-white/55 shadow-[0_0_4px_rgba(0,0,0,0.4)]" />
               </motion.div>
@@ -240,8 +240,8 @@ export default function EventPanel({
                 <button
                   onClick={onClose}
                   className="w-10 h-10 rounded-full bg-black/35 backdrop-blur-md hover:bg-black/55 active:scale-95 transition-all flex items-center justify-center text-white border border-white/15"
-                  aria-label="إغلاق لوحة الحدث"
-                  title="إغلاق"
+                  aria-label="اقفل الحدث"
+                  title="اقفل"
                 >
                   <X size={18} />
                 </button>
@@ -251,8 +251,8 @@ export default function EventPanel({
                   <button
                     onClick={decreaseFont}
                     className="w-9 h-9 flex items-center justify-center text-white hover:bg-white/10 disabled:opacity-40"
-                    aria-label="تصغير الخط"
-                    title="تصغير الخط"
+                    aria-label="صغّر الخط"
+                    title="صغّر الخط"
                     disabled={fontSizeStep === 0}
                   >
                     <AArrowDown size={15} />
@@ -261,8 +261,8 @@ export default function EventPanel({
                   <button
                     onClick={increaseFont}
                     className="w-9 h-9 flex items-center justify-center text-white hover:bg-white/10 disabled:opacity-40"
-                    aria-label="تكبير الخط"
-                    title="تكبير الخط"
+                    aria-label="كبّر الخط"
+                    title="كبّر الخط"
                     disabled={fontSizeStep >= 4}
                   >
                     <AArrowUp size={15} />
@@ -272,8 +272,8 @@ export default function EventPanel({
                   <button
                     onClick={onToggleHidden}
                     className="w-9 h-9 rounded-full bg-black/35 backdrop-blur-md hover:bg-black/55 active:scale-95 transition-all flex items-center justify-center text-white border border-white/15"
-                    aria-label="إخفاء اللوحة"
-                    title="إخفاء اللوحة"
+                    aria-label="خبّي اللوحة"
+                    title="خبّي اللوحة"
                   >
                     <ChevronLeft size={17} />
                   </button>
@@ -282,8 +282,8 @@ export default function EventPanel({
                   <button
                     onClick={() => setIsExpanded(!isExpanded)}
                     className="w-9 h-9 rounded-full bg-black/35 backdrop-blur-md hover:bg-black/55 active:scale-95 transition-all flex items-center justify-center text-white border border-white/15"
-                    aria-label={isExpanded ? 'تصغير النافذة' : 'توسيع النافذة'}
-                    title={isExpanded ? 'تصغير النافذة' : 'توسيع النافذة'}
+                    aria-label={isExpanded ? 'صغّر اللوحة' : 'وسّع اللوحة'}
+                    title={isExpanded ? 'صغّر اللوحة' : 'وسّع اللوحة'}
                   >
                     {isExpanded ? <Minimize2 size={15} /> : <Maximize2 size={15} />}
                   </button>
@@ -346,8 +346,8 @@ export default function EventPanel({
               backgroundColor: eraBgColor,
               borderInlineStartColor: eraTheme.color,
             }}
-            title="إظهار اللوحة"
-            aria-label="إظهار لوحة الحدث"
+            title="اعرض اللوحة"
+            aria-label="اعرض الحدث"
           >
             <ChevronRight
               size={20}

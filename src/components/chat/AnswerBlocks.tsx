@@ -136,7 +136,7 @@ export function AnswerBlocks({ blocks, onVerseOpen }: AnswerBlocksProps) {
                     aria-label={`عرض ${block.key}`}
                   >
                     <BookOpen size={12} aria-hidden="true" />
-                    عرض الآية
+                    اعرض الآية
                   </button>
                 </figcaption>
               </figure>

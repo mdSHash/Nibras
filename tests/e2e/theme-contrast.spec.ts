@@ -88,7 +88,7 @@ test('the Quran window follows the dark-mode button and its text passes AA', asy
     });
     expectReadable(results, mode);
     expect(isDark(results[2].background), `${mode} mode: the verses' background follows the button`).toBe(mode === 'dark');
-    await quran.getByRole('button', { name: 'إغلاق' }).click();
+    await quran.getByRole('button', { name: 'اقفل' }).click();
     await expect(quran).toBeHidden();
   }
 });
@@ -102,7 +102,7 @@ test.describe('first visit', () => {
     await page.goto('./');
     const prompt = page.getByRole('dialog', { name: /مرحباً بك في نبراس/ });
     await expect(prompt).toBeVisible({ timeout: 30_000 });
-    await clickAnimated(prompt.getByRole('button', { name: 'ابدأ الجولة' }));
+    await clickAnimated(prompt.getByRole('button', { name: 'الجولة' }));
     const close = page.getByRole('button', { name: 'إغلاق الجولة' });
     await expect(close).toBeVisible();
     const tooltip = close.locator('xpath=ancestor::div[contains(@class, "rounded-2xl")][1]');

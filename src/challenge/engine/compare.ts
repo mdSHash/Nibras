@@ -53,9 +53,9 @@ export function comparePeople(guess: GamePerson, answer: GamePerson, level: Leve
   if (level === 'hard') {
     const diff = yearDiff(answer.deathYear, guess.deathYear);
     const mark: Mark = diff === 0 ? 'green' : Math.abs(diff) <= 5 ? 'yellow' : 'red';
-    const arrow = diff > 0 ? '↑ مات بعده' : diff < 0 ? '↓ مات قبله' : undefined;
+    const arrow = diff > 0 ? '↑ اتوفّى بعده' : diff < 0 ? '↓ اتوفّى قبله' : undefined;
     tiles.push({ key: 'deathYear', value: `${toArabicIndic(Math.abs(guess.deathYear))} هـ`, mark, ...(arrow ? { arrow } : {}) });
-    clauses.push(diff === 0 ? 'مات في نفس السنة' : diff > 0 ? 'مات بعده' : 'مات قبله');
+    clauses.push(diff === 0 ? 'اتوفّى في نفس السنة' : diff > 0 ? 'اتوفّى بعده' : 'اتوفّى قبله');
   } else {
     const gap = Math.abs(LAST_ERA_ORDER.indexOf(guess.lastEra) - LAST_ERA_ORDER.indexOf(answer.lastEra));
     tiles.push({ key: 'lastEra', value: FACT_LABELS.lastEra[guess.lastEra], mark: gap === 0 ? 'green' : gap === 1 ? 'yellow' : 'red' });
@@ -85,7 +85,7 @@ export function compareBattles(guess: GameEvent, answer: GameEvent, eras: readon
   const tiles: Tile[] = [
     { key: 'year', value: yearLabel(guess.year), mark: yearMark, ...(yearArrow ? { arrow: yearArrow } : {}) },
     { key: 'era', value: eraName, mark: eraGap === 0 ? 'green' : eraGap === 1 ? 'yellow' : 'red' },
-    { key: 'prophet', value: guess.prophetPresent ? 'نعم' : 'لا', mark: prophet ? 'green' : 'red' },
+    { key: 'prophet', value: guess.prophetPresent ? 'آه' : 'لأ', mark: prophet ? 'green' : 'red' },
     { key: 'distance', value: km < 30 ? 'نفس المكان تقريبًا' : `${toArabicIndic(roundKm(km))} كم`, mark: kmMark, ...(km >= 30 ? { arrow: dir } : {}) },
   ];
   const clauses = [
@@ -118,5 +118,5 @@ export function timeMiss(guess: number, answer: number): string {
 
 /** «رقم اليوم»: bigger or smaller. */
 export function numberMiss(guess: number, answer: number): string {
-  return answer > guess ? 'الرقم الصح أكبر من كده ↑' : 'الرقم الصح أصغر ↓';
+  return answer > guess ? 'الرقم الصح أكبر من كده ↑' : 'الرقم الصح أصغر من كده ↓';
 }

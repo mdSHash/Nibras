@@ -49,7 +49,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   // The limit is keyed on the token's subject before the token is checked; a forged one only limits itself.
   const subject = token?.split('.')[1] ?? 'none';
   if (await overLimit(subject.slice(0, 64))) {
-    res.status(429).json({ error: 'rate_limited', messageAr: 'طلبات كتير ورا بعض. استنى شوية وجرب تاني.' });
+    res.status(429).json({ error: 'rate_limited', messageAr: 'طلبات كتير ورا بعض. استنى شوية وجرّب تاني.' });
     return;
   }
 

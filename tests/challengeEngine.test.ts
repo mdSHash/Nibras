@@ -135,7 +135,7 @@ describe('comparisons', () => {
   });
   it('never says how far the year is', () => {
     expect(timeMiss(5, 9)).toBe('✕ مش ٥ هـ — حصل بعد كده ↑');
-    expect(numberMiss(1000, 313)).toBe('الرقم الصح أصغر ↓');
+    expect(numberMiss(1000, 313)).toBe('الرقم الصح أصغر من كده ↓');
   });
 });
 

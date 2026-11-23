@@ -80,7 +80,7 @@ function settle(location: AppLocation): void {
     (route.kind === 'battle' && !!eventForScenario(route.id)) ||
     (route.kind === 'quran' && !!passageFor(route));
   if (!known) {
-    useAppStore.getState().showToast('لم نجد هذه الصفحة، فعدنا بك إلى الخريطة', 'info');
+    useAppStore.getState().showToast('الصفحة دي مش موجودة، فرجّعناك للخريطة', 'info');
     navigate({ kind: 'home' }, { replace: true, filters: location.filters });
     return;
   }

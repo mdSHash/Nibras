@@ -31,7 +31,7 @@ export function RoundView({ round, picks, done, won, onPick, onNibras }: Props) 
     <section aria-labelledby="q-title">
       <div className="ask">
         <h1 id="q-title">{round.prompt}</h1>
-        <p>{order ? 'دوس على الأحداث بالترتيب، وبعدين اتأكد.' : `${round.clues.length ? 'اقرا الدليل و' : ''}اختار واحد من الخمسة. كل اختيار هيقولك صح ولا غلط، وحاجة عنه.`}</p>
+        <p>{order ? 'اضغط على الأحداث من الأقدم للأحدث، وبعدين «اتأكد من الترتيب».' : `${round.clues.length ? 'اقرا الدليل و' : ''}اختار إجابة من الخمسة، وكل اختيار هيقولك صح ولا غلط ومعلومة عنه.`}</p>
       </div>
       {round.clues.length > 0 && (
         <div className="clues">
@@ -80,7 +80,7 @@ export function RoundView({ round, picks, done, won, onPick, onNibras }: Props) 
 /** The three tries: numbered circles that turn ✗ or ✓, and a line that counts down. */
 function Tries({ round, picks, won, done }: { round: Round; picks: string[]; won: boolean; done: boolean }) {
   const left = TRIES - picks.length;
-  const say = won ? 'عرفتها!' : done ? 'خلصت محاولاتك' : left === TRIES ? `معاك ${toArabicIndic(TRIES)} محاولات بس` : left === 1 ? 'دي آخر محاولة!' : `فاضل لك ${toArabicIndic(left)} محاولات`;
+  const say = won ? 'عرفتها!' : done ? 'خلصت محاولاتك' : left === TRIES ? `معاك ${toArabicIndic(TRIES)} محاولات بس` : left === 1 ? 'دي آخر محاولة!' : (left === 2 ? 'فاضلّك محاولتين' : `فاضلّك ${toArabicIndic(left)} محاولات`);
   return (
     <div className={`tries${left === 1 && !done ? ' last' : ''}`} role="status" aria-label={`المحاولات: ${toArabicIndic(picks.length)} من ${toArabicIndic(TRIES)}. ${say}`}>
       <div className="tries-dots" aria-hidden="true">
@@ -162,7 +162,7 @@ function OrderBoard({ round, picks, done, onSubmit }: { round: Round; picks: str
         {[0, 1, 2, 3].map((i) => (
           <button key={i} type="button" role="listitem" className={`slot${slots[i] ? '' : ' empty'}`} disabled={done || !slots[i]} onClick={() => setChosen(chosen.filter((x) => x !== slots[i]))}>
             <b>{'١٢٣٤'[i]}</b>
-            {slots[i] ? label(slots[i]) : 'دوس على حدث من تحت'}
+            {slots[i] ? label(slots[i]) : 'اضغط على حدث من تحت'}
           </button>
         ))}
       </div>

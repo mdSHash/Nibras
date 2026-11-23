@@ -122,8 +122,8 @@ describe('play button', () => {
     );
 
   it('is shown only when the event has narration', () => {
-    expect(render(true)).toContain('aria-label="تشغيل السرد"');
-    expect(render(false)).not.toContain('تشغيل السرد');
+    expect(render(true)).toContain('aria-label="اسمع الحدث"');
+    expect(render(false)).not.toContain('اسمع الحدث');
   });
 });
 

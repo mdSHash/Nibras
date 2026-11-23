@@ -30,9 +30,9 @@ const FEEDBACK_API_URL = CHAT_API_URL ? CHAT_API_URL.replace(/\/chat\/?$/, '/fee
 // LLM pool — gives instant feedback before the request even goes out.
 const MIN_INTERVAL_MS = 3500;
 
-const GENERIC_ERROR = 'حدث خطأ غير متوقع، حاول مرة أخرى.';
-const NOT_CONFIGURED_ERROR = 'المساعد غير متاح حالياً.';
-const NETWORK_ERROR = 'تعذر الاتصال بالمساعد، تحقق من اتصالك بالإنترنت وحاول مرة أخرى.';
+const GENERIC_ERROR = 'حصلت مشكلة، جرّب تاني.';
+const NOT_CONFIGURED_ERROR = 'نبراس مش متاح دلوقتي، جرّب بعد شوية.';
+const NETWORK_ERROR = 'مقدرناش نوصل لنبراس. اتأكد إنك متصل بالنت وجرّب تاني.';
 
 export function useChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);

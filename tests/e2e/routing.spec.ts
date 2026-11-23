@@ -49,7 +49,7 @@ test('the address follows the selected event and Back returns to the previous on
 
 test('closing the panel returns to the map address', async ({ page }) => {
   await openAppWithEvent(page);
-  await panel(page).getByRole('button', { name: 'إغلاق لوحة الحدث' }).click();
+  await panel(page).getByRole('button', { name: 'اقفل الحدث' }).click();
   await expect(panelTitle(page)).toBeHidden();
   expect(pathOf(page)).toBe('/');
 });
@@ -59,7 +59,7 @@ test('a person opened from an event has its address; Back and the close button r
   await openEventBySearch(page, BADR, 'بدر');
   const chip = panel(page).locator('section').filter({ hasText: 'الصحابة والقادة' }).getByRole('button').first();
   await chip.click();
-  const dialog = page.getByRole('dialog').filter({ has: page.getByRole('button', { name: 'إغلاق' }) }).last();
+  const dialog = page.getByRole('dialog').filter({ has: page.getByRole('button', { name: 'اقفل' }) }).last();
   await expect(dialog).toBeVisible();
   expect(pathOf(page)).toMatch(/^\/person\/[a-z0-9-]+\/$/);
   const personPath = pathOf(page);
@@ -72,7 +72,7 @@ test('a person opened from an event has its address; Back and the close button r
   await page.goForward();
   await expect(dialog).toBeVisible();
   expect(pathOf(page)).toBe(personPath);
-  await dialog.getByRole('button', { name: 'إغلاق' }).click();
+  await dialog.getByRole('button', { name: 'اقفل' }).click();
   await expect(dialog).toBeHidden();
   expect(pathOf(page)).toBe(`/event/${slugOf(BADR)}/`);
 });
@@ -82,7 +82,7 @@ test('a shared person link opens the biography over the map', async ({ page }) =
   await page.goto('./person/abu-bakr/');
   const dialog = page.getByRole('dialog', { name: person.name });
   await expect(dialog).toBeVisible({ timeout: 30_000 });
-  await dialog.getByRole('button', { name: 'إغلاق' }).click();
+  await dialog.getByRole('button', { name: 'اقفل' }).click();
   await expect(dialog).toBeHidden();
   expect(pathOf(page)).toBe('/');
 });
@@ -98,7 +98,7 @@ test('a Qur\'an passage has its address and Back closes it', async ({ page }) =>
   expect(pathOf(page)).toBe(`/event/${slugOf(BADR)}/`);
   // Reloading the passage address opens the same passage.
   await page.goto(`.${quranPath}`);
-  await expect(page.getByRole('dialog').getByRole('button', { name: 'إغلاق' })).toBeVisible({ timeout: 30_000 });
+  await expect(page.getByRole('dialog').getByRole('button', { name: 'اقفل' })).toBeVisible({ timeout: 30_000 });
 });
 
 test('filters are read from and written to the query', async ({ page }) => {
@@ -117,6 +117,6 @@ test('filters are read from and written to the query', async ({ page }) => {
 test('an unknown address returns to the map with a notice', async ({ page }) => {
   await page.goto('./no-such-page/');
   await expect(header.chat(page)).toBeVisible({ timeout: 30_000 });
-  await expect(page.getByText('لم نجد هذه الصفحة، فعدنا بك إلى الخريطة')).toBeVisible();
+  await expect(page.getByText('الصفحة دي مش موجودة، فرجّعناك للخريطة')).toBeVisible();
   expect(pathOf(page)).toMatch(/^\/(event\/[a-z0-9-]+\/)?$/);
 });

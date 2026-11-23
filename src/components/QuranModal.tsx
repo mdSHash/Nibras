@@ -94,7 +94,7 @@ export default function QuranModal({ reference, onClose }: QuranModalProps) {
                     "text-quran-close",
                     "transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
                   )}
-                  aria-label="إغلاق"
+                  aria-label="اقفل"
                 >
                   <X size={20} />
                 </button>
@@ -136,7 +136,7 @@ export default function QuranModal({ reference, onClose }: QuranModalProps) {
                     "text-[14px] font-bold rounded-full transition-all"
                   )}
                 >
-                  المزيد على Quran.com <ExternalLink size={16} />
+                  اقرا أكتر على Quran.com <ExternalLink size={16} />
                 </a>
               </div>
             </motion.div>

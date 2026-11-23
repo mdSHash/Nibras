@@ -5,7 +5,7 @@ import type { Page } from '@playwright/test';
 
 const QUESTION = 'ماذا حدث في غزوة بدر؟';
 
-const chatDialog = (page: Page) => page.getByRole('dialog').filter({ has: page.getByPlaceholder('اكتب سؤالك هنا...') });
+const chatDialog = (page: Page) => page.getByRole('dialog').filter({ has: page.getByPlaceholder('اكتب سؤالك هنا…') });
 
 async function openChat(page: Page): Promise<void> {
   if (await chatDialog(page).isVisible()) return;
@@ -15,8 +15,8 @@ async function openChat(page: Page): Promise<void> {
 
 async function ask(page: Page, question: string): Promise<void> {
   await openChat(page);
-  await chatDialog(page).getByPlaceholder('اكتب سؤالك هنا...').fill(question);
-  await chatDialog(page).getByRole('button', { name: 'إرسال' }).click();
+  await chatDialog(page).getByPlaceholder('اكتب سؤالك هنا…').fill(question);
+  await chatDialog(page).getByRole('button', { name: 'ابعت' }).click();
   await expect(chatDialog(page).getByText(mockChatAnswer.answer.slice(0, 40)).first()).toBeVisible();
 }
 
@@ -61,7 +61,7 @@ test('citations open the right event, person and Quran passage', async ({ page }
     const name = content.companions.find((c) => c.id === MOCK_COMPANION_ID)!.name;
     const bio = page.getByRole('dialog', { name });
     await expect(bio).toBeVisible();
-    await bio.getByRole('button', { name: 'إغلاق' }).click();
+    await bio.getByRole('button', { name: 'اقفل' }).click();
     await expect(bio).toBeHidden();
   });
 
@@ -70,7 +70,7 @@ test('citations open the right event, person and Quran passage', async ({ page }
     await chatDialog(page).getByRole('button', { name: CITATION_LABELS.quran, exact: true }).click();
     const verses = page.getByRole('dialog', { name: MOCK_QURAN_KEY });
     await expect(verses).toBeVisible();
-    await verses.getByRole('button', { name: 'إغلاق' }).click();
+    await verses.getByRole('button', { name: 'اقفل' }).click();
     await expect(verses).toBeHidden();
   });
 });
@@ -83,8 +83,8 @@ test.describe('API errors', () => {
     useChatResponder(page, () => ({ status: 429, json: { error: 'too_many_requests', messageAr: message } }));
     await openAppWithEvent(page);
     await openChat(page);
-    await chatDialog(page).getByPlaceholder('اكتب سؤالك هنا...').fill(QUESTION);
-    await chatDialog(page).getByRole('button', { name: 'إرسال' }).click();
+    await chatDialog(page).getByPlaceholder('اكتب سؤالك هنا…').fill(QUESTION);
+    await chatDialog(page).getByRole('button', { name: 'ابعت' }).click();
     await expect(chatDialog(page).getByText(message)).toBeVisible();
   });
 
@@ -92,8 +92,8 @@ test.describe('API errors', () => {
     useChatResponder(page, () => ({ status: 503, json: { error: 'unavailable', messageAr: 'الخدمة غير متاحة الآن' } }));
     await openAppWithEvent(page);
     await openChat(page);
-    await chatDialog(page).getByPlaceholder('اكتب سؤالك هنا...').fill(QUESTION);
-    await chatDialog(page).getByRole('button', { name: 'إرسال' }).click();
+    await chatDialog(page).getByPlaceholder('اكتب سؤالك هنا…').fill(QUESTION);
+    await chatDialog(page).getByRole('button', { name: 'ابعت' }).click();
     await expect(chatDialog(page).getByText('الخدمة غير متاحة الآن')).toBeVisible();
   });
 });
@@ -101,8 +101,8 @@ test.describe('API errors', () => {
 test.describe('answer shapes and conversation flows (3J)', () => {
   const typeAndSend = async (page: Page, question: string) => {
     await openChat(page);
-    await chatDialog(page).getByPlaceholder('اكتب سؤالك هنا...').fill(question);
-    await chatDialog(page).getByRole('button', { name: 'إرسال' }).click();
+    await chatDialog(page).getByPlaceholder('اكتب سؤالك هنا…').fill(question);
+    await chatDialog(page).getByRole('button', { name: 'ابعت' }).click();
   };
 
   test('paragraph, fact rows and numbered steps render with their headings @phone', async ({ page }, testInfo) => {

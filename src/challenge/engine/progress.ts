@@ -16,6 +16,11 @@ export function headline(won: boolean, attempts: number, allowed: number): strin
   return 'أحسنت!';
 }
 
+/** «أول محاولة», «تاني محاولة», «تالت محاولة»: which try a round was won on. */
+export function tryOrdinal(attempts: number): string {
+  return `${['أول', 'تاني', 'تالت'][attempts - 1] ?? 'آخر'} محاولة`;
+}
+
 /** One finished round. */
 export interface GameResult {
   date: string;

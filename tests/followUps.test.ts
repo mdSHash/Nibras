@@ -18,7 +18,7 @@ describe('buildFollowUps', () => {
   });
 
   it('does not offer a role the answer already showed', async () => {
-    const hudaybiyyaRole = 'ما دور عمر بن الخطاب في صلح الحديبية؟';
+    const hudaybiyyaRole = 'إيه دور عمر بن الخطاب في صلح الحديبية؟';
     const shownRole = kb.units.find(u => u.kind === 'event_role' && u.recordId === 'event:treaty-hudaybiyyah' && u.alsoAbout?.includes('companion:umar'))!;
     const before = await buildFollowUps(kb, ['companion:umar'], ['reason'], 'ليه عمر بن الخطاب زعل في صلح الحديبية؟');
     const after = await buildFollowUps(kb, ['companion:umar'], ['reason'], 'ليه عمر بن الخطاب زعل في صلح الحديبية؟', [shownRole.id]);
@@ -28,7 +28,7 @@ describe('buildFollowUps', () => {
 
   it('suggests the people a list names', async () => {
     const followUps = await buildFollowUps(kb, ['list:rashidun-caliphs'], ['list'], 'مين هما الخلفاء الراشدين؟');
-    expect(followUps[0]).toBe('ما قصة أبي بكر الصديق؟');
+    expect(followUps[0]).toBe('إيه قصة أبي بكر الصديق؟');
   });
 
   it('uses gender-neutral wording for people and no vowel marks', async () => {
@@ -42,8 +42,8 @@ describe('buildFollowUps', () => {
   });
 
   it('suggests the other list of an era', async () => {
-    expect(await buildFollowUps(kb, ['list:era:umar'], ['military', 'list'], 'ما معارك عهد عمر؟')).toContain('ما الأحداث الأخرى في عهد عمر بن الخطاب؟');
-    expect(await buildFollowUps(kb, ['list:era:medinan'], ['list'], 'ما أحداث العهد المدني؟')).toContain('ما غزوات النبي ﷺ في العهد المدني؟');
+    expect(await buildFollowUps(kb, ['list:era:umar'], ['military', 'list'], 'ما معارك عهد عمر؟')).toContain('إيه الأحداث التانية في عهد عمر بن الخطاب؟');
+    expect(await buildFollowUps(kb, ['list:era:medinan'], ['list'], 'ما أحداث العهد المدني؟')).toContain('إيه غزوات النبي ﷺ في العهد المدني؟');
   });
 
   it('resolves a battle simulation record to its event facts', async () => {

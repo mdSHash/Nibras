@@ -105,7 +105,7 @@ export default function IntroScreen({ onComplete }: IntroScreenProps) {
         className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:top-4 focus-visible:right-4 focus-visible:px-4 focus-visible:py-2 focus-visible:rounded-full focus-visible:bg-night focus-visible:text-gold-bright focus-visible:border focus-visible:border-gold-bright/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-bright"
         style={{ zIndex: Z_INDEX.intro + 1 }}
       >
-        تخطي المقدمة
+        عدّي المقدمة
       </button>
       <div
         className={cn(
