@@ -234,6 +234,14 @@ Signing in to «تحدي اليوم» is optional and for players 13 or older; g
 - **Open:** Supabase's **Email** provider is still on (its default), so anyone could create an auth user with an email
   and password through the API, skipping Google and the 13+ question. Such a user still has no `players` row until it
   calls `/api/challenge` with a name. Recommended: turn Email off (Authentication → Sign In / Providers → Email).
+- **Every age, Google or email (Mostafa, 2026-11-23).** The 13+ question is gone (column dropped). Email and password
+  sign-up, sign-in and reset, all over PKCE. Supabase Email provider: confirm email **on**, secure email change **on**,
+  secure password change **on**, minimum 8 characters, **letters and digits** (matches `checkPassword`), magic links
+  **off**, links valid 1 hour. Redirect URLs also allow `…/challenge/?reset=1`. Leaked-password check needs Pro (off).
+- **Emails need our own sender (to do):** Supabase's built-in mailer only reaches the project's team. Plan: a new Gmail
+  for Nibras with 2-step verification and an app password, then Supabase → Authentication → Emails → SMTP Settings:
+  host `smtp.gmail.com`, port `465`, user = that Gmail, password = the app password (Mostafa pastes it), sender name
+  «تحدي اليوم». Then paste the Arabic templates in `supabase/email-templates/` and turn on «Password changed».
 - **Checking results:** the server proves a result is a valid play of that day's puzzle (the picks, the order, the
   day); it cannot prove the player didn't look the answer up, since the game runs in the browser. Points come only from
   checked rounds; streak days also count rounds carried over from the guest's anonymous rows (recorded on their day).
