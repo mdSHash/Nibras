@@ -42,10 +42,6 @@ export const Z_INDEX = {
   tooltip: 1100,
   toast: 1200,
   intro: 1300,
-  tourBackdrop: 1400,
-  tourSpotlight: 1450,
-  tourTooltip: 1500,
-  tourControls: 1550,
   skipLink: 1600,
 } as const;
 

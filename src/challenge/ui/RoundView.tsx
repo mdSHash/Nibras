@@ -60,7 +60,7 @@ export function RoundView({ round, picks, done, won, onPick, onNibras }: Props) 
           )}
         </>
       ) : (
-        <div className="cards" role="group" aria-label="الاختيارات" aria-live="polite">
+        <div className="cards" role="group" aria-label="الاختيارات" aria-live="polite" data-tour-id="options">
           {round.options.map((o) => {
             const picked = picks.includes(o.id);
             const isAnswer = o.id === round.answerId;
@@ -82,7 +82,7 @@ function Tries({ round, picks, won, done }: { round: Round; picks: string[]; won
   const left = TRIES - picks.length;
   const say = won ? 'عرفتها!' : done ? 'خلصت محاولاتك' : left === TRIES ? `معاك ${toArabicIndic(TRIES)} محاولات بس` : left === 1 ? 'دي آخر محاولة!' : (left === 2 ? 'فاضلّك محاولتين' : `فاضلّك ${toArabicIndic(left)} محاولات`);
   return (
-    <div className={`tries${left === 1 && !done ? ' last' : ''}`} role="status" aria-label={`المحاولات: ${toArabicIndic(picks.length)} من ${toArabicIndic(TRIES)}. ${say}`}>
+    <div className={`tries${left === 1 && !done ? ' last' : ''}`} data-tour-id="tries" role="status" aria-label={`المحاولات: ${toArabicIndic(picks.length)} من ${toArabicIndic(TRIES)}. ${say}`}>
       <div className="tries-dots" aria-hidden="true">
         {Array.from({ length: TRIES }, (_, i) => {
           const p = picks[i];

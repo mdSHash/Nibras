@@ -310,22 +310,54 @@ export interface GeneratedTerritoryMap {
 /** A passage as src/generated/quranPassages.json carries it (scripts/build-content.ts). */
 export type GeneratedQuranPassage = QuranPassage & { text: string; link: string };
 
+// The narrated tours (Phase 7): content/tours/<id>.json, one card per step, each step's text
+// recorded like the events (shared/tours.ts, scripts/narration.ts).
+export const tourStepSchema = z.strictObject({
+  /** Stable key: the recording's file name and the card's drawing follow it. */
+  id: z.string().regex(/^[a-z]+(-[a-z]+)*$/),
+  /** The card's title, on screen only. */
+  title: z.string().min(1),
+  /** The card's line: on screen and recorded with the narration voice. */
+  text: z.string().min(1),
+  /** What «وريني فين» lights up: a `data-tour-id` in the app, or null for none. */
+  target: z.string().regex(/^[a-z]+(-[a-z]+)*$/).nullable(),
+  /** The target is inside the event panel: «وريني فين» opens an event first. */
+  needsEvent: z.boolean().optional(),
+});
+export const tourSchema = z.strictObject({
+  id: z.enum(['site', 'game']),
+  /** The first card's question, before the visitor chooses sound or silence. */
+  ask: z.string().min(1),
+  steps: z.array(tourStepSchema).min(1),
+});
+export type TourContent = z.infer<typeof tourSchema>;
+
 // Narration manifest, public/audio/manifest.json (Phase 3D; shared/narration.ts).
-export const narrationEntrySchema = z.strictObject({
-  file: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*\.(title|description)\.[0-9a-f]{8}\.m4a$/),
+const narrationEntryFields = {
   /** SHA-256 (hex) of the normalized text the recording says. */
   textHash: z.string().regex(/^[0-9a-f]{64}$/),
   durationSec: z.number().positive(),
   /** What made it, e.g. `gemini` (the 2026 recordings) or `voicestudio/omnivoice`. */
   engine: z.string().min(1),
   voice: z.string().min(1),
+};
+export const narrationEntrySchema = z.strictObject({
+  file: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*\.(title|description)\.[0-9a-f]{8}\.m4a$/),
+  ...narrationEntryFields,
 });
 export type NarrationEntry = z.infer<typeof narrationEntrySchema>;
+/** A tour card's recording: `tour-<tour>-<step>.<hash>.m4a`. */
+export const tourNarrationEntrySchema = z.strictObject({
+  file: z.string().regex(/^tour-(site|game)-[a-z]+(-[a-z]+)*\.[0-9a-f]{8}\.m4a$/),
+  ...narrationEntryFields,
+});
 
 export const narrationManifestSchema = z.strictObject({
   events: z.record(
     z.string(),
     z.strictObject({ title: narrationEntrySchema.optional(), description: narrationEntrySchema.optional() }),
   ),
+  /** Tour id → step id → its recording (Phase 7). */
+  tours: z.partialRecord(z.enum(['site', 'game']), z.record(z.string(), tourNarrationEntrySchema)).optional(),
 });
 export type NarrationManifest = z.infer<typeof narrationManifestSchema>;

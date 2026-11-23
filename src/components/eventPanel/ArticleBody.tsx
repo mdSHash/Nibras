@@ -44,6 +44,7 @@ export function ArticleBody({
   const battleId = summaryOnly.battleScenarioId;
   const battleButton = battleId && onBattleOpen && (
     <button
+      data-tour-id="battle-video-button"
       onClick={() => onBattleOpen(battleId)}
       className="w-full flex items-center justify-center gap-2.5 px-5 py-4 rounded-xl text-white font-bold shadow-lg active:scale-[0.98] transition-all"
       style={{

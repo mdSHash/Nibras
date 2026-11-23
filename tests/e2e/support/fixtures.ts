@@ -14,6 +14,8 @@ export const STORAGE = {
   theme: 'nibras.theme',
   helpSeen: 'nibras.help.seen',
   chatSeen: 'nibras.chat.seen',
+  /** «تحدي اليوم»'s tour was answered (src/challenge/ui/App.tsx). */
+  gameTour: 'nibras.challenge.tour',
 };
 
 interface Options {
@@ -81,6 +83,7 @@ export const test = base.extend<Options & Fixtures>({
           sessionStorage.setItem('__nibras_test_seeded', '1');
           localStorage.setItem(storage.tourPrompted, 'true');
           localStorage.setItem(storage.introSeen, 'true');
+          localStorage.setItem(storage.gameTour, '1');
         }
       },
       { prompted: !firstVisit, storage: STORAGE },

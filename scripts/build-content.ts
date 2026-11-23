@@ -23,20 +23,24 @@ import { buildTerritories } from './content/territories';
 import { ROOT } from './baseline/lib';
 import { eventSearchText, splitEvent, splitPassage, splitPerson } from '../shared/contentSplit';
 import { eventSlug } from '../shared/routes';
-import { AUDIO_DIR, checkNarration } from './narration/lib';
+import { AUDIO_DIR, checkNarration, readTours } from './narration/lib';
 import { buildGameData } from './game/build';
+import type { GeneratedTours } from '../shared/tours';
 
 const CONTENT_DIR = join(ROOT, 'content');
 const GENERATED_DIR = join(ROOT, 'src', 'generated');
 
 const { raw, issues: readIssues } = readContent(CONTENT_DIR);
 const { content, territories, issues } = checkContent(raw);
-const narration = issues.length ? null : checkNarration(content.events, AUDIO_DIR);
+// The narrated tours (Phase 7): content/tours/<id>.json.
+const { tours, issues: tourIssues } = readTours(CONTENT_DIR);
+const narration = issues.length ? null : checkNarration(content.events, AUDIO_DIR, tours);
 // The daily challenge's dataset (Phase 5); `npm run game:report` writes its review report.
 const game = issues.length ? null : buildGameData(content, join(CONTENT_DIR, 'game'));
 const allIssues = [
   ...readIssues,
   ...issues,
+  ...tourIssues,
   ...(game?.issues ?? []),
   ...(narration?.issues ?? []).map((message) => ({ file: '../public/audio/manifest.json', message })),
 ];
@@ -64,6 +68,11 @@ if (process.argv.includes('--check')) {
   writeFileSync(join(GENERATED_DIR, 'game.json'), `${JSON.stringify(game!.report!.data)}\n`);
   // Stale and missing narration is not played; `npm run narration -- check` lists it.
   writeFileSync(join(GENERATED_DIR, 'narration.json'), `${JSON.stringify(narration!.fresh)}\n`);
+  // Each card carries its fresh recording's hash; a card without one shows its text only.
+  const generatedTours = Object.fromEntries(
+    tours.map((t) => [t.id, { ...t, steps: t.steps.map((s) => ({ ...s, ...(narration!.tourFresh[t.id]?.[s.id] ? { clip: narration!.tourFresh[t.id]![s.id] } : {}) })) }]),
+  ) as GeneratedTours;
+  writeFileSync(join(GENERATED_DIR, 'tours.json'), `${JSON.stringify(generatedTours)}\n`);
   console.log(`Content is valid; wrote src/generated/: ${summary}.`);
 }
 

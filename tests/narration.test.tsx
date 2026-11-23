@@ -156,7 +156,7 @@ describe('narration generate (fake engines, no network)', () => {
     const { done, encoded, lines } = run(() => {
       throw new Error('engine must not start');
     }, false);
-    expect((await done).map((t) => `${t.reason} ${t.kind}`)).toEqual(['missing title', 'missing description']);
+    expect((await done).map((t) => `${t.reason} ${t.label.split(' ')[1]}`)).toEqual(['missing title', 'missing description']);
     expect(encoded).toEqual([]);
     expect(lines.at(-1)).toContain('Dry run');
   });

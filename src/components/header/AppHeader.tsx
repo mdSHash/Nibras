@@ -228,6 +228,7 @@ export function AppHeader() {
           onClick={openChallenge}
           aria-label="تحدي اليوم: لعبة يومية من نبراس"
           title="تحدي اليوم"
+          data-tour-id="challenge-button"
         >
           <Trophy size={18} strokeWidth={2.5} aria-hidden="true" />
         </HeaderButton>
@@ -241,6 +242,7 @@ export function AppHeader() {
             markChatSeen();
           }}
           aria-label="اسأل نبراس"
+          data-tour-id="chat-button"
           aria-haspopup="dialog"
           aria-expanded={isChatOpen}
           title="اسأل نبراس"

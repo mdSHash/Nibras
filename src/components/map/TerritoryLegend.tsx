@@ -70,6 +70,7 @@ export function TerritoryLegend({ items }: { items: TerritoryLegendItem[] }) {
       aria-label="مفتاح الخريطة"
     >
       <button
+        data-tour-id="map-key"
         type="button"
         className="territory-legend__toggle"
         aria-expanded={open}

@@ -216,6 +216,7 @@ export function Hero({
                 />
               </svg>
               <button
+                data-tour-id="listen-button"
                 onClick={handlePlayPause}
                 disabled={isAudioLoading}
                 className="absolute inset-1 rounded-full flex items-center justify-center bg-white text-black shadow-lg hover:scale-105 active:scale-95 transition-transform disabled:opacity-60 disabled:cursor-not-allowed"

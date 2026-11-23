@@ -31,10 +31,12 @@ import {
   wavDurationSec,
   writeManifest,
   type NarratedEvent,
+  readTours,
 } from './narration/lib';
 import { NARRATION_KINDS, narratedText, narrationFileName } from '../shared/narration';
 import { eventSlug } from '../shared/routes';
 import { checkContent, readContent } from './content/store';
+import type { TourContent } from '../shared/contentSchema';
 import { generate as generateNarration, geminiEngine, voiceStudioEngine } from './narration/generate';
 import { review as reviewNarration } from './narration/review';
 
@@ -47,13 +49,25 @@ function loadEvents(): NarratedEvent[] {
   return checked.content.events;
 }
 
+function loadTours(): TourContent[] {
+  const { tours, issues } = readTours(join(ROOT, 'content'));
+  if (issues.length) throw new Error(`content/tours has issues: ${issues.map((i) => `${i.file}: ${i.message}`).join('; ')}`);
+  return tours;
+}
+
 function check(): number {
   const events = loadEvents();
-  const report = checkNarration(events, AUDIO_DIR);
+  const tours = loadTours();
+  const report = checkNarration(events, AUDIO_DIR, tours);
+  const fresh = Object.values(report.fresh).reduce((n, e) => n + Object.keys(e).length, 0) + Object.values(report.tourFresh).reduce((n, e) => n + Object.keys(e ?? {}).length, 0);
+  const cards = tours.reduce((n, t) => n + t.steps.length, 0);
   const lines = [
-    `Narration: ${events.length} events, ${Object.values(report.fresh).reduce((n, e) => n + Object.keys(e).length, 0)} fresh recordings, ${report.stale.length} stale, ${report.missing.length} missing.`,
+    // The daily workflow looks for " 0 stale, 0 missing" in this line (.github/workflows/narration.yml).
+    `Narration: ${events.length} events and ${cards} tour cards, ${fresh} fresh recordings, ${report.stale.length + report.tourStale.length} stale, ${report.missing.length + report.tourMissing.length} missing.`,
     ...report.stale.map((s) => `- stale (text changed since it was recorded; not played): ${s.eventId} ${s.kind}`),
     ...report.missing.map((m) => `- missing (no recording; not played): ${m.eventId} ${m.kind}`),
+    ...report.tourStale.map((s) => `- stale tour card (not played; the text shows): tour:${s.tour}/${s.step}`),
+    ...report.tourMissing.map((m) => `- missing tour card (not played; the text shows): tour:${m.tour}/${m.step}`),
     ...report.issues.map((i) => `- BROKEN: ${i}`),
   ];
   console.log(lines.join('\n'));
@@ -103,6 +117,7 @@ async function generate(): Promise<number> {
   if (engineName !== 'voicestudio' && engineName !== 'gemini') throw new Error(`unknown engine ${engineName}`);
   await generateNarration({
     events: loadEvents(),
+    tours: loadTours(),
     audioDir: AUDIO_DIR,
     sourceDir: join(ROOT, 'audio-src'),
     engine: () => (engineName === 'gemini' ? geminiEngine(process.env) : voiceStudioEngine(process.env)),

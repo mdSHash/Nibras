@@ -1,35 +1,15 @@
-import { useCallback, useEffect, useState } from 'react';
-import { TourState, TourStep } from '../types/tour';
-import { tourSteps } from '../data/tourSteps';
+import { useCallback, useState } from 'react';
 
-const TOUR_STATE_KEY = 'nibras-tour-state';
+/**
+ * Nibras's tour state (Phase 7, the illustrated cards in src/tour/). A first visit gets the first
+ * card's question once, after the intro (`triggerPrompt`); the compass button opens it at any time
+ * (`startTour`), and that tap lets the browser play the narration at once. Answering the question
+ * or closing the tour marks it seen, so it doesn't come back by itself. The key is the old tour's,
+ * so visitors who answered that one aren't asked again.
+ */
 const TOUR_PROMPTED_KEY = 'nibras_tour_prompted';
 
-const readJson = <T>(key: string, fallback: T): T => {
-  try {
-    const raw = localStorage.getItem(key);
-    return raw ? { ...(JSON.parse(raw) as T) } : fallback;
-  } catch {
-    return fallback;
-  }
-};
-
-const writeJson = (key: string, value: unknown) => {
-  try {
-    localStorage.setItem(key, JSON.stringify(value));
-  } catch {
-    /* storage disabled — silently continue */
-  }
-};
-
-const INITIAL_STATE: TourState = { isActive: false, currentStep: 0 };
-
-const loadState = (): TourState => ({
-  ...readJson(TOUR_STATE_KEY, INITIAL_STATE),
-  isActive: false,
-});
-
-const hasBeenPrompted = () => {
+const hasBeenPrompted = (): boolean => {
   try {
     return localStorage.getItem(TOUR_PROMPTED_KEY) === 'true';
   } catch {
@@ -37,83 +17,37 @@ const hasBeenPrompted = () => {
   }
 };
 
+const markPrompted = (): void => {
+  try {
+    localStorage.setItem(TOUR_PROMPTED_KEY, 'true');
+  } catch {
+    /* storage disabled: the question may come back next visit */
+  }
+};
+
+export interface TourState {
+  isActive: boolean;
+  /** `ask` on a first visit, `play` from the tour button. */
+  start: 'ask' | 'play';
+}
+
 export const useTour = () => {
-  const [state, setState] = useState<TourState>(loadState);
-  const [showPrompt, setShowPrompt] = useState(false);
+  const [state, setState] = useState<TourState>({ isActive: false, start: 'ask' });
 
-  useEffect(() => {
-    writeJson(TOUR_STATE_KEY, state);
-  }, [state]);
-
-  const currentStepData: TourStep | null =
-    state.isActive && state.currentStep < tourSteps.length
-      ? tourSteps[state.currentStep]
-      : null;
-
-  const startTour = useCallback(() => {
-    setState({ isActive: true, currentStep: 0 });
-    setShowPrompt(false);
-  }, []);
+  const startTour = useCallback(() => setState({ isActive: true, start: 'play' }), []);
 
   const endTour = useCallback(() => {
-    setState((prev) => ({ ...prev, isActive: false }));
-  }, []);
-
-  const nextStep = useCallback(() => {
-    setState((prev) =>
-      prev.currentStep + 1 >= tourSteps.length
-        ? { ...prev, isActive: false }
-        : { ...prev, currentStep: prev.currentStep + 1 }
-    );
-  }, []);
-
-  const previousStep = useCallback(() => {
-    setState((prev) => ({ ...prev, currentStep: Math.max(0, prev.currentStep - 1) }));
-  }, []);
-
-  const skipTour = useCallback(() => {
+    markPrompted();
     setState((prev) => ({ ...prev, isActive: false }));
   }, []);
 
   const triggerPrompt = useCallback((): boolean => {
     if (hasBeenPrompted()) return false;
-    setShowPrompt(true);
+    setState({ isActive: true, start: 'ask' });
     return true;
   }, []);
 
   const isFirstVisit = useCallback(() => !hasBeenPrompted(), []);
 
-  const markPrompted = () => {
-    try {
-      localStorage.setItem(TOUR_PROMPTED_KEY, 'true');
-    } catch {
-      /* storage disabled */
-    }
-  };
-
-  const acceptTourPrompt = useCallback(() => {
-    markPrompted();
-    startTour();
-  }, [startTour]);
-
-  const declineTourPrompt = useCallback(() => {
-    markPrompted();
-    setShowPrompt(false);
-  }, []);
-
-  return {
-    state,
-    currentStepData,
-    totalSteps: tourSteps.length,
-    startTour,
-    endTour,
-    nextStep,
-    previousStep,
-    skipTour,
-    showPrompt,
-    triggerPrompt,
-    isFirstVisit,
-    acceptTourPrompt,
-    declineTourPrompt,
-  };
+  return { state, startTour, endTour, triggerPrompt, isFirstVisit };
 };

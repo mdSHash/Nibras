@@ -23,6 +23,11 @@ import '../account.css';
 const BoardView = lazy(() => import('./account/BoardView').then((m) => ({ default: m.BoardView })));
 const AccountView = lazy(() => import('./account/AccountView').then((m) => ({ default: m.AccountView })));
 const PrivacyView = lazy(() => import('./account/PrivacyView').then((m) => ({ default: m.PrivacyView })));
+// The game's tour (Phase 7): the cards load only when it opens.
+const GameTour = lazy(() => import('./GameTour'));
+const GAME_TOUR_KEY = 'nibras.challenge.tour';
+const tourSeen = (): boolean => { try { return localStorage.getItem(GAME_TOUR_KEY) === '1'; } catch { return false; } };
+const markTourSeen = (): void => { try { localStorage.setItem(GAME_TOUR_KEY, '1'); } catch { /* storage off: it may ask again next visit */ } };
 
 const PLAY_KEY = 'nibras.challenge.play.v1';
 
@@ -121,6 +126,7 @@ function Game({ data }: { data: GameData }) {
   const [mode, setMode] = useState<Mode>('who');
   const [practice, setPractice] = useState<{ round: Round; play: Play } | null>(null);
   const [sheet, setSheet] = useState(state.level === null);
+  const [tour, setTour] = useState<'ask' | 'play' | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [dark, setDark] = useState(() => document.documentElement.classList.contains('dark'));
   const level: Level = state.level ?? 'easy';
@@ -186,6 +192,8 @@ function Game({ data }: { data: GameData }) {
     setSheet(false);
     setPractice(null);
     if (state.level !== null) setToast(`مستواك دلوقتي «${LEVEL_NAMES[l].name}» في كل الألعاب، وتقدر تغيّره من فوق في أي وقت.`);
+    // A first visit: the tour's first card asks, once the level is picked and the game is behind it.
+    else if (!tourSeen()) setTour('ask');
     if (fromResult) setMode(MODES.find((m) => !s.results[`${l}:${m}`]) ?? 'who');
   };
   const startPractice = (): void => {
@@ -222,7 +230,7 @@ function Game({ data }: { data: GameData }) {
               <span>{streak > 0 ? `${toArabicIndic(streak)} ${streak === 1 ? 'يوم' : 'أيام'} ورا بعض` : 'ابدأ سلسلة أيامك النهارده'}</span>
               <span>السؤال الجاي بعد <b>{clock(left)}</b></span>
             </div>
-            <nav className="tabs" role="tablist" aria-label="الألعاب">
+            <nav className="tabs" role="tablist" aria-label="الألعاب" data-tour-id="modes">
               {MODES.map((m) => {
                 const s = statusOf(m);
                 return (
@@ -240,11 +248,12 @@ function Game({ data }: { data: GameData }) {
         <div className="hdr-tools">
           {account.state.status !== 'off' && (
             <>
-              <a className="icon-btn" href="#board" aria-label="الترتيب" aria-current={view === 'board' ? 'page' : undefined}><TrophyIcon /></a>
-              <a className="icon-btn" href="#account" aria-label={account.state.status === 'ready' ? `حسابي: ${account.state.name}` : 'حسابي'} aria-current={view === 'account' ? 'page' : undefined}><PersonIcon /></a>
+              <a className="icon-btn" href="#board" data-tour-id="board" aria-label="الترتيب" aria-current={view === 'board' ? 'page' : undefined}><TrophyIcon /></a>
+              <a className="icon-btn" href="#account" data-tour-id="account" aria-label={account.state.status === 'ready' ? `حسابي: ${account.state.name}` : 'حسابي'} aria-current={view === 'account' ? 'page' : undefined}><PersonIcon /></a>
             </>
           )}
-          <button type="button" className="chip" onClick={() => setSheet(true)} aria-label={state.level ? `المستوى: ${LEVEL_NAMES[level].name}. غيّره` : 'اختار مستواك'}>{state.level ? LEVEL_NAMES[level].name : 'اختار مستواك'}</button>
+          <button type="button" className="chip" data-tour-id="level" onClick={() => setSheet(true)} aria-label={state.level ? `المستوى: ${LEVEL_NAMES[level].name}. غيّره` : 'اختار مستواك'}>{state.level ? LEVEL_NAMES[level].name : 'اختار مستواك'}</button>
+          <button type="button" className="icon-btn" onClick={() => setTour('play')} aria-label="إزاي ألعب؟" title="إزاي ألعب؟">؟</button>
           <button type="button" className="icon-btn" onClick={toggleTheme} aria-label={dark ? 'الوضع النهاري' : 'الوضع الليلي'}>{dark ? '☀' : '☾'}</button>
         </div>
       </Header>
@@ -290,6 +299,13 @@ function Game({ data }: { data: GameData }) {
       {account.state.status === 'needs-name' && <NameSheet error={account.state.error} onSubmit={account.chooseName} onCancel={() => void account.signOut()} />}
       {account.state.status === 'new-password' && <NewPasswordSheet onSubmit={account.newPassword} />}
       {toast && <div className="toast" role="status">{toast}</div>}
+      {tour && (
+        <Boundary>
+          <Suspense fallback={null}>
+            <GameTour start={tour} onClose={() => { markTourSeen(); setTour(null); }} />
+          </Suspense>
+        </Boundary>
+      )}
     </>
   );
 }
