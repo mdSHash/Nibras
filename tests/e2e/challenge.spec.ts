@@ -3,6 +3,10 @@
 import type { Page } from '@playwright/test';
 import { test, expect } from './support/fixtures';
 import { headerControl, openApp } from './support/app';
+import { readFileSync } from 'node:fs';
+import type { GameData } from '../../shared/gameData';
+import { dailyRound } from '../../src/challenge/engine/daily';
+import { MODES as MODE_IDS } from '../../src/challenge/engine/levels';
 
 const MODES = ['من أكون؟', 'المعركة', 'المكان', 'السنة', 'الرقم', 'القائد', 'العهد', 'رتّب'];
 const LEVELS = ['لسه ببتدي', 'عارف شوية', 'أستاذ فيها'];
@@ -42,6 +46,40 @@ test.describe('daily challenge', () => {
         await playToResult(page);
         await expect(page.getByRole('tab', { name: new RegExp(`^${mode}`) }).locator('.mark')).toBeVisible();
       }
+    }
+  });
+
+  test('every mode reveals the answer only at the third wrong pick, not the second (2026-11-23 fix) @phone', async ({ page }) => {
+    test.setTimeout(120_000);
+    const DAY = new Date('2026-11-20T10:00:00+02:00');
+    const game = JSON.parse(readFileSync(new URL('../../src/generated/game.json', import.meta.url), 'utf8')) as GameData;
+    await page.clock.setFixedTime(DAY);
+    await page.goto('challenge/');
+    await page.getByRole('dialog').getByRole('button', { name: /لسه ببتدي/ }).click();
+    for (const [m, mode] of MODE_IDS.entries()) {
+      await page.getByRole('tab', { name: new RegExp(`^${MODES[m]}`) }).click();
+      const round = dailyRound(game, mode, 'easy', '2026-11-20');
+      const label = (id: string): string => round.options.find((o) => o.id === id)!.label;
+      const ids = round.answerId.split(',');
+      const wrong = mode === 'order'
+        ? [1, 2, 3].map((r) => [...ids.slice(r), ...ids.slice(0, r)])
+        : round.options.filter((o) => o.id !== round.answerId).slice(0, 3).map((o) => [o.id]);
+      await expect(page.locator('.tries')).toContainText('معاك ٣ محاولات بس');
+      for (const [i, pick] of wrong.entries()) {
+        if (mode === 'order') {
+          for (const id of pick) await page.locator('.pool').getByRole('button', { name: label(id), exact: true }).click();
+          await page.getByRole('button', { name: 'اتأكد من الترتيب' }).click();
+        } else {
+          await page.locator('.cards').getByRole('button', { name: label(pick[0]), exact: true }).click();
+        }
+        if (i < 2) {
+          await expect(page.locator('.win'), `${mode}: still playing after ${i + 1} wrong`).toHaveCount(0);
+          await expect(page.locator('.tries')).toContainText(i === 0 ? 'فاضل لك ٢ محاولات' : 'دي آخر محاولة!');
+        }
+      }
+      await expect(page.locator('.win.lost')).toBeVisible();
+      await expect(page.locator('.tries')).toContainText('خلصت محاولاتك');
+      await expect(page.locator('.tries-dots span.used')).toHaveCount(3);
     }
   });
 

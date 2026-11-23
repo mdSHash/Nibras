@@ -10,7 +10,7 @@ import { stripDiacritics, toArabicIndic } from '../../../shared/arabic.js';
 import { yearDiff } from '../../../shared/gameText.js';
 import { compareBattles, comparePeople, yearLabel, type Mark } from './compare.js';
 import { directionAr, distanceKm, roundKm } from './geo.js';
-import { LEVEL_CONFIG, MAX_WRONG, OPTION_COUNT, type Level, type Mode } from './levels.js';
+import { LEVEL_CONFIG, OPTION_COUNT, TRIES, WRONG_PER_CLUE, type Level, type Mode } from './levels.js';
 import { numberOptions, preferred, yearOptions } from './options.js';
 import { dailyRng, hash, practiceRng, puzzleNumber, rngFrom, shuffle, type Rng } from './seed.js';
 
@@ -305,7 +305,7 @@ export function placePool(data: GameData): Place[] {
 
 /** Clues open now: the level's start, then one more every two wrong picks. */
 export function cluesOpen(level: Level, wrong: number, total: number): number {
-  return Math.min(total, LEVEL_CONFIG[level].cluesAtStart + Math.floor(wrong / 2));
+  return Math.min(total, LEVEL_CONFIG[level].cluesAtStart + Math.floor(wrong / WRONG_PER_CLUE));
 }
 
 /** The level suggestion after a round: harder when fast, easier after a loss or a win on the last try. */
@@ -314,6 +314,6 @@ export function suggestLevel(level: Level, won: boolean, picks: number, seconds:
   const i = order.indexOf(level);
   const cfg = LEVEL_CONFIG[level];
   if (won && i < 2 && (picks <= cfg.fastPicks || seconds <= cfg.fastSeconds)) return order[i + 1];
-  if ((!won || picks > MAX_WRONG) && i > 0) return order[i - 1];
+  if ((!won || picks >= TRIES) && i > 0) return order[i - 1];
   return null;
 }

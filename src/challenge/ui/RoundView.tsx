@@ -6,9 +6,8 @@
 import { useState } from 'react';
 import { toArabicIndic } from '../../../shared/arabic';
 import { cluesOpen, type Option, type Round } from '../engine/daily';
-import { MAX_WRONG } from '../engine/levels';
+import { TRIES, WRONG_PER_CLUE } from '../engine/levels';
 
-const TRIES = MAX_WRONG + 1;
 
 interface Props {
   round: Round;
@@ -23,7 +22,9 @@ interface Props {
 export function RoundView({ round, picks, done, won, onPick, onNibras }: Props) {
   const wrong = picks.filter((p) => p !== round.answerId);
   const shown = done ? round.clues.length : cluesOpen(round.level, wrong.length, round.clues.length);
-  const nextClueIn = shown < round.clues.length && !done ? 2 - (wrong.length % 2) : 0;
+  // Wrong picks until the next clue opens; 0 when none is left or the round ends first.
+  const toClue = WRONG_PER_CLUE - (wrong.length % WRONG_PER_CLUE);
+  const nextClueIn = shown < round.clues.length && !done && wrong.length + toClue < TRIES ? toClue : 0;
   const order = round.mode === 'order';
 
   return (
