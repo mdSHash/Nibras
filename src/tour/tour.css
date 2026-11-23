@@ -148,6 +148,9 @@
 .tc-scene .a-spin { animation: tcSpin 4s infinite } .tc-scene .a-miss { animation: tcMiss 4s infinite }
 .tc-scene .a-good { animation: tcGood 4s infinite } .tc-scene .a-fly { animation: tcFly 4s infinite }
 .tc-scene .a-rise { animation: tcRise 4s infinite }
+/* The first card's drawing stays still while it asks: the page settles (a first visit's Speed Index)
+   and the drawing starts moving once the visitor says yes. */
+.tc-root[data-phase='ask'] .tc-scene * { animation: none }
 @media (prefers-reduced-motion: reduce) {
   .tc-root *, .tc-root *::before { animation: none !important; transition: none !important }
   .tc-scene .pn { transform: none } .tc-scene .a-in { opacity: 1 } .tc-scene .typing { width: 34px }

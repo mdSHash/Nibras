@@ -135,7 +135,7 @@ export function TourCards({ tour, audioBase, start, onClose, prepare }: TourCard
   const sound = phase === 'play' && !muted && !!step.clip;
 
   return (
-    <div className="tc-root" data-testid={`tour-${tour.id}`}>
+    <div className="tc-root" data-phase={phase} data-testid={`tour-${tour.id}`}>
       <div className="tc-shade" hidden={!!ring} onClick={() => close('skip')} aria-hidden="true" />
       {ring && <div className="tc-ring" style={{ top: ring.top - 6, left: ring.left - 6, width: ring.width + 12, height: ring.height + 12 }} />}
       <div
