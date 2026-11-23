@@ -810,7 +810,7 @@ within budget; and `npm run verify` passes.
 Goal: signing in stays optional and adds saved achievements and a place on the leaderboard.
 
 - [x] Google sign-in on the Phase 5 Supabase project (free tier). A quiet «احفظ إنجازاتك» offer on
-      the result screen; never a wall in front of playing. (Accounts 13+ only, Mostafa 2026-11-22.)
+      the result screen; never a wall in front of playing. (Every age, Google or email and password, Mostafa 2026-11-23.)
 - [x] On first sign-in, merge the guest's local `DailyState` and streaks into the account.
 - [x] Leaderboards per level (daily, weekly, all-time streak), display name chosen by the player,
       results checked server-side against the day's puzzle. **Decision (2026-11-22):** a Vercel function

@@ -3720,3 +3720,29 @@ shots also gained the header icons but stay inside the 1% tolerance.
 - Guest days played offline (no anonymous row) aren't carried over; only days the server saw on the day are.
 - The server proves a result is a valid play of the day's puzzle, not that the player didn't look the answer up (the
   game runs in the browser). Points come only from checked rounds.
+
+#### Changes after the first report (2026-11-23)
+
+- **Every age (Mostafa reversed the 13+ decision):** children may make accounts. The age question and the
+  `players.age_confirmed_at` column are gone (`20261123100000_accounts_all_ages.sql`, applied while empty).
+  Display names stay free text with the filter, and no warning line under the field (his choice).
+- **Email and password**, beside Google: sign up (confirmation link), sign in, «نسيت الباسورد» (reset link back to
+  `?reset=1`, then a new-password sheet). Every link back uses PKCE (`src/challenge/account/auth.ts`), so a leaked link
+  is useless outside the browser that asked for it. The same answer whether or not an email has an account. Arabic
+  messages for Supabase's errors, an expired link and a link opened on another device. `checkEmail`/`checkPassword`
+  in `src/challenge/engine/account.ts` match Supabase's settings (8 characters, English letters and digits).
+- **Supabase set up (in Mostafa's browser):** Google OAuth (project Nibras, published), Google provider, Site URL and
+  redirect URLs, secret key `vercel_challenge`, Vercel variables; Email: confirm email, secure email and password
+  change, magic links off; SMTP through the new Gmail `n1bras.0pp@gmail.com`; Arabic templates (confirm, reset,
+  «Password changed» notification on), copies in `supabase/email-templates/`.
+- **Bugs found and fixed:** the sheets refocused the first field on every re-render, so typing a password jumped
+  the cursor to the email field (a test now types and checks focus); the sign-in sheet reopened by itself after
+  «اخرج من غير ما أعمل حساب».
+- **Tests:** email flows in Playwright (new account sends a link, wrong and right password, reset link, new
+  password, expired link) in Chromium, WebKit and Firefox, three runs in a row; WebKit's "cut off by a reload" error
+  ignored for the stand-in Supabase path, as for the map's files.
+- **Snapshots:** Mostafa approved the 4 result-screen shots (2026-11-23); Windows re-recorded, Linux from CI run
+  45123554898 (identical on retry).
+- **Open:** the first real email test failed: Gmail answered «Username and Password not accepted», so the SMTP password
+  in Supabase is not a valid app password. Waiting for Mostafa to create an app password and paste it; then re-test
+  sign-up and reset end to end, and merge. Google sign-in does not depend on it.
