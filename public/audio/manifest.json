@@ -2440,6 +2440,43 @@
         "durationSec": 5.28,
         "engine": "gemini",
         "voice": "Charon"
+      },
+      "chat": {
+        "file": "tour-site-chat.2c670ff8.m4a",
+        "textHash": "2c670ff8c391a99b3235dda57d0c09b3728243036d03745f37e2f6020fc0cca8",
+        "durationSec": 6.48,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "dark": {
+        "file": "tour-site-dark.fb50c9f1.m4a",
+        "textHash": "fb50c9f17c9fa12970aab557a1265ad52e0c43e8222615aaa80c212d76d3101f",
+        "durationSec": 3.28,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "challenge": {
+        "file": "tour-site-challenge.24a76b75.m4a",
+        "textHash": "24a76b75a9dfd9cd62c5036f06bcba578b8d9db2af4809503b1c586d1b4c3dde",
+        "durationSec": 7.6,
+        "engine": "gemini",
+        "voice": "Charon"
+      }
+    },
+    "game": {
+      "level": {
+        "file": "tour-game-level.34c5e0da.m4a",
+        "textHash": "34c5e0da6769c9847e2826afb9318dd67b9ee27ed0dd0f33d7404b042a082783",
+        "durationSec": 5.32,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "modes": {
+        "file": "tour-game-modes.fe1ab035.m4a",
+        "textHash": "fe1ab0352e133ed3fd984e1e2081a0b7086daef3ec88071f942e67a45b675581",
+        "durationSec": 6.8,
+        "engine": "gemini",
+        "voice": "Charon"
       }
     }
   }
