@@ -2477,6 +2477,41 @@
         "durationSec": 6.8,
         "engine": "gemini",
         "voice": "Charon"
+      },
+      "tries": {
+        "file": "tour-game-tries.abdfd041.m4a",
+        "textHash": "abdfd04166b4a0bdec1c45db5bd908570de87744e1e249187db7ff6ac528b6fd",
+        "durationSec": 5.28,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "cards": {
+        "file": "tour-game-cards.de9b2d4c.m4a",
+        "textHash": "de9b2d4c415c236d44ce6adfe54c2e48ca9d33612ffbae929bd6edc54962932f",
+        "durationSec": 6.52,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "share": {
+        "file": "tour-game-share.d997147e.m4a",
+        "textHash": "d997147ec434386987c4424d8a11fc5389d636c5a31ae2d7c167c98ce94756a0",
+        "durationSec": 4.28,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "board": {
+        "file": "tour-game-board.de0071cc.m4a",
+        "textHash": "de0071ccb3aa450f6cd1f18771ac013f3aa6436c68bc50f51c256c1bad44a12b",
+        "durationSec": 5.12,
+        "engine": "gemini",
+        "voice": "Charon"
+      },
+      "save": {
+        "file": "tour-game-save.ab71517c.m4a",
+        "textHash": "ab71517c2e886dfbbba9c88c30fb47247a2a12bfd475a2efc948094145d51cf1",
+        "durationSec": 5.16,
+        "engine": "gemini",
+        "voice": "Charon"
       }
     }
   }
